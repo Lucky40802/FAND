@@ -120,13 +120,45 @@ D.MONSTERS.forEach(function (m) {
 });
 log.push('monsters: parsed ' + mp + ' of ' + D.MONSTERS.length);
 
+// ---- harvest parts: every monster yields 6-10 materials (data/harvest.js). Generated parts are marked gen:1;
+// they exist only in this app, not in the vault. Rebuilt from scratch on every run.
+var HV = require(path.join(__dirname, '..', 'data', 'harvest.js')), PR = require(path.join(__dirname, '..', 'data', 'properties.js'));
+D.MATS = D.MATS.filter(function (m) { return !m.gen; });
+var matIdx = {}; D.MATS.forEach(function (m) { matIdx[m.n.toLowerCase()] = m; });
+var genAdded = 0, kinds = {};
+D.MONSTERS.forEach(function (mon) {
+  var c = CODE[mon.realm]; if (!c) return;
+  var have = (mon.drops || []).slice(), hp = HV.parts(mon);
+  mon.body = hp.kind; kinds[hp.kind] = (kinds[hp.kind] || 0) + 1;
+  hp.parts.forEach(function (p) {
+    if (have.length >= hp.count) return;
+    var word = p[0].toLowerCase().split(' ').pop();
+    if (have.some(function (d) { return d[0].toLowerCase().split(' ').pop() === word; })) return;
+    var name = mon.n + ' ' + p[0], g = Math.max(1, Math.min(10, mon.g + p[2]));
+    var ex = matIdx[name.toLowerCase()];
+    if (!ex) {
+      var pr = PR.prop(name, p[1], c, g);
+      ex = { n: name, realm: mon.realm, gr: mon.realm + ' ' + g,
+        prop: pr.k === 'supply' ? '' : pr.name + ' (Potency ' + pr.P + '): ' + pr.text, gen: 1, tc: p[1], use: p[3], from: [mon.n],
+        tier: R.tier(c), g: g, rank: R.rank(c, g), il: R.level(c, g), rar: rarity(c, g), price: price(c, g, p[1]), ty: R.TYPES[p[1]] };
+      if (pr.k !== 'supply') { ex.pot = pr.P; ex.pn = pr.name; }
+      D.MATS.push(ex); matIdx[name.toLowerCase()] = ex; genAdded++;
+    }
+    have.push([ex.n, ex.gr, 1]);
+  });
+  mon.drops = have;
+});
+D.MATS.sort(function (a, b) { return a.n < b.n ? -1 : a.n > b.n ? 1 : 0; });
+var dropCounts = D.MONSTERS.map(function (m) { return (m.drops || []).length; });
+log.push('harvest parts: +' + genAdded + ' materials (now ' + D.MATS.length + '); drops per monster ' + Math.min.apply(null, dropCounts) + '-' + Math.max.apply(null, dropCounts) + '; body plans ' + JSON.stringify(kinds));
+
 // ---- material origins and unique traits (data/traits.js)
 var TR = require(path.join(__dirname, '..', 'data', 'traits.js'));
 var monByName = {}; D.MONSTERS.forEach(function (m) { monByName[m.n.toLowerCase()] = m; });
 var monNames = D.MONSTERS.map(function (m) { return m.n; }).sort(function (a, b) { return b.length - a.length; });
 var orgCount = {};
 D.MATS.forEach(function (m) {
-  var a = byName[m.n.toLowerCase()], ty = a ? a.t : '';
+  var a = byName[m.n.toLowerCase()], ty = a ? a.t : (m.tc || '');
   var c = null;
   if (m.from && m.from.length) c = monByName[m.from[0].toLowerCase()] || { n: m.from[0], txt: '' };
   if (!c) { var ln = m.n.toLowerCase(); for (var i = 0; i < monNames.length; i++) { var mn = monNames[i].toLowerCase(); if (ln.indexOf(mn + ' ') === 0 || ln === mn) { c = monByName[mn]; break; } } }
@@ -136,6 +168,16 @@ D.MATS.forEach(function (m) {
   orgCount[t.org] = (orgCount[t.org] || 0) + 1;
 });
 log.push('material origins: ' + JSON.stringify(orgCount) + ', unique traits on ' + D.MATS.filter(function (m) { return m.tr; }).length);
+
+// ---- stat blocks (data/statblock.js): generated in the Monster Manual layout, not copied from any book
+var SB = require(path.join(__dirname, '..', 'data', 'statblock.js'));
+var matByName = {}; D.MATS.forEach(function (m) { matByName[m.n.toLowerCase()] = m; });
+D.MONSTERS.forEach(function (mon) {
+  var best = null;
+  (mon.drops || []).forEach(function (d) { var x = matByName[d[0].toLowerCase()]; if (x && x.tr && (!best || (x.rank || 0) > (best.rank || 0))) best = x; });
+  mon.sb = SB.statblock(mon, mon.body, best);
+});
+log.push('stat blocks: ' + D.MONSTERS.filter(function (m) { return m.sb; }).length);
 
 // ---- gods: split the roster details into fields; drop vault index pages that slipped into the lists
 function dropConnections(arr, label) {

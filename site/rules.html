@@ -313,6 +313,20 @@ details.fold>div{margin-top:10px}
 }
 .scrim{position:fixed;inset:0;z-index:39;background:rgba(0,0,0,.4);display:none}
 .scrim.on{display:block}
+/* stat block */
+.sblk{background:color-mix(in srgb,var(--gold) 5%,var(--surf));border:1px solid color-mix(in srgb,var(--gold) 30%,var(--line));border-top:4px solid #a33a2a;border-bottom:4px solid #a33a2a;border-radius:6px;padding:12px 16px;font-size:.88rem;line-height:1.5}
+.sblk .sbn{font-family:var(--serif);font-size:1.35rem;font-weight:700;color:#c0503a;font-variant:small-caps;letter-spacing:.02em}
+:root[data-theme="light"] .sblk .sbn{color:#7a1f12}
+.sblk .sbt{font-style:italic;color:var(--text2);margin-bottom:6px}
+.sblk hr{border:0;height:2px;background:linear-gradient(90deg,#a33a2a,transparent);margin:7px 0}
+.sblk .ln b{color:#c0503a;font-weight:700}
+:root[data-theme="light"] .sblk .ln b,:root[data-theme="light"] .sblk h5{color:#7a1f12}
+.sblk .abil{display:grid;grid-template-columns:repeat(6,1fr);text-align:center;gap:4px}
+.sblk .abil b{display:block;color:#c0503a;font-size:.75rem}
+.sblk h5{font-family:var(--serif);font-size:1.05rem;color:#c0503a;border-bottom:1px solid #a33a2a;margin:10px 0 6px;font-variant:small-caps;font-weight:700}
+.sblk p{margin:0 0 6px;color:var(--text2)}
+.sblk p i b{color:var(--text)}
+.sblk .gen{font-size:.72rem;color:var(--muted);margin-top:8px}
 /* assistant + settings */
 .ai-fab{position:fixed;right:20px;bottom:20px;z-index:44;display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--acc),#a07cf0);color:#fff;border:0;border-radius:999px;padding:11px 18px;font-weight:600;font-size:.9rem;box-shadow:0 8px 28px rgba(80,60,200,.45)}
 .ai-fab:hover{filter:brightness(1.08)}
@@ -468,6 +482,22 @@ const REALM_BLURB={
   'Inner Void':'Deeper still. What lives here makes things go missing.',
   'Primordial':'The realm of the progenitors, older than the gods themselves.'
 };
+// Money: each realm's coin is worth its base material price ÷ 5 gp, so a grade-g material costs 5×g local coins.
+const CURRENCY={
+  'Human':{coin:'Gold Piece',pl:'gp',gp:1,sub:'10 copper = 1 silver, 10 silver = 1 gold, 10 gold = 1 platinum',what:'Minted copper, silver, gold, and platinum coins.',note:'The common measure of value across Atrious; every price on this site is given in gp.'},
+  'Mysterious':{coin:'Glimmer',pl:'glimmers',gp:10,sub:'10 motes = 1 glimmer',what:'A sliver of fey-touched crystal that glows faintly when held.',note:'Left in the Mortal Realm for a month, a glimmer fades to dull glass.'},
+  'Hell':{coin:'Soul Mark',pl:'soul marks',gp:100,sub:'10 ashpennies = 1 soul mark',what:'A brass-iron coin stamped with a binding clause.',note:'Every Soul Mark is a tiny contract: spending one counts as a promise kept.'},
+  'Heaven':{coin:'Halo Crown',pl:'halo crowns',gp:100,sub:'10 prayer beads = 1 halo crown',what:'A gold coin ringed with a stamped sun.',note:'A stolen crown burns the thief\'s hand for 1 radiant damage per coin.'},
+  'Chaos':{coin:'Flux Chip',pl:'flux chips',gp:500,sub:'no smaller coin; chips split and merge on their own',what:'A shard that changes color and shape in the hand.',note:'Its worth shifts daily: roll 2d6 × 50 gp at dawn. 500 gp is the average.'},
+  'Abyss':{coin:'Hunger Tooth',pl:'hunger teeth',gp:2000,sub:'10 milk teeth = 1 hunger tooth',what:'A demon\'s tooth that still bites.',note:'Carrying more than 10 gives disadvantage on Wisdom saves against greed and hunger.'},
+  'Inner Realm':{coin:'Anchor Seal',pl:'anchor seals',gp:10000,sub:'10 tithe-stamps = 1 anchor seal',what:'A law-stamped disc that can\'t be forged or broken.',note:'Each seal remembers every hand it has passed through.'},
+  'Outer Realm':{coin:'Starweight',pl:'starweights',gp:20000,sub:'10 glints = 1 starweight',what:'A pebble of compressed starlight.',note:'It grows heavier the farther it travels from the Outer Realm.'},
+  'Void':{coin:'',note:'No coin. Void goods are traded only between gods and their Fingers, by favor, contract, and oath.'},
+  'Inner Void':{coin:'',note:'No coin. Nothing here is bought or sold; it is owed.'},
+  'Primordial':{coin:'',note:'No coin. The progenitors predate money; trade is by oath and gift.'}
+};
+const EXCHANGE_FEE=0.1;
+const localPrice=(gpv,realm)=>{const c=CURRENCY[realm];if(!c||!c.coin||!gpv||c.gp===1)return '';const v=gpv/c.gp;return (v%1?v.toFixed(1):fmt(v))+' '+(v===1?c.coin.toLowerCase():c.pl)};
 const REALMS=META.realms.map(r=>Object.assign(r,{color:REALM_COLOR[r.n]||'#888',pressure:r.tier-1}));
 const REALM=Object.fromEntries(REALMS.map(r=>[r.n,r]));
 const realmOf=s=>{const m=/^(.+) \d+$/.exec(String(s||''));return m?m[1]:''};
@@ -566,7 +596,7 @@ const CARD={
   mat(m){
     return `<button class="card" style="--strip:${rcol(m.realm)}" data-ref="${ref(m)}">
       <div class="t"><div class="nm">${esc(m.n)}</div>${isPinned(m)?'<span class="pin">★</span>':''}</div>
-      <div class="badges">${realmB(m.gr)}${rarB(m.rar)}<span class="b ghost">${esc(m.ty||m.cat)}</span></div>
+      <div class="badges">${realmB(m.gr)}${rarB(m.rar)}<span class="b ghost">${esc(m.ty||m.cat)}</span>${m.gen?'<span class="b blue" title="Generated harvest part: in this app, not yet in the vault">Harvest part</span>':''}</div>
       ${m.tr?`<div class="ln" style="color:var(--gold2)">◆ <b style="color:var(--gold2)">${esc(m.tr.n)}</b>${m.origin&&m.org==='Creature'?` <span style="color:var(--muted)">· from ${esc(m.origin)}</span>`:''}</div>`:''}
       ${m.pn?`<div class="ln">✧ <b>${esc(m.pn)}</b>${m.pot?` · Potency ${m.pot}`:''}</div>`:m.supply?'<div class="ln">Supply · used up in crafting</div>':''}
       <div class="ln">${m.price?`<b>${gp(m.price)}</b>`:m.tier>=8?'<span style="color:var(--muted)">Not sold</span>':''}${m.il?` · Item Lv ${m.il}`:''}${m.used?` · in ${fmt(m.used)} blueprints`:''}</div>
@@ -576,7 +606,8 @@ const CARD={
     const drops=(m.drops||[]).slice(0,3).map(d=>`<span class="chip"><span class="sw" style="background:${rcol(realmOf(d[1]))}"></span>${esc(d[0])}</span>`).join('');
     return `<button class="card" style="--strip:${rcol(m.realm)}" data-ref="${ref(m)}">
       <div class="t"><div class="nm">${esc(m.n)}</div>${isPinned(m)?'<span class="pin">★</span>':''}</div>
-      <div class="badges">${realmB(m.realm+' '+m.g)}${m.cr?`<span class="b">CR ${esc(m.cr)}</span><span class="b ghost" title="${esc(BOOKS[m.book]||m.book)}">${esc(m.book)}</span>`:'<span class="b gold">Homebrew</span>'}</div>
+      <div class="badges">${realmB(m.realm+' '+m.g)}${m.cr?`<span class="b">CR ${esc(m.cr)}</span><span class="b ghost" title="${esc(BOOKS[m.book]||m.book)}">${esc(m.book)}</span>`:`<span class="b">CR ${esc(m.sb?m.sb.cr:'?')}</span><span class="b gold">Homebrew</span>`}</div>
+      ${m.sb?`<div class="ln">AC <b>${m.sb.ac}</b> · HP <b>${m.sb.hp}</b> · ${esc(m.sb.sz)} ${esc(m.sb.ty)}${m.sb.lg?' · <b style="color:var(--gold2)">Legendary</b>':''}</div>`:''}
       ${m.hab?`<div class="ln">⌖ ${esc(m.hab)}</div>`:''}
       <div class="ds">${esc(m.txt||m.ds)}</div>
       ${drops?`<div class="chips">${drops}</div>`:''}
@@ -651,6 +682,7 @@ const VIEWS={
       {id:'g',label:'All grades',opts:()=>Array.from({length:10},(_,i)=>[String(i+1),'Grade '+(i+1)]),test:(m,v)=>m.g===+v},
       {id:'pn',label:'All properties',opts:()=>opts(MATS,m=>m.pn),test:(m,v)=>m.pn===v},
       {id:'rar',label:'All rarities',opts:()=>opts(MATS,m=>m.rar,(a,b)=>rarRank(a)-rarRank(b)),test:(m,v)=>m.rar===v},
+      {id:'gen',label:'Vault and harvest parts',opts:()=>[['v','Vault materials ('+fmt(MATS.filter(m=>!m.gen).length)+')'],['g','Harvest parts ('+fmt(MATS.filter(m=>m.gen).length)+')']],test:(m,v)=>v==='g'?!!m.gen:!m.gen},
       {id:'org',label:'Any origin',opts:()=>opts(MATS,m=>m.org),test:(m,v)=>m.org===v},
       {id:'tr',label:'Any unique trait',opts:()=>opts(MATS,m=>m.tr&&m.tr.n),test:(m,v)=>!!m.tr&&m.tr.n===v},
     ],
@@ -670,7 +702,7 @@ const VIEWS={
       {id:'g',label:'All grades',opts:()=>Array.from({length:10},(_,i)=>[String(i+1),'Grade '+(i+1)]),test:(m,v)=>m.g===+v},
     ],
     toggles:[{id:'pin',label:'★ Pinned',test:m=>isPinned(m)}],
-    sorts:[['g','Grade ↑',(a,b)=>(a.tier-b.tier)||(a.g-b.g)||byName(a,b)],['gd','Grade ↓',(a,b)=>(b.tier-a.tier)||(b.g-a.g)||byName(a,b)],['name','Name A–Z',byName],['cr','CR ↓',(a,b)=>crNum(b.cr)-crNum(a.cr)||byName(a,b)]],
+    sorts:[['g','Grade ↑',(a,b)=>(a.tier-b.tier)||(a.g-b.g)||byName(a,b)],['gd','Grade ↓',(a,b)=>(b.tier-a.tier)||(b.g-a.g)||byName(a,b)],['name','Name A–Z',byName],['cr','CR ↓',(a,b)=>crNum(b.sb?b.sb.cr:b.cr)-crNum(a.sb?a.sb.cr:a.cr)||byName(a,b)]],
   },
   gods:{type:'god',arr:GODS,title:'Gods',
     side:{label:'Pantheon',key:'grp'},
@@ -707,7 +739,7 @@ const VIEWS={
 const COLS={
   bp:[['Name',b=>b.n],['Profession',b=>b.pr],['Specialty',b=>b.sp&&b.sp!==b.pr?b.sp:''],['Type',b=>b.cat],['Level',b=>b.lv],['Rarity',b=>b.r],['Damage',b=>b.dc&&b.dm?b.dc+' '+b.dm:''],['AC',b=>b.ac||''],['Property',b=>b.prop||''],['Material grade',b=>b.gr||''],['Materials',b=>b.mats.join(', ')]],
   mat:[['Name',m=>m.n],['Origin',m=>m.org+(m.origin&&m.org==='Creature'?' · '+m.origin:'')],['Unique trait',m=>m.tr?m.tr.n:''],['Realm',m=>m.realm],['Grade',m=>m.g],['Rank',m=>m.rank],['Item level',m=>m.il],['Type',m=>m.ty||m.cat],['Rarity',m=>m.rar||''],['Property',m=>m.pn||''],['Potency',m=>m.pot||''],['Price (gp)',m=>m.price||'']],
-  mon:[['Name',m=>m.n],['Realm',m=>m.realm],['Grade',m=>m.g],['CR',m=>m.cr||''],['Source',m=>m.hb?'Homebrew':(BOOKS[m.book]||m.book)],['Habitat',m=>m.hab||''],['Drops',m=>(m.drops||[]).map(d=>d[0]).join(', ')]],
+  mon:[['Name',m=>m.n],['Realm',m=>m.realm],['Grade',m=>m.g],['CR',m=>m.sb?m.sb.cr:m.cr||''],['AC',m=>m.sb?m.sb.ac:''],['HP',m=>m.sb?m.sb.hp:''],['Type',m=>m.sb?m.sb.sz+' '+m.sb.ty:''],['Source',m=>m.hb?'Homebrew':(BOOKS[m.book]||m.book)],['Habitat',m=>m.hab||''],['Drops',m=>(m.drops||[]).map(d=>d[0]).join(', ')]],
   god:[['Name',g=>godKey(g)],['Title',g=>godTitle(g)],['Pantheon',g=>g.grp],['Home realm',g=>g.home||''],['Runes',g=>(g.runes||[]).join(', ')],['Hand',g=>g.seated!=null?g.seated+'/5':''],['Signature materials',g=>(g.sig||[]).join(', ')]],
   spell:[['Name',x=>x.n],['School',x=>x.sc],['Level',x=>x.lv],['Casting time',x=>x.ct],['Range',x=>x.rng],['Duration',x=>x.dur],['Damage',x=>x.dmg&&x.dmg!=='None'?x.dmg:''],['Classes',x=>(x.cls||[]).join(', ')]],
   sub:[['Name',x=>x.n],['Class',x=>x.par],['Source',x=>subSource(x)]],
@@ -950,6 +982,21 @@ function showModal(x){
   document.title=x.n.split(' - ')[0]+' · FAND Compendium';
 }
 
+function sbHTML(m){
+  const b=m.sb;if(!b)return '';
+  const ab=b.ab.map((v,i)=>`<div><b>${['STR','DEX','CON','INT','WIS','CHA'][i]}</b>${v} (${(Math.floor((v-10)/2)>=0?'+':'')+Math.floor((v-10)/2)})</div>`).join('');
+  const line=(l,v)=>v?`<div class="ln"><b>${l}</b> ${esc(v)}</div>`:'';
+  const ent=a=>a.map(([n,t])=>`<p><i><b>${esc(n)}.</b></i> ${esc(t)}</p>`).join('');
+  return `<div class="sblk"><div class="sbn">${esc(m.n)}</div><div class="sbt">${esc(b.sz)} ${esc(b.ty)}, ${esc(b.al)}</div><hr>
+    ${line('Armor Class',String(b.ac))}${line('Hit Points',b.hp+' ('+b.hd+')')}${line('Speed',b.sp)}<hr>
+    <div class="abil">${ab}</div><hr>
+    ${line('Saving Throws',b.sv)}${line('Skills',b.sk)}${line('Damage Vulnerabilities',b.vu)}${line('Damage Resistances',b.rs)}${line('Damage Immunities',b.im)}${line('Condition Immunities',b.ci)}${line('Senses',b.se)}${line('Languages',b.la)}
+    <div class="ln"><b>Challenge</b> ${esc(b.cr)} (${fmt(b.xp)} XP) &nbsp; <b>Proficiency Bonus</b> +${b.pb}</div><hr>
+    ${ent(b.tr)}
+    <h5>Actions</h5>${ent(b.ac2)}
+    ${b.lg?`<h5>Legendary Actions</h5><p>The creature can take 3 legendary actions, choosing from the options below. Only one legendary action can be used at a time and only at the end of another creature's turn. It regains spent legendary actions at the start of its turn.</p>${ent(b.lg)}`:''}
+    <div class="gen">Stat block generated for FAND from this monster's challenge, body, and drops. AC uses FAND's flat rule: subtract it from each hit's damage.</div></div>`;
+}
 const MODAL={
   bp(b){
     const rows=[['Profession',esc(b.pr)],['Specialty',b.sp&&b.sp!==b.pr?esc(b.sp):''],['Item type',esc(b.cat)],['Level',b.lv],['Rarity',esc(b.r)],
@@ -981,14 +1028,15 @@ const MODAL={
     const fx=MAT_FX[m.n];
     const originMon=m.origin&&MON_IDX.get(lc(m.origin));
     const rows=[['Origin',esc(m.org||'')+(m.origin?`<small style="display:block;font-size:.75rem;color:var(--muted);font-weight:400">${m.org==='Creature'?'from ':''}${originMon?`<a href="#" data-ref="${ref(originMon)}">${esc(m.origin)}</a>`:esc(m.origin)}</small>`:'')],['Realm',`<span style="color:${rcol(m.realm)}">●</span> ${esc(m.realm)}`],['Grade',m.g],['Material rank',m.rank],['Item level',m.il],['Rarity',esc(m.rar||'')],['Potency',m.pot||''],['Type',esc(m.ty||m.cat)],
-      ['Price',m.price?gp(m.price)+`<small style="display:block;font-size:.72rem;color:var(--muted);font-weight:400">merchants buy at ${gp(Math.floor(m.price/2))}</small>`:m.tier>=8?'Not sold':'—']];
+      ['Price',m.price?gp(m.price)+(localPrice(m.price,m.realm)?` <em style="font-style:normal;font-weight:400;color:var(--muted)">· ${localPrice(m.price,m.realm)}</em>`:'')+`<small style="display:block;font-size:.72rem;color:var(--muted);font-weight:400">merchants buy at ${gp(Math.floor(m.price/2))}</small>`:m.tier>=8?'Not sold':'—']];
     const src=[m.where?`Gathered at ${esc(m.where)}${m.by?` by <b>${esc(m.by)}</b>`:''}.`:'',m.src&&!/^(Gathered|Drops from|Used in)/.test(m.src)?esc(m.src):'',m.use?`Used for: ${esc(m.use)}.`:''].filter(Boolean).join('<br>');
     return {title:esc(m.n),strip:rcol(m.realm),kind:'Material · '+esc(m.ty||m.cat),
-      badges:`${realmB(m.gr)}${rarB(m.rar)}${m.supply?'<span class="b ghost">Supply</span>':''}${fx?'<span class="b gold">⚔ Weapon effect</span>':''}`,
+      badges:`${realmB(m.gr)}${rarB(m.rar)}${m.gen?'<span class="b blue">Harvest part</span>':''}${m.supply?'<span class="b ghost">Supply</span>':''}${fx?'<span class="b gold">⚔ Weapon effect</span>':''}`,
       body:kv(rows)
         +(m.tr?`<div class="callout" style="border-color:var(--gold)">◆ <b>Unique trait: ${esc(m.tr.n)}</b>${m.tr.a?` <span style="color:var(--muted)">(${esc(m.tr.a)})</span>`:''}<div style="margin-top:4px">${esc(m.tr.t)}</div></div>`:m.basic?`<div class="callout" style="background:var(--surf2);border-color:var(--line)">${esc(m.basic)}</div>`:'')
         +(m.prop?`<div class="callout">✧ <b>Property: ${esc(m.pn)}</b>${m.pot?` · Potency ${m.pot}`:''}<div style="margin-top:4px">${esc(m.prop.replace(/^[^:]+:\s*/,''))}</div></div>`:m.supply?`<div class="callout">Supply: used up in crafting and gives no property.</div>`:'')
         +(m.ds?`<div class="prose">${esc(m.ds)}</div>`:'')
+        +(m.gen?`<div class="note" style="margin:0">Harvest part generated in this app so every monster yields 6–10 materials. It isn't in the vault yet.</div>`:'')
         +(fx?blk('Weapon effect',`<div class="vcard mine"><span class="bn">${esc(fx.bonus)} · ${esc(fx.dt)} damage</span><div>${esc(fx.fx)}</div></div>${m.bonus&&m.bonus!=='+0'?`<div class="note">Listed bonus: ${esc(m.bonus)}</div>`:''}`):(m.bonus&&m.bonus!=='+0'?blk('Bonus',`<div class="prose" style="font-size:.9rem">${esc(m.bonus)}</div>`):''))
         +blk('Source',src?`<div style="font-size:.88rem;color:var(--text2)">${src}</div>`:'')
         +blk('Dropped by',mons.length?`<div class="chips">${mons.map(x=>refChip(x,esc(x.n),x.realm+' '+x.g)).join('')}</div>`:'')
@@ -998,13 +1046,14 @@ const MODAL={
   mon(m){
     const realm=REALM[m.realm];
     let drops='';
-    if(m.drops&&m.drops.length)drops=`<div class="mlist">${m.drops.map(([n,gr])=>{const x=findMat(n);return x?`<button data-ref="${ref(x)}"><span class="sw" style="width:9px;height:9px;border-radius:50%;background:${rcol(x.realm)}"></span>${esc(n)} <span class="x">${esc(gr)}${x.pn?' · '+esc(x.pn):''}</span><span class="r">${x.price?gp(x.price):'not sold'}</span></button>`:`<button disabled>${esc(n)} <span class="x">${esc(gr)}</span></button>`}).join('')}</div>`;
+    if(m.drops&&m.drops.length)drops=`<div class="mlist">${m.drops.map(([n,gr])=>{const x=findMat(n);return x?`<button data-ref="${ref(x)}"><span class="sw" style="width:9px;height:9px;border-radius:50%;background:${rcol(x.realm)}"></span>${esc(n)} <span class="x">${esc(gr)}${x.tr?' · ◆ '+esc(x.tr.n):x.pn?' · '+esc(x.pn):''}</span><span class="r">${x.price?gp(x.price):'not sold'}</span></button>`:`<button disabled>${esc(n)} <span class="x">${esc(gr)}</span></button>`}).join('')}</div>`;
     const sugg=!drops?suggestDrops(m,4):[];
     return {title:esc(m.n),strip:rcol(m.realm),kind:(m.hb?'Homebrew monster':'Official monster')+' · '+esc(m.realm)+' Bestiary',
       badges:`${realmB(m.realm+' '+m.g)}${m.cr?`<span class="b">CR ${esc(m.cr)}</span><span class="b ghost">${esc(BOOKS[m.book]||m.book)}</span>`:'<span class="b gold">Homebrew</span>'}`,
       body:kv([['Realm',esc(m.realm)],['Grade',m.g],m.cr?['Challenge',esc(m.cr)]:null,m.hab?['Habitat',esc(m.hab)]:null,realm?['Realm pressure',realm.pressure]:null])
         +`<div class="prose">${esc(m.txt||m.ds)}</div>`
-        +blk('Drops',drops)
+        +sbHTML(m)
+        +blk('Drops',drops,(m.drops||[]).length+' harvestable parts')
         +(sugg.length?blk('Suggested drops',`<div class="chips">${sugg.map(x=>matChip(x.n,x.gr)).join('')}</div><div class="note">This official monster's drops are listed on the ${esc(m.realm)} Bestiary page in the vault. These are same-realm materials near its grade, as a starting point.</div>`):'')
         +(realm?`<div><button class="btn" data-ref="${ref(realm)}">Open the ${esc(m.realm)} realm →</button></div>`:'')};
   },
@@ -1047,6 +1096,7 @@ const MODAL={
       badges:`<span class="b" style="color:${r.color}">Tier ${r.tier}</span><span class="b ghost">Pressure ${r.pressure}</span><span class="b ghost">${r.base?'Base price '+gp(r.base):'Not sold'}</span>`,
       body:`<div class="prose">${esc(REALM_BLURB[r.n]||'')}</div>`
         +kv([['Tier',r.tier],['Material ranks',`${(r.tier-1)*10+1}–${r.tier*10}`],['Item levels',`${Math.ceil(((r.tier-1)*10+1)/2)}–${r.tier*5}`],['Pressure',r.pressure],['Materials',fmt(mats.length)],['Monsters',fmt(mons.length)],['Gods at home',gods.length]])
+        +blk('Money',(()=>{const c=CURRENCY[r.n];if(!c)return '';return c.coin?`<div class="callout"><b>${esc(c.coin)}</b> = ${gp(c.gp)}${c.gp>1?' each':''} · ${esc(c.sub)}<div style="margin-top:4px">${esc(c.what)} ${esc(c.note)}</div></div>`:`<div class="callout">${esc(c.note)}</div>`})())
         +blk('Monsters',`<div class="chips">${mons.slice(0,40).map(m=>refChip(m,esc(m.n),'G'+m.g)).join('')}</div>${mons.length>40?`<div style="margin-top:8px"><button class="btn" data-go="bestiary" data-setup='${esc(JSON.stringify({side:r.n}))}'>All ${fmt(mons.length)} in the Bestiary →</button></div>`:''}`,fmt(mons.length))
         +blk('Materials by grade',grades+`<div style="margin-top:10px"><button class="btn" data-go="materials" data-setup='${esc(JSON.stringify({side:r.n}))}'>Browse ${fmt(mats.length)} materials →</button></div>`)
         +blk('Gathering',(()=>{const g=mats.filter(m=>m.where).sort((a,b)=>a.g-b.g||byName(a,b));return g.length?`<div class="mlist">${g.slice(0,30).map(m=>`<button data-ref="${ref(m)}"><span class="sw" style="width:9px;height:9px;border-radius:50%;background:${r.color}"></span>${esc(m.n)} <span class="x">G${m.g} · ${esc(m.where)}${m.by?' · '+esc(m.by):''}</span><span class="r">${m.price?gp(m.price):''}</span></button>`).join('')}</div>`:''})(),'ores, plants, and crystals')
@@ -1187,10 +1237,15 @@ function renderRealms(){
         <span class="ln" style="font-family:var(--serif);font-style:italic;color:var(--muted);margin:2px 0 6px">${esc(REALM_BLURB[r.n]||'')}</span>
         <span class="ln"><b>${fmt(mats.length)}</b> materials · <b>${fmt(mons.length)}</b> monsters · <b>${gods.length}</b> gods</span>
         <span class="ln">${r.base?`Prices from ${gp(r.base)} × grade`:'Materials not sold'}</span>
+        <span class="ln">🪙 ${CURRENCY[r.n]&&CURRENCY[r.n].coin?`<b>${esc(CURRENCY[r.n].coin)}</b> = ${gp(CURRENCY[r.n].gp)}`:'No coin: favor and oath'}</span>
         ${top.length?`<span class="chips" style="margin-top:6px">${top.map(p=>`<span class="chip">✧ ${esc(p)}</span>`).join('')}</span>`:''}
       </button>`}).join('')}</div>
+    <section class="sec"><div class="sec-h"><h3>Money</h3><p>Each realm mints its own coin, worth its base material price ÷ 5 gp, so a grade-<i>g</i> material costs 5 × <i>g</i> local coins (doubled at grade 9–10). Moneychangers take ${EXCHANGE_FEE*100}% to swap coin between realms.</p></div>${moneyTable()}</section>
     <section class="sec"><div class="sec-h"><h3>Tier table</h3></div>${tierTable()}</section>
   </div>`;
+}
+function moneyTable(){
+  return `<div class="tablewrap"><table class="t"><thead><tr><th>Realm</th><th>Coin</th><th class="num">Worth</th><th>Smaller coin</th><th>Notes</th></tr></thead><tbody>${REALMS.map(r=>{const c=CURRENCY[r.n]||{};return `<tr><td><a href="#" data-ref="${ref(r)}" style="color:${r.color};text-decoration:none;font-weight:600">${esc(r.n)}</a></td><td>${c.coin?'<b>'+esc(c.coin)+'</b>':'—'}</td><td class="num">${c.coin?gp(c.gp):'not traded'}</td><td>${esc(c.sub||'')}</td><td style="color:var(--text2)">${esc(((c.what||'')+' '+(c.note||'')).trim())}</td></tr>`}).join('')}</tbody></table></div>`;
 }
 function tierTable(){
   return `<div class="tablewrap"><table class="t"><thead><tr><th>Tier</th><th>Realm</th><th class="num">Material rank</th><th class="num">Item level</th><th class="num">Price (grade 1)</th><th class="num">Materials</th><th class="num">Monsters</th></tr></thead><tbody>${REALMS.map(r=>`<tr><td>${r.tier}</td><td><a href="#" data-ref="${ref(r)}" style="color:${r.color};text-decoration:none;font-weight:600">${esc(r.n)}</a></td><td class="num">${(r.tier-1)*10+1}–${r.tier*10}</td><td class="num">${Math.ceil(((r.tier-1)*10+1)/2)}–${r.tier*5}</td><td class="num">${r.base?gp(r.base):'not sold'}</td><td class="num">${fmt(MATS.filter(m=>m.realm===r.n).length)}</td><td class="num">${fmt(MONSTERS.filter(m=>m.realm===r.n).length)}</td></tr>`).join('')}</tbody></table></div>`;
@@ -1228,7 +1283,8 @@ function renderRules(){
     ['refining','Material Refining','v1.17',`<ul><li>Three materials of one grade refine into one of the next grade.</li><li>Moving up to the next realm takes five materials, a binding agent, and a Realm Forge.</li></ul><p class="note"><a href="${pageUrl('tools')}" data-go="tools">Refining planner →</a></p>`],
     ['custom','Custom Blueprints','v1.07',`<p>Players design their own items from a primary material and up to two secondaries, then pass a design check. The item's traits come from its materials' properties. Player-made items go in the vault's <code>Blueprints/Custom/</code> folder, from its template.</p>`],
     ['economy','Economy','v1.20',`<div class="formula">price = realm base × grade   (×2 at grade 9–10; supplies cost ⅕)</div>
-      <ul><li>Merchants buy at half price.</li><li>Void-grade materials and above aren't sold; they pass only between gods and their Fingers.</li><li>The Economy page in the vault also covers where to buy and sell, Blueprint prices, crafting labor, services, and contract tithes.</li></ul>
+      <p>Each realm has its own coin; see the table below. Moneychangers take ${EXCHANGE_FEE*100}% to swap coin between realms.</p>${moneyTable()}
+      <ul style="margin-top:12px"><li>Merchants buy at half price.</li><li>Void-grade materials and above aren't sold; they pass only between gods and their Fingers.</li><li>The Economy page in the vault also covers where to buy and sell, Blueprint prices, crafting labor, services, and contract tithes.</li></ul>
       <div class="tablewrap"><table class="t"><thead><tr><th>Realm</th><th class="num">Base</th><th class="num">Grade 1</th><th class="num">Grade 5</th><th class="num">Grade 10</th></tr></thead><tbody>${REALMS.map(r=>`<tr><td>${esc(r.n)}</td><td class="num">${r.base?gp(r.base):'—'}</td><td class="num">${r.base?gp(r.base):'not sold'}</td><td class="num">${r.base?gp(r.base*5):'—'}</td><td class="num">${r.base?gp(r.base*20):'—'}</td></tr>`).join('')}</tbody></table></div>`],
     ['professions','Professions & Progression','v1.20–1.23',`<ul><li>Ten professions; every Blueprint has a profession and a specialty.</li><li>You start with one specialty and gain more over time. Crafting outside your specialties is at disadvantage, and each specialty has its own requirement.</li><li>Hell, Heaven, and Void metals need a Blacksmith with the matching realm specialty.</li><li>Profession XP comes from crafting, designing, refining, and gathering, with teachers and milestones.</li><li><b>Harvesting</b> gathers ore, stone, crystal, and plants. <b>Scavenging</b> strips hide, bone, blood, organs, and essences from corpses.</li></ul><p class="note"><a href="${pageUrl('professions')}" data-go="professions">All professions →</a></p>`],
     ['travel','Realm Travel','v1.17',`<ul><li>Each realm has a <b>Pressure</b> from 0 to 9. A traveler's <b>Attunement</b> comes from their level, contract rank, or realm-material gear.</li><li>If Pressure is higher than Attunement, the traveler suffers strain.</li><li>There are 11 travel methods, and an anchor from home makes the return trip easier.</li><li>The Realm Map page in the vault diagrams every route between realms.</li></ul><p class="note">The Pressure values shown in this app follow the tier order (tier − 1). Check them against the Realm Travel page in the vault.</p>`],
@@ -1269,7 +1325,7 @@ function renderAbout(){
     ['Professions','10 broad professions, absorbing the 31 old crafts as specialties.','professions'],
     ['Blueprints',`6,503 in the vault; ${fmt(BPS.length)} in this app.`,'blueprints'],
     ['Spells',`About 2,330 in the vault, all with classes; 73 converted to healing and support. ${fmt(META.counts.spells)} in this app's older list.`,'spells'],
-    ['Materials',`${fmt(MATS.length)} graded materials, each with a property, price, and its own note.`,'materials'],
+    ['Materials',`${fmt(MATS.filter(m=>!m.gen).length)} graded materials in the vault, each with a property, price, and its own note. This app adds ${fmt(MATS.filter(m=>m.gen).length)} harvest parts so every monster yields 6–10 materials (${fmt(MATS.length)} in all).`,'materials'],
     ['Monsters',`${MONSTERS.length-official} homebrew with full stats, plus ${official} official D&D monsters.`,'bestiary'],
     ['Realms',`${REALMS.length} realms in 10 tiers, each with lore, a Bestiary, and a Gathering page.`,'realms'],
     ['Gods',`${GODS.length} gods with Runes, realms, signature materials, and ${GODS.reduce((a,g)=>a+(g.hand||[]).length,0)} named Fingers.`,'gods'],
@@ -1340,6 +1396,11 @@ function renderTools(){
         <label class="chk"><input type="checkbox" id="e-hb"> Homebrew only</label><div style="display:flex;justify-content:flex-end"><button class="btn primary" id="e-go">Roll encounter</button></div></div>
         <div class="enc" id="e-out"></div></div>
 
+      <div class="tool" id="t-cur"><h3>Currency converter</h3><div class="sub">Swap coin between realms. Moneychangers take ${EXCHANGE_FEE*100}%.</div>
+        <div class="form"><label>Amount<input type="number" id="x-n" value="100" min="0"></label><label>From<select id="x-a">${REALMS.filter(r=>CURRENCY[r.n]&&CURRENCY[r.n].coin).map(r=>`<option value="${esc(r.n)}">${esc(CURRENCY[r.n].coin)} (${esc(r.n)})</option>`).join('')}</select></label>
+        <label>To<select id="x-b">${REALMS.filter(r=>CURRENCY[r.n]&&CURRENCY[r.n].coin).map(r=>`<option value="${esc(r.n)}"${r.n==='Hell'?' selected':''}>${esc(CURRENCY[r.n].coin)} (${esc(r.n)})</option>`).join('')}</select></label>
+        <label class="chk" style="align-self:end"><input type="checkbox" id="x-fee" checked> Moneychanger fee</label></div>
+        <div class="out"><div class="big" id="x-out"></div><div class="kv" id="x-kv"></div></div></div>
       <div class="tool" id="t-travel"><h3>Realm Pressure check</h3><div class="sub">Compare a traveler's Attunement with each realm's Pressure.</div>
         <div class="form"><label class="full">Attunement<input type="number" id="p-a" value="2" min="0" max="9"></label></div>
         <div class="enc" id="p-out"></div><div class="note">Pressure here is tier − 1. The Realm Travel page in the vault has the effects of strain.</div></div>
@@ -1395,6 +1456,12 @@ function renderTools(){
     $('e-out').innerHTML=rows.join('')+`<div class="out" style="margin-top:4px"><div class="kv"><span>Loot value</span><span><b style="color:var(--gold2)">${gp(total)}</b> (one of each drop)</span><span>Pool</span><span>${pool.length} monsters</span></div></div>`;
   };
   $('e-go').onclick=roll;roll();
+  // currency
+  on(['x-n','x-a','x-b','x-fee'],()=>{
+    const A=CURRENCY[v('x-a')],B=CURRENCY[v('x-b')],amt=Math.max(0,n('x-n')),g=amt*A.gp,fee=$('x-fee').checked&&v('x-a')!==v('x-b')?g*EXCHANGE_FEE:0,out=(g-fee)/B.gp;
+    $('x-out').textContent=(out%1?out.toFixed(2):fmt(out))+' '+(out===1?B.coin.toLowerCase():B.pl);
+    $('x-kv').innerHTML=`<span>Worth</span><span>${gp(g)}</span><span>Fee</span><span>${fee?gp(Math.round(fee)):'none'}</span><span>Rate</span><span>1 ${esc(A.coin.toLowerCase())} = ${(A.gp/B.gp)%1?(A.gp/B.gp).toFixed(3):fmt(A.gp/B.gp)} ${esc(B.pl)}</span>`;
+  });
   // pressure
   on(['p-a'],()=>{const a=n('p-a');$('p-out').innerHTML=REALMS.map(r=>{const d=r.pressure-a;return `<div class="enc-row" style="display:flex;align-items:center;gap:10px;padding:7px 12px"><span class="sw" style="width:9px;height:9px;border-radius:50%;background:${r.color}"></span><a href="#" data-ref="${ref(r)}" style="color:var(--text);text-decoration:none;font-weight:600">${esc(r.n)}</a><span class="b ghost">Pressure ${r.pressure}</span><span style="margin-left:auto" class="b ${d>0?'red':'green'}">${d>0?'Strain +'+d:'Safe'}</span></div>`}).join('')});
 }
@@ -1455,7 +1522,7 @@ function detail(x){
   const t=x._t,o=brief(x);
   if(t==='bp'){o.traitsWhenEquipped=x.mats.map(findMat).filter(m=>m&&m.tr).map(m=>m.tr.n+' (from '+m.n+'): '+m.tr.t);o.description=x.ds||(x.lost?'(description lost from this app; see the vault note)':'');o.materials=x.mats.map(n=>{const m=findMat(n);return m?{name:m.n,grade:m.gr,priceGp:m.price||0,property:m.pn}:{name:n}});const s=strongestMat(x);if(s)o.strongestMaterial=s.n+' (rank '+s.rank+', item level '+s.il+')';o.estimatedMaterialCostGp=x.mats.reduce((a,n)=>a+((findMat(n)||{}).price||0),0);o.connections=x.conns}
   else if(t==='mat'){o.uniqueTraitText=x.tr?x.tr.t:x.basic;o.propertyText=x.prop;o.description=x.ds;o.source=x.src;o.gatheredAt=x.where;o.gatheredBy=x.by;o.usedFor=x.use;o.weaponEffect=MAT_FX[x.n];const u=bpByMat().get(lc(x.n))||[];o.usedInBlueprints={count:u.length,examples:u.slice(0,15).map(b=>b.n)};o.droppedBy=(monByMat().get(lc(x.n))||[]).map(m=>m.n);o.signatureMaterialOf=(GOD_BY_MAT.get(lc(x.n))||[]).map(godKey)}
-  else if(t==='mon'){o.description=x.txt||x.ds;if(!(x.drops||[]).length)o.note='Official monster: its drops are on the realm Bestiary page in the vault.'}
+  else if(t==='mon'){o.description=x.txt||x.ds;o.statBlock=x.sb;o.drops=(x.drops||[]).map(d=>d[0]+' ('+d[1]+')');if(!(x.drops||[]).length)o.note='Official monster: its drops are on the realm Bestiary page in the vault.'}
   else if(t==='god'){o.title=godTitle(x);o.myth=x.myth||x.ds;o.wants=x.wants;o.signatureMaterials=x.sig;o.fingerRelic=x.relic;o.hand=x.hand;const r=new Map();(x.runes||[]).forEach(rn=>(RUNE_GODS.get(rn)||[]).forEach(g=>{if(g!==x){if(!r.has(g))r.set(g,[]);r.get(g).push(rn)}}));o.rivals=[...r].map(([g,rs])=>godKey(g)+' (over '+rs.join(', ')+')')}
   else if(t==='spell'){o.castingTime=x.ct;o.range=x.rng;o.duration=x.dur;o.description=x.desc}
   else if(t==='sub'||t==='demon'||t==='patron')o.description=x.ds;
@@ -1527,7 +1594,7 @@ FAND rules summary:
 - Material properties: each material gives a property (48 in all); supplies give none. Potency = min(10, max(1, floor(Item Level / 5)) + 1 at grade 9, + 2 at grade 10). Weapons, armor, and shields carry the property of their strongest material.
 - Refining: 3 materials of one grade make 1 of the next grade. Moving up to the next realm takes 5, a binding agent, and a Realm Forge.
 - Custom Blueprints: players design items from a primary material and up to two secondaries, then pass a design check; traits come from the materials' properties.
-- Economy: price = realm base x grade (doubled at grade 9-10; supplies cost one fifth). Merchants buy at half. Void-grade materials and above aren't sold.
+- Money: each realm has its own coin worth its base price / 5 gp: ${REALMS.filter(r=>CURRENCY[r.n]&&CURRENCY[r.n].coin).map(r=>CURRENCY[r.n].coin+' ('+r.n+') = '+CURRENCY[r.n].gp+' gp').join(', ')}. Void, Inner Void, and Primordial have no coin. Moneychangers take 10%. Flux Chips (Chaos) change value daily: 2d6 x 50 gp.\n- Monsters have generated stat blocks in the Monster Manual layout (use get_entry for them) and 6-10 harvestable parts each.\n- Economy: price = realm base x grade (doubled at grade 9-10; supplies cost one fifth). Merchants buy at half. Void-grade materials and above aren't sold.
 - Professions: 10 (Blacksmithing, Carving, Tailoring, Alchemy, Cooking, Enchanting, Engineering, Harvesting, Scavenging, Navigation); the 31 old crafts are specialties. You start with one specialty and gain more; crafting outside your specialties is at disadvantage. Hell, Heaven, and Void metals need a Blacksmith with the matching realm specialty. Harvesting gathers ore, stone, crystal, and plants; Scavenging strips hide, bone, blood, organs, and essences from corpses. Profession XP comes from crafting, designing, refining, and gathering.
 - Realm Travel: each realm has a Pressure 0-9; a traveler's Attunement comes from level, contract rank, or realm-material gear. If Pressure exceeds Attunement the traveler suffers strain. 11 travel methods; an anchor from home eases the return.
 - God Contracts: ten ranks from Minor up to 1st Finger; the five Fingers form a god's Hand. Each rank has spells, AC, duties, and rewards. Gods sharing a Rune are rivals.

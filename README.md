@@ -55,4 +55,6 @@ The site has a home page, cross-linked detail views (a material shows the Bluepr
 
 ## Notes
 - The vault's own change log is its Patch Notes database (`FAND/Patch Notes/`). Changes made here that affect the vault should get a patch note there too.
-- Official D&D monster names appear in the data under the campaign's content policy: names, CR, and short original descriptions only, no stat blocks or book text.
+- Official D&D monster names appear in the data under the campaign's content policy: names, CR, and short original descriptions only, no book stat blocks or book text. The website shows **generated** stat blocks in the Monster Manual layout (`tools/data/statblock.js`), built from each monster's CR, body plan, and drops; they are original, not copied from any book.
+- Every monster yields 6-10 materials: the vault's drops plus generated harvest parts (`tools/data/harvest.js`, marked "Harvest part" on the site). Generated parts exist only in the app until they're added to the vault.
+- Each realm has its own coin (defined in `tools/app/template.html`, `CURRENCY`), worth the realm's base price ÷ 5 gp.
