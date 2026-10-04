@@ -243,10 +243,30 @@ var SITE_DIR = process.argv[5] || path.join(ROOT, 'site');
 var tpl = fs.readFileSync(TEMPLATE, 'utf8');
 if (tpl.indexOf('<!--__DATA__-->') < 0) throw new Error('template is missing the <!--__DATA__--> marker');
 var META = { built: new Date().toISOString().slice(0, 10), version: '1.24', realms: REALMS, counts: { spells: D.SPELLS.length } };
-function lit(k) { return 'const ' + k + '=' + JSON.stringify(D[k]).replace(/<\/(script)/gi, '<\\/$1') + ';'; }
+// The world is called Vestige on the site (Atrious in older vault notes). Folder paths and links keep the vault's names.
+var WORLD = function (t) { return t.replace(/(^|[^\/\w])Atrious\b(?!\/)/g, '$1Vestige'); };
+var FOLDER = function (o) { if (o && typeof o.f === 'string') o.f = o.f.replace(/^Atrious(?=\/|$)/, 'Vestige'); };
+function lit(k) {
+  if (k === 'VAULT' && D.VAULT) D.VAULT.notes.forEach(FOLDER);
+  if (k === 'VAULT_DETAILS' && D.VAULT_DETAILS) Object.keys(D.VAULT_DETAILS).forEach(function (t) { var o = D.VAULT_DETAILS[t]; Object.keys(o).forEach(function (n) { FOLDER(o[n]); }); });
+  var j = JSON.stringify(D[k]); if (k !== 'VAULT' && k !== 'VAULT_DETAILS') j = WORLD(j); return 'const ' + k + '=' + j.replace(/<\/(script)/gi, '<\\/$1') + ';'; }
 var VAULT_FILE = process.env.VAULT_JSON || path.join(__dirname, '..', 'data', 'vault.json');
 D.VAULT = fs.existsSync(VAULT_FILE) ? JSON.parse(fs.readFileSync(VAULT_FILE, 'utf8')) : { imported: '', notes: [] };
 D.VAULT.notes = D.VAULT.notes.filter(function (n) { return !/^-+$/.test(n.n); });
+// Notes written for the site in vault format (tools/data/vault-extra). A vault note with the same name wins.
+(function () {
+  var dir = path.join(__dirname, '..', 'data', 'vault-extra'), have = {}, added = 0;
+  if (!fs.existsSync(dir)) return;
+  D.VAULT.notes.forEach(function (n) { have[n.n.toLowerCase()] = 1; });
+  (function walk(d) { fs.readdirSync(d).forEach(function (f) {
+    var p = path.join(d, f); if (fs.statSync(p).isDirectory()) return walk(p);
+    if (!/\.md$/i.test(f) || have[f.slice(0, -3).toLowerCase()]) return;
+    var t = fs.readFileSync(p, 'utf8').replace(/\r\n/g, '\n'), fm = {}, m = /^---\n([\s\S]*?)\n---\n?/.exec(t);
+    if (m) { m[1].split('\n').forEach(function (l) { var k = /^([\w -]+):\s*(.*)$/.exec(l); if (k) fm[k[1].trim()] = k[2].trim().replace(/^["']|["']$/g, ''); }); t = t.slice(m[0].length); }
+    D.VAULT.notes.push({ n: f.slice(0, -3), f: path.relative(dir, d).split(path.sep).join('/') || 'FAND', fm: fm, md: t.trim(), site: 1 }); added++;
+  }); })(dir);
+  if (added) log.push('site notes in vault format added: ' + added + ' (tools/data/vault-extra)');
+})();
 // Spells come from the vault when it has them: every spell note with a school becomes a spell on the site.
 (function () {
   var vs = D.VAULT.notes.filter(function (n) { return /(^|\/)Spells(\/|$)/i.test(n.f) && n.fm && n.fm.school; });
@@ -255,7 +275,7 @@ D.VAULT.notes = D.VAULT.notes.filter(function (n) { return !/^-+$/.test(n.n); })
     var fm = n.fm, body = n.md.replace(/^#.*\n+/, '').replace(/^\*[^*\n]+\*\s*\n+/, '').split(/\n\s*\n/)[0] || '';
     var lv = /cantrip/i.test(fm.level || '') ? 0 : parseInt(fm.level, 10) || 0;
     return { n: n.n, sc: fm.school, lv: lv, ct: fm.castingTime || '', rng: fm.range || '', dur: fm.duration || '', dmg: fm.damage || '', comp: fm.components || '',
-      tier: fm.tier || '', rune: fm.rune || '', cls: (fm.class || '').split(/\s*,\s*/).filter(Boolean),
+      tier: fm.tier || '', rune: fm.rune || '', cls: (fm.class || '').replace(/\[\[(?:[^\]|]*\|)?([^\]]+)\]\]/g, '$1').split(/\s*,\s*/).filter(Boolean),
       desc: body.replace(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/g, function (m, a) { return a.split('/').pop(); }).replace(/\*\*/g, '').replace(/\s+/g, ' ').trim() };
   }).sort(function (a, b) { return a.n < b.n ? -1 : 1; });
   log.push('spells: ' + D.SPELLS.length + ' from the vault (replacing the generated list)');
@@ -285,11 +305,11 @@ var out = tpl.split('<!--__DATA__-->').join(single);
 var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'subclasses', 'demons', 'patrons', 'forge', 'craft', 'party', 'encounter', 'combat', 'rules', 'tools', 'about'];
 var site = {};
 var PAGE_INFO = {
-  home: ['Home', 'FAND (Fantasy and Numerous Disasters) campaign compendium: Blueprints, materials, monsters, realms, gods, spells, rules, and table tools for the world of Atrious.'],
+  home: ['Home', 'FAND (Fantasy and Numerous Disasters) campaign compendium: Blueprints, materials, monsters, realms, gods, spells, rules, and table tools for the world of Vestige.'],
   blueprints: ['Blueprints', D.BPS.length.toLocaleString('en-US') + ' craftable Blueprints across ten professions, with materials, rarity, damage, AC, and properties.'],
   materials: ['Materials', D.MATS.length.toLocaleString('en-US') + ' graded materials from eleven realms, with rank, Item Level, property, Potency, price, and sources.'],
   bestiary: ['Bestiary', D.MONSTERS.length.toLocaleString('en-US') + ' monsters across eleven realms, with grades, habitats, and drops.'],
-  realms: ['Realms', 'The eleven realms of Atrious in ten tiers: their monsters, materials, gathering, and gods.'],
+  realms: ['Realms', 'The eleven realms of Vestige in ten tiers: their monsters, materials, gathering, and gods.'],
   gods: ['Gods', D.GODS.length + ' gods with their Runes, home realms, signature materials, Hands, and rivals.'],
   professions: ['Professions', 'The ten professions of FAND, their specialties, and example Blueprints by level.'],
   spells: ['Spells', D.SPELLS.length.toLocaleString('en-US') + ' spells across twenty schools, filterable by class, level, and casting time.'],
@@ -303,7 +323,7 @@ var PAGE_INFO = {
   party: ['Party', 'Track each character: god contract, rivals, gear and traits, materials, money, and realm Pressure.'],
   encounter: ['Encounters', 'Build balanced encounters from a realm\'s Bestiary by party size and level.'],
   combat: ['Combat', 'Initiative, HP, and conditions, with FAND\'s flat AC applied to every hit.'],
-  lore: ['Lore', 'The lore of Atrious: Infinatas and Inane, how the gods came to this realm, the pantheons, the contested Runes, the realms, and the progenitors.'],
+  lore: ['Lore', 'The lore of Vestige: Infinatas and Inane, how the gods came to this realm, the pantheons, the contested Runes, the realms, and the progenitors.'],
   runes: ['Runes', 'Every Rune in FAND: its progenitor, who held it before vanishing or being killed, the gods who inherited and contest it, and the relics that channel it.'],
   codex: ['Codex', 'Every note from the FAND Obsidian vault: rules, Runes, realms, classes, gods, the Player\'s Guide, and patch notes.'],
   about: ['About', 'What has been built in FAND, version by version, and what is still open.']
