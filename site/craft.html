@@ -1863,9 +1863,9 @@ const BASES={
     {id:'chain',name:'Chain or cord',role:'minor',qty:1,ok:['O','F'],optional:true,why:'Metal chain or cord.'}]},
 };
 const SHIELD_KIND={Buckler:1,Shield:2,Tower:3};
-const ARMOR_SLOT_UNITS={Body:4,Head:2,Hands:1,Feet:1,Shoulders:1,Back:1};
+const ARMOR_SLOT_UNITS={Body:4,Head:2,Hands:1,Feet:1,Shoulders:1,Back:1};  // keep in step with tools/data/armor.js
 const ARMOR_SLOT_MULT=ARMOR_SLOT_UNITS;
-// Same formula as the build's rescale (tools/generators/buildapp.js): a full set of iron gear (10 units of metal at Item Level 1) gives 10 AC.
+// Same formula as tools/data/armor.js (used by the build and by generators/vaultac.js): a full set of iron gear (10 units of metal at Item Level 1) gives 10 AC.
 const armorAC=(units,code,il)=>Math.max(1,Math.round(units*(code==='O'?1:/[BSG]/.test(code||'')?.7:.4)*(1+((il||1)-1)/20)));
 const matCode=m=>m.tc||({'Ore / Metal':'O','Metal':'O','Wood / Plant':'W','Wood':'W','Crystal / Gem':'G','Gemstone & Crystal':'G','Stone':'S','Hide / Cloth / Fiber':'F','Bone / Fang / Horn / Scale':'B','Blood / Organ':'L','Essence / Soul / Core':'E','Mechanism':'K','Supply':'U'})[m.ty||m.cat]||'?';
 function slotFit(slot,m){
