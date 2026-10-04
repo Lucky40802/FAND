@@ -385,7 +385,7 @@ var metaLine = 'const META=' + JSON.stringify(META) + ';';
 var VENDOR = fs.readFileSync(path.join(__dirname, '..', 'app', 'vendor', 'anthropic.js'), 'utf8');
 var single = '<script>\n' + VENDOR.replace(/<\/(script)/gi, '<\\/$1') + '\n</script>\n<script>\nconst SITE=null;\n' + ['BPS', 'SPELLS', 'VAULT', 'VAULT_DETAILS'].concat(CORE.slice(1)).map(lit).join('\n') + '\n' + metaLine + '\n</script>';
 var out = tpl.split('<!--__DATA__-->').join(single);
-var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'subclasses', 'demons', 'patrons', 'forge', 'craft', 'party', 'encounter', 'hooks', 'journal', 'hidden', 'towers', 'combat', 'rules', 'tools', 'about'];
+var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'subclasses', 'demons', 'patrons', 'forge', 'craft', 'party', 'sheet', 'encounter', 'hooks', 'journal', 'hidden', 'towers', 'combat', 'rules', 'tools', 'about'];
 var site = {};
 var PAGE_INFO = {
   home: ['Home', 'FAND (Fantasy and Numerous Disasters) campaign compendium: Blueprints, materials, monsters, realms, gods, spells, rules, and table tools for the world of Vestige.'],
@@ -406,6 +406,7 @@ var PAGE_INFO = {
   party: ['Party', 'Track each character: god contract, rivals, gear and traits, materials, money, and realm Pressure.'],
   hidden: ['Hidden classes', 'Hidden classes of Vestige, unlocked only through quests and the Towers: Unique (one of a kind), Epic (a basic class specialised), and Legendary (following a Rune progenitor).'],
   towers: ['Towers', 'The Towers in every realm, built from the excess energy of unclaimed Runes: their floors, guardians, the Runes that feed them, and the hidden classes they hold.'],
+  sheet: ['Character sheet', 'Create and play a character on a full sheet: abilities, saves, skills, AC from worn gear, attacks, spells and slots, contracts, class stage, and backstory, worked out with FAND\'s rules.'],
   journal: ['Session journal', 'Notes from each session of the campaign, saved on your device, with links to every monster, god, material, and realm.'],
   hooks: ['Adventure hooks', 'Story starters built from the gods, Runes, realms, monsters, and Blueprints of Vestige, scaled to your party.'],
   encounter: ['Encounters', 'Build balanced encounters from a realm\'s Bestiary by party size and level.'],
@@ -421,7 +422,7 @@ site['vendor/anthropic.js'] = VENDOR;
 site['data/vault.js'] = lit('VAULT') + '\n';
 site['data/vault-details.js'] = lit('VAULT_DETAILS') + '\n';
 PAGES.forEach(function (pg) {
-  var tags = '<script>const SITE={page:' + JSON.stringify(pg) + '};</script>\n<script src="data/core.js"></script>\n<script src="data/vault.js"></script>' + (pg === 'spells' ? '\n<script src="data/spells.js"></script>' : '');
+  var tags = '<script>const SITE={page:' + JSON.stringify(pg) + '};</script>\n<script src="data/core.js"></script>\n<script src="data/vault.js"></script>' + (pg === 'spells' || pg === 'sheet' ? '\n<script src="data/spells.js"></script>' : '');
   var html = tpl.split('<!--__DATA__-->').join(tags);
   var info = PAGE_INFO[pg];
   html = html.replace('<title>FAND · Fantasy and Numerous Disasters</title>', '<title>' + (pg === 'home' ? 'FAND · Fantasy and Numerous Disasters' : info[0] + ' · FAND') + '</title>')

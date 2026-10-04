@@ -167,6 +167,37 @@ button.chip:hover,a.chip:hover{border-color:var(--acc);color:var(--text)}
 .sec-h{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
 .sec-h h3{font-size:1.2rem}
 .sec-h p{color:var(--muted);font-size:.85rem}
+.sheet .sh-head{display:grid;grid-template-columns:1fr 2fr;gap:12px;align-items:end;border:2px solid var(--line);border-radius:12px;padding:12px;margin-bottom:12px;background:var(--panel,var(--bg))}
+.sheet .sh-name input{font:700 1.4rem var(--serif);width:100%}
+.sheet .sh-hgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sheet input,.sheet select,.sheet textarea{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:5px 7px;color:var(--text);font:inherit;max-width:100%}
+.sheet .sh-hgrid input,.sheet .sh-hgrid select{width:100%}.sheet .sh-hgrid>div:first-child{display:flex;gap:6px;flex-wrap:wrap}
+.sheet textarea{width:100%;resize:vertical}
+.sheet .sh-lab{font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:3px;text-align:center}
+.sheet .sh-cols{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:12px}
+.sheet .sh-col{display:flex;flex-direction:column;gap:10px}
+.sheet .sh-col:first-child{display:grid;grid-template-columns:110px 1fr;gap:10px;align-content:start}
+.sheet .sh-abil{display:flex;flex-direction:column;gap:8px}
+.sheet .sh-ab{border:2px solid var(--line);border-radius:12px;text-align:center;padding:6px}
+.sheet .sh-ab .sh-mod{font:700 1.7rem var(--serif)}.sheet .sh-ab input{width:56px;text-align:center;border-radius:20px}
+.sheet .sh-col2{display:flex;flex-direction:column;gap:8px}
+.sheet .sh-row{display:flex;align-items:center;gap:8px}
+.sheet .sh-pill{display:inline-flex;align-items:center;justify-content:center;min-width:42px;height:32px;border:2px solid var(--line);border-radius:16px;font-family:var(--serif)}
+.sheet .sh-list{border:2px solid var(--line);border-radius:10px;padding:8px;display:flex;flex-direction:column;gap:3px;font-size:.88rem}
+.sheet .sh-list label{display:flex;align-items:center;gap:6px}.sheet .sh-list b{width:30px;text-align:right;font-variant-numeric:tabular-nums}.sheet .sh-list small{color:var(--muted)}
+.sheet .sh-box{border:2px solid var(--line);border-radius:10px;padding:8px 10px;display:flex;flex-direction:column;gap:6px}
+.sheet .sh-box.tall{min-height:420px}
+.sheet .sh-trio{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.sheet .sh-trio .sh-box{align-items:center;text-align:center}
+.sheet .sh-big{font:700 1.9rem var(--serif);line-height:1.1}
+.sheet .sh-coins{display:flex;gap:6px;flex-wrap:wrap}.sheet .sh-coins label{display:flex;flex-direction:column;align-items:center;font-size:.7rem;color:var(--muted)}.sheet .sh-coins input{width:64px}
+.sheet .sh-ul{margin:0;padding-left:18px;font-size:.88rem}.sheet .sh-t{font-size:.85rem}
+.sheet .sh-feat{font-size:.85rem;border-bottom:1px dashed var(--line);padding-bottom:6px}.sheet .sh-feat ul{margin:4px 0 0 16px;padding:0}
+.sheet .sh-fand{margin-top:12px}
+.sheet .sh-spells{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:900px){.sheet .sh-cols{grid-template-columns:1fr}.sheet .sh-head{grid-template-columns:1fr}.sheet .sh-spells{grid-template-columns:1fr}}
+@media (max-width:640px){.sheet .sh-hgrid{grid-template-columns:1fr 1fr}.sheet .sh-col:first-child{grid-template-columns:90px 1fr}}
+@media print{.sheet .sh-noprint,.sheet .sec-h,.ai-fab{display:none!important}.sheet .sh-page{display:block!important;break-after:page}.sheet .sh-page[hidden]{display:block!important}.sheet input,.sheet textarea,.sheet select{border:none;border-bottom:1px solid #999;border-radius:0}.sheet .sh-cols{grid-template-columns:1.15fr 1fr 1fr!important}}
+
 .dice{border-bottom:1px dashed var(--gold);cursor:pointer;white-space:nowrap}.dice:hover{background:var(--goldbg)}
 #dice-ov{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;background:rgba(10,8,20,.55);backdrop-filter:blur(2px);cursor:pointer}
 #dice-ov.on{display:flex}
@@ -955,10 +986,10 @@ const TABS=[
   ['home','Home'],['lore','Lore'],['codex','Codex',NOTES.length],['blueprints','Blueprints',BPS.length],['materials','Materials',MATS.length],['bestiary','Bestiary',MONSTERS.length],
   ['realms','Realms',REALMS.length],['gods','Gods',GODS.length],['runes','Runes',RUNES.length],['professions','Professions',Object.keys(PROFS).length],
   ['spells','Spells',META.counts.spells],['subclasses','Subclasses',SUBS.length],['demons','Demons',DEMONS.length],['patrons','Patrons',PATRONS.length],
-  ['forge','Forge'],['craft','Craft'],['party','Party'],['encounter','Encounters'],['hooks','Hooks'],['journal','Journal'],['hidden','Hidden classes'],['towers','Towers'],['combat','Combat'],
+  ['forge','Forge'],['craft','Craft'],['party','Party'],['sheet','Character sheet'],['encounter','Encounters'],['hooks','Hooks'],['journal','Journal'],['hidden','Hidden classes'],['towers','Towers'],['combat','Combat'],
   ['rules','Rules'],['tools','Tools'],['about','About'],
 ];
-const PAGES={home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,about:renderAbout,lore:()=>renderLore(),forge:()=>renderForge(),craft:()=>renderCraft(),party:()=>renderParty(),encounter:()=>renderEncounter(),hooks:()=>renderHooks(),journal:()=>renderJournal(),hidden:()=>renderHidden(),towers:()=>renderTowers(),combat:()=>renderCombat()};
+const PAGES={home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,about:renderAbout,lore:()=>renderLore(),forge:()=>renderForge(),craft:()=>renderCraft(),party:()=>renderParty(),sheet:()=>renderSheet(),encounter:()=>renderEncounter(),hooks:()=>renderHooks(),journal:()=>renderJournal(),hidden:()=>renderHidden(),towers:()=>renderTowers(),combat:()=>renderCombat()};
 
 // ════════════════════════════════════════════════════════════════
 //  State & routing
@@ -1003,10 +1034,10 @@ const NAV_GROUPS=[
   ['Creatures & Materials',['bestiary','materials']],
   ['Items & Crafting',['blueprints','forge','craft','professions']],
   ['Magic & Classes',['subclasses','hidden','spells']],
-  ['Play',['party','journal','encounter','hooks','combat','tools']],
+  ['Play',['sheet','party','journal','encounter','hooks','combat','tools']],
   ['Reference',['rules','about']],
 ];
-const NAV_BLURB={hidden:'Unique, Epic, and Legendary classes unlocked through quests and Towers',towers:'A Tower in every realm, grown from unclaimed Runes',journal:'Session notes that link to the world',hooks:'Story starters from the gods, Runes, and monsters',lore:'Infinatas, the gods, and the history of Vestige',realms:'The eleven realms and their coin',gods:'Pantheons, Runes, Hands, and rivals',runes:'Every Law, its lineage, and its progenitor',demons:'Archdevils, demon princes, and corruptions',patrons:'Warlock patrons',codex:'Every note from the Obsidian vault',bestiary:'Monsters with stat blocks, lore, and drops',materials:'Graded materials, traits, and prices',blueprints:'Ready-made designs for every profession',forge:'General Blueprints: pick a material for every part',craft:'Plan what to gather and buy',professions:'The ten professions and their specialties',spells:'Spells by school, tier, and class',subclasses:'Official and homebrew subclasses',party:'Characters, gear, contracts, and money',encounter:'Balanced fights by realm and level',combat:'Initiative, HP, and flat AC',tools:'Calculators and converters',rules:'Rules summaries',about:'What FAND has, version by version'};
+const NAV_BLURB={sheet:'Create a character on a full sheet worked out with FAND\'s rules',hidden:'Unique, Epic, and Legendary classes unlocked through quests and Towers',towers:'A Tower in every realm, grown from unclaimed Runes',journal:'Session notes that link to the world',hooks:'Story starters from the gods, Runes, and monsters',lore:'Infinatas, the gods, and the history of Vestige',realms:'The eleven realms and their coin',gods:'Pantheons, Runes, Hands, and rivals',runes:'Every Law, its lineage, and its progenitor',demons:'Archdevils, demon princes, and corruptions',patrons:'Warlock patrons',codex:'Every note from the Obsidian vault',bestiary:'Monsters with stat blocks, lore, and drops',materials:'Graded materials, traits, and prices',blueprints:'Ready-made designs for every profession',forge:'General Blueprints: pick a material for every part',craft:'Plan what to gather and buy',professions:'The ten professions and their specialties',spells:'Spells by school, tier, and class',subclasses:'Official and homebrew subclasses',party:'Characters, gear, contracts, and money',encounter:'Balanced fights by realm and level',combat:'Initiative, HP, and flat AC',tools:'Calculators and converters',rules:'Rules summaries',about:'What FAND has, version by version'};
 function navGroupOf(t){const g=NAV_GROUPS.find(([,ids])=>ids.includes(t));return g?g[0]:null}
 function openNav(g,btn){
   const pop=$('navpop'),grp=NAV_GROUPS.find(x=>x[0]===g);if(!grp)return;
@@ -1696,7 +1727,7 @@ function renderRules(){
     ['contracts','God Contracts','v1.08, v1.15',`<ul><li>The gods are guests in Vestige: their own world eroded because of Inane, and Infinatas, who cares only for balance, let them in under strict regulation.</li><li>Ten ranks, from Minor up to 1st Finger. The five Fingers (one holder each) form the god's Hand.</li><li><b>Spells</b> from a contract are extra spells from the god's Law; you can cast them even if your class can't, using your slots, or once per long rest each if you have none.</li><li><b>Natural AC</b> from a contract can't be looted, and replaces the previous rank's bonus rather than stacking.</li></ul>${contractTable(null)}<p class="note">Open a god to see this table with that god's own signature materials and Finger relic.</p><h4 style="margin:14px 0 6px">Duties, rising, and breaking a contract</h4><div class="tablewrap"><table class="t"><thead><tr><th>Rank</th><th>Duties</th><th>To reach this rank</th><th>If you break it</th></tr></thead><tbody>${CONTRACTS.map(c=>`<tr><td style="white-space:nowrap"><b>${c.r}</b></td><td>${esc(c.duty)}</td><td>${esc(c.rise||'Sign the contract')}</td><td>${esc(c.brk)}</td></tr>`).join('')}</tbody></table></div><ul><li><b>Several gods at once.</b> A character can hold contracts with several gods at any rank. When there is a conflict of interest (two of their gods are rivals, or one's orders work against another's), they must choose a side and suffer the consequences: the contract they abandon is broken, with the costs in the table above. Contractors of rival gods are fair game for each other. <i>(This replaces the vault's older rule that Major contracts and above are exclusive.)</i></li><li><b>When a god dies,</b> its contracts become void at your next long rest, its power breaks into Runes, and a Finger who reaches the remains first may claim a Primary piece: the first step toward godhood.</li><li>${CONTESTED.length} Runes are held by more than one god; those gods are rivals.</li></ul><p class="note"><a href="${pageUrl('gods')}" data-go="gods">All gods →</a></p>`],
     ['classes','Classes & Subclasses','v1.03, v1.18',`<ul><li>Official subclasses from the Player's Handbook, Xanathar's, Tasha's, and the Sword Coast guide are included as paraphrased summaries, each labeled with its source book.</li><li>Three 2024 Player's Handbook subclasses were added: Path of the World Tree, College of Dance, and Circle of the Sea.</li><li>Each class page notes which of its subclasses the 2024 Player's Handbook revised. Every class picks its subclass at level 3.</li><li>Homebrew Rune subclasses sit alongside the official ones.</li></ul><p class="note"><a href="${pageUrl('subclasses')}" data-go="subclasses">All subclasses →</a></p>`],
     ['spells','Spells','v1.17, v1.23',`<ul><li>Every spell in the vault lists its classes. Pyramid spells get them from their school, plus the class tied to their Rune where one applies.</li><li>73 Tertiary and Secondary damage spells were turned into support spells: they now heal, cure, ward, shield, teleport, or otherwise help. Each was renamed to match its new effect and scales with spell level.</li></ul><p class="note">${META.counts.spells<10000?`The Spells page shows the vault's ${fmt(META.counts.spells)} spells.`:`The vault has about 2,330 spells. The Spells page in this app holds an older, larger generated list (${fmt(META.counts.spells)}); run the vault import to replace it.`}</p>`],
-    ['monsters','Monster Stats','v1.20',`<ul><li><b>Homebrew</b> monsters have a level, HP, AC, attacks, a save DC, and a signature trait from their best drop. Grade 10 monsters have boss rules.</li><li><b>Official</b> monsters have their CR, a grade from that CR, an original short description, and graded drops; no stat blocks.</li></ul>`],
+    ['monsters','Monster Stats','v1.20',`<ul><li><b>Homebrew</b> monsters have a level, HP, AC, attacks, a save DC, and a signature trait from their best drop. Grade 10 monsters have boss rules.</li><li><b>Official</b> monsters have their CR, a grade from that CR, an original short description, and graded drops; no stat blocks.</li><li><b>Monster AC scales through the realms</b> (campaign rule): half the CR, plus natural armor, plus 1 for each realm tier past the Human Realm, plus 1 for every 5 grades within the realm. A Human-realm CR 1 monster has AC 0 to 2; a grade-10 Primordial monster reaches the high 20s, matching the damage of Primordial-grade weapons.</li></ul>`],
   ];
   $('content').innerHTML=`<div class="page rules"><nav class="toc">${S.map(([id,t])=>`<a href="#rule-${id}" onclick="document.getElementById('rule-${id}').scrollIntoView();return false">${t}</a>`).join('')}</nav>
     <div>${S.map(([id,t,v,body])=>`<section class="rule" id="rule-${id}"><h3>${t}</h3><div class="src">Rules summary${v?' · '+v:''}${RULE_NOTES[id]?' · full vault text below':''}</div>${body}${ruleVault(id)}</section>`).join('')}</div></div>`;
@@ -2172,6 +2203,97 @@ function craftNow(rolled){
 
 // ── Party ─────────────────────────────────────────────────────
 let PARTY_SEL=null;
+// ════════════════════════════════════════════════════════════════
+//  Character sheet: the classic three pages (core, details, spells), filled in with FAND's rules
+// ════════════════════════════════════════════════════════════════
+const ABIL=[['str','Strength'],['dex','Dexterity'],['con','Constitution'],['int','Intelligence'],['wis','Wisdom'],['cha','Charisma']];
+const SKILLS=[['acrobatics','Acrobatics','dex'],['animal','Animal Handling','wis'],['arcana','Arcana','int'],['athletics','Athletics','str'],['deception','Deception','cha'],['history','History','int'],['insight','Insight','wis'],['intimidation','Intimidation','cha'],['investigation','Investigation','int'],['medicine','Medicine','wis'],['nature','Nature','int'],['perception','Perception','wis'],['performance','Performance','cha'],['persuasion','Persuasion','cha'],['religion','Religion','int'],['sleight','Sleight of Hand','dex'],['stealth','Stealth','dex'],['survival','Survival','wis']];
+const CLASS_DIE={Barbarian:12,Fighter:10,Paladin:10,Ranger:10,Artificer:8,Bard:8,Cleric:8,Druid:8,Monk:8,Rogue:8,Warlock:8,Sorcerer:6,Wizard:6};
+const CLASS_SAVES={Barbarian:['str','con'],Bard:['dex','cha'],Cleric:['wis','cha'],Druid:['int','wis'],Fighter:['str','con'],Monk:['str','dex'],Paladin:['wis','cha'],Ranger:['str','dex'],Rogue:['dex','int'],Sorcerer:['con','cha'],Warlock:['wis','cha'],Wizard:['int','wis'],Artificer:['con','int']};
+const CAST_ABIL={Bard:'cha',Paladin:'cha',Sorcerer:'cha',Warlock:'cha',Cleric:'wis',Druid:'wis',Ranger:'wis',Wizard:'int',Artificer:'int'};
+const mod=v=>Math.floor(((+v||10)-10)/2),sgn=n=>(n>=0?'+':'')+n;
+// Proficiency: the usual +2 to +6 through level 20, then +1 more with each class change (a website proposal).
+const profBonus=L=>(L=+L||1)<=20?2+Math.floor((L-1)/4):6+(stageOf(L)-2);
+let SHEET_ID=null,SHEET_TAB='core';
+function sheetChar(){let c=PARTY.find(x=>x.id===SHEET_ID)||PARTY[0];if(!c){c={id:uid(),name:'',level:1,gear:[],inv:[]};PARTY.push(c);saveParty()}SHEET_ID=c.id;return c}
+const getP=(o,path)=>path.split('.').reduce((a,k)=>a==null?a:a[k],o);
+function setP(o,path,v){const ks=path.split('.');let a=o;ks.slice(0,-1).forEach(k=>{if(a[k]==null||typeof a[k]!=='object')a[k]={};a=a[k]});a[ks[ks.length-1]]=v}
+function renderSheet(){
+  const c=sheetChar(),s=charStats(c),L=+c.level||1,pb=profBonus(L),A=c.abil||{},M=k=>mod(A[k]),si=c.cls?stageInfo(c.cls,L):null;
+  if(c.cls&&!c.savesSet){c.saves=Object.fromEntries((CLASS_SAVES[c.cls]||[]).map(k=>[k,true]));c.savesSet=true;saveParty()}
+  const inp=(path,ph,attr='',type='text')=>`<input data-s="${path}" type="${type}" value="${esc(getP(c,path)??'')}" placeholder="${esc(ph||'')}" ${attr}>`;
+  const ta=(path,ph,rows=4)=>`<textarea data-s="${path}" rows="${rows}" placeholder="${esc(ph||'')}">${esc(getP(c,path)||'')}</textarea>`;
+  const chk=(path,title='')=>`<input type="checkbox" data-s="${path}" data-chk="1" ${getP(c,path)?'checked':''} title="${esc(title)}">`;
+  const box=(label,inner,cls='')=>`<div class="sh-box ${cls}">${inner}<div class="sh-lab">${label}</div></div>`;
+  const skillVal=sk=>M(sk[2])+(c.skills&&c.skills[sk[0]]?pb*(c.expert&&c.expert[sk[0]]?2:1):0);
+  const speedPen=s.drawback.filter(o=>/^Speed −(\d+)/.test(o.d)).reduce((a,o)=>a+(+o.d.match(/\d+/)[0]),0);
+  const weapons=s.gear.filter(b=>(b.design&&b.design.dmg)||(b.dc&&b.dm&&!ARMOR_CATS.includes(b.cat)));
+  const atkRow=b=>{const props=b.design?b.design.props:(genOf(b)&&BASES[genOf(b)].props)||'',fin=/Finesse/i.test(props),rng=/Ammunition|ranged/i.test(props)||['Bow'].includes(b.cat);const ab=rng?M('dex'):fin?Math.max(M('str'),M('dex')):M('str');const item=b.design&&b.design.atk!=null?b.design.atk:0;const dmg=b.design?b.design.dmg:`${b.dc} ${b.dm}`;
+    return `<tr><td><b>${esc(b.n)}</b></td><td class="num">${sgn(ab+pb+item)}</td><td>${esc(dmg.replace(/^(\d+d\d+)/,'$1'+(ab?(ab>0?' + ':' − ')+Math.abs(ab):'')))}</td></tr>`};
+  const head=`<div class="sh-head"><div class="sh-name">${inp('name','Character name')}<div class="sh-lab">Character name</div></div>
+    <div class="sh-hgrid">
+      <div><select data-s="cls"><option value=""></option>${Object.keys(CLASS_DIE).sort().map(x=>`<option${x===c.cls?' selected':''}>${x}</option>`).join('')}</select>${inp('level','',`min="1" max="${MAX_LEVEL}" style="width:64px"`,'number')}<div class="sh-lab">Class &amp; level${si&&si.k>1?` · <b style="color:var(--gold2)">${esc(si.name)}</b>`:''}</div></div>
+      <div>${inp('bg','Background')}<div class="sh-lab">Background</div></div><div>${inp('player','Player name')}<div class="sh-lab">Player name</div></div>
+      <div>${inp('race','Race')}<div class="sh-lab">Race</div></div><div>${inp('align','Alignment')}<div class="sh-lab">Alignment</div></div><div>${inp('xp','0','','number')}<div class="sh-lab">Experience points</div></div></div></div>`;
+  const core=`<div class="sh-cols">
+    <div class="sh-col">
+      <div class="sh-abil">${ABIL.map(([k,n])=>`<div class="sh-ab"><div class="sh-lab">${n}</div><div class="sh-mod">${sgn(M(k))}</div><input data-s="abil.${k}" type="number" min="1" max="30" value="${A[k]??10}"></div>`).join('')}</div>
+      <div class="sh-col2">
+        <div class="sh-row">${chk('insp')}<span>Inspiration</span></div>
+        <div class="sh-row"><b class="sh-pill">${sgn(pb)}</b><span>Proficiency bonus</span></div>
+        <div class="sh-list">${ABIL.map(([k,n])=>`<label>${chk('saves.'+k)}<b>${sgn(M(k)+(c.saves&&c.saves[k]?pb:0))}</b> ${n}</label>`).join('')}<div class="sh-lab">Saving throws</div></div>
+        <div class="sh-list">${SKILLS.map(sk=>`<label>${chk('skills.'+sk[0])}<b>${sgn(skillVal(sk))}</b> ${sk[1]} <small>(${sk[2][0].toUpperCase()+sk[2].slice(1)})</small>${c.skills&&c.skills[sk[0]]?` <span title="Expertise">${chk('expert.'+sk[0],'Expertise')}</span>`:''}</label>`).join('')}<div class="sh-lab">Skills</div></div>
+      </div>
+      <div class="sh-row" style="grid-column:1/-1"><b class="sh-pill">${10+skillVal(SKILLS.find(x=>x[0]==='perception'))}</b><span>Passive Wisdom (Perception)</span></div>
+      <div style="grid-column:1/-1">${box('Other proficiencies &amp; languages',ta('profs','Armor, weapons, tools, languages',6))}</div>
+    </div>
+    <div class="sh-col">
+      <div class="sh-trio">${box('Armor class',`<div class="sh-big">${s.ac}</div><small>armor ${s.armorAC}${s.ct?' · contract +'+s.ct.ac:''}</small>`)}${box('Initiative',`<div class="sh-big">${sgn(M('dex'))}</div>`)}${box('Speed',`${inp('speed','30','style="width:60px;text-align:center"','number')}${speedPen?`<small style="color:var(--red)">−${speedPen} ft from armor</small>`:''}`)}</div>
+      ${box('Current hit points',`<div class="sh-row"><span>Max</span>${inp('hpMax','','style="width:70px"','number')}</div><div class="sh-big">${inp('hp','','style="width:90px;text-align:center;font-size:1.6rem"','number')}</div>`)}
+      ${box('Temporary hit points',inp('tempHp','','style="width:90px"','number'))}
+      <div class="sh-trio" style="grid-template-columns:1fr 1fr">${box('Hit dice',`<div class="sh-big" style="font-size:1.3rem">${L}d${CLASS_DIE[c.cls]||8}</div>${inp('hdUsed','used','style="width:60px"','number')}`)}${box('Death saves',`<div class="sh-row">Successes ${[0,1,2].map(i=>chk('ds.s'+i)).join('')}</div><div class="sh-row">Failures ${[0,1,2].map(i=>chk('ds.f'+i)).join('')}</div>`)}</div>
+      ${box('Attacks &amp; spellcasting',`<table class="t sh-t"><thead><tr><th>Name</th><th class="num">Atk bonus</th><th>Damage/type</th></tr></thead><tbody>${weapons.map(atkRow).join('')||'<tr><td colspan="3" class="note">Equip weapons on the Party page or from the Forge.</td></tr>'}</tbody></table>${ta('atkNotes','Other attacks, spell attacks',3)}`)}
+      ${box('Equipment',`<div class="sh-coins">${['cp','sp','ep','gp','pp'].map(k=>`<label><span>${k.toUpperCase()}</span>${inp('coins.'+k,'0','','number')}</label>`).join('')}</div><ul class="sh-ul">${s.gear.map(b=>`<li>${esc(b.n)}${b.ac?` <small>(AC ${esc(String(b.ac))})</small>`:''}</li>`).join('')}</ul>${ta('equip','Other equipment',4)}`)}
+    </div>
+    <div class="sh-col">
+      ${box('Personality traits',ta('traits','',3))}${box('Ideals',ta('ideals','',2))}${box('Bonds',ta('bonds','',2))}${box('Flaws',ta('flaws','',2))}
+      ${box('Features &amp; traits',`${si&&si.k>1&&si.st?`<div class="sh-feat"><b>${esc(si.name)}</b> <small>${ORDN(si.k)} change of ${esc(c.cls)}</small><ul>${STAGES[c.cls].filter(x=>x.stage<=si.k).flatMap(x=>x.features.filter(f=>f[0]<=L).map(f=>`<li><b>${esc(f[1])}</b> (Lv ${f[0]}): ${esc(f[2])}</li>`)).join('')}</ul></div>`:''}
+        ${s.contracts.map(x=>`<div class="sh-feat"><b>Contract: ${esc(godKey(x.g))}, ${esc(x.ct.r)}</b> <small>Natural AC +${x.ct.ac}</small><div>${esc(x.ct.power)}</div></div>`).join('')}
+        ${s.traits.map(t=>`<div class="sh-feat"><b>◆ ${esc(t.m.tr.n)}</b> <small>${esc(t.m.n)} in ${esc(t.b.n)}</small><div>${esc(t.m.tr.t)}</div></div>`).join('')}
+        ${s.drawback.length?`<div class="sh-feat"><b>Armor drawbacks</b><div>${s.drawback.map(o=>esc(o.d)).join('; ')}</div></div>`:''}
+        ${inp('hidden','Hidden class (if unlocked)')}${ta('features','Class, race, and background features',8)}`,'tall')}
+    </div></div>
+    <div class="sh-fand">${box('FAND',`<div class="sh-row" style="flex-wrap:wrap;gap:14px"><span><b>Stage</b> ${si?si.k:1} ${si&&si.k<10?`<small>(next change at ${stageStart((si?si.k:1)+1)})</small>`:''}</span><span><b>Magic of</b> ${(si?si.realms:['Human']).map(esc).join(', ')}</span><span><b>Profession</b> ${esc(c.prof||'—')} ${c.profLv?'level '+c.profLv+' (stage '+stageOf(c.profLv)+')':''}</span><span><b>Attunement</b> ${s.att}</span><span><b>Contracts</b> ${s.contracts.map(x=>esc(godKey(x.g))+' ('+esc(x.ct.r)+')').join(', ')||'none'}</span></div><div class="note" style="margin:4px 0 0">Gear, materials, profession, and contracts are edited on the <a href="${pageUrl('party')}" data-go="party">Party</a> page; this sheet uses them.</div>`)}</div>`;
+  const details=`<div class="sh-hgrid" style="margin-bottom:12px">${[['age','Age'],['height','Height'],['weight','Weight'],['eyes','Eyes'],['skin','Skin'],['hair','Hair']].map(([k,l])=>`<div>${inp('look.'+k,l)}<div class="sh-lab">${l}</div></div>`).join('')}</div>
+    <div class="sh-cols" style="grid-template-columns:1fr 2fr"><div class="sh-col">${box('Character appearance',ta('appearance','',10))}${box('Character backstory',ta('backstory','',16))}</div>
+    <div class="sh-col">${box('Allies &amp; organizations',`<div class="sh-row"><span>Symbol / name</span>${inp('orgName','Faction or order')}</div>${ta('allies','',8)}`)}${box('Additional features &amp; traits',ta('features2','',8))}${box('Treasure',`${ta('treasure','',6)}${(c.inv||[]).length?`<div class="note">Materials carried (Party page): ${(c.inv||[]).map(([n,q])=>q+'× '+esc(n)).join(', ')}</div>`:''}`)}</div></div>`;
+  const ca=CAST_ABIL[c.cls],slots=c.cls?slotsFor(c.cls,L):null,sm=ca?M(ca):0;
+  const spellLv=lv=>{const list=(c.spells||{})[lv]||[];const tot=slots?(slots.pact?(lv&&lv<=({'1st':1,'2nd':2,'3rd':3,'4th':4,'5th':5}[slots.lvl]||5)&&lv===({'1st':1,'2nd':2,'3rd':3,'4th':4,'5th':5}[slots.lvl]||5)?slots.n:0):(slots.slots||[])[lv-1]||0):0;
+    return `<div class="sh-box"><div class="sh-row" style="gap:8px"><b class="sh-pill">${lv}</b><span>${lv?`Slots <b>${tot}</b> · used ${[...Array(tot)].map((_,i)=>chk('slotUsed.'+lv+'.'+i)).join('')}`:'Cantrips'}</span></div>
+      <ul class="sh-ul">${list.map((n,i)=>{const sp=SP.find(x=>lc(x.n)===lc(n));const need=sp?spellNeed(sp):1,ok=!si||need<=si.k;return `<li>${lv?chk('prep.'+lv+'.'+i,'Prepared'):''} ${sp?refChip(sp,esc(n)):esc(n)}${!ok?` <small style="color:var(--red)">needs the ${ORDN(need)} change</small>`:''} <span style="cursor:pointer;color:var(--muted)" onclick="sheetSpellRm(${lv},${i})">✕</span></li>`}).join('')}</ul>
+      <div class="keyrow"><input class="sel" list="dl-sp${lv}" id="sp-add-${lv}" placeholder="Add a ${lv?ORDN(lv)+'-level spell':'cantrip'}…" style="max-width:none;flex:1"><button class="btn" type="button" onclick="sheetSpellAdd(${lv})">Add</button></div>
+      <datalist id="dl-sp${lv}">${SP.filter(x=>x.lv===lv&&(!c.cls||!(x.cls||[]).length||(x.cls||[]).includes(c.cls))).slice(0,600).map(x=>`<option value="${esc(x.n)}">${esc(x.sc)}${spellNeed(x)>1?' · '+esc(spellRealm(x)):''}</option>`).join('')}</datalist></div>`};
+  const spells=`<div class="sh-trio" style="grid-template-columns:2fr 1fr 1fr 1fr;margin-bottom:12px">${box('Spellcasting class',`<div class="sh-big" style="font-size:1.2rem">${esc(c.cls||'—')}</div>`)}${box('Spellcasting ability',`<div class="sh-big">${ca?ca.toUpperCase():'—'}</div>`)}${box('Spell save DC',`<div class="sh-big">${ca?8+pb+sm:'—'}</div>`)}${box('Spell attack bonus',`<div class="sh-big">${ca?sgn(pb+sm):'—'}</div>`)}</div>
+    ${!SP.length?'<div class="note">Spells are still loading…</div>':''}
+    <div class="sh-spells">${[0,1,2,3,4,5,6,7,8,9].map(spellLv).join('')}</div>
+    <div class="note">Spells from a deeper realm than this character's stage are marked; slots come from the vault's Spell Slots rules${slots&&slots.extra?`, with +${slots.extra} from class changes`:''}.</div>`;
+  $('content').innerHTML=`<div class="page sheet">
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Character sheet</h3><p>Fill it in like a paper sheet; bonuses, AC, slots, and attacks are worked out with FAND's rules.</p></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px" class="sh-noprint"><select class="sel" id="sh-who">${PARTY.map(x=>`<option value="${x.id}"${x.id===c.id?' selected':''}>${esc(x.name||'Unnamed')}${x.cls?' · '+esc(x.cls)+' '+(x.level||1):''}</option>`).join('')}</select><button class="btn" id="sh-new">+ New character</button>
+      <span class="chips" style="margin-left:auto">${[['core','Core'],['details','Details'],['spells','Spells']].map(([k,l])=>`<button class="chip${SHEET_TAB===k?' on':''}" data-shtab="${k}" style="${SHEET_TAB===k?'border-color:var(--gold);background:var(--goldbg)':''}">${l}</button>`).join('')}<button class="chip" id="sh-print">🖨 Print all</button></span></div>
+    ${head}
+    <div class="sh-page" data-pg="core" ${SHEET_TAB!=='core'?'hidden':''}>${core}</div>
+    <div class="sh-page" data-pg="details" ${SHEET_TAB!=='details'?'hidden':''}>${details}</div>
+    <div class="sh-page" data-pg="spells" ${SHEET_TAB!=='spells'?'hidden':''}>${spells}</div></div>`;
+  const C=$('content');
+  C.querySelectorAll('[data-s]').forEach(el=>el.addEventListener('change',()=>{const v=el.dataset.chk?el.checked:el.type==='number'?(el.value===''?'':+el.value):el.value;setP(c,el.dataset.s,v);if(el.dataset.s==='cls')c.savesSet=false;saveParty();const y=$('content').scrollTop;renderSheet();$('content').scrollTop=y}));
+  C.querySelectorAll('[data-shtab]').forEach(b=>b.onclick=()=>{SHEET_TAB=b.dataset.shtab;renderSheet()});
+  $('sh-who').onchange=e=>{SHEET_ID=e.target.value;renderSheet()};
+  $('sh-new').onclick=()=>{const n={id:uid(),name:'',level:1,gear:[],inv:[],abil:{str:10,dex:10,con:10,int:10,wis:10,cha:10}};PARTY.push(n);saveParty();SHEET_ID=n.id;renderSheet()};
+  $('sh-print').onclick=()=>{C.querySelectorAll('.sh-page').forEach(x=>x.hidden=false);window.print();setTimeout(renderSheet,300)};
+}
+function sheetSpellAdd(lv){const c=sheetChar(),v=$('sp-add-'+lv).value.trim();if(!v)return;c.spells=c.spells||{};(c.spells[lv]=c.spells[lv]||[]).push(v);saveParty();renderSheet()}
+function sheetSpellRm(lv,i){const c=sheetChar();c.spells[lv].splice(i,1);saveParty();renderSheet()}
 function renderParty(){
   if(!PARTY_SEL&&PARTY.length)PARTY_SEL=PARTY[0].id;
   const c=PARTY.find(x=>x.id===PARTY_SEL);
