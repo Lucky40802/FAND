@@ -601,7 +601,10 @@ function runeFigure(r,gods){
 const RUNE_BP=new Map();
 BPS.forEach(b=>{const m=/fragment of ([A-Z][\w' -]*?) directly/.exec(b.ds||'');const r=m&&m[1];if(r){if(!RUNE_BP.has(r))RUNE_BP.set(r,[]);RUNE_BP.get(r).push(b)}});
 const RUNES=(()=>{const names=new Set([...RUNE_GODS.keys(),...RUNE_BP.keys()]);NOTES.filter(n=>/(^|\/)Runes(\/|$)/i.test(n.f)).forEach(n=>names.add(n.n));
-  return [...names].sort().map(n=>{const gods=RUNE_GODS.get(n)||[];return {n,gods,contested:gods.length>1,bps:RUNE_BP.get(n)||[],note:NOTES.find(x=>lc(x.n)===lc(n)&&/(^|\/)Runes(\/|$)/i.test(x.f))||null,fig:runeFigure(n,gods)}})})();
+  return [...names].sort().map(n=>{const gods=RUNE_GODS.get(n)||[];const note=NOTES.find(x=>lc(x.n)===lc(n)&&/(^|\/)Runes(\/|$)/i.test(x.f))||null;const fig=runeFigure(n,gods);
+    // The vault comes first: a Rune note's frontmatter can set figure, figureTitle, figureForm, figureNature, figureOrigin, and symbol.
+    const fm=note&&note.fm||{};if(fm.figure){fig.name=fm.figure;fig.special=true}if(fm.figureTitle)fig.title=fm.figureTitle;if(fm.figureForm)fig.form=fm.figureForm;if(fm.figureNature)fig.temper=fm.figureNature;if(fm.figureOrigin)fig.origin=fm.figureOrigin;if(fm.symbol)fig.symbol=fm.symbol;
+    return {n,gods,contested:gods.length>1,bps:RUNE_BP.get(n)||[],note,fig}})})();
 const RUNE_IDX=new Map(RUNES.map(r=>[lc(r.n),r]));
 
 TYPES.rune={arr:RUNES,tab:'runes',label:'Rune'};RUNES.forEach((x,i)=>{x._t='rune';x._i=i;x.cat=x.fig.cat});
@@ -1286,13 +1289,12 @@ const MODAL={
     const f=r.fig,rivals=r.contested?r.gods.map(godKey):[];
     return {title:'ᚱ '+esc(r.n),ep:esc(f.name)+', '+esc(f.title),kind:'Rune · '+esc(r.cat),strip:r.contested?'var(--red)':'',
       badges:`<span class="b acc">${esc(r.cat)}</span>${r.contested?'<span class="b red">Contested</span>':''}${r.gods.length?'':'<span class="b ghost">Unclaimed</span>'}`,
-      body:`<div class="callout" style="border-color:var(--gold)"><b>The figure behind the Rune: ${esc(f.name)}</b>, ${esc(f.title)}<div style="margin-top:6px">${esc(f.form)}</div></div>`
+      body:(r.note?`<div class="prose vault" style="font-family:var(--sans);font-size:.92rem">${mdVault(r.note.md)}</div>`:'')+`<div class="callout" style="border-color:var(--gold)"><b>The figure behind the Rune: ${esc(f.name)}</b>, ${esc(f.title)}<div style="margin-top:6px">${esc(f.form)}</div></div>`
         +kv([['Kind',esc(r.cat)],['Symbol',esc(f.symbol)],['Held by',r.gods.length?r.gods.length+' god'+(r.gods.length>1?'s':''):'No god'],['Relics',r.bps.length||'']])
-        +`<div class="lore"><h5>Nature</h5><p>${esc(f.temper)}</p>${f.origin?`<h5>Origin</h5><p>${esc(f.origin)}</p>`:''}<h5>The gods</h5><p>${r.gods.length?(r.contested?`${esc(rivals.slice(0,-1).join(', '))} and ${esc(rivals.slice(-1)[0])} all claim ${esc(r.n)}, and the feud between them never cools. ${esc(f.name)} has favored none of them.`:`${esc(godKey(r.gods[0]))} holds ${esc(r.n)} alone, and draws on ${esc(f.name)}'s power through it.`):`No god holds ${esc(r.n)}. Its power reaches the world only through relics that hold a fragment of it.`}</p></div>`
+        +`<div class="lore"><h5>Nature</h5><p>${esc(f.temper)}</p>${f.origin?`<h5>Origin</h5><p>${esc(f.origin)}</p>`:''}<h5>The gods</h5><p>${r.gods.length?(r.contested?`${esc(rivals.length>2?rivals.slice(0,-1).join(', ')+',':rivals[0])} and ${esc(rivals.slice(-1)[0])} ${rivals.length>2?'all ':'both '}claim ${esc(r.n)}, and the feud between them never cools. ${esc(f.name)} has favored none of them.`:`${esc(godKey(r.gods[0]))} holds ${esc(r.n)} alone, and draws on ${esc(f.name)}'s power through it.`):`No god holds ${esc(r.n)}. Its power reaches the world only through relics that hold a fragment of it.`}</p></div>`
         +blk('Held by',r.gods.length?`<div class="chips">${r.gods.map(g=>refChip(g,esc(godKey(g)),g.grp.replace(' Pantheon',''))).join('')}</div>`:'')
         +blk('Relics that channel it',r.bps.length?`<div class="chips">${r.bps.slice(0,24).map(b=>refChip(b,esc(b.n),b.cat)).join('')}</div>`:'',r.bps.length?String(r.bps.length):'')
-        +(r.note?blk('From the vault',`<div class="prose vault" style="font-family:var(--sans);font-size:.9rem">${mdVault(r.note.md)}</div>`):'')
-        +`<div class="note" style="margin:0">${f.special?'This figure comes from the campaign\'s own lore.':'The figure is website lore written for this Rune; edit it in the Runes section of the site template.'}</div>`};
+        +`<div class="note" style="margin:0">${f.special?'This figure comes from the campaign\'s own lore.':'The figure is website lore written for this Rune. To replace it, add figure, figureTitle, figureForm, figureNature, figureOrigin, or symbol to the Rune\'s note in the vault and re-import.'}</div>`};
   },
   realm(r){
     const mats=MATS.filter(m=>m.realm===r.n),mons=MONSTERS.filter(m=>m.realm===r.n).sort((a,b)=>a.g-b.g||byName(a,b)),gods=GODS.filter(g=>g.home===r.n);
