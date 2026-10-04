@@ -1,4 +1,4 @@
-// Mirrors the Obsidian vault into this repo's vault/ folder (and FAND.html into app/).
+// Mirrors the Obsidian vault into this repo's vault/ folder. app/FAND.html is NOT touched: it is built by generators/buildapp.js.
 // Leaves out secrets and machine-local files: .mcp.json (writes a placeholder copy instead),
 // .claude/, .obsidian/plugins/ (plugin data can hold API keys), .obsidian/workspace.json.
 // Usage (from the repo's tools folder):  node sync-vault.js        -> dry run
@@ -33,8 +33,6 @@ if (fs.existsSync(mcpSrc)) {
   var md = path.join(DEST, '.mcp.example.json'); wanted[path.normalize(md)] = 1;
   if (!fs.existsSync(md) || fs.readFileSync(md, 'utf8') !== ex) { stats.copied++; if (MODE === 'go') { mkdirp(DEST); fs.writeFileSync(md, ex); } } else stats.unchanged++;
 }
-// FAND.html -> app/
-copy(path.join(VAULT, 'FAND', 'Atrious', 'FAND.html'), path.join(REPO, 'app', 'FAND.html'));
 // prune files in vault/ that no longer exist in the vault
 function prune(d) {
   if (!fs.existsSync(d)) return;
