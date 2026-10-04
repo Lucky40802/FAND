@@ -1,0 +1,29 @@
+---
+realm: "Mysterious"
+tier: 2
+grade: 10
+rank: 20
+itemLevel: 10
+rarity: "Rare"
+type: "Bone / Fang / Horn / Scale"
+property: "Freezing"
+potency: 4
+source: "Monster drop"
+dropsFrom: "Ancient Silver Dragon"
+gatheredBy: ""
+foundIn: ""
+usedInBlueprints: 0
+price: 1000
+tags: [material]
+---
+
+# Ancient Silver Dragon Scale
+
+*Mysterious 10 · Bone / Fang / Horn / Scale · Rare*
+
+- **Grade:** [[Mysterious Realm|Mysterious]] 10 (Material Rank 20, Item Level 10)
+- **Property:** **Freezing** (Potency 4): Weapon: +4d6 cold damage, and a hit cuts the target's speed by 10 ft. Armor: cold resistance.
+- **Price:** 1,000 gp each (merchants buy at half) (see [[FAND/Atrious/Economy|Economy]])
+- **Drops from:** Ancient Silver Dragon (see [[FAND/Atrious/Bestiary/Mysterious Bestiary|Mysterious Bestiary]])
+
+See [[FAND/Atrious/Material Properties|Material Properties]] and [[FAND/Atrious/Custom Blueprints|Custom Blueprints]].

@@ -1,0 +1,20 @@
+filters:
+  and:
+    - school == "Nature Magic"
+views:
+  - type: table
+    name: Nature Magic Spells
+    order:
+      - file.name
+      - level
+      - class
+      - castingTime
+      - range
+      - duration
+      - components
+      - damage
+    sort:
+      - property: level
+        direction: ASC
+      - property: duration
+        direction: ASC

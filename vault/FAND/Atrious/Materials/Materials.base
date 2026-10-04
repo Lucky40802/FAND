@@ -1,0 +1,346 @@
+filters:
+  and:
+    - file.inFolder("FAND/Atrious/Materials")
+views:
+  - type: table
+    name: All Materials
+    order:
+      - file.name
+      - realm
+      - grade
+      - rank
+      - itemLevel
+      - rarity
+      - type
+      - property
+      - potency
+      - price
+      - source
+      - dropsFrom
+      - gatheredBy
+      - usedInBlueprints
+    sort:
+      - property: rank
+        direction: ASC
+  - type: table
+    name: Monster Drops
+    filters:
+      and:
+        - source == "Monster drop"
+    order:
+      - file.name
+      - realm
+      - grade
+      - rank
+      - itemLevel
+      - rarity
+      - type
+      - property
+      - potency
+      - price
+      - source
+      - dropsFrom
+      - gatheredBy
+      - usedInBlueprints
+    sort:
+      - property: rank
+        direction: ASC
+  - type: table
+    name: Gathered
+    filters:
+      and:
+        - source == "Gathered"
+    order:
+      - file.name
+      - realm
+      - grade
+      - rank
+      - itemLevel
+      - rarity
+      - type
+      - property
+      - potency
+      - price
+      - source
+      - dropsFrom
+      - gatheredBy
+      - usedInBlueprints
+    sort:
+      - property: rank
+        direction: ASC
+  - type: table
+    name: Blueprint Materials
+    filters:
+      and:
+        - source == "Blueprint material"
+    order:
+      - file.name
+      - realm
+      - grade
+      - rank
+      - itemLevel
+      - rarity
+      - type
+      - property
+      - potency
+      - price
+      - source
+      - dropsFrom
+      - gatheredBy
+      - usedInBlueprints
+    sort:
+      - property: rank
+        direction: ASC
+  - type: table
+    name: Human
+    filters:
+      and:
+        - realm == "Human"
+    order:
+      - file.name
+      - realm
+      - grade
+      - rank
+      - itemLevel
+      - rarity
+      - type
+      - property
+      - potency
+      - price
+      - source
+      - dropsFrom
+      - gatheredBy
+      - usedInBlueprints
+    sort:
+      - property: rank
+        direction: ASC
+  - type: table
+    name: Mysterious
+    filters:
+      and:
+        - realm == "Mysterious"
+    order:
+      - file.name
+      - realm
+      - grade
+      - rank
+      - itemLevel
+      - rarity
+      - type
+      - property
+      - potency
+      - price
+      - source
+      - dropsFrom
+      - gatheredBy
+      - usedInBlueprints
+    sort:
+      - property: rank
+        direction: ASC
+  - type: table
+    name: Hell
+    filters:
+      and:
+        - realm == "Hell"
+    order:
+      - file.name
+      - realm
+      - grade
+      - rank
+      - itemLevel
+      - rarity
+      - type
+      - property
+      - potency
+      - price
+      - source
+      - dropsFrom
+      - gatheredBy
+      - usedInBlueprints
+    sort:
+      - property: rank
+        direction: ASC
+  - type: table
+    name: Heaven
+    filters:
+      and:
+        - realm == "Heaven"
+    order:
+      - file.name
+      - realm
+      - grade
+      - rank
+      - itemLevel
+      - rarity
+      - type
+      - property
+      - potency
+      - price
+      - source
+      - dropsFrom
+      - gatheredBy
+      - usedInBlueprints
+    sort:
+      - property: rank
+        direction: ASC
+  - type: table
+    name: Chaos
+    filters:
+      and:
+        - realm == "Chaos"
+    order:
+      - file.name
+      - realm
+      - grade
+      - rank
+      - itemLevel
+      - rarity
+      - type
+      - property
+      - potency
+      - price
+      - source
+      - dropsFrom
+      - gatheredBy
+      - usedInBlueprints
+    sort:
+      - property: rank
+        direction: ASC
+  - type: table
+    name: Abyss
+    filters:
+      and:
+        - realm == "Abyss"
+    order:
+      - file.name
+      - realm
+      - grade
+      - rank
+      - itemLevel
+      - rarity
+      - type
+      - property
+      - potency
+      - price
+      - source
+      - dropsFrom
+      - gatheredBy
+      - usedInBlueprints
+    sort:
+      - property: rank
+        direction: ASC
+  - type: table
+    name: Inner Realm
+    filters:
+      and:
+        - realm == "Inner Realm"
+    order:
+      - file.name
+      - realm
+      - grade
+      - rank
+      - itemLevel
+      - rarity
+      - type
+      - property
+      - potency
+      - price
+      - source
+      - dropsFrom
+      - gatheredBy
+      - usedInBlueprints
+    sort:
+      - property: rank
+        direction: ASC
+  - type: table
+    name: Outer Realm
+    filters:
+      and:
+        - realm == "Outer Realm"
+    order:
+      - file.name
+      - realm
+      - grade
+      - rank
+      - itemLevel
+      - rarity
+      - type
+      - property
+      - potency
+      - price
+      - source
+      - dropsFrom
+      - gatheredBy
+      - usedInBlueprints
+    sort:
+      - property: rank
+        direction: ASC
+  - type: table
+    name: Void
+    filters:
+      and:
+        - realm == "Void"
+    order:
+      - file.name
+      - realm
+      - grade
+      - rank
+      - itemLevel
+      - rarity
+      - type
+      - property
+      - potency
+      - price
+      - source
+      - dropsFrom
+      - gatheredBy
+      - usedInBlueprints
+    sort:
+      - property: rank
+        direction: ASC
+  - type: table
+    name: Inner Void
+    filters:
+      and:
+        - realm == "Inner Void"
+    order:
+      - file.name
+      - realm
+      - grade
+      - rank
+      - itemLevel
+      - rarity
+      - type
+      - property
+      - potency
+      - price
+      - source
+      - dropsFrom
+      - gatheredBy
+      - usedInBlueprints
+    sort:
+      - property: rank
+        direction: ASC
+  - type: table
+    name: Primordial
+    filters:
+      and:
+        - realm == "Primordial"
+    order:
+      - file.name
+      - realm
+      - grade
+      - rank
+      - itemLevel
+      - rarity
+      - type
+      - property
+      - potency
+      - price
+      - source
+      - dropsFrom
+      - gatheredBy
+      - usedInBlueprints
+    sort:
+      - property: rank
+        direction: ASC

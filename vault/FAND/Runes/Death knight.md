@@ -1,0 +1,1 @@
+Needs a corpse that was already a powerful warrior in life, holding onto around half the original's power and, unlike almost everything weaker on this list, its actual combat skill too — though a corpse that strong is also the hardest to actually raise, since the chance of success drops fast the further its level sits above yours.

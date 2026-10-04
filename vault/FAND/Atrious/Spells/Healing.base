@@ -1,0 +1,18 @@
+filters:
+  and:
+    - school == "Healing"
+views:
+  - type: table
+    name: Healing Spells
+    order:
+      - file.name
+      - level
+      - class
+      - castingTime
+      - range
+      - duration
+      - components
+      - damage
+    sort:
+      - property: level
+        direction: ASC

@@ -1,0 +1,15 @@
+filters:
+  and:
+    - school == "Infernal"
+views:
+  - type: table
+    name: Infernal Spells
+    order:
+      - file.name
+      - level
+      - class
+      - castingTime
+      - range
+      - duration
+      - components
+      - damage

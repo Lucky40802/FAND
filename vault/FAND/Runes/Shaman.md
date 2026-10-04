@@ -1,0 +1,5 @@
+Shaman isn't a Law or a Class in its own right — it's a description of a bloodline, the same way [[Elves]] is. Those born into it sit closer to the [[Spirit Realm]] than an ordinary mortal, and draw more readily on whatever's left of a progenitor spirit when they acquire a [[Class]] tied to one.
+
+In practice this means a Shaman attempting a Tertiary or Secondary acquisition gets more out of it than someone without the bloodline would from the same relic — the diluted connection to a progenitor like [[Ignis]], [[Gnome]], [[Undine]], or [[Sylph]] simply carries further through Shaman blood. It doesn't grant power on its own; there's still a real acquisition to make, per [[Class]]. It just makes whatever's acquired go further.
+
+Shamanic bloodlines aren't tied to any one Law or element specifically. A Shaman descended from a line that's worked with [[Fire]] for generations draws no special advantage toward [[Water]] — the bloodline sharpens whatever connection is actually made, rather than granting a standing one.

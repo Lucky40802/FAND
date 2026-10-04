@@ -1,0 +1,27 @@
+---
+profession: "Carving"
+specialty: "Dragon Carving"
+category: "Armor"
+level: "2"
+damage: ""
+rarity: "Common"
+ac: "1"
+armorType: "Piece"
+slot: "Shoulders"
+materials: "Dragonscale"
+materialGrade: "Mysterious 6"
+materialRank: "16"
+property: "Piercing Edge"
+potency: "1"
+---
+
+# Scale Pauldron
+
+*Armor — [[FAND/Atrious/Professions/Carving|Carving]] (Dragon Carving) — Common*
+
+A single shoulder piece of shaped dragonscale. Deflects slashing attacks on a roll of 19-20, dealing no damage.
+
+## Material Property
+**Piercing Edge** (Potency 1, from Dragonscale): Weapon: ignores 2 AC (see Armor Class) and crits on 19–20 (18–20 at Potency 6+).
+
+See [[FAND/Atrious/Material Properties|Material Properties]].

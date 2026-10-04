@@ -1,0 +1,18 @@
+filters:
+  and:
+    - school == "Chronomancy"
+views:
+  - type: table
+    name: Chronomancy Spells
+    order:
+      - file.name
+      - level
+      - class
+      - castingTime
+      - range
+      - duration
+      - components
+      - damage
+    sort:
+      - property: level
+        direction: ASC

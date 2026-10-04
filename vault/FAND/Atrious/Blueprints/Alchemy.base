@@ -1,0 +1,22 @@
+filters:
+  and:
+    - profession == "Alchemy"
+views:
+  - type: table
+    name: Alchemy Blueprints
+    order:
+      - file.name
+      - specialty
+      - category
+      - level
+      - rarity
+      - damage
+      - ac
+      - armorType
+      - slot
+      - materials
+      - property
+      - potency
+    sort:
+      - property: level
+        direction: ASC

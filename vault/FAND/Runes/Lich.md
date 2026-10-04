@@ -1,0 +1,1 @@
+Not a summon either — a necromancer's own body and Spirit, deliberately carried into undeath rather than raised from someone else's corpse, which is why it's the only type here that keeps all of its original power instead of a fraction.

@@ -1,0 +1,18 @@
+filters:
+  and:
+    - school == "Necromancy"
+views:
+  - type: table
+    name: Necromancy Spells
+    order:
+      - file.name
+      - level
+      - class
+      - castingTime
+      - range
+      - duration
+      - components
+      - damage
+    sort:
+      - property: level
+        direction: ASC

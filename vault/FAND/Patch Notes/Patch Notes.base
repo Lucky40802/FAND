@@ -1,0 +1,341 @@
+filters:
+  and:
+    - file.inFolder("FAND/Patch Notes")
+views:
+  - type: table
+    name: All Versions
+    order:
+      - file.name
+      - version
+      - date
+      - title
+      - areas
+      - added
+      - changed
+      - fixed
+    sort:
+      - property: version
+        direction: DESC
+  - type: table
+    name: Armor Class
+    filters:
+      and:
+        - areas.contains("Armor Class")
+    order:
+      - file.name
+      - version
+      - date
+      - title
+      - areas
+      - added
+      - changed
+      - fixed
+    sort:
+      - property: version
+        direction: DESC
+  - type: table
+    name: Bestiary
+    filters:
+      and:
+        - areas.contains("Bestiary")
+    order:
+      - file.name
+      - version
+      - date
+      - title
+      - areas
+      - added
+      - changed
+      - fixed
+    sort:
+      - property: version
+        direction: DESC
+  - type: table
+    name: Blueprints
+    filters:
+      and:
+        - areas.contains("Blueprints")
+    order:
+      - file.name
+      - version
+      - date
+      - title
+      - areas
+      - added
+      - changed
+      - fixed
+    sort:
+      - property: version
+        direction: DESC
+  - type: table
+    name: Cleanup
+    filters:
+      and:
+        - areas.contains("Cleanup")
+    order:
+      - file.name
+      - version
+      - date
+      - title
+      - areas
+      - added
+      - changed
+      - fixed
+    sort:
+      - property: version
+        direction: DESC
+  - type: table
+    name: Contracts
+    filters:
+      and:
+        - areas.contains("Contracts")
+    order:
+      - file.name
+      - version
+      - date
+      - title
+      - areas
+      - added
+      - changed
+      - fixed
+    sort:
+      - property: version
+        direction: DESC
+  - type: table
+    name: Crafting
+    filters:
+      and:
+        - areas.contains("Crafting")
+    order:
+      - file.name
+      - version
+      - date
+      - title
+      - areas
+      - added
+      - changed
+      - fixed
+    sort:
+      - property: version
+        direction: DESC
+  - type: table
+    name: Documentation
+    filters:
+      and:
+        - areas.contains("Documentation")
+    order:
+      - file.name
+      - version
+      - date
+      - title
+      - areas
+      - added
+      - changed
+      - fixed
+    sort:
+      - property: version
+        direction: DESC
+  - type: table
+    name: FAND.html
+    filters:
+      and:
+        - areas.contains("FAND.html")
+    order:
+      - file.name
+      - version
+      - date
+      - title
+      - areas
+      - added
+      - changed
+      - fixed
+    sort:
+      - property: version
+        direction: DESC
+  - type: table
+    name: Gods
+    filters:
+      and:
+        - areas.contains("Gods")
+    order:
+      - file.name
+      - version
+      - date
+      - title
+      - areas
+      - added
+      - changed
+      - fixed
+    sort:
+      - property: version
+        direction: DESC
+  - type: table
+    name: Lore
+    filters:
+      and:
+        - areas.contains("Lore")
+    order:
+      - file.name
+      - version
+      - date
+      - title
+      - areas
+      - added
+      - changed
+      - fixed
+    sort:
+      - property: version
+        direction: DESC
+  - type: table
+    name: Materials
+    filters:
+      and:
+        - areas.contains("Materials")
+    order:
+      - file.name
+      - version
+      - date
+      - title
+      - areas
+      - added
+      - changed
+      - fixed
+    sort:
+      - property: version
+        direction: DESC
+  - type: table
+    name: Party
+    filters:
+      and:
+        - areas.contains("Party")
+    order:
+      - file.name
+      - version
+      - date
+      - title
+      - areas
+      - added
+      - changed
+      - fixed
+    sort:
+      - property: version
+        direction: DESC
+  - type: table
+    name: Patch Notes
+    filters:
+      and:
+        - areas.contains("Patch Notes")
+    order:
+      - file.name
+      - version
+      - date
+      - title
+      - areas
+      - added
+      - changed
+      - fixed
+    sort:
+      - property: version
+        direction: DESC
+  - type: table
+    name: Policy
+    filters:
+      and:
+        - areas.contains("Policy")
+    order:
+      - file.name
+      - version
+      - date
+      - title
+      - areas
+      - added
+      - changed
+      - fixed
+    sort:
+      - property: version
+        direction: DESC
+  - type: table
+    name: Professions
+    filters:
+      and:
+        - areas.contains("Professions")
+    order:
+      - file.name
+      - version
+      - date
+      - title
+      - areas
+      - added
+      - changed
+      - fixed
+    sort:
+      - property: version
+        direction: DESC
+  - type: table
+    name: Realms
+    filters:
+      and:
+        - areas.contains("Realms")
+    order:
+      - file.name
+      - version
+      - date
+      - title
+      - areas
+      - added
+      - changed
+      - fixed
+    sort:
+      - property: version
+        direction: DESC
+  - type: table
+    name: Runes
+    filters:
+      and:
+        - areas.contains("Runes")
+    order:
+      - file.name
+      - version
+      - date
+      - title
+      - areas
+      - added
+      - changed
+      - fixed
+    sort:
+      - property: version
+        direction: DESC
+  - type: table
+    name: Spells
+    filters:
+      and:
+        - areas.contains("Spells")
+    order:
+      - file.name
+      - version
+      - date
+      - title
+      - areas
+      - added
+      - changed
+      - fixed
+    sort:
+      - property: version
+        direction: DESC
+  - type: table
+    name: Subclasses
+    filters:
+      and:
+        - areas.contains("Subclasses")
+    order:
+      - file.name
+      - version
+      - date
+      - title
+      - areas
+      - added
+      - changed
+      - fixed
+    sort:
+      - property: version
+        direction: DESC

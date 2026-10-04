@@ -1,0 +1,15 @@
+filters:
+  and:
+    - 'school == "Runic Magic"'
+views:
+  - type: table
+    name: Runic Magic Spells
+    order:
+      - file.name
+      - level
+      - class
+      - castingTime
+      - range
+      - duration
+      - components
+      - damage

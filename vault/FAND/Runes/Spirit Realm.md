@@ -1,0 +1,5 @@
+The Spirit Realm is where the progenitor spirits — [[Ignis]], [[Gnome]], [[Undine]], [[Sylph]], and the rest of the entities the Laws were pulled from — exist apart from the mortal world. Most progenitors are already dead; their corpses became the Laws mortals now draw on, and what's left of them in the Spirit Realm is closer to residue than a living presence.
+
+Not every progenitor died, though. [[Iron]] is the clearest known exception — still trapped in the Spirit Realm rather than dead, which is why Iron's power behaves differently from its siblings' and why no confirmed [[Class]] has been built around it yet. What keeps a progenitor alive there instead of letting it die into its Law is not understood, even by those who study the Laws closely.
+
+The Spirit Realm isn't accessible to mortals under ordinary circumstances. What little interacts with it does so indirectly — through the diluted Laws themselves, or through the [[Shaman]] and [[Elves]] bloodlines, who are said to sit closer to it than most mortals ever will.

@@ -1,0 +1,15 @@
+filters:
+  and:
+    - 'school == "Psionics"'
+views:
+  - type: table
+    name: Psionics Spells
+    order:
+      - file.name
+      - level
+      - class
+      - castingTime
+      - range
+      - duration
+      - components
+      - damage

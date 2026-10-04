@@ -1,0 +1,15 @@
+filters:
+  and:
+    - 'school == "Enchantment"'
+views:
+  - type: table
+    name: Enchantment Spells
+    order:
+      - file.name
+      - level
+      - class
+      - castingTime
+      - range
+      - duration
+      - components
+      - damage

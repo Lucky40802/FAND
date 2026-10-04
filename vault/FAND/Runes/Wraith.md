@@ -1,0 +1,1 @@
+Has no [[Corpse]] at all, summoned instead from a fragment of Spirit left over after death, weaker in body than almost anything on this list but the first to hold onto a sliver of the original's magic instead of none.

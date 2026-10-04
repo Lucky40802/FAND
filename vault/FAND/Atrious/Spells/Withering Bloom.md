@@ -1,0 +1,22 @@
+---
+school: "Nature Magic"
+tier: "Tertiary"
+rune: ""
+class: "Druid, Ranger"
+level: "1"
+castingTime: "1 Action"
+range: "40 ft"
+duration: "Instant"
+components: "V, S"
+damage: "None"
+tags: [tertiary]
+---
+
+# Withering Bloom
+
+*Tertiary-tier Nature Magic*
+
+A nature magic working most journeymen pick up early and never stop using. The caster fixes on a single target within range. Unless it succeeds on a Constitution saving throw, it has disadvantage on attack rolls until the end of its next turn. Widely known among practitioners of this school.
+
+
+[[FAND/Atrious/Spells/Nature Magic (School)|Nature Magic]]

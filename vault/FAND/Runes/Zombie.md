@@ -1,0 +1,1 @@
+Needs a corpse with its [[Flesh]] still mostly intact, keeping slightly more power than a [[Skeleton]] and just enough crude muscle memory to move the way it used to, though never with any skill behind it.

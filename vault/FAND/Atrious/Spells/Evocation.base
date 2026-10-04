@@ -1,0 +1,18 @@
+filters:
+  and:
+    - school == "Evocation"
+views:
+  - type: table
+    name: Evocation Spells
+    order:
+      - file.name
+      - level
+      - class
+      - castingTime
+      - range
+      - duration
+      - components
+      - damage
+    sort:
+      - property: level
+        direction: ASC

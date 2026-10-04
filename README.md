@@ -1,8 +1,9 @@
 # FAND
 
-Non-Obsidian files for **FAND**, a homebrew D&D campaign. The campaign notes themselves live in an Obsidian vault; this repository holds the parts that aren't Obsidian notes:
+Everything for **FAND**, a homebrew D&D campaign: a mirror of the Obsidian vault, the database app, and the scripts that maintain them.
 
 - **`app/FAND.html`**: a single self-contained web app (about 26 MB) for browsing Blueprints, spells, materials, subclasses, gods, demons, patrons, and the Bestiary. Open it in any browser; it needs no server.
+- **`vault/`**: a mirror of the Obsidian vault: all notes under `vault/FAND/`, `CLAUDE.md`, and the safe parts of `.obsidian/` settings. Secrets and machine-local files are left out (see below). Open `vault/` as an Obsidian vault to browse it.
 - **`tools/`**: the Node scripts and data files used to generate and maintain the vault's Bestiary, Gathering, Material Index, materials database, God Roster, and Blueprints.
 
 ## Requirements
@@ -16,6 +17,16 @@ Non-Obsidian files for **FAND**, a homebrew D&D campaign. The campaign notes the
 | `tools/generators/` | Scripts that write vault pages |
 | `tools/checks/` | Read-only scans |
 | `tools/oneoff/` | Migration scripts already applied to the vault, kept for reference. Don't rerun them; most aren't idempotent |
+
+## Syncing the vault
+Run `node sync-vault.js go` from the `tools` folder to mirror the live vault into `vault/` (and its `FAND.html` into `app/`); without `go` it only reports what would change. It deletes files from `vault/` that were removed from the live vault.
+
+Left out on purpose:
+- `.mcp.json`: holds the Obsidian Local REST API key. A copy with a placeholder is saved as `vault/.mcp.example.json`.
+- `.obsidian/plugins/`: plugin data can store API keys.
+- `.obsidian/workspace.json`: open tabs and panes only.
+- `.claude/`: machine-local Claude Code settings.
+- `FAND/Atrious/FAND.html`: kept once, in `app/`.
 
 ## Generators
 Run from the `tools` folder. With no argument they do a dry run; add `go` to write.

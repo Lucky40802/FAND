@@ -1,0 +1,30 @@
+---
+realm: "Human"
+tier: 1
+grade: 7
+rank: 7
+itemLevel: 4
+rarity: "Uncommon"
+type: "Hide / Cloth / Fiber"
+property: "Venomous"
+potency: 1
+source: "Monster drop"
+dropsFrom: "Wyvern"
+gatheredBy: ""
+foundIn: ""
+usedInBlueprints: 0
+price: 35
+tags: [material]
+---
+
+# Wyvern Wing Membrane
+
+*Human 7 · Hide / Cloth / Fiber · Uncommon*
+
+- **Grade:** [[Mortal Realm|Human]] 7 (Material Rank 7, Item Level 4)
+- **Property:** **Venomous** (Potency 1): Weapon: +1d6 poison damage; Constitution save (DC 12) or poisoned. Armor: poison resistance.
+- **Price:** 35 gp each (merchants buy at half) (see [[FAND/Atrious/Economy|Economy]])
+- **Drops from:** Wyvern (see [[FAND/Atrious/Bestiary/Human Bestiary|Human Bestiary]])
+- **Used for:** Gliders, light cloaks
+
+See [[FAND/Atrious/Material Properties|Material Properties]] and [[FAND/Atrious/Custom Blueprints|Custom Blueprints]].

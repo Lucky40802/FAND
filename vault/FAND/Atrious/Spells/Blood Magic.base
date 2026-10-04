@@ -1,0 +1,15 @@
+filters:
+  and:
+    - school == "Blood Magic"
+views:
+  - type: table
+    name: Blood Magic Spells
+    order:
+      - file.name
+      - level
+      - class
+      - castingTime
+      - range
+      - duration
+      - components
+      - damage

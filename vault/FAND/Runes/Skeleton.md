@@ -1,0 +1,1 @@
+Skeleton are considered the worst of the summon as it can be made from any corpse taking around 1/20 of the original being power being unable to do anything magical or use any skill only being physical.

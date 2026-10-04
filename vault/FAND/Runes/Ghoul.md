@@ -1,0 +1,1 @@
+A step above [[Skeleton]], made from a corpse only partway through [[Decay]] rather than bare [[Bones]], holding onto around a tenth of the original's power along with a predator's cunning instead of nothing at all.

@@ -1,0 +1,22 @@
+filters:
+  and:
+    - profession == "Navigation"
+views:
+  - type: table
+    name: Navigation Blueprints
+    order:
+      - file.name
+      - specialty
+      - category
+      - level
+      - rarity
+      - damage
+      - ac
+      - armorType
+      - slot
+      - materials
+      - property
+      - potency
+    sort:
+      - property: level
+        direction: ASC

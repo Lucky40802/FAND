@@ -1,0 +1,15 @@
+filters:
+  and:
+    - 'school == "Shadow Magic"'
+views:
+  - type: table
+    name: Shadow Magic Spells
+    order:
+      - file.name
+      - level
+      - class
+      - castingTime
+      - range
+      - duration
+      - components
+      - damage

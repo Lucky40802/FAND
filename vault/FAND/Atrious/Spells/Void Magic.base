@@ -1,0 +1,15 @@
+filters:
+  and:
+    - 'school == "Void Magic"'
+views:
+  - type: table
+    name: Void Magic Spells
+    order:
+      - file.name
+      - level
+      - class
+      - castingTime
+      - range
+      - duration
+      - components
+      - damage

@@ -5,3 +5,9 @@ backup_*/
 tools/out/
 *.txt
 node_modules/
+
+# never commit secrets or machine-local vault files
+.mcp.json
+vault/.claude/
+vault/.obsidian/plugins/
+vault/.obsidian/workspace*.json

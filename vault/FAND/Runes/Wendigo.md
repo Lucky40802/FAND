@@ -1,0 +1,1 @@
+Starts as weak as a [[Ghoul]] but doesn't stay that way, growing stronger the more Life it consumes from the living rather than simply holding onto what the corpse had left, tied loosely to the same hunger behind [[Famine]].

@@ -1,0 +1,17 @@
+---
+profession: "Carving"
+specialty: "Dragon Carving"
+category: "Artifact"
+level: "14"
+damage: ""
+rarity: "Very Rare"
+materials: "Aboleth Slime"
+materialGrade: "Mysterious 6"
+materialRank: "16"
+---
+
+# Aboleth Slime Talisman x1
+
+*Artifact — [[FAND/Atrious/Professions/Carving|Carving]] (Dragon Carving) — Very Rare*
+
+A talisman incorporating Aboleth Slime (Creature Harvest). Crystallised slime from an aboleth's body. Items incorporating aboleth slime deal +1d6 psychic damage. Creatures hit must CON save DC 15 or begin transforming — their skin becomes translucent over 1 hour. Until cured, they cannot be more than 10 feet from a source of water. Bonus: Enslavement risk.

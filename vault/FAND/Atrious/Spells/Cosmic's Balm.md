@@ -1,0 +1,22 @@
+---
+school: "Healing"
+tier: "Primary"
+rune: "Cosmic"
+class: "Bard, Cleric, Druid, Paladin"
+level: "9"
+castingTime: "1 Action"
+range: "90 ft (30-ft radius)"
+duration: "Instant"
+components: "V, S, M (a Primary relic of Cosmic)"
+damage: "None"
+tags: [primary]
+---
+
+# Cosmic's Balm
+
+*Primary-tier Healing — [[Cosmic]]*
+
+This working only functions at all because it channels a fragment of [[Cosmic]] directly — no substitute relic or lesser link will do. Reserved for those who hold a genuine Primary connection to that Law, following the [[Class]] acquisition system. Its effect is unique to the caster's bond with Cosmic and can't be replicated by any other means.
+
+
+[[FAND/Atrious/Spells/Healing (School)|Healing]]

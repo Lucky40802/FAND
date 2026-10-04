@@ -1,0 +1,22 @@
+filters:
+  and:
+    - profession == "Scavenging"
+views:
+  - type: table
+    name: Scavenging Blueprints
+    order:
+      - file.name
+      - specialty
+      - category
+      - level
+      - rarity
+      - damage
+      - ac
+      - armorType
+      - slot
+      - materials
+      - property
+      - potency
+    sort:
+      - property: level
+        direction: ASC

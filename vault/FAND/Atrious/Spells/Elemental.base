@@ -1,0 +1,15 @@
+filters:
+  and:
+    - 'school == "Elemental"'
+views:
+  - type: table
+    name: Elemental Spells
+    order:
+      - file.name
+      - level
+      - class
+      - castingTime
+      - range
+      - duration
+      - components
+      - damage

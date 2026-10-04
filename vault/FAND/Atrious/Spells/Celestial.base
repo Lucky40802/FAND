@@ -1,0 +1,15 @@
+filters:
+  and:
+    - 'school == "Celestial"'
+views:
+  - type: table
+    name: Celestial Spells
+    order:
+      - file.name
+      - level
+      - class
+      - castingTime
+      - range
+      - duration
+      - components
+      - damage

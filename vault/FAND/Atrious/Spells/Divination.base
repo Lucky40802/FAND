@@ -1,0 +1,15 @@
+filters:
+  and:
+    - 'school == "Divination"'
+views:
+  - type: table
+    name: Divination Spells
+    order:
+      - file.name
+      - level
+      - class
+      - castingTime
+      - range
+      - duration
+      - components
+      - damage
