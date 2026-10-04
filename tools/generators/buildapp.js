@@ -363,7 +363,7 @@ var metaLine = 'const META=' + JSON.stringify(META) + ';';
 var VENDOR = fs.readFileSync(path.join(__dirname, '..', 'app', 'vendor', 'anthropic.js'), 'utf8');
 var single = '<script>\n' + VENDOR.replace(/<\/(script)/gi, '<\\/$1') + '\n</script>\n<script>\nconst SITE=null;\n' + ['BPS', 'SPELLS', 'VAULT', 'VAULT_DETAILS'].concat(CORE.slice(1)).map(lit).join('\n') + '\n' + metaLine + '\n</script>';
 var out = tpl.split('<!--__DATA__-->').join(single);
-var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'subclasses', 'demons', 'patrons', 'forge', 'craft', 'party', 'encounter', 'hooks', 'combat', 'rules', 'tools', 'about'];
+var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'subclasses', 'demons', 'patrons', 'forge', 'craft', 'party', 'encounter', 'hooks', 'journal', 'combat', 'rules', 'tools', 'about'];
 var site = {};
 var PAGE_INFO = {
   home: ['Home', 'FAND (Fantasy and Numerous Disasters) campaign compendium: Blueprints, materials, monsters, realms, gods, spells, rules, and table tools for the world of Vestige.'],
@@ -382,6 +382,7 @@ var PAGE_INFO = {
   forge: ['Forge', 'General Blueprints for every weapon, armor piece, shield, and focus: choose a material for each part (head, haft, grip) and see the finished item, with heavy penalties for the wrong materials.'],
   craft: ['Crafting planner', 'Plan a Blueprint: every material, where to get it, what it costs, and what your crafter is missing.'],
   party: ['Party', 'Track each character: god contract, rivals, gear and traits, materials, money, and realm Pressure.'],
+  journal: ['Session journal', 'Notes from each session of the campaign, saved on your device, with links to every monster, god, material, and realm.'],
   hooks: ['Adventure hooks', 'Story starters built from the gods, Runes, realms, monsters, and Blueprints of Vestige, scaled to your party.'],
   encounter: ['Encounters', 'Build balanced encounters from a realm\'s Bestiary by party size and level.'],
   combat: ['Combat', 'Initiative, HP, and conditions, with FAND\'s flat AC applied to every hit.'],
