@@ -63,7 +63,7 @@ kbd{font-family:var(--mono);font-size:.7rem;border:1px solid var(--line3);border
 /* ── Tabs ───────────────────────────────────────────────────── */
 .tabs{display:flex;gap:2px;padding:0 12px;background:var(--bg2);border-bottom:1px solid var(--line);overflow-x:auto;flex-shrink:0;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
-.tab{background:none;border:0;border-bottom:2px solid transparent;padding:10px 12px 9px;font-size:.84rem;color:var(--muted);white-space:nowrap;display:flex;align-items:center;gap:6px}
+.tab{text-decoration:none;background:none;border:0;border-bottom:2px solid transparent;padding:10px 12px 9px;font-size:.84rem;color:var(--muted);white-space:nowrap;display:flex;align-items:center;gap:6px}
 .tab:hover{color:var(--text)}
 .tab.on{color:var(--text);border-bottom-color:var(--gold)}
 .tab .n{font-size:.68rem;color:var(--muted2);font-variant-numeric:tabular-nums}
@@ -353,9 +353,7 @@ details.fold>div{margin-top:10px}
 </div>
 <div class="toast" id="toast"></div>
 
-<script>
-/*__DATA__*/
-</script>
+<!--__DATA__-->
 <script>
 'use strict';
 // ════════════════════════════════════════════════════════════════
@@ -406,12 +404,14 @@ const rcol=n=>(REALM[n]||{}).color||'var(--muted)';
 const RAR_ORDER=['Common','Uncommon','Rare','Very Rare','Legendary','Artifact'];
 const rarRank=r=>{const i=RAR_ORDER.indexOf(r);return i<0?9:i};
 
+const SP=typeof SPELLS!=='undefined'?SPELLS:[];
+const pageUrl=t=>SITE?(t==='home'?'index.html':t+'.html'):'#/'+t;
 const TYPES={
   bp:{arr:BPS,tab:'blueprints',label:'Blueprint'},
   mat:{arr:MATS,tab:'materials',label:'Material'},
   mon:{arr:MONSTERS,tab:'bestiary',label:'Monster'},
   god:{arr:GODS,tab:'gods',label:'God'},
-  spell:{arr:SPELLS,tab:'spells',label:'Spell'},
+  spell:{arr:SP,tab:'spells',label:'Spell'},
   sub:{arr:SUBS,tab:'subclasses',label:'Subclass'},
   demon:{arr:DEMONS,tab:'demons',label:'Demon'},
   patron:{arr:PATRONS,tab:'patrons',label:'Patron'},
@@ -608,13 +608,13 @@ const VIEWS={
     toggles:[{id:'rival',label:'Contested Runes',test:g=>(g.runes||[]).some(r=>CONTESTED.includes(r))},{id:'open',label:'Open Finger seats',test:g=>g.seated!=null&&g.seated<5},{id:'pin',label:'★ Pinned',test:g=>isPinned(g)}],
     sorts:[['grp','Pantheon',(a,b)=>a.grp.localeCompare(b.grp)||byName(a,b)],['name','Name A–Z',byName],['seat','Hand size ↓',(a,b)=>(b.seated||0)-(a.seated||0)||byName(a,b)]],
   },
-  spells:{type:'spell',arr:SPELLS,title:'Spells',
+  spells:{type:'spell',arr:SP,title:'Spells',
     side:{label:'School',key:'sc'},
     hay:s=>s.n+' '+s.desc+' '+(s.cls||[]).join(' '),
     filters:[
-      {id:'cls',label:'All classes',opts:()=>opts(SPELLS.flatMap(s=>(s.cls||[]).map(c=>({c}))),x=>x.c),test:(s,v)=>(s.cls||[]).includes(v)},
+      {id:'cls',label:'All classes',opts:()=>opts(SP.flatMap(s=>(s.cls||[]).map(c=>({c}))),x=>x.c),test:(s,v)=>(s.cls||[]).includes(v)},
       {id:'lv',label:'All levels',opts:()=>Array.from({length:10},(_,i)=>[String(i),i?'Level '+i:'Cantrip']),test:(s,v)=>s.lv===+v},
-      {id:'ct',label:'Any casting time',opts:()=>opts(SPELLS,s=>s.ct),test:(s,v)=>s.ct===v},
+      {id:'ct',label:'Any casting time',opts:()=>opts(SP,s=>s.ct),test:(s,v)=>s.ct===v},
     ],
     toggles:[{id:'hascls',label:'With classes',test:s=>!!(s.cls&&s.cls.length)},{id:'nodmg',label:'Non-damage',test:s=>!s.dmg||s.dmg==='None'},{id:'pin',label:'★ Pinned',test:s=>isPinned(s)}],
     sorts:[['def','Default',null],['name','Name A–Z',byName],['lv','Level ↑',(a,b)=>a.lv-b.lv||byName(a,b)],['lvd','Level ↓',(a,b)=>b.lv-a.lv||byName(a,b)]],
@@ -633,10 +633,10 @@ const VIEWS={
 const TABS=[
   ['home','Home'],['blueprints','Blueprints',BPS.length],['materials','Materials',MATS.length],['bestiary','Bestiary',MONSTERS.length],
   ['realms','Realms',REALMS.length],['gods','Gods',GODS.length],['professions','Professions',Object.keys(PROFS).length],
-  ['spells','Spells',SPELLS.length],['subclasses','Subclasses',SUBS.length],['demons','Demons',DEMONS.length],['patrons','Patrons',PATRONS.length],
-  ['rules','Rules'],['tools','Tools'],
+  ['spells','Spells',META.counts.spells],['subclasses','Subclasses',SUBS.length],['demons','Demons',DEMONS.length],['patrons','Patrons',PATRONS.length],
+  ['rules','Rules'],['tools','Tools'],['about','About'],
 ];
-const PAGES={home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools};
+const PAGES={home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,about:renderAbout};
 
 // ════════════════════════════════════════════════════════════════
 //  State & routing
@@ -651,17 +651,22 @@ function parseHash(){
   const [path,query]=h.split('?');
   const parts=path.split('/');
   const params=new URLSearchParams(query||'');
-  return {tab:parts[0]||'home',type:parts[1],name:parts.slice(2).join('/'),params};
+  return {tab:parts[0]||'',type:parts[1],name:parts.slice(2).join('/'),params};
 }
 function hashFor(tab,x){return '#/'+tab+(x?'/'+x._t+'/'+encodeURIComponent(x.n):'')}
 function go(tab,setup){
+  if(SITE&&tab!==SITE.page){location.href=pageUrl(tab)+'#/'+tab+(setup?'?s='+encodeURIComponent(JSON.stringify(setup)):'');return}
   if(setup&&VIEWS[tab]){const s=st(tab);Object.assign(s,{q:'',side:'',f:{},tg:{},shown:60},setup)}
   history.pushState(null,'',hashFor(tab));$('content').dataset.tab='';route();
   $('content').scrollTop=0;
 }
 function route(){
-  const {tab,type,name}=parseHash();
-  const t=TABS.some(x=>x[0]===tab)?tab:'home';
+  const {tab,type,name,params}=parseHash();
+  const valid=TABS.some(x=>x[0]===tab);
+  if(SITE&&valid&&tab!==SITE.page){location.replace(pageUrl(tab)+location.hash);return}
+  const t=SITE?SITE.page:valid?tab:'home';
+  const setup=params.get('s');
+  if(setup&&VIEWS[t]){try{Object.assign(st(t),{q:'',side:'',f:{},tg:{},shown:60},JSON.parse(setup))}catch(e){}history.replaceState(null,'',hashFor(t));$('content').dataset.tab=''}
   if(t!==TAB||!$('content').dataset.tab||$('content').dataset.tab!==t){TAB=t;renderTab()}
   if(type&&TYPES[type]){
     const arr=TYPES[type].arr;
@@ -672,10 +677,10 @@ function route(){
 window.addEventListener('popstate',route);
 
 function renderTabs(){
-  $('tabs').innerHTML=TABS.map(([id,label,n])=>`<button class="tab${id===TAB?' on':''}" data-tab="${id}" role="tab" aria-selected="${id===TAB}">${label}${n!=null?`<span class="n">${fmt(n)}</span>`:''}</button>`).join('');
+  $('tabs').innerHTML=TABS.map(([id,label,n])=>`<a class="tab${id===TAB?' on':''}" href="${pageUrl(id)}" data-tab="${id}"${id===TAB?' aria-current="page"':''}>${label}${n!=null?`<span class="n">${fmt(n)}</span>`:''}</a>`).join('');
   const on=$('tabs').querySelector('.on');if(on)on.scrollIntoView({block:'nearest',inline:'nearest'});
 }
-$('tabs').addEventListener('click',e=>{const b=e.target.closest('.tab');if(b)go(b.dataset.tab)});
+$('tabs').addEventListener('click',e=>{const b=e.target.closest('.tab');if(!b||SITE||e.ctrlKey||e.metaKey||e.shiftKey)return;e.preventDefault();go(b.dataset.tab)});
 
 function renderTab(){
   renderTabs();
@@ -944,6 +949,7 @@ const MODAL={
         +kv([['Tier',r.tier],['Material ranks',`${(r.tier-1)*10+1}–${r.tier*10}`],['Item levels',`${Math.ceil(((r.tier-1)*10+1)/2)}–${r.tier*5}`],['Pressure',r.pressure],['Materials',fmt(mats.length)],['Monsters',fmt(mons.length)],['Gods at home',gods.length]])
         +blk('Monsters',`<div class="chips">${mons.slice(0,40).map(m=>refChip(m,esc(m.n),'G'+m.g)).join('')}</div>${mons.length>40?`<div style="margin-top:8px"><button class="btn" data-go="bestiary" data-setup='${esc(JSON.stringify({side:r.n}))}'>All ${fmt(mons.length)} in the Bestiary →</button></div>`:''}`,fmt(mons.length))
         +blk('Materials by grade',grades+`<div style="margin-top:10px"><button class="btn" data-go="materials" data-setup='${esc(JSON.stringify({side:r.n}))}'>Browse ${fmt(mats.length)} materials →</button></div>`)
+        +blk('Gathering',(()=>{const g=mats.filter(m=>m.where).sort((a,b)=>a.g-b.g||byName(a,b));return g.length?`<div class="mlist">${g.slice(0,30).map(m=>`<button data-ref="${ref(m)}"><span class="sw" style="width:9px;height:9px;border-radius:50%;background:${r.color}"></span>${esc(m.n)} <span class="x">G${m.g} · ${esc(m.where)}${m.by?' · '+esc(m.by):''}</span><span class="r">${m.price?gp(m.price):''}</span></button>`).join('')}</div>`:''})(),'ores, plants, and crystals')
         +blk('Gods who call it home',gods.length?`<div class="chips">${gods.map(g=>refChip(g,esc(godKey(g)))).join('')}</div>`:'')};
   },
 };
@@ -993,6 +999,7 @@ function paletteSearch(){
       h+=`<div class="pal-g">${label}</div>`;
       hits.slice(0,t==='spell'?4:6).forEach(([,x])=>{PRES.push({x});h+=palRow(x,hl(x.n,q),PRES.length-1)});
     });
+    if(!SP.length&&META.counts.spells){PRES.push({tab:'spells',setup:{q:$('pq').value.trim()}});h+=`<div class="pal-g">Spells</div><button class="pal-i" data-pi="${PRES.length-1}">Search ${fmt(META.counts.spells)} spells for “${esc($('pq').value.trim())}”<span class="r">Spells page →</span></button>`}
     const tabs=TABS.filter(([,l])=>lc(l).includes(q));
     if(tabs.length){h+=`<div class="pal-g">Sections</div>`;tabs.forEach(([id,l])=>{PRES.push({tab:id});h+=`<button class="pal-i" data-pi="${PRES.length-1}">${l}<span class="r">section</span></button>`})}
     if(!PRES.length)h=`<div class="empty" style="padding:30px">No matches for “${esc(q)}”</div>`;
@@ -1005,7 +1012,7 @@ function palRow(x,label,i){
   return `<button class="pal-i" data-pi="${i}">${col?`<span class="sw" style="width:8px;height:8px;border-radius:50%;background:${col};flex-shrink:0"></span>`:''}<span>${label}</span><span class="r">${esc(sub)}</span></button>`;
 }
 function palMark(){$('pres').querySelectorAll('.pal-i').forEach(b=>b.classList.toggle('sel',+b.dataset.pi===PSEL));const s=$('pres').querySelector('.sel');if(s)s.scrollIntoView({block:'nearest'})}
-function palPick(i){const r=PRES[i];if(!r)return;closePalette();if(r.tab){go(r.tab);return}const x=r.x;const tab=TYPES[x._t].tab;if(TAB!==tab){history.pushState(null,'',hashFor(tab));TAB=tab;renderTab()}LIST=VIEWS[TAB]?filtered():[];openItem(x)}
+function palPick(i){const r=PRES[i];if(!r)return;closePalette();if(r.tab){go(r.tab,r.setup);return}const x=r.x;const tab=TYPES[x._t].tab;if(!SITE&&TAB!==tab){history.pushState(null,'',hashFor(tab));TAB=tab;renderTab()}LIST=VIEWS[TAB]?filtered():[];openItem(x)}
 let pTimer;$('pq').addEventListener('input',()=>{clearTimeout(pTimer);pTimer=setTimeout(paletteSearch,60)});
 $('pq').addEventListener('keydown',e=>{
   if(e.key==='ArrowDown'){PSEL=Math.min(PRES.length-1,PSEL+1);palMark();e.preventDefault()}
@@ -1037,7 +1044,7 @@ function renderHome(){
   const pins=pinnedItems();
   const official=MONSTERS.filter(m=>!m.hb).length,homebrew=MONSTERS.length-official;
   const fingers=GODS.reduce((a,g)=>a+(g.hand||[]).length,0);
-  const stats=[['blueprints',BPS.length,'Blueprints'],['materials',MATS.length,'Graded materials'],['bestiary',MONSTERS.length,`Monsters · ${homebrew} homebrew`],['realms',REALMS.length,'Realm tiers'],['gods',GODS.length,`Gods · ${fingers} named Fingers`],['professions',10,'Professions'],['subclasses',SUBS.length,'Subclasses'],['spells',SPELLS.length,'Spells in the app']];
+  const stats=[['blueprints',BPS.length,'Blueprints'],['materials',MATS.length,'Graded materials'],['bestiary',MONSTERS.length,`Monsters · ${homebrew} homebrew`],['realms',REALMS.length,'Realm tiers'],['gods',GODS.length,`Gods · ${fingers} named Fingers`],['professions',10,'Professions'],['subclasses',SUBS.length,'Subclasses'],['spells',META.counts.spells,'Spells in the app']];
   $('content').innerHTML=`<div class="page">
     <section class="hero">
       <div class="badges" style="margin-bottom:12px"><span class="b gold">Version ${esc(META.version)}</span><span class="b ghost">Built ${esc(META.built)}</span></div>
@@ -1051,9 +1058,9 @@ function renderHome(){
       <div class="ladder">${REALMS.map(r=>`<button class="rung" style="--rc:${r.color}" data-ref="${ref(r)}"><span class="tier">Tier ${r.tier} · Rank ${(r.tier-1)*10+1}–${r.tier*10}</span><span class="nm">${esc(r.n)}</span><span class="ln">${fmt(MATS.filter(m=>m.realm===r.n).length)} materials · ${fmt(MONSTERS.filter(m=>m.realm===r.n).length)} monsters</span></button>`).join('')}</div></section>
     <section class="sec cols">
       <div class="panel"><h4>Start here</h4><ul>
-        <li><a href="#/rules" data-go="rules">Rules reference</a>: Armor Class, grading, refining, economy, travel, contracts.</li>
-        <li><a href="#/tools" data-go="tools">Table tools</a>: damage vs. AC, material grades, refining planner, encounter and loot roller.</li>
-        <li><a href="#/professions" data-go="professions">Professions</a>: the ten crafts, their specialties, and example Blueprints by level.</li>
+        <li><a href="${pageUrl('rules')}" data-go="rules">Rules reference</a>: Armor Class, grading, refining, economy, travel, contracts.</li>
+        <li><a href="${pageUrl('tools')}" data-go="tools">Table tools</a>: damage vs. AC, material grades, refining planner, encounter and loot roller.</li>
+        <li><a href="${pageUrl('professions')}" data-go="professions">Professions</a>: the ten crafts, their specialties, and example Blueprints by level.</li>
         <li>Press <kbd>Ctrl K</kbd> anywhere to search, <kbd>/</kbd> to filter the current list, <kbd>←</kbd> <kbd>→</kbd> to step through results.</li>
       </ul></div>
       <div class="panel"><h4>Recent changes</h4><ul>
@@ -1114,24 +1121,98 @@ function renderRules(){
       <div class="formula">damage reduction = AC ÷ (AC + 30)</div>
       <ul><li>The curve is 1/x shaped: early points of AC matter most, and reduction never reaches 100%.</li><li>Every hit deals at least 1 damage.</li><li><b>Headshots</b> are critical hits: ×1.5 damage, applied before AC.</li><li><b>Natural AC</b> (from traits and contracts) can't be looted. <b>Gear AC</b> can, but looted armor is Damaged until it's repaired.</li><li>Armor slots: Body, Head, Hands, Feet, Shoulders, Back. Shields come in Buckler, Shield, and Tower.</li><li>Official monsters convert with Natural AC = 2 × (book AC − 10) + CR.</li></ul>
       <div class="tablewrap"><table class="t"><thead><tr><th class="num">AC</th><th class="num">Reduction</th><th class="num">20 damage becomes</th><th class="num">20 as a headshot</th></tr></thead><tbody>${acRows}</tbody></table></div>
-      <p class="note">Table rounds down, minimum 1. <a href="#/tools" data-go="tools">Damage calculator →</a></p>`],
+      <p class="note">Table rounds down, minimum 1. <a href="${pageUrl('tools')}" data-go="tools">Damage calculator →</a></p>`],
     ['grading','Material Grading','v1.07, v1.10',`<p>Every material has a realm and a grade from 1 to 10. Together they give a Material Rank from 1 to 100, which sets the Item Level (1–50) of what it makes. Blueprints record their strongest material.</p>
       <div class="formula">Material Rank = (tier − 1) × 10 + grade<br>Item Level = ⌈ Rank ÷ 2 ⌉</div>${tierTable()}`],
     ['props','Material Properties','v1.13, v1.18',`<p>Every material gives one property (supplies give none). Strength scales with Potency 1–10, and grade 9–10 materials get a boost. Weapons, armor, and shields carry the property of their strongest material.</p>
       <div class="formula">Potency = min(10, max(1, ⌊Item Level ÷ 5⌋) + 1 at grade 9, + 2 at grade 10)</div>
       <details class="fold"><summary>All ${Object.keys(props).length} properties in the data</summary><div class="tablewrap"><table class="t"><thead><tr><th>Property</th><th class="num">Materials</th><th>Example text</th></tr></thead><tbody>${Object.entries(props).sort((a,b)=>b[1].n-a[1].n).map(([n,p])=>`<tr><td><a href="#" data-go="materials" data-setup='${esc(JSON.stringify({f:{pn:n}}))}' style="font-weight:600;text-decoration:none">${esc(n)}</a></td><td class="num">${p.n}</td><td style="color:var(--text2)">${esc(p.txt)}</td></tr>`).join('')}</tbody></table></div></details>`],
-    ['refining','Material Refining','v1.17',`<ul><li>Three materials of one grade refine into one of the next grade.</li><li>Moving up to the next realm takes five materials, a binding agent, and a Realm Forge.</li></ul><p class="note"><a href="#/tools" data-go="tools">Refining planner →</a></p>`],
+    ['refining','Material Refining','v1.17',`<ul><li>Three materials of one grade refine into one of the next grade.</li><li>Moving up to the next realm takes five materials, a binding agent, and a Realm Forge.</li></ul><p class="note"><a href="${pageUrl('tools')}" data-go="tools">Refining planner →</a></p>`],
     ['custom','Custom Blueprints','v1.07',`<p>Players design their own items from a primary material and up to two secondaries, then pass a design check. The item's traits come from its materials' properties. Player-made items go in the vault's <code>Blueprints/Custom/</code> folder, from its template.</p>`],
     ['economy','Economy','v1.20',`<div class="formula">price = realm base × grade   (×2 at grade 9–10; supplies cost ⅕)</div>
       <ul><li>Merchants buy at half price.</li><li>Void-grade materials and above aren't sold; they pass only between gods and their Fingers.</li><li>The Economy page in the vault also covers where to buy and sell, Blueprint prices, crafting labor, services, and contract tithes.</li></ul>
       <div class="tablewrap"><table class="t"><thead><tr><th>Realm</th><th class="num">Base</th><th class="num">Grade 1</th><th class="num">Grade 5</th><th class="num">Grade 10</th></tr></thead><tbody>${REALMS.map(r=>`<tr><td>${esc(r.n)}</td><td class="num">${r.base?gp(r.base):'—'}</td><td class="num">${r.base?gp(r.base):'not sold'}</td><td class="num">${r.base?gp(r.base*5):'—'}</td><td class="num">${r.base?gp(r.base*20):'—'}</td></tr>`).join('')}</tbody></table></div>`],
-    ['professions','Professions & Progression','v1.20–1.23',`<ul><li>Ten professions; every Blueprint has a profession and a specialty.</li><li>You start with one specialty and gain more over time. Crafting outside your specialties is at disadvantage, and each specialty has its own requirement.</li><li>Hell, Heaven, and Void metals need a Blacksmith with the matching realm specialty.</li><li>Profession XP comes from crafting, designing, refining, and gathering, with teachers and milestones.</li><li><b>Harvesting</b> gathers ore, stone, crystal, and plants. <b>Scavenging</b> strips hide, bone, blood, organs, and essences from corpses.</li></ul><p class="note"><a href="#/professions" data-go="professions">All professions →</a></p>`],
-    ['travel','Realm Travel','v1.17',`<ul><li>Each realm has a <b>Pressure</b> from 0 to 9. A traveler's <b>Attunement</b> comes from their level, contract rank, or realm-material gear.</li><li>If Pressure is higher than Attunement, the traveler suffers strain.</li><li>There are 11 travel methods, and an anchor from home makes the return trip easier.</li></ul><p class="note">The Pressure values shown in this app follow the tier order (tier − 1). Check them against the Realm Travel page in the vault.</p>`],
-    ['contracts','God Contracts','v1.08, v1.15',`<ul><li>Ten ranks, from Minor up to 1st Finger. The five Fingers form the god's Hand.</li><li>Each rank has spells, Natural AC, duties, and a reward ladder.</li><li>There are rules for rising in rank, staying loyal to one god, breaking a contract, and what happens when a god dies.</li><li>${CONTESTED.length} Runes are held by more than one god; those gods are rivals.</li></ul><p class="note"><a href="#/gods" data-go="gods">All gods →</a></p>`],
+    ['professions','Professions & Progression','v1.20–1.23',`<ul><li>Ten professions; every Blueprint has a profession and a specialty.</li><li>You start with one specialty and gain more over time. Crafting outside your specialties is at disadvantage, and each specialty has its own requirement.</li><li>Hell, Heaven, and Void metals need a Blacksmith with the matching realm specialty.</li><li>Profession XP comes from crafting, designing, refining, and gathering, with teachers and milestones.</li><li><b>Harvesting</b> gathers ore, stone, crystal, and plants. <b>Scavenging</b> strips hide, bone, blood, organs, and essences from corpses.</li></ul><p class="note"><a href="${pageUrl('professions')}" data-go="professions">All professions →</a></p>`],
+    ['travel','Realm Travel','v1.17',`<ul><li>Each realm has a <b>Pressure</b> from 0 to 9. A traveler's <b>Attunement</b> comes from their level, contract rank, or realm-material gear.</li><li>If Pressure is higher than Attunement, the traveler suffers strain.</li><li>There are 11 travel methods, and an anchor from home makes the return trip easier.</li><li>The Realm Map page in the vault diagrams every route between realms.</li></ul><p class="note">The Pressure values shown in this app follow the tier order (tier − 1). Check them against the Realm Travel page in the vault.</p>`],
+    ['contracts','God Contracts','v1.08, v1.15',`<ul><li>Ten ranks, from Minor up to 1st Finger. The five Fingers form the god's Hand.</li><li>Each rank has spells, Natural AC, duties, and a reward ladder.</li><li>There are rules for rising in rank, staying loyal to one god, breaking a contract, and what happens when a god dies.</li><li>${CONTESTED.length} Runes are held by more than one god; those gods are rivals.</li></ul><p class="note"><a href="${pageUrl('gods')}" data-go="gods">All gods →</a></p>`],
+    ['classes','Classes & Subclasses','v1.03, v1.18',`<ul><li>Official subclasses from the Player's Handbook, Xanathar's, Tasha's, and the Sword Coast guide are included as paraphrased summaries, each labeled with its source book.</li><li>Three 2024 Player's Handbook subclasses were added: Path of the World Tree, College of Dance, and Circle of the Sea.</li><li>Each class page notes which of its subclasses the 2024 Player's Handbook revised. Every class picks its subclass at level 3.</li><li>Homebrew Rune subclasses sit alongside the official ones.</li></ul><p class="note"><a href="${pageUrl('subclasses')}" data-go="subclasses">All subclasses →</a></p>`],
+    ['spells','Spells','v1.17, v1.23',`<ul><li>Every spell in the vault lists its classes. Pyramid spells get them from their school, plus the class tied to their Rune where one applies.</li><li>73 Tertiary and Secondary damage spells were turned into support spells: they now heal, cure, ward, shield, teleport, or otherwise help. Each was renamed to match its new effect and scales with spell level.</li></ul><p class="note">The vault has about 2,330 spells. The Spells page in this app holds an older, larger generated list (${fmt(META.counts.spells)}), and only some of those list classes.</p>`],
     ['monsters','Monster Stats','v1.20',`<ul><li><b>Homebrew</b> monsters have a level, HP, Natural AC, attacks, a save DC, and a signature trait from their best drop. Grade 10 monsters have boss rules.</li><li><b>Official</b> monsters have their CR, a grade from that CR, an original short description, and graded drops; no stat blocks.</li></ul><div class="formula">Natural AC = 2 × (book AC − 10) + CR</div>`],
   ];
   $('content').innerHTML=`<div class="page rules"><nav class="toc">${S.map(([id,t])=>`<a href="#rule-${id}" onclick="document.getElementById('rule-${id}').scrollIntoView();return false">${t}</a>`).join('')}</nav>
     <div>${S.map(([id,t,v,body])=>`<section class="rule" id="rule-${id}"><h3>${t}</h3><div class="src">Rules summary · ${v} · full text in the vault</div>${body}</section>`).join('')}</div></div>`;
+}
+
+function renderAbout(){
+  const V=[
+    ['1.03','58 official subclasses added as paraphrased summaries, labeled with their source book.'],
+    ['1.04–1.06','Armor Class: AC from 0, damage reduction AC ÷ (AC + 30), headshots, Natural vs. Gear AC. All 837 armor and shield Blueprints got an AC value, armor type, and slot.'],
+    ['1.07','Material Grading (realm × grade → Material Rank → Item Level) and Custom Blueprints, with a template and a Custom folder.'],
+    ['1.08','God Contracts: ten ranks from Minor to 1st Finger.'],
+    ['1.09','Realm lore pages for the Mortal, Mysterious, Chaos, Abyss, Inner, and Primordial Realms.'],
+    ['1.10','Every Blueprint material graded; Blueprints record their strongest material. Bestiaries and Gathering pages for each realm.'],
+    ['1.10–1.12','Bestiaries filled: 103 homebrew monsters with drops and 643 official monsters with CR, grade, original descriptions, and graded drops.'],
+    ['1.13','Material Properties: every material gives a property, scaled by Potency.'],
+    ['1.14','Materials database: one note per material in an Obsidian Base.'],
+    ['1.15','God Roster: all 70 gods with Runes, home realm, wants, signature materials, Finger relic, and rivals. God Contracts expanded.'],
+    ['1.16','God Roster completed: each god\'s Hand, 201 named Fingers in total.'],
+    ['1.17','Material Refining and Realm Travel. Spell classes filled from school and Rune. Rune stub pages filled; more Blueprints for the newer professions.'],
+    ['1.18','Three 2024 PHB subclasses. 1,925 weapons, armor pieces, and shields carry the property of their strongest material.'],
+    ['1.19','Patch Notes database: one note per version plus a hub page.'],
+    ['1.20','Economy, Profession Progression, Monster Stats, Realm Map, and the Player\'s Guide. Trademark scans across the vault and FAND.html.'],
+    ['1.21','The 31 old crafts became 10 professions; every Blueprint got a profession and a specialty.'],
+    ['1.22','Party tab removed from FAND.html.'],
+    ['1.23','Harvesting and Scavenging split, specialty rules, Profession Quick Reference, 59 Scavenging tools, 73 support spells, 26 duplicate Blueprints merged and 1,632 same-stat variants linked.'],
+    ['1.24','Current version (2026-10-04).'],
+  ];
+  const official=MONSTERS.filter(m=>!m.hb).length;
+  const G=[
+    ['Subclasses',`163 in the vault: every official PHB, Xanathar's, Tasha's, and SCAG subclass plus three from the 2024 PHB, alongside the homebrew Rune subclasses. ${fmt(SUBS.length)} in this app.`,'subclasses'],
+    ['Professions','10 broad professions, absorbing the 31 old crafts as specialties.','professions'],
+    ['Blueprints',`6,503 in the vault; ${fmt(BPS.length)} in this app.`,'blueprints'],
+    ['Spells',`About 2,330 in the vault, all with classes; 73 converted to healing and support. ${fmt(META.counts.spells)} in this app's older list.`,'spells'],
+    ['Materials',`${fmt(MATS.length)} graded materials, each with a property, price, and its own note.`,'materials'],
+    ['Monsters',`${MONSTERS.length-official} homebrew with full stats, plus ${official} official D&D monsters.`,'bestiary'],
+    ['Realms',`${REALMS.length} realms in 10 tiers, each with lore, a Bestiary, and a Gathering page.`,'realms'],
+    ['Gods',`${GODS.length} gods with Runes, realms, signature materials, and ${GODS.reduce((a,g)=>a+(g.hand||[]).length,0)} named Fingers.`,'gods'],
+    ['Rules pages','Armor Class, Material Grading, Material Properties, Material Refining, Custom Blueprints, Crafting, Economy, Profession Progression, God Contracts, Realm Travel, Monster Stats.','rules'],
+    ['Player-facing',"Player's Guide, Profession Quick Reference, Realm Map.",''],
+    ['Tools','This website and FAND.html; a GitHub repo with generator and check scripts.','tools'],
+  ];
+  $('content').innerHTML=`<div class="page">
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">About FAND</h3><p>Everything built in the FAND vault since the Patch Notes began. Current version: <b>${esc(META.version)}</b>.</p></div>
+    <section class="sec"><div class="sec-h"><h3>At a glance</h3></div><div class="tablewrap"><table class="t"><thead><tr><th>Area</th><th>Now</th></tr></thead><tbody>${G.map(([a,t,l])=>`<tr><td style="white-space:nowrap;font-weight:600">${l?`<a href="${pageUrl(l)}" data-go="${l}" style="text-decoration:none">${a}</a>`:a}</td><td>${t}</td></tr>`).join('')}</tbody></table></div></section>
+    <section class="sec"><div class="sec-h"><h3>Version history</h3><p>Full detail for each version is in the vault's Patch Notes database.</p></div><div class="tablewrap"><table class="t"><thead><tr><th>Version</th><th>What changed</th></tr></thead><tbody>${V.slice().reverse().map(([v,t])=>`<tr><td style="white-space:nowrap"><span class="vtag">${v}</span></td><td>${esc(t)}</td></tr>`).join('')}</tbody></table></div></section>
+    <section class="sec cols">
+      <div class="panel"><h4>Runes and lore</h4><ul>
+        <li>Stub pages filled (v1.17): Ignis, Sylph, Infinatas, Elves, Horn, and Terraformation.</li>
+        <li>New pages: Ambulance, Nick, Knocking, and God-Specific Runes.</li>
+        <li>Rune names shared with spells or Blueprints are linked by their full <code>FAND/Runes/</code> path so they open the right note.</li>
+        <li>${CONTESTED.length} Runes are held by more than one god, which makes those gods rivals.</li>
+      </ul></div>
+      <div class="panel"><h4>Content policy and cleanup</h4><ul>
+        <li>Trademark scans (v1.20) replace franchise and WotC-specific names throughout the vault and the app.</li>
+        <li>Official monster names are allowed. Named unique beings (deities, demon lords, archdevils) stay renamed.</li>
+        <li>Official monsters have names, CR, and short original descriptions only; no stat blocks or book text.</li>
+        <li>Repeated link scans keep the vault at no broken links and no orphan notes.</li>
+      </ul></div>
+    </section>
+    <section class="sec cols">
+      <div class="panel"><h4>Tools and repository</h4><ul>
+        <li><a href="https://github.com/Lucky40802/FAND">github.com/Lucky40802/FAND</a> holds this website, <code>app/FAND.html</code>, and <code>tools/</code>.</li>
+        <li><code>tools/</code> has the data files, the generators for the Bestiary, Gathering pages, materials, God Roster, Properties, and this site, the link and trademark checks, and past migration scripts.</li>
+        <li>The Patch Notes database (v1.19) keeps one note per version with full details, plus a hub page.</li>
+        <li>CLAUDE.md is the handoff file that keeps future sessions consistent.</li>
+      </ul></div>
+      <div class="panel"><h4>Still open</h4><ul>
+        <li>More official subclasses from late books.</li>
+        <li>Placing the party in the new systems: contracts, rivals, and materials for each PC.</li>
+        <li>Table tools: a crafting app, an encounter and loot generator, and a combat calculator. First versions are on the <a href="${pageUrl('tools')}" data-go="tools">Tools</a> page.</li>
+        <li>A god wars timeline and an adventure-hooks compendium.</li>
+        <li>More conversions of damage spells to support spells, if wanted.</li>
+      </ul></div>
+    </section>
+  </div>`;
 }
 
 // ── Tools ─────────────────────────────────────────────────────
@@ -1232,7 +1313,7 @@ function renderTools(){
 // ════════════════════════════════════════════════════════════════
 //  Boot
 // ════════════════════════════════════════════════════════════════
-if(!location.hash)history.replaceState(null,'','#/home');
+if(!location.hash)history.replaceState(null,'',hashFor(SITE?SITE.page:'home'));
 route();
 </script>
 </body>

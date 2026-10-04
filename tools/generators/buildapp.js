@@ -147,13 +147,32 @@ D.GODS.forEach(function (g) {
 });
 
 // ---- write
+// Two outputs from one template:
+//   app/FAND.html  one self-contained file with every data array inline (works offline, and the other scripts patch it)
+//   site/          one page per section; pages share data/core.js, and only spells.html loads the large spell list
+var SITE_DIR = process.argv[5] || path.join(ROOT, 'site');
 var tpl = fs.readFileSync(TEMPLATE, 'utf8');
-var META = { built: new Date().toISOString().slice(0, 10), version: '1.24', realms: REALMS };
-var data = ['BPS', 'SPELLS', 'MATS', 'MONSTERS', 'SUBS', 'GODS', 'DEMONS', 'PATRONS', 'MAT_FX'].map(function (k) {
-  return 'const ' + k + '=' + JSON.stringify(D[k]).replace(/<\/(script)/gi, '<\\/$1') + ';';
-}).concat(['const META=' + JSON.stringify(META) + ';']).join('\n');
-if (tpl.indexOf('/*__DATA__*/') < 0) throw new Error('template is missing the /*__DATA__*/ marker');
-var out = tpl.split('/*__DATA__*/').join(data);
+if (tpl.indexOf('<!--__DATA__-->') < 0) throw new Error('template is missing the <!--__DATA__--> marker');
+var META = { built: new Date().toISOString().slice(0, 10), version: '1.24', realms: REALMS, counts: { spells: D.SPELLS.length } };
+function lit(k) { return 'const ' + k + '=' + JSON.stringify(D[k]).replace(/<\/(script)/gi, '<\\/$1') + ';'; }
+var CORE = ['BPS', 'MATS', 'MONSTERS', 'SUBS', 'GODS', 'DEMONS', 'PATRONS', 'MAT_FX'];
+var metaLine = 'const META=' + JSON.stringify(META) + ';';
+var single = '<script>\nconst SITE=null;\n' + ['BPS', 'SPELLS'].concat(CORE.slice(1)).map(lit).join('\n') + '\n' + metaLine + '\n</script>';
+var out = tpl.split('<!--__DATA__-->').join(single);
+var PAGES = ['home', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'professions', 'spells', 'subclasses', 'demons', 'patrons', 'rules', 'tools', 'about'];
+var site = {};
+site['data/core.js'] = CORE.map(lit).join('\n') + '\n' + metaLine + '\n';
+site['data/spells.js'] = lit('SPELLS') + '\n';
+PAGES.forEach(function (pg) {
+  var tags = '<script>const SITE={page:' + JSON.stringify(pg) + '};</script>\n<script src="data/core.js"></script>' + (pg === 'spells' ? '\n<script src="data/spells.js"></script>' : '');
+  site[pg === 'home' ? 'index.html' : pg + '.html'] = tpl.split('<!--__DATA__-->').join(tags);
+});
 console.log(log.join('\n'));
 console.log(MODE, IN, '->', OUT, (t.length / 1e6).toFixed(2) + ' MB ->', (out.length / 1e6).toFixed(2) + ' MB');
-if (MODE === 'go') { fs.writeFileSync(OUT, out); console.log('written'); }
+console.log('site', SITE_DIR + ':', Object.keys(site).map(function (f) { return f + ' ' + (site[f].length / 1e6).toFixed(2) + ' MB'; }).join(', '));
+if (MODE === 'go') {
+  fs.writeFileSync(OUT, out);
+  [SITE_DIR, path.join(SITE_DIR, 'data')].forEach(function (d) { if (!fs.existsSync(d)) fs.mkdirSync(d); });
+  Object.keys(site).forEach(function (f) { fs.writeFileSync(path.join(SITE_DIR, f), site[f]); });
+  console.log('written');
+}
