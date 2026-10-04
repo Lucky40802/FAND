@@ -30,6 +30,11 @@ Run from the `tools` folder. With no argument they do a dry run; add `go` to wri
 
 After running `genroster`, re-check Rune links: 16 Rune names are shared with spells or Blueprints, and vault notes link them as `[[FAND/Runes/Heal|Heal]]`.
 
+## The app
+`app/FAND.html` is built by `node generators/buildapp.js go`. The script reads the data arrays already in `FAND.html`, cleans and enriches them (material rank, Item Level, price, and sources; monster grades and drops; god Runes, Hands, and rivals), and wraps them in the interface from `tools/app/template.html`. It's safe to rerun. To change the interface, edit the template and rebuild; scripts that patch the data arrays (`const BPS=[…];` and so on) keep working, since each array stays on one line.
+
+The app has a home page, cross-linked detail views (a material shows the Blueprints that use it, the monsters that drop it, and the gods who hold it), Realms, Professions, and Rules pages, table tools (damage vs. AC, material grade, refining planner, encounter and loot roller, realm Pressure check, monster AC conversion), search across everything (Ctrl K), pins, shareable links to any item, and light and dark themes.
+
 ## Checks
 | Script | Does |
 |---|---|
