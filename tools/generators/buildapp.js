@@ -168,6 +168,26 @@ D.MATS.sort(function (a, b) { return a.n < b.n ? -1 : a.n > b.n ? 1 : 0; });
 var dropCounts = D.MONSTERS.map(function (m) { return (m.drops || []).length; });
 log.push('harvest parts: +' + genAdded + ' materials (now ' + D.MATS.length + '); drops per monster ' + Math.min.apply(null, dropCounts) + '-' + Math.max.apply(null, dropCounts) + '; body plans ' + JSON.stringify(kinds));
 
+// ---- gathered materials (data/gathered.js): ores, herbs and flora, and small fauna in every realm, with alchemy effects.
+(function () {
+  var G; try { G = require(path.join(__dirname, '..', 'data', 'gathered.js')); } catch (e) { if (e.code !== 'MODULE_NOT_FOUND') throw e; return; }
+  var have = {}; D.MATS.forEach(function (m) { have[m.n.toLowerCase()] = 1; });
+  var CODEK = { ore: 'O', herb: 'W', fauna: 'L' }, BY = { ore: 'Harvesting (Mining)', herb: 'Harvesting (Foraging)', fauna: 'Scavenging' }, added = 0;
+  G.forEach(function (r) {
+    var name = r[0], realm = r[1], g = Math.max(1, Math.min(10, +r[2] || 1)), kind = r[3], c = CODE[realm];
+    if (!c || have[name.toLowerCase()]) return;
+    var tc = CODEK[kind] || 'W', pr = PR.prop(name, tc, c, g);
+    var ex = { n: name, realm: realm, gr: realm + ' ' + g, prop: pr.k === 'supply' ? '' : pr.name + ' (Potency ' + pr.P + '): ' + pr.text, tc: tc,
+      tier: R.tier(c), g: g, rank: R.rank(c, g), il: R.level(c, g), rar: rarity(c, g), price: price(c, g, tc), ty: R.TYPES[tc],
+      ds: r[4] || '', where: r[5] || '', by: BY[kind] || '', gath: kind, site: 1 };
+    if (r[6]) ex.alch = r[6];
+    if (pr.k !== 'supply') { ex.pot = pr.P; ex.pn = pr.name; }
+    D.MATS.push(ex); have[name.toLowerCase()] = 1; added++;
+  });
+  D.MATS.sort(function (a, b) { return a.n < b.n ? -1 : a.n > b.n ? 1 : 0; });
+  log.push('gathered materials (ores, herbs, fauna): +' + added);
+})();
+
 // ---- filling gaps. Every generated value is marked (dsg, mi) so the site can say it was written by the site,
 // and it is only ever written where the vault left the field empty.
 var gap = { mon: 0, part: 0, bpMats: 0, bpDs: 0 };

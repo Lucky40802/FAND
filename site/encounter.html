@@ -900,6 +900,7 @@ const VIEWS={
     toggles:[
       {id:'drop',label:'Monster drops',test:m=>!!(m.from&&m.from.length)},
       {id:'gath',label:'Gathered',test:m=>!!m.where},
+      {id:'alch',label:'🧪 Alchemy',test:m=>!!alchOf(m)},
       {id:'fx',label:'⚔ Weapon effect',test:m=>!!MAT_FX[m.n]},
       {id:'hastr',label:'Unique trait',test:m=>!!m.tr},
       {id:'pin',label:'★ Pinned',test:m=>isPinned(m)},
@@ -1390,7 +1391,7 @@ const MODAL={
       ['Price',m.price?gp(m.price)+(localPrice(m.price,m.realm)?` <em style="font-style:normal;font-weight:400;color:var(--muted)">· ${localPrice(m.price,m.realm)}</em>`:'')+`<small style="display:block;font-size:.72rem;color:var(--muted);font-weight:400">merchants buy at ${gp(Math.floor(m.price/2))}</small>`:m.tier>=8?'Not sold':'—']];
     const src=[m.where?`Gathered at ${esc(m.where)}${m.by?` by <b>${esc(m.by)}</b>`:''}.`:'',m.src&&!/^(Gathered|Drops from|Used in)/.test(m.src)?esc(m.src):'',m.use?`Used for: ${esc(m.use)}.`:''].filter(Boolean).join('<br>');
     return {title:esc(m.n),strip:rcol(m.realm),kind:'Material · '+esc(m.ty||m.cat),
-      badges:`<button class="b" style="cursor:pointer" onclick="cmpToggle(${esc(JSON.stringify(m.n))})" title="Compare side by side on the Forge">⚖ Compare</button>${realmB(m.gr)}${rarB(m.rar)}${m.gen?'<span class="b blue">Harvest part</span>':''}${m.supply?'<span class="b ghost">Supply</span>':''}${fx?'<span class="b gold">⚔ Weapon effect</span>':''}`,
+      badges:`<button class="b" style="cursor:pointer" onclick="cmpToggle(${esc(JSON.stringify(m.n))})" title="Compare side by side on the Forge">⚖ Compare</button>${realmB(m.gr)}${rarB(m.rar)}${m.gen?'<span class="b blue">Harvest part</span>':''}${m.gath?`<span class="b green">${esc({ore:'Ore',herb:'Herb',fauna:'Small fauna'}[m.gath]||'Gathered')}</span>`:''}${m.supply?'<span class="b ghost">Supply</span>':''}${fx?'<span class="b gold">⚔ Weapon effect</span>':''}`,
       body:kv(rows)
         +(m.tr?`<div class="callout" style="border-color:var(--gold)">◆ <b>Unique trait: ${esc(m.tr.n)}</b>${m.tr.a?` <span style="color:var(--muted)">(${esc(m.tr.a)})</span>`:''}<div style="margin-top:4px">${esc(m.tr.t)}</div>${MATS.filter(o=>o.tr&&o.tr.n===m.tr.n).length>1?`<div style="margin-top:6px"><button class="chip" data-go="materials" data-setup='${esc(JSON.stringify({f:{tr:m.tr.n}}))}'>All ${fmt(MATS.filter(o=>o.tr&&o.tr.n===m.tr.n).length)} materials with ${esc(m.tr.n)} →</button></div>`:''}</div>`:m.basic?`<div class="callout" style="background:var(--surf2);border-color:var(--line)">${esc(m.basic)}</div>`:'')
         +(m.prop?`<div class="callout">✧ <b>Property: ${esc(m.pn)}</b>${m.pot?` · Potency ${m.pot}`:''}<div style="margin-top:4px">${esc(m.prop.replace(/^[^:]+:\s*/,''))}</div></div>`:m.supply?`<div class="callout">Supply: used up in crafting and gives no property.</div>`:'')

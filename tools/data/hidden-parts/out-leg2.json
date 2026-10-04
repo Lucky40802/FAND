@@ -1,0 +1,3010 @@
+[
+  {
+    "n": "Unclassed Wyrm-Heir",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Bravaael",
+    "rune": "Dragon",
+    "tower": "Void",
+    "requires": "Level 78+; a piece of Bravaael's remains from the top floor of the Hollow Spire",
+    "unlock": "On the Hollow Spire's top floor lie Bravaael's bones, labelled by three rival bestiaries at once. Its last trial asks what it was; answer with a word no tongue owns, and a scale comes loose for you.",
+    "secret": "You must have been recorded as three different creature types by three separate identification spells or scholars.",
+    "notice": "[Category: undefined. The oldest scale accepts you. Legendary class: Unclassed Wyrm-Heir.]",
+    "blurb": "Follows Bravaael, the Shrouded Shade of Dragon, a thing neither Animal nor Beastman nor Devil: you inherit its refusal to fit any box.",
+    "features": [
+      [
+        78,
+        "Skill: No Box Holds Me",
+        "You count as whichever creature type is best for you, so effects that target a type work or fail at your choice."
+      ],
+      [
+        80,
+        "Skill: Elder Breath",
+        "Once per short rest, you exhale a 90 foot cone of any damage type you choose, dealing 14d10 damage (Dex save for half)."
+      ],
+      [
+        83,
+        "Ultimate: Before the Categories",
+        "Once per long rest, you take an ancient wyrm shape for 1 minute: fly 120 feet, +2 AC, resistance to all damage, and claws that deal 4d10."
+      ]
+    ],
+    "evolves": "If you slay a creature that claims to be a true dragon, your typeless nature extends to allies you name.",
+    "cost": "Healing and potions tailored to any race or type work on you at half strength, since nothing agrees what you are."
+  },
+  {
+    "n": "The Unmoored",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Kaleyr",
+    "rune": "Drift",
+    "tower": "Hell",
+    "requires": "Level 23+; the trace Kaleyr left on the top floor of the Ledger Spire",
+    "unlock": "On the Ledger Spire's top floor a brass plaque bearing Kaleyr's name slowly slides off its wall. Let your own name slip from the ledger, then catch it again one floor down.",
+    "secret": "You must have woken somewhere other than where you fell asleep seven times, without any teleport magic.",
+    "notice": "[Position: uncertain. You have slipped free of the ledger. Legendary class: The Unmoored.]",
+    "blurb": "Follows Kaleyr, the Hidden Shade of Drift, who let things slide quietly from where they belonged, like a boat whose rope was never tied.",
+    "features": [
+      [
+        23,
+        "Skill: Slow Slip",
+        "When you hit a creature, it drifts 15 feet in a direction you choose at the start of its next turn, and any area spell it holds moves 10 feet with it."
+      ],
+      [
+        25,
+        "Skill: Out of Place",
+        "As a reaction when targeted, you were never quite there: the attack has disadvantage and you shift 15 feet."
+      ],
+      [
+        28,
+        "Ultimate: Everything Slides",
+        "Once per long rest, for 1 minute chosen creatures and objects within 60 feet drift 20 feet per round where you choose, and your wild surges roll twice so you pick the result."
+      ]
+    ],
+    "evolves": "If you stand opposite whoever holds Anchor and both survive, you learn to choose when drifting stops.",
+    "cost": "Anything you set down is 1d10 feet away when you next look for it."
+  },
+  {
+    "n": "Child of the Thirsty Furrow",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Gnome",
+    "rune": "Dry",
+    "tower": "Human",
+    "requires": "Level 1+; a piece of Gnome's remains from the top floor of the Milestone Spire",
+    "unlock": "On the Milestone Spire's top floor, a cracked clod of Gnome's remains sits in a field that never sees rain. Carry it down every stair without letting a drop of water touch it.",
+    "secret": "You must have worked a full day in the fields without drinking.",
+    "notice": "[Moisture: zero. The furrow drinks you in. Legendary class: Child of the Thirsty Furrow.]",
+    "blurb": "Follows Gnome, spirit of Earth, through its driest fragment: the state that is Wet's opposite and Earth's quiet kin.",
+    "features": [
+      [
+        1,
+        "Skill: Parched Touch",
+        "As an action, your touch deals 1d6 necrotic damage and dries mud, puddles or a small fire away completely."
+      ],
+      [
+        3,
+        "Skill: Cracked Ground",
+        "Once per short rest, you turn a 15 foot square of mud, marsh or shallow water into firm cracked earth; water creatures inside take 2d6 damage."
+      ],
+      [
+        6,
+        "Ultimate: Drought Halo",
+        "Once per long rest, for 1 minute a 20 foot aura dries everything: enemies starting there take 2d6 necrotic and gain no benefit from potions."
+      ]
+    ],
+    "evolves": "At level 11, carrying the clod to Gnome's other remains can deepen this class into a true Earth heir.",
+    "cost": "You need twice the normal water each day or gain a level of exhaustion."
+  },
+  {
+    "n": "Headbearer of the Pale Steed",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Nydoeth",
+    "rune": "Dullahan",
+    "tower": "Void",
+    "requires": "Level 78+; a piece of Nydoeth's remains from the top floor of the Hollow Spire",
+    "unlock": "At the top of the Hollow Spire, Nydoeth's headless mount still circles its rider's remains. The last trial: catch the skull it hurls at you without dropping it, and let it speak your name.",
+    "secret": "You must have been beheaded or killed and then raised again by any means.",
+    "notice": "[Head received. The rider rides again. Legendary class: Headbearer of the Pale Steed.]",
+    "blurb": "Follows Nydoeth, the Twin-Faced Shade of Dullahan, rider of the dead who carried its own head instead of wearing it, like the headless horsemen of old roads.",
+    "features": [
+      [
+        78,
+        "Skill: Head in Hand",
+        "You can lift your head free and set it up to 300 feet away, seeing from it; you cannot be surprised, and losing your head cannot kill you."
+      ],
+      [
+        80,
+        "Skill: Rider Who Does Not Stop",
+        "You summon a spectral steed with 90 feet of speed that ignores terrain and crosses water; mounted hits deal an extra 6d8 necrotic."
+      ],
+      [
+        83,
+        "Ultimate: Name Called at the Door",
+        "Once per long rest, you call the name of a creature you can see: it makes a Con save or drops to 0 hit points, taking 14d10 necrotic on a success."
+      ]
+    ],
+    "evolves": "If a Death knight you raised from a worthy corpse rides beside you for a year, you become herald of the Void's dead.",
+    "cost": "Gold burns you: you cannot hold or wear it, and gold weapons deal double damage to you."
+  },
+  {
+    "n": "Keeper of the Brief Seam",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Cosmic",
+    "rune": "Dusk",
+    "tower": "Primordial",
+    "requires": "Level 100+; the trace Cosmic left on the top floor of the First Spire",
+    "unlock": "On the First Spire's top floor, light and dark meet along a hairline Cosmic left behind. Stand on that seam for one full spire-dusk, which lasts a year, without stepping to either side.",
+    "secret": "You must have been born, or returned from death, exactly at sunset.",
+    "notice": "[Neither day nor night. The seam holds your weight. Legendary class: Keeper of the Brief Seam.]",
+    "blurb": "Follows Cosmic, the Forgotten Shade of Dusk, keeper of the seam between Day and Night that most think too brief to claim.",
+    "features": [
+      [
+        100,
+        "Skill: Neither Hour",
+        "Effects tied to day, night, light or darkness have no hold on you, and you see perfectly through any light or magical darkness."
+      ],
+      [
+        100,
+        "Skill: Twilight Mantle",
+        "Allies within 60 feet gain 20 temporary hit points at the start of each of their turns and cannot be frightened or charmed."
+      ],
+      [
+        100,
+        "Ultimate: The Hour That Lasts",
+        "Once per long rest, you hold dusk over a mile for 1 minute: enemies cannot regain hit points or use light or dark powers, and allies' hits deal +6d10 radiant or necrotic."
+      ]
+    ],
+    "evolves": "If the holders of Day and Night both bow to you, your Hour can be held for a full hour.",
+    "cost": "Each day between sunset and full dark you cannot speak or act, only watch."
+  },
+  {
+    "n": "Deep-Root Bloodline",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Gnome",
+    "rune": "Earth",
+    "tower": "Outer Realm",
+    "requires": "Level 67+; the trace Gnome left on the top floor of the Horizon Spire",
+    "unlock": "The top of the Horizon Spire is an endless plain with one footprint pressed into bare bedrock. Follow Gnome's trail of prints to where they stop, kneel, and listen until the ground speaks first.",
+    "secret": "You must be of a spiritual bloodline such as Shaman or Elf, or have spoken with a land spirit.",
+    "notice": "[Bloodline confirmed. The earth remembers its spirit. Legendary class: Deep-Root Bloodline.]",
+    "blurb": "Follows Gnome, the Forgotten Shade of Earth, whose corpse became the Earth Law and still answers best to those with spirit in their blood.",
+    "features": [
+      [
+        67,
+        "Skill: Spirit-Fed Stone",
+        "Your earth spells and abilities deal +4d8 bludgeoning, and while you touch natural ground you gain +1 AC."
+      ],
+      [
+        69,
+        "Skill: Quarry of the Spirit Realm",
+        "Once per short rest, the ground swallows creatures in a 40 foot radius: Dex save or take 10d10 bludgeoning and be restrained."
+      ],
+      [
+        72,
+        "Ultimate: The Land Answers",
+        "Once per long rest, for 1 minute the ground within a mile is yours: each turn you shake it for 12d10 to chosen creatures, and allies cannot be knocked prone."
+      ]
+    ],
+    "evolves": "If you also reach Gnome's remains in the Unlit Spire, your bloodline wakes fully and Iron hears you.",
+    "cost": "After a day away from bare earth, on ships or in the air, these features fade until you touch soil."
+  },
+  {
+    "n": "Tinker of the Spare Bolt",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Iron",
+    "rune": "Efficiency",
+    "tower": "Human",
+    "requires": "Level 1+; a piece of Iron's remains from the top floor of the Milestone Spire",
+    "unlock": "On the Milestone Spire's top floor, Iron's rusted remains sit inside a broken clockwork. The last trial: rebuild it using only half the parts laid out for you.",
+    "secret": "You must never have thrown away a tool or part that still worked.",
+    "notice": "[Waste: none. Output doubled. Legendary class: Tinker of the Spare Bolt.]",
+    "blurb": "Follows Iron, the Nameless Shade of Efficiency, in the Mechanical law of doing more with less rather than guarding against failure.",
+    "features": [
+      [
+        1,
+        "Skill: Fewer Parts",
+        "Crafting and repairs cost you half the materials and half the time."
+      ],
+      [
+        3,
+        "Skill: One Motion, Two Results",
+        "Once per short rest, when you attack or use an item, you also take the Use an Object or Help action for free."
+      ],
+      [
+        6,
+        "Ultimate: Perfect Economy",
+        "Once per long rest, your next three uses of a class feature or 1st level spell cost no resource."
+      ]
+    ],
+    "evolves": "If something you build runs for a year with no waste and no repair, the class evolves into a full Mechanical heir.",
+    "cost": "Backups fail you: spare weapons, second potions and redundant tools in your pack do not work."
+  },
+  {
+    "n": "Lance of the Unbowed Self",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Rytaeth",
+    "rune": "Ego",
+    "tower": "Abyss",
+    "requires": "Level 45+; a piece of Rytaeth's remains from the top floor of the Sunken Spire",
+    "unlock": "At the bottom of the Sunken Spire, Rytaeth's armour still stands upright, refusing to fall. Defeat it in a single joust, then refuse to bow to its corpse.",
+    "secret": "You must not have apologised to anyone since your last birthday.",
+    "notice": "[Self: unbowed. The armour finally kneels to you. Legendary class: Lance of the Unbowed Self.]",
+    "blurb": "Follows Rytaeth, the Hidden Shade of Ego, whose Law sat closer to Pride than to Light or Dark: a rider who made itself the centre of every field.",
+    "features": [
+      [
+        45,
+        "Skill: I Am Here",
+        "Creatures within 15 feet have disadvantage attacking anyone but you, and you have advantage against charm and fear."
+      ],
+      [
+        47,
+        "Skill: Unbowed Charge",
+        "Move up to 40 feet in a straight line and attack: the hit deals +8d8 and knocks the target prone."
+      ],
+      [
+        50,
+        "Ultimate: Center of the World",
+        "Once per long rest, every hostile creature within 120 feet makes a Wis save or can attack only you for 1 minute; you take half damage from them."
+      ]
+    ],
+    "evolves": "If you are beaten and still refuse to yield, the class evolves toward Pride.",
+    "cost": "You can never accept help gracefully: healing from others restores only half."
+  },
+  {
+    "n": "The Unsnapping",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Eirzen",
+    "rune": "Elastic",
+    "tower": "Void",
+    "requires": "Level 78+; a piece of Eirzen's remains from the top floor of the Hollow Spire",
+    "unlock": "At the top of the Hollow Spire, Eirzen's armour lies stretched across the void like a skin. The last trial: let it return every blow you have ever dealt, and remain standing.",
+    "secret": "You must have been dropped to 0 hit points by one blow and returned to fight in the same battle.",
+    "notice": "[Breaking point: not found. You bend and return. Legendary class: The Unsnapping.]",
+    "blurb": "Follows Eirzen, the Shrouded Shade of Elastic, who bent under every hit instead of breaking.",
+    "features": [
+      [
+        78,
+        "Skill: Give and Return",
+        "When hit, reduce the damage by 4d10 and store it; your next hit adds the stored amount."
+      ],
+      [
+        80,
+        "Skill: Long Line",
+        "Your melee reach becomes 30 feet and bends around corners, and a hit can pull the target to you."
+      ],
+      [
+        83,
+        "Ultimate: Rebound Absolute",
+        "Once per long rest, for 1 minute damage beyond half your hit points is stored instead of taken, then released as force in a 30 foot radius (max 20d10)."
+      ]
+    ],
+    "evolves": "If you take a god's blow without breaking, you can stretch your protection over your allies.",
+    "cost": "Rigid gear rejects you: plate armour and shields give you no benefit."
+  },
+  {
+    "n": "Sparkvein Stormcaller",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Sylph",
+    "rune": "Electric",
+    "tower": "Inner Realm",
+    "requires": "Level 56+; the trace Sylph left on the top floor of the Heartwood Spire",
+    "unlock": "On the Heartwood Spire's top floor, one ring still crackles where Sylph passed through. Hold your palm on it until the static has travelled every ring of the trunk and back.",
+    "secret": "You must have survived a strike of natural lightning.",
+    "notice": "[Current found. No god's blood required. Legendary class: Sparkvein Stormcaller.]",
+    "blurb": "Follows Sylph, the Twin-Faced Shade of Electric, Lightning's smaller cousin that a mortal can hold without divine blood.",
+    "features": [
+      [
+        56,
+        "Skill: Live Wire",
+        "Your melee hits deal +4d8 lightning that leaps to a second creature within 10 feet."
+      ],
+      [
+        58,
+        "Skill: Static Tide",
+        "While raging or concentrating, creatures that start their turn within 15 feet take 4d10 lightning, and foes in metal armour have disadvantage against you."
+      ],
+      [
+        61,
+        "Ultimate: Current Without a God",
+        "Once per long rest, for 1 minute you move 60 feet along metal or water as a bonus action, and every hit chains to four creatures for 10d8 lightning."
+      ]
+    ],
+    "evolves": "If you call true Lightning without a god's blood, the class becomes a full storm heir.",
+    "cost": "Water betrays you: entering deep water deals 4d8 lightning to you."
+  },
+  {
+    "n": "Bearer of Borrowed Tears",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Osttaur",
+    "rune": "Empathy",
+    "tower": "Inner Realm",
+    "requires": "Level 56+; the trace Osttaur left on the top floor of the Heartwood Spire",
+    "unlock": "At the top of the Heartwood Spire, the rings weep sap into a cradle Osttaur left behind. Feel the grief of every climber who died in the tower, then choose to climb down anyway.",
+    "secret": "You must have wept for an enemy you killed.",
+    "notice": "[Another's heart, carried. Legendary class: Bearer of Borrowed Tears.]",
+    "blurb": "Follows Osttaur, the Weeping Heart of Empathy, who carried other people's feelings as a splinter of Light.",
+    "features": [
+      [
+        56,
+        "Skill: Carried Ache",
+        "As a reaction, you take half the damage dealt to an ally within 60 feet."
+      ],
+      [
+        58,
+        "Skill: Shared Heart",
+        "Link up to six creatures; each uses the highest saving throw bonus among them."
+      ],
+      [
+        61,
+        "Ultimate: Every Heart at Once",
+        "Once per long rest, creatures within 120 feet feel what you feel: enemies make a Wis save or are incapacitated by sorrow for 1 minute, and allies regain 10d10 hit points."
+      ]
+    ],
+    "evolves": "If you carry the feeling of a god and return it, the class evolves into a mediator of the Divine.",
+    "cost": "When an ally within 60 feet drops to 0 hit points, you gain a level of exhaustion."
+  },
+  {
+    "n": "Monk of the Unfilled Room",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ishnoael",
+    "rune": "Emptiness",
+    "tower": "Inner Realm",
+    "requires": "Level 56+; the trace Ishnoael left on the top floor of the Heartwood Spire",
+    "unlock": "On the Heartwood Spire's top floor, a ring is missing from the trunk, a hollow Ishnoael left. Step into the gap and sit for seven days thinking of nothing.",
+    "secret": "You must enter the tower owning nothing at all.",
+    "notice": "[Space removed. You stand where nothing is. Legendary class: Monk of the Unfilled Room.]",
+    "blurb": "Follows Ishnoael, the Twin-Faced Shade of Emptiness, Zero's cousin, who lived in the nothing where something should be.",
+    "features": [
+      [
+        56,
+        "Skill: Nothing Here",
+        "You can pass through creatures, and attacks against you in dim light have disadvantage."
+      ],
+      [
+        58,
+        "Skill: Unmade Distance",
+        "As a bonus action, you remove the space between two points and appear up to 60 feet away."
+      ],
+      [
+        61,
+        "Ultimate: Room Without Space",
+        "Once per long rest, a 30 foot sphere becomes absent space for 1 minute: creatures inside cannot move or breathe and take 10d10 force each turn."
+      ]
+    ],
+    "evolves": "If you meet Zero's holder in silence, you can empty spells as well as space.",
+    "cost": "You can carry no more than fits in your two hands."
+  },
+  {
+    "n": "Runesmith of the Second Birth",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Braniane",
+    "rune": "Enchantment",
+    "tower": "Chaos",
+    "requires": "Level 34+; a piece of Braniane's remains from the top floor of the Shuffled Spire",
+    "unlock": "On the Shuffled Spire's top floor, Braniane's corpse lies beneath a table of half-finished items whose enchantments shuffle every hour. Finish one before the room changes.",
+    "secret": "You must have made or attuned an item that later destroyed itself.",
+    "notice": "[Law bound to object. The keeper is born again in your work. Legendary class: Runesmith of the Second Birth.]",
+    "blurb": "Follows Braniane, the Twice-Born Keeper of Enchantment, who bound Laws into objects so even those without godhood could wield a sliver.",
+    "features": [
+      [
+        34,
+        "Skill: Law into Object",
+        "During a short rest, bind a Law you have touched into an item: +1 to hit or +1 AC (max +2 total), or a 3d8 damage rider."
+      ],
+      [
+        36,
+        "Skill: Second Birth",
+        "Items you made reform after a short rest when destroyed."
+      ],
+      [
+        39,
+        "Ultimate: Armory of Laws",
+        "Once per long rest, every item you made within 60 feet awakens for 1 minute and strikes on your turn for 6d8 force each."
+      ]
+    ],
+    "evolves": "If something you made is wielded by a new god, the class evolves into a maker of Runes.",
+    "cost": "Each enchantment takes a piece of you: your maximum hit points drop by 1 per active item."
+  },
+  {
+    "n": "Clerk of the Final Line",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Life",
+    "rune": "End",
+    "tower": "Hell",
+    "requires": "Level 23+; the trace Life left on the top floor of the Ledger Spire",
+    "unlock": "The Ledger Spire's top plaque bears no debt, only a closing line Life left half written. Write the last line of your own ledger beneath it and live by it.",
+    "secret": "You must have finished every quest you ever began.",
+    "notice": "[Account closed. Legendary class: Clerk of the Final Line.]",
+    "blurb": "Follows Life, the Shrouded Shade of End, through the Law that opposes Beginning and belongs to the Void, not to Death.",
+    "features": [
+      [
+        23,
+        "Skill: Closing Line",
+        "When you hit a creature that has 15 hit points or fewer, it drops to 0."
+      ],
+      [
+        25,
+        "Skill: Last Page",
+        "Once per short rest, you end one spell or effect within 60 feet with no check."
+      ],
+      [
+        28,
+        "Ultimate: The End of This",
+        "Once per long rest, you end one fight, curse or journey: combatants make a Wis save or stop fighting for 1 hour, and a curse simply ends."
+      ]
+    ],
+    "evolves": "If you find whoever holds Beginning, you can close one thing and open another in the same breath.",
+    "cost": "Anything you begin ends early: your buffs and spells last half as long."
+  },
+  {
+    "n": "Winder of Long Things",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Life",
+    "rune": "Ending",
+    "tower": "Mysterious",
+    "requires": "Level 12+; the trace Life left on the top floor of the Fogglass Spire",
+    "unlock": "On the Fogglass Spire's top floor, a candle Life left has been burning down for centuries. Sit with it until it gutters out, and do not relight it.",
+    "secret": "You must have sat at the bedside of someone dying of old age.",
+    "notice": "[The wick is spent. Endings come slowly to your hand. Legendary class: Winder of Long Things.]",
+    "blurb": "Follows Life, the Twin-Faced Shade of Ending, who wound whole things down gently rather than stopping them.",
+    "features": [
+      [
+        12,
+        "Skill: Winding Down",
+        "Creatures you hit lose 10 feet of speed and take -1 to attacks, stacking to -3."
+      ],
+      [
+        14,
+        "Skill: Slow Last Breath",
+        "Your conditions on enemies last until they finish a long rest unless removed."
+      ],
+      [
+        17,
+        "Ultimate: The Long Goodbye",
+        "Once per long rest, a creature you touch makes a Con save or can take only one action per turn and loses 4d10 hit points each turn for 1 minute."
+      ]
+    ],
+    "evolves": "If you watch a whole kingdom end in peace, the class sharpens into End.",
+    "cost": "Your own gear wears out: nonmagical items break after a month."
+  },
+  {
+    "n": "The Raw Reserve",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Cosmic",
+    "rune": "Energy",
+    "tower": "Inner Realm",
+    "requires": "Level 56+; the trace Cosmic left on the top floor of the Heartwood Spire",
+    "unlock": "On the Heartwood Spire's top floor, one ring glows with power not yet shaped into any Law, Cosmic's trace. Hold it a full day without letting it become fire, stone or anything at all.",
+    "secret": "You must have run completely dry of spells and features in a battle and kept fighting.",
+    "notice": "[Power: unshaped. Capacity: unlimited. Legendary class: The Raw Reserve.]",
+    "blurb": "Follows Cosmic, the Unknown Shade of Energy, the raw capacity to do anything before it is shaped into something.",
+    "features": [
+      [
+        56,
+        "Skill: Unshaped Power",
+        "Your damaging spells can deal force instead, and once per short rest you regain a spell slot of up to 5th level."
+      ],
+      [
+        58,
+        "Skill: Before Shape",
+        "Unused spell slots at a long rest become charges (max 5) you can spend later as slots."
+      ],
+      [
+        61,
+        "Ultimate: The Capacity to Do Anything",
+        "Once per long rest, for 1 minute you cast one spell you know of 7th level or lower each turn without a slot."
+      ]
+    ],
+    "evolves": "If you shape your energy into Plasma under a cosmic sky, the class evolves.",
+    "cost": "Unshaped energy leaks: when you roll a natural 1, you take 4d10 force."
+  },
+  {
+    "n": "Herald of the Slow Unraveling",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Dramiur",
+    "rune": "Entropy",
+    "tower": "Inner Void",
+    "requires": "Level 89+; a piece of Dramiur's remains from the top floor of the Unlit Spire",
+    "unlock": "At the top of the Unlit Spire, Dramiur's remains have decayed into drifting dust. The last trial: let the dust try to unmake you, and remember what you are as the floors below are forgotten.",
+    "secret": "You must have watched something you built fall apart and chosen not to repair it.",
+    "notice": "[All things unravel. You unravel them faster. Legendary class: Herald of the Slow Unraveling.]",
+    "blurb": "Follows Dramiur, the Unbound Shape of Entropy, the Void's slow law of things falling apart without Destruction's help.",
+    "features": [
+      [
+        89,
+        "Skill: Things Fall Apart",
+        "Creatures you damage lose 2d10 maximum hit points until a long rest, and objects and constructs take double damage."
+      ],
+      [
+        91,
+        "Skill: Rust of Ages",
+        "Enemies within 60 feet lose 1 AC each round (max -2), and their nonmagical weapons break on a natural 1."
+      ],
+      [
+        94,
+        "Ultimate: Heat Death",
+        "Once per long rest, a 60 foot sphere unravels for 1 minute: 16d10 necrotic each round, no healing inside, and structures crumble."
+      ]
+    ],
+    "evolves": "If you let a god's work decay without lifting a hand, you become entropy's chosen.",
+    "cost": "Your wounds never fully close: resting restores at most half your hit points."
+  },
+  {
+    "n": "Coveter of the Next Lamp",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Thalshaor",
+    "rune": "Envy",
+    "tower": "Chaos",
+    "requires": "Level 34+; a piece of Thalshaor's remains from the top floor of the Shuffled Spire",
+    "unlock": "At the top of the Shuffled Spire, Thalshaor's corpse clutches a lamp it stole. Each hour the trial offers a finer lamp in someone else's hand; take only Thalshaor's.",
+    "secret": "You must have stolen something you did not need only because someone else had it.",
+    "notice": "[Want acknowledged. What is theirs can be yours. Legendary class: Coveter of the Next Lamp.]",
+    "blurb": "Follows Thalshaor, the Unquiet Heart of Envy, a splinter of Dark shaped by wanting what others have, like the lamp-bound spirits of old bazaars.",
+    "features": [
+      [
+        34,
+        "Skill: What You Have",
+        "Once per short rest, you take a creature's resistance or one prepared spell until your next short rest."
+      ],
+      [
+        36,
+        "Skill: Green Eye",
+        "Against creatures with more hit points or levels than you, you have advantage and deal +6d8."
+      ],
+      [
+        39,
+        "Ultimate: Their Life Is Mine",
+        "Once per long rest, swap your current hit points or one special ability with a creature you touch for 1 minute."
+      ]
+    ],
+    "evolves": "If your envy turns to wanting more of everything, the class evolves toward Greed.",
+    "cost": "When an ally gains a magic item before you, you must pass a Wis save or try to take it."
+  },
+  {
+    "n": "Patient Tidecarver",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Undine",
+    "rune": "Erosion",
+    "tower": "Hell",
+    "requires": "Level 23+; the trace Undine left on the top floor of the Ledger Spire",
+    "unlock": "On the Ledger Spire's top floor, one brass plaque has been worn smooth by a single drip, Undine's trace. Stand under it until the drip wears your own name off the brass.",
+    "secret": "You must have waited a month to finish something you could have done by force.",
+    "notice": "[Grain by grain, it is done. Legendary class: Patient Tidecarver.]",
+    "blurb": "Follows Undine, the Hidden Shade of Erosion, water wearing down earth one grain at a time, patient where Lava and Storm never are.",
+    "features": [
+      [
+        23,
+        "Skill: Grain by Grain",
+        "Each hit on the same target lowers its AC by 1 (max -2) and adds +1d6 to your next hit on it."
+      ],
+      [
+        25,
+        "Skill: Canyon Cut",
+        "Once per short rest, a 60 foot line of water deals 6d8 bludgeoning and wears away stone walls in its path."
+      ],
+      [
+        28,
+        "Ultimate: The Patient Sea",
+        "Once per long rest, choose a creature or structure: for 1 minute it loses 4d10 hit points each round with no save, and its AC drops by 2."
+      ]
+    ],
+    "evolves": "If you wear down a mountain in your lifetime, Undine's deeper trace opens to you.",
+    "cost": "You cannot hurry: you cannot Dash or take bonus action movement."
+  },
+  {
+    "n": "Witness of What Remains",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Seltheur",
+    "rune": "Essence",
+    "tower": "Abyss",
+    "requires": "Level 45+; the trace Seltheur left on the top floor of the Sunken Spire",
+    "unlock": "At the bottom of the Sunken Spire lies a grey pebble that is all that remains of something, Seltheur's trace. Let the pressure strip your powers away one by one, and stay.",
+    "secret": "You must once have lost all your powers to a curse or antimagic and survived.",
+    "notice": "[Laws stripped. Existence proven. Legendary class: Witness of What Remains.]",
+    "blurb": "Follows Seltheur, the Quiet Shade of Essence, what is left of a spirit or god once even its Laws are gone.",
+    "features": [
+      [
+        45,
+        "Skill: Proof It Existed",
+        "You sense remains of dead gods and spirits nearby, and effects that would erase, banish or disintegrate you leave you at 1 hit point instead."
+      ],
+      [
+        47,
+        "Skill: Stripped Bare",
+        "As an action, a creature you touch makes a Con save or loses its spells and magical abilities until your next turn."
+      ],
+      [
+        50,
+        "Ultimate: Only Proof Remains",
+        "Once per long rest, nothing within 60 feet works but bodies for 1 minute: no spells, features or magic items, and you gain +2 AC and a third attack."
+      ]
+    ],
+    "evolves": "If you hold the essence of a dead god, you may ask it one question.",
+    "cost": "You are inert: you cannot cast spells or use magic items other than weapons and armour."
+  },
+  {
+    "n": "Watcher of the Last Candle",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Infinatas",
+    "rune": "Eternal",
+    "tower": "Void",
+    "requires": "Level 78+; the trace Infinatas left on the top floor of the Hollow Spire",
+    "unlock": "At the top of the Hollow Spire, Infinatas left a footprint from before he was a god. Guard the Runes' glow beside it for what the spire calls forever, which ends only when you admit nothing lasts.",
+    "secret": "You must have outlived everyone you once knew.",
+    "notice": "[Duration: unknown. You remain. Legendary class: Watcher of the Last Candle.]",
+    "blurb": "Follows Infinatas, the Forgotten Shade of Eternal, through a Law almost nothing claims, since even he was not always a god.",
+    "features": [
+      [
+        78,
+        "Skill: Not Yet",
+        "Once per short rest, when reduced to 0 hit points you drop to 1 instead, and you no longer age."
+      ],
+      [
+        80,
+        "Skill: Lasting Work",
+        "Your spells of 1 minute last 1 hour, and nothing you build decays."
+      ],
+      [
+        83,
+        "Ultimate: For As Long As It Holds",
+        "Once per long rest, choose one thing: a wall, an oath or a creature's life. It cannot end for 1 hour."
+      ]
+    ],
+    "evolves": "If you keep one promise for a thousand years, Eternal claims you outright.",
+    "cost": "Allies forget your name after a week apart from you."
+  },
+  {
+    "n": "Wind That Sought the Mother",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Eurus",
+    "rune": "Eurus",
+    "tower": "Primordial",
+    "requires": "Level 100+; a piece of Eurus's remains from the top floor of the First Spire",
+    "unlock": "At the top of the First Spire, Eurus's remains drift as a warm spiral of wind around a seed. The last trial: walk the spiral inward against the gale, carrying someone you love who is dying, and ask for them to live.",
+    "secret": "You must have tried to bring someone back from death and failed.",
+    "notice": "[The east wind turns back for you. Legendary class: Wind That Sought the Mother.]",
+    "blurb": "Follows Eurus, the deity who held both Vortex and Life after seeking Infinatas to save her mother.",
+    "features": [
+      [
+        100,
+        "Skill: Gale of Return",
+        "A 30 foot vortex surrounds you: enemies are pushed 20 feet and allies inside regain 4d10 hit points at the start of their turns."
+      ],
+      [
+        100,
+        "Skill: Breath to the Dying",
+        "Once per short rest, a creature dead less than 1 minute returns with 50 hit points while the vortex deals 20d10 to enemies near it."
+      ],
+      [
+        100,
+        "Ultimate: The Eastern Wind Turning",
+        "Once per long rest, a mile-wide vortex deals 20d10 to chosen enemies each round for 1 minute, heals allies fully once, and returns one creature dead less than a day."
+      ]
+    ],
+    "evolves": "If you reach Infinatas and ask what Eurus asked, his answer changes the class.",
+    "cost": "Each life you return costs you a year of your own."
+  },
+  {
+    "n": "Shape That Stays Changed",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Eirtaix",
+    "rune": "Evolve",
+    "tower": "Hell",
+    "requires": "Level 23+; a piece of Eirtaix's remains from the top floor of the Ledger Spire",
+    "unlock": "At the top of the Ledger Spire, Eirtaix's corpse is a heap of half-changed bodies chained to a plaque reading paid in full. Change one part of yourself forever, and never take it back.",
+    "secret": "You must have survived a curse or polymorph that lasted more than a month.",
+    "notice": "[Change: permanent. Legendary class: Shape That Stays Changed.]",
+    "blurb": "Follows Eirtaix, the Shrouded Shade of Evolve, who changed things for good rather than for a moment.",
+    "features": [
+      [
+        23,
+        "Skill: Adapted",
+        "After taking one damage type three times, you gain permanent resistance to it (max three types)."
+      ],
+      [
+        25,
+        "Skill: New Limb",
+        "Grow one permanent trait: claws (2d8), gills, or wings that fly 30 feet; gain another each stage."
+      ],
+      [
+        28,
+        "Ultimate: Leap of a Thousand Generations",
+        "Once per long rest, you evolve for 1 hour: Large size, +2 AC, +4d8 on every hit, and immunity to one damage type you name."
+      ]
+    ],
+    "evolves": "Every stage you reach, the class itself grows a new trait the DM chooses.",
+    "cost": "You can never change back: polymorph, wild shape and disguises fail on you."
+  },
+  {
+    "n": "Affirmer of the Real",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ostleune",
+    "rune": "Existence",
+    "tower": "Mysterious",
+    "requires": "Level 12+; a piece of Ostleune's remains from the top floor of the Fogglass Spire",
+    "unlock": "At the top of the Fogglass Spire, half the room is not there, and only Ostleune's remains are solid. The last trial: name every object in the mist aloud until it becomes real, then name the corpse.",
+    "secret": "You must have been called unreal by an illusion, a double or an erased record, and refused it.",
+    "notice": "[Existence confirmed. Legendary class: Affirmer of the Real.]",
+    "blurb": "Follows Ostleune, the First Shape of Existence, the Void's broadest Law of simply being real, opposed only by Deletion.",
+    "features": [
+      [
+        12,
+        "Skill: I Am Real",
+        "You have advantage against illusions and see invisible creatures within 30 feet."
+      ],
+      [
+        14,
+        "Skill: This Is",
+        "Once per short rest, your touch ends an illusion or forces a shapechanger into its true form (Wis save)."
+      ],
+      [
+        17,
+        "Ultimate: Order of Being",
+        "Once per long rest, for 1 minute nothing false exists within 30 feet: illusions end, teleports fail, and summoned creatures make a Cha save or vanish."
+      ]
+    ],
+    "evolves": "If you stand against Deletion and remain, the class becomes the Void's witness.",
+    "cost": "You are too real to hide: you cannot lie or be disguised."
+  },
+  {
+    "n": "Patron of the Missed Mark",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Hashaas",
+    "rune": "Failure",
+    "tower": "Inner Void",
+    "requires": "Level 89+; the trace Hashaas left on the top floor of the Unlit Spire",
+    "unlock": "The top of the Unlit Spire holds a trial built to be failed, its wall scratched with Hashaas's endless tally of attempts. Fail it a hundred times in a row and still try a hundred and first.",
+    "secret": "You must have failed a job change quest, or rolled fifty natural 1s the DM has tracked.",
+    "notice": "[Failure recorded. Failure accepted. Legendary class: Patron of the Missed Mark.]",
+    "blurb": "Follows Hashaas, the Shrouded Shade of Failure, the common outcome for anyone reaching past their Aptitude.",
+    "features": [
+      [
+        89,
+        "Skill: Failing Forward",
+        "Each roll you fail gives +2 to your next roll, stacking to +10 until you succeed."
+      ],
+      [
+        91,
+        "Skill: Spread the Miss",
+        "Three times per short rest, as a reaction, force a creature within 60 feet to reroll a success and keep the lower result."
+      ],
+      [
+        94,
+        "Ultimate: Everyone Falls Short",
+        "Once per long rest, for 1 minute enemies within 120 feet treat any d20 roll of 10 or lower as a natural 1."
+      ]
+    ],
+    "evolves": "If you finally succeed at the trial that made you, the class turns toward Success.",
+    "cost": "Your own natural 20s count as 19s."
+  },
+  {
+    "n": "Plummet-Born",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Sylph",
+    "rune": "Fall",
+    "tower": "Inner Realm",
+    "requires": "Level 56+; a piece of Sylph's remains from the top floor of the Heartwood Spire",
+    "unlock": "At the top of the Heartwood Spire, Sylph's remains are a feather that has been falling down the hollow trunk forever. The last trial: step off and fall the whole height without grabbing anything, and catch it before you land.",
+    "secret": "You must have survived a fall of 500 feet or more.",
+    "notice": "[Flight interrupted. Fall resumed. Legendary class: Plummet-Born.]",
+    "blurb": "Follows Sylph, the Nameless Shade of Fall, the plain end of everything Flight only briefly interrupted.",
+    "features": [
+      [
+        56,
+        "Skill: Gravity's Grip",
+        "You take no falling damage, and creatures you hit lose any flight until your next turn."
+      ],
+      [
+        58,
+        "Skill: Long Drop",
+        "Leap 120 feet up and crash down, dealing 10d10 bludgeoning in a 20 foot radius."
+      ],
+      [
+        61,
+        "Ultimate: Everything Comes Down",
+        "Once per long rest, for 1 minute nothing within a mile can fly or levitate, and creatures that fall take double damage."
+      ]
+    ],
+    "evolves": "If you bring down a flying god, the class evolves into Gravity's herald.",
+    "cost": "You can never fly, glide or levitate by any means."
+  },
+  {
+    "n": "Root of the Untrue",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Karin",
+    "rune": "False",
+    "tower": "Inner Void",
+    "requires": "Level 89+; the trace Karin left on the top floor of the Unlit Spire",
+    "unlock": "At the top of the Unlit Spire, a door claims to be a wall and every surface carries Karin's lies. Find the one true thing on the floor by telling a lie that is also true.",
+    "secret": "You must have kept a lie believed for at least a year.",
+    "notice": "[Truth value: false. Legendary class: Root of the Untrue.]",
+    "blurb": "Follows Karin, the Hidden Shade of False, the root Law beneath both Illusion and Lies.",
+    "features": [
+      [
+        89,
+        "Skill: That Isn't So",
+        "Three times per short rest, as a reaction, call a hit, miss or save false: it is rerolled."
+      ],
+      [
+        91,
+        "Skill: Grafted Falsehood",
+        "Your illusions can deal 16d6 psychic damage and physically block movement."
+      ],
+      [
+        94,
+        "Ultimate: The World Is Lying",
+        "Once per long rest, declare one thing within 300 feet false: a wall vanishes for 1 minute, or a creature makes a Cha save or drops to 0 hit points (20d10 psychic on a success)."
+      ]
+    ],
+    "evolves": "If you tell a god a lie it believes, the class evolves past Illusion.",
+    "cost": "No one quite believes you: disadvantage on Persuasion even when you speak truly."
+  },
+  {
+    "n": "Blade Everyone Watches",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Brarios",
+    "rune": "Fame",
+    "tower": "Void",
+    "requires": "Level 78+; a piece of Brarios's remains from the top floor of the Hollow Spire",
+    "unlock": "At the top of the soundless Hollow Spire, Brarios's remains are a statue no one can see because no one is looking. The last trial: duel before an audience of echoes until the silent tower notices you.",
+    "secret": "Your name must be known in at least three cities.",
+    "notice": "[You have been noticed. Legendary class: Blade Everyone Watches.]",
+    "blurb": "Follows Brarios, the Forgotten Shade of Fame, a Law shaped by the Mortal Realm noticing someone.",
+    "features": [
+      [
+        78,
+        "Skill: All Eyes",
+        "While any creature watches you, your weapon hits deal +6d8."
+      ],
+      [
+        80,
+        "Skill: Name Precedes You",
+        "Enemies who have heard of you make a Wis save when combat begins or are frightened for 1 minute."
+      ],
+      [
+        83,
+        "Ultimate: Legend Told Mid-Fight",
+        "Once per long rest, for 1 minute each creature that can see you adds 1d10 to your hits (max 20d10), and you cannot drop below 1 hit point while watched."
+      ]
+    ],
+    "evolves": "If a song about you outlives you, the class passes to whoever sings it best.",
+    "cost": "You cannot hide: Stealth has disadvantage, and rumours tell enemies where you are."
+  },
+  {
+    "n": "Ember-Hearted Dread",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ostvaos",
+    "rune": "Fear",
+    "tower": "Inner Realm",
+    "requires": "Level 56+; a piece of Ostvaos's remains from the top floor of the Heartwood Spire",
+    "unlock": "At the top of the Heartwood Spire, Ostvaos's corpse is a burnt heart that makes every climber flee. The last trial: hold it while every fear you have ever had plays out, and do not run.",
+    "secret": "You must have run from a fight once and come back to finish it.",
+    "notice": "[Dread acknowledged. You are what others flee. Legendary class: Ember-Hearted Dread.]",
+    "blurb": "Follows Ostvaos, the Burning Heart of Fear, raw dread siphoned from Dark, sharper and faster than Sadness.",
+    "features": [
+      [
+        56,
+        "Skill: Dread First",
+        "When combat begins, enemies within 60 feet make a Wis save or are frightened; you deal +6d8 to frightened creatures."
+      ],
+      [
+        58,
+        "Skill: Faster Than Sorrow",
+        "You win all initiative ties and gain a second reaction each round."
+      ],
+      [
+        61,
+        "Ultimate: Burning Heart of Terror",
+        "Once per long rest, creatures within 120 feet make a Wis save or flee for 1 minute, taking 12d10 psychic on any turn they do not."
+      ]
+    ],
+    "evolves": "If you make a god afraid, you become Fear's chosen patron rather than its servant.",
+    "cost": "You are always a little afraid: disadvantage on saves against being frightened."
+  },
+  {
+    "n": "The Halfway Returned",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Vadoas",
+    "rune": "Fext",
+    "tower": "Inner Realm",
+    "requires": "Level 56+; the trace Vadoas left on the top floor of the Heartwood Spire",
+    "unlock": "At the top of the Heartwood Spire, Vadoas left a coffin half open in the heartwood. Lie in it until you are half alive and half not, then climb out choosing neither.",
+    "secret": "You must have been raised by necromancy rather than true resurrection.",
+    "notice": "[Status: alive and dead. Ratio unstable. Legendary class: The Halfway Returned.]",
+    "blurb": "Follows Vadoas, the Strange Shade of Fext, a corpse caught halfway between summon and true return.",
+    "features": [
+      [
+        56,
+        "Skill: Half Here",
+        "You count as living or undead, whichever is better, and resist necrotic and radiant damage."
+      ],
+      [
+        58,
+        "Skill: Unsteady Share",
+        "At the start of each turn roll a d6: your hits deal +2d10 (1-2), +6d10 (3-4) or +10d10 (5-6) necrotic."
+      ],
+      [
+        61,
+        "Ultimate: Neither Grave Nor Breath",
+        "Once per long rest, for 1 minute you cannot die, and damage that would take you below 0 heals you instead."
+      ]
+    ],
+    "evolves": "If you choose a side for good, the class evolves toward the living or the dead for good.",
+    "cost": "Once a day, at a moment the DM chooses, your heart stops and you lose your turn."
+  },
+  {
+    "n": "Vessel That Pours",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Kanoos",
+    "rune": "Fill",
+    "tower": "Abyss",
+    "requires": "Level 45+; the trace Kanoos left on the top floor of the Sunken Spire",
+    "unlock": "At the bottom of the Sunken Spire is the dry cistern Kanoos once kept full. Fill it with something of your own, water, blood, song or life, until it overflows.",
+    "secret": "You must have given away half your wealth to fill someone else's need.",
+    "notice": "[Vessel full. Contents: you. Legendary class: Vessel That Pours.]",
+    "blurb": "Follows Kanoos, the Forgotten Shade of Fill, opposite of Hollow, whose gift depended entirely on what was doing the filling.",
+    "features": [
+      [
+        45,
+        "Skill: Brim Over",
+        "Healing you give beyond a creature's maximum becomes temporary hit points."
+      ],
+      [
+        47,
+        "Skill: Fill the Gap",
+        "Once per short rest, restore 8d10 hit points, regrow a lost limb, or fill a pit or breach up to 20 feet."
+      ],
+      [
+        50,
+        "Ultimate: The Cup Runs Over",
+        "Once per long rest, allies within 60 feet are fully healed and freed of conditions, and hollow or void creatures take 16d10 radiant."
+      ]
+    ],
+    "evolves": "If you fill something Hollow's holder emptied, the pair evolve together.",
+    "cost": "You never feel full: you need double food and water."
+  },
+  {
+    "n": "Measurer of Edges",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Morkaos",
+    "rune": "Finite",
+    "tower": "Chaos",
+    "requires": "Level 34+; the trace Morkaos left on the top floor of the Shuffled Spire",
+    "unlock": "The Shuffled Spire's top floor never holds still, save for one chalk line Morkaos drew. Keep that line exactly in place for a full day while the floor reshuffles around it.",
+    "secret": "You must have kept a vow with a hard limit to the exact count.",
+    "notice": "[Boundary drawn. Legendary class: Measurer of Edges.]",
+    "blurb": "Follows Morkaos, the Forgotten Shade of Finite, the Void law of limits, the boundary Infinite refuses to have.",
+    "features": [
+      [
+        34,
+        "Skill: Drawn Line",
+        "Draw a 60 foot line; creatures must pass a Str save to cross it until your next turn."
+      ],
+      [
+        36,
+        "Skill: Counted",
+        "Any effect on you with no limit or duration lasts only 1 minute."
+      ],
+      [
+        39,
+        "Ultimate: Everything Has an End Here",
+        "Once per long rest, a 100 foot dome for 1 minute: no regeneration, no resurrection, and enemies may use each feature only once."
+      ]
+    ],
+    "evolves": "If you draw a line Infinite cannot cross, the class becomes the Void's surveyor.",
+    "cost": "You know your exact remaining lifespan in days and must count it each morning."
+  },
+  {
+    "n": "Holder of the Opening Step",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Selriix",
+    "rune": "First",
+    "tower": "Inner Realm",
+    "requires": "Level 56+; the trace Selriix left on the top floor of the Heartwood Spire",
+    "unlock": "The innermost ring of the Heartwood Spire's top floor bears Selriix's trace. Race every climber the tower remembers to touch it, and be first.",
+    "secret": "You must have been the first to do something no one had ever done.",
+    "notice": "[Rank: first. Legendary class: Holder of the Opening Step.]",
+    "blurb": "Follows Selriix, the Strange Shade of First, a Law claimed constantly and rarely kept long.",
+    "features": [
+      [
+        56,
+        "Skill: Before Anyone",
+        "You always act first in initiative, and your first hit each combat is a critical hit."
+      ],
+      [
+        58,
+        "Skill: First Claim",
+        "The first creature you hit each turn cannot take reactions until your next turn."
+      ],
+      [
+        61,
+        "Ultimate: Ahead of Time",
+        "Once per long rest, for 1 minute you take an extra full turn at the start of every round."
+      ]
+    ],
+    "evolves": "If someone takes First from you and you win it back, you hold it for good.",
+    "cost": "If anyone acts before you, you have disadvantage for the round."
+  },
+  {
+    "n": "Mender of the Broken Choir",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Sylph",
+    "rune": "Fix",
+    "tower": "Heaven",
+    "requires": "Level 23+; a piece of Sylph's remains from the top floor of the Choir Spire",
+    "unlock": "At the top of the Choir Spire one voice is missing: Sylph's remains are a cracked bell. The last trial: mend the bell mid-song without breaking the rhythm.",
+    "secret": "You must have repaired an item for an enemy.",
+    "notice": "[Repair complete. The choir sings whole. Legendary class: Mender of the Broken Choir.]",
+    "blurb": "Follows Sylph, the Hidden Shade of Fix, a narrow Stabilise meant for objects and wounds.",
+    "features": [
+      [
+        23,
+        "Skill: Patch Job",
+        "As a bonus action, restore 4d8 hit points to a creature or construct, or fully repair a small object."
+      ],
+      [
+        25,
+        "Skill: Hold Together",
+        "Once per short rest, an ally reaching 0 hit points stays at 1, and broken items work for 1 minute."
+      ],
+      [
+        28,
+        "Ultimate: Everything Mended",
+        "Once per long rest, every wound, construct and object of your allies within 60 feet is fully restored."
+      ]
+    ],
+    "evolves": "If you mend something a god broke, the class becomes a true Stabiliser.",
+    "cost": "You must pass a Wis save to walk past anything broken without fixing it."
+  },
+  {
+    "n": "Sculptor of Soft Clay",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Life",
+    "rune": "Flesh",
+    "tower": "Inner Realm",
+    "requires": "Level 56+; the trace Life left on the top floor of the Heartwood Spire",
+    "unlock": "At the top of the Heartwood Spire, a soft growth of Life's flesh heals and rots each hour. Let it rot your own flesh and regrow it seven times.",
+    "secret": "You must have lost a limb and regrown it.",
+    "notice": "[Flesh reshaped. Legendary class: Sculptor of Soft Clay.]",
+    "blurb": "Follows Life, the Shrouded Shade of Flesh, the soft part of a body that Decay claims first.",
+    "features": [
+      [
+        56,
+        "Skill: Living Clay",
+        "As a bonus action, regain 6d10 hit points or grow an extra appendage until your next rest."
+      ],
+      [
+        58,
+        "Skill: Flesh Before Bone",
+        "Your hits deal +6d8 necrotic to the living, and you can command undead made of flesh."
+      ],
+      [
+        61,
+        "Ultimate: Body Unbound",
+        "Once per long rest, for 1 minute you regain 30 hit points each turn and can die only to fire or necrotic damage."
+      ]
+    ],
+    "evolves": "If you shape a body for a soul without one, the class evolves into a giver of form.",
+    "cost": "Decay finds you first: necrotic damage against you is doubled."
+  },
+  {
+    "n": "Wingless Skywalker",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Sylph",
+    "rune": "Flight",
+    "tower": "Hell",
+    "requires": "Level 23+; a piece of Sylph's remains from the top floor of the Ledger Spire",
+    "unlock": "At the top of the Ledger Spire, Sylph's feathers are nailed to a plaque reading owed: every flight. The last trial: pay the debt by stepping off the roof and flying back up without wings.",
+    "secret": "You must never have flown by mount, spell or item before.",
+    "notice": "[Debt paid. The sky is yours. Legendary class: Wingless Skywalker.]",
+    "blurb": "Follows Sylph, the Quiet Shade of Flight, the Law most borrow from Air or Sylph's children instead of earning.",
+    "features": [
+      [
+        23,
+        "Skill: Earned Wind",
+        "You gain a flying speed of 60 feet."
+      ],
+      [
+        25,
+        "Skill: Falcon Stoop",
+        "Diving at least 30 feet before a hit adds 6d8 and knocks the target prone."
+      ],
+      [
+        28,
+        "Ultimate: The Sky Is Paid For",
+        "Once per long rest, allies within 60 feet gain your flying speed for 1 hour."
+      ]
+    ],
+    "evolves": "If you outfly one of Sylph's children, the class evolves toward Air.",
+    "cost": "On the ground you are clumsy: your walking speed is halved."
+  },
+  {
+    "n": "Turner of the Coin",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Mornieth",
+    "rune": "Flip",
+    "tower": "Abyss",
+    "requires": "Level 45+; a piece of Mornieth's remains from the top floor of the Sunken Spire",
+    "unlock": "At the bottom of the Sunken Spire, Mornieth's remains hang upside down from a floor that is a ceiling. The last trial: set one inverted room right without touching anything else in it.",
+    "secret": "You must have turned an enemy into a friend, or a friend into an enemy.",
+    "notice": "[State flipped. Legendary class: Turner of the Coin.]",
+    "blurb": "Follows Mornieth, the Shrouded Shade of Flip, a small Void law that swaps a state for its opposite and nothing more.",
+    "features": [
+      [
+        45,
+        "Skill: Heads to Tails",
+        "As a reaction, end one condition on an ally within 30 feet and flip it onto an enemy within 30 feet (Wis save)."
+      ],
+      [
+        47,
+        "Skill: Reverse",
+        "Once per short rest, turn damage an ally takes into healing, or healing an enemy receives into damage."
+      ],
+      [
+        50,
+        "Ultimate: Upside Down",
+        "Once per long rest, chosen creatures within 60 feet flip for 1 minute: their resistances become vulnerabilities and their highest and lowest scores swap."
+      ]
+    ],
+    "evolves": "If you flip a Law into its paired opposite, the class grows into a master of pairs.",
+    "cost": "Left and right confuse you: disadvantage on navigation checks."
+  },
+  {
+    "n": "Garland Gatherer",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ryvaos",
+    "rune": "Flower",
+    "tower": "Human",
+    "requires": "Level 1+; the trace Ryvaos left on the top floor of the Milestone Spire",
+    "unlock": "On the Milestone Spire's top floor, a field of flowers holds one bloom that has never closed, Ryvaos's trace. Pick it without bruising a petal and keep it alive for ten days.",
+    "secret": "You must have grown a flower from seed yourself.",
+    "notice": "[Bloom gathered. Legendary class: Garland Gatherer.]",
+    "blurb": "Follows Ryvaos, the Quiet Shade of Flower, what Bloom leaves behind, prized by Alchemy and by anyone chasing Charm.",
+    "features": [
+      [
+        1,
+        "Skill: Petal Lore",
+        "You identify any plant and brew potions of healing (2d4+2) at half cost."
+      ],
+      [
+        3,
+        "Skill: Charming Bloom",
+        "While wearing a fresh flower you have advantage on Persuasion, and once per long rest you can charm a creature for 1 minute."
+      ],
+      [
+        6,
+        "Ultimate: Garden in Full Flower",
+        "Once per long rest, flowers bloom in 20 feet: allies regain 2d8 hit points and enemies make a Wis save or are charmed for 1 round."
+      ]
+    ],
+    "evolves": "At level 11, a garden you planted can evolve the class toward Bloom.",
+    "cost": "Bees and hungry beasts follow you everywhere."
+  },
+  {
+    "n": "Sworn Foe of All",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Haran",
+    "rune": "Foe",
+    "tower": "Abyss",
+    "requires": "Level 45+; a piece of Haran's remains from the top floor of the Sunken Spire",
+    "unlock": "At the bottom of the Sunken Spire, Haran's corpse bristles with weapons from every friend it turned. The last trial: duel an image of your closest friend and win.",
+    "secret": "You must have been betrayed by a friend and declared them your foe.",
+    "notice": "[Relation: hostile. Legendary class: Sworn Foe of All.]",
+    "blurb": "Follows Haran, the Hidden Shade of Foe, Friend's opposite and the easier of the two to fake.",
+    "features": [
+      [
+        45,
+        "Skill: Marked Foe",
+        "Mark a creature: your hits deal +8d8 to it and you always know where it is."
+      ],
+      [
+        47,
+        "Skill: False Friend",
+        "Feign friendship: a creature makes a Wis save or is charmed until you attack it, and that first attack is a critical hit."
+      ],
+      [
+        50,
+        "Ultimate: Enemy of the World",
+        "Once per long rest, every creature within 120 feet becomes your foe for 1 minute: you gain +2 AC and one extra attack per three foes."
+      ]
+    ],
+    "evolves": "If a foe of yours becomes a true friend, the class evolves toward Friend.",
+    "cost": "Help from allies lasts only half as long on you."
+  },
+  {
+    "n": "Weaver of Aligned Laws",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Sylph",
+    "rune": "Formations",
+    "tower": "Inner Realm",
+    "requires": "Level 56+; the trace Sylph left on the top floor of the Heartwood Spire",
+    "unlock": "At the top of the Heartwood Spire, the rings form a pattern with one ring missing where Sylph's trace lies. Complete the formation with your own Laws.",
+    "secret": "You must have cast a spell together with another caster at the same moment.",
+    "notice": "[Pattern aligned. Legendary class: Weaver of Aligned Laws.]",
+    "blurb": "Follows Sylph, the Nameless Shade of Formations, the practice of arranging Laws so effects like Vortex can exist.",
+    "features": [
+      [
+        56,
+        "Skill: Lay the Pattern",
+        "Draw a 30 foot formation: allies inside gain +1 AC and +2 to saving throws."
+      ],
+      [
+        58,
+        "Skill: Two Laws Line Up",
+        "Once per short rest, cast two spells as one action."
+      ],
+      [
+        61,
+        "Ultimate: Grand Array",
+        "Once per long rest, a 300 foot formation fires for 1 minute, dealing 20d10 of two combined damage types to chosen enemies each round."
+      ]
+    ],
+    "evolves": "If you align Laws into Vortex or Apocalypse, the class rises to a master of formations.",
+    "cost": "You must prepare a formation for 1 minute before combat or lose these features for that fight."
+  },
+  {
+    "n": "Keeper of the Unspoilt",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Life",
+    "rune": "Fresh",
+    "tower": "Hell",
+    "requires": "Level 23+; a piece of Life's remains from the top floor of the Ledger Spire",
+    "unlock": "Among rotting debts on the Ledger Spire's top floor, Life's remains are an apple still fresh after centuries. The last trial: keep it fresh through the furnace heat of that floor for a day.",
+    "secret": "You must have kept a body from decay until it could be properly buried.",
+    "notice": "[Freshness preserved. Legendary class: Keeper of the Unspoilt.]",
+    "blurb": "Follows Life, the Twin-Faced Shade of Fresh, the gentlest opposite of Decay, close to Preserve.",
+    "features": [
+      [
+        23,
+        "Skill: Ever-Fresh",
+        "You and allies within 30 feet are immune to disease and poison, and your food never spoils."
+      ],
+      [
+        25,
+        "Skill: Ward of Spring",
+        "Once per short rest, a ward absorbs 6d8 plus your level in damage, doubled against necrotic."
+      ],
+      [
+        28,
+        "Ultimate: Untouched by Time",
+        "Once per long rest, for 1 minute nothing decays within 30 feet: necrotic damage and aging fail, and undead take 10d8 radiant each turn."
+      ]
+    ],
+    "evolves": "If you halt a god's decay, the class grows into Preserve.",
+    "cost": "Anything stale you eat poisons you."
+  },
+  {
+    "n": "Honest Companion of the Road",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Selrour",
+    "rune": "Friend",
+    "tower": "Outer Realm",
+    "requires": "Level 67+; the trace Selrour left on the top floor of the Horizon Spire",
+    "unlock": "At the top of the Horizon Spire, two cups sit on a table under strange stars, Selrour's trace. Share a meal honestly with an enemy until they choose to call you friend.",
+    "secret": "You must have a friend who has stood by you for five years.",
+    "notice": "[Bond: true. Legendary class: Honest Companion of the Road.]",
+    "blurb": "Follows Selrour, the Nameless Shade of Friend, Foe's opposite and the harder Law to use honestly.",
+    "features": [
+      [
+        67,
+        "Skill: True Friend",
+        "You share senses with any friend you name and can teleport to their side once per short rest."
+      ],
+      [
+        69,
+        "Skill: Never Alone",
+        "When an ally within 120 feet is hit, you can swap places and take the hit."
+      ],
+      [
+        72,
+        "Ultimate: The Whole Road Together",
+        "Once per long rest, for 1 minute every friend within a mile uses your saves, deals +12d10 on hits and cannot drop below 1 hit point."
+      ]
+    ],
+    "evolves": "If a former foe dies protecting you, the class evolves into something Foe cannot touch.",
+    "cost": "If you deceive a friend, you lose this class for a week."
+  },
+  {
+    "n": "Joiner of the First Pairs",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Sylph",
+    "rune": "Fusion",
+    "tower": "Primordial",
+    "requires": "Level 100+; a piece of Sylph's remains from the top floor of the First Spire",
+    "unlock": "At the top of the First Spire, Sylph's remains are burning wind still wound around Spin. The last trial: let two Laws pour into you at once and come out as one.",
+    "secret": "You must have touched or held at least two Runes.",
+    "notice": "[Fusion stable. Legendary class: Joiner of the First Pairs.]",
+    "blurb": "Follows Sylph, the Shrouded Shade of Fusion, the act that made Vortex from Sylph and Spin.",
+    "features": [
+      [
+        100,
+        "Skill: Two Become One",
+        "Your damage combines two types and ignores resistance to either."
+      ],
+      [
+        100,
+        "Skill: Fused Casting",
+        "Once per short rest, cast two spells as one combined spell that deals both effects."
+      ],
+      [
+        100,
+        "Ultimate: The First Fusion",
+        "Once per long rest, fuse with a willing ally for 1 hour: combined hit points, both sets of features, and +20d10 on every hit."
+      ]
+    ],
+    "evolves": "If you fuse two Runes into a new Law, a new Tower may rise.",
+    "cost": "After fusing, you share all pain with that ally for a day."
+  },
+  {
+    "n": "Reader of the Unwritten Ledger",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Time",
+    "rune": "Future",
+    "tower": "Hell",
+    "requires": "Level 23+; the trace Time left on the top floor of the Ledger Spire",
+    "unlock": "On the Ledger Spire's top floor, one plaque lists debts not yet incurred, Time's trace. Read your own future debt and pay it in advance.",
+    "secret": "A prophecy about you must have come true.",
+    "notice": "[Future glimpsed. Payment received. Legendary class: Reader of the Unwritten Ledger.]",
+    "blurb": "Follows Time, the Shrouded Shade of Future, the face of Time hardest to bend because nothing has happened yet.",
+    "features": [
+      [
+        23,
+        "Skill: Next Moment",
+        "Three times per short rest, add a d10 to a roll after seeing it."
+      ],
+      [
+        25,
+        "Skill: Foreseen",
+        "You cannot be surprised, and your reactions have advantage."
+      ],
+      [
+        28,
+        "Ultimate: What Hasn't Happened",
+        "Once per long rest, for 1 minute you know every enemy action before it comes: attacks against you have disadvantage and you may reroll any d20."
+      ]
+    ],
+    "evolves": "If you change a future you foresaw, the class reaches toward Time itself.",
+    "cost": "Once a week you foresee your own death in vivid detail."
+  },
+  {
+    "n": "Opening-Move Duelist",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Liotan",
+    "rune": "Gambit",
+    "tower": "Chaos",
+    "requires": "Level 34+; a piece of Liotan's remains from the top floor of the Shuffled Spire",
+    "unlock": "At the top of the Shuffled Spire, Liotan's corpse sits over a board game. The last trial: sacrifice your strongest piece as your first move, and still win.",
+    "secret": "You must have won a fight by deliberately taking a hit.",
+    "notice": "[Opening accepted. Legendary class: Opening-Move Duelist.]",
+    "blurb": "Follows Liotan, the Hidden Shade of Gambit, a Gamble made on purpose as an opening, not from desperation.",
+    "features": [
+      [
+        34,
+        "Skill: Sacrificed Pawn",
+        "When you let an attack hit you, your next attack is a critical hit."
+      ],
+      [
+        36,
+        "Skill: Planned Risk",
+        "Before an attack, call a bet: on a hit deal double damage, on a miss lose your next action."
+      ],
+      [
+        39,
+        "Ultimate: The Board Was Mine",
+        "Once per long rest, take three full turns in the first round of combat."
+      ]
+    ],
+    "evolves": "If your gambit topples a god, the class evolves into Chaos's tactician.",
+    "cost": "You can never play safe: you cannot Dodge or Disengage."
+  },
+  {
+    "n": "Carrion Lord of the Tainted Field",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ryleix",
+    "rune": "Ghast",
+    "tower": "Inner Realm",
+    "requires": "Level 56+; the trace Ryleix left on the top floor of the Heartwood Spire",
+    "unlock": "A ring of black rot marks where Ryleix lay at the top of the Heartwood Spire. Sleep there for a week on tainted ground without dying.",
+    "secret": "You must have eaten a fallen foe to survive.",
+    "notice": "[Taint absorbed. Legendary class: Carrion Lord of the Tainted Field.]",
+    "blurb": "Follows Ryleix, the Shrouded Shade of Ghast, a Ghoul made worse by tainted ground, its stench a weapon on its own.",
+    "features": [
+      [
+        56,
+        "Skill: Stench Mantle",
+        "Creatures that start their turn within 15 feet make a Con save or are poisoned."
+      ],
+      [
+        58,
+        "Skill: Paralyzing Claw",
+        "Your hits deal +6d8 necrotic, and the target makes a Con save or is paralyzed for 1 round."
+      ],
+      [
+        61,
+        "Ultimate: Taint the Ground",
+        "Once per long rest, 300 feet of ground becomes tainted for 1 minute: enemies take 10d10 poison each turn and allied undead regain 20 hit points."
+      ]
+    ],
+    "evolves": "If you rot a holy ground, the class deepens toward the Abyss.",
+    "cost": "Your stench gives disadvantage on Persuasion and sends beasts fleeing."
+  },
+  {
+    "n": "Hunger-Cunning Stalker",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Morleyr",
+    "rune": "Ghoul",
+    "tower": "Inner Realm",
+    "requires": "Level 56+; the trace Morleyr left on the top floor of the Heartwood Spire",
+    "unlock": "At the top of the Heartwood Spire, gnawed bones and claw marks are all Morleyr left. Hunt the tower's own hunter and keep a tenth of what you take.",
+    "secret": "You must have outwitted a predator stronger than you.",
+    "notice": "[Predator registered. Legendary class: Hunger-Cunning Stalker.]",
+    "blurb": "Follows Morleyr, the Unknown Shade of Ghoul, a half-decayed corpse that kept a tenth of its power and a predator's cunning.",
+    "features": [
+      [
+        56,
+        "Skill: A Tenth Kept",
+        "When you kill a creature, gain a tenth of its maximum hit points as temporary hit points and one of its traits until a long rest."
+      ],
+      [
+        58,
+        "Skill: Predator's Cunning",
+        "Attacks against creatures that have not seen you have advantage and deal +6d8."
+      ],
+      [
+        61,
+        "Ultimate: Feast on the Fallen",
+        "Once per long rest, devour a corpse to gain its features and attacks for 1 hour."
+      ]
+    ],
+    "evolves": "If you eat the corpse of a hero, the class evolves into something worse.",
+    "cost": "You must eat raw meat every day or gain a level of exhaustion."
+  },
+  {
+    "n": "Open-Handed Giver",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ostraur",
+    "rune": "Gift",
+    "tower": "Inner Realm",
+    "requires": "Level 56+; the trace Ostraur left on the top floor of the Heartwood Spire",
+    "unlock": "At the top of the Heartwood Spire, a wooden hand reaches out where Ostraur left its trace. Give it everything you carry, and accept nothing back.",
+    "secret": "You must have freely given away a magic item or a level.",
+    "notice": "[Gift accepted. Legendary class: Open-Handed Giver.]",
+    "blurb": "Follows Ostraur, the Shrouded Shade of Gift, the willing version of Take, power or Life handed over rather than pulled.",
+    "features": [
+      [
+        56,
+        "Skill: Handed Over",
+        "As a bonus action, transfer up to 50 of your hit points to a creature within 60 feet."
+      ],
+      [
+        58,
+        "Skill: Gift of Power",
+        "Give an ally one of your spell slots or feature uses until your next rest."
+      ],
+      [
+        61,
+        "Ultimate: The Whole Gift",
+        "Once per long rest, give an ally all your features and an extra full turn each round for 1 minute."
+      ]
+    ],
+    "evolves": "If someone you gave to gives it all back, the class completes its circle.",
+    "cost": "Healing others give you restores only half."
+  },
+  {
+    "n": "Daisy-Crowned Ever-Young",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Aelsaos",
+    "rune": "Girl",
+    "tower": "Outer Realm",
+    "requires": "Level 67+; a piece of Aelsaos's remains from the top floor of the Horizon Spire",
+    "unlock": "At the top of the Horizon Spire, Aelsaos's small remains lie under strange stars, still wearing a crown of daisies. The last trial: play the game she was playing when she died, and finish it.",
+    "secret": "You must have kept a promise you made as a child.",
+    "notice": "[Youth preserved. Legendary class: Daisy-Crowned Ever-Young.]",
+    "blurb": "Follows Aelsaos, the Twin-Faced Shade of Girl, a category tied to Youth rather than any Law, like the spring maidens of village songs.",
+    "features": [
+      [
+        67,
+        "Skill: Youth Unspent",
+        "You no longer age and have advantage on saves against exhaustion."
+      ],
+      [
+        69,
+        "Skill: Skipping Stone",
+        "Your movement provokes no opportunity attacks, and you can move across water or treetops."
+      ],
+      [
+        72,
+        "Ultimate: Child of the Spring",
+        "Once per long rest, you and allies within 60 feet are made young again for 1 minute: full hit points and one expended feature each restored."
+      ]
+    ],
+    "evolves": "If you pass the crown to a child who earns it, the class evolves toward Youth.",
+    "cost": "Officials and elders rarely take you seriously: disadvantage on Persuasion with them."
+  },
+  {
+    "n": "Warden of the Long Edge",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Iron",
+    "rune": "Glaive",
+    "tower": "Primordial",
+    "requires": "Level 100+; a piece of Iron's remains from the top floor of the First Spire",
+    "unlock": "At the top of the First Spire, Iron's remains are unmoving stone with a glaive driven through. The last trial: pull it free and keep it from overbalancing as the spire tilts around you.",
+    "secret": "You must have won a fight with a polearm in a narrow place.",
+    "notice": "[Reach confirmed. Balance: none. Legendary class: Warden of the Long Edge.]",
+    "blurb": "Follows Iron, the Shrouded Shade of Glaive, a shape trading Dagger's speed for Spear's reach and neither's balance.",
+    "features": [
+      [
+        100,
+        "Skill: Reach and Edge",
+        "Your reach increases by 10 feet and your polearm hits deal +8d12."
+      ],
+      [
+        100,
+        "Skill: Rallying Sweep",
+        "Once per short rest, strike every enemy within reach, and allies who see it gain 30 temporary hit points."
+      ],
+      [
+        100,
+        "Ultimate: The Unbalanced Arc",
+        "Once per long rest, for 1 minute every attack hits every enemy in your reach for +20d10."
+      ]
+    ],
+    "evolves": "If you return the glaive to Iron, it reforges to your hand.",
+    "cost": "When you miss, attacks against you have advantage until your next turn."
+  },
+  {
+    "n": "Bottomless Maw",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ulvais",
+    "rune": "Gluttony",
+    "tower": "Mysterious",
+    "requires": "Level 12+; a piece of Ulvais's remains from the top floor of the Fogglass Spire",
+    "unlock": "At the top of the Fogglass Spire, Ulvais's remains are a vast open jaw at a banquet table. The last trial: eat everything the fog serves for a whole night and still be hungry at dawn.",
+    "secret": "You must have won an eating contest.",
+    "notice": "[Hunger: endless. Legendary class: Bottomless Maw.]",
+    "blurb": "Follows Ulvais, the Restless Heart of Gluttony, Desire that never knows it has been satisfied.",
+    "features": [
+      [
+        12,
+        "Skill: Devour",
+        "You gain a bite that deals 2d10 piercing, and you regain hit points equal to the damage."
+      ],
+      [
+        14,
+        "Skill: Swallow Whole",
+        "Once per short rest, swallow a Medium or smaller grappled creature, which takes 4d6 acid each turn."
+      ],
+      [
+        17,
+        "Ultimate: Never Full",
+        "Once per long rest, for 1 minute every hit heals you for its damage and grows you a size, to Huge."
+      ]
+    ],
+    "evolves": "If you eat a piece of a god's remains, the class deepens into a true Original Sin.",
+    "cost": "You need triple food each day or gain a level of exhaustion."
+  },
+  {
+    "n": "Pebble of the Old Root",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Gnome",
+    "rune": "Gnome",
+    "tower": "Human",
+    "requires": "Level 1+; a piece of Gnome's remains from the top floor of the Milestone Spire",
+    "unlock": "On the Milestone Spire's top floor, a pebble of Gnome's remains lies in a ploughed furrow. The last trial: hold it still in your palm for a full day while the tower hums around you.",
+    "secret": "You must have stayed in one spot for a full day by choice.",
+    "notice": "[Stillness confirmed. Legendary class: Pebble of the Old Root.]",
+    "blurb": "Follows Gnome, the progenitor spirit of Earth, older than the small folk who share its name, slow and patient to the point of stillness.",
+    "features": [
+      [
+        1,
+        "Skill: Slow Stone",
+        "If you have not moved this turn, you gain +1 AC."
+      ],
+      [
+        3,
+        "Skill: Rooted",
+        "You cannot be pushed or knocked prone while touching the ground."
+      ],
+      [
+        6,
+        "Ultimate: Little Mountain",
+        "Once per long rest, for 1 minute you resist bludgeoning, piercing and slashing damage."
+      ]
+    ],
+    "evolves": "Carry the pebble to the Unlit Spire and the class can evolve into Patient Mountain.",
+    "cost": "Your walking speed is reduced by 10 feet."
+  },
+  {
+    "n": "Hoarder of Sole Laws",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Quoniar",
+    "rune": "God-Specific Runes",
+    "tower": "Primordial",
+    "requires": "Level 100+; the trace Quoniar left on the top floor of the First Spire",
+    "unlock": "At the top of the First Spire, Quoniar left a locked chest of Laws no one else can touch. Open it without taking anything out.",
+    "secret": "You must hold a contract of 1st Finger with a god.",
+    "notice": "[Sole holder recognised. Legendary class: Hoarder of Sole Laws.]",
+    "blurb": "Follows Quoniar, the Twin-Faced Shade of God-Specific Runes, keeper of Runes only one god can hold.",
+    "features": [
+      [
+        100,
+        "Skill: Only Mine",
+        "One Law you hold cannot be stolen, copied or suppressed."
+      ],
+      [
+        100,
+        "Skill: Unbroken Hold",
+        "You are immune to effects that strip or drain your powers or Runes."
+      ],
+      [
+        100,
+        "Ultimate: Laws No One Else Can Reach",
+        "Once per long rest, for 1 minute you wield one Law of a god you are contracted to as that god would, dealing 20d10 on hits."
+      ]
+    ],
+    "evolves": "If a god leaves you a Law in its will, it becomes yours alone.",
+    "cost": "Gods covet what you hold: their servants hunt you across realms."
+  },
+  {
+    "n": "Assessor Beyond the Scale",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Eirsaos",
+    "rune": "Grade",
+    "tower": "Outer Realm",
+    "requires": "Level 67+; the trace Eirsaos left on the top floor of the Horizon Spire",
+    "unlock": "At the top of the Horizon Spire, a measuring stone with no top mark bears Eirsaos's trace. Let it grade you, then refuse the result.",
+    "secret": "You must have been graded the lowest in some Aptitude assessment.",
+    "notice": "[Grade: rejected. Legendary class: Assessor Beyond the Scale.]",
+    "blurb": "Follows Eirsaos, the Twin-Faced Shade of Grade, the mortal ranking of Aptitude that means nothing to the gods.",
+    "features": [
+      [
+        67,
+        "Skill: Read the Grade",
+        "You see the level, Aptitude and current hit points of any creature you look at."
+      ],
+      [
+        69,
+        "Skill: Off the Scale",
+        "Effects that check level, grade or rank treat you as whichever is best for you."
+      ],
+      [
+        72,
+        "Ultimate: Regrade",
+        "Once per long rest, for 1 minute an enemy is treated as 10 levels lower (disadvantage on all rolls) or an ally as 10 levels higher (advantage)."
+      ]
+    ],
+    "evolves": "If you grade a god and it accepts your mark, the class evolves.",
+    "cost": "Gods ignore you: you cannot hold divine contracts above Minor."
+  },
+  {
+    "n": "Inward-Pulling Sage",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Gravity",
+    "rune": "Gravity",
+    "tower": "Chaos",
+    "requires": "Level 34+; a piece of Gravity's remains from the top floor of the Shuffled Spire",
+    "unlock": "On the Shuffled Spire's top floor, Gravity's remains are a stone every other floor falls toward. The last trial: stand on it while the tower collapses into you, and remain upright.",
+    "secret": "You must have survived being crushed.",
+    "notice": "[Mass accepted. Legendary class: Inward-Pulling Sage.]",
+    "blurb": "Follows Gravity, the First Shape of Gravity, the Void's weightlessness turned against itself until it pulled inward.",
+    "features": [
+      [
+        34,
+        "Skill: Heavier",
+        "Creatures you hit take +4d10 force and have their speed halved."
+      ],
+      [
+        36,
+        "Skill: Well",
+        "Once per short rest, pull every creature within 20 feet of a point to it for 8d10 bludgeoning."
+      ],
+      [
+        39,
+        "Ultimate: Collapse",
+        "Once per long rest, a 60 foot sphere falls inward for 1 minute: 14d10 force each round, and nothing inside can leave."
+      ]
+    ],
+    "evolves": "If you hold Fall and Flight at once, the class evolves to rule both.",
+    "cost": "You are heavy: you cannot swim, and you sink."
+  },
+  {
+    "n": "Ever-More Blade",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Morrath",
+    "rune": "Greed",
+    "tower": "Inner Void",
+    "requires": "Level 89+; a piece of Morrath's remains from the top floor of the Unlit Spire",
+    "unlock": "At the top of the Unlit Spire, Morrath's corpse lies buried in coins it forgot it had. The last trial: walk through the hoard and leave with exactly one coin.",
+    "secret": "You must have owned 100,000 gold pieces at once.",
+    "notice": "[Want more. Legendary class: Ever-More Blade.]",
+    "blurb": "Follows Morrath, the Silent Heart of Greed, close kin to Envy, wanting more rather than wanting another's.",
+    "features": [
+      [
+        89,
+        "Skill: Take More",
+        "Each hit grants 2d10 temporary hit points, stacking to 150."
+      ],
+      [
+        91,
+        "Skill: Never Enough",
+        "Each time you drop a creature, you make another attack."
+      ],
+      [
+        94,
+        "Ultimate: Everything in Reach",
+        "Once per long rest, for 1 minute each hit steals a spell, item or feature from the target."
+      ]
+    ],
+    "evolves": "If you ever give everything away, the class turns into something else entirely.",
+    "cost": "You must pass a Wis save to pay any price or give anything away."
+  },
+  {
+    "n": "Ash-Smile Mourner",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Eirriis",
+    "rune": "Grief",
+    "tower": "Abyss",
+    "requires": "Level 45+; the trace Eirriis left on the top floor of the Sunken Spire",
+    "unlock": "At the bottom of the Sunken Spire, a smiling mask full of ash marks Eirriis's trace. Name everyone you have lost aloud, smiling all the while.",
+    "secret": "You must have buried someone with your own hands.",
+    "notice": "[Grief carried lightly. Legendary class: Ash-Smile Mourner.]",
+    "blurb": "Follows Eirriis, the Smiling Heart of Grief, the ash left after Sadness burns out.",
+    "features": [
+      [
+        45,
+        "Skill: Ash Veil",
+        "Allies within 30 feet cannot be frightened, and you see in any darkness."
+      ],
+      [
+        47,
+        "Skill: Grey Respite",
+        "Once per short rest, allies within 30 feet gain 8d8 temporary hit points and end one condition."
+      ],
+      [
+        50,
+        "Ultimate: Last Ember Smiles",
+        "Once per long rest, for 1 minute an ash sphere of 60 feet blinds enemies inside and heals allies 6d10 each turn."
+      ]
+    ],
+    "evolves": "If you help another mourner smile, the class evolves toward Hope.",
+    "cost": "You cannot truly laugh: disadvantage on Performance meant to amuse."
+  },
+  {
+    "n": "Collector of the Thousandth Death",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Selraix",
+    "rune": "Grim Reaper",
+    "tower": "Inner Realm",
+    "requires": "Level 56+; a piece of Selraix's remains from the top floor of the Heartwood Spire",
+    "unlock": "At the top of the Heartwood Spire, Selraix's remains hang from a scythe sunk in the trunk. The last trial: collect every death the tower remembers before dawn.",
+    "secret": "You must have killed a thousand creatures, tracked by the DM.",
+    "notice": "[Deaths counted. Role assigned. Legendary class: Collector of the Thousandth Death.]",
+    "blurb": "Follows Selraix, the Shrouded Shade of Grim Reaper, a role no one summons, grown into by collecting enough deaths.",
+    "features": [
+      [
+        56,
+        "Skill: Tally",
+        "You know how many creatures each being has killed, and your hits deal +6d8 necrotic to killers."
+      ],
+      [
+        58,
+        "Skill: Reap",
+        "Once per short rest, a creature at half hit points or lower makes a Con save or dies."
+      ],
+      [
+        61,
+        "Ultimate: Harvest of Souls",
+        "Once per long rest, for 1 minute each creature that dies within 120 feet heals you 20 and adds +1d10 to your hits."
+      ]
+    ],
+    "evolves": "At ten thousand deaths, you sit above every summon.",
+    "cost": "You must end a life every day or lose these features until you do."
+  },
+  {
+    "n": "The Certain Hand",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Zedour",
+    "rune": "Guarantee",
+    "tower": "Inner Void",
+    "requires": "Level 89+; the trace Zedour left on the top floor of the Unlit Spire",
+    "unlock": "At the top of the Unlit Spire, Zedour's trace is a contract already filled in. List every variable of the trial before acting; then the outcome is guaranteed.",
+    "secret": "You must never have gambled.",
+    "notice": "[Variables known. Outcome guaranteed. Legendary class: The Certain Hand.]",
+    "blurb": "Follows Zedour, the Forgotten Shade of Guarantee, the Law usable only when every variable is known.",
+    "features": [
+      [
+        89,
+        "Skill: Known Variables",
+        "After studying a creature for 1 round, your attacks against it always hit."
+      ],
+      [
+        91,
+        "Skill: Promised Outcome",
+        "Three times per short rest, treat a d20 roll of 9 or lower as a 10."
+      ],
+      [
+        94,
+        "Ultimate: It Will Happen",
+        "Once per long rest, declare one possible outcome in the next minute; if you know every variable, it happens."
+      ]
+    ],
+    "evolves": "If you guarantee an outcome Uncertain's holder opposes, the class becomes absolute.",
+    "cost": "In surprise rounds or unknown places, you lose your first turn."
+  },
+  {
+    "n": "Rote-Bound Penitent",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Selriyr",
+    "rune": "Habit",
+    "tower": "Heaven",
+    "requires": "Level 23+; a piece of Selriyr's remains from the top floor of the Choir Spire",
+    "unlock": "At the top of the Choir Spire, Selriyr's remains repeat one hymn forever. The last trial: sing along a thousand times without one variation.",
+    "secret": "You must have kept the same daily routine for a year without a break.",
+    "notice": "[Repetition rewarded. Legendary class: Rote-Bound Penitent.]",
+    "blurb": "Follows Selriyr, the Twin-Faced Shade of Habit, a Law that grows stronger each time it is used the same way.",
+    "features": [
+      [
+        23,
+        "Skill: Same Again",
+        "Repeating the same action as last turn gives +1 to hit and +1d8 damage, stacking to +5 and 5d8."
+      ],
+      [
+        25,
+        "Skill: Ritual Strength",
+        "After a full day kept to routine, gain 30 temporary hit points at dawn."
+      ],
+      [
+        28,
+        "Ultimate: The Perfect Repetition",
+        "Once per long rest, for 1 minute any action you repeat succeeds automatically."
+      ]
+    ],
+    "evolves": "If you keep a routine for ten years, it becomes unbreakable.",
+    "cost": "Breaking routine costs all your stacks and gives disadvantage for a round."
+  },
+  {
+    "n": "Stormstone Huntsman",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Undine",
+    "rune": "Hail",
+    "tower": "Outer Realm",
+    "requires": "Level 67+; the trace Undine left on the top floor of the Horizon Spire",
+    "unlock": "At the top of the Horizon Spire, ice falls from a cloud that never moves, Undine's trace. Catch one hailstone and keep it from melting all the way down.",
+    "secret": "You must have hunted through a hailstorm.",
+    "notice": "[Hail claimed. Legendary class: Stormstone Huntsman.]",
+    "blurb": "Follows Undine, the Twin-Faced Shade of Hail, rain frozen mid fall, hard enough to bruise before it lands.",
+    "features": [
+      [
+        67,
+        "Skill: Hailstone Shot",
+        "Your ranged hits deal +6d8 cold and knock the target prone."
+      ],
+      [
+        69,
+        "Skill: Barrage",
+        "Once per short rest, hail falls in a 40 foot radius for 12d10 bludgeoning."
+      ],
+      [
+        72,
+        "Ultimate: Sky of Stones",
+        "Once per long rest, hail falls over a mile for 1 minute: 10d10 to chosen creatures each round and heavily obscured sight."
+      ]
+    ],
+    "evolves": "If you hunt a storm to its heart, the class evolves toward Storm.",
+    "cost": "You are always cold: disadvantage on saves against cold."
+  },
+  {
+    "n": "Crowned in Proof",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Divine",
+    "rune": "Halo",
+    "tower": "Chaos",
+    "requires": "Level 34+; a piece of Divine's remains from the top floor of the Shuffled Spire",
+    "unlock": "On the Shuffled Spire's top floor, a ring of light lies on the floor where Divine fell. Wear it as the floor turns, keeping it level above your head.",
+    "secret": "You must have been mistaken for a god or saint.",
+    "notice": "[Halo worn. Legendary class: Crowned in Proof.]",
+    "blurb": "Follows Divine, the Hidden Shade of Halo, the visible symptom of Divinity, worn more as proof than power.",
+    "features": [
+      [
+        34,
+        "Skill: Proof of Heaven",
+        "Your halo sheds light 30 feet, divine beings recognise you, and you have advantage on Persuasion with the faithful."
+      ],
+      [
+        36,
+        "Skill: Ring Thrown",
+        "Throw your halo 60 feet for 6d10 radiant; it returns."
+      ],
+      [
+        39,
+        "Ultimate: Sign Beyond Doubt",
+        "Once per long rest, creatures that see you make a Wis save or treat you as a god for 1 minute, kneeling and refusing to attack."
+      ]
+    ],
+    "evolves": "If a true god names you, the halo becomes real Divinity.",
+    "cost": "Your halo cannot be hidden: you always shed light."
+  },
+  {
+    "n": "Sudden-Burn Sprinter",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Nydoos",
+    "rune": "Haste",
+    "tower": "Mysterious",
+    "requires": "Level 12+; the trace Nydoos left on the top floor of the Fogglass Spire",
+    "unlock": "At the top of the Fogglass Spire, Nydoos left footprints that vanish as fast as they appear. Catch them before they fade.",
+    "secret": "You must have arrived somewhere before the news of your coming.",
+    "notice": "[Speed: burning. Legendary class: Sudden-Burn Sprinter.]",
+    "blurb": "Follows Nydoos, the Hidden Shade of Haste, Speed's sharper cousin that burns out faster than it lasts.",
+    "features": [
+      [
+        12,
+        "Skill: Burst",
+        "As a bonus action, Dash and make one attack; your speed drops 10 feet next turn."
+      ],
+      [
+        14,
+        "Skill: Stagger-Step",
+        "As a reaction, weave like a drunkard to impose disadvantage on an attack."
+      ],
+      [
+        17,
+        "Ultimate: Burn Out Bright",
+        "Once per long rest, for 1 minute you have double speed and an extra action each turn, then gain a level of exhaustion."
+      ]
+    ],
+    "evolves": "If you outrun Speed's holder, the class evolves.",
+    "cost": "You eat twice as much, burning through it."
+  },
+  {
+    "n": "Cold-Grudge Brawler",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Seldoeth",
+    "rune": "Hate",
+    "tower": "Human",
+    "requires": "Level 1+; a piece of Seldoeth's remains from the top floor of the Milestone Spire",
+    "unlock": "At the top of the Milestone Spire, Seldoeth's remains clench a stone with a name scratched on it. The last trial: tell the remains whom you hate and why, calmly.",
+    "secret": "You must have kept a grudge for at least three years.",
+    "notice": "[Grudge settled into stone. Legendary class: Cold-Grudge Brawler.]",
+    "blurb": "Follows Seldoeth, the Silent Heart of Hate, the hardened form Anger takes once it stops burning.",
+    "features": [
+      [
+        1,
+        "Skill: Settled Anger",
+        "Name one hated creature: your hits deal +1d6 to it."
+      ],
+      [
+        3,
+        "Skill: Grudge Remembered",
+        "You have advantage on saves against charm and always know the direction to your hated foe."
+      ],
+      [
+        6,
+        "Ultimate: Cold Fury",
+        "Once per long rest, for 1 minute you resist bludgeoning, piercing and slashing damage and add +1d6 to every hit."
+      ]
+    ],
+    "evolves": "If your hated foe dies by your hand, choose a new grudge or evolve toward Scorn.",
+    "cost": "You cannot forgive: you cannot willingly end your grudge."
+  },
+  {
+    "n": "Keeper of the Full Measure",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Life",
+    "rune": "Health",
+    "tower": "Inner Realm",
+    "requires": "Level 56+; the trace Life left on the top floor of the Heartwood Spire",
+    "unlock": "At the top of the Heartwood Spire, one ring measures the Life of every climber, Life's trace. Let it measure you and do not lie about the number.",
+    "secret": "You must have nursed a sick village back to health.",
+    "notice": "[Health measured. Legendary class: Keeper of the Full Measure.]",
+    "blurb": "Follows Life, the Strange Shade of Health, the mortal, bloodline free measure of how much Life a body holds.",
+    "features": [
+      [
+        56,
+        "Skill: Read Vitality",
+        "You see the current hit points of creatures, and your healing adds +6d8."
+      ],
+      [
+        58,
+        "Skill: Measure Exchanged",
+        "Once per short rest, swap the hit point percentages of two creatures you touch."
+      ],
+      [
+        61,
+        "Ultimate: Full Measure",
+        "Once per long rest, allies within 120 feet are restored to full hit points and gain 50 temporary hit points."
+      ]
+    ],
+    "evolves": "If you heal a god, you hold Life's measure itself.",
+    "cost": "You feel every wound near you: disadvantage on concentration saves in combat."
+  },
+  {
+    "n": "Ear of the Shuffled Halls",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Aelsaor",
+    "rune": "Hearing",
+    "tower": "Chaos",
+    "requires": "Level 34+; the trace Aelsaor left on the top floor of the Shuffled Spire",
+    "unlock": "At the top of the Shuffled Spire, a whisper can only be heard when the floors shift, Aelsaor's trace. Hear where the next floor will be before it moves.",
+    "secret": "You must have spent time blind.",
+    "notice": "[Hearing refined. Legendary class: Ear of the Shuffled Halls.]",
+    "blurb": "Follows Aelsaor, the Nameless Shade of Hearing, the refined sense second only to Vision for Martial cultivators.",
+    "features": [
+      [
+        34,
+        "Skill: Blind Hearing",
+        "You have blindsight to 120 feet through sound."
+      ],
+      [
+        36,
+        "Skill: Heard Before Seen",
+        "You cannot be surprised, and invisible creatures gain no advantage against you."
+      ],
+      [
+        39,
+        "Ultimate: Hear the Heartbeats",
+        "Once per long rest, for 1 minute you hear every creature within a mile, and your hits deal +8d10 by striking where heartbeats are loudest."
+      ]
+    ],
+    "evolves": "If you hear a god speak, the class grows into a sense beyond hearing.",
+    "cost": "Loud noises stun you for 1 round."
+  },
+  {
+    "n": "Heartstriker",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Life",
+    "rune": "Heart",
+    "tower": "Chaos",
+    "requires": "Level 34+; a piece of Life's remains from the top floor of the Shuffled Spire",
+    "unlock": "At the top of the Shuffled Spire, a heart still beats in Life's remains. The last trial: strike it once, exactly, without killing it.",
+    "secret": "You must have survived a wound to the heart.",
+    "notice": "[Target: the heart. Legendary class: Heartstriker.]",
+    "blurb": "Follows Life, the Quiet Shade of Heart, the place a body keeps its Life, which is why losing it ends things fastest.",
+    "features": [
+      [
+        34,
+        "Skill: Strike the Heart",
+        "Your attacks score a critical hit on 18 to 20."
+      ],
+      [
+        36,
+        "Skill: Second Heart",
+        "Once per long rest, when you drop to 0 hit points you regain half your maximum."
+      ],
+      [
+        39,
+        "Ultimate: Stop",
+        "Once per long rest, a creature you hit makes a Con save or drops to 0 hit points; on a success it takes 12d10."
+      ]
+    ],
+    "evolves": "If you strike a god's heart, the class evolves.",
+    "cost": "Critical hits against you deal maximum damage."
+  },
+  {
+    "n": "Bard of the Unsent Letter",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Bravaur",
+    "rune": "Heartbreak",
+    "tower": "Human",
+    "requires": "Level 1+; the trace Bravaur left on the top floor of the Milestone Spire",
+    "unlock": "On the Milestone Spire's top floor lies a letter that was never sent, Bravaur's trace. Read it aloud, then finish it.",
+    "secret": "Someone you loved must have left you.",
+    "notice": "[Heartbreak sung. Legendary class: Bard of the Unsent Letter.]",
+    "blurb": "Follows Bravaur, the Hollow Heart of Heartbreak, what is left of Love once Sadness gets to it.",
+    "features": [
+      [
+        1,
+        "Skill: Sorrow Song",
+        "Once per short rest, a creature within 30 feet makes a Wis save or has disadvantage on its next attack and takes 1d6 psychic."
+      ],
+      [
+        3,
+        "Skill: Voices of the Lost",
+        "Once per long rest, you speak with the spirit of someone who died."
+      ],
+      [
+        6,
+        "Ultimate: Broken-Hearted Ballad",
+        "Once per long rest, enemies within 30 feet make a Wis save or are stunned by sorrow for 1 round."
+      ]
+    ],
+    "evolves": "At level 11, if you love again, the class evolves.",
+    "cost": "You cannot easily love: disadvantage on Persuasion to form bonds."
+  },
+  {
+    "n": "Ember-Palm Ascetic",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ignis",
+    "rune": "Heat",
+    "tower": "Heaven",
+    "requires": "Level 23+; the trace Ignis left on the top floor of the Choir Spire",
+    "unlock": "On the Choir Spire's cold white top floor, one warm spot remains where Ignis left its trace. Meditate there until your breath steams in the light.",
+    "secret": "You must have walked barefoot across hot coals.",
+    "notice": "[Heat channelled. Legendary class: Ember-Palm Ascetic.]",
+    "blurb": "Follows Ignis, the Radiant Spirit of Heat, the barest sliver of Fire, too thin for Ignis's shape but a being of its own.",
+    "features": [
+      [
+        23,
+        "Skill: Ember Palm",
+        "Your unarmed hits deal +4d8 fire, and you are immune to heat and fire."
+      ],
+      [
+        25,
+        "Skill: Heat Shimmer",
+        "Once per short rest, a 20 foot aura of heat imposes disadvantage on attacks against you for 1 minute."
+      ],
+      [
+        28,
+        "Ultimate: Furnace Breath",
+        "Once per long rest, a 60 foot cone of heat deals 12d10 fire and melts metal armour."
+      ]
+    ],
+    "evolves": "If you stand beside Ignis's remains, the class can evolve toward Fire.",
+    "cost": "Cold weakens you: you have vulnerability to cold."
+  },
+  {
+    "n": "Root-Wise Apothecary",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Orsath",
+    "rune": "Herb",
+    "tower": "Inner Realm",
+    "requires": "Level 56+; a piece of Orsath's remains from the top floor of the Heartwood Spire",
+    "unlock": "At the top of the Heartwood Spire, Orsath's remains are overgrown with every herb. The last trial: brew a potion from them that heals the tree itself.",
+    "secret": "You must have identified a hundred different herbs.",
+    "notice": "[Herb lore complete. Legendary class: Root-Wise Apothecary.]",
+    "blurb": "Follows Orsath, the Nameless Shade of Herb, the Nature adjacent raw material Alchemy starts from.",
+    "features": [
+      [
+        56,
+        "Skill: Herb Lore",
+        "You brew potions in a short rest, and your potions heal +6d8."
+      ],
+      [
+        58,
+        "Skill: Bitter Root",
+        "Your poisons deal 10d8 and ignore resistance."
+      ],
+      [
+        61,
+        "Ultimate: Grand Remedy",
+        "Once per long rest, a potion cures every curse, disease and condition in creatures within 60 feet."
+      ]
+    ],
+    "evolves": "If you cultivate a herb from a god's remains, the class becomes Alchemy's peak.",
+    "cost": "You must forage each day or lose your stock."
+  },
+  {
+    "n": "Husk-Walker",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Orkais",
+    "rune": "Hollow",
+    "tower": "Chaos",
+    "requires": "Level 34+; the trace Orkais left on the top floor of the Shuffled Spire",
+    "unlock": "At the top of the Shuffled Spire, a hollow suit of armour that Orkais left is always on the next floor. Catch it and climb inside.",
+    "secret": "Your soul or memories must have been taken once.",
+    "notice": "[Essence: absent. Legendary class: Husk-Walker.]",
+    "blurb": "Follows Orkais, the Quiet Shade of Hollow, what is left once Essence has been taken.",
+    "features": [
+      [
+        34,
+        "Skill: Empty Shell",
+        "You resist psychic and necrotic damage, and cannot be possessed."
+      ],
+      [
+        36,
+        "Skill: Hollow Step",
+        "Teleport between shadows within 60 feet as a bonus action."
+      ],
+      [
+        39,
+        "Ultimate: Draw Out",
+        "Once per long rest, a creature makes a Cha save or its essence is hollowed: it is stunned for 1 minute and takes 10d10 necrotic each turn."
+      ]
+    ],
+    "evolves": "If you fill your hollow with something worthy, the class evolves toward Fill.",
+    "cost": "You feel little: disadvantage on Insight."
+  },
+  {
+    "n": "Reacher for the Far Shore",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ulvayr",
+    "rune": "Hope",
+    "tower": "Inner Void",
+    "requires": "Level 89+; the trace Ulvayr left on the top floor of the Unlit Spire",
+    "unlock": "At the top of the Unlit Spire, where every floor below is forgotten, Ulvayr's trace is a hand reaching upward. Keep reaching for something you cannot see, with no memory of why.",
+    "secret": "You must have kept going when all allies urged you to give up.",
+    "notice": "[Hope sustained. Legendary class: Reacher for the Far Shore.]",
+    "blurb": "Follows Ulvayr, the Tender Heart of Hope, Happiness's sibling under Light, reaching rather than resting.",
+    "features": [
+      [
+        89,
+        "Skill: Reaching Hand",
+        "Allies within 60 feet who drop to 0 hit points regain 8d10 instead once per short rest each."
+      ],
+      [
+        91,
+        "Skill: Not Yet Lost",
+        "Allies within 60 feet cannot be frightened and have advantage on death saves."
+      ],
+      [
+        94,
+        "Ultimate: Far Shore",
+        "Once per long rest, all allies within a mile are fully healed and revived for 1 minute even if dead."
+      ]
+    ],
+    "evolves": "If your hope carries someone to the Primordial, the class evolves.",
+    "cost": "Despair stalls you: if all allies fall, you are stunned for a round."
+  },
+  {
+    "n": "Bone-Crowned Charger",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Nyzeael",
+    "rune": "Horn",
+    "tower": "Heaven",
+    "requires": "Level 23+; a piece of Nyzeael's remains from the top floor of the Choir Spire",
+    "unlock": "At the top of the Choir Spire, Nyzeael's horned skull still sings with the choir. The last trial: charge the choir head-on and break through its wall of sound.",
+    "secret": "You must have broken a bone and kept fighting.",
+    "notice": "[Horns grown. Legendary class: Bone-Crowned Charger.]",
+    "blurb": "Follows Nyzeael, the Quiet Shade of Horn, the body Law of growing a weapon from bone for charging and goring.",
+    "features": [
+      [
+        23,
+        "Skill: Grown Horns",
+        "You grow horns that deal 3d10 piercing and regrow if broken."
+      ],
+      [
+        25,
+        "Skill: Gore Charge",
+        "Move 30 feet straight and gore for +6d8, knocking the target prone."
+      ],
+      [
+        28,
+        "Ultimate: Crown of Bone",
+        "Once per long rest, for 1 minute your horns grow huge: +2 AC, and each charge hits every creature in your path for 12d10."
+      ]
+    ],
+    "evolves": "If you gore a beast god, the class evolves.",
+    "cost": "Your horns cannot be hidden, and helmets will not fit."
+  },
+  {
+    "n": "Night-Fed Wanderer",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Varais",
+    "rune": "Hupia",
+    "tower": "Mysterious",
+    "requires": "Level 12+; the trace Varais left on the top floor of the Fogglass Spire",
+    "unlock": "At the top of the Fogglass Spire, Varais left a cup of blood in a mirror that never dries. Drink only from it for a week.",
+    "secret": "You must have survived losing most of your blood.",
+    "notice": "[Feeding sustained. Legendary class: Night-Fed Wanderer.]",
+    "blurb": "Follows Varais, the Nameless Shade of Hupia, a blood drinker that keeps its power while it feeds, like the night-walking dead of island tales.",
+    "features": [
+      [
+        12,
+        "Skill: Blood Kept",
+        "Your bite deals 2d8 piercing and heals you equal to the damage."
+      ],
+      [
+        14,
+        "Skill: Night Walk",
+        "You have darkvision 120 feet and walk unseen at night."
+      ],
+      [
+        17,
+        "Ultimate: Crimson Fill",
+        "Once per long rest, drain a creature: it makes a Con save or loses 6d10 hit points and you gain double that as temporary hit points."
+      ]
+    ],
+    "evolves": "If you feed only on the willing for a year, the class evolves.",
+    "cost": "You must drink blood each day or lose a tenth of your power."
+  },
+  {
+    "n": "Plain-Blow Champion",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Vasaor",
+    "rune": "Hurt",
+    "tower": "Human",
+    "requires": "Level 1+; a piece of Vasaor's remains from the top floor of the Milestone Spire",
+    "unlock": "At the top of the Milestone Spire, Vasaor's remains clutch a plain club. The last trial: strike the training post a thousand times with no technique at all.",
+    "secret": "You must never have used a special maneuver or spell in a fight.",
+    "notice": "[Hurt confirmed. Legendary class: Plain-Blow Champion.]",
+    "blurb": "Follows Vasaor, the Forgotten Shade of Hurt, the plainest offensive Law, doing exactly what it says.",
+    "features": [
+      [
+        1,
+        "Skill: Simple Hurt",
+        "Your weapon attacks score a critical hit on 19 or 20."
+      ],
+      [
+        3,
+        "Skill: Plain Truth",
+        "Your hits ignore damage resistance."
+      ],
+      [
+        6,
+        "Ultimate: Just Hit It",
+        "Once per long rest, your next hit deals maximum damage."
+      ]
+    ],
+    "evolves": "At level 11, a thousand plain kills can evolve the class.",
+    "cost": "You cannot use maneuvers, stances or fancy techniques."
+  },
+  {
+    "n": "Frostwall Abjurer",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Undine",
+    "rune": "Ice",
+    "tower": "Void",
+    "requires": "Level 78+; a piece of Undine's remains from the top floor of the Hollow Spire",
+    "unlock": "At the top of the Hollow Spire, Undine's remains are frozen into glowing ice. The last trial: break the ice without fire.",
+    "secret": "You must have survived freezing.",
+    "notice": "[Ice channelled. Legendary class: Frostwall Abjurer.]",
+    "blurb": "Follows Undine, the Hidden Shade of Ice, the changed form of Water drawn from Undine's dying corpse.",
+    "features": [
+      [
+        78,
+        "Skill: Frost Ward",
+        "You and allies within 30 feet resist cold, and hits against you deal 10d8 cold to the attacker."
+      ],
+      [
+        80,
+        "Skill: Ice Wall",
+        "Once per short rest, raise a 120 foot wall of ice with 200 hit points."
+      ],
+      [
+        83,
+        "Ultimate: Glacier",
+        "Once per long rest, freeze a 120 foot area for 1 minute: creatures make a Con save or are restrained in ice taking 16d10 cold each turn."
+      ]
+    ],
+    "evolves": "If you thaw Undine's remains, the class evolves.",
+    "cost": "Heat harms you: you have vulnerability to fire."
+  },
+  {
+    "n": "Bearer of the Unspent Vow",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Aelleeth",
+    "rune": "Ideals",
+    "tower": "Void",
+    "requires": "Level 78+; a piece of Aelleeth's remains from the top floor of the Hollow Spire",
+    "unlock": "At the top of the Hollow Spire, Aelleeth's remains are a statue of someone about to act. State your ideal aloud and let the Void test it with silence.",
+    "secret": "You must never have broken your stated ideal.",
+    "notice": "[Ideal held. Legendary class: Bearer of the Unspent Vow.]",
+    "blurb": "Follows Aelleeth, the Nameless Shade of Ideals, what a Sin or virtue looks like before a mortal acts on it.",
+    "features": [
+      [
+        78,
+        "Skill: Unacted Strength",
+        "While you act in line with your ideal, you gain +2 AC and +6d10 on hits."
+      ],
+      [
+        80,
+        "Skill: Ideal Shield",
+        "Allies within 30 feet who share your ideal resist all damage."
+      ],
+      [
+        83,
+        "Ultimate: Pure Intent",
+        "Once per long rest, for 1 minute your ideal becomes Law within 120 feet: creatures that act against it take 20d10 radiant."
+      ]
+    ],
+    "evolves": "If you act on your ideal at the cost of your life, the class evolves.",
+    "cost": "Breaking your ideal strips this class for a month."
+  },
+  {
+    "n": "True-Name Examiner",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Selkayr",
+    "rune": "Identify",
+    "tower": "Chaos",
+    "requires": "Level 34+; a piece of Selkayr's remains from the top floor of the Shuffled Spire",
+    "unlock": "At the top of the Shuffled Spire, Selkayr's remains lie among a hundred identical corpses. The last trial: identify the true one.",
+    "secret": "You must have unmasked an impostor.",
+    "notice": "[Identity confirmed. Legendary class: True-Name Examiner.]",
+    "blurb": "Follows Selkayr, the Twin-Faced Shade of Identify, used to tell Friend from Foe and a real god from one wearing a stolen Law.",
+    "features": [
+      [
+        34,
+        "Skill: True Sight of Names",
+        "You learn any creature's true name and type when you see it."
+      ],
+      [
+        36,
+        "Skill: Unmask",
+        "Once per short rest, end a disguise, possession or stolen Law within 60 feet."
+      ],
+      [
+        39,
+        "Ultimate: Known for What It Is",
+        "Once per long rest, name a creature: for 1 minute its features and resistances do not work against you."
+      ]
+    ],
+    "evolves": "If you identify a false god, the class evolves.",
+    "cost": "Lies hurt you: you take 1d6 psychic whenever you are lied to."
+  },
+  {
+    "n": "Hearth-Hunger Wanderer",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ignis",
+    "rune": "Ignis",
+    "tower": "Outer Realm",
+    "requires": "Level 67+; a piece of Ignis's remains from the top floor of the Horizon Spire",
+    "unlock": "At the top of the Horizon Spire, a campfire on the open plain is Ignis's last ember. The last trial: feed it something you love and sit in its warmth until dawn.",
+    "secret": "You must have kept a fire burning through a winter for others.",
+    "notice": "[Hunger and warmth. Legendary class: Hearth-Hunger Wanderer.]",
+    "blurb": "Follows Ignis, the progenitor spirit of Fire, hungry rather than cruel, consuming all it touched and giving warmth as freely as it destroyed.",
+    "features": [
+      [
+        67,
+        "Skill: Hungry Flame",
+        "Your fire damage ignores resistance and heals you for half."
+      ],
+      [
+        69,
+        "Skill: Shared Warmth",
+        "Allies within 60 feet regain 6d10 hit points at the start of their turns while you burn."
+      ],
+      [
+        72,
+        "Ultimate: Consuming Hearth",
+        "Once per long rest, a 120 foot area burns for 1 minute: 14d10 fire to enemies each round and full warmth to allies."
+      ]
+    ],
+    "evolves": "Carry the ember to the First Spire and the class may evolve into Ashborn Sovereign.",
+    "cost": "You must burn something of value each week."
+  },
+  {
+    "n": "Mirror-Mist Deceiver",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Mortaos",
+    "rune": "Illusion",
+    "tower": "Mysterious",
+    "requires": "Level 12+; a piece of Mortaos's remains from the top floor of the Fogglass Spire",
+    "unlock": "At the top of the Fogglass Spire, Mortaos's corpse is the only thing in the mirrored room without a reflection. The last trial: find it.",
+    "secret": "You must have fooled a divination spell.",
+    "notice": "[Illusion mastered. Legendary class: Mirror-Mist Deceiver.]",
+    "blurb": "Follows Mortaos, the Twice-Born Keeper of Illusion, built from False the way Fire is built from Ignis.",
+    "features": [
+      [
+        12,
+        "Skill: Mirror Twin",
+        "As a bonus action, create an illusory double; attacks against you have a 50 percent chance to hit it instead."
+      ],
+      [
+        14,
+        "Skill: Fog of Seeming",
+        "Once per short rest, a 30 foot area fills with illusions that impose disadvantage on attacks."
+      ],
+      [
+        17,
+        "Ultimate: Thousand Mirrors",
+        "Once per long rest, enemies within 60 feet make a Wis save or are lost in mirrors for 1 minute."
+      ]
+    ],
+    "evolves": "If you fool a god, the class evolves toward False.",
+    "cost": "You see your reflection wrong: disadvantage on Insight."
+  },
+  {
+    "n": "Painter of Living Likeness",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Bratheor",
+    "rune": "Image",
+    "tower": "Outer Realm",
+    "requires": "Level 67+; a piece of Bratheor's remains from the top floor of the Horizon Spire",
+    "unlock": "At the top of the Horizon Spire, Bratheor's remains are a portrait that looks like whoever views it. The last trial: paint yourself so well the portrait copies you.",
+    "secret": "You must have been painted or sculpted from life.",
+    "notice": "[Image copied. Legendary class: Painter of Living Likeness.]",
+    "blurb": "Follows Bratheor, the Forgotten Shade of Image, a copy of appearance only, thinner than Illusion.",
+    "features": [
+      [
+        67,
+        "Skill: Likeness",
+        "Take any creature's appearance perfectly."
+      ],
+      [
+        69,
+        "Skill: Painted Double",
+        "Once per short rest, paint a living image that fights for 1 minute with your stats at half hit points."
+      ],
+      [
+        72,
+        "Ultimate: Gallery of Selves",
+        "Once per long rest, create six images for 1 minute; each deals 6d10 on hits."
+      ]
+    ],
+    "evolves": "If your image outlives you, the class passes into it.",
+    "cost": "You forget your own face over time."
+  },
+  {
+    "n": "The Inured One",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ostmin",
+    "rune": "Immunity",
+    "tower": "Void",
+    "requires": "Level 78+; the trace Ostmin left on the top floor of the Hollow Spire",
+    "unlock": "At the top of the Hollow Spire, Ostmin left a scar on the nothing. Endure each damage type in turn, without rest.",
+    "secret": "You must have survived poison or disease that killed others.",
+    "notice": "[Immunity earned. Legendary class: The Inured One.]",
+    "blurb": "Follows Ostmin, the Shrouded Shade of Immunity, a narrower and permanent Resistance earned rather than cast.",
+    "features": [
+      [
+        78,
+        "Skill: Earned Immunity",
+        "Choose two damage types; you are immune to them."
+      ],
+      [
+        80,
+        "Skill: Unbowed Body",
+        "You are immune to poison, disease and exhaustion."
+      ],
+      [
+        83,
+        "Ultimate: Untouchable",
+        "Once per long rest, for 1 minute you are immune to all damage from one source."
+      ]
+    ],
+    "evolves": "If you survive a god's strike, gain another immunity.",
+    "cost": "Healing works at half on you."
+  },
+  {
+    "n": "Warden of the God-Cell",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Vesniur",
+    "rune": "Imprison",
+    "tower": "Inner Void",
+    "requires": "Level 89+; the trace Vesniur left on the top floor of the Unlit Spire",
+    "unlock": "At the top of the Unlit Spire, an empty cell with broken chains bears Vesniur's trace. Lock yourself in and hold the door from inside until you remember why.",
+    "secret": "You must have served as a jailer for a year.",
+    "notice": "[Prison ready. Legendary class: Warden of the God-Cell.]",
+    "blurb": "Follows Vesniur, the Shrouded Shade of Imprison, Cage and Chain combined, strong enough to hold real power.",
+    "features": [
+      [
+        89,
+        "Skill: Chained",
+        "Your hits restrain the target (Str save)."
+      ],
+      [
+        91,
+        "Skill: Cage",
+        "Once per short rest, a 30 foot cage of force holds creatures inside."
+      ],
+      [
+        94,
+        "Ultimate: Imprison Divine",
+        "Once per long rest, imprison a creature for 1 hour; even gods must make a Cha save."
+      ]
+    ],
+    "evolves": "If you hold a god for a day, the class evolves.",
+    "cost": "You cannot stand open spaces: disadvantage outdoors."
+  },
+  {
+    "n": "Oathbearer of Small Gains",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ultaeth",
+    "rune": "Improvement",
+    "tower": "Outer Realm",
+    "requires": "Level 67+; a piece of Ultaeth's remains from the top floor of the Horizon Spire",
+    "unlock": "At the top of the Horizon Spire, Ultaeth's remains are a statue polished by countless hands. The last trial: improve it.",
+    "secret": "You must have trained every day for a year.",
+    "notice": "[Improvement locked in. Legendary class: Oathbearer of Small Gains.]",
+    "blurb": "Follows Ultaeth, the Strange Shade of Improvement, Boost's cousin, slower but longer lasting.",
+    "features": [
+      [
+        67,
+        "Skill: Daily Gain",
+        "Each long rest, gain +1 to one roll type, max +5."
+      ],
+      [
+        69,
+        "Skill: Lasting Boost",
+        "Your buffs on allies last 1 hour."
+      ],
+      [
+        72,
+        "Ultimate: Glorious Improvement",
+        "Once per long rest, all allies within 120 feet gain +2 AC and +10d10 on hits for 1 hour."
+      ]
+    ],
+    "evolves": "After a year of daily gains, the class evolves.",
+    "cost": "Skipping training loses all gains."
+  },
+  {
+    "n": "Other Face of Balance",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Infinatas",
+    "rune": "Inane",
+    "tower": "Outer Realm",
+    "requires": "Level 67+; a piece of Infinatas's remains from the top floor of the Horizon Spire",
+    "unlock": "At the top of the Horizon Spire, Infinatas's shadow falls backward, Inane's killed half. The last trial: destroy something you made, to keep the balance.",
+    "secret": "You must have destroyed something you made with your own hands.",
+    "notice": "[Balance: destruction. Legendary class: Other Face of Balance.]",
+    "blurb": "Follows Infinatas, the Shrouded Shade of Inane, Infinatas's split personality that keeps balance through Destruction.",
+    "features": [
+      [
+        67,
+        "Skill: Unmake",
+        "Your hits deal +8d10 force to constructs and creations."
+      ],
+      [
+        69,
+        "Skill: Balance Restored",
+        "Once per short rest, end a spell or creation within 120 feet."
+      ],
+      [
+        72,
+        "Ultimate: Inane Turn",
+        "Once per long rest, destroy a creation of any size within 300 feet; creatures take 20d10 force."
+      ]
+    ],
+    "evolves": "If you meet Infinatas and he does not turn away, the class evolves.",
+    "cost": "For every thing you destroy, you must create something of equal value."
+  },
+  {
+    "n": "Scatter-Shot Strategist",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ostdoel",
+    "rune": "Indirect",
+    "tower": "Hell",
+    "requires": "Level 23+; a piece of Ostdoel's remains from the top floor of the Ledger Spire",
+    "unlock": "At the top of the Ledger Spire, Ostdoel's remains were never struck directly. The last trial: hit a target you cannot see.",
+    "secret": "You must have won a fight without a direct hit.",
+    "notice": "[Indirect confirmed. Legendary class: Scatter-Shot Strategist.]",
+    "blurb": "Follows Ostdoel, the Quiet Shade of Indirect, trading accuracy for reach or spread.",
+    "features": [
+      [
+        23,
+        "Skill: Ricochet",
+        "Your attacks ignore cover and can bounce around corners."
+      ],
+      [
+        25,
+        "Skill: Spread",
+        "Once per short rest, a single-target spell or attack hits all creatures in a 20 foot radius."
+      ],
+      [
+        28,
+        "Ultimate: Rain of Indirection",
+        "Once per long rest, a 120 foot area takes 10d10 force each round for 1 minute."
+      ]
+    ],
+    "evolves": "If you strike a god without aim, the class evolves.",
+    "cost": "Direct shots fail: disadvantage on single-target attacks."
+  },
+  {
+    "n": "Guest of the Balance",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Infinatas",
+    "rune": "Infinatas",
+    "tower": "Mysterious",
+    "requires": "Level 12+; an audience with Infinatas at the top of the Fogglass Spire",
+    "unlock": "At the top of the Fogglass Spire, Infinatas himself waits in the mist. Meet him and answer what you would keep and what you would let end.",
+    "secret": "You must have created and destroyed something of equal worth in one day.",
+    "notice": "[Audience granted. Legendary class: Guest of the Balance.]",
+    "blurb": "Follows Infinatas, the Creator of All, the Balance Itself, one of the last original gods who was never broken.",
+    "features": [
+      [
+        12,
+        "Skill: Balanced Hand",
+        "Your healing and damage both increase by 2d8."
+      ],
+      [
+        14,
+        "Skill: Weigh",
+        "Once per short rest, set a creature's hit points to the average of yours and its."
+      ],
+      [
+        17,
+        "Ultimate: The Balance Itself",
+        "Once per long rest, for 1 minute all damage within 60 feet is shared equally between allies and enemies."
+      ]
+    ],
+    "evolves": "If you meet Infinatas again at a higher Tower, the class grows.",
+    "cost": "Every gift you take costs an equal loss."
+  },
+  {
+    "n": "The Edgeless Mind",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Quomias",
+    "rune": "Infinite",
+    "tower": "Heaven",
+    "requires": "Level 23+; a piece of Quomias's remains from the top floor of the Choir Spire",
+    "unlock": "At the top of the Choir Spire, Quomias's remains sing a song that never ends. The last trial: listen until you stop counting.",
+    "secret": "You must have nearly lost your mind to something vast.",
+    "notice": "[Edge removed. Legendary class: The Edgeless Mind.]",
+    "blurb": "Follows Quomias, the Infinite Shape of Infinite, the Void abstraction with no edge for Finite to draw.",
+    "features": [
+      [
+        23,
+        "Skill: Edgeless Thought",
+        "You can speak telepathically to any creature you have met."
+      ],
+      [
+        25,
+        "Skill: Unending",
+        "Once per short rest, a spell you cast does not end until you choose."
+      ],
+      [
+        28,
+        "Ultimate: Infinite Fold",
+        "Once per long rest, a creature makes a Wis save or is lost in infinity for 1 minute, taking 8d10 psychic each turn."
+      ]
+    ],
+    "evolves": "If you hold Finite at the same time, the class evolves.",
+    "cost": "Your mind slips: disadvantage on Wis saves against madness."
+  },
+  {
+    "n": "Heir of the Shuffled Will",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Aelnior",
+    "rune": "Inheritance",
+    "tower": "Chaos",
+    "requires": "Level 34+; the trace Aelnior left on the top floor of the Shuffled Spire",
+    "unlock": "At the top of the Shuffled Spire, Aelnior's will rewrites itself each hour. Be named in it at the moment the floors stop.",
+    "secret": "You must have inherited something from a dead relative or mentor.",
+    "notice": "[Inheritance received. Legendary class: Heir of the Shuffled Will.]",
+    "blurb": "Follows Aelnior, the Hidden Shade of Inheritance, how Royalty, Legacy and Laws pass from one generation to the next.",
+    "features": [
+      [
+        34,
+        "Skill: Legacy",
+        "When an ally dies, gain one of their features permanently."
+      ],
+      [
+        36,
+        "Skill: Bloodline Claim",
+        "Once per short rest, use a feature of an ancestor or mentor."
+      ],
+      [
+        39,
+        "Ultimate: Inherit the Law",
+        "Once per long rest, take a Law from a creature dead within 1 minute for 1 hour."
+      ]
+    ],
+    "evolves": "If you pass the class on, your heir starts at your power.",
+    "cost": "Your heirs are hunted by those who want your legacy."
+  },
+  {
+    "n": "The Untried Inventor",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Orzeix",
+    "rune": "Innovation",
+    "tower": "Mysterious",
+    "requires": "Level 12+; a piece of Orzeix's remains from the top floor of the Fogglass Spire",
+    "unlock": "At the top of the Fogglass Spire, Orzeix's corpse sits at a bench of unfinished devices. The last trial: invent something the fog has never seen.",
+    "secret": "You must have built something without any instructions.",
+    "notice": "[Innovation recorded. Legendary class: The Untried Inventor.]",
+    "blurb": "Follows Orzeix, the Quiet Shade of Innovation, Tradition's opposite, rarely trusted right away.",
+    "features": [
+      [
+        12,
+        "Skill: New Idea",
+        "Once per short rest, invent a device that duplicates any 2nd level spell."
+      ],
+      [
+        14,
+        "Skill: Untested",
+        "Your devices deal +2d8 damage but fail on a 1."
+      ],
+      [
+        17,
+        "Ultimate: First of Its Kind",
+        "Once per long rest, build a device that duplicates any 4th level spell."
+      ]
+    ],
+    "evolves": "If your invention becomes tradition, the class evolves.",
+    "cost": "Tradition rejects you: disadvantage with guilds."
+  },
+  {
+    "n": "Whisperer of First Sparks",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Thalleune",
+    "rune": "Instigate",
+    "tower": "Chaos",
+    "requires": "Level 34+; a piece of Thalleune's remains from the top floor of the Shuffled Spire",
+    "unlock": "At the top of the Shuffled Spire, Thalleune's remains still mutter. The last trial: start a fight between two trial guardians without throwing a punch.",
+    "secret": "You must have started a riot or war.",
+    "notice": "[Provocation accepted. Legendary class: Whisperer of First Sparks.]",
+    "blurb": "Follows Thalleune, the Strange Shade of Instigate, a Law meant to provoke rather than harm, often paired with Anger.",
+    "features": [
+      [
+        34,
+        "Skill: Whisper",
+        "A creature makes a Wis save or attacks its ally."
+      ],
+      [
+        36,
+        "Skill: Stoked Rage",
+        "Enraged creatures within 60 feet take +4d10 from all sources."
+      ],
+      [
+        39,
+        "Ultimate: War from Words",
+        "Once per long rest, all enemies within 120 feet make a Wis save or fight each other for 1 minute."
+      ]
+    ],
+    "evolves": "If you start a war between gods, the class evolves.",
+    "cost": "You cannot speak plainly: allies distrust your words."
+  },
+  {
+    "n": "Many-Shelved Mind",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Brariar",
+    "rune": "Int",
+    "tower": "Mysterious",
+    "requires": "Level 12+; a piece of Brariar's remains from the top floor of the Fogglass Spire",
+    "unlock": "At the top of the Fogglass Spire, Brariar's skull is a library. The last trial: memorise the mist's thousand pages.",
+    "secret": "You must have read a thousand books.",
+    "notice": "[Mind expanded. Legendary class: Many-Shelved Mind.]",
+    "blurb": "Follows Brariar, the Hidden Shade of Int, the trait for how much a mind can hold and combine.",
+    "features": [
+      [
+        12,
+        "Skill: Shelved Knowledge",
+        "Gain proficiency in all Int skills, with double bonus."
+      ],
+      [
+        14,
+        "Skill: Combine",
+        "Once per short rest, combine two spells you know into one."
+      ],
+      [
+        17,
+        "Ultimate: Library Mind",
+        "Once per long rest, know the answer to one question."
+      ]
+    ],
+    "evolves": "If you learn a god's secret, the class evolves.",
+    "cost": "Your mind is full: you forget something each day."
+  },
+  {
+    "n": "Forge-Heir of the Firstborn",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Iron",
+    "rune": "Iron",
+    "tower": "Hell",
+    "requires": "Level 23+; the trace Iron left on the top floor of the Ledger Spire",
+    "unlock": "At the top of the Ledger Spire, an iron door is chained shut from the Spirit Realm side, Iron's handprint pressed through it. Forge one new link and break one old one.",
+    "secret": "You must be a smith or a firstborn who left home.",
+    "notice": "[Firstborn's power received. Legendary class: Forge-Heir of the Firstborn.]",
+    "blurb": "Follows Iron, the Radiant Spirit of Iron, Gnome's favourite first child, strong and versatile, now stuck in the Spirit Realm.",
+    "features": [
+      [
+        23,
+        "Skill: Versatile Iron",
+        "Your weapons count as any type you need, and you gain +1 AC."
+      ],
+      [
+        25,
+        "Skill: Iron Skin",
+        "Once per short rest, resist all damage for 1 minute."
+      ],
+      [
+        28,
+        "Ultimate: Firstborn Strike",
+        "Once per long rest, an iron blow deals 12d10 and breaks any armour."
+      ]
+    ],
+    "evolves": "If you free Iron from the Spirit Realm, the class evolves and Patient Mountain may answer.",
+    "cost": "Rust follows you: water corrodes your gear."
+  },
+  {
+    "n": "Severed-Thread Recluse",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Liodour",
+    "rune": "Isolation",
+    "tower": "Abyss",
+    "requires": "Level 45+; a piece of Liodour's remains from the top floor of the Sunken Spire",
+    "unlock": "At the bottom of the Sunken Spire, Liodour's remains sit alone in a cell. The last trial: stay alone at the bottom for a month.",
+    "secret": "You must have lived alone for a year.",
+    "notice": "[Thread cut. Legendary class: Severed-Thread Recluse.]",
+    "blurb": "Follows Liodour, the Smiling Heart of Isolation, Dark's answer to Empathy and Belonging.",
+    "features": [
+      [
+        45,
+        "Skill: Cut the Thread",
+        "Your hits end buffs and bonds on enemies."
+      ],
+      [
+        47,
+        "Skill: Alone",
+        "When no ally is within 60 feet, gain +2 AC and +8d8 on hits."
+      ],
+      [
+        50,
+        "Ultimate: Solitude",
+        "Once per long rest, every creature within 120 feet is isolated for 1 minute: no aid, no shared effects."
+      ]
+    ],
+    "evolves": "If someone breaks through your solitude, the class evolves.",
+    "cost": "Healing and buffs from allies do not work on you."
+  }
+]
