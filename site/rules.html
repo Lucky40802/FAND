@@ -1995,6 +1995,7 @@ function craftOut(){
   $('cf-out').innerHTML=`<div class="panel" style="display:flex;flex-direction:column;gap:12px">
     <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="font-size:1.25rem;margin:0">${refChip(b,esc(b.n))}</h4>${rarB(b.r)}<span class="b ghost">${esc(b.cat)}</span>${b.ac?`<span class="b">AC ${esc(b.ac)}</span>`:''}${b.dc?`<span class="b">${esc(b.dc)} ${esc(b.dm)}</span>`:''}</div>
     <div class="badges" style="gap:6px">${req.join('')}</div>
+    ${craftCheckHTML(b,who)}
     <div class="tablewrap"><table class="t"><thead><tr><th>Material</th><th>Grade</th><th class="num">Need</th>${who?'<th class="num">Has</th>':''}<th class="num">Each</th><th class="num">To buy</th><th>Where to get it</th><th>Refining</th></tr></thead><tbody>${rows}</tbody></table></div>
     <div class="out" style="margin:0"><div class="big">${gp(total)}</div><div class="kv"><span>To make</span><span>${q} × ${esc(b.n)}</span><span>Still to buy</span><span>${missing.length?missing.map(([n,k])=>k+' × '+esc(n)).join(', '):'nothing, all materials on hand'}</span>${unsold?'<span>Note</span><span>Some materials are not sold; they must be hunted, gathered, or traded.</span>':''}</div></div>
     ${traits.length?`<div><div class="blk"><h4>Traits when equipped</h4></div><div class="mlist">${traits.map(m=>`<button data-ref="${ref(m)}" style="flex-direction:column;align-items:flex-start"><b style="color:var(--gold2)">◆ ${esc(m.tr.n)}</b><span style="font-size:.8rem">${esc(m.tr.t)}</span></button>`).join('')}</div></div>`:''}
@@ -2003,11 +2004,37 @@ function craftOut(){
       ${who?`<button class="btn primary" onclick="craftNow()">Craft it: use ${esc(who.name||'their')} materials and add to gear</button>`:''}
     </div></div>`;
   craftOut.missing=missing;
+  if($('cf-noshop'))$('cf-noshop').onchange=e=>{const st=store.get('craft',{});st.noShop=e.target.checked;store.set('craft',st);craftOut()};
+  if($('cf-roll'))$('cf-roll').onclick=craftRoll;
 }
 function copyShopping(){const st=store.get('craft',{});const t='Shopping list for '+st.bp+':\n'+(craftOut.missing||[]).map(([n,k])=>'- '+k+' × '+n).join('\n');(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('Copied'),()=>toast('Copy failed'))}
-function craftNow(){
+// Crafting check, from the vault's Crafting Rules: d20 + profession bonus (half the profession level) vs a DC by rarity.
+const CRAFT_DC={Common:10,Uncommon:13,Rare:16,'Very Rare':19,Legendary:22,Artifact:25};
+const CRAFT_TIME={Common:'about a day',Uncommon:'about a day',Rare:'about a week','Very Rare':'about a week',Legendary:'a month or more, at the DM\'s discretion, often with a story requirement (a special forge, a season, a witness)',Artifact:'a month or more, at the DM\'s discretion, often with a story requirement (a special forge, a season, a witness)'};
+function craftCheck(b,who){
+  const st=store.get('craft',{}),dc=CRAFT_DC[b.r]||10,lv=who?+who.profLv||0:null,bonus=lv!=null?Math.floor(lv/2):0;
+  const hasProf=who?lc(who.prof||'')===lc(b.pr):null,hasSpec=who&&b.sp&&b.sp!==b.pr?(who.specs||[]).map(lc).includes(lc(b.sp)):true;
+  const dis=[];if(who&&!hasSpec&&!(b.lv<=lv/2))dis.push('outside their specialties');if(st.noShop)dis.push('no proper workspace or tools');
+  const blocked=who?(!hasProf?'They don\'t have the '+b.pr+' profession.':lv<b.lv?`Their ${b.pr} level (${lv}) is below the Blueprint's level (${b.lv}); they can't attempt it.`:''):'';
+  return {dc,lv,bonus,dis,blocked,time:(CRAFT_TIME[b.r]||'about a day')+(st.noShop?', doubled for working without a proper workspace':'')};
+}
+function craftCheckHTML(b,who){
+  const c=craftCheck(b,who),st=store.get('craft',{});
+  return `<div class="callout" style="border-color:var(--gold)"><b>Crafting check</b>: d20 ${who?`+ ${c.bonus} (${esc(who.name||'crafter')}, ${esc(b.pr)} level ${c.lv})`:'+ profession bonus (half the profession level)'} vs <b>DC ${c.dc}</b> (${esc(b.r||'Common')})${c.dis.length?` at <b>disadvantage</b> (${esc(c.dis.join('; '))})`:''}. Time: ${esc(c.time)}.
+    ${c.blocked?`<div style="color:var(--red);margin-top:4px"><b>Can't craft:</b> ${esc(c.blocked)}</div>`:''}
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px"><label class="note" style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" id="cf-noshop" ${st.noShop?'checked':''}> No proper workspace or tools</label>${!c.blocked?`<button class="btn" id="cf-roll">🎲 Roll the crafting check</button>`:''}<span id="cf-res"></span></div>
+    <div class="note" style="margin:6px 0 0">Success: the item is finished and its materials are used. Failure: nothing is lost; try again. Natural 1: the materials are ruined. Natural 20: a maker's flourish.</div></div>`;
+}
+function craftRoll(){
+  const st=store.get('craft',{}),b=findBP(st.bp),who=PARTY.find(c=>c.id===st.who),c=craftCheck(b,who);
+  const r1=1+Math.floor(Math.random()*20),r2=1+Math.floor(Math.random()*20),d=c.dis.length?Math.min(r1,r2):r1,tot=d+c.bonus;
+  const res=d===1?['red','Natural 1: the attempt fails and the materials are ruined.','ruin']:tot>=c.dc?['green',(d===20?'Natural 20! ':'')+'Success: '+b.n+' is finished.','ok']:['gold','Failure: nothing is lost; try again.',''];
+  $('cf-res').innerHTML=`<b>${d}${c.dis.length?` <small>(${r1}, ${r2})</small>`:''} + ${c.bonus} = ${tot}</b> vs DC ${c.dc}: <span style="color:var(--${res[0]})">${esc(res[1])}</span>${who&&res[2]==='ok'?` <button class="btn primary" onclick="craftNow(true)">Use materials, add to gear</button>`:''}${who&&res[2]==='ruin'?` <button class="btn" onclick="craftRuin()">Remove the ruined materials</button>`:''}`;
+}
+function craftRuin(){const st=store.get('craft',{}),b=findBP(st.bp),q=Math.max(1,st.qty||1),c=PARTY.find(x=>x.id===st.who);if(!b||!c)return;c.inv=(c.inv||[]).map(([n,k])=>b.mats.some(x=>lc(x)===lc(n))?[n,Math.max(0,(+k||0)-q)]:[n,k]).filter(([,k])=>k>0);saveParty();toast('Ruined materials removed');craftOut()}
+function craftNow(rolled){
   const st=store.get('craft',{}),b=findBP(st.bp),q=Math.max(1,st.qty||1),c=PARTY.find(x=>x.id===st.who);if(!b||!c)return;
-  if((craftOut.missing||[]).length&&!confirm('Some materials are missing. Craft anyway and use what is on hand?'))return;
+  if(!rolled&&(craftOut.missing||[]).length&&!confirm('Some materials are missing. Craft anyway and use what is on hand?'))return;
   c.inv=(c.inv||[]).map(([n,k])=>b.mats.some(x=>lc(x)===lc(n))?[n,Math.max(0,(+k||0)-q)]:[n,k]).filter(([,k])=>k>0);
   c.gear=(c.gear||[]).concat(Array(q).fill(b.n));saveParty();toast(b.n+' added to '+(c.name||'character')+'\'s gear');craftOut();
 }
@@ -2041,7 +2068,7 @@ function charEditor(c){
       ${f('level','Level','number','min="1" max="20"')}${f('attune','Attunement','number','min="0" max="9"')}
       ${f('hp','HP','number')}${f('hpMax','Max HP','number')}
       ${f('acBonus','Other AC (traits, magic)','number')}
-      <label>Profession<select data-k="prof"><option value=""></option>${Object.keys(PROFS).map(p=>`<option${p===c.prof?' selected':''}>${p}</option>`).join('')}</select></label>
+      ${f('profLv','Profession level','number','min="0" max="20"')}<label>Profession<select data-k="prof"><option value=""></option>${Object.keys(PROFS).map(p=>`<option${p===c.prof?' selected':''}>${p}</option>`).join('')}</select></label>
       <label class="full">Specialties<select data-k="specs" multiple size="${Math.min(6,Math.max(2,specsAll.length))}">${specsAll.map(x=>`<option${(c.specs||[]).includes(x)?' selected':''}>${esc(x)}</option>`).join('')}</select></label>
       <label>God contract<select data-k="god"><option value="">None</option>${GODS.map(g=>`<option value="${esc(godKey(g))}"${godKey(g)===c.god?' selected':''}>${esc(godKey(g))} (${esc(g.grp.replace(' Pantheon',''))})</option>`).join('')}</select></label>
       <label>Contract rank<select data-k="rank"><option value=""></option>${CONTRACT_RANKS.map(r=>`<option${r===(OLD_RANK[c.rank]||c.rank)?' selected':''}>${r}</option>`).join('')}</select></label>
@@ -2195,6 +2222,36 @@ function godWarsHTML(){
   <div class="tablewrap" style="margin-top:10px"><table class="t"><thead><tr><th>Front (Rune)</th><th>Claimants</th><th>Kind</th></tr></thead><tbody>${fronts.map(f=>{const ru=RUNE_IDX.get(lc(f.rn));return `<tr><td style="white-space:nowrap">${ru?`<a href="#" data-ref="${ref(ru)}">${esc(f.rn)}</a>`:esc(f.rn)}</td><td>${f.gs.map(g=>`<a href="#" data-ref="${ref(g)}">${esc(godKey(g))}</a> <small style="color:var(--muted)">${esc(g.grp.replace(' Pantheon',''))}</small>`).join(', ')}</td><td>${f.pans.length>1?'Between pantheons':'Inside the '+esc(f.pans[0].replace(' Pantheon',''))+' pantheon'}</td></tr>`}).join('')}</tbody></table></div>
   <p class="note">The vault lists the god wars as still to be written. This section only arranges what the vault already says (who holds which Rune); the battles themselves are yours to tell. <a href="${pageUrl('hooks')}" data-go="hooks">Roll a Rune-feud adventure hook →</a></p>`;
 }
+// Harvesting a downed monster with Scavenging (proposed rules: DC 10 + the monster's grade; hard parts survive a
+// failed check, soft parts and essences spoil; a natural 1 ruins everything). Parts go into a character's materials.
+function harvestHTML(){
+  const x=CB.harvest&&CB.list.find(y=>y.id===CB.harvest),m=x&&MON_IDX.get(lc(x.mon));if(!m)return '';
+  const hv=CB.hv||{},who=PARTY.find(c=>c.id===hv.who),dc=10+(m.g||1),lv=who?+who.profLv||0:0,scav=who&&lc(who.prof||'')==='scavenging',bonus=scav?Math.floor(lv/2):0;
+  const parts=(m.drops||[]).map(d=>findMat(d[0])).filter(Boolean);
+  return `<section class="sec"><div class="panel" style="border-color:var(--gold)"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="margin:0;font-size:1.15rem">🔪 Harvest the ${esc(x.name)}</h4><span class="note" style="margin:0">Scavenging check DC ${dc} (10 + grade ${m.g}) · within a day of death</span><button class="btn" style="margin-left:auto" onclick="CB.harvest=null;CB.hv=null;saveCB();renderCombat()">Close</button></div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0"><label class="note" style="margin:0">Scavenger <select class="sel" id="hv-who"><option value="">Someone with no training (+0)</option>${PARTY.map(c=>`<option value="${c.id}"${c.id===hv.who?' selected':''}>${esc(c.name||'Unnamed')}${lc(c.prof||'')==='scavenging'?` (Scavenging ${+c.profLv||0}, +${Math.floor((+c.profLv||0)/2)})`:' (+0, no Scavenging)'}</option>`).join('')}</select></label>
+    <button class="btn primary" id="hv-roll">🎲 Roll Scavenging</button>${!scav?'<span class="b gold">At disadvantage without the Scavenging profession</span>':''}</div>
+    <div class="chips">${parts.map(p=>`<button class="chip" data-ref="${ref(p)}">${esc(p.n)} <small>${esc(p.gr)} · ${['B','F'].includes(matCode(p))?'hard':'soft'}</small></button>`).join('')}</div>
+    <div id="hv-res" style="margin-top:10px">${hv.res||''}</div>
+    <div class="note">Proposed rules: success takes every part; beat the DC by 10 or more and you get two of each hard part. A failure keeps only the hard parts (hide, bone, fang, scale); blood, organs, and essences spoil. A natural 1 ruins the corpse. Adjust as you like.</div></div></section>`;
+}
+function harvestRoll(){
+  const x=CB.list.find(y=>y.id===CB.harvest),m=x&&MON_IDX.get(lc(x.mon));if(!m)return;
+  const who=PARTY.find(c=>c.id===$('hv-who').value),scav=who&&lc(who.prof||'')==='scavenging',bonus=scav?Math.floor((+who.profLv||0)/2):0,dc=10+(m.g||1);
+  const r1=1+Math.floor(Math.random()*20),r2=1+Math.floor(Math.random()*20),d=scav?r1:Math.min(r1,r2),tot=d+bonus;
+  const parts=(m.drops||[]).map(z=>findMat(z[0])).filter(Boolean),hard=p=>['B','F'].includes(matCode(p));
+  let got=[],msg;
+  if(d===1){msg='<span style="color:var(--red)">Natural 1: the corpse is ruined. Nothing can be taken.</span>'}
+  else if(tot>=dc){got=parts.map(p=>[p.n,tot>=dc+10&&hard(p)?2:1]);msg=`<span style="color:var(--green)">Success${tot>=dc+10?', with room to spare':''}.</span>`}
+  else{got=parts.filter(hard).map(p=>[p.n,1]);msg='<span style="color:var(--gold2)">Failure: the soft parts spoil; only the hard parts are kept.</span>'}
+  CB.hv={who:who?who.id:'',got,res:`<b>${d}${!scav?` <small>(${r1}, ${r2})</small>`:''} + ${bonus} = ${tot}</b> vs DC ${dc}: ${msg}${got.length?`<div class="chips" style="margin-top:6px">${got.map(([n,q])=>`<span class="chip">${q}× ${esc(n)}</span>`).join('')}</div>`:''}${got.length&&PARTY.length?`<div style="margin-top:8px;display:flex;gap:8px;align-items:center"><select class="sel" id="hv-to">${PARTY.map(c=>`<option value="${c.id}"${who&&c.id===who.id?' selected':''}>${esc(c.name||'Unnamed')}</option>`).join('')}</select><button class="btn primary" onclick="harvestTake()">Add to their materials</button></div>`:''}`};
+  saveCB();renderCombat();
+}
+function harvestTake(){
+  const c=PARTY.find(z=>z.id===$('hv-to').value),got=(CB.hv||{}).got||[];if(!c)return;
+  c.inv=c.inv||[];got.forEach(([n,q])=>{const r=c.inv.find(z=>lc(z[0])===lc(n));if(r)r[1]=(+r[1]||0)+q;else c.inv.push([n,q])});saveParty();
+  const x=CB.list.find(y=>y.id===CB.harvest);if(x)x.harvested=true;CB.list=CB.list.filter(y=>y.id!==CB.harvest);CB.harvest=null;CB.hv=null;saveCB();toast(got.length+' parts added to '+(c.name||'character'));renderCombat();
+}
 function renderCombat(){
   CB=store.get('combat',{round:1,turn:0,list:[]});
   const cur=CB.list[CB.turn];
@@ -2221,10 +2278,11 @@ function renderCombat(){
         <td style="min-width:130px"><b>${x.hp}</b> / ${x.max}<div class="bar" style="margin-top:4px"><i style="width:${pct}%;background:${pct>50?'var(--green)':pct>25?'var(--gold)':'var(--red)'}"></i></div></td>
         <td style="white-space:nowrap"><input type="number" min="0" id="dmg-${x.id}" placeholder="0" style="width:64px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px;color:var(--text)"> <button class="btn" onclick="cbHit('${x.id}')">Hit</button> <button class="btn" onclick="cbHeal('${x.id}')">Heal</button></td>
         <td><div class="chips">${x.cond.map(c=>`<button class="chip" onclick="cbCond('${x.id}','${c}')" title="Remove">${c} ✕</button>`).join('')}<select class="sel" style="padding:2px 6px;font-size:.75rem" onchange="cbCond('${x.id}',this.value)"><option value="">+ condition</option>${CONDITIONS.filter(c=>!x.cond.includes(c)).map(c=>`<option>${c}</option>`).join('')}</select></div></td>
-        <td><button class="btn" onclick="cbRemove('${x.id}')" title="Remove">✕</button></td></tr>`}).join(''):`<tr><td colspan="7"><div class="empty" style="padding:30px"><b>No combatants</b>Add monsters, the party, or send an encounter from the Encounter builder.</div></td></tr>`}
+        <td style="white-space:nowrap">${down&&m&&(m.drops||[]).length?`<button class="btn" onclick="CB.harvest='${x.id}';saveCB();renderCombat()" title="Scavenge its parts">🔪 Harvest</button> `:''}<button class="btn" onclick="cbRemove('${x.id}')" title="Remove">✕</button></td></tr>`}).join(''):`<tr><td colspan="7"><div class="empty" style="padding:30px"><b>No combatants</b>Add monsters, the party, or send an encounter from the Encounter builder.</div></td></tr>`}
     </tbody></table></div>
-    <div class="note">Hit subtracts the target's AC from the damage (minimum 0). Untick “Subtract AC” for damage that ignores armor.</div></div>`;
+    <div class="note">Hit subtracts the target's AC from the damage (minimum 0). Untick “Subtract AC” for damage that ignores armor.</div>${harvestHTML()}</div>`;
   $('content').querySelectorAll('[data-cb]').forEach(el=>el.addEventListener('change',()=>{const x=CB.list.find(y=>y.id===el.dataset.cb);x[el.dataset.f]=+el.value||0;saveCB()}));
+  if($('hv-roll')){$('hv-roll').onclick=harvestRoll;$('hv-who').onchange=e=>{CB.hv=Object.assign(CB.hv||{},{who:e.target.value,res:'',got:[]});saveCB();renderCombat()}}
 }
 const cbFind=id=>CB.list.find(x=>x.id===id);
 function cbHit(id){const x=cbFind(id),d=Math.max(0,+$('dmg-'+id).value||0),taken=CB.noAC?d:Math.max(0,d-(+x.ac||0));x.hp=Math.max(0,x.hp-taken);saveCB();toast(x.name+' takes '+taken+(CB.noAC||!x.ac?'':' ('+d+' − AC '+x.ac+')'));renderCombat()}
