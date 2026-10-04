@@ -1,0 +1,830 @@
+[
+ {
+  "n": "Rules",
+  "cat": "Mystery",
+  "tower": "Inner Realm",
+  "prog": "Vestheiel",
+  "progTitle": "the Nameless Shade of Rules",
+  "fate": "Killed",
+  "law": "What a Code is called once it's shared by more than one person. D&D class: — a reputation concept, not a Law."
+ },
+ {
+  "n": "Saber",
+  "cat": "Mystery",
+  "tower": "Inner Void",
+  "prog": "Iron",
+  "progTitle": "the Shrouded Shade of Saber",
+  "fate": "Killed",
+  "law": "A curved cousin of Blade, favoring the draw strike over the shape itself. D&D class: Fighter, Samurai."
+ },
+ {
+  "n": "Sadness",
+  "cat": "Emotion",
+  "tower": "Heaven",
+  "prog": "Nytheane",
+  "progTitle": "the Restless Heart of Sadness",
+  "fate": "Killed",
+  "law": "Sadness is its own entity, formed when Dark was siphoned down to grief alone, leaving every other negative feeling behind in the process. D&D class: Cleric, Grave Domain (official subclass, reflavored to grief itself rather than death in general)."
+ },
+ {
+  "n": "Scan",
+  "cat": "Mystery",
+  "tower": "Human",
+  "prog": "Vesraael",
+  "progTitle": "the Twin-Faced Shade of Scan",
+  "fate": "Vanished",
+  "law": "A detection Law, weaker than Identify since it only confirms something's there, not what it actually is. D&D class: Wizard, School of Divination."
+ },
+ {
+  "n": "Scar",
+  "cat": "Mystery",
+  "tower": "Chaos",
+  "prog": "Life",
+  "progTitle": "the Shrouded Shade of Scar",
+  "fate": "Vanished",
+  "law": "What's left once Regeneration or Heal finishes closing something that Decay or a blade opened. D&D class: — a resulting mark, not a class."
+ },
+ {
+  "n": "Scent",
+  "cat": "Mystery",
+  "tower": "Human",
+  "prog": "Nyluur",
+  "progTitle": "the Strange Shade of Scent",
+  "fate": "Killed",
+  "law": "The refined sense cousin of Smell, strong enough to track rather than just notice. D&D class: — a trained sense, not a class."
+ },
+ {
+  "n": "Scorn",
+  "cat": "Emotion",
+  "tower": "Chaos",
+  "prog": "Eirdoix",
+  "progTitle": "the Unquiet Heart of Scorn",
+  "fate": "Killed",
+  "law": "A splinter of Dark, colder and more deliberate than Anger. D&D class: Warlock, The Hexblade."
+ },
+ {
+  "n": "Screw",
+  "cat": "Mystery",
+  "tower": "Outer Realm",
+  "prog": "Liosael",
+  "progTitle": "the Nameless Shade of Screw",
+  "fate": "Vanished",
+  "law": "A shape more Man Made than magical, occasionally paired with Turn for anything that needs binding rather than striking. D&D class: Artificer, Battle Smith."
+ },
+ {
+  "n": "Scythe",
+  "cat": "Mystery",
+  "tower": "Human",
+  "prog": "Iron",
+  "progTitle": "the Hidden Shade of Scythe",
+  "fate": "Vanished",
+  "law": "A curved cousin of Blade, shaped more for Blacksmith's harvest tools than Battle Axe's battlefield ones, though it's ended up in both. D&D class: Fighter, Rune Knight."
+ },
+ {
+  "n": "Sentience",
+  "cat": "Mystery",
+  "tower": "Heaven",
+  "prog": "Selvaune",
+  "progTitle": "the Unknown Shade of Sentience",
+  "fate": "Vanished",
+  "law": "What separates an Entity from a tool, regardless of whether it started as either one. D&D class: — a definitional threshold, not a class."
+ },
+ {
+  "n": "Separation",
+  "cat": "Mystery",
+  "tower": "Hell",
+  "prog": "Quotath",
+  "progTitle": "the Nameless Shade of Separation",
+  "fate": "Killed",
+  "law": "The paired opposite of Fusion, pulling two combined things back apart, though rarely as cleanly as they were joined. D&D class: Wizard, School of Conjuration."
+ },
+ {
+  "n": "Serenity",
+  "cat": "Emotion",
+  "tower": "Mysterious",
+  "prog": "Ryniel",
+  "progTitle": "the Restless Heart of Serenity",
+  "fate": "Vanished",
+  "law": "The stillest splinter of Light, holding neither the reach of Hope nor the heat of Love. D&D class: Monk, Way of the Open Hand."
+ },
+ {
+  "n": "Servitude",
+  "cat": "Mystery",
+  "tower": "Inner Void",
+  "prog": "Eirlun",
+  "progTitle": "the Twin-Faced Shade of Servitude",
+  "fate": "Killed",
+  "law": "The paired opposite of Sovereignty, and the more common condition among anyone without Royalty behind them. D&D class: — the concept underlying the Warlock class generally (a pact is servitude to a patron), not a subclass of its own."
+ },
+ {
+  "n": "Shade",
+  "cat": "Mystery",
+  "tower": "Chaos",
+  "prog": "Orvael",
+  "progTitle": "the Hidden Shade of Shade",
+  "fate": "Killed",
+  "law": "Cast by Dark but not made of it, closer to an absence of Light than a Law of its own. D&D class: Sorcerer, Shadow Magic."
+ },
+ {
+  "n": "Shadow",
+  "cat": "Mystery",
+  "tower": "Heaven",
+  "prog": "Zeniiel",
+  "progTitle": "the Forgotten Shade of Shadow",
+  "fate": "Killed",
+  "law": "Condensed from the Shade a corpse leaves behind rather than the corpse itself, with no physical form to speak of — weak in a straight fight, but nearly impossible to hit."
+ },
+ {
+  "n": "Shaman",
+  "cat": "Mystery",
+  "tower": "Heaven",
+  "prog": "Liosaane",
+  "progTitle": "the Unknown Shade of Shaman",
+  "fate": "Vanished",
+  "law": "Shaman isn't a Law or a Class in its own right — it's a description of a bloodline, the same way Elves is. Those born into it sit closer to the Spirit Realm than an ordinary mortal, and draw more readily on whatever's left of a progenitor spirit when they acquire a Class tied to one. In practice thi"
+ },
+ {
+  "n": "Shape-shifter",
+  "cat": "Mystery",
+  "tower": "Hell",
+  "prog": "Nyroth",
+  "progTitle": "the Forgotten Shade of Shape-shifter",
+  "fate": "Vanished",
+  "law": "A rarer summon, holding onto roughly a quarter of the original's power along with a borrowed cousin of Transformation, letting it wear the shape of anything else it's absorbed."
+ },
+ {
+  "n": "Shield",
+  "cat": "Mystery",
+  "tower": "Outer Realm",
+  "prog": "Iron",
+  "progTitle": "the Nameless Shade of Shield",
+  "fate": "Killed",
+  "law": "The defensive twin to Blade, drawn from the same Iron and Steel but shaped to stop rather than to cut. D&D class: Barbarian, Path of the Totem Warrior."
+ },
+ {
+  "n": "Shock",
+  "cat": "Mystery",
+  "tower": "Hell",
+  "prog": "Sylph",
+  "progTitle": "the Twin-Faced Shade of Shock",
+  "fate": "Vanished",
+  "law": "A short, sharp release Law, related to Electric more often than not but not bound to it. D&D class: Sorcerer, Storm Sorcery."
+ },
+ {
+  "n": "Shorter",
+  "cat": "Mystery",
+  "tower": "Primordial",
+  "prog": "Orrios",
+  "progTitle": "the Twin-Faced Shade of Shorter",
+  "fate": "Vanished",
+  "law": "The paired opposite of Longer, and the more common choice for anything meant to be concealed. D&D class: — a size modifier, not a class."
+ },
+ {
+  "n": "Signal",
+  "cat": "Mystery",
+  "tower": "Inner Realm",
+  "prog": "Quokaane",
+  "progTitle": "the Strange Shade of Signal",
+  "fate": "Killed",
+  "law": "A narrow Transmission, meant to be noticed rather than understood. D&D class: — too narrow for its own class."
+ },
+ {
+  "n": "Singularity",
+  "cat": "Cosmos",
+  "tower": "Inner Realm",
+  "prog": "Cosmic",
+  "progTitle": "the Unfathomable Shape of Singularity",
+  "fate": "Vanished",
+  "law": "Singularity is the entity formed when a piece of Cosmic was siphoned off and collapsed entirely inward, the most extreme of the four, too unstable for anyone but the strongest to hold onto for long. D&D class: Monk, Way of the Astral Self (official subclass)."
+ },
+ {
+  "n": "Siphon",
+  "cat": "Mystery",
+  "tower": "Abyss",
+  "prog": "Eirsaor",
+  "progTitle": "the Unknown Shade of Siphon",
+  "fate": "Vanished",
+  "law": "A slower, quieter version of Theft, pulling power away without the target noticing until it's already gone. D&D class: Rogue, Arcane Trickster."
+ },
+ {
+  "n": "Skeleton",
+  "cat": "Mystery",
+  "tower": "Mysterious",
+  "prog": "Orniael",
+  "progTitle": "the Strange Shade of Skeleton",
+  "fate": "Vanished",
+  "law": "Skeleton are considered the worst of the summon as it can be made from any corpse taking around 1/20 of the original being power being unable to do anything magical or use any skill only being physical."
+ },
+ {
+  "n": "Skip",
+  "cat": "Mystery",
+  "tower": "Outer Realm",
+  "prog": "Time",
+  "progTitle": "the Nameless Shade of Skip",
+  "fate": "Vanished",
+  "law": "A small Void law that lets a moment or a step be passed over entirely, never used carelessly near Causality. D&D class: Rogue, Scout."
+ },
+ {
+  "n": "Skull",
+  "cat": "Mystery",
+  "tower": "Outer Realm",
+  "prog": "Life",
+  "progTitle": "the Nameless Shade of Skull",
+  "fate": "Vanished",
+  "law": "The part of Bones most often kept as proof of a kill or a summon, whether or not it still holds any power. D&D class: — a trophy item, not a class."
+ },
+ {
+  "n": "Sloth",
+  "cat": "Emotion",
+  "tower": "Primordial",
+  "prog": "Osttaur",
+  "progTitle": "the Silent Heart of Sloth",
+  "fate": "Vanished",
+  "law": "Another of the Original Sin cluster, closer to Depression than to Fatigue since it dulls the will rather than the body. D&D class: Monk, Way of the Long Death."
+ },
+ {
+  "n": "Slowness",
+  "cat": "Mystery",
+  "tower": "Inner Realm",
+  "prog": "Ullear",
+  "progTitle": "the Twin-Faced Shade of Slowness",
+  "fate": "Killed",
+  "law": "The paired opposite of Speed, and the more commonly weaponized of the two. D&D class: Ranger, Gloom Stalker."
+ },
+ {
+  "n": "Smaller",
+  "cat": "Mystery",
+  "tower": "Abyss",
+  "prog": "Ulshaas",
+  "progTitle": "the Forgotten Shade of Smaller",
+  "fate": "Vanished",
+  "law": "The paired opposite of Bigger, and the safer of the two to test on something living. D&D class: — a size modifier, not a class."
+ },
+ {
+  "n": "Smell",
+  "cat": "Mystery",
+  "tower": "Chaos",
+  "prog": "Nykath",
+  "progTitle": "the Shrouded Shade of Smell",
+  "fate": "Killed",
+  "law": "The least refined of the five senses, useful mostly to those who hunt rather than those who fight. D&D class: — a trained sense, not a class of its own."
+ },
+ {
+  "n": "Sometime",
+  "cat": "Mystery",
+  "tower": "Hell",
+  "prog": "Nyroos",
+  "progTitle": "the Quiet Shade of Sometime",
+  "fate": "Vanished",
+  "law": "Paired opposite of Always, a modifier for a Law that only works under conditions still being worked out. D&D class: — a modifier, not a class."
+ },
+ {
+  "n": "Spatial",
+  "cat": "Mystery",
+  "tower": "Human",
+  "prog": "Time",
+  "progTitle": "the Unknown Shade of Spatial",
+  "fate": "Killed",
+  "law": "Anything that bends where a thing is rather than when it is, which is why it's rarely paired with Time Laws. D&D class: Warlock, The Great Old One."
+ },
+ {
+  "n": "Spear",
+  "cat": "Mystery",
+  "tower": "Void",
+  "prog": "Iron",
+  "progTitle": "the Nameless Shade of Spear",
+  "fate": "Killed",
+  "law": "A cousin of Blade stretched long, closer to Dart in how it's used than to Axe in how it's shaped. D&D class: Fighter, Purple Dragon Knight."
+ },
+ {
+  "n": "Specter",
+  "cat": "Mystery",
+  "tower": "Human",
+  "prog": "Life",
+  "progTitle": "the Forgotten Shade of Specter",
+  "fate": "Killed",
+  "law": "Bodiless like a Wraith but bound by unfinished business instead of a necromancer's ritual, which is why it can't be commanded nearly as reliably."
+ },
+ {
+  "n": "Speech",
+  "cat": "Mystery",
+  "tower": "Hell",
+  "prog": "Ostvaur",
+  "progTitle": "the Strange Shade of Speech",
+  "fate": "Killed",
+  "law": "The raw ability a Verbal caster draws on, distinct from any single Word itself. D&D class: Bard, College of Eloquence."
+ },
+ {
+  "n": "Spin",
+  "cat": "Cosmos",
+  "tower": "Heaven",
+  "prog": "Zekaane",
+  "progTitle": "the Infinite Shape of Spin",
+  "fate": "Killed",
+  "law": "A power coming from the Void, being one of the more abstract law allowing one to add rotation to any object. D&D class: Sorcerer, Wild Magic (official subclass)."
+ },
+ {
+  "n": "Spirit (Martial Spirit)",
+  "cat": "Mystery",
+  "tower": "Human",
+  "prog": "Draniyr",
+  "progTitle": "the Nameless Shade of Spirit (Martial Spirit)",
+  "fate": "Vanished",
+  "law": "The internal reserve a Martial cultivator builds up over years, separate from anything pulled from the Spirit Realm despite the name. D&D class: — the resource underlying the Monk class's Ki generally, not a subclass of its own."
+ },
+ {
+  "n": "Split",
+  "cat": "Mystery",
+  "tower": "Human",
+  "prog": "Iron",
+  "progTitle": "the Strange Shade of Split",
+  "fate": "Killed",
+  "law": "A shape Law that turns one strike into two, more often paired with Dagger than with anything heavier. D&D class: Monk, Way of the Kensei."
+ },
+ {
+  "n": "Stabilise",
+  "cat": "Mystery",
+  "tower": "Inner Void",
+  "prog": "Sylph",
+  "progTitle": "the Quiet Shade of Stabilise",
+  "fate": "Vanished",
+  "law": "The Law reached for once something else — a Fusion, a Curse, a Pacts deal — starts coming apart on its own. D&D class: Paladin, Oath of Redemption."
+ },
+ {
+  "n": "Star",
+  "cat": "Element",
+  "tower": "Inner Realm",
+  "prog": "Cosmic",
+  "progTitle": "the Bright Spirit of Star",
+  "fate": "Vanished",
+  "law": "Star is the entity formed when a piece of Cosmic was siphoned off and condensed inward instead, packed so tightly it started to burn on its own. D&D class: Cleric, Light Domain (official subclass, reflavored to raw starlight rather than a god's radiance)."
+ },
+ {
+  "n": "Starlight",
+  "cat": "Mystery",
+  "tower": "Abyss",
+  "prog": "Cosmic",
+  "progTitle": "the Shrouded Shade of Starlight",
+  "fate": "Killed",
+  "law": "A distant cousin of Plasma, carrying the same Cosmic essence but faint enough for mortals to actually touch. D&D class: Cleric, Light Domain."
+ },
+ {
+  "n": "Static",
+  "cat": "Mystery",
+  "tower": "Inner Void",
+  "prog": "Ostluune",
+  "progTitle": "the Strange Shade of Static",
+  "fate": "Vanished",
+  "law": "The paired opposite of Signal, noise where a message was supposed to be. D&D class: — too narrow for its own class."
+ },
+ {
+  "n": "Steel",
+  "cat": "Mystery",
+  "tower": "Inner Realm",
+  "prog": "Iron",
+  "progTitle": "the Unknown Shade of Steel",
+  "fate": "Vanished",
+  "law": "The power being the evolved version of Iron, made after Iron was locked in the spirit realm, D&D class: Artificer, Armorer."
+ },
+ {
+  "n": "Stress",
+  "cat": "Mystery",
+  "tower": "Outer Realm",
+  "prog": "Seltheur",
+  "progTitle": "the Unknown Shade of Stress",
+  "fate": "Vanished",
+  "law": "A splinter closer to Fear and Fatigue both, the body's answer to the Mortal Realm's pressure rather than the mind's. D&D class: Barbarian, Path of the Zealot."
+ },
+ {
+  "n": "Subtract",
+  "cat": "Mystery",
+  "tower": "Heaven",
+  "prog": "Zetheane",
+  "progTitle": "the Twin-Faced Shade of Subtract",
+  "fate": "Vanished",
+  "law": "The opposite of Add, a Void law of plain decrease rather than Destruction's violence. D&D class: — a math modifier, not a class."
+ },
+ {
+  "n": "Sylph",
+  "cat": "Mystery",
+  "tower": "Mysterious",
+  "prog": "Sylph",
+  "progTitle": "Progenitor of Air",
+  "fate": "Killed",
+  "law": "Sylph is the spirit of Air, one of the progenitors who lived in the Spirit Realm before her corpse became the Air Law. The old records call her the only progenitor that never stayed in one place long enough to be drawn: a voice, a pressure, a direction the grass bent. Sylph left more children than a"
+ },
+ {
+  "n": "Symbiosis",
+  "cat": "Mystery",
+  "tower": "Heaven",
+  "prog": "Thalvael",
+  "progTitle": "the Forgotten Shade of Symbiosis",
+  "fate": "Killed",
+  "law": "A Nature Law binding two Lives together for mutual benefit, gentler than anything Pacts would ask for. D&D class: Ranger, Beast Master."
+ },
+ {
+  "n": "Symmetry",
+  "cat": "Cosmos",
+  "tower": "Mysterious",
+  "prog": "Balance",
+  "progTitle": "the Turning Shape of Symmetry",
+  "fate": "Killed",
+  "law": "A Void law of balance in shape rather than in Balance itself, opposed by Asymmetry. D&D class: Artificer, Armorer."
+ },
+ {
+  "n": "Take",
+  "cat": "Mystery",
+  "tower": "Primordial",
+  "prog": "Drazen",
+  "progTitle": "the Strange Shade of Take",
+  "fate": "Vanished",
+  "law": "The paired opposite of Gift, and the more common of the two by far. D&D class: Rogue, Thief."
+ },
+ {
+  "n": "Tame",
+  "cat": "Mystery",
+  "tower": "Inner Realm",
+  "prog": "Varios",
+  "progTitle": "the Nameless Shade of Tame",
+  "fate": "Vanished",
+  "law": "The Law behind binding an Animal or Beastman to a will other than its own, without going as far as Imprison. D&D class: Ranger, Beast Master."
+ },
+ {
+  "n": "Taste",
+  "cat": "Mystery",
+  "tower": "Inner Realm",
+  "prog": "Veskan",
+  "progTitle": "the Shrouded Shade of Taste",
+  "fate": "Killed",
+  "law": "One of the five senses a Martial cultivator learns to refine past its ordinary mortal limit. D&D class: — a trained sense, not a class of its own."
+ },
+ {
+  "n": "Technology",
+  "cat": "Mystery",
+  "tower": "Human",
+  "prog": "Thalshayr",
+  "progTitle": "the Twin-Faced Shade of Technology",
+  "fate": "Killed",
+  "law": "What Man Made things are called when they work without needing any Law at all. D&D class: — the concept underlying the Artificer class generally, not a subclass of its own."
+ },
+ {
+  "n": "Telepathy",
+  "cat": "Mystery",
+  "tower": "Void",
+  "prog": "Selzeael",
+  "progTitle": "the Hidden Shade of Telepathy",
+  "fate": "Killed",
+  "law": "A Mental Law that skips Speech and Word entirely, reaching mind to mind instead. D&D class: Sorcerer, Aberrant Mind."
+ },
+ {
+  "n": "Tempo",
+  "cat": "Mystery",
+  "tower": "Mysterious",
+  "prog": "Eirraor",
+  "progTitle": "the Nameless Shade of Tempo",
+  "fate": "Vanished",
+  "law": "The rhythm a Martial cultivator or a Music caster keeps, more felt than counted. D&D class: — a felt quality, not a class."
+ },
+ {
+  "n": "Terraformation",
+  "cat": "Mystery",
+  "tower": "Human",
+  "prog": "Gnome",
+  "progTitle": "the Strange Shade of Terraformation",
+  "fate": "Vanished",
+  "law": "The Law of reshaping land at scale: raising hills, draining swamps, turning desert to field. Where Earth moves stone and Gnome's remains let the wielder pass through it, Terraformation changes what a place is . It sits between Natural and Man Made: the result looks natural, but something decided it."
+ },
+ {
+  "n": "Theft",
+  "cat": "Mystery",
+  "tower": "Heaven",
+  "prog": "Rymias",
+  "progTitle": "the Hidden Shade of Theft",
+  "fate": "Killed",
+  "law": "A cousin of Take, specifically aimed at stealing a Law itself rather than an object. D&D class: Rogue, Thief."
+ },
+ {
+  "n": "Thinner",
+  "cat": "Mystery",
+  "tower": "Chaos",
+  "prog": "Osttaur",
+  "progTitle": "the Forgotten Shade of Thinner",
+  "fate": "Vanished",
+  "law": "The paired opposite of Wider, favored for anything meant to slip through a gap. D&D class: — a size modifier, not a class."
+ },
+ {
+  "n": "Time",
+  "cat": "Cosmos",
+  "tower": "Abyss",
+  "prog": "Time",
+  "progTitle": "the Silent Shape of Time",
+  "fate": "Vanished",
+  "law": "Time is its own entity, formed when the Void was siphoned in on itself and folded until it produced something capable of measuring its own passing, rather than simply being another abstract law sitting beside it. D&D class: Wizard, Chronurgy Magic (official subclass)."
+ },
+ {
+  "n": "Time Duration",
+  "cat": "Mystery",
+  "tower": "Human",
+  "prog": "Time",
+  "progTitle": "the Hidden Shade of Time Duration",
+  "fate": "Killed",
+  "law": "A narrower cousin of Time itself, measuring only how long something lasts rather than bending its pace. D&D class: Wizard, Chronurgy Magic."
+ },
+ {
+  "n": "Touch",
+  "cat": "Mystery",
+  "tower": "Abyss",
+  "prog": "Eirnois",
+  "progTitle": "the Quiet Shade of Touch",
+  "fate": "Vanished",
+  "law": "The sense Martial cultivators refine last, since numbing it is often more useful in a fight than sharpening it. D&D class: — a trained sense, not a class of its own."
+ },
+ {
+  "n": "Tradition",
+  "cat": "Mystery",
+  "tower": "Outer Realm",
+  "prog": "Liozeune",
+  "progTitle": "the Quiet Shade of Tradition",
+  "fate": "Vanished",
+  "law": "What Culture becomes once it's held onto past the point anyone remembers why. D&D class: Bard, College of Lore."
+ },
+ {
+  "n": "Training",
+  "cat": "Mystery",
+  "tower": "Inner Realm",
+  "prog": "Liolun",
+  "progTitle": "the Nameless Shade of Training",
+  "fate": "Vanished",
+  "law": "The deliberate, repeated practice behind both Learning and Aptitude, though it can't create the second on its own. D&D class: — a meta process, not a class."
+ },
+ {
+  "n": "Transmission",
+  "cat": "Mystery",
+  "tower": "Inner Realm",
+  "prog": "Ishraar",
+  "progTitle": "the Strange Shade of Transmission",
+  "fate": "Killed",
+  "law": "A cousin of Telepathy, sending a Law's effect rather than a thought. D&D class: Sorcerer, Aberrant Mind."
+ },
+ {
+  "n": "Transmutation",
+  "cat": "Fate",
+  "tower": "Inner Realm",
+  "prog": "Braleur",
+  "progTitle": "the Hidden Keeper of Transmutation",
+  "fate": "Vanished",
+  "law": "The heart of Alchemy, turning one substance into another rather than merely shaping it. D&D class: Wizard, School of Transmutation."
+ },
+ {
+  "n": "Trial",
+  "cat": "Mystery",
+  "tower": "Outer Realm",
+  "prog": "Lionoane",
+  "progTitle": "the Hidden Shade of Trial",
+  "fate": "Vanished",
+  "law": "The Law behind any contest meant to settle something — a duel, a War, a Battle — rather than the fighting itself. D&D class: Paladin, Oath of the Crown."
+ },
+ {
+  "n": "Trust",
+  "cat": "Emotion",
+  "tower": "Abyss",
+  "prog": "Quorath",
+  "progTitle": "the Smiling Heart of Trust",
+  "fate": "Vanished",
+  "law": "A splinter of Light laid between two people rather than felt alone, undone entirely by Betrayal. D&D class: Paladin, Oath of the Crown."
+ },
+ {
+  "n": "Turn",
+  "cat": "Mystery",
+  "tower": "Void",
+  "prog": "Ortheeth",
+  "progTitle": "the Twin-Faced Shade of Turn",
+  "fate": "Killed",
+  "law": "A shape adjacent Law, rotating something in place rather than moving it, distinct from Spin's more violent version of the same idea. D&D class: Wizard, Bladesinging."
+ },
+ {
+  "n": "Twist",
+  "cat": "Mystery",
+  "tower": "Abyss",
+  "prog": "Kamiune",
+  "progTitle": "the Quiet Shade of Twist",
+  "fate": "Killed",
+  "law": "A sharper, more forceful cousin of Turn, often used to break rather than simply reposition. D&D class: Barbarian, Path of the Berserker."
+ },
+ {
+  "n": "Uncertain",
+  "cat": "Mystery",
+  "tower": "Hell",
+  "prog": "Vessaael",
+  "progTitle": "the Hidden Shade of Uncertain",
+  "fate": "Vanished",
+  "law": "A Law that only works in situations where the outcome genuinely isn't decided yet — useless in anything already certain, including most fights. D&D class: Sorcerer, Wild Magic."
+ },
+ {
+  "n": "Undead Summoning",
+  "cat": "Mystery",
+  "tower": "Inner Void",
+  "prog": "Selmiix",
+  "progTitle": "the Shrouded Shade of Undead Summoning",
+  "fate": "Vanished",
+  "law": "Undead summoning types, roughly ordered from weakest to strongest by how much of the original's power a corpse can hold onto. A fresher, more intact, or more deliberately preserved corpse always keeps more than a bare skeleton does — and the strongest two on this list, Lich and Grim Reaper, aren't c"
+ },
+ {
+  "n": "Undine",
+  "cat": "Mystery",
+  "tower": "Chaos",
+  "prog": "Undine",
+  "progTitle": "Progenitor of Water",
+  "fate": "Killed",
+  "law": "Undine is the spirit of Water, one of the progenitors dwelling in the Spirit Realm before its corpse became the Water Law. Depicted in what little survives of the old records as formless and restless — never the same shape twice, always moving even when nothing around it did. Undine's death produced"
+ },
+ {
+  "n": "Unknown",
+  "cat": "Mystery",
+  "tower": "Chaos",
+  "prog": "Sellueth",
+  "progTitle": "the Unknown Shade of Unknown",
+  "fate": "Killed",
+  "law": "The honest answer for whatever hasn't been placed on this list yet — including, for now, whatever The Beyond actually is. D&D class: — a placeholder concept, not a class."
+ },
+ {
+  "n": "Unravel",
+  "cat": "Mystery",
+  "tower": "Outer Realm",
+  "prog": "Brasayr",
+  "progTitle": "the Forgotten Shade of Unravel",
+  "fate": "Killed",
+  "law": "The paired opposite of Weave, undoing a combined spell back into its separate pieces. D&D class: Wizard, School of Abjuration."
+ },
+ {
+  "n": "Vampire",
+  "cat": "Mystery",
+  "tower": "Chaos",
+  "prog": "Zetheth",
+  "progTitle": "the Forgotten Shade of Vampire",
+  "fate": "Killed",
+  "law": "One of the Undead Summoning types, feeding on Blood rather than simply existing off of borrowed Life."
+ },
+ {
+  "n": "Verbal",
+  "cat": "Mystery",
+  "tower": "Outer Realm",
+  "prog": "Zesaune",
+  "progTitle": "the Unknown Shade of Verbal",
+  "fate": "Vanished",
+  "law": "The practice of casting through Speech instead of gesture or rune, faster but impossible to use in silence. D&D class: — the concept underlying the Bard class generally, not a subclass of its own."
+ },
+ {
+  "n": "Vortex",
+  "cat": "Mystery",
+  "tower": "Mysterious",
+  "prog": "Sylph",
+  "progTitle": "the Strange Shade of Vortex",
+  "fate": "Vanished",
+  "law": "Created when Sylph used the power of Spin creating a mix between the two neither stronger nor weaker that both creating 4 of Sylph only children being Boreas, Zephyrus, Notus, Eurus. D&D class: Warlock, patron being Vortex itself — an unstable, fused entity rather than a single god."
+ },
+ {
+  "n": "Wall",
+  "cat": "Mystery",
+  "tower": "Hell",
+  "prog": "Iron",
+  "progTitle": "the Strange Shade of Wall",
+  "fate": "Vanished",
+  "law": "A defensive shape, wider than Line and meant to stop rather than travel. D&D class: Wizard, School of Abjuration."
+ },
+ {
+  "n": "Waste",
+  "cat": "Mystery",
+  "tower": "Primordial",
+  "prog": "Gnome",
+  "progTitle": "the Hidden Shade of Waste",
+  "fate": "Vanished",
+  "law": "Land left to rot the way Swamp is Mud left to rot, claimed partly by Decay. D&D class: Druid, Circle of Spores."
+ },
+ {
+  "n": "Wendigo",
+  "cat": "Mystery",
+  "tower": "Outer Realm",
+  "prog": "Vamieth",
+  "progTitle": "the Shrouded Shade of Wendigo",
+  "fate": "Killed",
+  "law": "Starts as weak as a Ghoul but doesn't stay that way, growing stronger the more Life it consumes from the living rather than simply holding onto what the corpse had left, tied loosely to the same hunger behind Famine."
+ },
+ {
+  "n": "Wet",
+  "cat": "Mystery",
+  "tower": "Inner Void",
+  "prog": "Undine",
+  "progTitle": "the Shrouded Shade of Wet",
+  "fate": "Vanished",
+  "law": "Paired opposite of Dry, tied more to Water in passing than in any direct descent. D&D class: — a state modifier, not a class."
+ },
+ {
+  "n": "White",
+  "cat": "Mystery",
+  "tower": "Hell",
+  "prog": "Orraiel",
+  "progTitle": "the Nameless Shade of White",
+  "fate": "Vanished",
+  "law": "Paired with Black more by convention than by any real connection to Light or Dark. D&D class: — a descriptive pairing, not a Law with its own class."
+ },
+ {
+  "n": "Wider",
+  "cat": "Mystery",
+  "tower": "Inner Realm",
+  "prog": "Vataix",
+  "progTitle": "the Forgotten Shade of Wider",
+  "fate": "Killed",
+  "law": "Paired opposite of Thinner, applied to a shape's spread rather than its length. D&D class: — a size modifier, not a class."
+ },
+ {
+  "n": "Wish",
+  "cat": "Mystery",
+  "tower": "Abyss",
+  "prog": "Infinatas",
+  "progTitle": "the Hidden Shade of Wish",
+  "fate": "Killed",
+  "law": "The rarest and least reliable Law on record, said to answer to no realm at all — not Divine, not the Void, not even Infinatas. D&D class: — reserved; this is the Wish spell itself, the ceiling of what any full caster can ever reach, not tied to one class or subclass."
+ },
+ {
+  "n": "World",
+  "cat": "Mystery",
+  "tower": "Void",
+  "prog": "Aelkaiel",
+  "progTitle": "the Twin-Faced Shade of World",
+  "fate": "Killed",
+  "law": "Bigger than Nature — the whole physical shape of the Mortal Realm, not just what grows or erodes in it. D&D class: — too vast/foundational for a single class."
+ },
+ {
+  "n": "Worship",
+  "cat": "Mystery",
+  "tower": "Inner Void",
+  "prog": "Ishleos",
+  "progTitle": "the Unknown Shade of Worship",
+  "fate": "Vanished",
+  "law": "The mortal act that keeps a god's power from thinning the way Light and Dark already have. D&D class: — the mechanic underlying the Cleric class generally, not a subclass of its own. See God Contracts for the ranked contracts gods offer mortals."
+ },
+ {
+  "n": "Wraith",
+  "cat": "Mystery",
+  "tower": "Void",
+  "prog": "Life",
+  "progTitle": "the Unknown Shade of Wraith",
+  "fate": "Vanished",
+  "law": "Has no Corpse at all, summoned instead from a fragment of Spirit left over after death, weaker in body than almost anything on this list but the first to hold onto a sliver of the original's magic instead of none."
+ },
+ {
+  "n": "Yang",
+  "cat": "Mystery",
+  "tower": "Primordial",
+  "prog": "Nyleas",
+  "progTitle": "the Unknown Shade of Yang",
+  "fate": "Vanished",
+  "law": "The other half of Yin, and just as reliant on its opposite to mean anything. D&D class: Monk, Way of the Sun Soul."
+ },
+ {
+  "n": "Yin",
+  "cat": "Mystery",
+  "tower": "Heaven",
+  "prog": "Lioniiel",
+  "progTitle": "the Unknown Shade of Yin",
+  "fate": "Killed",
+  "law": "Half of a pairing with Yang, tied loosely to Balance though neither half works as well alone. D&D class: Monk, Way of the Open Hand."
+ },
+ {
+  "n": "Zephyrus",
+  "cat": "Mystery",
+  "tower": "Human",
+  "prog": "Sylph",
+  "progTitle": "the Quiet Shade of Zephyrus",
+  "fate": "Vanished",
+  "law": "Zephyrus being a soft giant bring forth Summer, known to be coping with his mother death with pure joy, she is known to be worse that Boreas when her mother the being Sylph, is mention killing those who say it with pure heat. She is one of the many deity behind the Season"
+ },
+ {
+  "n": "Zero",
+  "cat": "Cosmos",
+  "tower": "Outer Realm",
+  "prog": "Ultheyr",
+  "progTitle": "the Unbound Shape of Zero",
+  "fate": "Killed",
+  "law": "The Void's law of nothing, quieter than Emptiness since it describes an absence of number rather than an absence of space. D&D class: Fighter, Eldritch Knight."
+ },
+ {
+  "n": "Zombie",
+  "cat": "Mystery",
+  "tower": "Mysterious",
+  "prog": "Life",
+  "progTitle": "the Nameless Shade of Zombie",
+  "fate": "Killed",
+  "law": "Needs a corpse with its Flesh still mostly intact, keeping slightly more power than a Skeleton and just enough crude muscle memory to move the way it used to, though never with any skill behind it."
+ },
+ {
+  "n": "knight",
+  "cat": "Mystery",
+  "tower": "Abyss",
+  "prog": "Kakais",
+  "progTitle": "the Quiet Shade of knight",
+  "fate": "Vanished",
+  "law": "A title earned through Battle and Loyalty together, rarely through either alone. D&D class: Paladin, Oath of the Crown."
+ }
+]

@@ -1,0 +1,232 @@
+[
+ {
+  "n": "Aether Engineer",
+  "par": "Artificer",
+  "ds": "A tinkerer who trades grounded machinery for lift and drift, gaining a stored charge that powers hover and flight tricks other Artificers can't."
+ },
+ {
+  "n": "Alchemist",
+  "par": "Artificer",
+  "ds": "Artificers who create potions and reagents through experimental science."
+ },
+ {
+  "n": "Armorer",
+  "par": "Artificer",
+  "ds": "Artificers who build a magical suit of armor and fight in it."
+ },
+ {
+  "n": "Artillerist",
+  "par": "Artificer",
+  "ds": "Artificers who deploy magical cannons."
+ },
+ {
+  "n": "Battle Smith",
+  "par": "Artificer",
+  "ds": "Artificers who fight alongside a steel defender."
+ },
+ {
+  "n": "Plague Doctor",
+  "par": "Artificer",
+  "ds": "An artificer who weaponises disease and infection, turning biological processes into armaments."
+ },
+ {
+  "n": "Runesmith",
+  "par": "Artificer",
+  "ds": "An artificer who etches power into gear rather than building it in, granting temporary magical properties to weapons and armor."
+ },
+ {
+  "n": "Soul Mechanist",
+  "par": "Artificer",
+  "ds": "An artificer who powers constructs with captured fragments of spirit rather than raw mechanism."
+ },
+ {
+  "n": "Blood Titan",
+  "par": "Barbarian",
+  "ds": "A barbarian who grows and hardens by spending their own blood, trading hit points for damage resistance and raw size."
+ },
+ {
+  "n": "Path of Ruin",
+  "par": "Barbarian",
+  "ds": "A barbarian who rages to destroy, not just to fight, leaving wrecked terrain and prone enemies in their wake."
+ },
+ {
+  "n": "Path of Wild Magic",
+  "par": "Barbarian",
+  "ds": "Barbarians whose rage leaks raw, unpredictable magic."
+ },
+ {
+  "n": "Path of the Ancestral Guardian",
+  "par": "Barbarian",
+  "ds": "Barbarians who call on the spirits of their ancestors to shield their allies."
+ },
+ {
+  "n": "Path of the Battlerager",
+  "par": "Barbarian",
+  "ds": "Armored brawlers who fight in spiked armor. (Originally dwarf-only in the book; many tables drop that restriction.)"
+ },
+ {
+  "n": "Path of the Beast",
+  "par": "Barbarian",
+  "ds": "Barbarians whose rage reveals a bestial form within."
+ },
+ {
+  "n": "Path of the Berserker",
+  "par": "Barbarian",
+  "ds": "The simplest, most violent barbarian path — rage turned into more damage and more attacks, at the cost of vulnerability once it ends."
+ },
+ {
+  "n": "Path of the Giant",
+  "par": "Barbarian",
+  "ds": "Barbarians who draw on the might of giants."
+ },
+ {
+  "n": "Path of the Storm Herald",
+  "par": "Barbarian",
+  "ds": "A barbarian whose rage summons a storm aura — this vault leans on the Sea variant."
+ },
+ {
+  "n": "Path of the Totem Warrior",
+  "par": "Barbarian",
+  "ds": "A barbarian who channels an animal spirit — bear, eagle, or wolf — into their rage."
+ },
+ {
+  "n": "Path of the World Tree",
+  "par": "Barbarian",
+  "ds": "Barbarians who draw on the cosmic tree whose roots and branches connect the realms. (Player's Handbook (2024))"
+ },
+ {
+  "n": "Path of the Zealot",
+  "par": "Barbarian",
+  "ds": "A barbarian whose rage is religious fervor, empowered by a god and hard to put down."
+ },
+ {
+  "n": "Storm Reaver",
+  "par": "Barbarian",
+  "ds": "A barbarian whose rage calls down lightning rather than just muscle, arcing bolts to nearby foes mid-swing."
+ },
+ {
+  "n": "College of Ash",
+  "par": "Bard",
+  "ds": "A bard who performs funeral rites and battlefield dirges, steadying allies while unsettling the dying."
+ },
+ {
+  "n": "College of Creation",
+  "par": "Bard",
+  "ds": "Bards who channel the song that shaped the world."
+ },
+ {
+  "n": "College of Dance",
+  "par": "Bard",
+  "ds": "Bards whose performance is movement: dancers who fight as they perform. (Player's Handbook (2024))"
+ },
+ {
+  "n": "College of Dreams",
+  "par": "Bard",
+  "ds": "A bard who plays on sleep and dream rather than waking emotion, drowsing enemies and walking into their nightmares."
+ },
+ {
+  "n": "College of Echoing Chants",
+  "par": "Bard",
+  "ds": "A bard whose magic repeats and layers rather than striking once, echoing spells onto second targets."
+ },
+ {
+  "n": "College of Eloquence",
+  "par": "Bard",
+  "ds": "Masters of oratory and persuasion."
+ },
+ {
+  "n": "College of Glamour",
+  "par": "Bard",
+  "ds": "Bards who wield fey enchantment — beauty, charm, and command."
+ },
+ {
+  "n": "College of Lore",
+  "par": "Bard",
+  "ds": "A bard who collects secrets and knowledge rather than fighting spirit — versatile magic and social utility over any single trick."
+ },
+ {
+  "n": "College of Spirits",
+  "par": "Bard",
+  "ds": "Storytellers who channel spirits through their tales."
+ },
+ {
+  "n": "College of Swords",
+  "par": "Bard",
+  "ds": "Blade-dancing performers who fight as they entertain."
+ },
+ {
+  "n": "College of Valor",
+  "par": "Bard",
+  "ds": "Battle-poets who inspire allies from the front lines."
+ },
+ {
+  "n": "College of Whispers",
+  "par": "Bard",
+  "ds": "Bards who trade in fear, secrets, and stolen identities."
+ },
+ {
+  "n": "Warchanter",
+  "par": "Bard",
+  "ds": "A bard who specialises in the music of war — battle hymns, war drums, and the songs that drive armies forward."
+ },
+ {
+  "n": "Arcana Domain",
+  "par": "Cleric",
+  "ds": "Clerics of a god of magic, blending divine and arcane."
+ },
+ {
+  "n": "Astral Domain",
+  "par": "Cleric",
+  "ds": "A cleric who channels starlight rather than a single god's word, pulling gravity and stepping briefly into an incorporeal astral form."
+ },
+ {
+  "n": "Flame Domain",
+  "par": "Cleric",
+  "ds": "A cleric who channels fire rather than a single domain of a living god, wreathing melee strikes and allies in flame."
+ },
+ {
+  "n": "Forge Domain",
+  "par": "Cleric",
+  "ds": "Clerics of smithing gods who craft and armor."
+ },
+ {
+  "n": "Grave Domain",
+  "par": "Cleric",
+  "ds": "Grave Domain expands the fantasy and gameplay style of the Cleric class.\n This subclass focuses on a unique identity, combat role, and spell progression."
+ },
+ {
+  "n": "Gravecaller",
+  "par": "Cleric",
+  "ds": "A cleric of a death deity who serves as intermediary between the living and the dead, guiding souls both ways."
+ },
+ {
+  "n": "Knowledge Domain",
+  "par": "Cleric",
+  "ds": "Clerics of lore, learning, and secrets."
+ },
+ {
+  "n": "Life Domain",
+  "par": "Cleric",
+  "ds": "The purest healing-focused cleric — every restoration spell goes further, and the domain's whole identity is keeping a party standing."
+ },
+ {
+  "n": "Light Domain",
+  "par": "Cleric",
+  "ds": "Clerics of dawn, fire, and truth who wield radiance as a weapon."
+ },
+ {
+  "n": "Nature Domain",
+  "par": "Cleric",
+  "ds": "Clerics of wild gods of beasts and growth."
+ },
+ {
+  "n": "Order Domain",
+  "par": "Cleric",
+  "ds": "Clerics of law, discipline, and authority."
+ },
+ {
+  "n": "Peace Domain",
+  "par": "Cleric",
+  "ds": "Clerics of harmony who bind allies together."
+ }
+]

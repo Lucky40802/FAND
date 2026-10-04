@@ -1,0 +1,227 @@
+[
+ {
+  "n": "Divine Soul",
+  "par": "Sorcerer",
+  "ds": "Sorcery inherited from a celestial parent or ancestor."
+ },
+ {
+  "n": "Draconic Bloodline",
+  "par": "Sorcerer",
+  "ds": "Magic inherited from a dragon ancestor — extra durability and a growing elemental affinity tied to that dragon's damage type."
+ },
+ {
+  "n": "Dragonblood",
+  "par": "Sorcerer",
+  "ds": "Dragonblood expands the fantasy and gameplay style of the Sorcerer class.\n This subclass focuses on a unique identity, combat role, and spell progression."
+ },
+ {
+  "n": "Gnome Bloodline",
+  "par": "Sorcerer",
+  "ds": "Gnome Bloodline is a Sorcerous Origin for the Sorcerer class, tracing its power to Earth and the dead earth spirit Gnome."
+ },
+ {
+  "n": "Ignis Bloodline",
+  "par": "Sorcerer",
+  "ds": "Ignis Bloodline is a Sorcerous Origin for the Sorcerer class, tracing its power to Fire and the dead fire spirit Ignis rather than a dragon."
+ },
+ {
+  "n": "Lunar Sorcery",
+  "par": "Sorcerer",
+  "ds": "Sorcerers empowered by the phases of the moon."
+ },
+ {
+  "n": "Mirror Mage",
+  "par": "Sorcerer",
+  "ds": "A sorcerer whose magic reflects and duplicates, turning opponents' spells against them."
+ },
+ {
+  "n": "Shadow Magic (Sorcerer)",
+  "par": "Sorcerer",
+  "ds": "Sorcery touched by the Shadowfell. (File is named to avoid clashing with this vault's Shadow Magic spell school.)"
+ },
+ {
+  "n": "Storm Sorcery",
+  "par": "Sorcerer",
+  "ds": "Sorcery tied to wind, thunder, and lightning."
+ },
+ {
+  "n": "Sylph Bloodline",
+  "par": "Sorcerer",
+  "ds": "Sylph Bloodline is a Sorcerous Origin for the Sorcerer class, tracing its power to Air and the dead air spirit Sylph."
+ },
+ {
+  "n": "Undine Bloodline",
+  "par": "Sorcerer",
+  "ds": "Undine Bloodline is a Sorcerous Origin for the Sorcerer class, tracing its power to Water and the dead water spirit Undine."
+ },
+ {
+  "n": "Voidborn",
+  "par": "Sorcerer",
+  "ds": "A sorcerer born already touched by the Void rather than by any bloodline, resistant to force and able to silence nearby spells."
+ },
+ {
+  "n": "Wild Magic (Sorcerer)",
+  "par": "Sorcerer",
+  "ds": "Magic drawn from raw chaos rather than any bloodline — unpredictable, occasionally spectacular, and never fully controlled."
+ },
+ {
+  "n": "Diamond's Patron",
+  "par": "Warlock",
+  "ds": "Diamond's Patron is an Otherworldly Patron for the Warlock class — the patron being Diamond's shattered remains rather than a Fiend or Great Old One."
+ },
+ {
+  "n": "Iron's Patron",
+  "par": "Warlock",
+  "ds": "Iron's Patron is an Otherworldly Patron for the Warlock class — the patron being Iron himself, sealed away rather than dead, closer to an Undying patron than a Fiend or Great Old One."
+ },
+ {
+  "n": "The Archfey (Patron)",
+  "par": "Warlock",
+  "ds": "A pact with a lord or lady of the Feywild."
+ },
+ {
+  "n": "The Ashen Eye",
+  "par": "Warlock",
+  "ds": "A patron that is little more than a burnt-out watcher, seeing everything through smoke and ash and wanting little in return."
+ },
+ {
+  "n": "The Celestial (Patron)",
+  "par": "Warlock",
+  "ds": "A pact with a being from the Upper Planes."
+ },
+ {
+  "n": "The Fathomless (Patron)",
+  "par": "Warlock",
+  "ds": "A patron of the deep ocean."
+ },
+ {
+  "n": "The Fiend (Patron)",
+  "par": "Warlock",
+  "ds": "A pact with a devil, demon, or other fiend from the lower planes — a patron who rewards dealing death with resilience and, eventually, the power to banish enemies outright."
+ },
+ {
+  "n": "The Genie (Patron)",
+  "par": "Warlock",
+  "ds": "A patron who is a noble genie of one of the four elements."
+ },
+ {
+  "n": "The Great Old One (Patron)",
+  "par": "Warlock",
+  "ds": "A pact with an alien entity beyond the stars."
+ },
+ {
+  "n": "The Hexblade (Patron)",
+  "par": "Warlock",
+  "ds": "A pact with a sentient weapon from the Shadowfell."
+ },
+ {
+  "n": "The Hollow King",
+  "par": "Warlock",
+  "ds": "A patron that is an empty crown and an empty throne, nothing more, granting authority borrowed rather than earned."
+ },
+ {
+  "n": "The Star Eater",
+  "par": "Warlock",
+  "ds": "A patron whose hunger consumes light itself, feeding the warlock on wounds dealt to the already-dying."
+ },
+ {
+  "n": "The Undead (Patron)",
+  "par": "Warlock",
+  "ds": "A patron that is a powerful undead being."
+ },
+ {
+  "n": "The Undying (Patron)",
+  "par": "Warlock",
+  "ds": "A patron who has cheated death."
+ },
+ {
+  "n": "Void Caller",
+  "par": "Warlock",
+  "ds": "A warlock whose patron dwells in the absolute void between planes. They wield the power of absolute nothingness."
+ },
+ {
+  "n": "Astromancer",
+  "par": "Wizard",
+  "ds": "A wizard who draws power from the stars and the vast emptiness of space, wielding cosmic forces."
+ },
+ {
+  "n": "Bladesinging",
+  "par": "Wizard",
+  "ds": "Elven-style wizards who fuse swordplay with spellcasting."
+ },
+ {
+  "n": "Chronomancer",
+  "par": "Wizard",
+  "ds": "A wizard who nudges moments rather than commanding time outright, borrowing reactions and recasting spent spells."
+ },
+ {
+  "n": "Chronurgy Magic",
+  "par": "Wizard",
+  "ds": "Wizards who manipulate time."
+ },
+ {
+  "n": "Graviturgy Magic",
+  "par": "Wizard",
+  "ds": "Wizards who manipulate gravity."
+ },
+ {
+  "n": "Order of Scribes",
+  "par": "Wizard",
+  "ds": "Wizards whose spellbook is awakened and alive."
+ },
+ {
+  "n": "Rune Sage",
+  "par": "Wizard",
+  "ds": "A wizard who studies runes as a second, slower spellbook, inscribing wards and recalling spent spell slots."
+ },
+ {
+  "n": "School of Abjuration (Wizard)",
+  "par": "Wizard",
+  "ds": "Wizards of protective and warding magic."
+ },
+ {
+  "n": "School of Conjuration (Wizard)",
+  "par": "Wizard",
+  "ds": "Wizards who summon creatures and objects."
+ },
+ {
+  "n": "School of Divination (Wizard)",
+  "par": "Wizard",
+  "ds": "Wizards who read the future."
+ },
+ {
+  "n": "School of Enchantment (Wizard)",
+  "par": "Wizard",
+  "ds": "Wizards who charm and bewilder."
+ },
+ {
+  "n": "School of Evocation",
+  "par": "Wizard",
+  "ds": "A wizard specialized in raw destructive magic, with the rare ability to protect allies from their own area spells."
+ },
+ {
+  "n": "School of Illusion (Wizard)",
+  "par": "Wizard",
+  "ds": "Wizards of deception and phantasm."
+ },
+ {
+  "n": "School of Necromancy (Wizard)",
+  "par": "Wizard",
+  "ds": "Wizards who study the magic of death and undeath. (File is named to avoid clashing with this vault's Necromancy Rune and spell school.)"
+ },
+ {
+  "n": "School of Transmutation (Wizard)",
+  "par": "Wizard",
+  "ds": "Wizards who change matter and form."
+ },
+ {
+  "n": "Void Scholar",
+  "par": "Wizard",
+  "ds": "A wizard who studies the Void as an academic subject rather than a power to wield lightly, folding space and unraveling magic."
+ },
+ {
+  "n": "War Magic",
+  "par": "Wizard",
+  "ds": "Wizards who blend spells and defense on the battlefield."
+ }
+]

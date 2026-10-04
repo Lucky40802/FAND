@@ -75,6 +75,11 @@ function statblock(m, body, bestDrop) {
   var die = sz[1], per = die / 2 + 0.5 + mods[2];
   var hd = Math.max(1, Math.round(hp / Math.max(1, per)));
   hp = Math.max(1, Math.floor(hd * (die / 2 + 0.5)) + hd * mods[2]);
+  // Realm scaling (campaign rule: everything scales through the realms). Deeper realms mean tougher, harder-hitting
+  // monsters: +15% HP per realm tier past the Human Realm, and a flat bonus on every hit that keeps pace with the AC
+  // that gear of that realm gives (about +2.5 per tier), since AC is subtracted from each hit.
+  var tier0 = Math.max(0, (m.tier || 1) - 1), realmHit = Math.round(2.5 * tier0);
+  if (tier0) { hd = Math.max(1, Math.round(hd * (1 + 0.15 * tier0))); hp = Math.max(1, Math.floor(hd * (die / 2 + 0.5)) + hd * mods[2]); }
   // AC scales through the realms as player damage does (deeper-realm materials hit harder): half the CR, natural armor,
   // +1 for each realm tier past the Human Realm, and +1 for every 5 grades within the realm.
   var tierBonus = Math.max(0, (m.tier || 1) - 1), gradeBonus = Math.floor((m.g || 1) / 5);
@@ -95,15 +100,15 @@ function statblock(m, body, bestDrop) {
   atks.forEach(function (a, i) {
     if (i > 0 && n === 1 && !a[3]) return;
     var per = Math.max(1, Math.round(dpr / n)), d = a[2], avg = d / 2 + 0.5;
-    var dice = Math.max(1, Math.round((per - pri) / avg)), dmg = Math.max(1, Math.floor(dice * avg) + pri);
+    var dice = Math.max(1, Math.round((per - pri) / avg)), dmg = Math.max(1, Math.floor(dice * avg) + pri + realmHit);
     var ranged = a[3] === 'ranged', kind = a[1];
-    var txt = (ranged ? 'Ranged Weapon Attack: ' : 'Melee Weapon Attack: ') + sgn(hit) + ' to hit, ' + (ranged ? 'range 60/240 ft.' : 'reach ' + (/Large|Huge|Gargantuan/.test(sz[0]) ? 10 : 5) + ' ft.') + ', one target. Hit: ' + dmg + ' (' + dice + 'd' + d + (pri ? ' ' + (pri > 0 ? '+ ' : '− ') + Math.abs(pri) : '') + ') ' + kind + ' damage';
+    var txt = (ranged ? 'Ranged Weapon Attack: ' : 'Melee Weapon Attack: ') + sgn(hit) + ' to hit, ' + (ranged ? 'range 60/240 ft.' : 'reach ' + (/Large|Huge|Gargantuan/.test(sz[0]) ? 10 : 5) + ' ft.') + ', one target. Hit: ' + dmg + ' (' + dice + 'd' + d + ((pri + realmHit) ? ' ' + ((pri + realmHit) > 0 ? '+ ' : '− ') + Math.abs(pri + realmHit) : '') + ') ' + kind + ' damage';
     if (elem && i === 0 && kind !== elem && c >= 2) { var ed = Math.max(1, Math.round(c / 3)); txt += ' plus ' + Math.floor(ed * 3.5) + ' (' + ed + 'd6) ' + elem + ' damage'; }
     if (plan.poison && /Sting|Bite/.test(a[0]) && i > 0) txt += ', and the target must make a DC ' + dc + ' Constitution saving throw or be poisoned for 1 minute';
     actions.push([a[0], txt + '.']);
   });
   if (plan.breath && c >= 1) {
-    var bd = Math.max(2, Math.round(c * 1.2)), bt = elem || 'fire';
+    var bd = Math.max(2, Math.round(c * 1.2 * (1 + 0.1 * tier0))), bt = elem || 'fire';
     actions.push(['Breath Weapon (Recharge 5–6)', 'The creature exhales ' + bt + ' in a ' + (c >= 17 ? 60 : c >= 10 ? 30 : 15) + '-foot cone. Each creature in that area must make a DC ' + dc + ' Dexterity saving throw, taking ' + Math.floor(bd * 3.5) + ' (' + bd + 'd6) ' + bt + ' damage on a failed save, or half as much on a successful one.']);
   }
   if (plan.mind && c >= 3) actions.push(['Mind Blast (Recharge 5–6)', 'Each creature of the creature\'s choice within 30 feet must succeed on a DC ' + dc + ' Intelligence saving throw or take ' + Math.floor(Math.max(2, Math.round(c)) * 3.5) + ' (' + Math.max(2, Math.round(c)) + 'd6) psychic damage and be stunned until the end of its next turn.']);
