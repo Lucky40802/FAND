@@ -1545,9 +1545,35 @@ function renderHome(){
   </div>`;
 }
 
+// Realm map, from the vault's Realm Map note: places by Pressure (height), routes with how they are traveled.
+const RMAP_NODES={MO:['Human','Mortal Realm',50,0],MY:['Mysterious','Mysterious Realm',24,1],AS:[null,'Astral',74,1.1],HV:['Heaven','Heaven',40,2],HE:['Hell','Hell',64,2],FI:[null,'Fiend Realm',90,2],CH:['Chaos','Chaos Realm',88,3],AB:['Abyss','Abyss',68,4],IN:['Inner Realm','Inner Realm',42,5],SP:[null,'Spirit Realm depths',10,5],OU:['Outer Realm','Outer Realm',82,6],VO:['Void','Void',58,7],IV:['Inner Void','Inner Void',58,8],PR:['Primordial','Primordial Realm',26,9]};
+const RMAP_EDGES=[['MO','MY','thin places, fey rings, mirrors'],['MY','AS','the Astral borders the fey pockets'],['MO','AS','Astral crossing'],['AS','HV','gates, invitation, death'],['AS','HE','gates, invitation, death'],['MO','HE','death'],['MO','HV','death'],['FI','HE','the Fiend Realm is Hell\'s border'],['MO','FI','thin border'],['HE','AB','the Fall, from the Rim'],['MO','CH','rifts from dead gods'],['CH','AB','rifts'],['MO','IN','Law-veins, with a guide'],['AB','IN','the deepest layers'],['AS','OU','beyond the Astral, a week or more'],['IN','VO','the Root touches it'],['OU','VO','Void ritual'],['VO','IV','deeper'],['MY','SP','spirit edges, then down'],['SP','PR','depths'],['IV','PR','god-falls anywhere',1]];
+function realmMapSVG(hl){
+  const W=760,H=560,X=x=>30+x/100*(W-60),Y=p=>H-34-p/9*(H-80),N=RMAP_NODES,on=new Set(hl||[]);
+  const col=k=>N[k][0]?(REALM[N[k][0]]||{}).color||'#888':'var(--muted)';
+  const edge=([a,b,t,dot])=>{const hot=on.has(a)&&on.has(b)&&Math.abs((hl||[]).indexOf(a)-(hl||[]).indexOf(b))===1;return `<line x1="${X(N[a][2])}" y1="${Y(N[a][3])}" x2="${X(N[b][2])}" y2="${Y(N[b][3])}" stroke="${hot?'var(--gold)':'var(--line2,var(--line))'}" stroke-width="${hot?4:1.6}" ${dot?'stroke-dasharray="5 5"':''}><title>${esc(N[a][1])} ↔ ${esc(N[b][1])}: ${esc(t)}</title></line>`};
+  const node=k=>{const [rn,lab,x,p]=N[k],r=rn&&REALM[rn],w=Math.max(84,(lab.length+(r?4:0))*7.6+22),hot=on.has(k);
+    return `<g ${r?`data-ref="${ref(r)}" style="cursor:pointer"`:''}><title>${esc(lab)}${r?` · tier ${r.tier}, Pressure ${r.pressure}`:' · a crossing zone'}</title><rect x="${X(x)-w/2}" y="${Y(p)-15}" width="${w}" height="30" rx="15" fill="var(--panel,var(--bg))" stroke="${col(k)}" stroke-width="${hot?3.5:2}" ${rn?'':'stroke-dasharray="4 3"'}/><text x="${X(x)}" y="${Y(p)+4.5}" text-anchor="middle" font-size="12.5" font-family="var(--sans)" fill="var(--text)" font-weight="${hot?700:500}">${esc(lab)}${r?` [${r.pressure}]`:''}</text></g>`};
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;height:auto;display:block;margin:0 auto" role="img" aria-label="Map of the realms by Pressure">${[0,3,6,9].map(p=>`<text x="4" y="${Y(p)+4}" font-size="10" fill="var(--muted)">P${p}</text><line x1="22" x2="${W-6}" y1="${Y(p)}" y2="${Y(p)}" stroke="var(--line)" stroke-width=".5" stroke-dasharray="2 6"/>`).join('')}${RMAP_EDGES.map(edge).join('')}${Object.keys(N).map(node).join('')}</svg>`;
+}
+function realmRoute(a,b){
+  const adj={};RMAP_EDGES.forEach(([x,y,t])=>{(adj[x]=adj[x]||[]).push([y,t]);(adj[y]=adj[y]||[]).push([x,t])});
+  const prev={[a]:null},q=[a];while(q.length){const c=q.shift();if(c===b)break;(adj[c]||[]).forEach(([n,t])=>{if(!(n in prev)){prev[n]=[c,t];q.push(n)}})}
+  if(!(b in prev))return null;const path=[];let c=b;while(prev[c]){path.unshift([prev[c][0],c,prev[c][1]]);c=prev[c][0]}return path;
+}
+function realmMapHTML(){
+  const st=store.get('rmap',{a:'MO',b:'PR'}),route=st.a!==st.b?realmRoute(st.a,st.b):null,nodes=route?[st.a,...route.map(x=>x[1])]:[];
+  const opt=sel=>Object.entries(RMAP_NODES).map(([k,v])=>`<option value="${k}"${k===sel?' selected':''}>${esc(v[1])}</option>`).join('');
+  const maxP=nodes.reduce((m,k)=>{const r=RMAP_NODES[k][0]&&REALM[RMAP_NODES[k][0]];return Math.max(m,r?r.pressure:0)},0);
+  return `<section class="sec" id="realm-map"><div class="sec-h"><h3>Realm map</h3><p>From the vault's Realm Map. Height is Pressure; dashed boxes are crossing zones, the dotted line is a god-fall. Hover a line for how it's traveled; click a realm to open it.</p></div>
+    <div class="panel">${realmMapSVG(nodes)}
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px"><b>Route</b> from <select class="sel" id="rm-a">${opt(st.a)}</select> to <select class="sel" id="rm-b">${opt(st.b)}</select></div>
+    ${route?`<ol style="margin:8px 0 0 18px;line-height:1.7">${route.map(([x,y,t])=>`<li><b>${esc(RMAP_NODES[x][1])}</b> → <b>${esc(RMAP_NODES[y][1])}</b>: ${esc(t)}</li>`).join('')}</ol><div class="note">${route.length} step${route.length>1?'s':''}; the hardest stop has Pressure ${maxP}, so a traveler needs Attunement ${maxP} to avoid strain. Every route also works in reverse, but leaving is often harder than arriving.</div>`:st.a===st.b?'<div class="note">Pick two different places.</div>':'<div class="note">No known route.</div>'}</div></section>`;
+}
 function renderRealms(){
   $('content').innerHTML=`<div class="page">
     <div style="margin-bottom:16px">${cosmologyHTML()}</div>
+    <div id="rm-wrap">${realmMapHTML()}</div>
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Realms</h3><p>Ordered by tier. Higher tiers mean stronger materials, higher prices, and more Pressure on travelers.</p></div>
     <div class="ladder" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr))">${REALMS.map(r=>{
       const mats=MATS.filter(m=>m.realm===r.n),mons=MONSTERS.filter(m=>m.realm===r.n),gods=GODS.filter(g=>g.home===r.n);
@@ -1564,6 +1590,7 @@ function renderRealms(){
     <section class="sec"><div class="sec-h"><h3>Money</h3><p>Each realm mints its own coin, worth its base material price ÷ 5 gp, so a grade-<i>g</i> material costs 5 × <i>g</i> local coins (doubled at grade 9–10). Moneychangers take ${EXCHANGE_FEE*100}% to swap coin between realms.</p></div>${moneyTable()}</section>
     <section class="sec"><div class="sec-h"><h3>Tier table</h3></div>${tierTable()}</section>
   </div>`;
+  const bindMap=()=>{['rm-a','rm-b'].forEach(i=>$(i).onchange=()=>{store.set('rmap',{a:$('rm-a').value,b:$('rm-b').value});$('rm-wrap').innerHTML=realmMapHTML();bindMap()})};bindMap();
 }
 function moneyTable(){
   return `<div class="tablewrap"><table class="t"><thead><tr><th>Realm</th><th>Coin</th><th class="num">Worth</th><th>Smaller coin</th><th>Notes</th></tr></thead><tbody>${REALMS.map(r=>{const c=CURRENCY[r.n]||{};return `<tr><td><a href="#" data-ref="${ref(r)}" style="color:${r.color};text-decoration:none;font-weight:600">${esc(r.n)}</a></td><td>${c.coin?'<b>'+esc(c.coin)+'</b>':'—'}</td><td class="num">${c.coin?gp(c.gp):'not traded'}</td><td>${esc(c.sub||'')}</td><td style="color:var(--text2)">${esc(((c.what||'')+' '+(c.note||'')).trim())}</td></tr>`}).join('')}</tbody></table></div>`;
