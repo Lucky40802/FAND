@@ -1353,6 +1353,7 @@ const MODAL={
         +kv([['Home realm',g.home?esc(g.home):''],['Runes',(g.runes||[]).length||''],['Hand',g.seated!=null?g.seated+' of 5 seated':''],['Finger relic',g.relic?esc(g.relic):'']])
         +blk('Signature materials',(g.sig||[]).length?`<div class="chips">${g.sig.map(n=>matChip(n,(findMat(n)||{}).gr)).join('')}</div>`:'')
         +blk('The Hand',hand,'the five Fingers')
+        +`<details class="fold"><summary>Contract ranks and rewards with ${esc(godKey(g))}</summary><div>${contractTable(g)}<p class="note"><a href="${pageUrl('rules')}" data-go="rules">Duties, rising in rank, and breaking a contract →</a></p></div></details>`
         +blk('Rivals',rivals.size?`<div class="chips">${[...rivals].map(([o,rs])=>refChip(o,esc(godKey(o)),'over '+rs.join(', '))).join('')}</div>`:'','gods holding the same Runes')
         +(REALM[g.home]?`<div><button class="btn" data-ref="${ref(REALM[g.home])}">Open ${esc(g.home)} →</button></div>`:'')};
   },
@@ -1582,6 +1583,14 @@ function renderProfessions(){
   </div>`;
 }
 
+// Each Rules section is followed by the vault notes it summarizes, so no detail is only "in the vault".
+const RULE_NOTES={ac:['Armor Class'],grading:['Material Grading'],props:['Material Properties'],refining:['Material Refining'],custom:['Custom Blueprints','Custom Blueprint Template'],
+  economy:['Economy'],professions:['Crafting Rules','Profession Progression','Master Professions'],travel:['Realm Travel','Realm Map'],contracts:['God Contracts','Pacts','Worship'],
+  classes:['Class'],spells:['Spell Slots','School of Resonance'],monsters:['Monster Stats']};
+function ruleVault(id){
+  return (RULE_NOTES[id]||[]).map(noteByName).filter(Boolean).map(n=>{const sup=SUPERSEDED[n.n];
+    return `<details class="fold" style="border-top:1px solid var(--line);padding-top:8px;margin-top:10px"><summary>${sup?'Older vault version':'Full rules from the vault'}: ${esc(n.n)} <span style="color:var(--muted)">· ${esc(n.f)}</span></summary><div>${sup?`<div class="callout" style="border-color:var(--gold)"><b>The website takes priority.</b> ${esc(sup.msg)}</div>`:''}<div class="prose vault" style="font-family:var(--sans);font-size:.9rem">${mdVault(n.md)}</div></div></details>`}).join('');
+}
 function renderRules(){
   const props={};MATS.forEach(m=>{if(m.pn){props[m.pn]=props[m.pn]||{n:0,txt:m.prop.replace(/^[^:]+:\s*/,'')};props[m.pn].n++}});
   const S=[
@@ -1602,17 +1611,17 @@ function renderRules(){
     ['custom','Custom Blueprints','v1.07',`<p>Players design their own items from a primary material and up to two secondaries, then pass a design check. The item's traits come from its materials' properties. Player-made items go in the vault's <code>Blueprints/Custom/</code> folder, from its template.</p>`],
     ['economy','Economy','v1.20',`<div class="formula">price = realm base × grade   (×2 at grade 9–10; supplies cost ⅕)</div>
       <p>Each realm has its own coin; see the table below. Moneychangers take ${EXCHANGE_FEE*100}% to swap coin between realms.</p>${moneyTable()}
-      <ul style="margin-top:12px"><li>Merchants buy at half price.</li><li>Void-grade materials and above aren't sold; they pass only between gods and their Fingers.</li><li>The Economy page in the vault also covers where to buy and sell, Blueprint prices, crafting labor, services, and contract tithes.</li></ul>
+      <ul style="margin-top:12px"><li>Merchants buy at half price.</li><li>Void-grade materials and above aren't sold; they pass only between gods and their Fingers.</li><li>Where to buy and sell, Blueprint prices, crafting labor, services, and contract tithes are in the full Economy rules below.</li></ul>
       <div class="tablewrap"><table class="t"><thead><tr><th>Realm</th><th class="num">Base</th><th class="num">Grade 1</th><th class="num">Grade 5</th><th class="num">Grade 10</th></tr></thead><tbody>${REALMS.map(r=>`<tr><td>${esc(r.n)}</td><td class="num">${r.base?gp(r.base):'—'}</td><td class="num">${r.base?gp(r.base):'not sold'}</td><td class="num">${r.base?gp(r.base*5):'—'}</td><td class="num">${r.base?gp(r.base*20):'—'}</td></tr>`).join('')}</tbody></table></div>`],
     ['professions','Professions & Progression','v1.20–1.23',`<ul><li>Ten professions; every Blueprint has a profession and a specialty.</li><li>You start with one specialty and gain more over time. Crafting outside your specialties is at disadvantage, and each specialty has its own requirement.</li><li>Hell, Heaven, and Void metals need a Blacksmith with the matching realm specialty.</li><li>Profession XP comes from crafting, designing, refining, and gathering, with teachers and milestones.</li><li><b>Harvesting</b> gathers ore, stone, crystal, and plants. <b>Scavenging</b> strips hide, bone, blood, organs, and essences from corpses.</li></ul><p class="note"><a href="${pageUrl('professions')}" data-go="professions">All professions →</a></p>`],
-    ['travel','Realm Travel','v1.17',`<ul><li>Each realm has a <b>Pressure</b> from 0 to 9. A traveler's <b>Attunement</b> comes from their level, contract rank, or realm-material gear.</li><li>If Pressure is higher than Attunement, the traveler suffers strain.</li><li>There are 11 travel methods, and an anchor from home makes the return trip easier.</li><li>The Realm Map page in the vault diagrams every route between realms.</li></ul><p class="note">The Pressure values shown in this app follow the tier order (tier − 1). Check them against the Realm Travel page in the vault.</p>`],
-    ['contracts','God Contracts','v1.08, v1.15',`<ul><li>The gods are guests in Vestige: their own world eroded because of Inane, and Infinatas, who cares only for balance, let them in under strict regulation.</li><li>Ten ranks, from Minor up to 1st Finger. The five Fingers form the god's Hand.</li><li>Each rank has spells, AC, duties, and a reward ladder.</li><li>There are rules for rising in rank, staying loyal to one god, breaking a contract, and what happens when a god dies.</li><li>${CONTESTED.length} Runes are held by more than one god; those gods are rivals.</li></ul><p class="note"><a href="${pageUrl('gods')}" data-go="gods">All gods →</a></p>`],
+    ['travel','Realm Travel','v1.17',`<ul><li>Each realm has a <b>Pressure</b> from 0 to 9. A traveler's <b>Attunement</b> comes from their level, contract rank, or realm-material gear.</li><li>If Pressure is higher than Attunement, the traveler suffers strain.</li><li>There are 11 travel methods, and an anchor from home makes the return trip easier.</li></ul><p class="note">Pressure: Human 0, Mysterious 1, Hell and Heaven 2, Chaos 3, Abyss 4, Inner 5, Outer 6, Void 7, Inner Void 8, Primordial 9. Attunement is the highest of: level ÷ 4, contract rank ÷ 2 (Minor 1 up to 1st Finger 10), or the Potency of worn gear made from that realm's material. Strain (Pressure − Attunement): 1 disadvantage on Con saves; 2 also 1 exhaustion per day; 3 also no long rests; 4+ 1 exhaustion every hour.</p>`],
+    ['contracts','God Contracts','v1.08, v1.15',`<ul><li>The gods are guests in Vestige: their own world eroded because of Inane, and Infinatas, who cares only for balance, let them in under strict regulation.</li><li>Ten ranks, from Minor up to 1st Finger. The five Fingers (one holder each) form the god's Hand.</li><li><b>Spells</b> from a contract are extra spells from the god's Law; you can cast them even if your class can't, using your slots, or once per long rest each if you have none.</li><li><b>Natural AC</b> from a contract can't be looted, and replaces the previous rank's bonus rather than stacking.</li></ul>${contractTable(null)}<p class="note">Open a god to see this table with that god's own signature materials and Finger relic.</p><h4 style="margin:14px 0 6px">Duties, rising, and breaking a contract</h4><div class="tablewrap"><table class="t"><thead><tr><th>Rank</th><th>Duties</th><th>To reach this rank</th><th>If you break it</th></tr></thead><tbody>${CONTRACTS.map(c=>`<tr><td style="white-space:nowrap"><b>${c.r}</b></td><td>${esc(c.duty)}</td><td>${esc(c.rise||'Sign the contract')}</td><td>${esc(c.brk)}</td></tr>`).join('')}</tbody></table></div><ul><li><b>One god at a time.</b> Minor and Normal contracts can be held with several gods at once, like hired work. Major and above are exclusive; taking a second breaks the first. Contractors of rival gods are fair game for each other.</li><li><b>When a god dies,</b> its contracts become void at your next long rest, its power breaks into Runes, and a Finger who reaches the remains first may claim a Primary piece: the first step toward godhood.</li><li>${CONTESTED.length} Runes are held by more than one god; those gods are rivals.</li></ul><p class="note"><a href="${pageUrl('gods')}" data-go="gods">All gods →</a></p>`],
     ['classes','Classes & Subclasses','v1.03, v1.18',`<ul><li>Official subclasses from the Player's Handbook, Xanathar's, Tasha's, and the Sword Coast guide are included as paraphrased summaries, each labeled with its source book.</li><li>Three 2024 Player's Handbook subclasses were added: Path of the World Tree, College of Dance, and Circle of the Sea.</li><li>Each class page notes which of its subclasses the 2024 Player's Handbook revised. Every class picks its subclass at level 3.</li><li>Homebrew Rune subclasses sit alongside the official ones.</li></ul><p class="note"><a href="${pageUrl('subclasses')}" data-go="subclasses">All subclasses →</a></p>`],
     ['spells','Spells','v1.17, v1.23',`<ul><li>Every spell in the vault lists its classes. Pyramid spells get them from their school, plus the class tied to their Rune where one applies.</li><li>73 Tertiary and Secondary damage spells were turned into support spells: they now heal, cure, ward, shield, teleport, or otherwise help. Each was renamed to match its new effect and scales with spell level.</li></ul><p class="note">${META.counts.spells<10000?`The Spells page shows the vault's ${fmt(META.counts.spells)} spells.`:`The vault has about 2,330 spells. The Spells page in this app holds an older, larger generated list (${fmt(META.counts.spells)}); run the vault import to replace it.`}</p>`],
     ['monsters','Monster Stats','v1.20',`<ul><li><b>Homebrew</b> monsters have a level, HP, AC, attacks, a save DC, and a signature trait from their best drop. Grade 10 monsters have boss rules.</li><li><b>Official</b> monsters have their CR, a grade from that CR, an original short description, and graded drops; no stat blocks.</li></ul>`],
   ];
   $('content').innerHTML=`<div class="page rules"><nav class="toc">${S.map(([id,t])=>`<a href="#rule-${id}" onclick="document.getElementById('rule-${id}').scrollIntoView();return false">${t}</a>`).join('')}</nav>
-    <div>${S.map(([id,t,v,body])=>`<section class="rule" id="rule-${id}"><h3>${t}</h3><div class="src">Rules summary${v?' · '+v:''} · full text in the vault</div>${body}</section>`).join('')}</div></div>`;
+    <div>${S.map(([id,t,v,body])=>`<section class="rule" id="rule-${id}"><h3>${t}</h3><div class="src">Rules summary${v?' · '+v:''}${RULE_NOTES[id]?' · full vault text below':''}</div>${body}${ruleVault(id)}</section>`).join('')}</div></div>`;
 }
 
 function renderAbout(){
@@ -1655,7 +1664,7 @@ function renderAbout(){
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">About FAND</h3><p>Everything built in the FAND vault since the Patch Notes began. Current version: <b>${esc(META.version)}</b>.</p></div>
     <section class="sec">${cosmologyHTML()}</section>
     <section class="sec"><div class="sec-h"><h3>At a glance</h3></div><div class="tablewrap"><table class="t"><thead><tr><th>Area</th><th>Now</th></tr></thead><tbody>${G.map(([a,t,l])=>`<tr><td style="white-space:nowrap;font-weight:600">${l?`<a href="${pageUrl(l)}" data-go="${l}" style="text-decoration:none">${a}</a>`:a}</td><td>${t}</td></tr>`).join('')}</tbody></table></div></section>
-    <section class="sec"><div class="sec-h"><h3>Version history</h3><p>Full detail for each version is in the vault's Patch Notes database.</p></div><div class="tablewrap"><table class="t"><thead><tr><th>Version</th><th>What changed</th></tr></thead><tbody>${V.slice().reverse().map(([v,t])=>`<tr><td style="white-space:nowrap"><span class="vtag">${v}</span></td><td>${esc(t)}</td></tr>`).join('')}</tbody></table></div></section>
+    <section class="sec"><div class="sec-h"><h3>Version history</h3><p>Open any version for its full patch notes from the vault.</p></div><div class="tablewrap"><table class="t"><thead><tr><th>Version</th><th>What changed</th></tr></thead><tbody>${V.slice().reverse().map(([v,t])=>`<tr><td style="white-space:nowrap"><span class="vtag">${v}</span></td><td>${esc(t)}${(()=>{const n=noteByName('Patch v'+v);return n?` <a href="#" data-ref="${ref(n)}">Full notes →</a>`:''})()}</td></tr>`).join('')}</tbody></table></div></section>
     <section class="sec cols">
       <div class="panel"><h4>Runes and lore</h4><ul>
         <li>Stub pages filled (v1.17): Ignis, Sylph, Infinatas, Elves, Horn, and Terraformation.</li>
@@ -1718,7 +1727,7 @@ function renderLore(){
     ${sec('progenitors','The progenitors',`<p>Every Rune once had a progenitor, its original holder. ${RUNES.filter(r=>r.fig.fate==='Killed').length} were killed and ${RUNES.filter(r=>r.fig.fate==='Vanished').length} vanished; only the Runes of Infinatas and Inane were never lost. <a href="${pageUrl('runes')}" data-go="runes">All progenitors →</a></p><p>The Primordial Realm belongs to the progenitors, older than the gods. Their remains count as Primary pieces toward the elemental classes.</p><div class="mlist" style="margin-top:10px">${prog.map(m=>`<button data-ref="${ref(m)}"><b style="color:var(--gold2)">${esc(m.n.split(' ')[0])}</b> ${esc(m.n)}<span class="x">${esc((m.ds||'').replace(/\. Property:.*$/,''))}</span></button>`).join('')}</div>
       <p class="note">Divine Spark materials (${MATS.filter(m=>m.pn==='Divine Spark').length}) hold fragments of a god's power and are sought by gods and their Fingers.</p>`)}
     ${sec('powers','Other powers',`${[['Demons and devils',DEMONS,'demons'],['Warlock patrons',PATRONS,'patrons']].map(([t,arr,tab])=>`<h4 style="margin:6px 0">${t}</h4><div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px">${Object.entries(groups(arr)).map(([g,es])=>`<div><b>${esc(g)}</b> <span class="note">${es.length}</span><div class="chips" style="margin-top:4px">${es.slice(0,12).map(e=>refChip(e,esc(e.n.split(' - ')[0]))).join('')}${es.length>12?`<button class="chip" data-go="${tab}" data-setup='${esc(JSON.stringify({side:g}))}'>+${es.length-12} more</button>`:''}</div></div>`).join('')}</div>`).join('')}`)}
-    ${sec('contracts','Contracts and the Hand',`<ul><li>Mortals serve the gods by contract, in ten ranks from <b>Minor</b> up to <b>1st Finger</b>.</li><li>The five Fingers together form the god's <b>Hand</b>. Each rank brings spells, AC, duties, and rewards.</li><li>A contractor is expected to stay loyal to one god. Breaking a contract, and the death of a god, have their own rules in the vault.</li><li>Gods that share a Rune are rivals, and so are their Hands.</li></ul><p class="note"><a href="${pageUrl('rules')}" data-go="rules">God Contracts in the rules →</a></p>`)}
+    ${sec('contracts','Contracts and the Hand',`<ul><li>Mortals serve the gods by contract, in ten ranks from <b>Minor</b> up to <b>1st Finger</b>.</li><li>The five Fingers together form the god's <b>Hand</b>. Each rank brings spells, AC, duties, and rewards.</li><li>A contractor is expected to stay loyal to one god. Breaking a contract and the death of a god have their own rules: <a href="${pageUrl('rules')}#rule-contracts" data-go="rules">ranks, rewards, duties, and breaking a contract</a>.</li><li>Gods that share a Rune are rivals, and so are their Hands.</li></ul><p class="note"><a href="${pageUrl('rules')}" data-go="rules">God Contracts in the rules →</a></p>`)}
     </div></div></div>`;
 }
 
@@ -1756,7 +1765,7 @@ function renderTools(){
         <div class="out"><div class="big" id="x-out"></div><div class="kv" id="x-kv"></div></div></div>
       <div class="tool" id="t-travel"><h3>Realm Pressure check</h3><div class="sub">Compare a traveler's Attunement with each realm's Pressure.</div>
         <div class="form"><label class="full">Attunement<input type="number" id="p-a" value="2" min="0" max="9"></label></div>
-        <div class="enc" id="p-out"></div><div class="note">Pressure here is tier − 1. The Realm Travel page in the vault has the effects of strain.</div></div>
+        <div class="enc" id="p-out"></div><div class="note">Strain is Pressure minus Attunement: 1 disadvantage on Constitution saves; 2 also 1 level of exhaustion per day; 3 also no benefit from long rests; 4+ 1 level of exhaustion every hour.</div></div>
 
     </div></div>`;
   const v=id=>$(id).value,n=id=>+$(id).value||0,on=(ids,f)=>{ids.forEach(i=>{$(i).addEventListener('input',f);$(i).addEventListener('change',f)});f()};
@@ -1854,7 +1863,38 @@ function setDrawbacks(pieces){
 }
 const drawbackText=list=>list.length?list.map(o=>o.d).join('; '):'None';
 const ARMOR_CATS=['Armor','Shield'];
-const CONTRACT_RANKS=['Minor','Rank 2','Rank 3','Rank 4','Rank 5','5th Finger','4th Finger','3rd Finger','2nd Finger','1st Finger'];
+// God contract ranks, from the vault's God Contracts note (v1.08, v1.15). sig: which of the god's three
+// signature materials (Normal, Senior, Apostle) the reward refers to.
+const CONTRACTS=[
+  {r:'Minor',holders:'Unlimited',power:'One cantrip from the god\'s Law; +1 to one skill tied to the god',ac:1,grant:'',duty:'Obey the god\'s core rule (its Law); a small task or offering now and then',reward:'Buy Human-grade materials at the god\'s temples at a discount',rise:'',brk:'All contract power is lost immediately',multi:true},
+  {r:'Normal',holders:'Unlimited',power:'One 1st-level spell of the god\'s Law, once per long rest; the god can send you dreams',ac:2,grant:'',duty:'Obey the god\'s core rule (its Law); a small task or offering now and then',reward:'The god\'s temples sell its Normal signature material to you',sig:0,rise:'Serve faithfully and finish the god\'s tasks',brk:'All contract power is lost immediately',multi:true},
+  {r:'Major',holders:'Hundreds',power:'The god\'s spells up to 2nd level; you can sense other contractors of your god',ac:3,grant:'',duty:'Spread worship (bring new followers); take missions from the god\'s higher contractors',reward:'One free Normal signature material per completed task; temple crafters work for you at half cost',sig:0,rise:'Serve faithfully and finish the god\'s tasks',brk:'Power is lost, and the god places a curse: a DM-chosen disadvantage until you atone or the god dies'},
+  {r:'Senior',holders:'Dozens',power:'Spells up to 3rd level; resistance to one damage type tied to the god',ac:4,grant:'Minor',duty:'Spread worship (bring new followers); take missions from the god\'s higher contractors',reward:'One Senior signature material each time you rise in rank or finish a major task; access to one existing Blueprint that fits the god\'s theme',sig:1,rise:'Bring the god a meaningful number of new followers, or win a notable victory in its name',brk:'Power is lost, and the god places a curse: a DM-chosen disadvantage until you atone or the god dies'},
+  {r:'Apostle',holders:'12',power:'Spells up to 5th level; a Secondary-tier link to the god\'s Rune, which unlocks one unique ability',ac:6,grant:'Normal',duty:'Lead a region or order for the god; answer any summons',reward:'One Apostle signature material on taking the seat; the god\'s home realm counts as a Realm Forge for you',sig:2,rise:'An Apostle seat must be empty (by death, betrayal, or promotion), and the god must choose you',brk:'Power and Natural AC are lost, and the god sends its other contractors to hunt you'},
+  {r:'5th Finger',holders:'1',power:'Spells up to 6th level; a Primary-tier fragment of the god\'s Rune, with its own unique ability',ac:8,grant:'Major',finger:5},
+  {r:'4th Finger',holders:'1',power:'Spells up to 7th level; immune to being charmed or frightened by other gods\' contractors',ac:10,grant:'Senior',finger:4},
+  {r:'3rd Finger',holders:'1',power:'Spells up to 8th level; once per day, use one of the god\'s Rune spells without holding the Rune',ac:12,grant:'Senior',finger:3},
+  {r:'2nd Finger',holders:'1',power:'Spells up to 9th level; can create new spells from the god\'s Law, which normally only those close to godhood can do',ac:14,grant:'Apostle',finger:2},
+  {r:'1st Finger',holders:'1',power:'Acts as the god\'s avatar: speaks with its voice and can channel its power directly; everything above',ac:16,grant:'Apostle',finger:1},
+];
+CONTRACTS.forEach(c=>{if(c.finger){c.duty='Act as the god\'s weapon in wars with other gods; guard the god\'s Runes; carry out the god\'s bets on mortal wars and successions';
+  c.reward=c.finger===1?'The god\'s Finger relic itself':'A personal relic of your own design, crafted by the god\'s forges from its Apostle signature material; Potency counts as 2 higher than normal';if(c.finger>1)c.sig=2;
+  c.rise='The position must be empty, or you defeat its current holder';c.brk='The Rune fragment tears itself out. Constitution save DC '+(10+2*CONTRACTS.indexOf(c)+2)+'; on a failure you drop to 0 hit points. The god\'s whole Hand hunts you'}});
+const CONTRACT_RANKS=CONTRACTS.map(c=>c.r);
+const OLD_RANK={'Rank 2':'Normal','Rank 3':'Major','Rank 4':'Senior','Rank 5':'Apostle'};
+const contractOf=r=>CONTRACTS.find(c=>c.r===(OLD_RANK[r]||r));
+// What a rank gives, filled in with one god's own materials and relic when a god is given.
+function contractReward(c,g){
+  let t=esc(c.reward);if(!g)return t;
+  const sig=(g.sig||[]),m=c.sig!=null&&sig[c.sig];
+  if(m){const x=findMat(m);t=t.replace(/(Normal|Senior|Apostle) signature material/,`$1 signature material (${x?`<a href="#" data-ref="${ref(x)}">${esc(m)}</a>`:esc(m)})`)}
+  if(c.finger===1&&g.relic)t+=`: <b>${esc(g.relic)}</b>`;
+  if(c.r==='Apostle'&&g.home)t=t.replace('home realm',`home realm (${esc(g.home)})`);
+  return t;
+}
+function contractTable(g){
+  return `<div class="tablewrap"><table class="t"><thead><tr><th>#</th><th>Rank</th><th>Power granted</th><th class="num">Natural AC</th><th>Reward</th></tr></thead><tbody>${CONTRACTS.map((c,i)=>`<tr${g&&c.finger&&g.seated!=null&&c.finger>5-g.seated?' style="opacity:.6" title="Seat filled"':''}><td class="num">${i+1}</td><td style="white-space:nowrap"><b>${c.r}</b><br><small style="color:var(--muted)">${esc(c.holders)} per god</small></td><td>${esc(c.power)}${c.grant?`<br><small style="color:var(--muted)">Can grant contracts up to ${c.grant}</small>`:''}</td><td class="num">+${c.ac}</td><td>${contractReward(c,g)}</td></tr>`).join('')}</tbody></table></div>`;
+}
 const CONDITIONS=['Blinded','Charmed','Deafened','Frightened','Grappled','Incapacitated','Invisible','Paralyzed','Petrified','Poisoned','Prone','Restrained','Stunned','Unconscious','Exhaustion','Concentrating'];
 const uid=()=>Math.random().toString(36).slice(2,9);
 const BP_IDX=new Map();BPS.forEach(b=>{if(!BP_IDX.has(lc(b.n)))BP_IDX.set(lc(b.n),b)});
@@ -1872,7 +1912,8 @@ function charStats(c){
   const gear=(c.gear||[]).map(findBP).filter(Boolean);
   const armorAC=gear.filter(b=>ARMOR_CATS.includes(b.cat)).reduce((a,b)=>a+(+b.ac||0),0);
   const otherAC=gear.filter(b=>!ARMOR_CATS.includes(b.cat)).reduce((a,b)=>a+(+b.ac||0),0);
-  const ac=armorAC+otherAC+(+c.acBonus||0);
+  const ct=c.god&&c.rank?contractOf(c.rank):null;
+  const ac=armorAC+otherAC+(+c.acBonus||0)+(ct?ct.ac:0);
   const traits=[];gear.forEach(b=>b.mats.forEach(n=>{const m=findMat(n);if(m&&m.tr&&!traits.some(t=>t.m===m))traits.push({m,b})}));
   const inv=(c.inv||[]).map(([n,q])=>({m:findMat(n),n,q:+q||0}));
   const invGp=inv.reduce((a,x)=>a+(x.m&&x.m.price||0)*x.q,0);
@@ -1880,7 +1921,8 @@ function charStats(c){
   const god=godByKey(c.god);const rivals=[];
   if(god)(god.runes||[]).forEach(r=>(RUNE_GODS.get(r)||[]).forEach(o=>{if(o!==god&&!rivals.includes(o))rivals.push(o)}));
   const pieces=gear.filter(b=>ARMOR_CATS.includes(b.cat)).map(armorPiece);
-  return {gear,armorAC,ac,traits,inv,invGp,purseGp,god,rivals,pieces,drawback:setDrawbacks(pieces)};
+  const att=Math.max(+c.attune||0,Math.floor((+c.level||0)/4),ct?Math.floor((CONTRACTS.indexOf(ct)+1)/2):0);
+  return {att,gear,armorAC,ac,ct,traits,inv,invGp,purseGp,god,rivals,pieces,drawback:setDrawbacks(pieces)};
 }
 
 // ── Craft ─────────────────────────────────────────────────────
@@ -1967,14 +2009,15 @@ function charEditor(c){
       <label>Profession<select data-k="prof"><option value=""></option>${Object.keys(PROFS).map(p=>`<option${p===c.prof?' selected':''}>${p}</option>`).join('')}</select></label>
       <label class="full">Specialties<select data-k="specs" multiple size="${Math.min(6,Math.max(2,specsAll.length))}">${specsAll.map(x=>`<option${(c.specs||[]).includes(x)?' selected':''}>${esc(x)}</option>`).join('')}</select></label>
       <label>God contract<select data-k="god"><option value="">None</option>${GODS.map(g=>`<option value="${esc(godKey(g))}"${godKey(g)===c.god?' selected':''}>${esc(godKey(g))} (${esc(g.grp.replace(' Pantheon',''))})</option>`).join('')}</select></label>
-      <label>Contract rank<select data-k="rank"><option value=""></option>${CONTRACT_RANKS.map(r=>`<option${r===c.rank?' selected':''}>${r}</option>`).join('')}</select></label>
+      <label>Contract rank<select data-k="rank"><option value=""></option>${CONTRACT_RANKS.map(r=>`<option${r===(OLD_RANK[c.rank]||c.rank)?' selected':''}>${r}</option>`).join('')}</select></label>
       <label class="full">Notes<textarea data-k="notes" rows="3" style="background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:7px 9px;color:var(--text);font:inherit">${esc(c.notes||'')}</textarea></label></div>
     <div style="display:flex;justify-content:space-between"><button class="btn" onclick="if(confirm('Delete this character?')){PARTY=PARTY.filter(x=>x.id!=='${c.id}');PARTY_SEL=null;saveParty();renderParty()}">Delete character</button><button class="btn" onclick="go('craft')">Crafting planner →</button></div>
    </div>
    <div style="display:flex;flex-direction:column;gap:14px">
-    <div class="panel">${kv([['AC',`${s.ac} <small style="font-weight:400;color:var(--muted)">(armor ${s.armorAC}${s.ac-s.armorAC?', other '+(s.ac-s.armorAC):''})</small>`],['HP',`${c.hp??'?'} / ${c.hpMax??'?'}`],['Armor drawbacks',s.drawback.length?`<ul style="margin:0;padding-left:16px;font-weight:400">${s.drawback.map(o=>`<li>${esc(o.d)} <small style="color:var(--muted)">(${esc(o.from.join(', '))})</small></li>`).join('')}</ul>`:'None'],['Contract',s.god?refChip(s.god,esc(godKey(s.god)))+(c.rank?' · '+esc(c.rank):''):'None']])}
+    <div class="panel">${kv([['AC',`${s.ac} <small style="font-weight:400;color:var(--muted)">(armor ${s.armorAC}${s.ct?', contract +'+s.ct.ac:''}${s.ac-s.armorAC-(s.ct?s.ct.ac:0)?', other '+(s.ac-s.armorAC-(s.ct?s.ct.ac:0)):''})</small>`],['HP',`${c.hp??'?'} / ${c.hpMax??'?'}`],['Armor drawbacks',s.drawback.length?`<ul style="margin:0;padding-left:16px;font-weight:400">${s.drawback.map(o=>`<li>${esc(o.d)} <small style="color:var(--muted)">(${esc(o.from.join(', '))})</small></li>`).join('')}</ul>`:'None'],['Contract',s.god?refChip(s.god,esc(godKey(s.god)))+(s.ct?' · '+esc(s.ct.r):''):'None']])}
+      ${s.god&&s.ct?`<div class="blk" style="margin-top:10px"><h4>Contract: ${esc(s.ct.r)} <em>Natural AC +${s.ct.ac}</em></h4><div style="font-size:.88rem;line-height:1.55"><b>Power:</b> ${esc(s.ct.power)}<br><b>Reward:</b> ${contractReward(s.ct,s.god)}<br><b>Duties:</b> ${esc(s.ct.duty)}${CONTRACTS[CONTRACTS.indexOf(s.ct)+1]?`<br><b>Next rank (${CONTRACTS[CONTRACTS.indexOf(s.ct)+1].r}):</b> ${esc(CONTRACTS[CONTRACTS.indexOf(s.ct)+1].rise)}`:''}</div></div>`:''}
       ${s.rivals.length?`<div class="blk" style="margin-top:10px"><h4>Rival gods <em>they share a Rune with your patron</em></h4><div class="chips">${s.rivals.map(g=>refChip(g,esc(godKey(g)))).join('')}</div></div>`:''}
-      <div class="blk" style="margin-top:10px"><h4>Realm Pressure <em>Attunement ${+c.attune||0}</em></h4><div class="chips">${REALMS.map(r=>{const d=r.pressure-(+c.attune||0);return `<span class="chip" style="${d>0?'border-color:var(--red)':''}"><span class="sw" style="background:${r.color}"></span>${esc(r.n)} <small>${d>0?'strain +'+d:'safe'}</small></span>`}).join('')}</div></div></div>
+      <div class="blk" style="margin-top:10px"><h4>Realm Pressure <em>Attunement ${s.att}${s.att>(+c.attune||0)?' (from level or contract)':''}</em></h4><div class="chips">${REALMS.map(r=>{const d=r.pressure-s.att;return `<span class="chip" style="${d>0?'border-color:var(--red)':''}"><span class="sw" style="background:${r.color}"></span>${esc(r.n)} <small>${d>0?'strain +'+d+': '+['','disadv. on Con saves','+1 exhaustion/day','no long rests','1 exhaustion/hour'][Math.min(4,d)]:'safe'}</small></span>`}).join('')}</div></div></div>
     <div class="panel"><h4>Gear <em style="font-family:var(--sans);font-size:.75rem;color:var(--muted);font-weight:400">equipped Blueprints</em></h4>
       <div class="mlist" style="margin:8px 0">${(c.gear||[]).map((n,i)=>{const b=findBP(n);return `<button ${b?`data-ref="${ref(b)}"`:''}>${esc(n)}<span class="x">${b?esc(b.cat)+(b.ac?' · AC '+esc(b.ac):''):''}</span><span class="r" onclick="event.stopPropagation();rmGear('${c.id}',${i})" title="Remove">✕</span></button>`}).join('')||'<button disabled>Nothing equipped</button>'}</div>
       <div class="keyrow"><input class="sel" id="pg-add" list="dl-bp" placeholder="Add a Blueprint…" style="max-width:none;flex:1"><button class="btn" onclick="addGear('${c.id}')">Add</button></div>
@@ -2075,7 +2118,7 @@ function makeHook(kind,R,level,realm){
   const mats=MATS.filter(m=>rs.includes(REALM[m.realm])&&m.price);
   const reward=Math.round((50+level*level*40)*(0.75+R()*0.5)/10)*10;
   if(kind==='contract'){const g=pk(GODS.filter(g=>g.wants));if(!g)return null;const sig=(g.sig||[]).map(findMat).filter(Boolean);const m=pk(sig);
-    return {g,text:`A ${pk(['Minor','Lesser','sworn','newly contracted'])} servant of ${a(g)} comes to the party with an offer. The god wants this: <i>${esc(g.wants.replace(/\.$/,''))}</i>.${m?` The servant also needs ${a(m)}, one of the god's signature materials${m.where?`, found at ${esc(m.where)}`:''}.`:''} ${g.seated!=null&&g.seated<5?`${esc(godKey(g))} has open Finger seats (${g.seated} of 5 filled). Do well and one of them could be offered.`:`Success earns the god's favor and ${gp(reward)}.`}`}}
+    return {g,text:`A ${pk(['Minor','Normal','Major','newly contracted'])} servant of ${a(g)} comes to the party with an offer. The god wants this: <i>${esc(g.wants.replace(/\.$/,''))}</i>.${m?` The servant also needs ${a(m)}, one of the god's signature materials${m.where?`, found at ${esc(m.where)}`:''}.`:''} ${g.seated!=null&&g.seated<5?`${esc(godKey(g))} has open Finger seats (${g.seated} of 5 filled). Do well and one of them could be offered.`:`Success earns the god's favor and ${gp(reward)}.`}`}}
   if(kind==='rival'){const rn=pk(CONTESTED);if(!rn)return null;const gs=RUNE_GODS.get(rn)||[];const [x,y]=[...gs].sort(()=>R()-.5);const ru=RUNE_IDX.get(lc(rn));
     return {g:x,text:`${a(x)} and ${a(y)} both claim the ${ru?a(ru):esc(rn)} Rune. A Finger of ${esc(godKey(x))} asks the party to ${pk(['steal a relic tied to the Rune from a shrine of '+esc(godKey(y)),'escort a mortal who carries a sliver of the Rune to safety','find out who among '+esc(godKey(y))+'\'s contracted servants is selling secrets','break a contract '+esc(godKey(y))+' holds over a village'])}. Infinatas forbids open war between the gods, so neither side can be seen to act. Whoever the party helps, the other god remembers.`}}
   if(kind==='progenitor'){const ru=pk(RUNES.filter(x=>x.fig&&x.fig.fate&&x.fig.fate!=='Never lost'));if(!ru)return null;const f=ru.fig;
