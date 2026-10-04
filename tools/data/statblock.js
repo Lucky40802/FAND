@@ -75,7 +75,10 @@ function statblock(m, body, bestDrop) {
   var die = sz[1], per = die / 2 + 0.5 + mods[2];
   var hd = Math.max(1, Math.round(hp / Math.max(1, per)));
   hp = Math.max(1, Math.floor(hd * (die / 2 + 0.5)) + hd * mods[2]);
-  var ac = Math.max(0, Math.floor(c / 2) + (plan.acBonus || 0) + (/scale|shell|carapace|plate|armor|armou?red/i.test(m.txt || '') ? 2 : 0));
+  // AC scales through the realms as player damage does (deeper-realm materials hit harder): half the CR, natural armor,
+  // +1 for each realm tier past the Human Realm, and +1 for every 5 grades within the realm.
+  var tierBonus = Math.max(0, (m.tier || 1) - 1), gradeBonus = Math.floor((m.g || 1) / 5);
+  var ac = Math.max(0, Math.floor(c / 2) + (plan.acBonus || 0) + (/scale|shell|carapace|plate|armor|armou?red/i.test(m.txt || '') ? 2 : 0) + tierBonus + gradeBonus);
   // attacks
   var pri = Math.max(mods[0], mods[1]), hit = prof + pri;
   var dpr = c < 1 ? ({ 0: 1, 0.125: 3, 0.25: 5, 0.5: 8 })[c] || 2 : Math.round(5 * c + 4);
