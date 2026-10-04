@@ -378,6 +378,9 @@ D.VAULT.notes = D.VAULT.notes.filter(function (n) { return !/^-+$/.test(n.n); })
       desc: body.replace(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/g, function (m, a) { return a.split('/').pop(); }).replace(/\*\*/g, '').replace(/\s+/g, ' ').trim() };
   }).sort(function (a, b) { return a.n < b.n ? -1 : 1; });
   log.push('spells: ' + D.SPELLS.length + ' from the vault (replacing the generated list)');
+  // healing spells that state their dice only in the text (e.g. Cure Wounds) get a Healing value, so stage scaling applies
+  var healed = 0; D.SPELLS.forEach(function (x) { if (x.dmg && x.dmg !== 'None') return; var m = /(?:regains?|heals?|restores?)[^.]{0,60}?(\d+d\d+)/i.exec(x.desc || ''); if (m) { x.dmg = m[1] + ' Healing'; healed++; } });
+  log.push('healing spells given a Healing value from their text: ' + healed);
 })();
 // Notes that match a website entry are attached to it ("From the vault"); the rest stay in the Codex.
 D.VAULT_DETAILS = { bp: {}, mat: {}, spell: {}, sub: {}, mon: {}, god: {} };
