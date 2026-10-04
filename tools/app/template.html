@@ -164,6 +164,7 @@ button.chip:hover,a.chip:hover{border-color:var(--acc);color:var(--text)}
 .sec-h{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
 .sec-h h3{font-size:1.2rem}
 .sec-h p{color:var(--muted);font-size:.85rem}
+@media (max-width:640px){.sec-h{flex-direction:column;align-items:flex-start;gap:4px}.tools .form{grid-template-columns:1fr 1fr!important}}
 .sec-h .btn{margin-left:auto}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .stat{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);padding:14px;text-align:left;display:flex;flex-direction:column;gap:2px}
@@ -980,6 +981,7 @@ window.addEventListener('resize',closeNav);
 function renderTabs(){
   const cur=navGroupOf(TAB);
   $('tabs').innerHTML=`<a class="tab${TAB==='home'?' on':''}" href="${pageUrl('home')}" data-tab="home">Home</a>`+NAV_GROUPS.map(([g,ids])=>{const n=ids.reduce((a,id)=>{const t=TABS.find(x=>x[0]===id);return a+(t&&t[2]||0)},0);return `<span class="navg"><button class="tab${g===cur?' on':''}" data-group="${esc(g)}" aria-haspopup="menu" aria-expanded="false">${g}${g===cur?`<span class="n">· ${(TABS.find(t=>t[0]===TAB)||[])[1]||''}</span>`:''}<span class="car">▾</span></button></span>`}).join('');
+  const on=$('tabs').querySelector('.tab.on');if(on){const T=$('tabs'),r=on.getBoundingClientRect(),tr=T.getBoundingClientRect();if(r.right>tr.right||r.left<tr.left)T.scrollLeft+=r.left-tr.left-16}
 }
 function renderTabs_flat(){
   $('tabs').innerHTML=TABS.map(([id,label,n])=>`<a class="tab${id===TAB?' on':''}" href="${pageUrl(id)}" data-tab="${id}"${id===TAB?' aria-current="page"':''}>${label}${n!=null?`<span class="n">${fmt(n)}</span>`:''}</a>`).join('');
@@ -1729,6 +1731,24 @@ function renderLore(){
 }
 
 // ── Tools ─────────────────────────────────────────────────────
+// Merchant shops: which material categories and Blueprint professions each kind of shop stocks.
+const SHOP_KINDS=[['smith','Smithy and armorer'],['bowyer','Bowyer and woodworker'],['tanner','Tanner and tailor'],['alch','Alchemist and herbalist'],['jewel','Jeweler and gem cutter'],['arcane','Arcane curios'],['butcher','Monster-parts dealer'],['general','General store']];
+const SHOP_STOCK={smith:{cats:['O','S'],bp:['Blacksmithing'],gens:/Axe|Sword|Dagger|Hammer|Spear|Cuirass|Helm|Gauntlets|Boots|Shield|Mace|Pike|Halberd|Glaive|Flail|Maul|Pick|Rapier|Scimitar|Morningstar/},
+  bowyer:{cats:['W'],bp:['Carving'],gens:/Bow|Crossbow|Quarterstaff|Staff|Club|Spear|Javelin|Dart|Shield/},tanner:{cats:['F'],bp:['Tailoring'],gens:/Cloak|Boots|Gauntlets|Cuirass|Whip|Sling|Net/},
+  alch:{cats:['L','W'],bp:['Alchemy'],cat:/Potion/},jewel:{cats:['G'],bp:['Enchanting'],gens:/Ring|Amulet|Orb/},arcane:{cats:['E','G'],bp:['Enchanting'],gens:/Wand|Orb|Staff|Amulet|Ring/},
+  butcher:{cats:['B','L','F'],bp:[],harvest:true},general:{cats:['U','W','F','O'],bp:['Cooking','Engineering','Navigation','Harvesting'],cat:/Tool|Food|Map|Instrument/}};
+function rollShop(realm,kind,size,seed){
+  const R=rng32(seed),K=SHOP_STOCK[kind],r=REALM[realm];if(!r||!r.base)return null;
+  const maxG=[0,3,5,7,10][size],nMat=[0,5,8,11,14][size],nBp=[0,2,4,6,8][size];
+  const pool=MATS.filter(m=>m.realm===realm&&m.price&&m.g<=maxG&&K.cats.includes(matCode(m))&&(K.harvest?true:!m.gen)&&!(m.tier>=8));
+  const pick=(arr,n)=>{const a=arr.slice(),o=[];while(a.length&&o.length<n){o.push(a.splice(Math.floor(R()*a.length),1)[0])}return o};
+  const staple=K.harvest?pool:pool.filter(m=>m.org!=='Creature'),rest=pool.filter(m=>!staple.includes(m));
+  const chosen=pick(staple,nMat);if(chosen.length<nMat)chosen.push(...pick(rest,nMat-chosen.length));
+  const mats=chosen.sort((a,b)=>a.g-b.g||byName(a,b)).map(m=>({m,q:1+Math.floor(R()*(m.g<=3?8:m.g<=6?4:2)),price:Math.round(m.price*(0.85+R()*0.3))}));
+  const bps=pick(BPS.filter(b=>b.lv<=maxG*2&&(K.bp.includes(b.pr)||(K.gens&&genOf(b)&&K.gens.test(genOf(b)))||(K.cat&&K.cat.test(b.cat)))&&b.mats.every(n=>{const m=findMat(n);return !m||m.realm===realm||(REALM[m.realm]||{}).tier<=r.tier})),nBp)
+    .map(b=>{const cost=b.mats.reduce((a,n)=>a+((findMat(n)||{}).price||0),0);return {b,price:Math.max(5,Math.round((cost*1.5+b.lv*15)*(0.85+R()*0.3)/5)*5)}}).sort((a,b)=>a.b.lv-b.b.lv);
+  return {mats,bps};
+}
 function realmOpts(sel,filter){return REALMS.filter(filter||(()=>true)).map(r=>`<option value="${esc(r.n)}"${r.n===sel?' selected':''}>T${r.tier} · ${esc(r.n)}</option>`).join('')}
 function renderTools(){
   $('content').innerHTML=`<div class="page">
@@ -1764,9 +1784,22 @@ function renderTools(){
         <div class="form"><label class="full">Attunement<input type="number" id="p-a" value="2" min="0" max="9"></label></div>
         <div class="enc" id="p-out"></div><div class="note">Strain is Pressure minus Attunement: 1 disadvantage on Constitution saves; 2 also 1 level of exhaustion per day; 3 also no benefit from long rests; 4+ 1 level of exhaustion every hour.</div></div>
 
+      <div class="tool full" id="t-shop" style="grid-column:1/-1"><h3>Merchant shop</h3><div class="sub">What a shop has in stock today, priced in gp and the realm's own coin. Void-grade materials and above are never sold.</div>
+        <div class="form" style="grid-template-columns:repeat(4,1fr)"><label>Realm<select id="s-realm">${realmOpts('Human',r=>r.base)}</select></label>
+        <label>Shop<select id="s-kind">${SHOP_KINDS.map(([k,l])=>`<option value="${k}">${l}</option>`).join('')}</select></label>
+        <label>Settlement<select id="s-size"><option value="1">Village</option><option value="2" selected>Town</option><option value="3">City</option><option value="4">Capital</option></select></label>
+        <label style="align-self:end"><button class="btn" id="s-roll" type="button" style="width:100%">🎲 Restock</button></label></div>
+        <div id="s-out" style="margin-top:10px"></div></div>
     </div></div>`;
   const v=id=>$(id).value,n=id=>+$(id).value||0,on=(ids,f)=>{ids.forEach(i=>{$(i).addEventListener('input',f);$(i).addEventListener('change',f)});f()};
   const clampG=g=>Math.min(10,Math.max(1,Math.round(g||1)));
+  // merchant shop
+  let shopSeed=(Math.random()*2**31)|0;
+  const shop=()=>{const res=rollShop(v('s-realm'),v('s-kind'),+v('s-size'),shopSeed+v('s-realm').length*7+v('s-kind').length);const realm=v('s-realm');
+    if(!res||(!res.mats.length&&!res.bps.length)){$('s-out').innerHTML='<div class="empty">Nothing in stock here. Try a bigger settlement or another shop.</div>';return}
+    const row=(x,label,sub,price,q)=>`<tr><td><a href="#" data-ref="${ref(x)}">${esc(label)}</a> <small style="color:var(--muted)">${esc(sub)}</small></td><td class="num">${q!=null?q:''}</td><td class="num">${gp(price)}</td><td class="num" style="color:var(--muted)">${localPrice(price,realm)||''}</td></tr>`;
+    $('s-out').innerHTML=`<div class="tablewrap"><table class="t"><thead><tr><th>Item</th><th class="num">In stock</th><th class="num">Price</th><th class="num">Local coin</th></tr></thead><tbody>${res.mats.map(({m,q,price})=>row(m,m.n,m.gr+(m.pn?' · '+m.pn:''),price,q)).join('')}${res.bps.length?`<tr><td colspan="4" style="font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:12px">Finished goods</td></tr>`+res.bps.map(({b,price})=>row(b,b.n,(genOf(b)||b.cat)+' · Lv '+b.lv+(b.r?' · '+b.r:''),price,1)).join(''):''}</tbody></table></div><div class="note">Merchants buy at half these prices. Finished goods cost their materials ×1.5 plus labor.</div>`};
+  on(['s-realm','s-kind','s-size'],shop);$('s-roll').onclick=()=>{shopSeed=(Math.random()*2**31)|0;shop()};
   // damage
   on(['d-dmg','d-ac'],()=>{
     const d=Math.max(0,n('d-dmg')),ac=Math.max(0,n('d-ac')),fin=Math.max(0,d-ac);
