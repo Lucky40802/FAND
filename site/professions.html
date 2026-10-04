@@ -4,7 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="color-scheme" content="dark light">
-<title>FAND Compendium</title>
+<title>Professions · FAND Compendium</title>
+<meta name="description" content="The ten professions of FAND, their specialties, and example Blueprints by level.">
+<meta property="og:title" content="Professions · FAND Compendium">
+<meta property="og:description" content="The ten professions of FAND, their specialties, and example Blueprints by level.">
+<meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2l4 10 10 4-10 4-4 10-4-10-10-4 10-4z' fill='%23c9a54a'/%3E%3C/svg%3E">
 <style>
 /* ── Tokens ─────────────────────────────────────────────────── */
@@ -309,6 +313,60 @@ details.fold>div{margin-top:10px}
 }
 .scrim{position:fixed;inset:0;z-index:39;background:rgba(0,0,0,.4);display:none}
 .scrim.on{display:block}
+/* assistant + settings */
+.ai-fab{position:fixed;right:20px;bottom:20px;z-index:44;display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--acc),#a07cf0);color:#fff;border:0;border-radius:999px;padding:11px 18px;font-weight:600;font-size:.9rem;box-shadow:0 8px 28px rgba(80,60,200,.45)}
+.ai-fab:hover{filter:brightness(1.08)}
+.ai{position:fixed;top:0;right:0;bottom:0;z-index:45;width:min(440px,100vw);background:var(--surf);border-left:1px solid var(--line3);box-shadow:var(--shadow);display:flex;flex-direction:column;transform:translateX(102%);transition:transform .2s}
+.ai.open{transform:none}
+.ai-h{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--line);background:var(--surf2)}
+.ai-h h3{font-size:1.05rem;flex:1}
+.ai-h small{display:block;font-family:var(--sans);font-weight:400;font-size:.7rem;color:var(--muted)}
+.ai-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:12px}
+.ai-m{max-width:100%;font-size:.9rem;line-height:1.6}
+.ai-m.user{align-self:flex-end;background:var(--accbg);border:1px solid color-mix(in srgb,var(--acc) 35%,transparent);border-radius:12px 12px 2px 12px;padding:8px 12px;max-width:85%;white-space:pre-wrap}
+.ai-m.bot{color:var(--text2)}
+.ai-m.bot p{margin:0 0 8px}.ai-m.bot ul,.ai-m.bot ol{margin:0 0 8px 20px}.ai-m.bot h4{font-size:.95rem;margin:10px 0 4px;color:var(--text)}
+.ai-m.bot code{font-family:var(--mono);font-size:.82rem;background:var(--surf3);padding:0 4px;border-radius:4px}
+.ai-m.bot strong{color:var(--text)}
+.ai-m.err{color:var(--red);font-size:.85rem;border:1px solid color-mix(in srgb,var(--red) 40%,transparent);border-radius:8px;padding:8px 10px}
+.ai-status{font-size:.78rem;color:var(--muted);font-style:italic;display:flex;align-items:center;gap:8px}
+.ai-status::before{content:'';width:12px;height:12px;border-radius:50%;border:2px solid var(--line3);border-top-color:var(--gold);animation:spin .8s linear infinite}
+.ai-in{border-top:1px solid var(--line);padding:10px;display:flex;gap:8px;align-items:flex-end;background:var(--surf2)}
+.ai-in textarea{flex:1;resize:none;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font:inherit;font-size:.9rem;color:var(--text);outline:none;max-height:140px;min-height:40px}
+.ai-in textarea:focus{border-color:var(--acc)}
+.ai-sugg{display:flex;flex-wrap:wrap;gap:6px}
+.ai-sugg button{background:var(--surf2);border:1px solid var(--line);border-radius:16px;padding:5px 11px;font-size:.8rem;color:var(--text2);text-align:left}
+.ai-sugg button:hover{border-color:var(--acc);color:var(--text)}
+.ai-empty{color:var(--muted);font-size:.86rem;display:flex;flex-direction:column;gap:12px}
+.ai-empty b{font-family:var(--serif);font-size:1.1rem;color:var(--text)}
+.ai .chip{font-size:.8rem}
+.set{width:100%;max-width:520px;background:var(--surf);border:1px solid var(--line3);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;animation:pop .14s ease-out}
+.set .mb{gap:14px}
+.set h2{font-size:1.3rem}
+.keyrow{display:flex;gap:6px}
+.keyrow input{flex:1;font-family:var(--mono)!important}
+.okline{font-size:.8rem;color:var(--green)}
+@media (max-width:640px){.ai-fab span{display:none}.ai-fab{padding:12px 14px}}
+@media print{.ai,.ai-fab{display:none!important}}
+/* loading, table view, print */
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:90px 20px;color:var(--muted);font-family:var(--serif);font-style:italic}
+.loading::before{content:'';width:34px;height:34px;border-radius:50%;border:3px solid var(--line3);border-top-color:var(--gold);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{background:var(--surf);border:0;padding:7px 10px;font-size:.8rem;color:var(--muted)}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button.on{background:var(--goldbg);color:var(--gold2)}
+table.t.list tbody tr{cursor:pointer}
+table.t.list td{max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+table.t.list td:first-child{font-weight:600;color:var(--text)}
+@media print{
+  body{overflow:visible;height:auto;background:#fff;color:#000}
+  .top,.tabs,.sb,.ctrl,.mact,.mnav,.scrim,.more,.toast,#pbg{display:none!important}
+  .ws,.main,.content{display:block;overflow:visible;height:auto}
+  .mbg.open{position:static;display:block;background:none;backdrop-filter:none;padding:0}
+  body.mopen .ws{display:none}
+  .card,.panel,.rule,.tool,.modal{box-shadow:none;break-inside:avoid}
+}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -324,6 +382,7 @@ details.fold>div{margin-top:10px}
     <span>Search everything…</span><kbd>Ctrl K</kbd>
   </button>
   <button class="icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle light or dark theme" title="Toggle theme"></button>
+  <button class="icon-btn" onclick="openSettings()" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
 </header>
 
 <nav class="tabs" id="tabs" aria-label="Sections"></nav>
@@ -333,7 +392,7 @@ details.fold>div{margin-top:10px}
   <div class="scrim" id="scrim" onclick="toggleDrawer(false)"></div>
   <main class="main">
     <div class="ctrl" id="ctrl" hidden></div>
-    <div class="content" id="content"></div>
+    <div class="content" id="content"><div class="loading">Loading the compendium…</div></div>
   </main>
 </div>
 
@@ -352,6 +411,17 @@ details.fold>div{margin-top:10px}
   </div>
 </div>
 <div class="toast" id="toast"></div>
+<button class="ai-fab" id="aiFab" onclick="toggleAI(true)" aria-label="Ask the FAND assistant">✦ <span>Ask FAND</span></button>
+<aside class="ai" id="ai" aria-label="FAND assistant">
+  <div class="ai-h"><h3>FAND Assistant<small>Answers from this compendium · Claude Opus 5.5</small></h3>
+    <button class="icon-btn" onclick="newChat()" title="New chat" aria-label="New chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button>
+    <button class="icon-btn" onclick="toggleAI(false)" title="Close" aria-label="Close assistant"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="ai-msgs" id="aiMsgs"></div>
+  <form class="ai-in" id="aiForm"><textarea id="aiQ" rows="1" placeholder="Ask about Blueprints, materials, monsters, gods, rules…" aria-label="Your question"></textarea><button class="btn primary" id="aiSend" type="submit">Send</button></form>
+</aside>
+<div class="mbg" id="sbg" role="dialog" aria-modal="true" aria-labelledby="setTitle">
+  <div class="set" id="setBox"></div>
+</div>
 
 <script>const SITE={page:"professions"};</script>
 <script src="data/core.js"></script>
@@ -497,9 +567,10 @@ const CARD={
     return `<button class="card" style="--strip:${rcol(m.realm)}" data-ref="${ref(m)}">
       <div class="t"><div class="nm">${esc(m.n)}</div>${isPinned(m)?'<span class="pin">★</span>':''}</div>
       <div class="badges">${realmB(m.gr)}${rarB(m.rar)}<span class="b ghost">${esc(m.ty||m.cat)}</span></div>
+      ${m.tr?`<div class="ln" style="color:var(--gold2)">◆ <b style="color:var(--gold2)">${esc(m.tr.n)}</b>${m.origin&&m.org==='Creature'?` <span style="color:var(--muted)">· from ${esc(m.origin)}</span>`:''}</div>`:''}
       ${m.pn?`<div class="ln">✧ <b>${esc(m.pn)}</b>${m.pot?` · Potency ${m.pot}`:''}</div>`:m.supply?'<div class="ln">Supply · used up in crafting</div>':''}
       <div class="ln">${m.price?`<b>${gp(m.price)}</b>`:m.tier>=8?'<span style="color:var(--muted)">Not sold</span>':''}${m.il?` · Item Lv ${m.il}`:''}${m.used?` · in ${fmt(m.used)} blueprints`:''}</div>
-      ${m.ds?`<div class="ds">${esc(m.ds)}</div>`:''}
+      <div class="ds">${esc(m.tr?m.tr.t:(m.ds||m.basic||''))}</div>
     </button>`},
   mon(m){
     const drops=(m.drops||[]).slice(0,3).map(d=>`<span class="chip"><span class="sw" style="background:${rcol(realmOf(d[1]))}"></span>${esc(d[0])}</span>`).join('');
@@ -574,12 +645,14 @@ const VIEWS={
   },
   materials:{type:'mat',arr:MATS,title:'Materials',
     side:{label:'Realm',key:'realm',order:REALMS.map(r=>r.n),color:true},
-    hay:m=>[m.n,m.ds,m.cat,m.ty,m.prop,m.src,m.use,(m.from||[]).join(' ')].join(' '),
+    hay:m=>[m.n,m.ds,m.cat,m.ty,m.prop,m.src,m.use,(m.from||[]).join(' '),m.origin,m.tr?m.tr.n+' '+m.tr.t:''].join(' '),
     filters:[
       {id:'ty',label:'All types',opts:()=>opts(MATS,m=>m.ty||m.cat),test:(m,v)=>(m.ty||m.cat)===v},
       {id:'g',label:'All grades',opts:()=>Array.from({length:10},(_,i)=>[String(i+1),'Grade '+(i+1)]),test:(m,v)=>m.g===+v},
       {id:'pn',label:'All properties',opts:()=>opts(MATS,m=>m.pn),test:(m,v)=>m.pn===v},
       {id:'rar',label:'All rarities',opts:()=>opts(MATS,m=>m.rar,(a,b)=>rarRank(a)-rarRank(b)),test:(m,v)=>m.rar===v},
+      {id:'org',label:'Any origin',opts:()=>opts(MATS,m=>m.org),test:(m,v)=>m.org===v},
+      {id:'tr',label:'Any unique trait',opts:()=>opts(MATS,m=>m.tr&&m.tr.n),test:(m,v)=>!!m.tr&&m.tr.n===v},
     ],
     toggles:[
       {id:'drop',label:'Monster drops',test:m=>!!(m.from&&m.from.length)},
@@ -631,6 +704,29 @@ const VIEWS={
   patrons:{type:'patron',arr:PATRONS,title:'Patrons',side:{label:'Group',key:'grp'},hay:e=>e.n+' '+(e.ds||''),filters:[],toggles:[{id:'pin',label:'★ Pinned',test:e=>isPinned(e)}],sorts:[['def','Default',null],['name','Name A–Z',byName]]},
 };
 
+const COLS={
+  bp:[['Name',b=>b.n],['Profession',b=>b.pr],['Specialty',b=>b.sp&&b.sp!==b.pr?b.sp:''],['Type',b=>b.cat],['Level',b=>b.lv],['Rarity',b=>b.r],['Damage',b=>b.dc&&b.dm?b.dc+' '+b.dm:''],['AC',b=>b.ac||''],['Property',b=>b.prop||''],['Material grade',b=>b.gr||''],['Materials',b=>b.mats.join(', ')]],
+  mat:[['Name',m=>m.n],['Origin',m=>m.org+(m.origin&&m.org==='Creature'?' · '+m.origin:'')],['Unique trait',m=>m.tr?m.tr.n:''],['Realm',m=>m.realm],['Grade',m=>m.g],['Rank',m=>m.rank],['Item level',m=>m.il],['Type',m=>m.ty||m.cat],['Rarity',m=>m.rar||''],['Property',m=>m.pn||''],['Potency',m=>m.pot||''],['Price (gp)',m=>m.price||'']],
+  mon:[['Name',m=>m.n],['Realm',m=>m.realm],['Grade',m=>m.g],['CR',m=>m.cr||''],['Source',m=>m.hb?'Homebrew':(BOOKS[m.book]||m.book)],['Habitat',m=>m.hab||''],['Drops',m=>(m.drops||[]).map(d=>d[0]).join(', ')]],
+  god:[['Name',g=>godKey(g)],['Title',g=>godTitle(g)],['Pantheon',g=>g.grp],['Home realm',g=>g.home||''],['Runes',g=>(g.runes||[]).join(', ')],['Hand',g=>g.seated!=null?g.seated+'/5':''],['Signature materials',g=>(g.sig||[]).join(', ')]],
+  spell:[['Name',x=>x.n],['School',x=>x.sc],['Level',x=>x.lv],['Casting time',x=>x.ct],['Range',x=>x.rng],['Duration',x=>x.dur],['Damage',x=>x.dmg&&x.dmg!=='None'?x.dmg:''],['Classes',x=>(x.cls||[]).join(', ')]],
+  sub:[['Name',x=>x.n],['Class',x=>x.par],['Source',x=>subSource(x)]],
+  demon:[['Name',e=>e.n],['Group',e=>e.grp],['Description',e=>e.ds||'']],
+  patron:[['Name',e=>e.n],['Group',e=>e.grp],['Description',e=>e.ds||'']],
+};
+const LIST_COLS=t=>COLS[t].filter(c=>!/Description|Materials|Drops|Signature/.test(c[0]));
+const row=x=>`<tr data-ref="${ref(x)}">${LIST_COLS(x._t).map(([,f],i)=>{const v=f(x);return `<td${typeof v==='number'?' class="num"':''} title="${esc(v)}">${i===0&&isPinned(x)?'<span style="color:var(--gold)">★</span> ':''}${esc(v)}</td>`}).join('')}</tr>`;
+let VIEWMODE=store.get('viewmode',{});
+function setMode(m){VIEWMODE[TAB]=m;store.set('viewmode',VIEWMODE);renderControls();renderList()}
+function exportCSV(){
+  const V=VIEWS[TAB],cols=COLS[V.type];
+  const q=v=>{v=String(v==null?'':v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
+  const csv=[cols.map(c=>q(c[0])).join(',')].concat(LIST.map(x=>cols.map(([,f])=>q(f(x))).join(','))).join('\r\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv'}));
+  a.download='fand-'+TAB+(LIST.length<V.arr.length?'-filtered':'')+'.csv';document.body.appendChild(a);a.click();a.remove();
+  toast('Exported '+fmt(LIST.length)+' rows');
+}
+function randomItem(arr){arr=arr||LIST;if(!arr.length)return;const x=arr[Math.floor(Math.random()*arr.length)];openItem(x)}
 const TABS=[
   ['home','Home'],['blueprints','Blueprints',BPS.length],['materials','Materials',MATS.length],['bestiary','Bestiary',MONSTERS.length],
   ['realms','Realms',REALMS.length],['gods','Gods',GODS.length],['professions','Professions',Object.keys(PROFS).length],
@@ -728,7 +824,7 @@ function renderControls(){
   const so=V.sorts.length>1?`<select class="sel" data-sort aria-label="Sort">${V.sorts.map(([id,l])=>`<option value="${id}"${s.sort===id?' selected':''}>Sort: ${l}</option>`).join('')}</select>`:'';
   $('ctrl').innerHTML=`<button class="btn filters-btn" onclick="toggleDrawer()">${ICON.filter}&nbsp;${V.side.label}</button>
     <div class="field${s.q?' has':''}">${ICON.search}<input id="q" type="search" placeholder="Search ${V.title.toLowerCase()}…" value="${esc(s.q)}" autocomplete="off" spellcheck="false"><button class="clear" aria-label="Clear search" data-clear>×</button></div>
-    ${sel}${tg}${so}<span class="count" id="cnt"></span><div class="chips-active" id="act"></div>`;
+    ${sel}${tg}${so}<span class="seg" role="group" aria-label="View"><button class="${VIEWMODE[TAB]==='table'?'':'on'}" onclick="setMode('cards')" title="Card view">Cards</button><button class="${VIEWMODE[TAB]==='table'?'on':''}" onclick="setMode('table')" title="Table view">Table</button></span><button class="btn" onclick="randomItem()" title="Open a random item from this list">🎲 Random</button><button class="btn" onclick="exportCSV()" title="Download the current list as a spreadsheet">⇩ CSV</button><span class="count" id="cnt"></span><div class="chips-active" id="act"></div>`;
   $('ctrl').hidden=false;
   updateActive();
 }
@@ -785,14 +881,17 @@ function renderList(){
   LIST=filtered();
   const n=LIST.length,show=LIST.slice(0,s.shown);
   $('cnt').textContent=n===V.arr.length?`${fmt(n)} ${V.noun||V.title.toLowerCase()}`:`${fmt(n)} of ${fmt(V.arr.length)}`;
-  $('content').innerHTML=`<div class="grid">${show.length?show.map(card).join(''):`<div class="empty"><b>Nothing matches</b>Try a different search or clear a filter.<div style="margin-top:12px"><button class="btn" onclick="resetFilters()">Clear filters</button></div></div>`}</div>${n>show.length?`<div class="more" id="more"><button class="btn" onclick="showMore()">Show more · ${fmt(n-show.length)} left</button></div>`:''}`;
+  const table=VIEWMODE[TAB]==='table'&&show.length;
+  if(table)$('content').innerHTML=`<div class="tablewrap"><table class="t list"><thead><tr>${LIST_COLS(V.type).map(([h])=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${show.map(row).join('')}</tbody></table></div>${n>show.length?`<div class="more" id="more"><button class="btn" onclick="showMore()">Show more · ${fmt(n-show.length)} left</button></div>`:''}`;
+  else $('content').innerHTML=`<div class="grid">${show.length?show.map(card).join(''):`<div class="empty"><b>Nothing matches</b>Try a different search or clear a filter.<div style="margin-top:12px"><button class="btn" onclick="resetFilters()">Clear filters</button></div></div>`}</div>${n>show.length?`<div class="more" id="more"><button class="btn" onclick="showMore()">Show more · ${fmt(n-show.length)} left</button></div>`:''}`;
   if(io)io.disconnect();
   const m=$('more');if(m&&'IntersectionObserver' in window){io=new IntersectionObserver(es=>{if(es[0].isIntersecting)showMore()},{root:$('content'),rootMargin:'600px'});io.observe(m)}
 }
 function showMore(){
   const s=st(TAB),from=s.shown;s.shown+=90;
-  const add=LIST.slice(from,s.shown).map(card).join('');
-  const g=$('content').querySelector('.grid');if(!g)return;
+  const table=VIEWMODE[TAB]==='table';
+  const add=LIST.slice(from,s.shown).map(table?row:card).join('');
+  const g=$('content').querySelector(table?'tbody':'.grid');if(!g)return;
   g.insertAdjacentHTML('beforeend',add);
   const m=$('more');
   if(s.shown>=LIST.length){if(m)m.remove();if(io)io.disconnect()}
@@ -825,7 +924,7 @@ function closeModal(){
   if(MODAL_PUSHED&&history.state&&history.state.m){MODAL_PUSHED=false;history.back()}
   else{history.replaceState(null,'',hashFor(TAB));hideModal()}
 }
-function hideModal(){$('mbg').classList.remove('open');CUR=null;document.body.style.overflow=''}
+function hideModal(){$('mbg').classList.remove('open');document.body.classList.remove('mopen');CUR=null;document.body.style.overflow=''}
 $('mbg').addEventListener('mousedown',e=>{if(e.target===$('mbg'))closeModal()});
 function step(d){const i=MODAL_LIST.indexOf(CUR);if(i<0)return;const x=MODAL_LIST[i+d];if(x){history.replaceState({m:1},'',hashFor(TAB,x));showModal(x)}}
 
@@ -847,7 +946,7 @@ function showModal(x){
     <div class="mb">${M.body}</div>${nav}`;
   const pb=$('pinBtn');if(pb)pb.onclick=()=>{togglePin(x);pb.classList.toggle('on');pb.innerHTML=isPinned(x)?ICON.starf:ICON.star;if(VIEWS[TAB])renderList();else if(TAB==='home')renderTab()};
   $('linkBtn').onclick=()=>{const u=location.href;(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>toast('Link copied'),()=>toast('Copy failed: '+u))};
-  $('mbg').classList.add('open');$('mbg').scrollTop=0;
+  $('mbg').classList.add('open');document.body.classList.add('mopen');$('mbg').scrollTop=0;
   document.title=x.n.split(' - ')[0]+' · FAND Compendium';
 }
 
@@ -872,6 +971,7 @@ const MODAL={
       badges:`${rarB(b.r)}<span class="b">Level ${b.lv}</span><span class="b ghost">${esc(b.cat)}</span>${b.mg?'<span class="b gold">✦ Magic artifact</span>':''}`,
       body:kv(rows)+(b.prop?`<div class="callout">✧ <b>${esc(b.prop)}</b>${strong&&strong.prop?`<div style="margin-top:4px">${esc(strong.prop.replace(/^[^:]+:\s*/,''))}</div>`:''}</div>`:'')
         +(b.ds?`<div class="prose">${esc(b.ds)}</div>`:b.lost?`<div class="prose lost">This Blueprint's description was lost in an earlier sync of this app; its materials were recovered. The full text is in the vault note <b>${esc(b.n)}</b>.</div>`:'')
+        +blk('Traits when equipped',(()=>{const tr=mats.filter(x=>x.m&&x.m.tr);return tr.length?`<div class="mlist">${tr.map(({m})=>`<button data-ref="${ref(m)}" style="flex-direction:column;align-items:flex-start;gap:2px"><span><b style="color:var(--gold2)">◆ ${esc(m.tr.n)}</b> <span class="x">from ${esc(m.n)}${m.origin&&m.org==='Creature'?' ('+esc(m.origin)+')':''}</span></span><span style="font-size:.8rem">${esc(m.tr.t)}</span></button>`).join('')}</div>`:''})(),'from its materials')
         +blk('Materials',mlist,mats.length?mats.length+' required':'')+blk('Connections',conns?`<div class="chips">${conns}</div>`:'')+vars};
   },
   mat(m){
@@ -879,13 +979,15 @@ const MODAL={
     const mons=monByMat().get(lc(m.n))||[];
     const gods=GOD_BY_MAT.get(lc(m.n))||[];
     const fx=MAT_FX[m.n];
-    const rows=[['Realm',`<span style="color:${rcol(m.realm)}">●</span> ${esc(m.realm)}`],['Grade',m.g],['Material rank',m.rank],['Item level',m.il],['Rarity',esc(m.rar||'')],['Potency',m.pot||''],['Type',esc(m.ty||m.cat)],
+    const originMon=m.origin&&MON_IDX.get(lc(m.origin));
+    const rows=[['Origin',esc(m.org||'')+(m.origin?`<small style="display:block;font-size:.75rem;color:var(--muted);font-weight:400">${m.org==='Creature'?'from ':''}${originMon?`<a href="#" data-ref="${ref(originMon)}">${esc(m.origin)}</a>`:esc(m.origin)}</small>`:'')],['Realm',`<span style="color:${rcol(m.realm)}">●</span> ${esc(m.realm)}`],['Grade',m.g],['Material rank',m.rank],['Item level',m.il],['Rarity',esc(m.rar||'')],['Potency',m.pot||''],['Type',esc(m.ty||m.cat)],
       ['Price',m.price?gp(m.price)+`<small style="display:block;font-size:.72rem;color:var(--muted);font-weight:400">merchants buy at ${gp(Math.floor(m.price/2))}</small>`:m.tier>=8?'Not sold':'—']];
     const src=[m.where?`Gathered at ${esc(m.where)}${m.by?` by <b>${esc(m.by)}</b>`:''}.`:'',m.src&&!/^(Gathered|Drops from|Used in)/.test(m.src)?esc(m.src):'',m.use?`Used for: ${esc(m.use)}.`:''].filter(Boolean).join('<br>');
     return {title:esc(m.n),strip:rcol(m.realm),kind:'Material · '+esc(m.ty||m.cat),
       badges:`${realmB(m.gr)}${rarB(m.rar)}${m.supply?'<span class="b ghost">Supply</span>':''}${fx?'<span class="b gold">⚔ Weapon effect</span>':''}`,
       body:kv(rows)
-        +(m.prop?`<div class="callout">✧ <b>${esc(m.pn)}</b>${m.pot?` · Potency ${m.pot}`:''}<div style="margin-top:4px">${esc(m.prop.replace(/^[^:]+:\s*/,''))}</div></div>`:m.supply?`<div class="callout">Supply: used up in crafting and gives no property.</div>`:'')
+        +(m.tr?`<div class="callout" style="border-color:var(--gold)">◆ <b>Unique trait: ${esc(m.tr.n)}</b>${m.tr.a?` <span style="color:var(--muted)">(${esc(m.tr.a)})</span>`:''}<div style="margin-top:4px">${esc(m.tr.t)}</div></div>`:m.basic?`<div class="callout" style="background:var(--surf2);border-color:var(--line)">${esc(m.basic)}</div>`:'')
+        +(m.prop?`<div class="callout">✧ <b>Property: ${esc(m.pn)}</b>${m.pot?` · Potency ${m.pot}`:''}<div style="margin-top:4px">${esc(m.prop.replace(/^[^:]+:\s*/,''))}</div></div>`:m.supply?`<div class="callout">Supply: used up in crafting and gives no property.</div>`:'')
         +(m.ds?`<div class="prose">${esc(m.ds)}</div>`:'')
         +(fx?blk('Weapon effect',`<div class="vcard mine"><span class="bn">${esc(fx.bonus)} · ${esc(fx.dt)} damage</span><div>${esc(fx.fx)}</div></div>${m.bonus&&m.bonus!=='+0'?`<div class="note">Listed bonus: ${esc(m.bonus)}</div>`:''}`):(m.bonus&&m.bonus!=='+0'?blk('Bonus',`<div class="prose" style="font-size:.9rem">${esc(m.bonus)}</div>`):''))
         +blk('Source',src?`<div style="font-size:.88rem;color:var(--text2)">${src}</div>`:'')
@@ -898,15 +1000,12 @@ const MODAL={
     let drops='';
     if(m.drops&&m.drops.length)drops=`<div class="mlist">${m.drops.map(([n,gr])=>{const x=findMat(n);return x?`<button data-ref="${ref(x)}"><span class="sw" style="width:9px;height:9px;border-radius:50%;background:${rcol(x.realm)}"></span>${esc(n)} <span class="x">${esc(gr)}${x.pn?' · '+esc(x.pn):''}</span><span class="r">${x.price?gp(x.price):'not sold'}</span></button>`:`<button disabled>${esc(n)} <span class="x">${esc(gr)}</span></button>`}).join('')}</div>`;
     const sugg=!drops?suggestDrops(m,4):[];
-    const conv=m.cr?`<div class="form" style="grid-template-columns:1fr 1fr 1.4fr;align-items:end"><label>Book AC<input type="number" id="cvAC" value="13" min="0" max="30"></label><label>CR<input value="${esc(m.cr)}" disabled></label><div class="out" style="margin:0;padding:8px 12px"><span style="font-size:.7rem;color:var(--muted)">NATURAL AC</span><div class="big" id="cvOut" style="font-size:1.3rem"></div></div></div><div class="note">Official monsters convert with Natural AC = 2 × (book AC − 10) + CR. Enter the AC from the book.</div>`:'';
-    setTimeout(()=>{const i=$('cvAC');if(i){const f=()=>{$('cvOut').textContent=natAC(+i.value,m.cr)};i.oninput=f;f()}},0);
     return {title:esc(m.n),strip:rcol(m.realm),kind:(m.hb?'Homebrew monster':'Official monster')+' · '+esc(m.realm)+' Bestiary',
       badges:`${realmB(m.realm+' '+m.g)}${m.cr?`<span class="b">CR ${esc(m.cr)}</span><span class="b ghost">${esc(BOOKS[m.book]||m.book)}</span>`:'<span class="b gold">Homebrew</span>'}`,
       body:kv([['Realm',esc(m.realm)],['Grade',m.g],m.cr?['Challenge',esc(m.cr)]:null,m.hab?['Habitat',esc(m.hab)]:null,realm?['Realm pressure',realm.pressure]:null])
         +`<div class="prose">${esc(m.txt||m.ds)}</div>`
         +blk('Drops',drops)
         +(sugg.length?blk('Suggested drops',`<div class="chips">${sugg.map(x=>matChip(x.n,x.gr)).join('')}</div><div class="note">This official monster's drops are listed on the ${esc(m.realm)} Bestiary page in the vault. These are same-realm materials near its grade, as a starting point.</div>`):'')
-        +blk('Armor Class conversion',conv)
         +(realm?`<div><button class="btn" data-ref="${ref(realm)}">Open the ${esc(m.realm)} realm →</button></div>`:'')};
   },
   god(g){
@@ -963,7 +1062,6 @@ function entityModal(e,other,label){
       +(twin?blk(label,`<div class="chips">${refChip(twin)}</div>`):'')
       +blk('Others in '+esc(e.grp),`<div class="chips">${sibs.slice(0,30).map(x=>refChip(x,esc(x.n.split(' - ')[0]))).join('')}</div>`)};
 }
-function natAC(ac,cr){return Math.round(2*(ac-10)+crNum(cr))}
 function hashStr(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
 function suggestDrops(m,n){
   const pool=MATS.filter(x=>x.realm===m.realm&&Math.abs((x.g||0)-m.g)<=1&&!x.supply&&/Bone|Blood|Hide|Essence|Creature/.test(x.ty||x.cat));
@@ -1026,7 +1124,7 @@ $('pres').addEventListener('mousemove',e=>{const b=e.target.closest('[data-pi]')
 document.addEventListener('keydown',e=>{
   const typing=/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName);
   if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();$('pbg').classList.contains('open')?closePalette():openPalette();return}
-  if(e.key==='Escape'){if($('pbg').classList.contains('open'))closePalette();else if($('mbg').classList.contains('open'))closeModal();else if($('sb').classList.contains('drawer'))toggleDrawer(false);return}
+  if(e.key==='Escape'){if($('sbg').classList.contains('open')){closeSettings();return}if($('pbg').classList.contains('open'))closePalette();else if($('ai').classList.contains('open')&&!$('mbg').classList.contains('open'))toggleAI(false);else if($('mbg').classList.contains('open'))closeModal();else if($('sb').classList.contains('drawer'))toggleDrawer(false);return}
   if($('mbg').classList.contains('open')&&!typing){if(e.key==='ArrowRight')step(1);if(e.key==='ArrowLeft')step(-1);return}
   if(e.key==='/'&&!typing&&!$('pbg').classList.contains('open')){e.preventDefault();const q=$('q');if(q&&!$('ctrl').hidden)q.focus();else openPalette()}
 });
@@ -1052,6 +1150,7 @@ function renderHome(){
       <h2>The Compendium of Atrious</h2>
       <p>Every Blueprint, material, monster, realm, and god in the FAND campaign, cross-linked. Click anything to see what it's made from, what drops it, and who wants it.</p>
       <button class="hero-search" onclick="openPalette()">${ICON.search.replace('<svg','<svg width="18" height="18"')}<span>Search everything…</span><kbd>Ctrl K</kbd></button>
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="randomItem(BPS.concat(MATS,MONSTERS,GODS))">🎲 Show me something random</button></div>
     </section>
     <section class="sec"><div class="stats">${stats.map(([t,v,l])=>`<button class="stat" data-go="${t}"><span class="v">${fmt(v)}</span><span class="l">${l}</span></button>`).join('')}</div></section>
     ${pins.length?`<section class="sec"><div class="sec-h"><h3>Pinned</h3><p>${pins.length} saved on this device</p></div><div class="grid">${pins.slice(0,12).map(card).join('')}</div></section>`:''}
@@ -1115,14 +1214,12 @@ function renderProfessions(){
 }
 
 function renderRules(){
-  const acRows=[0,5,10,15,20,30,45,60,90,120].map(a=>`<tr><td class="num">${a}</td><td class="num">${(a/(a+30)*100).toFixed(1)}%</td><td class="num">${Math.max(1,Math.floor(20*(1-a/(a+30))))}</td><td class="num">${Math.max(1,Math.floor(20*1.5*(1-a/(a+30))))}</td></tr>`).join('');
   const props={};MATS.forEach(m=>{if(m.pn){props[m.pn]=props[m.pn]||{n:0,txt:m.prop.replace(/^[^:]+:\s*/,'')};props[m.pn].n++}});
   const S=[
-    ['ac','Armor Class','v1.04–1.06',`<p>Armor Class starts at 0 and is built from Constitution, natural traits, armor, shields, and magic. It does not make you harder to hit; it reduces the damage you take.</p>
-      <div class="formula">damage reduction = AC ÷ (AC + 30)</div>
-      <ul><li>The curve is 1/x shaped: early points of AC matter most, and reduction never reaches 100%.</li><li>Every hit deals at least 1 damage.</li><li><b>Headshots</b> are critical hits: ×1.5 damage, applied before AC.</li><li><b>Natural AC</b> (from traits and contracts) can't be looted. <b>Gear AC</b> can, but looted armor is Damaged until it's repaired.</li><li>Armor slots: Body, Head, Hands, Feet, Shoulders, Back. Shields come in Buckler, Shield, and Tower.</li><li>Official monsters convert with Natural AC = 2 × (book AC − 10) + CR.</li></ul>
-      <div class="tablewrap"><table class="t"><thead><tr><th class="num">AC</th><th class="num">Reduction</th><th class="num">20 damage becomes</th><th class="num">20 as a headshot</th></tr></thead><tbody>${acRows}</tbody></table></div>
-      <p class="note">Table rounds down, minimum 1. <a href="${pageUrl('tools')}" data-go="tools">Damage calculator →</a></p>`],
+    ['ac','Armor Class','',`<ul><li>Armor Class starts at <b>0</b>.</li><li>Armor and other gear each add a small amount of AC to your total.</li><li>Armor that gives more AC comes with drawbacks. For example, full iron gear gives <b>+10 AC</b>, but you lose Acrobatics, Athletics, and Dexterity.</li></ul>
+      <div class="formula">damage taken = damage − AC</div>
+      <p>AC is subtracted flat from the total damage of each hit.</p>
+      <p class="note"><a href="${pageUrl('tools')}" data-go="tools">Damage calculator →</a></p>`],
     ['grading','Material Grading','v1.07, v1.10',`<p>Every material has a realm and a grade from 1 to 10. Together they give a Material Rank from 1 to 100, which sets the Item Level (1–50) of what it makes. Blueprints record their strongest material.</p>
       <div class="formula">Material Rank = (tier − 1) × 10 + grade<br>Item Level = ⌈ Rank ÷ 2 ⌉</div>${tierTable()}`],
     ['props','Material Properties','v1.13, v1.18',`<p>Every material gives one property (supplies give none). Strength scales with Potency 1–10, and grade 9–10 materials get a boost. Weapons, armor, and shields carry the property of their strongest material.</p>
@@ -1135,19 +1232,19 @@ function renderRules(){
       <div class="tablewrap"><table class="t"><thead><tr><th>Realm</th><th class="num">Base</th><th class="num">Grade 1</th><th class="num">Grade 5</th><th class="num">Grade 10</th></tr></thead><tbody>${REALMS.map(r=>`<tr><td>${esc(r.n)}</td><td class="num">${r.base?gp(r.base):'—'}</td><td class="num">${r.base?gp(r.base):'not sold'}</td><td class="num">${r.base?gp(r.base*5):'—'}</td><td class="num">${r.base?gp(r.base*20):'—'}</td></tr>`).join('')}</tbody></table></div>`],
     ['professions','Professions & Progression','v1.20–1.23',`<ul><li>Ten professions; every Blueprint has a profession and a specialty.</li><li>You start with one specialty and gain more over time. Crafting outside your specialties is at disadvantage, and each specialty has its own requirement.</li><li>Hell, Heaven, and Void metals need a Blacksmith with the matching realm specialty.</li><li>Profession XP comes from crafting, designing, refining, and gathering, with teachers and milestones.</li><li><b>Harvesting</b> gathers ore, stone, crystal, and plants. <b>Scavenging</b> strips hide, bone, blood, organs, and essences from corpses.</li></ul><p class="note"><a href="${pageUrl('professions')}" data-go="professions">All professions →</a></p>`],
     ['travel','Realm Travel','v1.17',`<ul><li>Each realm has a <b>Pressure</b> from 0 to 9. A traveler's <b>Attunement</b> comes from their level, contract rank, or realm-material gear.</li><li>If Pressure is higher than Attunement, the traveler suffers strain.</li><li>There are 11 travel methods, and an anchor from home makes the return trip easier.</li><li>The Realm Map page in the vault diagrams every route between realms.</li></ul><p class="note">The Pressure values shown in this app follow the tier order (tier − 1). Check them against the Realm Travel page in the vault.</p>`],
-    ['contracts','God Contracts','v1.08, v1.15',`<ul><li>Ten ranks, from Minor up to 1st Finger. The five Fingers form the god's Hand.</li><li>Each rank has spells, Natural AC, duties, and a reward ladder.</li><li>There are rules for rising in rank, staying loyal to one god, breaking a contract, and what happens when a god dies.</li><li>${CONTESTED.length} Runes are held by more than one god; those gods are rivals.</li></ul><p class="note"><a href="${pageUrl('gods')}" data-go="gods">All gods →</a></p>`],
+    ['contracts','God Contracts','v1.08, v1.15',`<ul><li>Ten ranks, from Minor up to 1st Finger. The five Fingers form the god's Hand.</li><li>Each rank has spells, AC, duties, and a reward ladder.</li><li>There are rules for rising in rank, staying loyal to one god, breaking a contract, and what happens when a god dies.</li><li>${CONTESTED.length} Runes are held by more than one god; those gods are rivals.</li></ul><p class="note"><a href="${pageUrl('gods')}" data-go="gods">All gods →</a></p>`],
     ['classes','Classes & Subclasses','v1.03, v1.18',`<ul><li>Official subclasses from the Player's Handbook, Xanathar's, Tasha's, and the Sword Coast guide are included as paraphrased summaries, each labeled with its source book.</li><li>Three 2024 Player's Handbook subclasses were added: Path of the World Tree, College of Dance, and Circle of the Sea.</li><li>Each class page notes which of its subclasses the 2024 Player's Handbook revised. Every class picks its subclass at level 3.</li><li>Homebrew Rune subclasses sit alongside the official ones.</li></ul><p class="note"><a href="${pageUrl('subclasses')}" data-go="subclasses">All subclasses →</a></p>`],
     ['spells','Spells','v1.17, v1.23',`<ul><li>Every spell in the vault lists its classes. Pyramid spells get them from their school, plus the class tied to their Rune where one applies.</li><li>73 Tertiary and Secondary damage spells were turned into support spells: they now heal, cure, ward, shield, teleport, or otherwise help. Each was renamed to match its new effect and scales with spell level.</li></ul><p class="note">The vault has about 2,330 spells. The Spells page in this app holds an older, larger generated list (${fmt(META.counts.spells)}), and only some of those list classes.</p>`],
-    ['monsters','Monster Stats','v1.20',`<ul><li><b>Homebrew</b> monsters have a level, HP, Natural AC, attacks, a save DC, and a signature trait from their best drop. Grade 10 monsters have boss rules.</li><li><b>Official</b> monsters have their CR, a grade from that CR, an original short description, and graded drops; no stat blocks.</li></ul><div class="formula">Natural AC = 2 × (book AC − 10) + CR</div>`],
+    ['monsters','Monster Stats','v1.20',`<ul><li><b>Homebrew</b> monsters have a level, HP, AC, attacks, a save DC, and a signature trait from their best drop. Grade 10 monsters have boss rules.</li><li><b>Official</b> monsters have their CR, a grade from that CR, an original short description, and graded drops; no stat blocks.</li></ul>`],
   ];
   $('content').innerHTML=`<div class="page rules"><nav class="toc">${S.map(([id,t])=>`<a href="#rule-${id}" onclick="document.getElementById('rule-${id}').scrollIntoView();return false">${t}</a>`).join('')}</nav>
-    <div>${S.map(([id,t,v,body])=>`<section class="rule" id="rule-${id}"><h3>${t}</h3><div class="src">Rules summary · ${v} · full text in the vault</div>${body}</section>`).join('')}</div></div>`;
+    <div>${S.map(([id,t,v,body])=>`<section class="rule" id="rule-${id}"><h3>${t}</h3><div class="src">Rules summary${v?' · '+v:''} · full text in the vault</div>${body}</section>`).join('')}</div></div>`;
 }
 
 function renderAbout(){
   const V=[
     ['1.03','58 official subclasses added as paraphrased summaries, labeled with their source book.'],
-    ['1.04–1.06','Armor Class: AC from 0, damage reduction AC ÷ (AC + 30), headshots, Natural vs. Gear AC. All 837 armor and shield Blueprints got an AC value, armor type, and slot.'],
+    ['1.04–1.06','Armor Class system. All 837 armor and shield Blueprints got an AC value, armor type, and slot.'],
     ['1.07','Material Grading (realm × grade → Material Rank → Item Level) and Custom Blueprints, with a template and a Custom folder.'],
     ['1.08','God Contracts: ten ranks from Minor to 1st Finger.'],
     ['1.09','Realm lore pages for the Mortal, Mysterious, Chaos, Abyss, Inner, and Primordial Realms.'],
@@ -1222,10 +1319,9 @@ function renderTools(){
   $('content').innerHTML=`<div class="page">
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Table tools</h3><p>Quick calculators built on the rules in the vault.</p></div>
     <div class="tools">
-      <div class="tool" id="t-dmg"><h3>Damage vs. Armor Class</h3><div class="sub">AC ÷ (AC + 30), headshots ×1.5 before AC, minimum 1.</div>
-        <div class="form"><label>Incoming damage<input type="number" id="d-dmg" value="24" min="0"></label><label>Target AC<input type="number" id="d-ac" value="20" min="0"></label>
-        <label class="chk full"><input type="checkbox" id="d-hs"> Headshot (critical)</label></div>
-        <div class="out"><div class="big" id="d-out"></div><div class="kv" id="d-kv"></div><div class="bar"><i id="d-bar"></i></div></div><div id="d-curve"></div></div>
+      <div class="tool" id="t-dmg"><h3>Damage vs. Armor Class</h3><div class="sub">AC is subtracted flat from each hit's damage.</div>
+        <div class="form"><label>Incoming damage<input type="number" id="d-dmg" value="24" min="0"></label><label>Target AC<input type="number" id="d-ac" value="10" min="0"></label></div>
+        <div class="out"><div class="big" id="d-out"></div><div class="kv" id="d-kv"></div><div class="bar"><i id="d-bar"></i></div></div></div>
 
       <div class="tool" id="t-grade"><h3>Material grade</h3><div class="sub">Rank, Item Level, Potency, rarity, and price from realm and grade.</div>
         <div class="form"><label>Realm<select id="g-realm">${realmOpts('Mysterious')}</select></label><label>Grade<input type="number" id="g-g" value="6" min="1" max="10"></label>
@@ -1248,21 +1344,15 @@ function renderTools(){
         <div class="form"><label class="full">Attunement<input type="number" id="p-a" value="2" min="0" max="9"></label></div>
         <div class="enc" id="p-out"></div><div class="note">Pressure here is tier − 1. The Realm Travel page in the vault has the effects of strain.</div></div>
 
-      <div class="tool" id="t-ac"><h3>Official monster AC</h3><div class="sub">Convert a book AC to this system's Natural AC.</div>
-        <div class="form"><label>Book AC<input type="number" id="c-ac" value="15" min="0"></label><label>CR<input id="c-cr" value="5"></label></div>
-        <div class="out"><div class="big" id="c-out"></div><div class="kv"><span>Formula</span><span>2 × (AC − 10) + CR</span></div></div></div>
     </div></div>`;
   const v=id=>$(id).value,n=id=>+$(id).value||0,on=(ids,f)=>{ids.forEach(i=>{$(i).addEventListener('input',f);$(i).addEventListener('change',f)});f()};
   const clampG=g=>Math.min(10,Math.max(1,Math.round(g||1)));
   // damage
-  on(['d-dmg','d-ac','d-hs'],()=>{
-    const d=n('d-dmg'),ac=Math.max(0,n('d-ac')),hs=$('d-hs').checked,raw=d*(hs?1.5:1),dr=ac/(ac+30),fin=d>0?Math.max(1,Math.floor(raw*(1-dr))):0;
+  on(['d-dmg','d-ac'],()=>{
+    const d=Math.max(0,n('d-dmg')),ac=Math.max(0,n('d-ac')),fin=Math.max(0,d-ac);
     $('d-out').textContent=fmt(fin)+' damage';
-    $('d-kv').innerHTML=`<span>Before AC</span><span>${raw%1?raw.toFixed(1):raw}</span><span>Reduction</span><span>${(dr*100).toFixed(1)}%</span><span>Blocked</span><span>${(raw-fin).toFixed(raw%1?1:0)}</span>`;
-    $('d-bar').style.width=(dr*100)+'%';
-    const W=320,H=110,pts=[];for(let a=0;a<=150;a+=3)pts.push(`${(a/150*W).toFixed(1)},${(H-(a/(a+30))*H).toFixed(1)}`);
-    const cx=Math.min(ac,150)/150*W,cy=H-dr*H;
-    $('d-curve').innerHTML=`<svg class="curve" viewBox="-36 -10 368 152" role="img" aria-label="Damage reduction curve"><g stroke="var(--line)" stroke-width="1">${[0,.25,.5,.75,1].map(y=>`<line x1="0" x2="${W}" y1="${H-y*H}" y2="${H-y*H}"/>`).join('')}</g>${[0,50,100].map(y=>`<text x="-6" y="${H-y/100*H+4}" text-anchor="end" font-size="9" fill="var(--muted)">${y}%</text>`).join('')}${[0,30,60,90,120,150].map(a=>`<text x="${a/150*W}" y="${H+14}" text-anchor="middle" font-size="9" fill="var(--muted)">${a}</text>`).join('')}<polyline points="${pts.join(' ')}" fill="none" stroke="var(--acc)" stroke-width="2"/><line x1="${cx}" x2="${cx}" y1="${cy}" y2="${H}" stroke="var(--gold)" stroke-dasharray="3 3"/><circle cx="${cx}" cy="${cy}" r="4" fill="var(--gold)"/><text x="${W/2}" y="${H+28}" text-anchor="middle" font-size="9" fill="var(--muted)">Armor Class</text></svg>`;
+    $('d-kv').innerHTML=`<span>Damage</span><span>${fmt(d)}</span><span>AC</span><span>− ${fmt(ac)}</span><span>Blocked</span><span>${fmt(d-fin)}${d?' ('+Math.round((d-fin)/d*100)+'%)':''}</span>`;
+    $('d-bar').style.width=(d?(d-fin)/d*100:0)+'%';
   });
   // grade
   on(['g-realm','g-g','g-sup'],()=>{
@@ -1307,8 +1397,243 @@ function renderTools(){
   $('e-go').onclick=roll;roll();
   // pressure
   on(['p-a'],()=>{const a=n('p-a');$('p-out').innerHTML=REALMS.map(r=>{const d=r.pressure-a;return `<div class="enc-row" style="display:flex;align-items:center;gap:10px;padding:7px 12px"><span class="sw" style="width:9px;height:9px;border-radius:50%;background:${r.color}"></span><a href="#" data-ref="${ref(r)}" style="color:var(--text);text-decoration:none;font-weight:600">${esc(r.n)}</a><span class="b ghost">Pressure ${r.pressure}</span><span style="margin-left:auto" class="b ${d>0?'red':'green'}">${d>0?'Strain +'+d:'Safe'}</span></div>`}).join('')});
-  // monster AC
-  on(['c-ac','c-cr'],()=>{const cr=v('c-cr').trim()||'0';$('c-out').textContent=isNaN(crNum(cr))?'—':'Natural AC '+natAC(n('c-ac'),cr)});
+}
+
+// ════════════════════════════════════════════════════════════════
+//  Settings
+// ════════════════════════════════════════════════════════════════
+const KEY_NAME='fand.anthropicKey';
+function getKey(){try{return sessionStorage.getItem(KEY_NAME)||localStorage.getItem(KEY_NAME)||''}catch(e){return ''}}
+function keyRemembered(){try{return !!localStorage.getItem(KEY_NAME)}catch(e){return false}}
+function saveKey(k,remember){try{localStorage.removeItem(KEY_NAME);sessionStorage.removeItem(KEY_NAME);if(k)(remember?localStorage:sessionStorage).setItem(KEY_NAME,k)}catch(e){}AI.client=null}
+function openSettings(){
+  const k=getKey();
+  $('setBox').innerHTML=`<div class="mh"><div class="kind">Settings</div><h2 id="setTitle">Settings</h2>
+      <div class="mact"><button class="icon-btn" onclick="closeSettings()" aria-label="Close">${ICON.x}</button></div></div>
+    <div class="mb">
+      <div class="blk"><h4>Anthropic API key <em>for the assistant</em></h4>
+        <div class="keyrow"><input class="sel" id="setKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-…" value="${esc(k)}" style="max-width:none;flex:1"><button class="btn" id="setShow" type="button">Show</button></div>
+        <label class="note" style="display:flex;gap:8px;align-items:center;margin-top:8px;color:var(--text2)"><input type="checkbox" id="setRemember" ${!k||keyRemembered()?'checked':''}> Remember on this device</label>
+        <div class="note">The key is stored only in this browser and is sent only to Anthropic's API (api.anthropic.com). Usage is billed to your Anthropic account. Get a key at <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a>. On a shared computer, untick “Remember” so the key is forgotten when the tab closes.</div>
+        <div id="setMsg" class="okline">${k?'A key is saved.':''}</div>
+      </div>
+      <div class="blk"><h4>Appearance</h4><div class="seg"><button type="button" class="${document.documentElement.dataset.theme!=='light'?'on':''}" onclick="store.set('theme','dark');applyTheme('dark');openSettings()">Dark</button><button type="button" class="${document.documentElement.dataset.theme==='light'?'on':''}" onclick="store.set('theme','light');applyTheme('light');openSettings()">Light</button></div></div>
+      <div class="blk"><h4>Saved data</h4><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="button" onclick="if(confirm('Remove all pins?')){PINS=new Set();store.set('pins',[]);toast('Pins cleared')}">Clear pins (${PINS.size})</button><button class="btn" type="button" onclick="newChat();toast('Chat cleared')">Clear assistant chat</button></div></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap"><button class="btn" type="button" id="setRemove" ${k?'':'disabled'}>Remove key</button><button class="btn primary" type="button" id="setSave">Save</button></div>
+    </div>`;
+  $('sbg').classList.add('open');
+  $('setShow').onclick=()=>{const i=$('setKey');i.type=i.type==='password'?'text':'password';$('setShow').textContent=i.type==='password'?'Show':'Hide'};
+  $('setSave').onclick=()=>{const v=$('setKey').value.trim();if(v&&!/^sk-ant-/.test(v)){$('setMsg').style.color='var(--red)';$('setMsg').textContent='That doesn\'t look like an Anthropic API key (they start with sk-ant-).';return}saveKey(v,$('setRemember').checked);closeSettings();toast(v?'API key saved':'API key removed');renderAI()};
+  $('setRemove').onclick=()=>{saveKey('',false);closeSettings();toast('API key removed');renderAI()};
+  setTimeout(()=>$('setKey').focus(),20);
+}
+function closeSettings(){$('sbg').classList.remove('open')}
+$('sbg').addEventListener('mousedown',e=>{if(e.target===$('sbg'))closeSettings()});
+
+// ════════════════════════════════════════════════════════════════
+//  Assistant (Claude, called from the browser with the visitor's own key)
+// ════════════════════════════════════════════════════════════════
+const AI={model:'claude-opus-5-5',client:null,busy:false,msgs:[],view:[]};
+try{const c=JSON.parse(sessionStorage.getItem('fand.chat')||'null');if(c&&Array.isArray(c.msgs)){AI.msgs=c.msgs;AI.view=c.view||[]}}catch(e){}
+function saveChat(){try{sessionStorage.setItem('fand.chat',JSON.stringify({msgs:AI.msgs,view:AI.view}))}catch(e){}}
+const KIND={blueprint:'bp',material:'mat',monster:'mon',god:'god',realm:'realm',subclass:'sub',demon:'demon',patron:'patron',spell:'spell'};
+const KIND_NAME=Object.fromEntries(Object.entries(KIND).map(([k,v])=>[v,k]));
+const HAY={bp:VIEWS.blueprints.hay,mat:VIEWS.materials.hay,mon:VIEWS.bestiary.hay,god:VIEWS.gods.hay,spell:VIEWS.spells.hay,sub:VIEWS.subclasses.hay,demon:VIEWS.demons.hay,patron:VIEWS.patrons.hay,realm:r=>r.n+' '+(REALM_BLURB[r.n]||'')};
+function brief(x){
+  const t=x._t,o={kind:KIND_NAME[t],name:x.n};
+  if(t==='bp')Object.assign(o,{profession:x.pr,specialty:x.sp,type:x.cat,level:x.lv,rarity:x.r,damage:x.dc&&x.dm?x.dc+' '+x.dm:undefined,ac:x.ac,property:x.prop,materialGrade:x.gr,materials:x.mats});
+  else if(t==='mat')Object.assign(o,{origin:x.org+(x.origin?' ('+x.origin+')':''),uniqueTrait:x.tr?x.tr.n:undefined,grade:x.gr,rank:x.rank,itemLevel:x.il,type:x.ty||x.cat,rarity:x.rar,property:x.pn,potency:x.pot,priceGp:x.price||(x.tier>=8?'not sold':undefined)});
+  else if(t==='mon')Object.assign(o,{grade:x.realm+' '+x.g,cr:x.cr,source:x.hb?'Homebrew':(BOOKS[x.book]||x.book),habitat:x.hab,drops:(x.drops||[]).map(d=>d[0]+' ('+d[1]+')')});
+  else if(t==='god')Object.assign(o,{pantheon:x.grp,homeRealm:x.home,runes:x.runes,fingersSeated:x.seated});
+  else if(t==='spell')Object.assign(o,{school:x.sc,level:x.lv,classes:x.cls,damage:x.dmg&&x.dmg!=='None'?x.dmg:undefined});
+  else if(t==='sub')Object.assign(o,{class:x.par,source:subSource(x)});
+  else if(t==='demon'||t==='patron')Object.assign(o,{group:x.grp});
+  else if(t==='realm')Object.assign(o,{tier:x.tier,pressure:x.pressure});
+  return o;
+}
+function detail(x){
+  const t=x._t,o=brief(x);
+  if(t==='bp'){o.traitsWhenEquipped=x.mats.map(findMat).filter(m=>m&&m.tr).map(m=>m.tr.n+' (from '+m.n+'): '+m.tr.t);o.description=x.ds||(x.lost?'(description lost from this app; see the vault note)':'');o.materials=x.mats.map(n=>{const m=findMat(n);return m?{name:m.n,grade:m.gr,priceGp:m.price||0,property:m.pn}:{name:n}});const s=strongestMat(x);if(s)o.strongestMaterial=s.n+' (rank '+s.rank+', item level '+s.il+')';o.estimatedMaterialCostGp=x.mats.reduce((a,n)=>a+((findMat(n)||{}).price||0),0);o.connections=x.conns}
+  else if(t==='mat'){o.uniqueTraitText=x.tr?x.tr.t:x.basic;o.propertyText=x.prop;o.description=x.ds;o.source=x.src;o.gatheredAt=x.where;o.gatheredBy=x.by;o.usedFor=x.use;o.weaponEffect=MAT_FX[x.n];const u=bpByMat().get(lc(x.n))||[];o.usedInBlueprints={count:u.length,examples:u.slice(0,15).map(b=>b.n)};o.droppedBy=(monByMat().get(lc(x.n))||[]).map(m=>m.n);o.signatureMaterialOf=(GOD_BY_MAT.get(lc(x.n))||[]).map(godKey)}
+  else if(t==='mon'){o.description=x.txt||x.ds;if(!(x.drops||[]).length)o.note='Official monster: its drops are on the realm Bestiary page in the vault.'}
+  else if(t==='god'){o.title=godTitle(x);o.myth=x.myth||x.ds;o.wants=x.wants;o.signatureMaterials=x.sig;o.fingerRelic=x.relic;o.hand=x.hand;const r=new Map();(x.runes||[]).forEach(rn=>(RUNE_GODS.get(rn)||[]).forEach(g=>{if(g!==x){if(!r.has(g))r.set(g,[]);r.get(g).push(rn)}}));o.rivals=[...r].map(([g,rs])=>godKey(g)+' (over '+rs.join(', ')+')')}
+  else if(t==='spell'){o.castingTime=x.ct;o.range=x.rng;o.duration=x.dur;o.description=x.desc}
+  else if(t==='sub'||t==='demon'||t==='patron')o.description=x.ds;
+  else if(t==='realm'){o.description=REALM_BLURB[x.n];o.materialRanks=((x.tier-1)*10+1)+'-'+x.tier*10;o.basePriceGp=x.base||'not sold';o.monsters=MONSTERS.filter(m=>m.realm===x.n).sort((a,b)=>a.g-b.g).map(m=>m.n+' (G'+m.g+')').slice(0,60);o.materialCount=MATS.filter(m=>m.realm===x.n).length;o.godsAtHome=GODS.filter(g=>g.home===x.n).map(godKey)}
+  return JSON.parse(JSON.stringify(o));
+}
+function aiSearch(inp){
+  const q=lc(inp.query||'').trim(),words=q.split(/\s+/).filter(Boolean);
+  const kinds=inp.kind&&inp.kind!=='any'?[KIND[inp.kind]]:['bp','mat','mon','god','realm','sub','demon','patron','spell'];
+  const lim=Math.min(25,Math.max(1,inp.limit||10));
+  const res=[];let total=0;
+  for(const t of kinds){
+    const arr=TYPES[t].arr;
+    for(const x of arr){
+      if(inp.realm&&lc(x.realm||realmOf(x.gr)||x.home||'')!==lc(inp.realm))continue;
+      const g=t==='mat'||t==='mon'?x.g:null;
+      if(inp.min_grade&&!(g>=inp.min_grade))continue;
+      if(inp.max_grade&&!(g<=inp.max_grade))continue;
+      if(inp.profession&&lc(x.pr)!==lc(inp.profession))continue;
+      if(inp.min_level&&!(x.lv>=inp.min_level))continue;
+      if(inp.max_level&&!(x.lv<=inp.max_level))continue;
+      if(words.length){const h=x._ah||(x._ah=lc(HAY[t](x)));if(!words.every(w=>h.includes(w)))continue}
+      total++;const n=lc(x.n);res.push([n===q?0:n.startsWith(q)?1:n.includes(q)?2:3,x]);
+    }
+  }
+  res.sort((a,b)=>a[0]-b[0]||a[1].n.length-b[1].n.length);
+  const out={totalMatches:total,showing:Math.min(lim,res.length),results:res.slice(0,lim).map(r=>brief(r[1]))};
+  if(kinds.includes('spell')&&!SP.length)out.note='Spells are not loaded on this page; tell the user to open the Spells page to search spells.';
+  return out;
+}
+function aiGet(inp){
+  const ks=inp.kind&&KIND[inp.kind]?[KIND[inp.kind]]:Object.keys(TYPES);const n=lc(inp.name||'').trim();
+  for(const t of ks){const arr=TYPES[t].arr;const x=arr.find(y=>lc(y.n)===n)||arr.find(y=>lc(y.n.split(' - ')[0])===n);if(x)return detail(x)}
+  return {error:'No entry named "'+inp.name+'". Use search_compendium to find the exact name.'};
+}
+const AI_TOOLS=[
+  {name:'search_compendium',eager_input_streaming:true,
+   description:'Search the FAND compendium (the campaign data on this website). Returns short summaries of matching entries and the total number of matches. Matches every word of `query` against names and descriptions; leave `query` empty to list entries by filters alone. Use it before answering anything about specific Blueprints, materials, monsters, gods, realms, subclasses, demons, patrons, or spells.',
+   input_schema:{type:'object',properties:{
+     query:{type:'string',description:'Words to match, e.g. "dragon scale" or "fire". May be empty.'},
+     kind:{type:'string',enum:['any','blueprint','material','monster','god','realm','subclass','demon','patron','spell'],description:'Restrict to one kind of entry. Default any.'},
+     realm:{type:'string',description:'Only entries from this realm, e.g. "Hell", "Inner Void". Applies to materials, monsters, Blueprints (by material grade), and gods (by home realm).'},
+     min_grade:{type:'integer',minimum:1,maximum:10,description:'Materials and monsters: lowest grade.'},
+     max_grade:{type:'integer',minimum:1,maximum:10,description:'Materials and monsters: highest grade.'},
+     profession:{type:'string',description:'Blueprints only: profession, e.g. "Blacksmithing".'},
+     min_level:{type:'integer',description:'Blueprints and spells: lowest level.'},
+     max_level:{type:'integer',description:'Blueprints and spells: highest level.'},
+     limit:{type:'integer',minimum:1,maximum:25,description:'How many results to return. Default 10.'}},required:['query']}},
+  {name:'get_entry',eager_input_streaming:true,
+   description:'Get the full details of one entry by its exact name, with cross-references: the Blueprints that use a material, the monsters that drop it and gods who hold it; a Blueprint\'s materials, prices, and estimated cost; a god\'s Runes, Hand, and rivals; a realm\'s monsters and gods.',
+   input_schema:{type:'object',properties:{name:{type:'string',description:'Exact entry name as returned by search_compendium.'},kind:{type:'string',enum:['blueprint','material','monster','god','realm','subclass','demon','patron','spell']}},required:['name']}},
+];
+function validTool(name,inp){
+  if(!inp||typeof inp!=='object')return false;
+  if(name==='search_compendium')return typeof inp.query==='string';
+  if(name==='get_entry')return typeof inp.name==='string'&&inp.name.length>0;
+  return false;
+}
+const AI_SYSTEM=()=>`You are the FAND Assistant, a helper built into the FAND Compendium website for a homebrew D&D campaign set in the world of Atrious. You answer questions from players and the DM about the campaign's Blueprints (craftable items), materials, monsters, realms, gods, professions, spells, subclasses, demons, patrons, and rules.
+
+Ground every specific claim in the compendium: use search_compendium and get_entry to look things up rather than relying on memory, and say plainly when the data doesn't contain something. General D&D 5e knowledge is fine for context, but FAND's own rules (below) override the books where they differ. Don't invent stats, prices, or lore.
+
+When you name an entry that exists in the compendium, wrap its exact name in double square brackets, like [[Adamantine]] or [[Zeus]], so the website can turn it into a link. Keep answers focused and skimmable: short paragraphs and bullet lists, bold for key numbers. Don't use tables. Show the arithmetic briefly when you calculate something (damage after AC, prices, refining counts).
+
+FAND rules summary:
+- Armor Class starts at 0. Armor and other gear each add a small amount of AC to the total. Armor that gives more AC carries drawbacks: for example, full iron gear gives +10 AC but you lose Acrobatics, Athletics, and Dexterity. AC is subtracted flat from the total damage of each hit: damage taken = damage - AC.
+- Material grading: every material has a realm (tier 1-10) and a grade 1-10. Material Rank = (tier - 1) x 10 + grade (1-100). Item Level = ceil(Rank / 2) (1-50). Blueprints record their strongest material.
+- Material origins and unique traits: creature parts carry a unique trait drawn from the creature's signature ability and the body part (a hawk's eye sharpens sight; troll blood regenerates); plants give small herbal effects; ores, stones, gems, and supplies are basic and carry only their property. An item gains the unique traits of its materials while equipped.
+- Material properties: each material gives a property (48 in all); supplies give none. Potency = min(10, max(1, floor(Item Level / 5)) + 1 at grade 9, + 2 at grade 10). Weapons, armor, and shields carry the property of their strongest material.
+- Refining: 3 materials of one grade make 1 of the next grade. Moving up to the next realm takes 5, a binding agent, and a Realm Forge.
+- Custom Blueprints: players design items from a primary material and up to two secondaries, then pass a design check; traits come from the materials' properties.
+- Economy: price = realm base x grade (doubled at grade 9-10; supplies cost one fifth). Merchants buy at half. Void-grade materials and above aren't sold.
+- Professions: 10 (Blacksmithing, Carving, Tailoring, Alchemy, Cooking, Enchanting, Engineering, Harvesting, Scavenging, Navigation); the 31 old crafts are specialties. You start with one specialty and gain more; crafting outside your specialties is at disadvantage. Hell, Heaven, and Void metals need a Blacksmith with the matching realm specialty. Harvesting gathers ore, stone, crystal, and plants; Scavenging strips hide, bone, blood, organs, and essences from corpses. Profession XP comes from crafting, designing, refining, and gathering.
+- Realm Travel: each realm has a Pressure 0-9; a traveler's Attunement comes from level, contract rank, or realm-material gear. If Pressure exceeds Attunement the traveler suffers strain. 11 travel methods; an anchor from home eases the return.
+- God Contracts: ten ranks from Minor up to 1st Finger; the five Fingers form a god's Hand. Each rank has spells, AC, duties, and rewards. Gods sharing a Rune are rivals.
+- Monsters: homebrew monsters have level, HP, AC, attacks, a save DC, and a signature trait from their best drop; grade 10 monsters have boss rules. Official monsters have CR, a grade from CR, and graded drops; no stat blocks.
+- Every class picks its subclass at level 3.
+
+Realms (tier, base price per grade): ${REALMS.map(r=>r.n+' (tier '+r.tier+', '+(r.base?r.base+' gp':'not sold')+')').join('; ')}.
+
+The user is currently on the ${(TABS.find(t=>t[0]===(SITE?SITE.page:'home'))||[])[1]||'Home'} page of the website.`;
+function linkify(html){
+  return html.replace(/\[\[([^\]]{1,120})\]\]/g,(m,name)=>{
+    const raw=name.replace(/&amp;/g,'&').replace(/&#39;/g,"'").replace(/&quot;/g,'"');
+    for(const t of ['mat','bp','mon','god','realm','sub','demon','patron','spell']){
+      const arr=TYPES[t].arr,n=lc(raw);const x=arr.find(y=>lc(y.n)===n)||(t==='god'||t==='demon'||t==='patron'?arr.find(y=>lc(y.n.split(' - ')[0])===n):null);
+      if(x)return `<button class="chip" data-ref="${ref(x)}">${name}</button>`;
+    }
+    return '<strong>'+name+'</strong>';
+  });
+}
+function md(src){
+  const lines=esc(src).split('\n');let out='',list=null;
+  const inline=s=>linkify(s.replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/(^|[^*])\*([^*\n]+)\*/g,'$1<em>$2</em>'));
+  const close=()=>{if(list){out+='</'+list+'>';list=null}};
+  for(const l of lines){
+    let m;
+    if((m=/^\s*[-*•]\s+(.*)/.exec(l))){if(list!=='ul'){close();out+='<ul>';list='ul'}out+='<li>'+inline(m[1])+'</li>'}
+    else if((m=/^\s*\d+[.)]\s+(.*)/.exec(l))){if(list!=='ol'){close();out+='<ol>';list='ol'}out+='<li>'+inline(m[1])+'</li>'}
+    else if((m=/^#{1,4}\s+(.*)/.exec(l))){close();out+='<h4>'+inline(m[1])+'</h4>'}
+    else if(!l.trim()){close()}
+    else{close();out+='<p>'+inline(l)+'</p>'}
+  }
+  close();return out;
+}
+function toggleAI(on){const a=$('ai'),v=on==null?!a.classList.contains('open'):on;a.classList.toggle('open',v);$('aiFab').style.display=v?'none':'';if(v){renderAI();setTimeout(()=>$('aiQ').focus(),50)}}
+function newChat(){if(AI.busy)return;AI.msgs=[];AI.view=[];saveChat();renderAI()}
+const AI_SUGG=['What can I craft with Adamantine?','Which monsters in Hell drop grade 5+ materials?','How much damage does a 30-damage hit do against AC 12?','Who are Zeus\'s rivals and why?','Plan refining Human 1 materials up to Mysterious 1'];
+function renderAI(statusText){
+  const box=$('aiMsgs');
+  if(!getKey()){box.innerHTML=`<div class="ai-empty"><b>Ask anything about FAND</b><span>The assistant looks things up in this compendium and answers with links to the entries it used. It runs on Claude through your own Anthropic API key, which stays in this browser.</span><div><button class="btn primary" onclick="openSettings()">Add your API key</button></div></div>`;return}
+  if(!AI.view.length&&!statusText){box.innerHTML=`<div class="ai-empty"><b>Ask anything about FAND</b><span>Try one of these:</span><div class="ai-sugg">${AI_SUGG.map(s=>`<button type="button" data-q="${esc(s)}">${esc(s)}</button>`).join('')}</div></div>`;return}
+  box.innerHTML=AI.view.map(v=>v.role==='user'?`<div class="ai-m user">${esc(v.text)}</div>`:v.role==='err'?`<div class="ai-m err">${esc(v.text)}</div>`:`<div class="ai-m bot">${md(v.text)}</div>`).join('')+(statusText?`<div class="ai-status" id="aiStatus">${esc(statusText)}</div>`:'');
+  box.scrollTop=box.scrollHeight;
+}
+$('aiMsgs').addEventListener('click',e=>{const b=e.target.closest('[data-q]');if(b){$('aiQ').value=b.dataset.q;ask()}});
+$('aiForm').addEventListener('submit',e=>{e.preventDefault();ask()});
+$('aiQ').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();ask()}});
+$('aiQ').addEventListener('input',e=>{e.target.style.height='auto';e.target.style.height=Math.min(140,e.target.scrollHeight)+'px'});
+function loadSDK(){
+  if(window.Anthropic)return Promise.resolve();
+  return new Promise((res,rej)=>{const s=document.createElement('script');s.src='vendor/anthropic.js';s.onload=()=>window.Anthropic?res():rej(new Error('sdk'));s.onerror=()=>rej(new Error('The assistant library could not be loaded.'));document.head.appendChild(s)});
+}
+function setStatus(t){const s=$('aiStatus');if(s)s.textContent=t;else renderAI(t)}
+async function ask(){
+  const q=$('aiQ').value.trim();if(!q||AI.busy)return;
+  if(!getKey()){openSettings();return}
+  AI.busy=true;$('aiSend').disabled=true;$('aiQ').value='';$('aiQ').style.height='';
+  AI.view.push({role:'user',text:q});AI.msgs.push({role:'user',content:q});saveChat();
+  renderAI('Thinking…');
+  const bot={role:'bot',text:''};let shown=false;
+  try{
+    await loadSDK();
+    const Anthropic=window.Anthropic;
+    if(!AI.client)AI.client=new Anthropic({apiKey:getKey(),dangerouslyAllowBrowser:true});
+    let jsonRetries=0;
+    for(let turn=0;turn<10;turn++){
+      const stream=AI.client.beta.messages.stream({
+        model:AI.model,max_tokens:64000,
+        betas:['server-side-fallback-2026-07-01'],fallbacks:'default',
+        output_config:{effort:'medium'},
+        cache_control:{type:'ephemeral'},
+        system:AI_SYSTEM(),tools:AI_TOOLS,messages:AI.msgs,
+      });
+      stream.on('text',d=>{if(!shown){AI.view.push(bot);shown=true}bot.text+=d;renderAI('Writing…')});
+      let msg;
+      try{msg=await stream.finalMessage();jsonRetries=0}
+      catch(err){if(err instanceof Anthropic.APIError||jsonRetries++>=2)throw err;continue}
+      if(msg.stop_reason==='refusal'){AI.msgs.push({role:'assistant',content:msg.content});if(!shown){AI.view.push(bot);shown=true}bot.text+=(bot.text?'\n\n':'')+'*I can\'t help with that request.*';break}
+      if(msg.stop_reason==='pause_turn'){AI.msgs.push({role:'assistant',content:msg.content});continue}
+      const uses=msg.content.filter(b=>b.type==='tool_use');
+      AI.msgs.push({role:'assistant',content:msg.content});
+      if(msg.stop_reason==='max_tokens'&&uses.length)throw new Error('The answer was cut off. Try a narrower question.');
+      if(msg.stop_reason!=='tool_use'||!uses.length)break;
+      const results=[];
+      for(const u of uses){
+        if(!validTool(u.name,u.input)){results.push({type:'tool_result',tool_use_id:u.id,is_error:true,content:JSON.stringify({INVALID_JSON:JSON.stringify(u.input)})});continue}
+        setStatus(u.name==='get_entry'?'Reading '+u.input.name+'…':'Searching the compendium'+(u.input.query?' for “'+u.input.query+'”':'')+'…');
+        let r;try{r=u.name==='get_entry'?aiGet(u.input):aiSearch(u.input)}catch(e){r={error:String(e&&e.message||e)}}
+        results.push({type:'tool_result',tool_use_id:u.id,content:JSON.stringify(r)});
+      }
+      AI.msgs.push({role:'user',content:results});
+      if(bot.text&&!/\n$/.test(bot.text))bot.text+='\n\n';
+      setStatus('Thinking…');
+    }
+  }catch(err){
+    const A=window.Anthropic;let m=err&&err.message||String(err);
+    if(A&&err instanceof A.AuthenticationError)m='Your API key was rejected. Check it in Settings.';
+    else if(A&&err instanceof A.PermissionDeniedError)m='This API key isn\'t allowed to use '+AI.model+'.';
+    else if(A&&err instanceof A.RateLimitError)m='Rate limit reached. Wait a moment and try again.';
+    else if(A&&err instanceof A.APIConnectionError)m='Couldn\'t reach Anthropic. Check your connection.';
+    else if(A&&err instanceof A.APIError)m='The API returned an error: '+m;
+    // Drop the unanswered turn so the conversation stays valid for the next question.
+    while(AI.msgs.length&&!(AI.msgs[AI.msgs.length-1].role==='assistant'&&!AI.msgs[AI.msgs.length-1].content.some(b=>b.type==='tool_use')))AI.msgs.pop();
+    AI.view.push({role:'err',text:m});
+  }
+  if(shown&&!bot.text.trim())AI.view.splice(AI.view.indexOf(bot),1);
+  AI.busy=false;$('aiSend').disabled=false;saveChat();renderAI();
 }
 
 // ════════════════════════════════════════════════════════════════

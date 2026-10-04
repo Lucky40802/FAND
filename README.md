@@ -40,6 +40,10 @@ The site is published with GitHub Pages at **https://lucky40802.github.io/FAND/*
 
 The build reads the data arrays from `app/FAND.html`, cleans and enriches them (material rank, Item Level, price, and sources; monster grades and drops; god Runes, Hands, and rivals), and writes both outputs. It's safe to rerun. To change the interface, edit the template and rebuild.
 
+Materials get an **origin** and a **unique trait** from `tools/data/traits.js`: creature parts carry an effect drawn from the creature's signature ability and the body part (a hawk's eye sharpens sight, troll blood regenerates), plants carry small herbal effects, and ores, stones, gems, and supplies are basic. Blueprints list the traits their materials give when equipped.
+
+**AI assistant.** Every page has an "Ask FAND" assistant that answers from the compendium's data, using Claude through the visitor's own Anthropic API key (entered in Settings and kept only in that browser). It uses the official Anthropic JavaScript SDK, bundled at `tools/app/vendor/anthropic.js` (rebuild with esbuild from `@anthropic-ai/sdk` to update it).
+
 The site has a home page, cross-linked detail views (a material shows the Blueprints that use it, the monsters that drop it, and the gods who hold it), Realms, Professions, Rules, Tools, and About pages, search across everything (Ctrl K), pins, shareable links to any item, and light and dark themes.
 
 ## Checks
