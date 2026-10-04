@@ -125,7 +125,25 @@ var BODY = {
 };
 
 function hash(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+// body plans for the mythological creatures in data/myth.js
+var NAMED = {
+  fey: ['Kitsune', 'Huli Jing', 'Bakeneko', 'Nokken', 'Fossegrim', 'Huldra', 'Leshy', 'Rusalka', 'Domovoi', 'Yaksha', 'Fear Dearg', 'Tokoloshe', 'Mara', 'Baku', 'Svartalf', 'Jorogumo', 'Chicken-Legged Hut', 'Tengu'],
+  beast: ['Nemean Lion', 'Erymanthian Boar', 'Cretan Bull', 'Ceryneian Hind', 'Cu Sith', 'Serpopard', 'Nue', 'Chupacabra', 'Bunyip', 'Manticore of the East', 'Chimera Hound'],
+  bird: ['Stymphalian Bird', 'Siren', 'Bennu', 'Anzu', 'Simurgh', 'Thunderbird', 'Alkonost', 'Garuda Kin', 'Impundulu', 'Ziz Fledgling', 'Piasa'],
+  reptile: ['Ladon Serpent', 'Lindworm', 'Uraeus', 'Makara', 'Naga Raja', 'Ahuizotl', 'Mokele-mbembe', 'Ninki Nanka', 'Tatzelwurm', 'Uktena', 'Basilisk King', 'Cockatrice Hen', 'Ophiotaurus', 'Jiaolong', 'Zmey', 'Yamata Serpent', 'Mushussu', 'Wyvern of the Marches', 'Grootslang'],
+  dragon: ['Nidhoggr Spawn', 'Tarasque Spawn', 'Akhekh'],
+  aquatic: ['Scylla', 'Charybdis', 'Ichthyocentaur', 'Hippocamp', 'Umibozu', 'Taniwha', 'Cipactli', 'World Fish', 'Leviathan Young', 'Kappa', 'Vodyanoy', 'Kelpie', 'Each-uisge', 'Selkie'],
+  undead: ['Draugr', 'Mummy Priest', 'Vetala', 'Cihuateteo', 'Banshee Mourner', 'Dullahan', 'Sluagh', 'Gashadokuro', 'Jiangshi', 'Strigoi', 'Ocelot Warrior Spirit', 'Xolotl Hound', 'Keres'],
+  fiend: ['Empusa', 'Lamia', 'Hel Hound', 'Ammit', 'Rakshasa Warlord', 'Pishacha', 'Tzitzimitl', 'Oni Brute', 'Ugallu', 'Southwest Wind Demon', 'Gallu', 'Lilitu', 'Div', 'Ifrit Lord', 'Wendigo', 'Skinwalker', 'Camazotz', 'Aswang', 'Manananggal', 'Black Shuck', 'Barghest', 'Krampus', 'Nuckelavee', 'Caoranach', 'Apep Spawn', 'Taotie'],
+  celestial: ['Valkyrie Herald', 'Einherjar', 'Gandharva', 'Lamassu', 'Qilin', 'Pixiu', 'Raiju'],
+  giant: ['Gegenees', 'Jotunn Thane', 'Fomorian Raider', 'Asura Champion', 'Girtablullu', 'Behemoth Calf'],
+  construct: ['Talos Sentinel', 'Golem of Clay'],
+  insect: ['Myrmekes'],
+  aberration: ['Stheno']
+};
+var NAMED_IDX = {}; Object.keys(NAMED).forEach(function (k) { NAMED[k].forEach(function (n) { NAMED_IDX[n.toLowerCase()] = k; }); });
 function plan(name, txt) {
+  if (NAMED_IDX[name.toLowerCase()]) return NAMED_IDX[name.toLowerCase()];
   for (var i = 0; i < PLANS.length; i++) if (PLANS[i][1].test(name)) return PLANS[i][0];
   for (var j = 0; j < PLANS.length; j++) if (PLANS[j][1].test(txt || '')) return PLANS[j][0];
   return 'beast';

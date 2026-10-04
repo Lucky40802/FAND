@@ -46,6 +46,24 @@ Materials get an **origin** and a **unique trait** from `tools/data/traits.js`: 
 
 The site has a home page, cross-linked detail views (a material shows the Blueprints that use it, the monsters that drop it, and the gods who hold it), Realms, Professions, Rules, Tools, and About pages, search across everything (Ctrl K), pins, shareable links to any item, and light and dark themes.
 
+## Table tools on the site
+- **Forge** (`forge.html`): every weapon and armor is a base design (Axe, Sword, Dagger, Hammer, Spear, Bow, Staff, Body Armor, Shield, Focus) built part by part. Each part accepts certain material categories; the wrong material carries heavy penalties. Named Blueprints open in the Forge with their materials filled in.
+- **Craft** (`craft.html`): every material for a Blueprint, where to get it, cost, refining counts, and what a party member is missing.
+- **Party** (`party.html`): characters with contracts, rivals, gear, traits, materials, money, and armor drawbacks. Saved in the browser; export and import as JSON.
+- **Encounters** and **Combat** (`encounter.html`, `combat.html`): XP-budget encounters by realm, and an initiative tracker that applies flat AC to every hit.
+
+All of this is stored in each visitor's browser (`localStorage`), so nothing is shared between devices unless exported.
+
+## Content added by the build
+- `tools/data/myth.js`: creatures from world mythology and folklore (Greek, Norse, Egyptian, Hindu, Aztec, Celtic, Japanese, Mesopotamian, and more), each with an original description. They get harvest parts, stat blocks, and lore like every other monster.
+- Monster lore (Overview, Appearance, Behavior and Tactics, Habitat and Ecology, Society, Harvesting, In FAND, Adventure Hook) is written by the site from each monster's body plan, realm, stats, and drops.
+
+## Bringing data back to the vault
+| Script | Does |
+|---|---|
+| `node generators/importspells.js "<vault>/FAND/Atrious/Spells" go` | Replaces the app's spell list with the vault's spell notes (reads each note's frontmatter: school, level, casting time, range, duration, damage, class). Then run `buildapp.js go`. Dry run without `go` prints a report |
+| `node generators/exportharvest.js go "<vault>/FAND/Atrious/Materials"` | Writes the generated harvest parts as material notes plus a `Harvest Parts.md` index. Without a path it writes to `tools/out/harvest`. Never overwrites a note that isn't a harvest part |
+
 ## Checks
 | Script | Does |
 |---|---|

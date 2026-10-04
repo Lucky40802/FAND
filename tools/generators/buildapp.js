@@ -101,6 +101,7 @@ D.MATS.forEach(function (m) {
     if (x.used) m.used = x.used;
     if (x.use) m.use = x.use;
     if (ty === 'U') m.supply = 1;
+    m.tc = ty;
   }
 });
 log.push('materials: ' + D.MATS.length + ', ' + joined + ' joined to data/all.json');
@@ -119,6 +120,21 @@ D.MONSTERS.forEach(function (m) {
   m.drops = drops;
 });
 log.push('monsters: parsed ' + mp + ' of ' + D.MONSTERS.length);
+
+// ---- mythological creatures (data/myth.js), rebuilt on every run
+D.MONSTERS = D.MONSTERS.filter(function (m) { return !m.myth; });
+var haveMon = {}; D.MONSTERS.forEach(function (m) { haveMon[m.n.toLowerCase()] = 1; });
+function crBand(cr) { var b = [[0.5, 1], [2, 2], [4, 3], [6, 4], [8, 5], [11, 6], [14, 7], [17, 8], [21, 9]]; for (var i = 0; i < b.length; i++) if (cr <= b[i][0]) return b[i][1]; return 10; }
+var mythAdded = 0;
+require(path.join(__dirname, '..', 'data', 'myth.js')).trim().split('\n').forEach(function (l) {
+  if (!l || l.charAt(0) === '/') return;
+  var p = l.split('|'); if (p.length < 6 || haveMon[p[0].toLowerCase()]) return;
+  var c = p[2], cr = p[1], crn = cr.indexOf('/') > 0 ? +cr.split('/')[0] / +cr.split('/')[1] : +cr;
+  D.MONSTERS.push({ n: p[0], grp: R.name(c) + ' Bestiary', realm: R.name(c), g: crBand(crn), tier: R.tier(c), cr: cr, book: 'Myth', myth: p[3], txt: p[4] + '.', hab: p[5], drops: [] });
+  haveMon[p[0].toLowerCase()] = 1; mythAdded++;
+});
+D.MONSTERS.sort(function (a, b) { return a.n < b.n ? -1 : a.n > b.n ? 1 : 0; });
+log.push('mythological creatures: +' + mythAdded + ' (Bestiary now ' + D.MONSTERS.length + ')');
 
 // ---- harvest parts: every monster yields 6-10 materials (data/harvest.js). Generated parts are marked gen:1;
 // they exist only in this app, not in the vault. Rebuilt from scratch on every run.
@@ -219,10 +235,10 @@ var metaLine = 'const META=' + JSON.stringify(META) + ';';
 var VENDOR = fs.readFileSync(path.join(__dirname, '..', 'app', 'vendor', 'anthropic.js'), 'utf8');
 var single = '<script>\n' + VENDOR.replace(/<\/(script)/gi, '<\\/$1') + '\n</script>\n<script>\nconst SITE=null;\n' + ['BPS', 'SPELLS'].concat(CORE.slice(1)).map(lit).join('\n') + '\n' + metaLine + '\n</script>';
 var out = tpl.split('<!--__DATA__-->').join(single);
-var PAGES = ['home', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'professions', 'spells', 'subclasses', 'demons', 'patrons', 'rules', 'tools', 'about'];
+var PAGES = ['home', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'professions', 'spells', 'subclasses', 'demons', 'patrons', 'forge', 'craft', 'party', 'encounter', 'combat', 'rules', 'tools', 'about'];
 var site = {};
 var PAGE_INFO = {
-  home: ['Home', 'The FAND campaign compendium: Blueprints, materials, monsters, realms, gods, spells, rules, and table tools for the world of Atrious.'],
+  home: ['Home', 'FAND (Fantasy and Numerous Disasters) campaign compendium: Blueprints, materials, monsters, realms, gods, spells, rules, and table tools for the world of Atrious.'],
   blueprints: ['Blueprints', D.BPS.length.toLocaleString('en-US') + ' craftable Blueprints across ten professions, with materials, rarity, damage, AC, and properties.'],
   materials: ['Materials', D.MATS.length.toLocaleString('en-US') + ' graded materials from eleven realms, with rank, Item Level, property, Potency, price, and sources.'],
   bestiary: ['Bestiary', D.MONSTERS.length.toLocaleString('en-US') + ' monsters across eleven realms, with grades, habitats, and drops.'],
@@ -235,6 +251,11 @@ var PAGE_INFO = {
   patrons: ['Patrons', 'Warlock patrons of FAND: fiends, archfey, Great Old Ones, the undying, celestials, genies, and homebrew.'],
   rules: ['Rules', 'Rules summaries for Armor Class, material grading, properties, refining, economy, professions, realm travel, god contracts, classes, spells, and monster stats.'],
   tools: ['Tools', 'Table tools: damage vs. AC, material grade, refining planner, encounter and loot roller, and realm Pressure check.'],
+  forge: ['Forge', 'Build a weapon or armor part by part: choose a material for each part and see the finished item, with penalties for the wrong materials.'],
+  craft: ['Crafting planner', 'Plan a Blueprint: every material, where to get it, what it costs, and what your crafter is missing.'],
+  party: ['Party', 'Track each character: god contract, rivals, gear and traits, materials, money, and realm Pressure.'],
+  encounter: ['Encounters', 'Build balanced encounters from a realm\'s Bestiary by party size and level.'],
+  combat: ['Combat', 'Initiative, HP, and conditions, with FAND\'s flat AC applied to every hit.'],
   about: ['About', 'What has been built in FAND, version by version, and what is still open.']
 };
 site['data/core.js'] = CORE.map(lit).join('\n') + '\n' + metaLine + '\n';
@@ -244,7 +265,7 @@ PAGES.forEach(function (pg) {
   var tags = '<script>const SITE={page:' + JSON.stringify(pg) + '};</script>\n<script src="data/core.js"></script>' + (pg === 'spells' ? '\n<script src="data/spells.js"></script>' : '');
   var html = tpl.split('<!--__DATA__-->').join(tags);
   var info = PAGE_INFO[pg];
-  html = html.replace('<title>FAND Compendium</title>', '<title>' + (pg === 'home' ? 'FAND Compendium' : info[0] + ' · FAND Compendium') + '</title>')
+  html = html.replace('<title>FAND · Fantasy and Numerous Disasters</title>', '<title>' + (pg === 'home' ? 'FAND · Fantasy and Numerous Disasters' : info[0] + ' · FAND') + '</title>')
     .replace(/<meta name="description" content="[^"]*">/, function () {
       var d = info[1].replace(/"/g, '&quot;');
       return '<meta name="description" content="' + d + '">\n<meta property="og:title" content="' + (pg === 'home' ? 'FAND Compendium' : info[0] + ' · FAND Compendium') + '">\n<meta property="og:description" content="' + d + '">\n<meta property="og:type" content="website">';
