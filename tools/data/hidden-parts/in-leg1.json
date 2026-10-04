@@ -1,0 +1,848 @@
+[
+ {
+  "n": "Action",
+  "cat": "Mystery",
+  "tower": "Inner Realm",
+  "prog": "Ostraur",
+  "progTitle": "the Forgotten Shade of Action",
+  "fate": "Vanished",
+  "law": "The plainest Law behind doing anything at all, rarely invoked directly since almost everything else already implies it. D&D class: — foundational, not a class of its own."
+ },
+ {
+  "n": "Adaptation",
+  "cat": "Mystery",
+  "tower": "Human",
+  "prog": "Kazeth",
+  "progTitle": "the Twin-Faced Shade of Adaptation",
+  "fate": "Vanished",
+  "law": "The slow Nature cousin of Evolve, changing to survive rather than to improve. D&D class: Druid, Circle of the Moon."
+ },
+ {
+  "n": "Add",
+  "cat": "Mystery",
+  "tower": "Inner Realm",
+  "prog": "Nydoyr",
+  "progTitle": "the Twin-Faced Shade of Add",
+  "fate": "Killed",
+  "law": "The gentler, simpler half of Multiply, a Void law of plain increase. D&D class: — a math modifier, not a class."
+ },
+ {
+  "n": "Age",
+  "cat": "Mystery",
+  "tower": "Mysterious",
+  "prog": "Veskaix",
+  "progTitle": "the Nameless Shade of Age",
+  "fate": "Vanished",
+  "law": "The paired opposite of Youth, and the only one of the two that comes without being asked for. D&D class: — a natural process, not a class."
+ },
+ {
+  "n": "Ahead",
+  "cat": "Mystery",
+  "tower": "Mysterious",
+  "prog": "Braron",
+  "progTitle": "the Twin-Faced Shade of Ahead",
+  "fate": "Killed",
+  "law": "A narrow Law, pushing a person or object slightly further along whatever path they're already on. D&D class: Monk, Way of the Drunken Master."
+ },
+ {
+  "n": "Alchemy",
+  "cat": "Mystery",
+  "tower": "Hell",
+  "prog": "Eirriel",
+  "progTitle": "the Unknown Shade of Alchemy",
+  "fate": "Killed",
+  "law": "A mortal practice like Martial, turning raw materials into effects without needing godhood at all. D&D class: Artificer, Alchemist."
+ },
+ {
+  "n": "Always",
+  "cat": "Mystery",
+  "tower": "Hell",
+  "prog": "Varaael",
+  "progTitle": "the Shrouded Shade of Always",
+  "fate": "Killed",
+  "law": "The paired opposite of Sometime, claimed more often than it's actually earned. D&D class: — a modifier, not a class."
+ },
+ {
+  "n": "Ambulance",
+  "cat": "Mystery",
+  "tower": "Human",
+  "prog": "Divine",
+  "progTitle": "the Forgotten Shade of Ambulance",
+  "fate": "Killed",
+  "law": "The Law of carrying the wounded to safety. It doesn't heal (that's Heal); it moves. Someone using it can lift a fallen ally and cross a battlefield without being struck, as long as they're carrying someone who can't carry themselves. Soldiers call it the coward's Law until it saves them. D&D class: "
+ },
+ {
+  "n": "Anchor",
+  "cat": "Mystery",
+  "tower": "Primordial",
+  "prog": "Vessais",
+  "progTitle": "the Hidden Shade of Anchor",
+  "fate": "Killed",
+  "law": "A Law that keeps something from Drift, useful against everything from Time to a bad Fusion. D&D class: Wizard, School of Abjuration."
+ },
+ {
+  "n": "Anger",
+  "cat": "Emotion",
+  "tower": "Human",
+  "prog": "Kamin",
+  "progTitle": "the Burning Heart of Anger",
+  "fate": "Vanished",
+  "law": "A third splinter of Dark, burning hotter and faster than Fear or Sadness. D&D class: Barbarian, Path of Wild Magic."
+ },
+ {
+  "n": "Apocalypse",
+  "cat": "Mystery",
+  "tower": "Hell",
+  "prog": "Brazeune",
+  "progTitle": "the Strange Shade of Apocalypse",
+  "fate": "Vanished",
+  "law": "The combined weight of Plague, Famine, War, and Riding together, said to have only ever been used once. D&D class: — reserved; world ending in scale, not tied to any standard class."
+ },
+ {
+  "n": "Ascend",
+  "cat": "Mystery",
+  "tower": "Human",
+  "prog": "Ostzeix",
+  "progTitle": "the Twin-Faced Shade of Ascend",
+  "fate": "Vanished",
+  "law": "Paired opposite of Descend, more often claimed by a soul reaching for Heaven than by anything physical. D&D class: Cleric, Life Domain."
+ },
+ {
+  "n": "Assembly",
+  "cat": "Mystery",
+  "tower": "Inner Void",
+  "prog": "Iron",
+  "progTitle": "the Quiet Shade of Assembly",
+  "fate": "Vanished",
+  "law": "A Mechanical law of joining pieces into a whole, opposed by Disassembly. D&D class: Artificer, Battle Smith."
+ },
+ {
+  "n": "Asymmetry",
+  "cat": "Mystery",
+  "tower": "Mysterious",
+  "prog": "Draroane",
+  "progTitle": "the Hidden Shade of Asymmetry",
+  "fate": "Killed",
+  "law": "The opposite of Symmetry, one side never quite matching the other. D&D class: Artificer, Battle Smith."
+ },
+ {
+  "n": "Avatar",
+  "cat": "Mystery",
+  "tower": "Primordial",
+  "prog": "Nyriix",
+  "progTitle": "the Shrouded Shade of Avatar",
+  "fate": "Killed",
+  "law": "A temporary body a god or Spirit wears in the Mortal Realm, never as strong as the source it's drawn from. D&D class: — an NPC tier divine manifestation, not a class."
+ },
+ {
+  "n": "Axe",
+  "cat": "Mystery",
+  "tower": "Human",
+  "prog": "Iron",
+  "progTitle": "the Quiet Shade of Axe",
+  "fate": "Vanished",
+  "law": "A heavier cousin of Blade, trading speed for the weight Iron and Steel both carry naturally. D&D class: Fighter, Samurai."
+ },
+ {
+  "n": "Ball",
+  "cat": "Mystery",
+  "tower": "Abyss",
+  "prog": "Iron",
+  "progTitle": "the Forgotten Shade of Ball",
+  "fate": "Killed",
+  "law": "A basic shape, closer to Projectile than to any weapon on this list. D&D class: — a shape modifier, covered under Projectile."
+ },
+ {
+  "n": "Banshee",
+  "cat": "Mystery",
+  "tower": "Void",
+  "prog": "Life",
+  "progTitle": "the Forgotten Shade of Banshee",
+  "fate": "Vanished",
+  "law": "A Specter bound specifically to Grief, carrying no real body and fighting with its wail instead of anything physical."
+ },
+ {
+  "n": "Bathe",
+  "cat": "Mystery",
+  "tower": "Primordial",
+  "prog": "Undine",
+  "progTitle": "the Strange Shade of Bathe",
+  "fate": "Killed",
+  "law": "A minor Water adjacent Law, more ritual than practical, often paired with Purity rites. D&D class: — too minor/ritual for its own class."
+ },
+ {
+  "n": "Battle Axe",
+  "cat": "Mystery",
+  "tower": "Inner Void",
+  "prog": "Iron",
+  "progTitle": "the Forgotten Shade of Battle Axe",
+  "fate": "Killed",
+  "law": "A heavier cousin of Axe, sacrificing speed for the kind of weight Hammer usually claims. D&D class: Barbarian, Path of the Berserker."
+ },
+ {
+  "n": "Belonging",
+  "cat": "Emotion",
+  "tower": "Chaos",
+  "prog": "Branias",
+  "progTitle": "the Tender Heart of Belonging",
+  "fate": "Killed",
+  "law": "A splinter of Light, the quiet counterpart to Empathy — feeling held rather than feeling for. D&D class: Ranger, Beast Master."
+ },
+ {
+  "n": "Betrayal",
+  "cat": "Emotion",
+  "tower": "Hell",
+  "prog": "Zetaar",
+  "progTitle": "the Restless Heart of Betrayal",
+  "fate": "Killed",
+  "law": "Dark's answer to Trust, and the only splinter that can only exist after its opposite already did. D&D class: Rogue, Assassin."
+ },
+ {
+  "n": "Bigger",
+  "cat": "Mystery",
+  "tower": "Heaven",
+  "prog": "Quosaiel",
+  "progTitle": "the Forgotten Shade of Bigger",
+  "fate": "Killed",
+  "law": "Paired opposite of Smaller, a size modifier used on objects rather than durations. D&D class: — a size modifier, not a class."
+ },
+ {
+  "n": "Bind",
+  "cat": "Mystery",
+  "tower": "Heaven",
+  "prog": "Bralear",
+  "progTitle": "the Shrouded Shade of Bind",
+  "fate": "Killed",
+  "law": "A gentler, more general cousin of Chain, holding a Law in place rather than a Person. D&D class: Wizard, School of Abjuration."
+ },
+ {
+  "n": "Black",
+  "cat": "Mystery",
+  "tower": "Abyss",
+  "prog": "Nyleth",
+  "progTitle": "the Strange Shade of Black",
+  "fate": "Vanished",
+  "law": "The paired opposite of White, and just as loosely connected to Dark despite the name. D&D class: — a descriptive pairing, not a Law with its own class."
+ },
+ {
+  "n": "Blade",
+  "cat": "Mystery",
+  "tower": "Void",
+  "prog": "Iron",
+  "progTitle": "the Unknown Shade of Blade",
+  "fate": "Vanished",
+  "law": "A shape drawn out of Iron and Steel rather than a substance of its own, letting a wielder impose an edge on metal that wouldn't otherwise hold one. D&D class: Fighter, Battle Master."
+ },
+ {
+  "n": "Bleed",
+  "cat": "Mystery",
+  "tower": "Primordial",
+  "prog": "Thalnour",
+  "progTitle": "the Shrouded Shade of Bleed",
+  "fate": "Killed",
+  "law": "A lingering wound Law, doing what Hurt does but slower and harder to Fix. D&D class: Fighter, Champion."
+ },
+ {
+  "n": "Blight",
+  "cat": "Mystery",
+  "tower": "Inner Void",
+  "prog": "Osttan",
+  "progTitle": "the Strange Shade of Blight",
+  "fate": "Killed",
+  "law": "The Nature side cousin of Decay, claiming crops and forests rather than bodies. D&D class: Druid, Circle of Spores."
+ },
+ {
+  "n": "Blood",
+  "cat": "Fate",
+  "tower": "Void",
+  "prog": "Life",
+  "progTitle": "the Veiled Keeper of Blood",
+  "fate": "Vanished",
+  "law": "Tied loosely to Life, thick with power while it's moving and worth almost nothing the moment it stops. D&D class: Blood Hunter, Order of the Lycan."
+ },
+ {
+  "n": "Blossom",
+  "cat": "Mystery",
+  "tower": "Mysterious",
+  "prog": "Rymin",
+  "progTitle": "the Shrouded Shade of Blossom",
+  "fate": "Killed",
+  "law": "A gentler, slower version of Bloom, favored in Nature work over anything more sudden. D&D class: Ranger, Beast Master."
+ },
+ {
+  "n": "Bones",
+  "cat": "Mystery",
+  "tower": "Chaos",
+  "prog": "Life",
+  "progTitle": "the Forgotten Shade of Bones",
+  "fate": "Killed",
+  "law": "The part of a Corpse that outlasts Decay the longest, which is why Skeleton summons rely on it. D&D class: — a material, covered by the Undead Summoning system."
+ },
+ {
+  "n": "Boom",
+  "cat": "Mystery",
+  "tower": "Mysterious",
+  "prog": "Orshaor",
+  "progTitle": "the Unknown Shade of Boom",
+  "fate": "Killed",
+  "law": "A blunt, immediate release Law, favored for how little subtlety it needs to work. D&D class: Sorcerer, Wild Magic."
+ },
+ {
+  "n": "Boost",
+  "cat": "Mystery",
+  "tower": "Heaven",
+  "prog": "Eirshaeth",
+  "progTitle": "the Forgotten Shade of Boost",
+  "fate": "Killed",
+  "law": "A blunt, temporary version of Grow, useful precisely because it doesn't last. D&D class: Bard, College of Valor."
+ },
+ {
+  "n": "Boreas",
+  "cat": "Mystery",
+  "tower": "Mysterious",
+  "prog": "Sylph",
+  "progTitle": "the Strange Shade of Boreas",
+  "fate": "Killed",
+  "law": "Boreas is the wind spirit that bring that about winter. Characterized by his harsh nature none to take his mother Sylph's death the harshest holding enough power to challenge a god but hasn't reach godhood. He is apart of the many being controlling the Season"
+ },
+ {
+  "n": "Bows",
+  "cat": "Mystery",
+  "tower": "Hell",
+  "prog": "Gnome",
+  "progTitle": "the Nameless Shade of Bows",
+  "fate": "Vanished",
+  "law": "The plural, general shape Bow belongs to, covering variations no single name has been given yet. D&D class: — covered under Bow."
+ },
+ {
+  "n": "Boy",
+  "cat": "Mystery",
+  "tower": "Inner Void",
+  "prog": "Hazeor",
+  "progTitle": "the Shrouded Shade of Boy",
+  "fate": "Vanished",
+  "law": "A category tied to Youth rather than a Law of its own. D&D class: — a category, not a class."
+ },
+ {
+  "n": "Brace",
+  "cat": "Mystery",
+  "tower": "Inner Realm",
+  "prog": "Life",
+  "progTitle": "the Forgotten Shade of Brace",
+  "fate": "Vanished",
+  "law": "A defensive Law meant to hold a stance rather than block a strike outright, paired more with Constitution than with Protect. D&D class: Fighter, Champion."
+ },
+ {
+  "n": "Break",
+  "cat": "Mystery",
+  "tower": "Primordial",
+  "prog": "Varaiel",
+  "progTitle": "the Hidden Shade of Break",
+  "fate": "Killed",
+  "law": "The blunt end of Hurt, aimed at things rather than people. D&D class: Barbarian, Path of the Berserker."
+ },
+ {
+  "n": "Bronze",
+  "cat": "Mystery",
+  "tower": "Mysterious",
+  "prog": "Iron",
+  "progTitle": "the Unknown Shade of Bronze",
+  "fate": "Killed",
+  "law": "An older, weaker metal than Iron, mostly replaced except where Blacksmith work wants something softer to start with. D&D class: — an obsolete/lesser material, not a class."
+ },
+ {
+  "n": "Cage",
+  "cat": "Mystery",
+  "tower": "Human",
+  "prog": "Haroos",
+  "progTitle": "the Hidden Shade of Cage",
+  "fate": "Killed",
+  "law": "A binding shape, less lethal than most weapon Laws and used more to hold something than to hurt it. D&D class: Wizard, School of Abjuration."
+ },
+ {
+  "n": "Calibration",
+  "cat": "Mystery",
+  "tower": "Void",
+  "prog": "Iron",
+  "progTitle": "the Twin-Faced Shade of Calibration",
+  "fate": "Vanished",
+  "law": "The act of chasing Precision rather than the state of holding it. D&D class: — a process, not a class."
+ },
+ {
+  "n": "Camouflage",
+  "cat": "Mystery",
+  "tower": "Hell",
+  "prog": "Zeluur",
+  "progTitle": "the Hidden Shade of Camouflage",
+  "fate": "Killed",
+  "law": "A Nature side cousin of Mask, hiding a whole creature rather than just an identity. D&D class: Ranger, Gloom Stalker."
+ },
+ {
+  "n": "Causality",
+  "cat": "Mystery",
+  "tower": "Heaven",
+  "prog": "Time",
+  "progTitle": "the Hidden Shade of Causality",
+  "fate": "Killed",
+  "law": "The Void law binding cause to effect, the one Time and Reverse both have to answer to. D&D class: Wizard, School of Divination."
+ },
+ {
+  "n": "Chain",
+  "cat": "Mystery",
+  "tower": "Human",
+  "prog": "Ornoyr",
+  "progTitle": "the Quiet Shade of Chain",
+  "fate": "Vanished",
+  "law": "A heavier cousin of Lock, meant to hold a person or god down rather than just a door shut. D&D class: Warlock, The Hexblade."
+ },
+ {
+  "n": "Change",
+  "cat": "Mystery",
+  "tower": "Heaven",
+  "prog": "Zesan",
+  "progTitle": "the Strange Shade of Change",
+  "fate": "Killed",
+  "law": "A gentler, more general cousin of Transformation, covering anything that's different afterward without demanding it be permanent. D&D class: Druid, Circle of the Moon."
+ },
+ {
+  "n": "Character Death",
+  "cat": "Mystery",
+  "tower": "Heaven",
+  "prog": "Dranour",
+  "progTitle": "the Shrouded Shade of Character Death",
+  "fate": "Vanished",
+  "law": "When a player dies, they don't lose the character — they keep playing as the same one, just weaker: their highest stat drops by one point, permanently."
+ },
+ {
+  "n": "Charm",
+  "cat": "Mystery",
+  "tower": "Heaven",
+  "prog": "Variael",
+  "progTitle": "the Strange Shade of Charm",
+  "fate": "Killed",
+  "law": "A softer cousin of Instigate, provoking affection instead of anger. D&D class: Bard, College of Glamour."
+ },
+ {
+  "n": "Chastity",
+  "cat": "Mystery",
+  "tower": "Heaven",
+  "prog": "Divine",
+  "progTitle": "the Hidden Shade of Chastity",
+  "fate": "Killed",
+  "law": "One of the specific refusals that makes up Purity, prized by the holy church far more than the god it descends from ever asked for. D&D class: — too narrow to warrant its own class."
+ },
+ {
+  "n": "Chemical",
+  "cat": "Mystery",
+  "tower": "Human",
+  "prog": "Ishmith",
+  "progTitle": "the Nameless Shade of Chemical",
+  "fate": "Vanished",
+  "law": "The Alchemy adjacent Law behind anything that reacts rather than simply burns or cuts. D&D class: Artificer, Alchemist."
+ },
+ {
+  "n": "Choice",
+  "cat": "Mystery",
+  "tower": "Human",
+  "prog": "Time",
+  "progTitle": "the Nameless Shade of Choice",
+  "fate": "Vanished",
+  "law": "The Law behind a moment where more than one path is genuinely open, rare enough that Fate usually claims there wasn't one at all. D&D class: Cleric, Order Domain."
+ },
+ {
+  "n": "Chronicles",
+  "cat": "Mystery",
+  "tower": "Void",
+  "prog": "Aelriyr",
+  "progTitle": "the Nameless Shade of Chronicles",
+  "fate": "Vanished",
+  "law": "The written record of a Legend, often outliving whatever Law or god the Legend was actually about. D&D class: Bard, College of Lore."
+ },
+ {
+  "n": "Clarity",
+  "cat": "Emotion",
+  "tower": "Inner Void",
+  "prog": "Ulluth",
+  "progTitle": "the Smiling Heart of Clarity",
+  "fate": "Killed",
+  "law": "A splinter of Light that clears rather than warms, the opposite of Confusion. D&D class: Wizard, School of Divination."
+ },
+ {
+  "n": "Clean",
+  "cat": "Mystery",
+  "tower": "Human",
+  "prog": "Iron",
+  "progTitle": "the Hidden Shade of Clean",
+  "fate": "Vanished",
+  "law": "Paired opposite of Dirty, rarely wielded on its own outside of Blacksmith or Alchemy work. D&D class: Cleric, Peace Domain."
+ },
+ {
+  "n": "Clone",
+  "cat": "Mystery",
+  "tower": "Abyss",
+  "prog": "Rykaiel",
+  "progTitle": "the Shrouded Shade of Clone",
+  "fate": "Vanished",
+  "law": "A Transformation adjacent Law that copies a shape without copying whatever Life or Spirit gives it meaning. D&D class: Wizard, School of Conjuration."
+ },
+ {
+  "n": "Cloud",
+  "cat": "Mystery",
+  "tower": "Mysterious",
+  "prog": "Sylph",
+  "progTitle": "the Nameless Shade of Cloud",
+  "fate": "Vanished",
+  "law": "Drifting vapor pulled from Sylph's breath, too thin to be Storm and too restless to be Sky. D&D class: Wizard, School of Illusion."
+ },
+ {
+  "n": "Code",
+  "cat": "Mystery",
+  "tower": "Outer Realm",
+  "prog": "Varath",
+  "progTitle": "the Nameless Shade of Code",
+  "fate": "Vanished",
+  "law": "A self imposed set of rules a Knight or Magician holds to, worth nothing as a Law but everything as a reputation. D&D class: — a reputation concept, not a Law."
+ },
+ {
+  "n": "Cohesion",
+  "cat": "Mystery",
+  "tower": "Inner Realm",
+  "prog": "Sylph",
+  "progTitle": "the Hidden Shade of Cohesion",
+  "fate": "Killed",
+  "law": "The Law that keeps a Fusion from falling back apart once it's made. D&D class: Wizard, School of Abjuration."
+ },
+ {
+  "n": "Comet",
+  "cat": "Mystery",
+  "tower": "Inner Realm",
+  "prog": "Iron",
+  "progTitle": "the Nameless Shade of Comet",
+  "fate": "Killed",
+  "law": "A Projectile shape big enough to borrow from Star rather than anything smaller. D&D class: Cleric, Light Domain."
+ },
+ {
+  "n": "Condense",
+  "cat": "Mystery",
+  "tower": "Mysterious",
+  "prog": "Rysath",
+  "progTitle": "the Forgotten Shade of Condense",
+  "fate": "Killed",
+  "law": "The paired opposite of Fill, pulling a spread out Law back down into something smaller and denser. D&D class: Wizard, School of Transmutation."
+ },
+ {
+  "n": "Conform",
+  "cat": "Mystery",
+  "tower": "Hell",
+  "prog": "Iron",
+  "progTitle": "the Forgotten Shade of Conform",
+  "fate": "Vanished",
+  "law": "The Law behind forcing a shape to match another, favored by Blacksmith work as much as by anything more aggressive. D&D class: Artificer, Armorer."
+ },
+ {
+  "n": "Confusion",
+  "cat": "Emotion",
+  "tower": "Chaos",
+  "prog": "Ulshaane",
+  "progTitle": "the Unquiet Heart of Confusion",
+  "fate": "Vanished",
+  "law": "Dark's answer to Clarity, clouding rather than clearing. D&D class: Bard, College of Whispers."
+ },
+ {
+  "n": "Constitution",
+  "cat": "Mystery",
+  "tower": "Outer Realm",
+  "prog": "Life",
+  "progTitle": "the Hidden Shade of Constitution",
+  "fate": "Vanished",
+  "law": "The trait behind how much a body can absorb before Death or Decay gets a say in it. D&D class: — an ability score, not a class."
+ },
+ {
+  "n": "Converge",
+  "cat": "Mystery",
+  "tower": "Primordial",
+  "prog": "Eirnois",
+  "progTitle": "the Forgotten Shade of Converge",
+  "fate": "Vanished",
+  "law": "The paired opposite of Separation, pulling scattered things back toward a single point. D&D class: Wizard, School of Conjuration."
+ },
+ {
+  "n": "Convergence",
+  "cat": "Mystery",
+  "tower": "Mysterious",
+  "prog": "Mortheos",
+  "progTitle": "the Nameless Shade of Convergence",
+  "fate": "Vanished",
+  "law": "A Void law pulling separate things toward a single point, opposed by Divergence. D&D class: Wizard, School of Conjuration."
+ },
+ {
+  "n": "Corpse",
+  "cat": "Mystery",
+  "tower": "Outer Realm",
+  "prog": "Life",
+  "progTitle": "the Forgotten Shade of Corpse",
+  "fate": "Killed",
+  "law": "What's left once Death and Decay are done, and the raw material Undead Summoning works from. D&D class: — a material/resource, covered by the Undead Summoning system."
+ },
+ {
+  "n": "Corruption",
+  "cat": "Mystery",
+  "tower": "Void",
+  "prog": "Nydoyr",
+  "progTitle": "the Strange Shade of Corruption",
+  "fate": "Killed",
+  "law": "The slow spread of Hell's influence into something that wasn't originally Fiendish at all. D&D class: Paladin, Oathbreaker."
+ },
+ {
+  "n": "Cowardice",
+  "cat": "Mystery",
+  "tower": "Abyss",
+  "prog": "Kaniyr",
+  "progTitle": "the Shrouded Shade of Cowardice",
+  "fate": "Killed",
+  "law": "Dark's answer to Courage, giving Fear the final word. D&D class: Rogue, Assassin."
+ },
+ {
+  "n": "Crash",
+  "cat": "Mystery",
+  "tower": "Chaos",
+  "prog": "Iron",
+  "progTitle": "the Quiet Shade of Crash",
+  "fate": "Vanished",
+  "law": "What a Projectile or a Wall does at the moment of impact, rather than before or after. D&D class: — a moment of impact, not a class."
+ },
+ {
+  "n": "Crawling Hand",
+  "cat": "Mystery",
+  "tower": "Human",
+  "prog": "Life",
+  "progTitle": "the Forgotten Shade of Crawling Hand",
+  "fate": "Killed",
+  "law": "Summoned from a single intact limb rather than a whole Corpse, useless for raw power but able to keep the fine Muscle memory of whatever skill that one hand actually had in life."
+ },
+ {
+  "n": "Creep",
+  "cat": "Mystery",
+  "tower": "Mysterious",
+  "prog": "Ryroael",
+  "progTitle": "the Quiet Shade of Creep",
+  "fate": "Vanished",
+  "law": "A slow, spreading Law, closer to Corruption than to anything sudden. D&D class: Paladin, Oathbreaker."
+ },
+ {
+  "n": "Cross",
+  "cat": "Mystery",
+  "tower": "Abyss",
+  "prog": "Divine",
+  "progTitle": "the Twin-Faced Shade of Cross",
+  "fate": "Killed",
+  "law": "A shape Law more symbolic than practical, tied loosely to Divine rather than to Iron or Steel. D&D class: Paladin, Oath of Devotion."
+ },
+ {
+  "n": "Culture",
+  "cat": "Mystery",
+  "tower": "Mysterious",
+  "prog": "Hanoas",
+  "progTitle": "the Forgotten Shade of Culture",
+  "fate": "Killed",
+  "law": "Not a Law at all, but the shared habits a Race builds up around whichever Laws it has easiest access to. D&D class: — not a Law, no class."
+ },
+ {
+  "n": "Cycle of Life",
+  "cat": "Mystery",
+  "tower": "Human",
+  "prog": "Life",
+  "progTitle": "the Unknown Shade of Cycle of Life",
+  "fate": "Vanished",
+  "law": "The pairing of Life and Death as a single continuous Law rather than two opposites. D&D class: — reserved, Infinatas tier power, not something a PC starts with."
+ },
+ {
+  "n": "Dagger",
+  "cat": "Mystery",
+  "tower": "Inner Void",
+  "prog": "Iron",
+  "progTitle": "the Nameless Shade of Dagger",
+  "fate": "Killed",
+  "law": "The shortest shape drawn from Iron and Steel, favoring speed over the reach Blade usually implies. D&D class: Rogue, Assassin."
+ },
+ {
+  "n": "Dark Vision",
+  "cat": "Mystery",
+  "tower": "Void",
+  "prog": "Lioluael",
+  "progTitle": "the Hidden Shade of Dark Vision",
+  "fate": "Killed",
+  "law": "A narrower, more specific version of Vision, refined for seeing through Dark rather than simply seeing further. D&D class: Ranger, Gloom Stalker."
+ },
+ {
+  "n": "Dart",
+  "cat": "Mystery",
+  "tower": "Outer Realm",
+  "prog": "Iron",
+  "progTitle": "the Unknown Shade of Dart",
+  "fate": "Vanished",
+  "law": "A smaller, faster cousin of Spear, trading reach for speed. D&D class: Rogue, Scout."
+ },
+ {
+  "n": "Death knight",
+  "cat": "Mystery",
+  "tower": "Inner Realm",
+  "prog": "Ryran",
+  "progTitle": "the Unknown Shade of Death knight",
+  "fate": "Killed",
+  "law": "Needs a corpse that was already a powerful warrior in life, holding onto around half the original's power and, unlike almost everything weaker on this list, its actual combat skill too — though a corpse that strong is also the hardest to actually raise, since the chance of success drops fast the fur"
+ },
+ {
+  "n": "Decay",
+  "cat": "Cosmos",
+  "tower": "Inner Void",
+  "prog": "Life",
+  "progTitle": "the Turning Shape of Decay",
+  "fate": "Killed",
+  "law": "The slow half of Death, claiming things over years instead of all at once. D&D class: Cleric, Death Domain."
+ },
+ {
+  "n": "Deletion",
+  "cat": "Cosmos",
+  "tower": "Inner Realm",
+  "prog": "Ostroix",
+  "progTitle": "the Silent Shape of Deletion",
+  "fate": "Killed",
+  "law": "The opposite of Existence, erasing something so completely even Destruction leaves no trace to compare it to. D&D class: Warlock, The Undead."
+ },
+ {
+  "n": "Demon",
+  "cat": "Mystery",
+  "tower": "Primordial",
+  "prog": "Nyvais",
+  "progTitle": "the Unknown Shade of Demon",
+  "fate": "Killed",
+  "law": "The common denizens of Hell, holding only scraps of a Devil's power but numerous enough to matter. D&D class: Paladin, Oathbreaker."
+ },
+ {
+  "n": "Depression",
+  "cat": "Emotion",
+  "tower": "Chaos",
+  "prog": "Zesaix",
+  "progTitle": "the Tender Heart of Depression",
+  "fate": "Killed",
+  "law": "Grief that never burns out, the heaviest and least wielded of Dark's splinters. D&D class: Cleric, Death Domain."
+ },
+ {
+  "n": "Desire",
+  "cat": "Mystery",
+  "tower": "Mysterious",
+  "prog": "Liotheyr",
+  "progTitle": "the Hidden Shade of Desire",
+  "fate": "Vanished",
+  "law": "A splinter of Light closer to Love than to Hope, wanting rather than reaching. D&D class: Bard, College of Eloquence."
+ },
+ {
+  "n": "Despair",
+  "cat": "Emotion",
+  "tower": "Mysterious",
+  "prog": "Lioniiel",
+  "progTitle": "the Tender Heart of Despair",
+  "fate": "Killed",
+  "law": "Dark's answer to Hope, certain that nothing reaches toward anything. D&D class: Warlock, The Undead."
+ },
+ {
+  "n": "Dexterity",
+  "cat": "Mystery",
+  "tower": "Inner Realm",
+  "prog": "Iron",
+  "progTitle": "the Shrouded Shade of Dexterity",
+  "fate": "Vanished",
+  "law": "The trait behind precision, mattering more to a Dagger or Bow wielder than raw Strength ever would. D&D class: — an ability score, not a class."
+ },
+ {
+  "n": "Diamond",
+  "cat": "Element",
+  "tower": "Chaos",
+  "prog": "Gnome",
+  "progTitle": "the Wild Spirit of Diamond",
+  "fate": "Killed",
+  "law": "Another child of Gnome being the strongest and most prestigious one but was unwanted by Gnome. Due to this he less common in the Earth power. So when one uses Earth, they need considerable experience to tap into the connection of Diamond. The entity behind this power is long gone being broken to pie"
+ },
+ {
+  "n": "Difference",
+  "cat": "Mystery",
+  "tower": "Inner Realm",
+  "prog": "Mornoor",
+  "progTitle": "the Hidden Shade of Difference",
+  "fate": "Vanished",
+  "law": "The Void's word for the gap between two things, cousin to Subtract but concerned with comparison rather than loss. D&D class: — an abstract comparison concept, not a class."
+ },
+ {
+  "n": "Dimension",
+  "cat": "Cosmos",
+  "tower": "Hell",
+  "prog": "Cosmic",
+  "progTitle": "the Unbound Shape of Dimension",
+  "fate": "Killed",
+  "law": "Dimension is the entity formed when a piece of Cosmic was siphoned off and stretched sideways instead of inward, opening room that isn't strictly part of this universe to begin with. D&D class: Warlock, The Great Old One (official subclass, reflavored to an alien fold of space rather than a slumberi"
+ },
+ {
+  "n": "Direct",
+  "cat": "Mystery",
+  "tower": "Heaven",
+  "prog": "Nymiune",
+  "progTitle": "the Shrouded Shade of Direct",
+  "fate": "Vanished",
+  "law": "A modifier Law, aimed exactly where it's pointed rather than left to spread. D&D class: — a modifier, not a class."
+ },
+ {
+  "n": "Dirty",
+  "cat": "Mystery",
+  "tower": "Primordial",
+  "prog": "Thalvais",
+  "progTitle": "the Twin-Faced Shade of Dirty",
+  "fate": "Vanished",
+  "law": "The paired opposite of Clean, more often inflicted on an enemy than used for any practical purpose. D&D class: Druid, Circle of Spores."
+ },
+ {
+  "n": "Disable",
+  "cat": "Mystery",
+  "tower": "Human",
+  "prog": "Aelraeth",
+  "progTitle": "the Quiet Shade of Disable",
+  "fate": "Vanished",
+  "law": "Aimed at a target's ability to act rather than their body directly, often paired with Hurt rather than replacing it. D&D class: Wizard, School of Enchantment."
+ },
+ {
+  "n": "Disassembly",
+  "cat": "Mystery",
+  "tower": "Abyss",
+  "prog": "Aelluas",
+  "progTitle": "the Strange Shade of Disassembly",
+  "fate": "Killed",
+  "law": "The opposite of Assembly, taking a whole back down to its pieces without Destruction's waste. D&D class: Artificer, Artillerist."
+ },
+ {
+  "n": "Divergence",
+  "cat": "Mystery",
+  "tower": "Heaven",
+  "prog": "Ultaur",
+  "progTitle": "the Unknown Shade of Divergence",
+  "fate": "Vanished",
+  "law": "The opposite of Convergence, pushing things apart rather than together. D&D class: Wizard, School of Transmutation."
+ },
+ {
+  "n": "Divine",
+  "cat": "Fate",
+  "tower": "Abyss",
+  "prog": "Divine",
+  "progTitle": "the Quiet Keeper of Divine",
+  "fate": "Vanished",
+  "law": "Divine is its own entity, formed when the Mortal Realm's collective belief in something greater was siphoned together and given shape by the holy church, rather than being any real god's leftover authority. D&D class: Cleric, Life Domain (official subclass, reflavored to the church's manufactured fa"
+ },
+ {
+  "n": "Double",
+  "cat": "Mystery",
+  "tower": "Void",
+  "prog": "Eirvayr",
+  "progTitle": "the Strange Shade of Double",
+  "fate": "Killed",
+  "law": "A narrower, weaker cousin of Multiply, fixed always at exactly twice. D&D class: — a narrow math modifier, not a class."
+ }
+]

@@ -1,0 +1,232 @@
+[
+ {
+  "n": "Way of the Long Death",
+  "par": "Monk",
+  "ds": "Monks who study death itself."
+ },
+ {
+  "n": "Way of the Open Hand",
+  "par": "Monk",
+  "ds": "The archetypal martial artist monk — every Flurry of Blows hit can knock an opponent down, push them back, or shut off their reactions."
+ },
+ {
+  "n": "Way of the Sun Soul",
+  "par": "Monk",
+  "ds": "Monks who channel radiant energy."
+ },
+ {
+  "n": "Oath of Ash",
+  "par": "Paladin",
+  "ds": "A paladin sworn to scorched earth rather than mercy, smiting with fire that lingers as cinders."
+ },
+ {
+  "n": "Oath of Conquest",
+  "par": "Paladin",
+  "ds": "Paladins who seek to crush chaos with fear and iron will."
+ },
+ {
+  "n": "Oath of Devotion",
+  "par": "Paladin",
+  "ds": "The classic paladin ideal — honesty, courage, and protecting the weak, backed by radiant power that scales into a genuine holy champion."
+ },
+ {
+  "n": "Oath of Eternity",
+  "par": "Paladin",
+  "ds": "A paladin sworn to outlast rather than to strike first, refusing to fall even at 0 hit points."
+ },
+ {
+  "n": "Oath of Glory",
+  "par": "Paladin",
+  "ds": "Paladins who pursue heroic deeds and legend."
+ },
+ {
+  "n": "Oath of Redemption",
+  "par": "Paladin",
+  "ds": "Paladins who seek peace and redemption before violence."
+ },
+ {
+  "n": "Oath of Silence",
+  "par": "Paladin",
+  "ds": "A paladin sworn to a quiet, unseen justice, striking without sound or opportunity attack."
+ },
+ {
+  "n": "Oath of Vengeance",
+  "par": "Paladin",
+  "ds": "Paladins sworn to punish those who have committed grievous sins."
+ },
+ {
+  "n": "Oath of the Ancients",
+  "par": "Paladin",
+  "ds": "Paladins sworn to preserve life, light, and joy in the world."
+ },
+ {
+  "n": "Oath of the Crown",
+  "par": "Paladin",
+  "ds": "Paladins sworn to law, society, and sovereign."
+ },
+ {
+  "n": "Oath of the Watchers",
+  "par": "Paladin",
+  "ds": "Guardians against extraplanar threats."
+ },
+ {
+  "n": "Oathbreaker",
+  "par": "Paladin",
+  "ds": "Paladins who broke their oath and turned to darker ambitions. The DMG presents it as a villain option; DM approval recommended."
+ },
+ {
+  "n": "Oathbreaker Knight",
+  "par": "Paladin",
+  "ds": "A paladin who has broken their sacred oath and found power in that very act of betrayal."
+ },
+ {
+  "n": "Beast Lord",
+  "par": "Ranger",
+  "ds": "A ranger who leads a pack rather than a single companion, coordinating strikes between two bonded beasts at once."
+ },
+ {
+  "n": "Beast Master",
+  "par": "Ranger",
+  "ds": "Rangers who bond with a beast companion."
+ },
+ {
+  "n": "Drakewarden",
+  "par": "Ranger",
+  "ds": "Rangers bonded to a young drake companion."
+ },
+ {
+  "n": "Fey Wanderer",
+  "par": "Ranger",
+  "ds": "Rangers marked by the Feywild — charming, mobile, and unsettling."
+ },
+ {
+  "n": "Gloom Stalker",
+  "par": "Ranger",
+  "ds": "Rangers who hunt in darkness and strike first."
+ },
+ {
+  "n": "Horizon Walker",
+  "par": "Ranger",
+  "ds": "Rangers who guard the boundaries between planes."
+ },
+ {
+  "n": "Hunter",
+  "par": "Ranger",
+  "ds": "The straightforward combat ranger — a menu of tactical options against different threats (single strong enemies, groups of weak enemies, and everything between)."
+ },
+ {
+  "n": "Monster Slayer",
+  "par": "Ranger",
+  "ds": "Hunters of supernatural threats."
+ },
+ {
+  "n": "Moon Hunter",
+  "par": "Ranger",
+  "ds": "A ranger who tracks best under moonlight, close kin to old werewolf-hunter lore, striking hardest at shapechangers."
+ },
+ {
+  "n": "Swarmkeeper",
+  "par": "Ranger",
+  "ds": "Rangers bonded to a swarm of nature spirits."
+ },
+ {
+  "n": "Thornwalker",
+  "par": "Ranger",
+  "ds": "A ranger who has merged with the thorned and dangerous aspects of nature, becoming one with the defensive violence of the wild."
+ },
+ {
+  "n": "Void Stalker",
+  "par": "Ranger",
+  "ds": "A ranger who hunts things that came from the Void rather than the Mortal Realm, seeing what shouldn't be visible."
+ },
+ {
+  "n": "Arcane Trickster",
+  "par": "Rogue",
+  "ds": "Rogues who add illusion and enchantment magic to their tricks."
+ },
+ {
+  "n": "Assassin",
+  "par": "Rogue",
+  "ds": "Rogues who specialize in killing quickly and quietly."
+ },
+ {
+  "n": "Blood Dancer",
+  "par": "Rogue",
+  "ds": "A rogue who uses their own blood as a weapon, painting battlefields red with calculated sacrifice."
+ },
+ {
+  "n": "Inquisitive",
+  "par": "Rogue",
+  "ds": "Rogues who root out secrets and lies."
+ },
+ {
+  "n": "Mastermind",
+  "par": "Rogue",
+  "ds": "Rogues who play the game of intrigue and command from the back line."
+ },
+ {
+  "n": "Nightblade",
+  "par": "Rogue",
+  "ds": "A rogue who moves through shadow rather than crowds, teleporting between patches of darkness to strike unseen."
+ },
+ {
+  "n": "Phantom",
+  "par": "Rogue",
+  "ds": "Rogues who walk alongside death and its spirits."
+ },
+ {
+  "n": "Scout",
+  "par": "Rogue",
+  "ds": "Skirmishers and outdoor experts."
+ },
+ {
+  "n": "Shade Walker",
+  "par": "Rogue",
+  "ds": "A rogue who treats shadow as a second set of streets, moving between dim patches unseen and untracked."
+ },
+ {
+  "n": "Soul Thief",
+  "par": "Rogue",
+  "ds": "A rogue trained in the arts of spiritual theft — stealing not just gold but memories, skills, and life force."
+ },
+ {
+  "n": "Soul Thief",
+  "par": "Rogue",
+  "ds": "Soul Thief expands the fantasy and gameplay style of the Rogue class.\n This subclass focuses on a unique identity, combat role, and spell progression."
+ },
+ {
+  "n": "Soulknife",
+  "par": "Rogue",
+  "ds": "Rogues who manifest psychic blades."
+ },
+ {
+  "n": "Swashbuckler",
+  "par": "Rogue",
+  "ds": "Dashing duelists who rely on charm and speed."
+ },
+ {
+  "n": "Thief",
+  "par": "Rogue",
+  "ds": "The generalist rogue — better at using items, moving through the world, and staying hidden than any other rogue archetype."
+ },
+ {
+  "n": "Aberrant Mind",
+  "par": "Sorcerer",
+  "ds": "Sorcery from a psionic taint — telepathy and mind magic."
+ },
+ {
+  "n": "Celestial Ruin",
+  "par": "Sorcerer",
+  "ds": "A sorcerer descended from a star that fell rather than one that still burns, calling down delayed bursts of radiant ruin."
+ },
+ {
+  "n": "Chaos Shaper",
+  "par": "Sorcerer",
+  "ds": "A wild magic sorcerer who has learned to direct their chaos, turning randomness into a weapon."
+ },
+ {
+  "n": "Clockwork Soul",
+  "par": "Sorcerer",
+  "ds": "Sorcerers infused with the power of cosmic order."
+ }
+]

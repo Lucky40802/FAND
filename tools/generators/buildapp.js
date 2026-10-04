@@ -360,6 +360,20 @@ D.VAULT_DETAILS = { bp: {}, mat: {}, spell: {}, sub: {}, mon: {}, god: {} };
 })();
 // Hidden classes and Towers (data/hidden.js): website lore on the campaign owner's rules.
 try { D.HIDDEN = require(path.join(__dirname, '..', 'data', 'hidden.js')); } catch (e) { if (e.code !== 'MODULE_NOT_FOUND') throw e; D.HIDDEN = { towers: {}, classes: [] }; }
+// more hidden classes written in parts (data/hidden-parts/out-*.json); duplicate names get their subclass or Rune added
+(function () {
+  var dir = path.join(__dirname, '..', 'data', 'hidden-parts');
+  if (!fs.existsSync(dir)) return;
+  var seen = {}; D.HIDDEN.classes.forEach(function (c) { seen[c.n.toLowerCase()] = 1; });
+  fs.readdirSync(dir).filter(function (f) { return /^out-.*\.json$/.test(f); }).sort().forEach(function (f) {
+    JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')).forEach(function (c) {
+      if (!c || !c.n || !c.tier) return;
+      var n = c.n; if (seen[n.toLowerCase()]) n = c.n + ' (' + (c.sub || c.rune || c.base) + ')';
+      if (seen[n.toLowerCase()]) return;
+      seen[n.toLowerCase()] = 1; c.n = n; D.HIDDEN.classes.push(c);
+    });
+  });
+})();
 log.push('hidden classes: ' + D.HIDDEN.classes.length + ', towers: ' + Object.keys(D.HIDDEN.towers).length);
 // The hidden class list is locked behind a code (asked for by the campaign owner): the classes are encrypted with
 // AES-256-GCM under a key derived from the code (PBKDF2-SHA256), and the page decrypts them when the code is entered.
