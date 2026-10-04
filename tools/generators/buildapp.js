@@ -290,7 +290,7 @@ var PAGE_INFO = {
   encounter: ['Encounters', 'Build balanced encounters from a realm\'s Bestiary by party size and level.'],
   combat: ['Combat', 'Initiative, HP, and conditions, with FAND\'s flat AC applied to every hit.'],
   lore: ['Lore', 'The lore of Atrious: Infinatas and Inane, how the gods came to this realm, the pantheons, the contested Runes, the realms, and the progenitors.'],
-  runes: ['Runes', 'Every Rune in FAND, the gods who hold and contest it, the relics that channel it, and the figure behind it.'],
+  runes: ['Runes', 'Every Rune in FAND: its progenitor, who held it before vanishing or being killed, the gods who inherited and contest it, and the relics that channel it.'],
   codex: ['Codex', 'Every note from the FAND Obsidian vault: rules, Runes, realms, classes, gods, the Player\'s Guide, and patch notes.'],
   about: ['About', 'What has been built in FAND, version by version, and what is still open.']
 };
