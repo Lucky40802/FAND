@@ -66,6 +66,15 @@ kbd{font-family:var(--mono);font-size:.7rem;border:1px solid var(--line3);border
 .tabs::-webkit-scrollbar{display:none}
 .tab{text-decoration:none;background:none;border:0;border-bottom:2px solid transparent;padding:10px 12px 9px;font-size:.84rem;color:var(--muted);white-space:nowrap;display:flex;align-items:center;gap:6px}
 .tab:hover{color:var(--text)}
+.navg{position:relative}
+.navg>.tab .car{font-size:.65rem;opacity:.7;margin-left:2px}
+.navpop{position:fixed;z-index:48;min-width:260px;max-width:min(92vw,380px);background:var(--surf);border:1px solid var(--line3);border-radius:12px;box-shadow:var(--shadow);padding:6px;display:none;animation:pop .12s ease-out}
+.navpop.open{display:block}
+.navpop a{display:flex;align-items:baseline;gap:8px;padding:8px 10px;border-radius:8px;text-decoration:none;color:var(--text2)}
+.navpop a:hover,.navpop a.on{background:var(--accbg);color:var(--text)}
+.navpop a b{font-weight:600;color:var(--text)}
+.navpop a small{display:block;font-size:.74rem;color:var(--muted);margin-top:1px}
+.navpop a .n{margin-left:auto;font-size:.7rem;color:var(--muted2)}
 .tab.on{color:var(--text);border-bottom-color:var(--gold)}
 .tab .n{font-size:.68rem;color:var(--muted2);font-variant-numeric:tabular-nums}
 .tab.on .n{color:var(--gold)}
@@ -400,6 +409,7 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
 </header>
 
 <nav class="tabs" id="tabs" aria-label="Sections"></nav>
+<div class="navpop" id="navpop" role="menu"></div>
 
 <div class="ws">
   <aside class="sb" id="sb" hidden aria-label="Filters"></aside>
@@ -616,6 +626,46 @@ const RUNES=(()=>{const names=new Set([...RUNE_GODS.keys(),...RUNE_BP.keys()]);N
     if(fm.progenitor||fm.figure){fig.name=fm.progenitor||fm.figure;fig.special=true}
     [['Title','title'],['Form','form'],['Nature','temper'],['Origin','origin'],['Fate','fate'],['FateText','fateText'],['Fell','fell'],['Remains','remains']].forEach(([k,f])=>{if(v(k))fig[f]=v(k)});if(fm.symbol)fig.symbol=fm.symbol;
     return {n,gods,contested:gods.length>1,bps:RUNE_BP.get(n)||[],note,fig}})})();
+// Lineage from the vault: each Rune note's opening paragraph says where the Law came from
+// ("formed from the corpse of [[Ignis]]", "a splinter of [[Dark]]", "[[Gnome]]'s first child", "its own entity").
+const RUNE_NOTE=new Map(NOTES.filter(n=>/(^|\/)Runes(\/|$)/i.test(n.f)).map(n=>[lc(n.n),n]));
+const NOT_A_LAW=/not a class/i;
+const TERM_NAMES=new Set(['class','god','law','spell','runes','rune','mortal','devil','spirit realm']);
+const isTerm=n=>{if(TERM_NAMES.has(lc(n.n)))return true;const m=/\*\*D&D class:\*\*([^\n]*)/.exec(n.md);return !!(m&&(NOT_A_LAW.test(m[1])||/^\s*[—-]/.test(m[1]))&&/(realm|race|title|term|umbrella|trait|word)/i.test(m[1]))};
+const firstPara=n=>(n.md.split(/\n\s*\n/).find(p=>p.trim()&&!/^#/.test(p.trim()))||'').trim();
+const linksIn=t=>{const out=[],re=/\[\[([^\]|#]+)(?:#[^\]|]*)?(?:\\?\|[^\]]*)?\]\]/g;let m;while((m=re.exec(t)))out.push(m[1].split('/').pop().trim());return out};
+function runeRel(n){
+  const t=firstPara(n),links=linksIn(t).filter(x=>RUNE_NOTE.has(lc(x))&&lc(x)!==lc(n.n)&&!isTerm(RUNE_NOTE.get(lc(x))));
+  let m;
+  if((m=/corpse of \[\[([^\]|]+)/i.exec(t)))return {type:'corpse',prog:m[1].split('/').pop()};
+  if(/one of the last original gods/i.test(t))return {type:'original'};
+  if(/one of the progenitors/i.test(t))return {type:'progenitor'};
+  if((m=/\[\[([^\]|]+)\]\]['’]?s? (?:first |favorite |only )?child|child(?:ren)? of \[\[([^\]|]+)/i.exec(t)))return {type:'child',prog:(m[1]||m[2]).split('/').pop()};
+  if(/single, specific entity|never fully killed/i.test(t))return {type:'original'};
+  if(/its own entity/i.test(t))return {type:'entity',parents:/formed|siphon|portion/i.test(t)?links.slice(0,2):[]};
+  if(/paired opposite|counterpart|opposite of|mirror of|other half|answer to/i.test(t)&&links.length)return {type:'opposite',of:links[0],parents:links.slice(1,2)};
+  if(/mortal realm/i.test(t)&&/emotion|masses/i.test(t))return {type:'mortal'};
+  return links.length?{type:'derived',parents:links.slice(0,2)}:{type:'unknown'};
+}
+const PROG_STATUS={Ignis:'Dead: its corpse became the Fire Law',Undine:'Dead: its corpse became the Water Law',Gnome:'Dead: its corpse became the Earth Law',Sylph:'Dead: her corpse became the Air Law',Iron:'Alive, caged in the Primordial Realm',Cosmic:'Never fully killed; siphoned piece by piece',Infinatas:'One of the last original gods; never killed or usurped'};
+function runeLineage(name){
+  const chain=[],seen=new Set();let cur=name,prog=null,origin='';
+  for(let i=0;i<8&&cur&&!seen.has(lc(cur));i++){
+    seen.add(lc(cur));const note=RUNE_NOTE.get(lc(cur));if(!note)break;
+    const r=runeRel(note);chain.push({n:note.n,rel:r.type});
+    if(PROG_STATUS[note.n]&&i>0){prog=note.n;break}
+    if(r.type==='child'&&PROG_STATUS[note.n]){prog=note.n;break}
+    if(r.type==='corpse'||r.type==='child'){prog=r.prog;break}
+    if(r.type==='original'||r.type==='progenitor'){prog=note.n;break}
+    if(r.type==='mortal'){origin='Born from the gathered emotion of the Mortal Realm';break}
+    if(r.type==='entity'&&!(r.parents||[]).length){prog=note.n;break}
+    cur=(r.parents||[])[0];
+  }
+  return {chain,prog,origin};
+}
+RUNES.forEach(r=>{if(!r.note){const n=RUNE_NOTE.get(lc(r.n));if(n)r.note=n}const L=runeLineage(r.n);r.lin=L;r.vprog=L.prog&&L.prog!==r.n?L.prog:(L.prog===r.n?r.n:null)});
+for(let i=RUNES.length-1;i>=0;i--){if(RUNES[i].note&&isTerm(RUNES[i].note))RUNES.splice(i,1)}
+RUNES.forEach((x,i)=>{x._i=i});
 const RUNE_IDX=new Map(RUNES.map(r=>[lc(r.n),r]));
 
 TYPES.rune={arr:RUNES,tab:'runes',label:'Rune'};RUNES.forEach((x,i)=>{x._t='rune';x._i=i;x.cat=x.fig.cat});
@@ -706,7 +756,7 @@ const CARD={
   spell(s){
     return `<button class="card" data-ref="${ref(s)}">
       <div class="t"><div class="nm">${esc(s.n)}</div>${isPinned(s)?'<span class="pin">★</span>':''}</div>
-      <div class="badges"><span class="b acc">${esc(s.sc)}</span><span class="b ${s.lv===0?'gold':''}">${s.lv===0?'Cantrip':'Level '+s.lv}</span>${(s.cls||[]).slice(0,3).map(c=>`<span class="b green">${esc(c)}</span>`).join('')}</div>
+      <div class="badges"><span class="b acc">${esc(s.sc)}</span><span class="b ${s.lv===0?'gold':''}">${s.lv===0?'Cantrip':'Level '+s.lv}</span>${s.tier?`<span class="b ghost">${esc(s.tier)}</span>`:''}${(s.cls||[]).slice(0,3).map(c=>`<span class="b green">${esc(c)}</span>`).join('')}</div>
       <div class="ln">${esc(s.ct)} · ${esc(s.rng)} · ${esc(s.dur)}</div>
       ${s.dmg&&s.dmg!=='None'?`<div class="ln mono" style="color:var(--red)">${esc(s.dmg)}</div>`:''}
       <div class="ds">${esc(s.desc)}</div>
@@ -729,7 +779,7 @@ const CARD={
 };
 CARD.demon=CARD.entity;CARD.patron=CARD.entity;
 const plainMd=s=>String(s||'').replace(/^#.*$/gm,'').replace(/!\[\[[^\]]*\]\]/g,'').replace(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/g,(m,a)=>a.split('/').pop()).replace(/[*_`>|#-]+/g,' ').replace(/\[!\w+\]/g,'').replace(/\s+/g,' ').trim();
-CARD.rune=r=>`<button class="card" style="--strip:${r.contested?'var(--red)':r.gods.length?'var(--gold)':'var(--acc)'}" data-ref="${ref(r)}"><div class="t"><div class="nm">ᚱ ${esc(r.n)}</div>${isPinned(r)?'<span class="pin">★</span>':''}</div><div class="ep">Progenitor: ${esc(r.fig.name)}, ${esc(r.fig.title)}</div><div class="badges"><span class="b acc">${esc(r.cat)}</span><span class="b ${r.fig.fate==='Killed'?'red':r.fig.fate==='Vanished'?'blue':'gold'}">${esc(r.fig.fate)}</span>${r.contested?'<span class="b red">Contested</span>':''}${r.gods.length?`<span class="b gold">${r.gods.length} god${r.gods.length>1?'s':''}</span>`:'<span class="b ghost">Unclaimed</span>'}${r.bps.length?`<span class="b ghost">${r.bps.length} relics</span>`:''}</div>${r.gods.length?`<div class="chips">${r.gods.map(g=>`<span class="chip">${esc(godKey(g))}</span>`).join('')}</div>`:''}<div class="ds">${esc(r.fig.form)}</div></button>`;
+CARD.rune=r=>`<button class="card" style="--strip:${r.contested?'var(--red)':r.gods.length?'var(--gold)':'var(--acc)'}" data-ref="${ref(r)}"><div class="t"><div class="nm">ᚱ ${esc(r.n)}</div>${isPinned(r)?'<span class="pin">★</span>':''}</div><div class="ep">${r.vprog?`Progenitor: ${esc(r.vprog)}`:r.lin&&r.lin.origin?esc(r.lin.origin):r.lin&&r.lin.chain.length>1?'From '+esc(r.lin.chain.slice(1).map(c=>c.n).join(' ← ')):`Suggested progenitor: ${esc(r.fig.name)}`}</div><div class="badges"><span class="b acc">${esc(r.cat)}</span>${r.note?'<span class="b green">In the vault</span>':''}${r.vprog?'':`<span class="b ${r.fig.fate==='Killed'?'red':r.fig.fate==='Vanished'?'blue':'gold'}">${esc(r.fig.fate)}</span>`}${r.contested?'<span class="b red">Contested</span>':''}${r.gods.length?`<span class="b gold">${r.gods.length} god${r.gods.length>1?'s':''}</span>`:'<span class="b ghost">Unclaimed</span>'}${r.bps.length?`<span class="b ghost">${r.bps.length} relics</span>`:''}</div>${r.gods.length?`<div class="chips">${r.gods.map(g=>`<span class="chip">${esc(godKey(g))}</span>`).join('')}</div>`:''}<div class="ds">${esc(r.note?plainMd(firstPara(r.note)):r.fig.form)}</div></button>`;
 CARD.note=n=>`<button class="card" data-ref="${ref(n)}"><div class="t"><div class="nm">${esc(n.n)}</div>${isPinned(n)?'<span class="pin">★</span>':''}</div><div class="badges"><span class="b acc">${esc(n.f)}</span>${SUPERSEDED[n.n]?'<span class="b gold">Updated on the website</span>':''}</div><div class="ds">${esc(plainMd(n.md).slice(0,260))}</div></button>`;
 const card=x=>CARD[x._t](x);
 
@@ -807,6 +857,7 @@ const VIEWS={
       {id:'cls',label:'All classes',opts:()=>opts(SP.flatMap(s=>(s.cls||[]).map(c=>({c}))),x=>x.c),test:(s,v)=>(s.cls||[]).includes(v)},
       {id:'lv',label:'All levels',opts:()=>Array.from({length:10},(_,i)=>[String(i),i?'Level '+i:'Cantrip']),test:(s,v)=>s.lv===+v},
       {id:'ct',label:'Any casting time',opts:()=>opts(SP,s=>s.ct),test:(s,v)=>s.ct===v},
+      {id:'tier',label:'Any tier',opts:()=>opts(SP,s=>s.tier),test:(s,v)=>s.tier===v},
     ],
     toggles:[{id:'hascls',label:'With classes',test:s=>!!(s.cls&&s.cls.length)},{id:'nodmg',label:'Non-damage',test:s=>!s.dmg||s.dmg==='None'},{id:'pin',label:'★ Pinned',test:s=>isPinned(s)}],
     sorts:[['def','Default',null],['name','Name A–Z',byName],['lv','Level ↑',(a,b)=>a.lv-b.lv||byName(a,b)],['lvd','Level ↓',(a,b)=>b.lv-a.lv||byName(a,b)]],
@@ -819,9 +870,9 @@ const VIEWS={
     sorts:[['name','Name A–Z',byName]],
   },
   codex:{type:'note',arr:NOTES,title:'Codex',noun:'notes',side:{label:'Folder',key:'f'},hay:n=>n.n+' '+n.f+' '+n.md,filters:[],toggles:[{id:'pin',label:'★ Pinned',test:n=>isPinned(n)}],sorts:[['name','Name A–Z',byName],['folder','Folder',(a,b)=>a.f.localeCompare(b.f)||byName(a,b)]]},
-  runes:{type:'rune',arr:RUNES,title:'Runes',side:{label:'Kind',key:'cat'},hay:r=>[r.n,r.fig.name,r.fig.title,r.fig.form,r.fig.temper,r.fig.fateText,r.fig.fell,r.gods.map(godKey).join(' ')].join(' '),
+  runes:{type:'rune',arr:RUNES,title:'Runes',side:{label:'Kind',key:'cat'},hay:r=>[r.n,r.vprog||'',r.note?r.note.md:'',r.fig.name,r.fig.title,r.fig.form,r.fig.temper,r.fig.fateText,r.fig.fell,r.gods.map(godKey).join(' ')].join(' '),
     filters:[{id:'god',label:'Any god',opts:()=>opts(RUNES.flatMap(r=>r.gods.map(g=>({g:godKey(g)}))),x=>x.g),test:(r,v)=>r.gods.some(g=>godKey(g)===v)}],
-    toggles:[{id:'killed',label:'Progenitor killed',test:r=>r.fig.fate==='Killed'},{id:'vanished',label:'Progenitor vanished',test:r=>r.fig.fate==='Vanished'},{id:'con',label:'Contested',test:r=>r.contested},{id:'held',label:'Held by a god',test:r=>r.gods.length>0},{id:'free',label:'Unclaimed',test:r=>!r.gods.length},{id:'pin',label:'★ Pinned',test:r=>isPinned(r)}],
+    toggles:[{id:'vault',label:'In the vault',test:r=>!!r.note},{id:'vprog',label:'Progenitor known',test:r=>!!r.vprog},{id:'killed',label:'Progenitor killed',test:r=>r.fig.fate==='Killed'},{id:'vanished',label:'Progenitor vanished',test:r=>r.fig.fate==='Vanished'},{id:'con',label:'Contested',test:r=>r.contested},{id:'held',label:'Held by a god',test:r=>r.gods.length>0},{id:'free',label:'Unclaimed',test:r=>!r.gods.length},{id:'pin',label:'★ Pinned',test:r=>isPinned(r)}],
     sorts:[['name','Name A–Z',byName],['gods','Most claimed',(a,b)=>b.gods.length-a.gods.length||byName(a,b)],['bps','Most relics',(a,b)=>b.bps.length-a.bps.length||byName(a,b)]]},
   demons:{type:'demon',arr:DEMONS,title:'Demons',side:{label:'Group',key:'grp'},hay:e=>e.n+' '+(e.ds||''),filters:[],toggles:[{id:'pin',label:'★ Pinned',test:e=>isPinned(e)}],sorts:[['def','Default',null],['name','Name A–Z',byName]]},
   patrons:{type:'patron',arr:PATRONS,title:'Patrons',side:{label:'Group',key:'grp'},hay:e=>e.n+' '+(e.ds||''),filters:[],toggles:[{id:'pin',label:'★ Pinned',test:e=>isPinned(e)}],sorts:[['def','Default',null],['name','Name A–Z',byName]]},
@@ -835,7 +886,7 @@ const COLS={
   spell:[['Name',x=>x.n],['School',x=>x.sc],['Level',x=>x.lv],['Casting time',x=>x.ct],['Range',x=>x.rng],['Duration',x=>x.dur],['Damage',x=>x.dmg&&x.dmg!=='None'?x.dmg:''],['Classes',x=>(x.cls||[]).join(', ')]],
   sub:[['Name',x=>x.n],['Class',x=>x.par],['Source',x=>subSource(x)]],
   note:[['Name',n=>n.n],['Folder',n=>n.f]],
-  rune:[['Rune',r=>r.n],['Kind',r=>r.cat],['Progenitor',r=>r.fig.name+', '+r.fig.title],['Fate',r=>r.fig.fate],['Held by',r=>r.gods.map(godKey).join(', ')],['Relics',r=>r.bps.length]],
+  rune:[['Rune',r=>r.n],['Kind',r=>r.cat],['Progenitor (vault)',r=>r.vprog||''],['Lineage (vault)',r=>r.lin?r.lin.chain.map(c=>c.n).join(' <- '):''],['Suggested progenitor',r=>r.fig.name+', '+r.fig.title],['Fate',r=>r.fig.fate],['Held by',r=>r.gods.map(godKey).join(', ')],['Relics',r=>r.bps.length]],
   demon:[['Name',e=>e.n],['Group',e=>e.grp],['Description',e=>e.ds||'']],
   patron:[['Name',e=>e.n],['Group',e=>e.grp],['Description',e=>e.ds||'']],
 };
@@ -899,11 +950,37 @@ function route(){
 }
 window.addEventListener('popstate',route);
 
+const NAV_GROUPS=[
+  ['World',['lore','realms','gods','runes','demons','patrons','codex']],
+  ['Creatures & Materials',['bestiary','materials']],
+  ['Items & Crafting',['blueprints','forge','craft','professions']],
+  ['Magic & Classes',['spells','subclasses']],
+  ['Play',['party','encounter','combat','tools']],
+  ['Reference',['rules','about']],
+];
+const NAV_BLURB={lore:'Infinatas, the gods, and the history of Atrious',realms:'The eleven realms and their coin',gods:'Pantheons, Runes, Hands, and rivals',runes:'Every Law, its lineage, and its progenitor',demons:'Archdevils, demon princes, and corruptions',patrons:'Warlock patrons',codex:'Every note from the Obsidian vault',bestiary:'Monsters with stat blocks, lore, and drops',materials:'Graded materials, traits, and prices',blueprints:'Ready-made designs for every profession',forge:'Build a weapon or armor part by part',craft:'Plan what to gather and buy',professions:'The ten professions and their specialties',spells:'Spells by school, tier, and class',subclasses:'Official and homebrew subclasses',party:'Characters, gear, contracts, and money',encounter:'Balanced fights by realm and level',combat:'Initiative, HP, and flat AC',tools:'Calculators and converters',rules:'Rules summaries',about:'What FAND has, version by version'};
+function navGroupOf(t){const g=NAV_GROUPS.find(([,ids])=>ids.includes(t));return g?g[0]:null}
+function openNav(g,btn){
+  const pop=$('navpop'),grp=NAV_GROUPS.find(x=>x[0]===g);if(!grp)return;
+  if(pop.classList.contains('open')&&pop.dataset.g===g){closeNav();return}
+  pop.dataset.g=g;
+  pop.innerHTML=grp[1].map(id=>{const t=TABS.find(x=>x[0]===id);if(!t)return '';return `<a href="${pageUrl(id)}" data-tab="${id}" role="menuitem" class="${id===TAB?'on':''}"><span><b>${t[1]}</b><small>${esc(NAV_BLURB[id]||'')}</small></span>${t[2]!=null?`<span class="n">${fmt(t[2])}</span>`:''}</a>`}).join('');
+  const r=btn.getBoundingClientRect();pop.style.top=(r.bottom+6)+'px';pop.style.left=Math.max(8,Math.min(r.left,innerWidth-Math.min(380,innerWidth*.92)-8))+'px';
+  pop.classList.add('open');btn.setAttribute('aria-expanded','true');
+}
+function closeNav(){$('navpop').classList.remove('open');$('tabs').querySelectorAll('[aria-expanded]').forEach(b=>b.setAttribute('aria-expanded','false'))}
+document.addEventListener('mousedown',e=>{if(!e.target.closest('#navpop')&&!e.target.closest('.navg'))closeNav()});
+$('navpop').addEventListener('click',e=>{const a=e.target.closest('a[data-tab]');if(!a)return;closeNav();if(SITE||e.ctrlKey||e.metaKey)return;e.preventDefault();go(a.dataset.tab)});
+window.addEventListener('resize',closeNav);
 function renderTabs(){
+  const cur=navGroupOf(TAB);
+  $('tabs').innerHTML=`<a class="tab${TAB==='home'?' on':''}" href="${pageUrl('home')}" data-tab="home">Home</a>`+NAV_GROUPS.map(([g,ids])=>{const n=ids.reduce((a,id)=>{const t=TABS.find(x=>x[0]===id);return a+(t&&t[2]||0)},0);return `<span class="navg"><button class="tab${g===cur?' on':''}" data-group="${esc(g)}" aria-haspopup="menu" aria-expanded="false">${g}${g===cur?`<span class="n">· ${(TABS.find(t=>t[0]===TAB)||[])[1]||''}</span>`:''}<span class="car">▾</span></button></span>`}).join('');
+}
+function renderTabs_flat(){
   $('tabs').innerHTML=TABS.map(([id,label,n])=>`<a class="tab${id===TAB?' on':''}" href="${pageUrl(id)}" data-tab="${id}"${id===TAB?' aria-current="page"':''}>${label}${n!=null?`<span class="n">${fmt(n)}</span>`:''}</a>`).join('');
   const on=$('tabs').querySelector('.on');if(on)on.scrollIntoView({block:'nearest',inline:'nearest'});
 }
-$('tabs').addEventListener('click',e=>{const b=e.target.closest('.tab');if(!b||SITE||e.ctrlKey||e.metaKey||e.shiftKey)return;e.preventDefault();go(b.dataset.tab)});
+$('tabs').addEventListener('click',e=>{const g=e.target.closest('[data-group]');if(g){e.preventDefault();openNav(g.dataset.group,g);return}const b=e.target.closest('.tab');if(!b||SITE||e.ctrlKey||e.metaKey||e.shiftKey)return;e.preventDefault();go(b.dataset.tab)});
 
 function renderTab(){
   renderTabs();
@@ -1272,7 +1349,7 @@ const MODAL={
   spell(s){
     return {title:esc(s.n),kind:'Spell · '+esc(s.sc),
       badges:`<span class="b acc">${esc(s.sc)}</span><span class="b ${s.lv===0?'gold':''}">${s.lv===0?'Cantrip':'Level '+s.lv}</span>`,
-      body:kv([['Casting time',esc(s.ct)],['Range',esc(s.rng)],['Duration',esc(s.dur)],['Damage',s.dmg&&s.dmg!=='None'?`<span class="mono" style="color:var(--red)">${esc(s.dmg)}</span>`:'']])
+      body:kv([['Tier',esc(s.tier||'')],['Rune',s.rune&&RUNE_IDX.get(lc(s.rune))?refChip(RUNE_IDX.get(lc(s.rune)),esc(s.rune)):esc(s.rune||'')],['Components',esc(s.comp||'')],['Casting time',esc(s.ct)],['Range',esc(s.rng)],['Duration',esc(s.dur)],['Damage',s.dmg&&s.dmg!=='None'?`<span class="mono" style="color:var(--red)">${esc(s.dmg)}</span>`:'']])
         +`<div class="prose">${esc(s.desc)}</div>`
         +blk('Classes',(s.cls||[]).length?`<div class="chips">${s.cls.map(c=>`<button class="chip" data-go="spells" data-setup='${esc(JSON.stringify({f:{cls:c}}))}'>${esc(c)}</button>`).join('')}</div>`:'<div class="note" style="margin:0">No classes listed for this spell in the app data.</div>')};
   },
@@ -1301,12 +1378,15 @@ const MODAL={
     const remains=f.remains&&findMat(f.remains);
     return {title:'ᚱ '+esc(r.n),ep:'Progenitor: '+esc(f.name)+', '+esc(f.title),kind:'Rune · '+esc(r.cat),strip:r.contested?'var(--red)':'',
       badges:`<span class="b acc">${esc(r.cat)}</span>${r.contested?'<span class="b red">Contested</span>':''}${r.gods.length?'':'<span class="b ghost">Unclaimed</span>'}`,
-      body:(r.note?`<div class="prose vault" style="font-family:var(--sans);font-size:.92rem">${mdVault(r.note.md)}</div>`:'')+`<div class="callout" style="border-color:var(--gold)"><b>The progenitor: ${esc(f.name)}</b>, ${esc(f.title)}<div style="margin-top:6px">${esc(f.form)}</div></div>`
+      body:(r.note?`<div class="prose vault" style="font-family:var(--sans);font-size:.92rem">${mdVault(r.note.md)}</div>`:'')
+        +((r.lin&&(r.lin.chain.length>1||r.vprog||r.lin.origin))?`<div class="callout" style="border-color:var(--green)"><b>Lineage, from the vault</b><div class="chips" style="margin-top:6px">${r.lin.chain.map(c=>{const x=RUNE_IDX.get(lc(c.n));return x?refChip(x,'ᚱ '+esc(c.n)):`<span class="chip">${esc(c.n)}</span>`}).join(' <span style="color:var(--muted)">←</span> ')}${r.vprog&&!r.lin.chain.some(c=>lc(c.n)===lc(r.vprog))?` <span style="color:var(--muted)">←</span> ${RUNE_IDX.get(lc(r.vprog))?refChip(RUNE_IDX.get(lc(r.vprog)),esc(r.vprog)):`<span class="chip">${esc(r.vprog)}</span>`}`:''}</div>${r.vprog?`<div style="margin-top:8px"><b>Progenitor:</b> ${esc(r.vprog)}${PROG_STATUS[r.vprog]?' · '+esc(PROG_STATUS[r.vprog]):''}</div>`:''}${r.lin.origin?`<div style="margin-top:8px">${esc(r.lin.origin)}.</div>`:''}</div>`:'')
+        +(r.vprog||(r.note&&r.lin&&r.lin.origin)?'<details class="fold"><summary>Website-generated progenitor (not in the vault)</summary><div>':'')+`<div class="callout" style="border-color:var(--gold)"><b>${r.vprog||(r.note&&r.lin&&r.lin.origin)?'Suggested progenitor':'The progenitor'}: ${esc(f.name)}</b>, ${esc(f.title)}<div style="margin-top:6px">${esc(f.form)}</div></div>`
         +kv([['Progenitor\'s fate',`<span style="color:${f.fate==='Killed'?'var(--red)':f.fate==='Vanished'?'var(--blue)':'var(--gold2)'}">${esc(f.fate)}</span>`],[f.fate==='Vanished'?'Last seen':'Where it fell',f.fell&&REALM[f.fell]?`<a href="#" data-ref="${ref(REALM[f.fell])}">${esc(f.fell)}</a>`:esc(f.fell||'')],['Remains',remains?refChip(remains):esc(f.remains||'')],['Symbol',esc(f.symbol)],['Held by now',r.gods.length?r.gods.length+' god'+(r.gods.length>1?'s':''):'No god'],['Relics',r.bps.length||'']])
         +`<div class="lore"><h5>Nature</h5><p>${esc(f.temper)}</p>${f.origin?`<h5>Origin</h5><p>${esc(f.origin)}</p>`:''}<h5>${f.fate==='Never lost'?'Never lost':f.fate==='Vanished'?'How it vanished':'How it fell'}</h5><p>${esc(f.fateText||'')}</p><h5>The gods</h5><p>${r.gods.length?(r.contested?`${esc(rivals.length>2?rivals.slice(0,-1).join(', ')+',':rivals[0])} and ${esc(rivals.slice(-1)[0])} ${rivals.length>2?'all ':'both '}claim ${esc(r.n)}${f.fate==='Never lost'?'':`, the inheritance ${esc(f.name)} left behind,`} and the feud between them never cools.`:f.fate==='Never lost'?`${esc(godKey(r.gods[0]))} draws on ${esc(r.n)}, but only by Infinatas's leave.`:`${esc(godKey(r.gods[0]))} holds ${esc(r.n)} alone, inherited after ${esc(f.name)} ${f.fate==='Vanished'?'vanished':'fell'}.`):`No god holds ${esc(r.n)}. Its power reaches the world only through relics that hold a fragment of it.`}</p></div>`
         +blk('Held by',r.gods.length?`<div class="chips">${r.gods.map(g=>refChip(g,esc(godKey(g)),g.grp.replace(' Pantheon',''))).join('')}</div>`:'')
         +blk('Relics that channel it',r.bps.length?`<div class="chips">${r.bps.slice(0,24).map(b=>refChip(b,esc(b.n),b.cat)).join('')}</div>`:'',r.bps.length?String(r.bps.length):'')
-        +`<div class="note" style="margin:0">${f.special?'This progenitor comes from the campaign\'s own lore.':'This progenitor is website lore written for this Rune. To replace it, add progenitor, progenitorTitle, progenitorFate, progenitorFateText, and similar fields to the Rune\'s note in the vault and re-import.'}</div>`};
+        +(r.vprog||(r.note&&r.lin&&r.lin.origin)?'</div></details>':'')
+        +`<div class="note" style="margin:0">${r.note?'The vault note above comes first; anything below it that isn\'t in the vault is website lore.':f.special?'This progenitor comes from the campaign\'s own lore.':'This progenitor is website lore written for this Rune. To replace it, add progenitor, progenitorTitle, progenitorFate, progenitorFateText, and similar fields to the Rune\'s note in the vault and re-import.'}</div>`};
   },
   realm(r){
     const mats=MATS.filter(m=>m.realm===r.n),mons=MONSTERS.filter(m=>m.realm===r.n).sort((a,b)=>a.g-b.g||byName(a,b)),gods=GODS.filter(g=>g.home===r.n);
@@ -1393,7 +1473,7 @@ $('pres').addEventListener('mousemove',e=>{const b=e.target.closest('[data-pi]')
 document.addEventListener('keydown',e=>{
   const typing=/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName);
   if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();$('pbg').classList.contains('open')?closePalette():openPalette();return}
-  if(e.key==='Escape'){if($('sbg').classList.contains('open')){closeSettings();return}if($('pbg').classList.contains('open'))closePalette();else if($('ai').classList.contains('open')&&!$('mbg').classList.contains('open'))toggleAI(false);else if($('mbg').classList.contains('open'))closeModal();else if($('sb').classList.contains('drawer'))toggleDrawer(false);return}
+  if(e.key==='Escape'){if($('navpop').classList.contains('open')){closeNav();return}if($('sbg').classList.contains('open')){closeSettings();return}if($('pbg').classList.contains('open'))closePalette();else if($('ai').classList.contains('open')&&!$('mbg').classList.contains('open'))toggleAI(false);else if($('mbg').classList.contains('open'))closeModal();else if($('sb').classList.contains('drawer'))toggleDrawer(false);return}
   if($('mbg').classList.contains('open')&&!typing){if(e.key==='ArrowRight')step(1);if(e.key==='ArrowLeft')step(-1);return}
   if(e.key==='/'&&!typing&&!$('pbg').classList.contains('open')){e.preventDefault();const q=$('q');if(q&&!$('ctrl').hidden)q.focus();else openPalette()}
 });
@@ -1412,7 +1492,7 @@ function renderHome(){
   const pins=pinnedItems();
   const homebrew=MONSTERS.filter(m=>m.hb).length;
   const fingers=GODS.reduce((a,g)=>a+(g.hand||[]).length,0);
-  const stats=[['blueprints',BPS.length,'Blueprints'],['materials',MATS.length,'Graded materials'],['bestiary',MONSTERS.length,`Monsters · ${homebrew} homebrew · ${MONSTERS.filter(m=>m.myth).length} from myth`],['realms',REALMS.length,'Realm tiers'],['gods',GODS.length,`Gods · ${fingers} named Fingers`],['professions',10,'Professions'],['subclasses',SUBS.length,'Subclasses'],['spells',META.counts.spells,'Spells in the app']];
+  const stats=[['blueprints',BPS.length,'Blueprints'],['materials',MATS.length,'Graded materials'],['bestiary',MONSTERS.length,`Monsters · ${homebrew} homebrew · ${MONSTERS.filter(m=>m.myth).length} from myth`],['realms',REALMS.length,'Realm tiers'],['gods',GODS.length,`Gods · ${fingers} named Fingers`],['professions',10,'Professions'],['subclasses',SUBS.length,'Subclasses'],['spells',META.counts.spells,META.counts.spells<10000?'Spells from the vault':'Spells in the app']];
   $('content').innerHTML=`<div class="page">
     <section class="hero">
       <div class="badges" style="margin-bottom:12px"><span class="b gold">Version ${esc(META.version)}</span><span class="b ghost">Built ${esc(META.built)}</span></div>
@@ -1515,7 +1595,7 @@ function renderRules(){
     ['travel','Realm Travel','v1.17',`<ul><li>Each realm has a <b>Pressure</b> from 0 to 9. A traveler's <b>Attunement</b> comes from their level, contract rank, or realm-material gear.</li><li>If Pressure is higher than Attunement, the traveler suffers strain.</li><li>There are 11 travel methods, and an anchor from home makes the return trip easier.</li><li>The Realm Map page in the vault diagrams every route between realms.</li></ul><p class="note">The Pressure values shown in this app follow the tier order (tier − 1). Check them against the Realm Travel page in the vault.</p>`],
     ['contracts','God Contracts','v1.08, v1.15',`<ul><li>The gods are guests in Atrious: their own world eroded because of Inane, and Infinatas, who cares only for balance, let them in under strict regulation.</li><li>Ten ranks, from Minor up to 1st Finger. The five Fingers form the god's Hand.</li><li>Each rank has spells, AC, duties, and a reward ladder.</li><li>There are rules for rising in rank, staying loyal to one god, breaking a contract, and what happens when a god dies.</li><li>${CONTESTED.length} Runes are held by more than one god; those gods are rivals.</li></ul><p class="note"><a href="${pageUrl('gods')}" data-go="gods">All gods →</a></p>`],
     ['classes','Classes & Subclasses','v1.03, v1.18',`<ul><li>Official subclasses from the Player's Handbook, Xanathar's, Tasha's, and the Sword Coast guide are included as paraphrased summaries, each labeled with its source book.</li><li>Three 2024 Player's Handbook subclasses were added: Path of the World Tree, College of Dance, and Circle of the Sea.</li><li>Each class page notes which of its subclasses the 2024 Player's Handbook revised. Every class picks its subclass at level 3.</li><li>Homebrew Rune subclasses sit alongside the official ones.</li></ul><p class="note"><a href="${pageUrl('subclasses')}" data-go="subclasses">All subclasses →</a></p>`],
-    ['spells','Spells','v1.17, v1.23',`<ul><li>Every spell in the vault lists its classes. Pyramid spells get them from their school, plus the class tied to their Rune where one applies.</li><li>73 Tertiary and Secondary damage spells were turned into support spells: they now heal, cure, ward, shield, teleport, or otherwise help. Each was renamed to match its new effect and scales with spell level.</li></ul><p class="note">The vault has about 2,330 spells. The Spells page in this app holds an older, larger generated list (${fmt(META.counts.spells)}), and only some of those list classes.</p>`],
+    ['spells','Spells','v1.17, v1.23',`<ul><li>Every spell in the vault lists its classes. Pyramid spells get them from their school, plus the class tied to their Rune where one applies.</li><li>73 Tertiary and Secondary damage spells were turned into support spells: they now heal, cure, ward, shield, teleport, or otherwise help. Each was renamed to match its new effect and scales with spell level.</li></ul><p class="note">${META.counts.spells<10000?`The Spells page shows the vault's ${fmt(META.counts.spells)} spells.`:`The vault has about 2,330 spells. The Spells page in this app holds an older, larger generated list (${fmt(META.counts.spells)}); run the vault import to replace it.`}</p>`],
     ['monsters','Monster Stats','v1.20',`<ul><li><b>Homebrew</b> monsters have a level, HP, AC, attacks, a save DC, and a signature trait from their best drop. Grade 10 monsters have boss rules.</li><li><b>Official</b> monsters have their CR, a grade from that CR, an original short description, and graded drops; no stat blocks.</li></ul>`],
   ];
   $('content').innerHTML=`<div class="page rules"><nav class="toc">${S.map(([id,t])=>`<a href="#rule-${id}" onclick="document.getElementById('rule-${id}').scrollIntoView();return false">${t}</a>`).join('')}</nav>
@@ -1549,7 +1629,7 @@ function renderAbout(){
     ['Subclasses',`163 in the vault: every official PHB, Xanathar's, Tasha's, and SCAG subclass plus three from the 2024 PHB, alongside the homebrew Rune subclasses. ${fmt(SUBS.length)} in this app.`,'subclasses'],
     ['Professions','10 broad professions, absorbing the 31 old crafts as specialties.','professions'],
     ['Blueprints',`6,503 in the vault; ${fmt(BPS.length)} in this app.`,'blueprints'],
-    ['Spells',`About 2,330 in the vault, all with classes; 73 converted to healing and support. ${fmt(META.counts.spells)} in this app's older list.`,'spells'],
+    ['Spells',`About 2,330 in the vault, all with classes; 73 converted to healing and support. ${META.counts.spells<10000?fmt(META.counts.spells)+' on this site, from the vault.':fmt(META.counts.spells)+' in this app\'s older list.'}`,'spells'],
     ['Materials',`${fmt(MATS.filter(m=>!m.gen).length)} graded materials in the vault, each with a property, price, and its own note. This app adds ${fmt(MATS.filter(m=>m.gen).length)} harvest parts so every monster yields 6–10 materials (${fmt(MATS.length)} in all).`,'materials'],
     ['Monsters',`${MONSTERS.length-official} homebrew with full stats, plus ${official} official D&D monsters.`,'bestiary'],
     ['Realms',`${REALMS.length} realms in 10 tiers, each with lore, a Bestiary, and a Gathering page.`,'realms'],
@@ -2230,7 +2310,7 @@ function detail(x){
   else if(t==='spell'){o.castingTime=x.ct;o.range=x.rng;o.duration=x.dur;o.description=x.desc}
   else if(t==='sub'||t==='demon'||t==='patron')o.description=x.ds;
   if(VDETAILS){const vt={bp:'bp',mat:'mat',spell:'spell',sub:'sub',mon:'mon',god:'god'}[t];const d=vt&&(VDETAILS[vt]||{})[vt==='god'?godKey(x):x.n];if(d)o.fromVault=d.md.slice(0,8000)}
-  if(t==='rune'){Object.assign(o,{progenitorFate:x.fig.fate,progenitorFateText:x.fig.fateText,progenitorFell:x.fig.fell,progenitorRemains:x.fig.remains,figureForm:x.fig.form,figureNature:x.fig.temper,figureOrigin:x.fig.origin,symbol:x.fig.symbol,relics:x.bps.map(b=>b.n).slice(0,30)})}
+  if(t==='rune'){Object.assign(o,{vaultProgenitor:x.vprog||undefined,vaultLineage:x.lin?x.lin.chain.map(c=>c.n):undefined,vaultOrigin:x.lin&&x.lin.origin||undefined,suggestedProgenitorNote:'progenitorFate etc. below are website suggestions, not vault lore',progenitorFate:x.fig.fate,progenitorFateText:x.fig.fateText,progenitorFell:x.fig.fell,progenitorRemains:x.fig.remains,figureForm:x.fig.form,figureNature:x.fig.temper,figureOrigin:x.fig.origin,symbol:x.fig.symbol,relics:x.bps.map(b=>b.n).slice(0,30)})}
   if(t==='note'){o.text=x.md.slice(0,12000);o.frontmatter=x.fm;if(SUPERSEDED[x.n])o.supersededBy='The website version applies: '+SUPERSEDED[x.n].msg}
   else if(t==='realm'){o.description=REALM_BLURB[x.n];o.materialRanks=((x.tier-1)*10+1)+'-'+x.tier*10;o.basePriceGp=x.base||'not sold';o.monsters=MONSTERS.filter(m=>m.realm===x.n).sort((a,b)=>a.g-b.g).map(m=>m.n+' (G'+m.g+')').slice(0,60);o.materialCount=MATS.filter(m=>m.realm===x.n).length;o.godsAtHome=GODS.filter(g=>g.home===x.n).map(godKey)}
   return JSON.parse(JSON.stringify(o));
@@ -2297,7 +2377,7 @@ When you name an entry that exists in the compendium, wrap its exact name in dou
 
 FAND cosmology: Infinatas (sometimes written Infinitas) is the highest being and cares only for balance, keeping it through creation. Inane is Infinatas's split personality and keeps balance through destruction; to the gods it was an unknown entity. The gods' own world eroded because of Inane, and Infinatas allowed the gods into this realm under strict regulation.
 
-Runes: every Rune had a progenitor, its original holder and the first being to embody that principle, who was killed or vanished before the gods arrived; the gods inherited the Runes they hold (use get_entry with kind "rune"). Infinatas and Creation belong to Infinatas, Destruction to Inane, Balance to both; Ignis, Sylph, Undine, and Gnome are the progenitors.
+Runes: the vault's Rune notes are the source of truth: Runes are the power of lost or weakened original gods and spirits; today's gods are replicas built from them; Ignis, Undine, Gnome, and Sylph are dead progenitor spirits whose corpses became the Fire, Water, Earth, and Air Laws; Iron (Gnome's child) is caged alive; Cosmic was never fully killed; Infinatas is one of the last original gods. Where the vault is silent, the site suggests a progenitor: every Rune had a progenitor, its original holder and the first being to embody that principle, who was killed or vanished before the gods arrived; the gods inherited the Runes they hold (use get_entry with kind "rune"). Infinatas and Creation belong to Infinatas, Destruction to Inane, Balance to both; Ignis, Sylph, Undine, and Gnome are the progenitors.
 
 FAND rules summary:
 - Armor Class starts at 0. Armor and other gear each add a small amount of AC to the total: slot units Body 4, Head 2, Hands/Feet/Shoulders/Back 1 each (a full set is 10); shields Buckler 1, Shield 2, Tower 3; x1 for metal, x0.7 bone/scale/stone, x0.4 hide/cloth, x(1 + (Item Level - 1)/20); minimum 1 per piece. A full set of iron gear gives 10 AC. Armor that gives more AC carries drawbacks: for example, full iron gear gives +10 AC but you lose Acrobatics, Athletics, and Dexterity. AC is subtracted flat from the total damage of each hit: damage taken = damage - AC.

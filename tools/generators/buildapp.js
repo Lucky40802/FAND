@@ -246,6 +246,20 @@ var META = { built: new Date().toISOString().slice(0, 10), version: '1.24', real
 function lit(k) { return 'const ' + k + '=' + JSON.stringify(D[k]).replace(/<\/(script)/gi, '<\\/$1') + ';'; }
 var VAULT_FILE = process.env.VAULT_JSON || path.join(__dirname, '..', 'data', 'vault.json');
 D.VAULT = fs.existsSync(VAULT_FILE) ? JSON.parse(fs.readFileSync(VAULT_FILE, 'utf8')) : { imported: '', notes: [] };
+D.VAULT.notes = D.VAULT.notes.filter(function (n) { return !/^-+$/.test(n.n); });
+// Spells come from the vault when it has them: every spell note with a school becomes a spell on the site.
+(function () {
+  var vs = D.VAULT.notes.filter(function (n) { return /(^|\/)Spells(\/|$)/i.test(n.f) && n.fm && n.fm.school; });
+  if (!vs.length) return;
+  D.SPELLS = vs.map(function (n) {
+    var fm = n.fm, body = n.md.replace(/^#.*\n+/, '').replace(/^\*[^*\n]+\*\s*\n+/, '').split(/\n\s*\n/)[0] || '';
+    var lv = /cantrip/i.test(fm.level || '') ? 0 : parseInt(fm.level, 10) || 0;
+    return { n: n.n, sc: fm.school, lv: lv, ct: fm.castingTime || '', rng: fm.range || '', dur: fm.duration || '', dmg: fm.damage || '', comp: fm.components || '',
+      tier: fm.tier || '', rune: fm.rune || '', cls: (fm.class || '').split(/\s*,\s*/).filter(Boolean),
+      desc: body.replace(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/g, function (m, a) { return a.split('/').pop(); }).replace(/\*\*/g, '').replace(/\s+/g, ' ').trim() };
+  }).sort(function (a, b) { return a.n < b.n ? -1 : 1; });
+  log.push('spells: ' + D.SPELLS.length + ' from the vault (replacing the generated list)');
+})();
 // Notes that match a website entry are attached to it ("From the vault"); the rest stay in the Codex.
 D.VAULT_DETAILS = { bp: {}, mat: {}, spell: {}, sub: {}, mon: {}, god: {} };
 (function () {
@@ -257,7 +271,7 @@ D.VAULT_DETAILS = { bp: {}, mat: {}, spell: {}, sub: {}, mon: {}, god: {} };
   D.VAULT.notes.forEach(function (n) {
     var k = n.n.toLowerCase(), hit = idx[k] || (spellNames[k] ? ['spell', spellNames[k]] : null);
     var dataFolder = /(^|\/)(Blueprints|Materials|Spells|Subclasses)(\/|$)/i.test(n.f);
-    if (hit && (dataFolder || hit[0] === 'god' || hit[0] === 'mon' || hit[0] === 'sub')) { D.VAULT_DETAILS[hit[0]][hit[1]] = { f: n.f, md: n.md }; attached++; }
+    if (hit && !/(^|\/)Runes(\/|$)/i.test(n.f) && (dataFolder || hit[0] === 'god' || hit[0] === 'mon' || hit[0] === 'sub')) { D.VAULT_DETAILS[hit[0]][hit[1]] = { f: n.f, md: n.md }; attached++; }
     else codex.push(n);
   });
   D.VAULT = { imported: D.VAULT.imported, notes: codex };
