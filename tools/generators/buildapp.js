@@ -168,6 +168,29 @@ D.MATS.sort(function (a, b) { return a.n < b.n ? -1 : a.n > b.n ? 1 : 0; });
 var dropCounts = D.MONSTERS.map(function (m) { return (m.drops || []).length; });
 log.push('harvest parts: +' + genAdded + ' materials (now ' + D.MATS.length + '); drops per monster ' + Math.min.apply(null, dropCounts) + '-' + Math.max.apply(null, dropCounts) + '; body plans ' + JSON.stringify(kinds));
 
+// ---- Armor Class rescale to the flat system: AC is subtracted from each hit, and a full set of iron gear gives 10.
+// units by slot (a full set is 10) x material class (metal 1, bone/scale/stone 0.7, hide/cloth 0.4) x grade factor.
+// The vault's original value is kept as ac0. Keep in step with armorAC() in tools/app/template.html.
+var SLOT_UNITS = { Body: 4, Head: 2, Hands: 1, Feet: 1, Shoulders: 1, Back: 1 }, SHIELD_UNITS = { Buckler: 1, Shield: 2, Tower: 3 };
+function armorSlot(b) {
+  if (b.cat === 'Shield') return /buckler/i.test(b.n) ? 'Buckler' : /tower|pavise|wall/i.test(b.n) ? 'Tower' : 'Shield';
+  return /helm|helmet|hood|crown|circlet|mask|hat|coif|cowl|visor/i.test(b.n) ? 'Head' : /gauntlet|glove|bracer|vambrace|mitt/i.test(b.n) ? 'Hands'
+    : /boot|greave|sabaton|shoe|sandal|treads/i.test(b.n) ? 'Feet' : /pauldron|mantle|spaulder|shoulder|epaulet/i.test(b.n) ? 'Shoulders'
+    : /cloak|cape|wing|shroud/i.test(b.n) ? 'Back' : 'Body';
+}
+var matByN = {}; D.MATS.forEach(function (m) { matByN[m.n.toLowerCase()] = m; });
+var acDone = 0;
+D.BPS.forEach(function (b) {
+  if (b.ac0 === undefined && !b.ac) return;
+  if (b.ac0 === undefined) b.ac0 = b.ac;
+  var ms = b.mats.map(function (n) { return matByN[n.toLowerCase()]; }).filter(Boolean);
+  var cls = ms.some(function (m) { return m.tc === 'O'; }) ? 1 : ms.some(function (m) { return /[BSG]/.test(m.tc || ''); }) ? 0.7 : 0.4;
+  var il = ms.reduce(function (a, m) { return Math.max(a, m.il || 1); }, 1);
+  var slot = armorSlot(b), units = b.cat === 'Shield' ? SHIELD_UNITS[slot] : SLOT_UNITS[slot];
+  b.slot = slot; b.ac = String(Math.max(1, Math.round(units * cls * (1 + (il - 1) / 20)))); acDone++;
+});
+log.push('armor AC rescaled on ' + acDone + ' Blueprints');
+
 // ---- material origins and unique traits (data/traits.js)
 var TR = require(path.join(__dirname, '..', 'data', 'traits.js'));
 var monByName = {}; D.MONSTERS.forEach(function (m) { monByName[m.n.toLowerCase()] = m; });

@@ -1067,7 +1067,7 @@ function sbHTML(m){
 const MODAL={
   bp(b){
     const rows=[['Profession',esc(b.pr)],['Specialty',b.sp&&b.sp!==b.pr?esc(b.sp):''],['Item type',esc(b.cat)],['Level',b.lv],['Rarity',esc(b.r)],
-      ['Damage',b.dc&&b.dm?`<span class="mono">${esc(b.dc)}</span> ${esc(b.dm)}`:''],['AC',b.ac?esc(b.ac):''],['Material grade',b.gr?esc(b.gr):'']];
+      ['Damage',b.dc&&b.dm?`<span class="mono">${esc(b.dc)}</span> ${esc(b.dm)}`:''],['AC',b.ac?esc(b.ac)+(b.ac0&&b.ac0!==b.ac?` <small style="font-weight:400;color:var(--muted)">(vault: ${esc(b.ac0)})</small>`:''):''],['Slot',b.slot?esc(b.slot):''],['Material grade',b.gr?esc(b.gr):'']];
     const mats=b.mats.map(n=>({n,m:findMat(n)}));
     const total=mats.reduce((a,x)=>a+(x.m&&x.m.price||0),0),unsold=mats.some(x=>x.m&&!x.m.price&&x.m.tier>=8);
     const strong=strongestMat(b);
@@ -1346,6 +1346,7 @@ function renderRules(){
   const S=[
     ['ac','Armor Class','',`<ul><li>Armor Class starts at <b>0</b>.</li><li>Armor and other gear each add a small amount of AC to your total.</li><li>Armor that gives more AC comes with drawbacks. For example, full iron gear gives <b>+10 AC</b>, but you lose Acrobatics, Athletics, and Dexterity.</li></ul>
       <div class="formula">damage taken = damage − AC</div>
+      <p><b>How much AC gear gives.</b> Each slot is worth armor units: Body 4, Head 2, Hands 1, Feet 1, Shoulders 1, Back 1 (a full set is 10). Shields: Buckler 1, Shield 2, Tower 3. Each unit gives 1 AC in metal, 0.7 in bone, scale, or stone, and 0.4 in hide or cloth, raised by the material's Item Level (×(1 + (Item Level − 1) ÷ 20)). A full set of iron gear gives <b>10 AC</b>. Every piece gives at least 1.</p>
       <p>AC is subtracted flat from the total damage of each hit.</p>
       <div class="tablewrap"><table class="t"><thead><tr><th class="num">Armor AC worn</th><th>Drawback</th><th></th></tr></thead><tbody>${ARMOR_DRAWBACKS.map((r,i)=>`<tr><td class="num">${r[0]}${ARMOR_DRAWBACKS[i+1]?'–'+(ARMOR_DRAWBACKS[i+1][0]-1):'+'}</td><td>${esc(r[1])}</td><td style="color:var(--muted);font-size:.8rem">${r[2]?'proposed, adjust as you like':''}</td></tr>`).join('')}</tbody></table></div>
       <p class="note"><a href="${pageUrl('tools')}" data-go="tools">Damage calculator →</a></p>`],
@@ -1862,7 +1863,10 @@ const BASES={
     {id:'chain',name:'Chain or cord',role:'minor',qty:1,ok:['O','F'],optional:true,why:'Metal chain or cord.'}]},
 };
 const SHIELD_KIND={Buckler:1,Shield:2,Tower:3};
-const ARMOR_SLOT_MULT={Body:1,Head:.5,Hands:.25,Feet:.25,Shoulders:.25,Back:.25};
+const ARMOR_SLOT_UNITS={Body:4,Head:2,Hands:1,Feet:1,Shoulders:1,Back:1};
+const ARMOR_SLOT_MULT=ARMOR_SLOT_UNITS;
+// Same formula as the build's rescale (tools/generators/buildapp.js): a full set of iron gear (10 units of metal at Item Level 1) gives 10 AC.
+const armorAC=(units,code,il)=>Math.max(1,Math.round(units*(code==='O'?1:/[BSG]/.test(code||'')?.7:.4)*(1+((il||1)-1)/20)));
 const matCode=m=>m.tc||({'Ore / Metal':'O','Metal':'O','Wood / Plant':'W','Wood':'W','Crystal / Gem':'G','Gemstone & Crystal':'G','Stone':'S','Hide / Cloth / Fiber':'F','Bone / Fang / Horn / Scale':'B','Blood / Organ':'L','Essence / Soul / Core':'E','Mechanism':'K','Supply':'U'})[m.ty||m.cat]||'?';
 function slotFit(slot,m){
   if(!m)return slot.optional?{lv:'empty'}:{lv:'missing'};
@@ -1906,8 +1910,7 @@ function forgeResult(){
   }
   if(B.armor||B.shield){
     const c=pm&&matCode(pm);let base=0;
-    if(pm&&prim.fit.lv!=='wrong'){base=B.shield?SHIELD_KIND[FORGE.shield]+Math.floor(pil/12):(c==='O'?2+Math.floor(pil/5):c==='B'?1+Math.floor(pil/6):1+Math.floor(pil/8));}
-    if(B.armor)base=Math.round(base*(ARMOR_SLOT_MULT[FORGE.slot]||1));
+    if(pm&&prim.fit.lv!=='wrong')base=armorAC(B.shield?SHIELD_KIND[FORGE.shield]:ARMOR_SLOT_UNITS[FORGE.slot],c,pil);
     out.ac=Math.max(0,base+acAdj);out.weight=c==='O'?'Heavy':c==='B'?'Medium':'Light';out.drawback=drawbackFor(out.ac);
   }
   const prof=B.focus?'Enchanting':B.armor&&pm&&matCode(pm)==='F'?'Tailoring':pm&&['W','B','S'].includes(matCode(pm))?'Carving':'Blacksmithing';
@@ -2106,7 +2109,7 @@ When you name an entry that exists in the compendium, wrap its exact name in dou
 FAND cosmology: Infinatas (sometimes written Infinitas) is the highest being and cares only for balance, keeping it through creation. Inane is Infinatas's split personality and keeps balance through destruction; to the gods it was an unknown entity. The gods' own world eroded because of Inane, and Infinatas allowed the gods into this realm under strict regulation.
 
 FAND rules summary:
-- Armor Class starts at 0. Armor and other gear each add a small amount of AC to the total. Armor that gives more AC carries drawbacks: for example, full iron gear gives +10 AC but you lose Acrobatics, Athletics, and Dexterity. AC is subtracted flat from the total damage of each hit: damage taken = damage - AC.
+- Armor Class starts at 0. Armor and other gear each add a small amount of AC to the total: slot units Body 4, Head 2, Hands/Feet/Shoulders/Back 1 each (a full set is 10); shields Buckler 1, Shield 2, Tower 3; x1 for metal, x0.7 bone/scale/stone, x0.4 hide/cloth, x(1 + (Item Level - 1)/20); minimum 1 per piece. A full set of iron gear gives 10 AC. Armor that gives more AC carries drawbacks: for example, full iron gear gives +10 AC but you lose Acrobatics, Athletics, and Dexterity. AC is subtracted flat from the total damage of each hit: damage taken = damage - AC.
 - Material grading: every material has a realm (tier 1-10) and a grade 1-10. Material Rank = (tier - 1) x 10 + grade (1-100). Item Level = ceil(Rank / 2) (1-50). Blueprints record their strongest material.
 - Material origins and unique traits: creature parts carry a unique trait drawn from the creature's signature ability and the body part (a hawk's eye sharpens sight; troll blood regenerates); plants give small herbal effects; ores, stones, gems, and supplies are basic and carry only their property. An item gains the unique traits of its materials while equipped.
 - Material properties: each material gives a property (48 in all); supplies give none. Potency = min(10, max(1, floor(Item Level / 5)) + 1 at grade 9, + 2 at grade 10). Weapons, armor, and shields carry the property of their strongest material.
