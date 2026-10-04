@@ -1,0 +1,1889 @@
+[
+ {
+  "n": "Kali - The Dark Mother",
+  "grp": "Hindu Pantheon",
+  "myth": "The fierce form of the Divine Mother who arose to destroy demons such as Raktabija; she is linked to time, death and the liberation of the soul from ego.",
+  "runes": [
+   "Time",
+   "Destruction",
+   "Release"
+  ],
+  "home": "Void",
+  "wants": "Pride and illusion cut away; the helpless defended from those who prey on them",
+  "sig": [
+   "Obsidian",
+   "Shadowsteel",
+   "Eclipse Bloom"
+  ],
+  "relic": "Khadga of Liberation",
+  "seated": 3,
+  "hand": [
+   "Tara Nightgarland",
+   "Chamunda Ashveil",
+   "Kalyani Bladeheart"
+  ]
+ },
+ {
+  "n": "Durga - The Invincible Mother",
+  "grp": "Hindu Pantheon",
+  "myth": "A warrior goddess formed from the combined radiance of the gods to defeat the buffalo demon Mahishasura; her victory is celebrated at Navaratri and Durga Puja.",
+  "runes": [
+   "Protection",
+   "War",
+   "Courage"
+  ],
+  "home": "Heaven",
+  "wants": "Demons and tyrants faced down; the weak sheltered behind her contractors' shields",
+  "sig": [
+   "Lion Hide",
+   "Sun Lion Mane",
+   "Godsteel"
+  ],
+  "relic": "Trident of the Nine Nights",
+  "seated": 5,
+  "hand": [
+   "Aditi Demonsbane",
+   "Chandika Tenarms",
+   "Sena Ninefold",
+   "Rudrani Lionhold",
+   "Jaya Victoryborn"
+  ]
+ },
+ {
+  "n": "Hanuman - The Devoted",
+  "grp": "Hindu Pantheon",
+  "myth": "The monkey-faced devotee of Rama and son of the wind god, who leapt the ocean to Lanka and carried a mountain of healing herbs; he embodies strength, humility and devotion.",
+  "runes": [
+   "Dedication",
+   "Strength",
+   "Jump"
+  ],
+  "home": "Heaven",
+  "wants": "Devotion proven through service; strength used only for the good of others",
+  "sig": [
+   "Ape Hide",
+   "Giant Ape Hide",
+   "Titan Bone"
+  ],
+  "relic": "Gada of the Great Leap",
+  "seated": 4,
+  "hand": [
+   "Anjan Mountainbearer",
+   "Maruti Swiftleap",
+   "Sanjivani Herbhand",
+   "Pavan Ringkeeper"
+  ]
+ },
+ {
+  "n": "Krishna - The Divine Cowherd",
+  "grp": "Hindu Pantheon",
+  "myth": "The eighth avatar of Vishnu, beloved as the flute-playing cowherd of Vrindavan and as the charioteer who taught the Bhagavad Gita to Arjuna at Kurukshetra.",
+  "runes": [
+   "Love",
+   "Music",
+   "Wisdom"
+  ],
+  "home": "Heaven",
+  "wants": "Duty done without attachment; joy, music and devotion shared freely",
+  "sig": [
+   "Reed",
+   "Hymn Gland",
+   "Sunwell Lotus"
+  ],
+  "relic": "Flute of Vrindavan",
+  "seated": 3,
+  "hand": [
+   "Gopika Peacockplume",
+   "Uddhav Steadmind",
+   "Vrinda Tulasi-Keeper"
+  ]
+ },
+ {
+  "n": "Rama - The Righteous Prince",
+  "grp": "Hindu Pantheon",
+  "myth": "The seventh avatar of Vishnu and hero of the Ramayana, the ideal king who kept his word through fourteen years of exile and rescued Sita from the demon king Ravana.",
+  "runes": [
+   "Justice",
+   "Loyalty",
+   "Bow"
+  ],
+  "home": "Heaven",
+  "wants": "Promises kept at any cost; just rule and faithful households",
+  "sig": [
+   "Yew",
+   "Truesilver",
+   "Sun Orichalcum"
+  ],
+  "relic": "Kodanda Bow",
+  "seated": 4,
+  "hand": [
+   "Raghav Oathkeeper",
+   "Setu Bridgebuilder",
+   "Dharmika Steadfast",
+   "Ayodhan Crownless"
+  ]
+ },
+ {
+  "n": "Agni - God of Fire",
+  "grp": "Hindu Pantheon",
+  "myth": "The Vedic god of fire and the sacrificial flame, the messenger who carries offerings from mortals to the gods and dwells in every hearth.",
+  "runes": [
+   "Fire",
+   "Purity"
+  ],
+  "home": "Heaven",
+  "wants": "Offerings given with sincerity; sacred fires kept lit",
+  "sig": [
+   "Ember Iron",
+   "Salamander Scale",
+   "Sunfire Salamander Tail"
+  ],
+  "relic": "Ladle of Offering",
+  "seated": 2,
+  "hand": [
+   "Homa Ashtongue",
+   "Deepak Sevenflame"
+  ]
+ },
+ {
+  "n": "Yama - God of Death",
+  "grp": "Hindu Pantheon",
+  "myth": "The first mortal to die, who became lord of the dead and judge of souls; he rides a buffalo, carries a noose and upholds dharma.",
+  "runes": [
+   "Death",
+   "Justice",
+   "Bind"
+  ],
+  "home": "Hell",
+  "wants": "Souls sent on at their proper hour; the dead judged by their deeds",
+  "sig": [
+   "Gravestone",
+   "Styx Water",
+   "Undead King's Crown"
+  ],
+  "relic": "Danda Staff of Judgement",
+  "seated": 3,
+  "hand": [
+   "Kalan Buffalo-Rider",
+   "Lekha Deedscribe",
+   "Antaka Final-Hour"
+  ]
+ },
+ {
+  "n": "Kartikeya - God of War",
+  "grp": "Hindu Pantheon",
+  "myth": "The six-faced son of Shiva and Parvati, also called Skanda and Murugan, born to lead the army of the gods against the demon Taraka; he rides a peacock and bears the Vel spear.",
+  "runes": [
+   "War",
+   "Spear",
+   "Youth"
+  ],
+  "home": "Heaven",
+  "wants": "Armies led with discipline; young warriors trained and tested",
+  "sig": [
+   "Feathers",
+   "Wootz Steel",
+   "Orichalcum"
+  ],
+  "relic": "Vel of the Six Faces",
+  "seated": 5,
+  "hand": [
+   "Kumaran Peacock-Rider",
+   "Shaktidhar Vel-Bearer",
+   "Arumugan Sixsight",
+   "Senani Warbanner",
+   "Palani Hillguard"
+  ]
+ },
+ {
+  "n": "Vayu - God of the Wind",
+  "grp": "Hindu Pantheon",
+  "myth": "The Vedic god of wind and breath, the life-force that moves through all beings, and father of Hanuman and Bhima.",
+  "runes": [
+   "Air",
+   "Breath",
+   "Speed"
+  ],
+  "home": "Heaven",
+  "wants": "Breath honoured and air kept clean; messages carried fast",
+  "sig": [
+   "Hippogriff Feather",
+   "Sylph Breath",
+   "Roc Feather"
+  ],
+  "relic": "Banner of the Living Breath",
+  "seated": 2,
+  "hand": [
+   "Prana Stillbreath",
+   "Anila Gustborn"
+  ]
+ },
+ {
+  "n": "Kubera - God of Wealth",
+  "grp": "Hindu Pantheon",
+  "myth": "King of the yakshas and treasurer of the gods, guardian of the north and of the hidden riches of the earth, who once ruled the golden city of Lanka.",
+  "runes": [
+   "Wealth",
+   "Treasure"
+  ],
+  "home": "Inner Realm",
+  "wants": "Treasures guarded and honestly counted; debts repaid in full",
+  "sig": [
+   "Electrum",
+   "Keystone Platinum",
+   "Progenitor Gold"
+  ],
+  "relic": "Jewel-Spitting Mongoose Purse",
+  "seated": 3,
+  "hand": [
+   "Nidhi Jewelcount",
+   "Alaka Northgate",
+   "Dhanesh Coinfather"
+  ]
+ },
+ {
+  "n": "Chandra - God of the Moon",
+  "grp": "Hindu Pantheon",
+  "myth": "The moon god who drives a chariot drawn by antelopes; his waxing and waning came from a curse by Daksha, and he is linked to soma, the nectar of the gods.",
+  "runes": [
+   "Moon",
+   "Mind"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Calm minds and honest marriages; what was lost allowed to wax again",
+  "sig": [
+   "Moonsilver",
+   "Moonmilk Lily",
+   "Twilight Amber"
+  ],
+  "relic": "Soma Cup",
+  "seated": 2,
+  "hand": [
+   "Shashank Antelope-Driver",
+   "Indu Silvermind"
+  ]
+ },
+ {
+  "n": "Kama - God of Love",
+  "grp": "Hindu Pantheon",
+  "myth": "The god of love and desire who shoots flower-tipped arrows from a sugarcane bow; burned to ash by Shiva's third eye, he was later reborn.",
+  "runes": [
+   "Desire",
+   "Love",
+   "Rebirth"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Love kindled between those meant for it; desire honoured, never forced",
+  "sig": [
+   "Rose Petal",
+   "Dawnpetal",
+   "Glamour Heart"
+  ],
+  "relic": "Sugarcane Bow",
+  "seated": 1,
+  "hand": [
+   "Madana Flowerdart"
+  ]
+ },
+ {
+  "n": "Ganga - Goddess of the River",
+  "grp": "Hindu Pantheon",
+  "myth": "The sacred river Ganges in divine form, who descended from heaven through Shiva's locks to purify the ashes of King Sagara's sons; her waters wash away sin.",
+  "runes": [
+   "Water",
+   "Purity",
+   "Descend"
+  ],
+  "home": "Heaven",
+  "wants": "Rivers kept clean; the dead given proper rites and peace",
+  "sig": [
+   "Consecrated Water",
+   "River Pearl",
+   "Undine Tear"
+  ],
+  "relic": "Makara Water-Pot",
+  "seated": 2,
+  "hand": [
+   "Ghatika Pyrewasher",
+   "Tirtha Banksinger"
+  ]
+ },
+ {
+  "n": "Vishvakarma - Architect of the Gods",
+  "grp": "Hindu Pantheon",
+  "myth": "The divine craftsman and architect who built the cities, chariots and weapons of the gods, including golden Lanka and Krishna's Dwarka.",
+  "runes": [
+   "Creation",
+   "Forging",
+   "Mechanical"
+  ],
+  "home": "Heaven",
+  "wants": "Tools respected and buildings raised true; craftsmanship taught",
+  "sig": [
+   "Iron Ingot",
+   "Runesteel",
+   "Orichalcum"
+  ],
+  "relic": "Measuring Rod of the Divine Architect",
+  "seated": 3,
+  "hand": [
+   "Shilpi Plumbline",
+   "Sthapati Goldspire",
+   "Takshan Chiselhand"
+  ]
+ },
+ {
+  "n": "Sita - The Earth-Born",
+  "grp": "Hindu Pantheon",
+  "myth": "The wife of Rama, found in a furrow of the earth, who endured exile and captivity with steadfast virtue and at last returned into the earth; she is revered as an avatar of Lakshmi.",
+  "runes": [
+   "Loyalty",
+   "Earth",
+   "Trial"
+  ],
+  "home": "Heaven",
+  "wants": "Faith kept through hardship; those wrongly doubted given their due",
+  "sig": [
+   "Firstgrass",
+   "Oathgrass",
+   "Earth Elemental Stone"
+  ],
+  "relic": "Chudamani Crest-Jewel",
+  "seated": 1,
+  "hand": [
+   "Bhumija Steadheart"
+  ]
+ },
+ {
+  "n": "Radha - Goddess of Devotion",
+  "grp": "Hindu Pantheon",
+  "myth": "The cowherd maiden of Vrindavan, Krishna's beloved, revered as the embodiment of selfless devotional love.",
+  "runes": [
+   "Love",
+   "Dedication"
+  ],
+  "home": "Heaven",
+  "wants": "Devotion offered freely, without asking anything in return",
+  "sig": [
+   "Hedge Honey",
+   "Prayer Silk",
+   "Gloria Myrrh"
+  ],
+  "relic": "Anklets of the Rasa Dance",
+  "seated": 2,
+  "hand": [
+   "Rasika Dancefoot",
+   "Kunja Bowersong"
+  ]
+ },
+ {
+  "n": "Shani - Lord of Saturn",
+  "grp": "Hindu Pantheon",
+  "myth": "Son of Surya and the planet Saturn, a slow and stern judge who brings every being the fruit of their deeds; he is worshipped to soften hardship.",
+  "runes": [
+   "Slowness",
+   "Causality",
+   "Trial"
+  ],
+  "home": "Outer Realm",
+  "wants": "Hard work done patiently; debts of deed paid without complaint",
+  "sig": [
+   "Lead",
+   "Pressure Lead",
+   "Gravity Knot"
+  ],
+  "relic": "Crow-Banner of Saturn",
+  "seated": 3,
+  "hand": [
+   "Kakadhvaj Crowbanner",
+   "Mandan Slowstep",
+   "Sauri Ledgerbearer"
+  ]
+ },
+ {
+  "n": "Ushas - Goddess of the Dawn",
+  "grp": "Hindu Pantheon",
+  "myth": "The Vedic goddess of dawn, praised in many hymns of the Rigveda, who opens the gates of heaven each morning in a chariot of light and wakes all living things.",
+  "runes": [
+   "Dawn",
+   "Light"
+  ],
+  "home": "Heaven",
+  "wants": "Early rising and fresh starts; hymns sung at first light",
+  "sig": [
+   "Dawn Lily",
+   "Dawn Butterfly Scales",
+   "Aurorite"
+  ],
+  "relic": "Gate-Key of the Morning",
+  "seated": 4,
+  "hand": [
+   "Aruni Firstlight",
+   "Rigvan Hymnward",
+   "Prabhat Lightherd",
+   "Suvarna Daybreak"
+  ]
+ },
+ {
+  "n": "Narasimha - The Man-Lion",
+  "grp": "Hindu Pantheon",
+  "myth": "The fourth avatar of Vishnu, half man and half lion, who burst from a pillar at twilight to destroy the demon king Hiranyakashipu and protect his devotee Prahlada.",
+  "runes": [
+   "Protection",
+   "Rage",
+   "Dusk"
+  ],
+  "home": "Heaven",
+  "wants": "Devotees protected, however clever the tyrant's defences",
+  "sig": [
+   "Lion Fang",
+   "Sun Lion Claw",
+   "Sphinx Mane"
+  ],
+  "relic": "Pillar Shard of Twilight",
+  "seated": 2,
+  "hand": [
+   "Stambha Pillarborn",
+   "Ugra Twilight-Claw"
+  ]
+ },
+ {
+  "n": "Dhanvantari - Physician of the Gods",
+  "grp": "Hindu Pantheon",
+  "myth": "An avatar of Vishnu who rose from the churning of the ocean carrying the pot of amrita, honoured as the father of Ayurveda.",
+  "runes": [
+   "Heal",
+   "Herb",
+   "Health"
+  ],
+  "home": "Heaven",
+  "wants": "The sick treated without regard to rank; herbal lore recorded and shared",
+  "sig": [
+   "Herb Bundle",
+   "Mercy Moss",
+   "Progenitor Ginseng"
+  ],
+  "relic": "Amrita Kalash",
+  "seated": 3,
+  "hand": [
+   "Vaidya Rootwise",
+   "Ayur Neemleaf",
+   "Kalash Nectarward"
+  ]
+ },
+ {
+  "n": "Annapurna - Goddess of Nourishment",
+  "grp": "Hindu Pantheon",
+  "myth": "A form of Parvati who holds a ladle and a bowl of food and feeds all who come to her, teaching that no one should go hungry.",
+  "runes": [
+   "Nurture",
+   "Famine"
+  ],
+  "home": "Heaven",
+  "wants": "No guest turned away hungry; grain shared in hard seasons",
+  "sig": [
+   "Sunwheat",
+   "Halo Bee Honey",
+   "Kernel Bee Honey"
+  ],
+  "relic": "Golden Ladle of Kashi",
+  "seated": 5,
+  "hand": [
+   "Kashi Hearthmother",
+   "Bhiksha Bowlbearer",
+   "Anna Ricefield",
+   "Pongal Sweetpot",
+   "Dana Openhand"
+  ]
+ },
+ {
+  "n": "Huitzilopochtli - God of the Sun and War",
+  "grp": "Aztec Pantheon",
+  "myth": "Patron god of the Mexica, born fully armed from Coatlicue to defend her against his sister Coyolxauhqui; he led his people on their long migration to found Tenochtitlan.",
+  "runes": [
+   "War",
+   "Sun",
+   "Migration"
+  ],
+  "home": "Heaven",
+  "wants": "His people protected and led to new homes; the sun's daily battle fought",
+  "sig": [
+   "Feathers",
+   "Sunfire Citrine",
+   "Solar Feather"
+  ],
+  "relic": "Xiuhcoatl Fire Serpent",
+  "seated": 4,
+  "hand": [
+   "Tenochca Eaglebearer",
+   "Mexi Wanderleader",
+   "Cuauhcoatl Sunshield",
+   "Tlacah Hummingbird-Left"
+  ]
+ },
+ {
+  "n": "Tezcatlipoca - The Smoking Mirror",
+  "grp": "Aztec Pantheon",
+  "myth": "Powerful god of the night sky, sorcery, fate and rulership, rival of Quetzalcoatl, who sees all things in his obsidian mirror and tests mortals with temptation.",
+  "runes": [
+   "Night",
+   "Fate",
+   "Reflection"
+  ],
+  "home": "Chaos Realm",
+  "wants": "Pride tested and exposed; rulers reminded that fortune can turn",
+  "sig": [
+   "Obsidian Dust",
+   "Mirror Shard",
+   "Abyssal Obsidian"
+  ],
+  "relic": "Smoking Mirror",
+  "seated": 3,
+  "hand": [
+   "Necoc Two-Sided",
+   "Ocelotzin Jaguar-Night",
+   "Telpoch Youthtester"
+  ]
+ },
+ {
+  "n": "Mictlantecuhtli - Lord of Mictlan",
+  "grp": "Aztec Pantheon",
+  "myth": "Skeletal lord of Mictlan, the lowest level of the underworld, who rules the dead beside his wife and tried to stop Quetzalcoatl taking the bones to make new humans.",
+  "runes": [
+   "Death",
+   "Bones"
+  ],
+  "home": "Hell",
+  "wants": "The dead given grave goods for their journey; bones left undisturbed",
+  "sig": [
+   "Bone Dust",
+   "Undead Bone",
+   "Undead King's Heart"
+  ],
+  "relic": "Owl-Feather Crown of Mictlan",
+  "seated": 2,
+  "hand": [
+   "Itzcuin Dogguide",
+   "Apanohuaya River-Crosser"
+  ]
+ },
+ {
+  "n": "Mictecacihuatl - Lady of the Dead",
+  "grp": "Aztec Pantheon",
+  "myth": "Queen of Mictlan who watches over the bones of the dead; her festivals for the departed live on in the Day of the Dead.",
+  "runes": [
+   "Death",
+   "Memory"
+  ],
+  "home": "Hell",
+  "wants": "The departed remembered with feasts and flowers each year",
+  "sig": [
+   "Marrow Dust",
+   "Ashlily",
+   "Oblivion Poppy"
+  ],
+  "relic": "Marigold Veil",
+  "seated": 3,
+  "hand": [
+   "Cempoal Marigold-Path",
+   "Tlalli Altarkeeper",
+   "Xiomara Candlewake"
+  ]
+ },
+ {
+  "n": "Xochiquetzal - Goddess of Flowers and Beauty",
+  "grp": "Aztec Pantheon",
+  "myth": "Goddess of beauty, flowers, love and the crafts of weaving and embroidery, protector of young mothers and artisans.",
+  "runes": [
+   "Flower",
+   "Art",
+   "Love"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Beautiful things woven and grown; artisans and new mothers protected",
+  "sig": [
+   "Rose Petal",
+   "Thornweave",
+   "Fey Silk"
+  ],
+  "relic": "Quetzal-Plume Loom",
+  "seated": 4,
+  "hand": [
+   "Xochitl Weavethread",
+   "Quetzalli Petalhand",
+   "Ameyal Springbloom",
+   "Tonalli Brocade"
+  ]
+ },
+ {
+  "n": "Coatlicue - Mother of Gods",
+  "grp": "Aztec Pantheon",
+  "myth": "Earth mother goddess in a skirt of serpents, who conceived from a ball of feathers and gave birth to Huitzilopochtli as her other children came to kill her.",
+  "runes": [
+   "Earth",
+   "Cycle of Life"
+  ],
+  "home": "Inner Realm",
+  "wants": "Mothers defended; the earth fed in return for what it gives",
+  "sig": [
+   "Constrictor Snake Hide",
+   "Yuan-ti Scale",
+   "Serpent Scale"
+  ],
+  "relic": "Skirt of Serpents",
+  "seated": 2,
+  "hand": [
+   "Coatepec Hillguard",
+   "Tlalnantli Earthmother"
+  ]
+ },
+ {
+  "n": "Tlazolteotl - Goddess of Purification",
+  "grp": "Aztec Pantheon",
+  "myth": "Goddess of desire, filth and purification, called the Eater of Filth because she hears confessions and cleanses wrongdoing.",
+  "runes": [
+   "Clean",
+   "Lust",
+   "Sin"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Wrongs confessed and cleansed; shame lifted from the repentant",
+  "sig": [
+   "Sinner's Thorn",
+   "Sinner's Salt",
+   "Penance Iron"
+  ],
+  "relic": "Cotton Spindle of Confession",
+  "seated": 2,
+  "hand": [
+   "Tlacolli Confessor",
+   "Ichcatl Cottonspinner"
+  ]
+ },
+ {
+  "n": "Xolotl - God of Lightning and Death",
+  "grp": "Aztec Pantheon",
+  "myth": "The dog-headed twin of Quetzalcoatl, god of lightning, fire and the misshapen, who guides the dead through Mictlan and helped carry back the bones that made humanity.",
+  "runes": [
+   "Lightning",
+   "Double",
+   "Death"
+  ],
+  "home": "Hell",
+  "wants": "The dead guided safely; the misshapen and outcast treated with respect",
+  "sig": [
+   "Mastiff Fang",
+   "Death Dog Hide",
+   "Thundercrystal"
+  ],
+  "relic": "Axolotl Charm",
+  "seated": 1,
+  "hand": [
+   "Itzcuintli Guide-Dog"
+  ]
+ },
+ {
+  "n": "Centeotl - God of Maize",
+  "grp": "Aztec Pantheon",
+  "myth": "The young god of maize, born of the earth goddess, from whose body the crops that feed the people arose.",
+  "runes": [
+   "Grow",
+   "Season"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Fields planted and tended; maize honoured and never wasted",
+  "sig": [
+   "Sunwheat",
+   "Coreseed",
+   "Gracewheat"
+  ],
+  "relic": "Golden Ear of Maize",
+  "seated": 3,
+  "hand": [
+   "Cintli Rowkeeper",
+   "Elotl Greenear",
+   "Milpa Furrowsong"
+  ]
+ },
+ {
+  "n": "Chantico - Goddess of the Hearth",
+  "grp": "Aztec Pantheon",
+  "myth": "Goddess of hearth fires and volcanoes, guardian of the home and its treasures, who was turned into a dog for breaking a fast.",
+  "runes": [
+   "Fire",
+   "Treasure"
+  ],
+  "home": "Inner Realm",
+  "wants": "Hearths kept burning; household valuables guarded",
+  "sig": [
+   "Coal",
+   "Ember Iron",
+   "Magma Pearl"
+  ],
+  "relic": "Cactus-Thorn Crown",
+  "seated": 1,
+  "hand": [
+   "Tlecuil Hearthstone"
+  ]
+ },
+ {
+  "n": "Mixcoatl - God of the Hunt",
+  "grp": "Aztec Pantheon",
+  "myth": "The Cloud Serpent, god of the hunt and the Milky Way, who first struck fire from flint and is a father of Quetzalcoatl in some tellings.",
+  "runes": [
+   "Bow",
+   "Star",
+   "Cloud"
+  ],
+  "home": "Outer Realm",
+  "wants": "Game hunted with skill and respect; the stars watched",
+  "sig": [
+   "Flint",
+   "Starmetal Ingot",
+   "Starthread"
+  ],
+  "relic": "Cloud-Serpent Bow",
+  "seated": 3,
+  "hand": [
+   "Mazatl Deerstalker",
+   "Chichi Flintstriker",
+   "Iztac Milkpath"
+  ]
+ },
+ {
+  "n": "Coyolxauhqui - Goddess of the Moon",
+  "grp": "Aztec Pantheon",
+  "myth": "Sister of Huitzilopochtli who led her four hundred brothers against their mother and was cut down by him; her head became the moon.",
+  "runes": [
+   "Moon",
+   "Rebellion"
+  ],
+  "home": "Chaos Realm",
+  "wants": "Defiance of an unjust order; the night given its due against the sun",
+  "sig": [
+   "Moonsilver",
+   "Moonsteel",
+   "Cold Star Shard"
+  ],
+  "relic": "Golden Bells of the Moon",
+  "seated": 2,
+  "hand": [
+   "Centzon Starbrother",
+   "Huitznahua Southstar"
+  ]
+ },
+ {
+  "n": "Xiuhtecuhtli - Turquoise Lord of Fire",
+  "grp": "Aztec Pantheon",
+  "myth": "The old god of fire, day and time who sits at the centre of the world; the New Fire ceremony renewed him every fifty-two years.",
+  "runes": [
+   "Fire",
+   "Time"
+  ],
+  "home": "Inner Realm",
+  "wants": "Fires renewed on schedule; the cycle of years honoured",
+  "sig": [
+   "Ember Iron",
+   "Last Light Ember",
+   "Emberstone"
+  ],
+  "relic": "Turquoise Fire-Drill",
+  "seated": 4,
+  "hand": [
+   "Tlecuahuitl Firedrill",
+   "Molpilli Bundle-Binder",
+   "Xiuhcoa Turquoise-Snake",
+   "Cuetzpalin Elder"
+  ]
+ },
+ {
+  "n": "Ometeotl - The Dual God",
+  "grp": "Aztec Pantheon",
+  "myth": "The dual creator, both male and female, who dwells in the highest heaven and is the source of all other gods.",
+  "runes": [
+   "Yin",
+   "Yang",
+   "Origin"
+  ],
+  "home": "Heaven",
+  "wants": "Balance kept between opposites; children born and named well",
+  "sig": [
+   "Celestial Gold Leaf",
+   "Celestial Marble",
+   "Genesis Seed"
+  ],
+  "relic": "Seed of Omeyocan",
+  "seated": 0,
+  "hand": []
+ },
+ {
+  "n": "Mayahuel - Goddess of the Maguey",
+  "grp": "Aztec Pantheon",
+  "myth": "Goddess of the maguey plant, whose sap makes pulque; her four hundred rabbit children are the spirits of drunkenness.",
+  "runes": [
+   "Bloom",
+   "Multiply"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Feasts shared in measure; the maguey and its gifts tended carefully",
+  "sig": [
+   "Sap Resin",
+   "Fey Honey",
+   "Worldtree Sap"
+  ],
+  "relic": "Maguey Heart-Jar",
+  "seated": 3,
+  "hand": [
+   "Tochtli Rabbitborn",
+   "Metl Agavekeeper",
+   "Octli Brewer"
+  ]
+ },
+ {
+  "n": "Itzpapalotl - The Obsidian Butterfly",
+  "grp": "Aztec Pantheon",
+  "myth": "A fearsome warrior goddess with wings edged in obsidian blades, ruler of the paradise of Tamoanchan and leader of the star-demons.",
+  "runes": [
+   "Blade",
+   "Flight",
+   "Fear"
+  ],
+  "home": "Abyss",
+  "wants": "Battle wounds honoured; women who die in childbirth revered as warriors",
+  "sig": [
+   "Obsidian",
+   "Shadow Obsidian",
+   "Ashen Adamant"
+  ],
+  "relic": "Obsidian-Bladed Wings",
+  "seated": 2,
+  "hand": [
+   "Papalotl Bladewing",
+   "Tamoan Exile"
+  ]
+ },
+ {
+  "n": "Xochipilli - Prince of Flowers",
+  "grp": "Aztec Pantheon",
+  "myth": "God of art, games, music, dance, flowers and song, and twin of Xochiquetzal.",
+  "runes": [
+   "Music",
+   "Entertainment",
+   "Flower"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Songs, dances and games offered with joy",
+  "sig": [
+   "Sunpetal",
+   "Dawnpetal",
+   "Dreaming Poppy"
+  ],
+  "relic": "Flower-Crowned Drum",
+  "seated": 5,
+  "hand": [
+   "Cuicatl Songmaker",
+   "Ollin Ballplayer",
+   "Ihuicatl Dancefoot",
+   "Yoloxochitl Heartflower",
+   "Tlapitz Flutist"
+  ]
+ },
+ {
+  "n": "Huehuecoyotl - The Old Coyote",
+  "grp": "Aztec Pantheon",
+  "myth": "Trickster god of music, dance and storytelling, a shapeshifting coyote whose pranks often backfire on himself.",
+  "runes": [
+   "Twist",
+   "Shape-shifter",
+   "Entertainment"
+  ],
+  "home": "Chaos Realm",
+  "wants": "Pranks played on the pompous; stories told late into the night",
+  "sig": [
+   "Jackal Hide",
+   "Changeling Thyme",
+   "Warpbeast Hide"
+  ],
+  "relic": "Coyote's Rattle",
+  "seated": 1,
+  "hand": [
+   "Coyotl Tailwit"
+  ]
+ },
+ {
+  "n": "Chicomecoatl - Goddess of Sustenance",
+  "grp": "Aztec Pantheon",
+  "myth": "Seven Serpent, goddess of maize and nourishment who carries ears of corn and keeps the people fed through the year.",
+  "runes": [
+   "Nurture",
+   "Season"
+  ],
+  "home": "Heaven",
+  "wants": "Seed corn saved and granaries filled for lean years",
+  "sig": [
+   "Sunwheat",
+   "Halo Bee Honey",
+   "Starfall Nectar"
+  ],
+  "relic": "Seven-Serpent Ear-Bundle",
+  "seated": 2,
+  "hand": [
+   "Chicome Granarykeeper",
+   "Cuezcomatl Storeguard"
+  ]
+ },
+ {
+  "n": "Tlaltecuhtli - The Earth Monster",
+  "grp": "Aztec Pantheon",
+  "myth": "The great earth creature torn apart by Quetzalcoatl and Tezcatlipoca to make the land and sky; her body is the world, and she hungers for what it gives back.",
+  "runes": [
+   "Earth",
+   "Terraformation"
+  ],
+  "home": "Abyss",
+  "wants": "What is taken from the land given back to it",
+  "sig": [
+   "River Mud",
+   "Primeval Ore",
+   "Behemoth Hide"
+  ],
+  "relic": "Maw of the Earth",
+  "seated": 0,
+  "hand": []
+ },
+ {
+  "n": "Yacatecuhtli - God of Merchants",
+  "grp": "Aztec Pantheon",
+  "myth": "Lord of the vanguard and patron of the pochteca, the long-distance merchants who travelled with staffs he blessed.",
+  "runes": [
+   "Commerce",
+   "Voyage",
+   "Trade"
+  ],
+  "home": "Outer Realm",
+  "wants": "Caravans returned safely; trade routes opened and kept fair",
+  "sig": [
+   "Salt-Cured Rope",
+   "Astral Driftwood",
+   "Farshore Amber"
+  ],
+  "relic": "Merchant's Travel Staff",
+  "seated": 3,
+  "hand": [
+   "Pochtecatl Longroad",
+   "Oztoma Jadetrader",
+   "Tlatoa Bargainer"
+  ]
+ },
+ {
+  "n": "Izanami - Goddess of Creation and Death",
+  "grp": "Japanese Pantheon",
+  "myth": "Co-creator of the islands of Japan with Izanagi; she died giving birth to the fire god and became queen of Yomi, the land of the dead.",
+  "runes": [
+   "Creation",
+   "Death",
+   "Separation"
+  ],
+  "home": "Hell",
+  "wants": "The boundary between the living and the dead respected",
+  "sig": [
+   "Gravestone",
+   "Spirit Anchor",
+   "Unborn Membrane"
+  ],
+  "relic": "Boulder of Yomotsu Hirasaka",
+  "seated": 2,
+  "hand": [
+   "Kagami Yomibride",
+   "Haruhi Boulderwatch"
+  ]
+ },
+ {
+  "n": "Raijin - God of Thunder",
+  "grp": "Japanese Pantheon",
+  "myth": "The god of thunder and lightning, shown ringed by drums that he beats to make storms.",
+  "runes": [
+   "Lightning",
+   "Electric"
+  ],
+  "home": "Chaos Realm",
+  "wants": "Storms respected; drummers and brave hearts honoured",
+  "sig": [
+   "Petrified Lightning",
+   "Thunder Iron",
+   "Thunderpearl"
+  ],
+  "relic": "Ring of Thunder Drums",
+  "seated": 3,
+  "hand": [
+   "Ikazuchi Drumhand",
+   "Kaminari Sora",
+   "Tatsuo Stormbeat"
+  ]
+ },
+ {
+  "n": "Fujin - God of the Wind",
+  "grp": "Japanese Pantheon",
+  "myth": "The god of wind who carries a great bag of winds over his shoulders, often shown beside Raijin.",
+  "runes": [
+   "Air",
+   "Release"
+  ],
+  "home": "Chaos Realm",
+  "wants": "Foul air blown away; sailors and millers given their wind",
+  "sig": [
+   "Feathers",
+   "Sylph Breath",
+   "Air Elemental Essence"
+  ],
+  "relic": "Bag of Winds",
+  "seated": 2,
+  "hand": [
+   "Hayate Gustrunner",
+   "Oroshi Mountainwind"
+  ]
+ },
+ {
+  "n": "Hachiman - God of Warriors and Archery",
+  "grp": "Japanese Pantheon",
+  "myth": "Divine protector of Japan and of warriors, patron of the samurai, identified with the deified Emperor Ojin.",
+  "runes": [
+   "Bow",
+   "Protection",
+   "Martial"
+  ],
+  "home": "Heaven",
+  "wants": "Lands defended honourably; archery practised with discipline",
+  "sig": [
+   "Reed",
+   "Ironwood",
+   "Godsteel"
+  ],
+  "relic": "Dove-Fletched Bow",
+  "seated": 4,
+  "hand": [
+   "Yumiko Doveshaft",
+   "Kenji Shrinewarden",
+   "Takeshi Eightbanners",
+   "Hatsune Arrowsong"
+  ]
+ },
+ {
+  "n": "Ryujin - Dragon King of the Sea",
+  "grp": "Japanese Pantheon",
+  "myth": "The dragon god of the sea who lives in a coral palace beneath the waves and rules the tides with his magic jewels.",
+  "runes": [
+   "Tide",
+   "Dragon",
+   "Water"
+  ],
+  "home": "Abyss",
+  "wants": "Offerings made at sea; drowned sailors returned to their families",
+  "sig": [
+   "Coral Fragment",
+   "Tidecoral",
+   "Dragon Turtle Shell"
+  ],
+  "relic": "Tide Jewels",
+  "seated": 3,
+  "hand": [
+   "Kaito Saltscale",
+   "Nami Pearlkeeper",
+   "Uminari Tidecaller"
+  ]
+ },
+ {
+  "n": "Ebisu - God of Fishermen and Luck",
+  "grp": "Japanese Pantheon",
+  "myth": "Cheerful god of fishermen, good fortune and commerce, one of the Seven Lucky Gods, shown with a fishing rod and a large sea bream.",
+  "runes": [
+   "Commerce",
+   "Happiness"
+  ],
+  "home": "Heaven",
+  "wants": "Honest trade and generous catches; laughter at the market",
+  "sig": [
+   "Salt-Cured Rope",
+   "Seasoaked Timber",
+   "Whale Ivory"
+  ],
+  "relic": "Sea Bream Rod",
+  "seated": 4,
+  "hand": [
+   "Tai Luckycatch",
+   "Sakana Netmender",
+   "Fuku Marketlaugh",
+   "Shiro Harbortaker"
+  ]
+ },
+ {
+  "n": "Benzaiten - Goddess of Music and Eloquence",
+  "grp": "Japanese Pantheon",
+  "myth": "Goddess of all that flows, water, words, music and wealth, adapted from Saraswati; one of the Seven Lucky Gods, she plays the biwa lute.",
+  "runes": [
+   "Music",
+   "Water",
+   "Speech"
+  ],
+  "home": "Heaven",
+  "wants": "Music played well and words spoken gracefully",
+  "sig": [
+   "Silk Cocoon",
+   "Hymn Gland",
+   "Choir-glass"
+  ],
+  "relic": "Biwa of Enoshima",
+  "seated": 3,
+  "hand": [
+   "Kotone Lutestring",
+   "Mizuki Riverspeech",
+   "Ayame Silverword"
+  ]
+ },
+ {
+  "n": "Kagutsuchi - God of Flame",
+  "grp": "Japanese Pantheon",
+  "myth": "The fire god whose birth burned his mother Izanami to death; his grieving father slew him, and other gods sprang from his blood.",
+  "runes": [
+   "Fire",
+   "Blood"
+  ],
+  "home": "Inner Realm",
+  "wants": "Fire respected and controlled; smiths and kilns honoured",
+  "sig": [
+   "Brimstone",
+   "Magma Pearl",
+   "Magmaite"
+  ],
+  "relic": "Ember of Totsuka",
+  "seated": 1,
+  "hand": [
+   "Homura Kilnheart"
+  ]
+ },
+ {
+  "n": "Takemikazuchi - God of Thunder and Swords",
+  "grp": "Japanese Pantheon",
+  "myth": "Thunder and sword god born from Kagutsuchi's blood, who subdued Izumo for the heavenly gods and is said to pin down the earthquake catfish.",
+  "runes": [
+   "Lightning",
+   "Katana"
+  ],
+  "home": "Heaven",
+  "wants": "Swords kept sharp and honourable; earthquakes held down",
+  "sig": [
+   "Steel",
+   "Tamahagane",
+   "Storm Orichalcum"
+  ],
+  "relic": "Futsu-no-Mitama Sword",
+  "seated": 3,
+  "hand": [
+   "Tsurugi Thunderedge",
+   "Kashima Catfish-Pinner",
+   "Raiko Swordsaint"
+  ]
+ },
+ {
+  "n": "Sarutahiko - God of Crossroads",
+  "grp": "Japanese Pantheon",
+  "myth": "A towering earthly god who met the heavenly grandson Ninigi at the crossroads of heaven and guided him down to earth; patron of guidance and new paths.",
+  "runes": [
+   "Voyage",
+   "Choice"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Travellers guided safely; the lost shown the right road",
+  "sig": [
+   "Lodestone",
+   "Horizon Ore",
+   "Horizon Orchid"
+  ],
+  "relic": "Crossroads Staff",
+  "seated": 2,
+  "hand": [
+   "Michi Wayfinder",
+   "Tsuji Crossingwarden"
+  ]
+ },
+ {
+  "n": "Uzume - Goddess of Mirth and Dance",
+  "grp": "Japanese Pantheon",
+  "myth": "Goddess of mirth and dance whose wild dance before the rock cave made the gods laugh and drew Amaterasu out, returning light to the world.",
+  "runes": [
+   "Entertainment",
+   "Dawn",
+   "Happiness"
+  ],
+  "home": "Heaven",
+  "wants": "Laughter where there is despair; dances and festivals performed",
+  "sig": [
+   "Sunpetal",
+   "Dawn Butterfly Scales",
+   "Choir-glass"
+  ],
+  "relic": "Bell-Staff of the Rock Cave",
+  "seated": 3,
+  "hand": [
+   "Okame Laughterface",
+   "Kagura Bellfoot",
+   "Matsuri Drumgirl"
+  ]
+ },
+ {
+  "n": "Okuninushi - Great Land Master",
+  "grp": "Japanese Pantheon",
+  "myth": "Ruler and builder of the land of Izumo, kind to the white hare of Inaba; god of nation-building, medicine, farming and good marriages.",
+  "runes": [
+   "Governance",
+   "Heal",
+   "Love"
+  ],
+  "home": "Inner Realm",
+  "wants": "Lands built up; good matches made and the wounded tended",
+  "sig": [
+   "Herb Bundle",
+   "Rootstone",
+   "Anchorstone"
+  ],
+  "relic": "Great Rope of Izumo",
+  "seated": 3,
+  "hand": [
+   "Inaba Whitehare",
+   "Izumo Landbuilder",
+   "Kotomi Matchmaker"
+  ]
+ },
+ {
+  "n": "Tenjin - God of Scholarship",
+  "grp": "Japanese Pantheon",
+  "myth": "The deified scholar-statesman Sugawara no Michizane, whose wrath after unjust exile brought storms on the capital; now the patron of learning and examinations.",
+  "runes": [
+   "Learning",
+   "Word",
+   "Lightning"
+  ],
+  "home": "Heaven",
+  "wants": "Diligent study; the slandered and exiled vindicated",
+  "sig": [
+   "Warded Parchment",
+   "Scribe Quill",
+   "Pure Law Crystal"
+  ],
+  "relic": "Plum-Blossom Brush",
+  "seated": 4,
+  "hand": [
+   "Ume Plumbrush",
+   "Dazai Exilewise",
+   "Gakumon Inkstone",
+   "Shiori Examinee"
+  ]
+ },
+ {
+  "n": "Daikokuten - God of Wealth and the Harvest",
+  "grp": "Japanese Pantheon",
+  "myth": "One of the Seven Lucky Gods, a smiling god of wealth, farmers and kitchens who stands on rice bales holding a magic mallet.",
+  "runes": [
+   "Wealth",
+   "Fruit"
+  ],
+  "home": "Heaven",
+  "wants": "Kitchens stocked; hard work rewarded with prosperity",
+  "sig": [
+   "Sunwheat",
+   "Gold",
+   "Alchemist's Gold"
+  ],
+  "relic": "Mallet of Fortune",
+  "seated": 3,
+  "hand": [
+   "Kome Ricebale",
+   "Nezumi Mousefriend",
+   "Kura Storehouse"
+  ]
+ },
+ {
+  "n": "Bishamonten - God of Warriors and Treasure",
+  "grp": "Japanese Pantheon",
+  "myth": "Armoured guardian of the north and of the Buddhist teaching, one of the Seven Lucky Gods, who protects the righteous and carries a pagoda of treasure.",
+  "runes": [
+   "War",
+   "Treasure",
+   "Protect"
+  ],
+  "home": "Heaven",
+  "wants": "Temples and treasures guarded; righteous fighters armoured",
+  "sig": [
+   "Steel",
+   "Sentinel Plating",
+   "Godplate"
+  ],
+  "relic": "Treasure Pagoda",
+  "seated": 5,
+  "hand": [
+   "Tamon Northguard",
+   "Kongo Spearwall",
+   "Yoroi Pagodakeeper",
+   "Ibuki Gatewarden",
+   "Senjin Firstrank"
+  ]
+ },
+ {
+  "n": "Omoikane - God of Wisdom",
+  "grp": "Japanese Pantheon",
+  "myth": "The wise counsellor of the heavenly gods who devised the plan of mirror, jewels and dance that drew Amaterasu from her cave.",
+  "runes": [
+   "Wisdom",
+   "Gambit"
+  ],
+  "home": "Heaven",
+  "wants": "Problems solved with clever plans rather than force",
+  "sig": [
+   "Owlseye Moss",
+   "Truthstone",
+   "Prophet Crystal"
+  ],
+  "relic": "Plan-Scroll of the Rock Cave",
+  "seated": 1,
+  "hand": [
+   "Shiryo Counselwise"
+  ]
+ },
+ {
+  "n": "Konohanasakuya-hime - Goddess of Mount Fuji",
+  "grp": "Japanese Pantheon",
+  "myth": "The blossom princess, wife of Ninigi, who gave birth inside a burning hut to prove her faithfulness; goddess of Mount Fuji and of volcanoes.",
+  "runes": [
+   "Blossom",
+   "Lava"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Blossoms and mountains honoured; the faithful trusted",
+  "sig": [
+   "Sunpetal",
+   "Cinderbloom",
+   "Emberstone"
+  ],
+  "relic": "Sakura Hairpin",
+  "seated": 2,
+  "hand": [
+   "Sakura Fujiwatch",
+   "Hanami Ashpetal"
+  ]
+ },
+ {
+  "n": "Ninigi - Grandson of Heaven",
+  "grp": "Japanese Pantheon",
+  "myth": "Grandson of Amaterasu, sent down to rule the earth bearing the mirror, sword and jewel; ancestor of the imperial line.",
+  "runes": [
+   "Descend",
+   "Royalty",
+   "Inheritance"
+  ],
+  "home": "Heaven",
+  "wants": "Heirs raised to rule well; regalia kept safe",
+  "sig": [
+   "Celestial Gold Leaf",
+   "Halo Gold",
+   "Runegold"
+  ],
+  "relic": "Magatama Jewel",
+  "seated": 2,
+  "hand": [
+   "Takachiho Peakborn",
+   "Mikoto Regaliakeeper"
+  ]
+ },
+ {
+  "n": "Toyouke - Goddess of Food",
+  "grp": "Japanese Pantheon",
+  "myth": "Goddess of food, agriculture and industry, enshrined in the outer shrine at Ise to provide Amaterasu's meals.",
+  "runes": [
+   "Nurture",
+   "Grow"
+  ],
+  "home": "Heaven",
+  "wants": "Meals prepared with care; crops and crafts both honoured",
+  "sig": [
+   "Hearthleaf",
+   "Fey Honey",
+   "Gracewheat"
+  ],
+  "relic": "Rice Ladle of Ise",
+  "seated": 2,
+  "hand": [
+   "Mikeko Mealkeeper",
+   "Inaho Grainhand"
+  ]
+ },
+ {
+  "n": "Hotei - God of Contentment",
+  "grp": "Japanese Pantheon",
+  "myth": "The laughing, round-bellied wandering monk of the Seven Lucky Gods, carrying a cloth sack of gifts; patron of happiness, children and contentment.",
+  "runes": [
+   "Happiness",
+   "Gift"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Gifts given freely; worry let go",
+  "sig": [
+   "Flax Fiber",
+   "Fey Honey",
+   "Faerie Gold"
+  ],
+  "relic": "Bottomless Cloth Sack",
+  "seated": 0,
+  "hand": []
+ },
+ {
+  "n": "Fukurokuju - God of Longevity",
+  "grp": "Japanese Pantheon",
+  "myth": "The tall-browed Lucky God of happiness, wealth and long life, often shown with a crane and a staff tied with a scroll.",
+  "runes": [
+   "Age",
+   "Wisdom"
+  ],
+  "home": "Heaven",
+  "wants": "Elders honoured and their knowledge kept",
+  "sig": [
+   "Peachwood",
+   "Ki-rin Feather",
+   "Planetar Feather"
+  ],
+  "relic": "Crane-Scroll Staff",
+  "seated": 1,
+  "hand": [
+   "Tsuru Cranekeeper"
+  ]
+ },
+ {
+  "n": "Marduk - King of the Gods",
+  "grp": "Mesopotamian Pantheon",
+  "myth": "Patron god of Babylon who became king of the gods by defeating the chaos-monster of the primordial sea and ordering the world from its body.",
+  "runes": [
+   "Order",
+   "Sovereignty"
+  ],
+  "home": "Heaven",
+  "wants": "Order imposed on chaos; cities governed by written law",
+  "sig": [
+   "Edict Iron",
+   "Tribunal Steel",
+   "Wheel Ring Gold"
+  ],
+  "relic": "Mushhushshu Sceptre",
+  "seated": 4,
+  "hand": [
+   "Babil Gatewarden",
+   "Esagil Zigguratkeeper",
+   "Etemen Towerwright",
+   "Sharru Lawmaker"
+  ]
+ },
+ {
+  "n": "Ereshkigal - Queen of the Underworld",
+  "grp": "Mesopotamian Pantheon",
+  "myth": "Queen of Kur, the land of no return, and elder sister of Inanna, whom she struck dead when Inanna descended through her seven gates.",
+  "runes": [
+   "Death",
+   "Grief",
+   "Imprison"
+  ],
+  "home": "Hell",
+  "wants": "The laws of the underworld obeyed; her grief given a hearing",
+  "sig": [
+   "Ashstone",
+   "Sorrowstone",
+   "Jailer's Chain"
+  ],
+  "relic": "Keys of the Seven Gates",
+  "seated": 3,
+  "hand": [
+   "Ganzir Seventhgate",
+   "Kurnugi Dustcrown",
+   "Irkalla Lamentor"
+  ]
+ },
+ {
+  "n": "Nergal - God of Plague and War",
+  "grp": "Mesopotamian Pantheon",
+  "myth": "God of war, pestilence and the scorching midday sun, who forced his way into the underworld and became Ereshkigal's consort and co-ruler.",
+  "runes": [
+   "Plague",
+   "War"
+  ],
+  "home": "Hell",
+  "wants": "Enemies laid low by fever and sword; the court below respected",
+  "sig": [
+   "Brimstone Ingot",
+   "Ash Wasp Venom",
+   "Pit Hellebore"
+  ],
+  "relic": "Lion-Headed Mace",
+  "seated": 3,
+  "hand": [
+   "Kutha Lionmace",
+   "Sharur Plaguestrider",
+   "Mashu Scorchday"
+  ]
+ },
+ {
+  "n": "Nanna - God of the Moon",
+  "grp": "Mesopotamian Pantheon",
+  "myth": "The moon god of Ur, also called Sin, who sails the night sky in a crescent boat and is the father of Utu and Inanna.",
+  "runes": [
+   "Moon",
+   "Foresee"
+  ],
+  "home": "Heaven",
+  "wants": "Months reckoned correctly; herds tended under the moon",
+  "sig": [
+   "Silver Setting",
+   "Moonstone",
+   "Astral Silver"
+  ],
+  "relic": "Crescent Barque",
+  "seated": 2,
+  "hand": [
+   "Suen Monthcounter",
+   "Zabalam Herdwatch"
+  ]
+ },
+ {
+  "n": "Ninhursag - Mother of the Mountains",
+  "grp": "Mesopotamian Pantheon",
+  "myth": "Mother goddess of the mountains and of birth, who made the plants of Dilmun and healed Enki when he sickened from eating them.",
+  "runes": [
+   "Life",
+   "Nurture",
+   "Earth"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Births attended; mountain pastures kept fertile",
+  "sig": [
+   "Rootstone",
+   "Treant Bark",
+   "Worldtree Sap"
+  ],
+  "relic": "Birth-Brick of the Mountain",
+  "seated": 3,
+  "hand": [
+   "Damgal Cradlekeeper",
+   "Hursa Shepherdess",
+   "Belet Highpasture"
+  ]
+ },
+ {
+  "n": "Ninurta - God of the Plough and War",
+  "grp": "Mesopotamian Pantheon",
+  "myth": "Warrior and farmer god who defeated the monster Asag and the bird Anzu, recovering the Tablet of Destinies, and taught people to farm.",
+  "runes": [
+   "Battle",
+   "Grow"
+  ],
+  "home": "Heaven",
+  "wants": "Monsters hunted down; fields ploughed and irrigated",
+  "sig": [
+   "Iron",
+   "Bloodsteel",
+   "Roc Talon"
+  ],
+  "relic": "Sharur, the Talking Mace",
+  "seated": 3,
+  "hand": [
+   "Lugale Stonebreaker",
+   "Ninnu Ploughmaster",
+   "Girsu Maceguard"
+  ]
+ },
+ {
+  "n": "Ashur - God of Assyria",
+  "grp": "Mesopotamian Pantheon",
+  "myth": "Chief god of the Assyrians, the deified city of Ashur, worshipped as king of the gods and protector of the empire, often shown in a winged disc.",
+  "runes": [
+   "Sovereignty",
+   "Supreme"
+  ],
+  "home": "Heaven",
+  "wants": "Kingdoms expanded and defended under a strong crown",
+  "sig": [
+   "Bronze",
+   "Warstone",
+   "General's Crown Horn"
+  ],
+  "relic": "Winged Sun-Disc",
+  "seated": 5,
+  "hand": [
+   "Assur Wingdisc",
+   "Nineva Lionhunter",
+   "Kalhu Wallbuilder",
+   "Tukul Spearlord",
+   "Arbela Oathsworn"
+  ]
+ },
+ {
+  "n": "Dumuzi - God of Shepherds",
+  "grp": "Mesopotamian Pantheon",
+  "myth": "Shepherd god and husband of Inanna, taken to the underworld in her place; he spends half of each year below while his sister Geshtinanna takes the other half.",
+  "runes": [
+   "Season",
+   "Rebirth",
+   "Tame"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Flocks tended; the cycle of loss and return mourned and celebrated",
+  "sig": [
+   "Goat Hide",
+   "Mammoth Wool",
+   "Ouroboros Vine"
+  ],
+  "relic": "Shepherd's Crook of Bad-tibira",
+  "seated": 2,
+  "hand": [
+   "Kullab Flockward",
+   "Amaush Lambkeeper"
+  ]
+ },
+ {
+  "n": "Nabu - God of Writing",
+  "grp": "Mesopotamian Pantheon",
+  "myth": "Son of Marduk and god of writing, scribes and wisdom, who inscribes the fates of all on the Tablet of Destinies.",
+  "runes": [
+   "Word",
+   "Knowledge",
+   "Chronicles"
+  ],
+  "home": "Heaven",
+  "wants": "Records written and preserved; scribes trained",
+  "sig": [
+   "Inscriber's Ink",
+   "Astral Ink",
+   "Fate Thread"
+  ],
+  "relic": "Stylus of Destinies",
+  "seated": 4,
+  "hand": [
+   "Borsip Stylus-Hand",
+   "Tupsar Claywright",
+   "Ezida Archivist",
+   "Dubsar Wedgemark"
+  ]
+ },
+ {
+  "n": "Ishkur - God of Storms",
+  "grp": "Mesopotamian Pantheon",
+  "myth": "The storm god, also called Adad, who brings rain to the fields and floods to the wicked, riding a bull and holding forked lightning.",
+  "runes": [
+   "Storm",
+   "Rain",
+   "Lightning"
+  ],
+  "home": "Heaven",
+  "wants": "Rain on the faithful's fields; floods on oath-breakers",
+  "sig": [
+   "Cloudstone",
+   "Thunder Eel Gland",
+   "Storm Elemental Spark"
+  ],
+  "relic": "Forked Lightning Bolt",
+  "seated": 2,
+  "hand": [
+   "Karkara Bullrider",
+   "Ishkun Rainherald"
+  ]
+ },
+ {
+  "n": "Ninlil - Goddess of the Air",
+  "grp": "Mesopotamian Pantheon",
+  "myth": "Wife of Enlil, goddess of the air and grain, who followed him into the underworld and there bore the moon god Nanna.",
+  "runes": [
+   "Air",
+   "Loyalty"
+  ],
+  "home": "Heaven",
+  "wants": "Spouses who follow each other anywhere; grain winnowed clean",
+  "sig": [
+   "Halo Clover",
+   "Griffon Feather",
+   "Deva Feather"
+  ],
+  "relic": "Winnowing Fan",
+  "seated": 1,
+  "hand": [
+   "Nippura Grainwind"
+  ]
+ },
+ {
+  "n": "Nisaba - Goddess of Writing and Grain",
+  "grp": "Mesopotamian Pantheon",
+  "myth": "Goddess of grain and the first patron of writing, accounting and surveying, who holds a golden stylus.",
+  "runes": [
+   "Numerical",
+   "Word"
+  ],
+  "home": "Heaven",
+  "wants": "Accounts kept honest; harvests measured fairly",
+  "sig": [
+   "Reed",
+   "Measure Moss",
+   "Ledgerfern"
+  ],
+  "relic": "Gold Stylus of Nisaba",
+  "seated": 2,
+  "hand": [
+   "Eresh Grainsurveyor",
+   "Umma Tallykeeper"
+  ]
+ },
+ {
+  "n": "Gula - Goddess of Healing",
+  "grp": "Mesopotamian Pantheon",
+  "myth": "Goddess of healing and medicine, the great physician, often shown with her dog.",
+  "runes": [
+   "Heal",
+   "Health"
+  ],
+  "home": "Heaven",
+  "wants": "Healers protected; dogs and the sick treated with kindness",
+  "sig": [
+   "Herb Bundle",
+   "Silverleaf",
+   "Positive Energy Crystal"
+  ],
+  "relic": "Scalpel of Isin",
+  "seated": 3,
+  "hand": [
+   "Isin Dogkeeper",
+   "Azu Bonesetter",
+   "Asu Woundbinder"
+  ]
+ },
+ {
+  "n": "Nanshe - Goddess of Justice and Dreams",
+  "grp": "Mesopotamian Pantheon",
+  "myth": "Goddess of Lagash who interpreted dreams, cared for orphans, widows and the poor, and protected the fish and birds of the marshes.",
+  "runes": [
+   "Dreams",
+   "Justice",
+   "Mercy"
+  ],
+  "home": "Heaven",
+  "wants": "Orphans and widows protected; fair weights kept in the market",
+  "sig": [
+   "River Mud",
+   "Dreamcap Mushroom",
+   "Dreamstone"
+  ],
+  "relic": "Dream-Reading Bowl",
+  "seated": 2,
+  "hand": [
+   "Lagash Widowsward",
+   "Sirara Marshwarden"
+  ]
+ },
+ {
+  "n": "Ningishzida - Lord of the Good Tree",
+  "grp": "Mesopotamian Pantheon",
+  "myth": "Serpent god of vegetation and the underworld and guardian at the gate of heaven, whose entwined snakes became a sign of healing.",
+  "runes": [
+   "Root",
+   "Regeneration"
+  ],
+  "home": "Abyss",
+  "wants": "Trees planted and tended; the gates between worlds guarded",
+  "sig": [
+   "Root Fiber",
+   "Heartpine",
+   "Rootwyrm Coil"
+  ],
+  "relic": "Twin-Serpent Staff",
+  "seated": 1,
+  "hand": [
+   "Gishzi Treewarden"
+  ]
+ },
+ {
+  "n": "Geshtinanna - Goddess of the Vine",
+  "grp": "Mesopotamian Pantheon",
+  "myth": "Dumuzi's sister, goddess of wine, dreams and scribes, who would not betray her brother and shares his time in the underworld.",
+  "runes": [
+   "Loyalty",
+   "Season"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Kin defended at any cost; wine and dreams shared",
+  "sig": [
+   "Fey Honey",
+   "Twistroot",
+   "Starvine"
+  ],
+  "relic": "Winecup of the Half-Year",
+  "seated": 0,
+  "hand": []
+ },
+ {
+  "n": "Ningal - Goddess of Reeds",
+  "grp": "Mesopotamian Pantheon",
+  "myth": "The Great Lady, goddess of reeds and wife of Nanna, mother of Utu and Inanna, who lamented the destruction of her city Ur.",
+  "runes": [
+   "Grief",
+   "Love"
+  ],
+  "home": "Heaven",
+  "wants": "Cities mourned and rebuilt; the troubled comforted",
+  "sig": [
+   "Reed",
+   "Pearl Dust",
+   "Moonmilk Lily"
+  ],
+  "relic": "Reed Crown of Ur",
+  "seated": 1,
+  "hand": [
+   "Gipar Reedweaver"
+  ]
+ },
+ {
+  "n": "Nusku - God of the Lamp",
+  "grp": "Mesopotamian Pantheon",
+  "myth": "Fire god and vizier of Enlil, the lamp that lights the night and burns away sorcery.",
+  "runes": [
+   "Fire",
+   "Light"
+  ],
+  "home": "Heaven",
+  "wants": "Lamps lit in dark places; witchcraft burned out",
+  "sig": [
+   "Wisp Firefly",
+   "Last Light Ember",
+   "Celestial Starfire"
+  ],
+  "relic": "Lamp of Nusku",
+  "seated": 2,
+  "hand": [
+   "Girgal Lampbearer",
+   "Ekur Nightflame"
+  ]
+ },
+ {
+  "n": "Girra - God of the Refining Fire",
+  "grp": "Mesopotamian Pantheon",
+  "myth": "Fire god who purifies metals, bricks and evildoers, invoked against witches and curses.",
+  "runes": [
+   "Fire",
+   "Forging"
+  ],
+  "home": "Inner Realm",
+  "wants": "Metal refined and bricks fired; curses burned away",
+  "sig": [
+   "Ember Iron",
+   "Fire Elemental Core",
+   "Magma Crystal"
+  ],
+  "relic": "Kiln-Brand of Girra",
+  "seated": 2,
+  "hand": [
+   "Kibil Smelter",
+   "Utug Ovenkeeper"
+  ]
+ }
+]

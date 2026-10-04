@@ -298,6 +298,22 @@ function dropConnections(arr, label) {
 }
 D.GODS = dropConnections(D.GODS, 'gods');
 D.PATRONS = dropConnections(D.PATRONS, 'patrons');
+// ---- completing the pantheons (data/gods-extra/*.json): every major god of each mythology the campaign uses.
+// Written in the vault's own roster format so the parser below reads them the same way.
+(function () {
+  var dir = path.join(__dirname, '..', 'data', 'gods-extra'); if (!fs.existsSync(dir)) return;
+  var have = {}; D.GODS.forEach(function (g) { have[g.n.split(' - ')[0].trim().toLowerCase()] = 1; });
+  var ord = ['1st', '2nd', '3rd', '4th', '5th'], added = 0;
+  fs.readdirSync(dir).filter(function (f) { return /\.json$/.test(f); }).sort().forEach(function (f) {
+    JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')).forEach(function (g) {
+      var key = String(g.n || '').split(' - ')[0].trim().toLowerCase(); if (!key || have[key]) return;
+      var hand = (g.hand || []).slice(0, 5), seated = Math.min(5, g.seated != null ? g.seated : hand.length);
+      g.ds = g.myth + ' \u2014 In FAND: Runes: ' + (g.runes || []).join(', ') + '. Home realm: ' + g.home + '. Wants: ' + g.wants + '. Signature materials: ' + (g.sig || []).join(', ') + '. Finger relic: ' + g.relic + '. Hand: ' + seated + ' of 5 seated' + (seated ? ' (' + hand.slice(0, seated).map(function (n, i) { return ord[i] + ' Finger: ' + n; }).join('; ') + ')' : '') + '.';
+      D.GODS.push({ n: g.n, grp: g.grp, ds: g.ds, site: 1 }); have[key] = 1; added++;
+    });
+  });
+  log.push('gods added to complete the pantheons: +' + added);
+})();
 var LABELS = ['Runes', 'Home realm', 'Wants', 'Signature materials', 'Finger relic', 'Hand'];
 D.GODS.forEach(function (g) {
   var ds = g.ds || '', k = ds.indexOf(' — In FAND: '); if (k < 0) return;

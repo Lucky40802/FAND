@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="color-scheme" content="dark light">
 <title>Gods · FAND</title>
-<meta name="description" content="70 gods with their Runes, home realms, signature materials, Hands, and rivals.">
+<meta name="description" content="241 gods with their Runes, home realms, signature materials, Hands, and rivals.">
 <meta property="og:title" content="Gods · FAND Compendium">
-<meta property="og:description" content="70 gods with their Runes, home realms, signature materials, Hands, and rivals.">
+<meta property="og:description" content="241 gods with their Runes, home realms, signature materials, Hands, and rivals.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2l4 10 10 4-10 4-4 10-4-10-10-4 10-4z' fill='%23c9a54a'/%3E%3C/svg%3E">
 <style>
@@ -1427,6 +1427,7 @@ const MODAL={
       badges:`${g.home?realmB(g.home):''}${(g.runes||[]).map(r=>{const x=RUNE_IDX.get(lc(r));return `<button class="b ${CONTESTED.includes(r)?'red':'acc'}" style="cursor:pointer;border:0" ${x?`data-ref="${ref(x)}"`:''} title="${x?esc(x.fig.name+', '+x.fig.title):''}">ᚱ ${esc(r)}</button>`}).join('')}`,
       body:(g.myth?`<div class="prose">${esc(g.myth)}</div>`:`<div class="prose">${esc(g.ds||'')}</div>`)
         +(g.wants?`<div class="callout"><b>Wants from contractors:</b> ${esc(g.wants)}</div>`:'')
+        +(g.site?`<div class="note">Added by the site to complete the ${esc(g.grp)}; not yet in the vault's God Roster.</div>`:'')
         +kv([['Home realm',g.home?esc(g.home):''],['Runes',(g.runes||[]).length||''],['Hand',g.seated!=null?g.seated+' of 5 seated':''],['Finger relic',g.relic?esc(g.relic):'']])
         +blk('Signature materials',(g.sig||[]).length?`<div class="chips">${g.sig.map(n=>matChip(n,(findMat(n)||{}).gr)).join('')}</div>`:'')
         +blk('The Hand',hand,'the five Fingers')
@@ -2771,6 +2772,7 @@ function hcCard(c,open){
     <div style="margin-top:8px;line-height:1.6">${esc(c.blurb||'')}</div>
     ${kv([['Requires',esc(c.requires||'')],['Unlock',esc(c.unlock||'')],['Tower',`<a href="${pageUrl('towers')}#tw-${pid(c.tower)}" data-go="towers">${esc(towerOf(c.tower).name)}</a> (${esc(c.tower)} Realm), floor ${hcFloor(c)} of ${towerOf(c.tower).floors}: a level ${towerStart(c.tower)+Math.floor((hcFloor(c)-1)/10)} floor, so the climb itself needs a party of about that level`],c.prog?['Progenitor',pr?refChip(pr,esc(c.prog)):esc(c.prog)]:null,c.base?['Basic class',`<a href="#" data-go="subclasses" data-setup='${esc(JSON.stringify({side:c.base}))}'>${esc(c.base)}</a>`]:null].filter(Boolean))}
     <div class="tablewrap" style="margin-top:8px"><table class="t"><tbody>${(c.features||[]).map(([lv,n,t])=>`<tr><td class="num" style="white-space:nowrap">Lv ${lv}</td><td><b>${esc(n)}</b><br><span style="color:var(--text2)">${esc(t)}</span></td></tr>`).join('')}</tbody></table></div>
+    ${(()=>{const ru=c.rune&&RUNE_IDX.get(lc(c.rune));return ru&&ru.gods.length?`<div class="callout" style="margin-top:8px;border-color:var(--gold)"><b>The ${esc(c.rune)} Rune has since been claimed</b> by ${ru.gods.map(g=>refChip(g,esc(godKey(g)))).join(' ')}. Whoever takes this class becomes ${ru.gods.length>1?'their':'that god\'s'} rival, and the Tower's top floor is now watched.</div>`:''})()}
     ${c.evolves?`<div class="callout" style="margin-top:8px"><b>Evolution:</b> ${esc(c.evolves)}</div>`:''}
     ${c.cost?`<div class="callout" style="border-color:var(--red);margin-top:8px"><b>The price:</b> ${esc(c.cost)}</div>`:''}
     ${c.secret?`<details class="fold" style="margin-top:8px"><summary>DM only: the hidden condition</summary><div class="note" style="margin:4px 0 0">${esc(c.secret)}</div></details>`:''}</details>`;
