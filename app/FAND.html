@@ -164,6 +164,7 @@ button.chip:hover,a.chip:hover{border-color:var(--acc);color:var(--text)}
 .sec-h{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
 .sec-h h3{font-size:1.2rem}
 .sec-h p{color:var(--muted);font-size:.85rem}
+.dice{border-bottom:1px dashed var(--gold);cursor:pointer;white-space:nowrap}.dice:hover{background:var(--goldbg)}
 .rtree{list-style:none;padding-left:16px;margin:0;border-left:1px solid var(--line)}.rtree li{margin:3px 0;font-size:.9rem}.rtree summary{cursor:pointer}.rtree>li>details>summary::marker{color:var(--gold)}
 @media (max-width:640px){.sec-h{flex-direction:column;align-items:flex-start;gap:4px}.tools .form{grid-template-columns:1fr 1fr!important}}
 .sec-h .btn{margin-left:auto}
@@ -509,6 +510,16 @@ const ICON={
   x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>',
   filter:'<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h18l-7 8v6l-4-2v-4z"/></svg>'
 };
+// Dice: any "2d6 + 3" on the site can be clicked to roll it; results also go to the Tools page's dice log.
+const DICE_RX=/\b(\d{0,2})d(4|6|8|10|12|20|100)\b(?:\s*([+\-−])\s*(\d{1,3})\b)?/g;
+function rollExpr(e){const m=/^\s*(\d{0,2})d(\d+)(?:\s*([+\-−])\s*(\d+))?\s*$/i.exec(e);if(!m)return null;const n=Math.min(50,+m[1]||1),x=+m[2],mod=m[3]?(m[3]==='+'?1:-1)*+m[4]:0;const r=Array.from({length:n},()=>1+Math.floor(Math.random()*x));return {e:e.trim(),r,mod,t:r.reduce((a,b)=>a+b,0)+mod}}
+function rollShow(e){const R=rollExpr(e.replace('−','-'));if(!R)return;const log=store.get('dicelog',[]);log.unshift({e:R.e,t:R.t,r:R.r,mod:R.mod});store.set('dicelog',log.slice(0,20));toast(`🎲 ${R.e}: ${R.t}  (${R.r.join(' + ')}${R.mod?(R.mod>0?' + ':' − ')+Math.abs(R.mod):''})`);if($('dl-log'))diceLog()}
+function diceify(root){if(!root)return;const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement.closest('input,textarea,select,button,a,.dice,script,style')?NodeFilter.FILTER_REJECT:(DICE_RX.lastIndex=0,DICE_RX.test(n.nodeValue))?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP});const ns=[];while(w.nextNode())ns.push(w.currentNode);
+  ns.forEach(n=>{const f=document.createDocumentFragment();let last=0;const t=n.nodeValue;DICE_RX.lastIndex=0;let m;while((m=DICE_RX.exec(t))){f.append(t.slice(last,m.index));const sp=document.createElement('span');sp.className='dice';sp.textContent=m[0];sp.title='Click to roll';f.append(sp);last=m.index+m[0].length}f.append(t.slice(last));n.replaceWith(f)})}
+document.addEventListener('click',e=>{const d=e.target.closest('.dice');if(d){e.preventDefault();e.stopPropagation();rollShow(d.textContent)}},true);
+function diceLog(){const L=store.get('dicelog',[]);$('dl-log').innerHTML=L.length?L.map(x=>`<div style="display:flex;gap:8px;font-size:.88rem"><b style="width:44px;text-align:right">${x.t}</b><span class="mono">${esc(x.e)}</span><span style="color:var(--muted)">${x.r.join(', ')}${x.mod?(x.mod>0?' +':' ')+x.mod:''}</span></div>`).join(''):'<div class="note">No rolls yet.</div>'}
+// On the play pages, dice in freshly drawn content become clickable.
+let DICE_OBS=null;function diceWatch(){if(DICE_OBS)DICE_OBS.disconnect();if(!['party','forge','encounter','combat','hooks','craft'].includes(TAB))return;diceify($('content'));DICE_OBS=new MutationObserver(()=>{DICE_OBS.disconnect();diceify($('content'));DICE_OBS.observe($('content'),{childList:true,subtree:true})});DICE_OBS.observe($('content'),{childList:true,subtree:true})}
 function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('show'),1800)}
 const store={get(k,d){try{const v=localStorage.getItem('fand.'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('fand.'+k,JSON.stringify(v))}catch(e){}}};
 
@@ -1033,7 +1044,7 @@ function renderTab(){
   document.title=(TABS.find(t=>t[0]===TAB)||[])[1]+' · FAND';
   if(TAB==='codex'&&!NOTES.length){$('sb').hidden=true;$('ctrl').hidden=true;$('content').innerHTML=`<div class="page"><div class="empty" style="text-align:left;max-width:640px;margin:40px auto"><b>The Codex is empty</b><p>The Codex shows every note from the FAND Obsidian vault. To fill it, run these from the repository's <code>tools</code> folder on the computer that has the vault, then commit and push:</p><pre class="formula">node generators/importvault.js go\nnode generators/buildapp.js go</pre><p class="note">Blueprints, materials, spells, and the Bestiary come from the website's own data and aren't duplicated here. Where a note and the website differ, the website takes priority.</p></div></div>`;return}
   if(VIEWS[TAB]){renderSidebar();renderControls();renderList()}
-  else{$('sb').hidden=true;$('ctrl').hidden=true;$('content').innerHTML='';PAGES[TAB]()}
+  else{$('sb').hidden=true;$('ctrl').hidden=true;$('content').innerHTML='';PAGES[TAB]();diceWatch()}
   $('content').scrollTop=0;
 }
 
@@ -1196,6 +1207,7 @@ function showModal(x){
       </div>
     </div>
     <div class="mb">${M.body}</div>${nav}`;
+  diceify($('modal'));
   const pb=$('pinBtn');if(pb)pb.onclick=()=>{togglePin(x);pb.classList.toggle('on');pb.innerHTML=isPinned(x)?ICON.starf:ICON.star;if(VIEWS[TAB])renderList();else if(TAB==='home')renderTab()};
   $('linkBtn').onclick=()=>{const u=location.href;(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>toast('Link copied'),()=>toast('Copy failed: '+u))};
   $('mbg').classList.add('open');document.body.classList.add('mopen');$('mbg').scrollTop=0;
@@ -1819,6 +1831,15 @@ function rollShop(realm,kind,size,seed){
     .map(b=>{const cost=b.mats.reduce((a,n)=>a+((findMat(n)||{}).price||0),0);return {b,price:Math.max(5,Math.round((cost*1.5+b.lv*15)*(0.85+R()*0.3)/5)*5)}}).sort((a,b)=>a.b.lv-b.b.lv);
   return {mats,bps};
 }
+// Spell slots, read from the vault's Spell Slots note (its tables: full casters, half casters, pact magic).
+const CASTER={Bard:'full',Cleric:'full',Druid:'full',Sorcerer:'full',Wizard:'full',Paladin:'half',Ranger:'half',Artificer:'arti',Warlock:'pact'};
+function slotTables(){if(slotTables.t)return slotTables.t;const n=noteByName('Spell Slots');if(!n)return null;const T=[];let cur=null;
+  n.md.split('\n').forEach(l=>{if(/^\s*\|/.test(l)){if(/^\s*\|\s*-/.test(l))return;const c=l.split('|').slice(1,-1).map(x=>x.trim());if(!cur){cur={h:c,rows:[]};T.push(cur)}else cur.rows.push(c)}else cur=null});
+  return slotTables.t={full:T[0],half:T[1],pact:T[2]}}
+function slotsFor(cls,lv){const T=slotTables(),k=CASTER[cls];if(!T||!k)return null;lv=Math.max(1,Math.min(20,lv||1));
+  if(k==='pact'){let row=null;T.pact.rows.forEach(r=>{if(+r[0]<=lv&&/\d/.test(r[1]))row=r});return row?{pact:true,n:+row[1],lvl:row[2]}:null}
+  const t=k==='full'?T.full:T.half,L=k==='arti'?Math.min(20,lv+1):lv,row=t.rows.find(r=>+r[0]===L);if(!row)return null;
+  const sl=row.slice(1).map(v=>+v||0);if(k==='arti'&&lv===1)sl[0]=2;return {slots:sl}}
 function realmOpts(sel,filter){return REALMS.filter(filter||(()=>true)).map(r=>`<option value="${esc(r.n)}"${r.n===sel?' selected':''}>T${r.tier} · ${esc(r.n)}</option>`).join('')}
 function renderTools(){
   $('content').innerHTML=`<div class="page">
@@ -1854,6 +1875,15 @@ function renderTools(){
         <div class="form"><label class="full">Attunement<input type="number" id="p-a" value="2" min="0" max="9"></label></div>
         <div class="enc" id="p-out"></div><div class="note">Strain is Pressure minus Attunement: 1 disadvantage on Constitution saves; 2 also 1 level of exhaustion per day; 3 also no benefit from long rests; 4+ 1 level of exhaustion every hour.</div></div>
 
+      <div class="tool" id="t-dice"><h3>Dice roller</h3><div class="sub">Type any roll, like 2d6+3 or d20. Dice written anywhere on the site can be clicked to roll too.</div>
+        <div class="form" style="grid-template-columns:2fr 1fr"><label>Roll<input id="dr-e" value="1d20" placeholder="2d6+3"></label><label style="align-self:end"><button class="btn primary" id="dr-go" type="button" style="width:100%">🎲 Roll</button></label></div>
+        <div class="chips" style="margin:8px 0">${['d4','d6','d8','d10','d12','d20','d100','2d6','4d6'].map(d=>`<button class="chip" type="button" onclick="rollShow('${d}')">${d}</button>`).join('')}<button class="chip" type="button" onclick="(()=>{const a=rollExpr('1d20'),b=rollExpr('1d20');toast('🎲 Advantage: '+Math.max(a.t,b.t)+' ('+a.t+', '+b.t+')  ·  disadvantage would be '+Math.min(a.t,b.t))})()">d20 adv/dis</button></div>
+        <div id="dl-log" style="display:flex;flex-direction:column;gap:3px;max-height:180px;overflow:auto"></div></div>
+
+      <div class="tool" id="t-slots"><h3>Spell slots</h3><div class="sub">From the vault's Spell Slots rules: full casters start with 3 first-level slots; half casters get none until level 2; Warlock slots return on a short rest.</div>
+        <div class="form"><label>Class<select id="ss-c">${Object.keys(CASTER).map(c=>`<option>${c}</option>`).join('')}</select></label><label>Level<input type="number" id="ss-l" value="5" min="1" max="20"></label></div>
+        <div class="out" id="ss-out"></div></div>
+
       <div class="tool full" id="t-shop" style="grid-column:1/-1"><h3>Merchant shop</h3><div class="sub">What a shop has in stock today, priced in gp and the realm's own coin. Void-grade materials and above are never sold.</div>
         <div class="form" style="grid-template-columns:repeat(4,1fr)"><label>Realm<select id="s-realm">${realmOpts('Human',r=>r.base)}</select></label>
         <label>Shop<select id="s-kind">${SHOP_KINDS.map(([k,l])=>`<option value="${k}">${l}</option>`).join('')}</select></label>
@@ -1863,6 +1893,10 @@ function renderTools(){
     </div></div>`;
   const v=id=>$(id).value,n=id=>+$(id).value||0,on=(ids,f)=>{ids.forEach(i=>{$(i).addEventListener('input',f);$(i).addEventListener('change',f)});f()};
   const clampG=g=>Math.min(10,Math.max(1,Math.round(g||1)));
+  // dice and spell slots
+  diceLog();$('dr-go').onclick=()=>rollShow($('dr-e').value);$('dr-e').onkeydown=e=>{if(e.key==='Enter')rollShow($('dr-e').value)};
+  const slotsOut=()=>{const r=slotsFor(v('ss-c'),n('ss-l'));$('ss-out').innerHTML=!r?'<div class="note">The vault\'s Spell Slots note isn\'t loaded.</div>':r.pact?`<div class="big">${r.n} × ${esc(r.lvl)}-level</div><div class="note">Pact Magic: always cast at this level; all slots return on a short rest.</div>`:r.slots.every(x=>!x)?'<div class="big">No slots yet</div><div class="note">Half casters gain their first slots at level 2.</div>':`<div class="kv">${r.slots.map((k,i)=>k?`<span>${['1st','2nd','3rd','4th','5th','6th','7th','8th','9th'][i]}</span><span><b>${k}</b> ${'●'.repeat(k)}</span>`:'').join('')}</div>`};
+  on(['ss-c','ss-l'],slotsOut);
   // merchant shop
   let shopSeed=(Math.random()*2**31)|0;
   const shop=()=>{const res=rollShop(v('s-realm'),v('s-kind'),+v('s-size'),shopSeed+v('s-realm').length*7+v('s-kind').length);const realm=v('s-realm');
@@ -2141,7 +2175,7 @@ function charEditor(c){
     <div style="display:flex;justify-content:space-between"><button class="btn" onclick="if(confirm('Delete this character?')){PARTY=PARTY.filter(x=>x.id!=='${c.id}');PARTY_SEL=null;saveParty();renderParty()}">Delete character</button><button class="btn" onclick="go('craft')">Crafting planner →</button></div>
    </div>
    <div style="display:flex;flex-direction:column;gap:14px">
-    <div class="panel">${kv([['AC',`${s.ac} <small style="font-weight:400;color:var(--muted)">(armor ${s.armorAC}${s.ct?', contract +'+s.ct.ac:''}${s.ac-s.armorAC-(s.ct?s.ct.ac:0)?', other '+(s.ac-s.armorAC-(s.ct?s.ct.ac:0)):''})</small>`],['HP',`${c.hp??'?'} / ${c.hpMax??'?'}`],['Armor drawbacks',s.drawback.length?`<ul style="margin:0;padding-left:16px;font-weight:400">${s.drawback.map(o=>`<li>${esc(o.d)} <small style="color:var(--muted)">(${esc(o.from.join(', '))})</small></li>`).join('')}</ul>`:'None'],['Contract',s.god?refChip(s.god,esc(godKey(s.god)))+(s.ct?' · '+esc(s.ct.r):''):'None']])}
+    <div class="panel">${kv([['AC',`${s.ac} <small style="font-weight:400;color:var(--muted)">(armor ${s.armorAC}${s.ct?', contract +'+s.ct.ac:''}${s.ac-s.armorAC-(s.ct?s.ct.ac:0)?', other '+(s.ac-s.armorAC-(s.ct?s.ct.ac:0)):''})</small>`],['HP',`${c.hp??'?'} / ${c.hpMax??'?'}`],['Spell slots',(()=>{const r=slotsFor(c.cls,+c.level||1);return !r?'':r.pact?`${r.n} × ${esc(r.lvl)}-level (short rest)`:r.slots.map((k,i)=>k?`${['1st','2nd','3rd','4th','5th','6th','7th','8th','9th'][i]} ${k}`:'').filter(Boolean).join(' · ')||'none yet'})()],['Armor drawbacks',s.drawback.length?`<ul style="margin:0;padding-left:16px;font-weight:400">${s.drawback.map(o=>`<li>${esc(o.d)} <small style="color:var(--muted)">(${esc(o.from.join(', '))})</small></li>`).join('')}</ul>`:'None'],['Contract',s.god?refChip(s.god,esc(godKey(s.god)))+(s.ct?' · '+esc(s.ct.r):''):'None']])}
       ${s.god&&s.ct?`<div class="blk" style="margin-top:10px"><h4>Contract: ${esc(s.ct.r)} <em>Natural AC +${s.ct.ac}</em></h4><div style="font-size:.88rem;line-height:1.55"><b>Power:</b> ${esc(s.ct.power)}<br><b>Reward:</b> ${contractReward(s.ct,s.god)}<br><b>Duties:</b> ${esc(s.ct.duty)}${CONTRACTS[CONTRACTS.indexOf(s.ct)+1]?`<br><b>Next rank (${CONTRACTS[CONTRACTS.indexOf(s.ct)+1].r}):</b> ${esc(CONTRACTS[CONTRACTS.indexOf(s.ct)+1].rise)}`:''}</div></div>`:''}
       ${s.rivals.length?`<div class="blk" style="margin-top:10px"><h4>Rival gods <em>they share a Rune with your patron</em></h4><div class="chips">${s.rivals.map(g=>refChip(g,esc(godKey(g)))).join('')}</div></div>`:''}
       <div class="blk" style="margin-top:10px"><h4>Realm Pressure <em>Attunement ${s.att}${s.att>(+c.attune||0)?' (from level or contract)':''}</em></h4><div class="chips">${REALMS.map(r=>{const d=r.pressure-s.att;return `<span class="chip" style="${d>0?'border-color:var(--red)':''}"><span class="sw" style="background:${r.color}"></span>${esc(r.n)} <small>${d>0?'strain +'+d+': '+['','disadv. on Con saves','+1 exhaustion/day','no long rests','1 exhaustion/hour'][Math.min(4,d)]:'safe'}</small></span>`}).join('')}</div></div></div>
