@@ -358,12 +358,31 @@ D.VAULT_DETAILS = { bp: {}, mat: {}, spell: {}, sub: {}, mon: {}, god: {} };
   D.VAULT = { imported: D.VAULT.imported, notes: codex };
   log.push('vault notes: ' + codex.length + ' in the Codex, ' + attached + ' attached to website entries' + (D.VAULT.imported ? ' (imported ' + D.VAULT.imported + ')' : ' (none yet: run generators/importvault.js)'));
 })();
-var CORE = ['BPS', 'MATS', 'MONSTERS', 'SUBS', 'GODS', 'DEMONS', 'PATRONS', 'MAT_FX'];
+// Hidden classes and Towers (data/hidden.js): website lore on the campaign owner's rules.
+try { D.HIDDEN = require(path.join(__dirname, '..', 'data', 'hidden.js')); } catch (e) { if (e.code !== 'MODULE_NOT_FOUND') throw e; D.HIDDEN = { towers: {}, classes: [] }; }
+log.push('hidden classes: ' + D.HIDDEN.classes.length + ', towers: ' + Object.keys(D.HIDDEN.towers).length);
+// The hidden class list is locked behind a code (asked for by the campaign owner): the classes are encrypted with
+// AES-256-GCM under a key derived from the code (PBKDF2-SHA256), and the page decrypts them when the code is entered.
+// This keeps the list from casual reading; it is not strong security (the code is short and lives here).
+var HIDDEN_CODE = '4321';
+(function () {
+  var crypto = require('crypto'), cls = D.HIDDEN.classes || [];
+  if (!cls.length) return;
+  var plain = Buffer.from(JSON.stringify(cls), 'utf8');
+  var salt = crypto.createHash('sha256').update('fand-hidden-classes').digest().slice(0, 16);
+  var iv = crypto.createHash('sha256').update(plain).digest().slice(0, 12);
+  var key = crypto.pbkdf2Sync(HIDDEN_CODE, salt, 150000, 32, 'sha256');
+  var c = crypto.createCipheriv('aes-256-gcm', key, iv), enc = Buffer.concat([c.update(plain), c.final(), c.getAuthTag()]);
+  var counts = {}, byTower = {};
+  cls.forEach(function (x) { counts[x.tier] = (counts[x.tier] || 0) + 1; byTower[x.tower] = (byTower[x.tower] || 0) + 1; });
+  D.HIDDEN = { towers: D.HIDDEN.towers, counts: counts, byTower: byTower, lock: { salt: salt.toString('base64'), iv: iv.toString('base64'), data: enc.toString('base64'), it: 150000 } };
+})();
+var CORE = ['BPS', 'MATS', 'MONSTERS', 'SUBS', 'GODS', 'DEMONS', 'PATRONS', 'MAT_FX', 'HIDDEN'];
 var metaLine = 'const META=' + JSON.stringify(META) + ';';
 var VENDOR = fs.readFileSync(path.join(__dirname, '..', 'app', 'vendor', 'anthropic.js'), 'utf8');
 var single = '<script>\n' + VENDOR.replace(/<\/(script)/gi, '<\\/$1') + '\n</script>\n<script>\nconst SITE=null;\n' + ['BPS', 'SPELLS', 'VAULT', 'VAULT_DETAILS'].concat(CORE.slice(1)).map(lit).join('\n') + '\n' + metaLine + '\n</script>';
 var out = tpl.split('<!--__DATA__-->').join(single);
-var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'subclasses', 'demons', 'patrons', 'forge', 'craft', 'party', 'encounter', 'hooks', 'journal', 'combat', 'rules', 'tools', 'about'];
+var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'subclasses', 'demons', 'patrons', 'forge', 'craft', 'party', 'encounter', 'hooks', 'journal', 'hidden', 'towers', 'combat', 'rules', 'tools', 'about'];
 var site = {};
 var PAGE_INFO = {
   home: ['Home', 'FAND (Fantasy and Numerous Disasters) campaign compendium: Blueprints, materials, monsters, realms, gods, spells, rules, and table tools for the world of Vestige.'],
@@ -382,6 +401,8 @@ var PAGE_INFO = {
   forge: ['Forge', 'General Blueprints for every weapon, armor piece, shield, and focus: choose a material for each part (head, haft, grip) and see the finished item, with heavy penalties for the wrong materials.'],
   craft: ['Crafting planner', 'Plan a Blueprint: every material, where to get it, what it costs, and what your crafter is missing.'],
   party: ['Party', 'Track each character: god contract, rivals, gear and traits, materials, money, and realm Pressure.'],
+  hidden: ['Hidden classes', 'Hidden classes of Vestige, unlocked only through quests and the Towers: Unique (one of a kind), Epic (a basic class specialised), and Legendary (following a Rune progenitor).'],
+  towers: ['Towers', 'The Towers in every realm, built from the excess energy of unclaimed Runes: their floors, guardians, the Runes that feed them, and the hidden classes they hold.'],
   journal: ['Session journal', 'Notes from each session of the campaign, saved on your device, with links to every monster, god, material, and realm.'],
   hooks: ['Adventure hooks', 'Story starters built from the gods, Runes, realms, monsters, and Blueprints of Vestige, scaled to your party.'],
   encounter: ['Encounters', 'Build balanced encounters from a realm\'s Bestiary by party size and level.'],

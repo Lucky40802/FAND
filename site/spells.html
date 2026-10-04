@@ -667,7 +667,7 @@ function runeRel(n){
   if(/mortal realm/i.test(t)&&/emotion|masses/i.test(t))return {type:'mortal'};
   return links.length?{type:'derived',parents:links.slice(0,2)}:{type:'unknown'};
 }
-const PROG_STATUS={Ignis:'Dead: its corpse became the Fire Law',Undine:'Dead: its corpse became the Water Law',Gnome:'Dead: its corpse became the Earth Law',Sylph:'Dead: her corpse became the Air Law',Iron:'Alive, caged in the Primordial Realm',Cosmic:'Never fully killed; siphoned piece by piece',Infinatas:'One of the last original gods; never killed or usurped'};
+const PROG_STATUS={Ignis:'Dead: its corpse became the Fire Law',Undine:'Dead: its corpse became the Water Law',Gnome:'Dead: its corpse became the Earth Law',Sylph:'Dead: her corpse became the Air Law',Iron:'Alive, but stuck in the Spirit Realm for unknown reasons',Cosmic:'Never fully killed; siphoned piece by piece',Infinatas:'One of the last original gods; never killed or usurped'};
 function runeLineage(name){
   const chain=[],seen=new Set();let cur=name,prog=null,origin='';
   for(let i=0;i<8&&cur&&!seen.has(lc(cur));i++){
@@ -931,10 +931,10 @@ const TABS=[
   ['home','Home'],['lore','Lore'],['codex','Codex',NOTES.length],['blueprints','Blueprints',BPS.length],['materials','Materials',MATS.length],['bestiary','Bestiary',MONSTERS.length],
   ['realms','Realms',REALMS.length],['gods','Gods',GODS.length],['runes','Runes',RUNES.length],['professions','Professions',Object.keys(PROFS).length],
   ['spells','Spells',META.counts.spells],['subclasses','Subclasses',SUBS.length],['demons','Demons',DEMONS.length],['patrons','Patrons',PATRONS.length],
-  ['forge','Forge'],['craft','Craft'],['party','Party'],['encounter','Encounters'],['hooks','Hooks'],['journal','Journal'],['combat','Combat'],
+  ['forge','Forge'],['craft','Craft'],['party','Party'],['encounter','Encounters'],['hooks','Hooks'],['journal','Journal'],['hidden','Hidden classes'],['towers','Towers'],['combat','Combat'],
   ['rules','Rules'],['tools','Tools'],['about','About'],
 ];
-const PAGES={home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,about:renderAbout,lore:()=>renderLore(),forge:()=>renderForge(),craft:()=>renderCraft(),party:()=>renderParty(),encounter:()=>renderEncounter(),hooks:()=>renderHooks(),journal:()=>renderJournal(),combat:()=>renderCombat()};
+const PAGES={home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,about:renderAbout,lore:()=>renderLore(),forge:()=>renderForge(),craft:()=>renderCraft(),party:()=>renderParty(),encounter:()=>renderEncounter(),hooks:()=>renderHooks(),journal:()=>renderJournal(),hidden:()=>renderHidden(),towers:()=>renderTowers(),combat:()=>renderCombat()};
 
 // ════════════════════════════════════════════════════════════════
 //  State & routing
@@ -975,14 +975,14 @@ function route(){
 window.addEventListener('popstate',route);
 
 const NAV_GROUPS=[
-  ['World',['lore','realms','gods','runes','demons','patrons','codex']],
+  ['World',['lore','realms','towers','gods','runes','demons','patrons','codex']],
   ['Creatures & Materials',['bestiary','materials']],
   ['Items & Crafting',['blueprints','forge','craft','professions']],
-  ['Magic & Classes',['spells','subclasses']],
+  ['Magic & Classes',['subclasses','hidden','spells']],
   ['Play',['party','journal','encounter','hooks','combat','tools']],
   ['Reference',['rules','about']],
 ];
-const NAV_BLURB={journal:'Session notes that link to the world',hooks:'Story starters from the gods, Runes, and monsters',lore:'Infinatas, the gods, and the history of Vestige',realms:'The eleven realms and their coin',gods:'Pantheons, Runes, Hands, and rivals',runes:'Every Law, its lineage, and its progenitor',demons:'Archdevils, demon princes, and corruptions',patrons:'Warlock patrons',codex:'Every note from the Obsidian vault',bestiary:'Monsters with stat blocks, lore, and drops',materials:'Graded materials, traits, and prices',blueprints:'Ready-made designs for every profession',forge:'General Blueprints: pick a material for every part',craft:'Plan what to gather and buy',professions:'The ten professions and their specialties',spells:'Spells by school, tier, and class',subclasses:'Official and homebrew subclasses',party:'Characters, gear, contracts, and money',encounter:'Balanced fights by realm and level',combat:'Initiative, HP, and flat AC',tools:'Calculators and converters',rules:'Rules summaries',about:'What FAND has, version by version'};
+const NAV_BLURB={hidden:'Unique, Epic, and Legendary classes unlocked through quests and Towers',towers:'A Tower in every realm, grown from unclaimed Runes',journal:'Session notes that link to the world',hooks:'Story starters from the gods, Runes, and monsters',lore:'Infinatas, the gods, and the history of Vestige',realms:'The eleven realms and their coin',gods:'Pantheons, Runes, Hands, and rivals',runes:'Every Law, its lineage, and its progenitor',demons:'Archdevils, demon princes, and corruptions',patrons:'Warlock patrons',codex:'Every note from the Obsidian vault',bestiary:'Monsters with stat blocks, lore, and drops',materials:'Graded materials, traits, and prices',blueprints:'Ready-made designs for every profession',forge:'General Blueprints: pick a material for every part',craft:'Plan what to gather and buy',professions:'The ten professions and their specialties',spells:'Spells by school, tier, and class',subclasses:'Official and homebrew subclasses',party:'Characters, gear, contracts, and money',encounter:'Balanced fights by realm and level',combat:'Initiative, HP, and flat AC',tools:'Calculators and converters',rules:'Rules summaries',about:'What FAND has, version by version'};
 function navGroupOf(t){const g=NAV_GROUPS.find(([,ids])=>ids.includes(t));return g?g[0]:null}
 function openNav(g,btn){
   const pop=$('navpop'),grp=NAV_GROUPS.find(x=>x[0]===g);if(!grp)return;
@@ -1753,7 +1753,7 @@ function renderLore(){
   const runes=[...RUNE_GODS].sort((a,b)=>b[1].length-a[1].length||a[0].localeCompare(b[0]));
   const prog=MATS.filter(m=>m.pn==='Progenitor Piece');
   const groups=(arr)=>{const o={};arr.forEach(e=>{(o[e.grp]=o[e.grp]||[]).push(e)});return o};
-  const toc=[['cosmos','Infinatas and Inane'],['timeline','Timeline'],['tree','Rune family tree'],['wars','The god wars'],['pantheons','The pantheons'],['runes','Runes'],['realms','The realms'],['progenitors','The progenitors'],['powers','Other powers'],['contracts','Contracts and the Hand']];
+  const toc=[['cosmos','Infinatas and Inane'],['timeline','Timeline'],['tree','Rune family tree'],['wars','The god wars'],['towers','Towers and hidden classes'],['pantheons','The pantheons'],['runes','Runes'],['realms','The realms'],['progenitors','The progenitors'],['powers','Other powers'],['contracts','Contracts and the Hand']];
   const sec=(id,title,body,sub)=>`<section class="rule" id="lore-${id}"><h3>${title}</h3>${sub?`<div class="src">${sub}</div>`:''}${body}</section>`;
   $('content').innerHTML=`<div class="page">
     <section class="hero" style="margin-bottom:18px"><h2>The Lore of Vestige</h2><p>What is known of the powers that shape FAND: the being above the gods, the gods who came here as refugees, the Runes they fight over, and the realms they rule.</p></section>
@@ -1768,6 +1768,7 @@ function renderLore(){
       <li><b>The god wars.</b> Open war between gods is forbidden, so the feuds over shared Runes are fought through contracts and Fingers. <a href="#lore-wars" onclick="document.getElementById('lore-wars').scrollIntoView();return false">See every front below.</a></li>
       <li><b>If Infinatas falls.</b> Inane takes over and unmakes everything, Infinatas included, until nothing is left; then Infinatas returns and creates it all again.</li></ol>`,'Known so far, in order')}
     ${sec('tree','Rune family tree',runeTreeHTML(),'Built from the vault\'s Rune lineage')}
+    ${sec('towers','Towers and hidden classes',`<p>Not every Rune has a god. The excess energy of the unclaimed Runes pools and rises into <b>Towers</b>, one in every realm, taller the deeper the realm (${REALMS.map(r=>esc(r.n)+' '+towerOf(r.n).floors).join(', ')} floors).</p><p>Climbing them, or finishing certain quests, unlocks the <b>hidden classes</b>: <b>Unique</b> classes, one of a kind, held by one person at a time; <b>Epic</b> classes, specialisations of a basic class; and <b>Legendary</b> classes, which follow the progenitors of the Runes.</p><p class="note"><a href="${pageUrl('towers')}" data-go="towers">The Towers →</a> · <a href="${pageUrl('hidden')}" data-go="hidden">Hidden classes →</a></p>`,'The campaign\'s rules')}
     ${sec('wars','The god wars',godWarsHTML(),'Draft built from the vault\'s data: every Rune held by more than one god')}
     ${sec('pantheons','The pantheons',`<p>${GODS.length} gods from ${Object.keys(pantheons).length} pantheons now live in Vestige. Most make their homes in ${(()=>{const c={};GODS.forEach(g=>{if(g.home)c[g.home]=(c[g.home]||0)+1});return Object.entries(c).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([r,n])=>esc(r)+' ('+n+')').join(', ')})()}.</p>
       <div style="display:flex;flex-direction:column;gap:10px;margin-top:10px">${Object.entries(pantheons).map(([p,gs])=>`<div><b style="font-family:var(--serif)">${esc(p)}</b> <span class="note">${gs.length} gods</span><div class="chips" style="margin-top:4px">${gs.map(g=>refChip(g,esc(godKey(g)),g.home||'')).join('')}</div></div>`).join('')}</div>
@@ -2299,6 +2300,147 @@ function renderJournal(){
   $('jn-exp').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(store.get('journal',[]),null,1)],{type:'application/json'}));a.download='FAND journal.json';a.click()};
   $('jn-imp').onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{try{const d=JSON.parse(t);if(!Array.isArray(d))throw 0;save(store.get('journal',[]).concat(d));toast('Imported '+d.length+' entries')}catch(err){toast('That file is not a FAND journal')}})};
   store.set('jedit',null);
+}
+// ════════════════════════════════════════════════════════════════
+//  Hidden classes and Towers (campaign owner's rules; details in data/hidden.js)
+// ════════════════════════════════════════════════════════════════
+const HC_TIERS=[['Unique','One of a kind: only one person in the world can hold it at a time. When the holder dies or gives it up, it can be claimed again.','var(--gold)'],['Epic','A specialisation of a basic class: the class\'s own skills honed into something sharper (a Rogue can become a Poison Master).','var(--acc)'],['Legendary','Follows one of the Rune progenitors, the original holders of the Laws, and carries a share of that progenitor\'s way.','var(--red)']];
+const HC_FLOOR={Epic:.5,Unique:.75,Legendary:1};
+// The class list is encrypted; HC holds it once the code is entered (remembered for this browser session).
+let HC=null;
+async function hcUnlock(code){
+  const L=HIDDEN.lock;if(!L)return HC=HIDDEN.classes||[];if(!(window.crypto&&crypto.subtle))throw new Error('This browser cannot unlock the list.');
+  const b=x=>Uint8Array.from(atob(x),c=>c.charCodeAt(0)),base=await crypto.subtle.importKey('raw',new TextEncoder().encode(code),'PBKDF2',false,['deriveKey']);
+  const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b(L.salt),iterations:L.it,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt']);
+  const out=await crypto.subtle.decrypt({name:'AES-GCM',iv:b(L.iv)},key,b(L.data));HC=JSON.parse(new TextDecoder().decode(out));try{sessionStorage.setItem('fand.hc',code)}catch(e){}return HC;
+}
+async function hcAuto(){if(HC||!HIDDEN.lock)return;let c=null;try{c=sessionStorage.getItem('fand.hc')}catch(e){}if(c)try{await hcUnlock(c)}catch(e){}}
+function hcLockHTML(){return `<div class="panel" style="max-width:440px;margin:20px auto;text-align:center;border-top:3px solid var(--gold)"><div style="font-size:2rem">🔒</div><b style="font-family:var(--serif);font-size:1.2rem">The list is sealed</b><p class="note">Enter the code to see every hidden class.</p><form id="hc-form" style="display:flex;gap:8px;justify-content:center"><input class="sel" id="hc-code" type="password" inputmode="numeric" autocomplete="off" placeholder="Code" style="max-width:140px;text-align:center;letter-spacing:.3em"><button class="btn primary">Unlock</button></form><div id="hc-err" class="note" style="color:var(--red);min-height:1.2em"></div></div>`}
+function hcBindLock(after){const f=$('hc-form');if(!f)return;f.onsubmit=async e=>{e.preventDefault();try{await hcUnlock($('hc-code').value.trim());after()}catch(err){$('hc-err').textContent=err&&err.message&&/browser/.test(err.message)?err.message:'That code is not right.';$('hc-code').select()}};$('hc-code').focus()}
+// Each unclaimed Rune's excess energy pools into one realm's Tower (fixed by the Rune's name).
+const TOWER_RUNES=(()=>{const m=new Map(REALMS.map(r=>[r.n,[]]));RUNES.filter(r=>!r.gods.length).forEach(r=>{let h=0;for(const c of r.n)h=(h*31+c.charCodeAt(0))>>>0;m.get(REALMS[h%REALMS.length].n).push(r)});return m})();
+function towerOf(realm){const t=(HIDDEN.towers||{})[realm]||{};const R=REALM[realm]||{};return {realm,name:t.name||`The ${realm} Tower`,look:t.look||'',floors:t.floors||(R.tier||1)*10}}
+function hcFloor(c){const t=towerOf(c.tower);return Math.max(1,Math.round(t.floors*(HC_FLOOR[c.tier]||.5)))}
+function hcCard(c,open){
+  const tier=HC_TIERS.find(t=>t[0]===c.tier)||HC_TIERS[1],pr=c.prog&&RUNE_IDX.get(lc(c.prog));
+  return `<details class="panel" ${open?'open':''} style="border-left:3px solid ${tier[2]};padding:12px 14px" id="hc-${pid(c.n)}"><summary style="cursor:pointer;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;list-style:none"><b style="font-family:var(--serif);font-size:1.12rem">${esc(c.n)}</b><span class="b" style="color:${tier[2]}">${esc(c.tier)}</span>${c.base?`<span class="b ghost">${esc(c.base)}</span>`:''}${c.prog?`<span class="b ghost">follows ${esc(c.prog)}</span>`:''}<span class="note" style="margin:0 0 0 auto">${esc(towerOf(c.tower).name)} · floor ${hcFloor(c)}</span></summary>
+    ${c.notice?`<div class="mono" style="margin-top:8px;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--gold2);font-size:.85rem">${esc(c.notice)}</div>`:''}
+    <div style="margin-top:8px;line-height:1.6">${esc(c.blurb||'')}</div>
+    ${kv([['Requires',esc(c.requires||'')],['Unlock',esc(c.unlock||'')],['Tower',`<a href="${pageUrl('towers')}#tw-${pid(c.tower)}" data-go="towers">${esc(towerOf(c.tower).name)}</a> (${esc(c.tower)} Realm), floor ${hcFloor(c)} of ${towerOf(c.tower).floors}`],c.prog?['Progenitor',pr?refChip(pr,esc(c.prog)):esc(c.prog)]:null,c.base?['Basic class',`<a href="#" data-go="subclasses" data-setup='${esc(JSON.stringify({side:c.base}))}'>${esc(c.base)}</a>`]:null].filter(Boolean))}
+    <div class="tablewrap" style="margin-top:8px"><table class="t"><tbody>${(c.features||[]).map(([lv,n,t])=>`<tr><td class="num" style="white-space:nowrap">Lv ${lv}</td><td><b>${esc(n)}</b><br><span style="color:var(--text2)">${esc(t)}</span></td></tr>`).join('')}</tbody></table></div>
+    ${c.evolves?`<div class="callout" style="margin-top:8px"><b>Evolution:</b> ${esc(c.evolves)}</div>`:''}
+    ${c.cost?`<div class="callout" style="border-color:var(--red);margin-top:8px"><b>The price:</b> ${esc(c.cost)}</div>`:''}
+    ${c.secret?`<details class="fold" style="margin-top:8px"><summary>DM only: the hidden condition</summary><div class="note" style="margin:4px 0 0">${esc(c.secret)}</div></details>`:''}</details>`;
+}
+async function renderHidden(){
+  await hcAuto();
+  const st=store.get('hc',{tier:'',q:''}),q=lc(st.q||''),ALL=HC||[],C=ALL.filter(c=>(!st.tier||c.tier===st.tier)&&(!q||lc([c.n,c.base,c.prog,c.blurb,c.tower].join(' ')).includes(q)));
+  $('content').innerHTML=`<div class="page">
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Hidden classes</h3><p>Beyond the basic classes are hidden classes. No one picks them at character creation: they are unlocked only through quests and by climbing the <a href="${pageUrl('towers')}" data-go="towers">Towers</a> that stand in every realm.</p></div>
+    <div class="cols" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-bottom:14px">${HC_TIERS.map(([t,d,col])=>`<button class="panel" style="text-align:left;cursor:pointer;border-top:3px solid ${col};${st.tier===t?'background:var(--goldbg)':''}" data-hct="${t}"><b style="font-family:var(--serif);font-size:1.15rem;color:${col}">${t}</b> <span class="b ghost">${HC?HC.filter(c=>c.tier===t).length:(HIDDEN.counts||{})[t]||0}</span><div style="margin-top:4px;font-size:.88rem;color:var(--text2)">${esc(d)}</div></button>`).join('')}</div>
+    ${!HC?hcLockHTML():`<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px"><input class="sel" id="hc-q" placeholder="Find a hidden class, a basic class, a progenitor…" value="${esc(st.q||'')}" style="max-width:340px;flex:1">${st.tier?`<button class="btn" data-hct="">Show all tiers</button>`:''}<span class="note" style="margin:0">${C.length} shown</span></div>
+    ${ALL.length?(st.tier?[st.tier]:HC_TIERS.map(t=>t[0])).map(t=>{const L=C.filter(c=>c.tier===t);return L.length?`<section class="sec"><div class="sec-h"><h3>${t}</h3></div><div style="display:flex;flex-direction:column;gap:10px">${L.map(c=>hcCard(c,false)).join('')}</div></section>`:''}).join(''):'<div class="empty">No hidden classes yet.</div>'}`}
+  </div>`;
+  if(!HC){hcBindLock(renderHidden);$('content').querySelectorAll('[data-hct]').forEach(b=>b.onclick=()=>{});return}
+  $('content').querySelectorAll('[data-hct]').forEach(b=>b.onclick=()=>{const s2=store.get('hc',{});s2.tier=s2.tier===b.dataset.hct?'':b.dataset.hct;store.set('hc',s2);renderHidden()});
+  $('hc-q').oninput=e=>{const s2=store.get('hc',{});s2.q=e.target.value;store.set('hc',s2);const pos=e.target.selectionStart;renderHidden();const f=$('hc-q');f.focus();f.setSelectionRange(pos,pos)};
+  const h=location.hash.match(/#hc-([\w-]+)/);if(h&&$('hc-'+h[1])){$('hc-'+h[1]).open=true;$('hc-'+h[1]).scrollIntoView()}
+  diceify($('content'));
+}
+// Tower trials (campaign owner's rules): every 10 floors is one level band (floors 1-10 for level 1, 11-20 for
+// level 2, ...), every 10th floor has a boss, a conquered boss floor lets the party teleport to it, and a party above
+// a floor's level gets no loot. Rewards are gold, an item, or a Class Change Book for a hidden class.
+const TRIAL_KINDS=[
+  ['Combat','The floor\'s guardians attack as soon as the doors seal.'],
+  ['Gauntlet','A corridor of traps and ambushes; the floor ends when everyone reaches the far door.'],
+  ['Riddle of the Law','A voice speaks a riddle about the {R} Law. A wrong answer releases the guardians; a right one halves them.'],
+  ['Endurance','Hold the floor\'s centre for {T} rounds against waves of guardians.'],
+  ['Trial of the Law','The floor bends to the {R} Law: {L}'],
+  ['Escort','A lost climber (an NPC from an earlier party) must be brought alive to the stairs.'],
+];
+const ORD=n=>n+(['th','st','nd','rd'][(n%100-20)%10]||['th','st','nd','rd'][n%100]||'th');
+function trialMonsters(realm,L,boss,R){
+  const crOk=(m,lo,hi)=>{const c=crNum(m.sb?m.sb.cr:m.cr);return c>=lo&&c<=hi};
+  let pool=MONSTERS.filter(m=>m.realm===realm&&(boss?crOk(m,L+2,L+5):crOk(m,Math.max(0,L-3),L)));
+  if(!pool.length)pool=MONSTERS.filter(m=>boss?crOk(m,L+2,L+5):crOk(m,Math.max(0,L-3),L));
+  const pk=()=>pool[Math.floor(R()*pool.length)];
+  return boss?[pk()]:Array.from({length:2+Math.floor(R()*3)},pk).filter(Boolean);
+}
+function makeTrial(o){
+  const T=towerOf(o.realm),floor=Math.max(1,Math.min(T.floors,o.floor|0)),L=Math.ceil(floor/10),boss=floor%10===0;
+  const R=rng32((o.seed||0)+floor*7919+o.realm.length*31+(o.rune||'').length*131);
+  const runes=TOWER_RUNES.get(o.realm)||[],rune=RUNE_IDX.get(lc(o.rune||''))||runes[Math.floor(R()*runes.length)]||RUNES[0];
+  const law=rune.note?plainMd(rune.note.md).split(/(?<=\.)\s/)[0].slice(0,200):`${rune.n} is in the air of every room.`;
+  const kind=boss?['Boss','The floor guardian waits at the top of the stairs. The {R} Law hums in its weapon; defeat it to conquer the floor.']:TRIAL_KINDS[Math.floor(R()*TRIAL_KINDS.length)];
+  const text=kind[1].replace(/\{R\}/g,rune.n).replace('{T}',3+Math.floor(R()*4)).replace('{L}',law);
+  const mons=trialMonsters(o.realm,L,boss,R),over=(o.level|0)>L;
+  const rw=[];
+  if(!over){
+    const tier=(REALM[o.realm]||{}).tier||1,g=Math.round(25*L*L*tier*(boss?3:1)*(0.75+R()*0.5)/5)*5;rw.push({k:'gold',t:gp(g),v:g});
+    // materials of the Tower's realm, their grade rising with the floor's level (a boss gives one grade more)
+    const mg=Math.max(1,Math.min(10,L+(boss?1:0))),mp=MATS.filter(m=>m.realm===o.realm&&m.g===mg&&!m.gen);if(mp.length){const m=mp[Math.floor(R()*mp.length)];rw.push({k:'mat',x:m,q:(boss?3:1)+Math.floor(R()*2)})}
+    // items at the floor's level; rarer the higher the floor
+    const RAR=['Common','Uncommon','Rare','Very Rare','Legendary'],rmax=RAR[Math.min(4,Math.floor((L-1)/2)+(boss?1:0))];
+    if(boss||R()<.4){const bp=BPS.filter(b=>b.lv<=L+1&&b.lv>=Math.max(1,L-2)&&RAR.indexOf(b.r)<=RAR.indexOf(rmax)&&!['Food','Crop','Fertilizer','Livestock','Structure','Fortification'].includes(b.cat));const b=bp.sort((a,c)=>RAR.indexOf(c.r)-RAR.indexOf(a.r)).slice(0,Math.max(8,bp.length>>2))[Math.floor(R()*Math.min(bp.length,Math.max(8,bp.length>>2)))];if(b)rw.push({k:'item',x:b})}
+    const here=HC?HC.filter(c=>c.tower===o.realm):[],sealed=(HIDDEN.byTower||{})[o.realm]||0;
+    const onFloor=here.filter(c=>hcFloor(c)===floor);
+    if(onFloor.length)rw.push({k:'book',c:onFloor[Math.floor(R()*onFloor.length)]});
+    if(!onFloor.length&&boss&&R()<.3){const can=here.filter(c=>hcFloor(c)<=floor);if(can.length)rw.push({k:'book',c:can[Math.floor(R()*can.length)]});else if(!HC&&sealed)rw.push({k:'sealed'})}
+    if(!HC&&sealed&&!rw.some(x=>x.k==='sealed')&&[.5,.75,1].some(f=>Math.round(T.floors*f)===floor))rw.push({k:'sealed'});
+  }
+  return {T,floor,L,boss,rune,kind:kind[0],text,mons,over,rw};
+}
+function trialHTML(t,o){
+  const prog=store.get('towerprog',{})[o.realm]||0,ports=[1];for(let f=10;f<=prog;f+=10)ports.push(f);
+  return `<div class="panel" style="border-top:3px solid ${(REALM[o.realm]||{}).color||'var(--gold)'}">
+    <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><b style="font-family:var(--serif);font-size:1.2rem">${esc(t.T.name)}, ${ORD(t.floor)} floor</b>${t.boss?'<span class="b red">Boss floor</span>':''}<span class="b">Floor level ${t.L}</span><span class="b ghost">${esc(t.kind)}</span><span class="note" style="margin:0">Built on ${refChip(t.rune)}</span></div>
+    <p style="line-height:1.6;margin:8px 0">${esc(t.text)}</p>
+    ${t.mons.length?`<div class="blk"><h4>${t.boss?'Floor guardian':'Guardians'}</h4></div><div class="chips">${t.mons.map(m=>refChip(m,esc(m.n),'CR '+(m.sb?m.sb.cr:m.cr))).join('')}</div>`:''}
+    <div class="blk" style="margin-top:10px"><h4>Reward <em>scaled to floor ${t.floor} (level ${t.L}) of a tier-${(REALM[o.realm]||{}).tier||1} Tower</em></h4></div>
+    ${t.over?`<div class="callout" style="border-color:var(--red)"><b>No loot.</b> The party (level ${o.level}) is above this floor's level (${t.L}). The Tower gives nothing to those who climb beneath themselves.</div>`:`<div class="mlist">${t.rw.map(r=>r.k==='gold'?`<button disabled style="opacity:1;cursor:default">💰 <b>${r.t}</b><span class="x">${localPrice(r.v,o.realm)||''}</span></button>`:r.k==='mat'?`<button data-ref="${ref(r.x)}">⛏ <b>${r.q}× ${esc(r.x.n)}</b><span class="x">${esc(r.x.gr)}${r.x.pn?' · '+esc(r.x.pn):''}</span></button>`:r.k==='item'?`<button data-ref="${ref(r.x)}">🎁 <b>${esc(r.x.n)}</b><span class="x">${esc(r.x.cat)} · Lv ${r.x.lv}${r.x.r?' · '+esc(r.x.r):''}</span></button>`:r.k==='book'?`<a class="chip" href="${pageUrl('hidden')}#hc-${pid(r.c.n)}" data-go="hidden" style="text-decoration:none;padding:8px 12px">📕 <b>Class Change Book: ${esc(r.c.n)}</b> <small>${esc(r.c.tier)}${r.c.base&&r.c.base!=='Any'?' · for '+esc(r.c.base):''}</small></a>`:`<a class="chip" href="${pageUrl('hidden')}" data-go="hidden" style="padding:8px 12px">📕 <b>A sealed Class Change Book</b> <small>unlock the hidden class list to see which</small></a>`).join('')}</div>`}
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px">${t.boss?`<button class="btn primary" id="tr-conquer">⚔ Mark floor ${t.floor} conquered</button>`:''}<span class="note" style="margin:0">Teleport to: ${ports.map(f=>`<button class="chip" data-tp="${f}">Floor ${f}</button>`).join(' ')}${prog?` · conquered up to floor ${prog}`:''}</span></div></div>`;
+}
+function trialTool(){
+  const o=Object.assign({realm:'Human',rune:'',floor:1,level:1,seed:1},store.get('trial',{}));
+  const T=towerOf(o.realm),runes=TOWER_RUNES.get(o.realm)||[];
+  return `<section class="sec" id="trial"><div class="sec-h"><h3>Tower trial</h3><p>Pick a Tower (or the unclaimed Rune it is built on) and a floor. Every 10 floors is one level band, with a boss on every 10th floor.</p></div>
+    <div class="tool"><div class="form" style="grid-template-columns:repeat(5,1fr)">
+      <label>Tower<select id="tr-realm">${REALMS.map(r=>`<option value="${esc(r.n)}"${r.n===o.realm?' selected':''}>${esc(towerOf(r.n).name)} (${esc(r.n)})</option>`).join('')}</select></label>
+      <label>Built on the Rune<select id="tr-rune"><option value="">Any of its ${runes.length}</option>${runes.slice().sort(byName).map(r=>`<option${r.n===o.rune?' selected':''}>${esc(r.n)}</option>`).join('')}</select></label>
+      <label>Floor (1–${T.floors})<input id="tr-floor" type="number" min="1" max="${T.floors}" value="${Math.min(o.floor,T.floors)}"></label>
+      <label>Party level<input id="tr-lv" type="number" min="1" max="20" value="${o.level}"></label>
+      <label style="align-self:end"><button class="btn" id="tr-new" type="button" style="width:100%">🎲 New trial</button></label></div></div>
+    <div id="tr-out" style="margin-top:12px"></div></section>`;
+}
+function trialBind(){
+  const get=()=>Object.assign({realm:'Human',rune:'',floor:1,level:1,seed:1},store.get('trial',{}));
+  const show=()=>{const o=get();$('tr-out').innerHTML=trialHTML(makeTrial(o),o);
+    const c=$('tr-conquer');if(c)c.onclick=()=>{const p=store.get('towerprog',{});p[o.realm]=Math.max(p[o.realm]||0,o.floor);store.set('towerprog',p);toast(`Floor ${o.floor} conquered: teleport unlocked`);show()};
+    $('tr-out').querySelectorAll('[data-tp]').forEach(b=>b.onclick=()=>{const s2=get();s2.floor=+b.dataset.tp+(+b.dataset.tp>1?1:0);s2.floor=Math.min(s2.floor,towerOf(s2.realm).floors);store.set('trial',s2);$('tr-floor').value=s2.floor;show()})};
+  const save=()=>{const s2=get();const realm=$('tr-realm').value;if(realm!==s2.realm){s2.rune='';s2.realm=realm;store.set('trial',s2);$('trial').outerHTML=trialTool();trialBind();return}
+    Object.assign(s2,{rune:$('tr-rune').value,floor:Math.max(1,Math.min(towerOf(realm).floors,+$('tr-floor').value||1)),level:Math.max(1,Math.min(20,+$('tr-lv').value||1))});store.set('trial',s2);show()};
+  ['tr-realm','tr-rune','tr-floor','tr-lv'].forEach(i=>$(i).addEventListener('change',save));
+  $('tr-new').onclick=()=>{const s2=get();s2.seed=(Math.random()*2**31)|0;store.set('trial',s2);show()};
+  show();
+}
+async function renderTowers(){
+  await hcAuto();
+  $('content').innerHTML=`<div class="page">
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">The Towers</h3><p>A Tower stands in every realm. No one built them: they grew out of the excess energy of unclaimed Runes, Laws no god holds, whose power has nowhere else to go. The deeper the realm, the taller its Tower. Climbing one is the only way, besides certain quests, to unlock a <a href="${pageUrl('hidden')}" data-go="hidden">hidden class</a>.</p></div>
+    ${trialTool()}
+    <div class="callout" style="margin:14px 0">Every 10 floors is one level band: floors 1–10 are made for level 1, 11–20 for level 2, and so on, with a boss on every 10th floor. Conquer a boss floor and you can teleport to it from then on. A party whose level is above a floor's level gets no loot there. Each floor is guarded by creatures of the Tower's realm, stronger the higher you climb. Epic classes wait halfway up, Unique classes three quarters of the way, and Legendary classes at the top. When a god claims one of a Tower's Runes, that Rune stops feeding it, so Towers can shrink, and new floors open when a Rune is lost.</div>
+    ${REALMS.map(r=>{const t=towerOf(r.n),rs=TOWER_RUNES.get(r.n)||[],cls=(HC||[]).filter(c=>c.tower===r.n).sort((a,b)=>hcFloor(a)-hcFloor(b)),nLocked=(HIDDEN.byTower||{})[r.n]||0;
+      const mons=MONSTERS.filter(m=>m.realm===r.n),bands=[0,.25,.5,.75].map((f,i)=>{const lo=Math.max(1,Math.round(t.floors*f)+1),hi=Math.round(t.floors*(f+.25)),gs=mons.filter(m=>m.g>=1+i*2.5&&m.g<=3+i*2.5).sort((a,b)=>a.g-b.g);return [lo,hi,gs.slice(0,6)]});
+      return `<section class="sec" id="tw-${pid(r.n)}"><div class="panel" style="border-top:3px solid ${r.color}"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="margin:0;font-size:1.25rem;font-family:var(--serif)">${esc(t.name)}</h4><span class="note" style="margin:0">${refChip(r,esc(r.n)+' Realm')} · ${t.floors} floors · fed by ${rs.length} unclaimed Runes</span></div>
+        ${t.look?`<p style="font-style:italic;color:var(--text2);margin:6px 0">${esc(t.look)}</p>`:''}
+        <div class="tablewrap" style="margin-top:6px"><table class="t"><thead><tr><th>Floors</th><th>Guardians</th></tr></thead><tbody>${bands.map(([lo,hi,gs])=>`<tr><td style="white-space:nowrap">${lo}–${hi}</td><td>${gs.length?gs.map(m=>refChip(m,esc(m.n),'G'+m.g)).join(' '):'<span class="note">the Tower\'s own constructs</span>'}</td></tr>`).join('')}</tbody></table></div>
+        ${!HC&&nLocked?`<div class="blk" style="margin-top:8px"><h4>Hidden classes in this Tower</h4></div><a class="chip" href="${pageUrl('hidden')}" data-go="hidden">🔒 ${nLocked} sealed: unlock the list to see them</a>`:''}
+        ${cls.length?`<div class="blk" style="margin-top:8px"><h4>Hidden classes in this Tower</h4></div><div class="mlist">${cls.map(c=>`<a class="chip" href="${pageUrl('hidden')}#hc-${pid(c.n)}" data-go="hidden" style="text-decoration:none">Floor ${hcFloor(c)} · <b>${esc(c.n)}</b> <small>${esc(c.tier)}${c.base?' · '+esc(c.base):''}${c.prog?' · '+esc(c.prog):''}</small></a>`).join('')}</div>`:''}
+        <details class="fold" style="margin-top:8px"><summary>The ${rs.length} unclaimed Runes that feed it</summary><div class="chips">${rs.map(x=>refChip(x)).join('')}</div></details>
+      </div></section>`}).join('')}
+  </div>`;
+  trialBind();
+  const h=location.hash.match(/#tw-([\w-]+)/);if(h&&$('tw-'+h[1]))$('tw-'+h[1]).scrollIntoView();
 }
 function renderHooks(){
   const st=store.get('hooks',{level:Math.max(1,Math.round(PARTY.reduce((a,c)=>a+(+c.level||1),0)/(PARTY.length||1))||3),realm:'',kinds:[],seed:1});
@@ -2857,6 +2999,7 @@ FAND rules summary:
 - God Contracts: ten ranks from Minor up to 1st Finger; the five Fingers form a god's Hand. Each rank has spells, AC, duties, and rewards. Gods sharing a Rune are rivals.
 - Monsters: homebrew monsters have level, HP, AC, attacks, a save DC, and a signature trait from their best drop; grade 10 monsters have boss rules. Official monsters have CR, a grade from CR, and graded drops; no stat blocks.
 - Every class picks its subclass at level 3.
+- Hidden classes and Towers (campaign owner's rules): besides the basic classes there are hidden classes, unlocked only through quests and Towers. A Tower stands in every realm, grown from the excess energy of unclaimed Runes (Runes no god holds); floors by realm: Human 10 up to Primordial 100. Tiers: Unique (one of a kind; only one holder in the world at a time), Epic (a specialisation of one basic class, e.g. Rogue to Poison Master, assassin skills honed into poison), Legendary (classes that follow the progenitors of the Runes). Epic classes are found halfway up a Tower, Unique three quarters up, Legendary at the top. The site's Hidden classes and Towers pages list them.
 - The Forge: every Blueprint is a version of a general design (every standard weapon such as Battleaxe, Greataxe, Longsword, Rapier, Longbow, Heavy Crossbow, Whip; armor pieces Helm, Cuirass, Gauntlets, Boots, Pauldrons, Cloak, Barding; Buckler, Shield, Tower Shield; focuses Staff, Wand, Orb, Amulet, Ring) built from parts. Each part accepts some material categories well, some poorly, and the rest are wrong (an axe head takes metal, stone, or hard bone/horn/fang; a gem is a poor, brittle head; a dragon eye is soft tissue and useless). The main part sets the damage dice (they grow at Item Level 20 and 35) and a damage bonus of Item Level / 10, or the AC; the structure (haft, hilt, string, lining) sets the attack bonus of Item Level / 10, or +1 AC at Item Level 20+. Main and structure parts give their property at full Potency, extras at half, and every part's unique trait applies. A wrong main part makes the item useless (1d2 damage, -5 to hit, breaks on 1-5); a wrong structure gives -3 to hit and breaks on 1-3; a poor fit loses that part's bonus and breaks on a natural 1; a structure more than 10 Item Levels weaker than the main part breaks on 1-2.
 - Armor drawbacks by total armor AC worn: 10+ = lose Acrobatics, Athletics, and Dexterity (campaign rule); 4-6 and 7-9 rows are proposed (Stealth; Stealth and Acrobatics at disadvantage).
 
