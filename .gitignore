@@ -1,0 +1,7 @@
+# script outputs and backups
+*.bak
+*_backup/
+backup_*/
+tools/out/
+*.txt
+node_modules/
