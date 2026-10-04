@@ -168,6 +168,66 @@ D.MATS.sort(function (a, b) { return a.n < b.n ? -1 : a.n > b.n ? 1 : 0; });
 var dropCounts = D.MONSTERS.map(function (m) { return (m.drops || []).length; });
 log.push('harvest parts: +' + genAdded + ' materials (now ' + D.MATS.length + '); drops per monster ' + Math.min.apply(null, dropCounts) + '-' + Math.max.apply(null, dropCounts) + '; body plans ' + JSON.stringify(kinds));
 
+// ---- filling gaps. Every generated value is marked (dsg, mi) so the site can say it was written by the site,
+// and it is only ever written where the vault left the field empty.
+var gap = { mon: 0, part: 0, bpMats: 0, bpDs: 0 };
+D.MONSTERS.forEach(function (m) { if (!m.ds && m.txt) { m.ds = m.txt; gap.mon++; } });
+function article(w) { return /^[aeiou]/i.test(w) ? 'an' : 'a'; }
+D.MATS.forEach(function (m) {
+  if (!m.gen || m.ds) return;
+  var mon = m.from && m.from[0], part = mon ? m.n.slice(mon.length).trim().toLowerCase() : m.n.toLowerCase();
+  m.ds = 'The ' + part + ' of ' + article(mon || '') + ' ' + (mon || 'creature') + ', harvested at grade ' + m.g + ' in the ' + m.realm + ' Realm.'
+    + (m.use ? ' Crafters use it for ' + m.use.charAt(0).toLowerCase() + m.use.slice(1) + '.' : '');
+  m.dsg = 1; gap.part++;
+});
+// Blueprints with no materials: first, materials the description already names; otherwise a recipe by item
+// type, picking vault materials whose Item Level fits the Blueprint's level.
+var vaultMats = D.MATS.filter(function (m) { return !m.gen; });
+var nameRe = vaultMats.filter(function (m) { return m.n.length >= 4 && /^[A-Z][A-Za-z' -]+$/.test(m.n) && m.n.split(' ').length <= 4; }).sort(function (a, b) { return b.n.length - a.n.length; });
+var RECIPE = {
+  Sword: ['Ore / Metal', 'Wood / Plant', 'Hide / Cloth / Fiber'], Dagger: ['Ore / Metal', 'Bone / Fang / Horn / Scale'], Axe: ['Ore / Metal', 'Wood / Plant'],
+  Hammer: ['Ore / Metal', 'Wood / Plant'], Spear: ['Ore / Metal', 'Wood / Plant'], Bow: ['Wood / Plant', 'Hide / Cloth / Fiber'],
+  Staff: ['Wood / Plant', 'Crystal / Gem'], Armor: ['Ore / Metal', 'Hide / Cloth / Fiber'], Shield: ['Ore / Metal', 'Wood / Plant'],
+  Potion: ['Blood / Organ', 'Wood / Plant', 'Essence / Soul / Core'], Artifact: ['Crystal / Gem', 'Ore / Metal', 'Essence / Soul / Core'],
+  Tool: ['Ore / Metal', 'Wood / Plant'], Food: ['Wood / Plant', 'Supply'], Structure: ['Stone', 'Wood / Plant'], Fortification: ['Stone', 'Ore / Metal']
+};
+function h32(t) { var x = 2166136261; for (var i = 0; i < t.length; i++) { x ^= t.charCodeAt(i); x = Math.imul(x, 16777619); } return x >>> 0; }
+var CREATURE_OK = { 'Blood / Organ': 1, 'Essence / Soul / Core': 1, 'Bone / Fang / Horn / Scale': 1 };
+function pickMat(ty, lv, seed) {
+  var want = Math.max(1, lv), pool = [];
+  for (var d = 1; d <= 50 && !pool.length; d += 1) pool = vaultMats.filter(function (m) { return (m.ty || m.cat) === ty && Math.abs((m.il || 1) - want) <= d && (CREATURE_OK[ty] || !(m.from && m.from.length) && m.org !== 'Creature'); });
+  return pool.length ? pool[h32(seed) % pool.length].n : null;
+}
+D.BPS.forEach(function (b) {
+  if (b.mats.length) return;
+  var found = [], text = (b.ds || '') + ' ' + b.n;
+  for (var i = 0; i < nameRe.length && found.length < 3; i++) {
+    var n = nameRe[i].n, re = new RegExp('(^|[^A-Za-z])' + n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![A-Za-z])');
+    if (re.test(text) && !found.some(function (f) { return f.indexOf(n) >= 0; })) found.push(n);
+  }
+  var rec = RECIPE[b.cat] || RECIPE.Artifact;
+  if (b.cat === 'Armor' || b.cat === 'Shield') rec = { Tailoring: ['Hide / Cloth / Fiber'], Leatherworking: ['Hide / Cloth / Fiber'], Harvesting: ['Bone / Fang / Horn / Scale', 'Hide / Cloth / Fiber'], Carving: ['Bone / Fang / Horn / Scale', 'Wood / Plant'], Enchanting: ['Hide / Cloth / Fiber', 'Crystal / Gem'] }[b.pr] || rec;
+  if (/\b(cloth|clothes|canvas|robe|jerkin|tunic|padded|silk|wool|linen|leather|hide)\b/i.test(b.n + ' ' + (b.ds || ''))) rec = ['Hide / Cloth / Fiber'];
+  if (!found.length) rec.forEach(function (ty, k) { var m = pickMat(ty, b.lv || 1, b.n + k); if (m && found.indexOf(m) < 0) found.push(m); });
+  if (found.length) { b.mats = found; b.mi = 1; gap.bpMats++; }
+});
+D.BPS.forEach(function (b) {
+  if (b.ds) return;
+  var what = (b.r ? b.r.toLowerCase() + ' ' : '') + b.cat.toLowerCase();
+  b.ds = b.n + ': ' + article(what) + ' ' + what + ' made through ' + b.pr + (b.sp ? ' (' + b.sp + ')' : '') + ' at level ' + b.lv + '.'
+    + (b.mats.length ? ' It is built from ' + b.mats.slice(0, -1).join(', ') + (b.mats.length > 1 ? ' and ' : '') + b.mats[b.mats.length - 1] + '.' : '')
+    + (b.prop ? ' Property: ' + b.prop.replace(/\.?$/, '.') : '');
+  b.dsg = 1; gap.bpDs++;
+});
+// Demons and patrons with no description: data/entity-lore.js (website lore, original writing).
+try {
+  var EL = require(path.join(__dirname, '..', 'data', 'entity-lore.js'));
+  [['DEMONS', 'demons'], ['PATRONS', 'patrons']].forEach(function (k) {
+    var n = 0; D[k[0]].forEach(function (e) { if (EL.rewrite && EL.rewrite[e.n] && !e.dsr) { e.ds = EL.rewrite[e.n]; e.dsr = 1; } if (!e.ds && EL[k[1]][e.n]) { e.ds = EL[k[1]][e.n]; e.dsg = 1; n++; } }); gap[k[1]] = n;
+  });
+} catch (e) { if (e.code !== 'MODULE_NOT_FOUND') throw e; }
+log.push('gaps filled: ' + JSON.stringify(gap));
+
 // ---- Armor Class rescale to the flat system (data/armor.js): a full set of iron gear gives 10.
 // The vault's original value is kept as ac0. generators/vaultac.js applies the same formula to the vault notes.
 var ARM = require(path.join(__dirname, '..', 'data', 'armor.js'));
@@ -208,6 +268,7 @@ D.MONSTERS.forEach(function (mon) {
   mon.sb = SB.statblock(mon, mon.body, best);
 });
 log.push('stat blocks: ' + D.MONSTERS.filter(function (m) { return m.sb; }).length);
+
 
 // ---- gods: split the roster details into fields; drop vault index pages that slipped into the lists
 function dropConnections(arr, label) {
@@ -302,7 +363,7 @@ var metaLine = 'const META=' + JSON.stringify(META) + ';';
 var VENDOR = fs.readFileSync(path.join(__dirname, '..', 'app', 'vendor', 'anthropic.js'), 'utf8');
 var single = '<script>\n' + VENDOR.replace(/<\/(script)/gi, '<\\/$1') + '\n</script>\n<script>\nconst SITE=null;\n' + ['BPS', 'SPELLS', 'VAULT', 'VAULT_DETAILS'].concat(CORE.slice(1)).map(lit).join('\n') + '\n' + metaLine + '\n</script>';
 var out = tpl.split('<!--__DATA__-->').join(single);
-var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'subclasses', 'demons', 'patrons', 'forge', 'craft', 'party', 'encounter', 'combat', 'rules', 'tools', 'about'];
+var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'subclasses', 'demons', 'patrons', 'forge', 'craft', 'party', 'encounter', 'hooks', 'combat', 'rules', 'tools', 'about'];
 var site = {};
 var PAGE_INFO = {
   home: ['Home', 'FAND (Fantasy and Numerous Disasters) campaign compendium: Blueprints, materials, monsters, realms, gods, spells, rules, and table tools for the world of Vestige.'],
@@ -321,6 +382,7 @@ var PAGE_INFO = {
   forge: ['Forge', 'Build a weapon or armor part by part: choose a material for each part and see the finished item, with penalties for the wrong materials.'],
   craft: ['Crafting planner', 'Plan a Blueprint: every material, where to get it, what it costs, and what your crafter is missing.'],
   party: ['Party', 'Track each character: god contract, rivals, gear and traits, materials, money, and realm Pressure.'],
+  hooks: ['Adventure hooks', 'Story starters built from the gods, Runes, realms, monsters, and Blueprints of Vestige, scaled to your party.'],
   encounter: ['Encounters', 'Build balanced encounters from a realm\'s Bestiary by party size and level.'],
   combat: ['Combat', 'Initiative, HP, and conditions, with FAND\'s flat AC applied to every hit.'],
   lore: ['Lore', 'The lore of Vestige: Infinatas and Inane, how the gods came to this realm, the pantheons, the contested Runes, the realms, and the progenitors.'],
