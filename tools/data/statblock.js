@@ -77,8 +77,8 @@ function statblock(m, body, bestDrop) {
   hp = Math.max(1, Math.floor(hd * (die / 2 + 0.5)) + hd * mods[2]);
   // Realm scaling (campaign rule: everything scales through the realms). Deeper realms mean tougher, harder-hitting
   // monsters: +15% HP per realm tier past the Human Realm, and a flat bonus on every hit that keeps pace with the AC
-  // that gear of that realm gives (about +2.5 per tier), since AC is subtracted from each hit.
-  var tier0 = Math.max(0, (m.tier || 1) - 1), realmHit = Math.round(2.5 * tier0);
+  // that gear of that realm gives (+4 per tier), since AC is subtracted from each hit.
+  var tier0 = Math.max(0, (m.tier || 1) - 1), realmHit = 4 * tier0;
   if (tier0) { hd = Math.max(1, Math.round(hd * (1 + 0.15 * tier0))); hp = Math.max(1, Math.floor(hd * (die / 2 + 0.5)) + hd * mods[2]); }
   // AC scales through the realms as player damage does (deeper-realm materials hit harder): half the CR, natural armor,
   // +1 for each realm tier past the Human Realm, and +1 for every 5 grades within the realm.
