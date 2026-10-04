@@ -1891,6 +1891,239 @@ function slotsFor(cls,lv){const T=slotTables(),k=CASTER[cls];if(!T||!k)return nu
   const t=k==='full'?T.full:T.half,L=k==='arti'?Math.min(20,lv+1):lv,row=t.rows.find(r=>+r[0]===L);if(!row)return null;
   const sl=row.slice(1).map(v=>(+v||0)+((+v||0)?extra:0));if(k==='arti'&&lv===1)sl[0]=2;return {slots:sl,extra}}
 function realmOpts(sel,filter){return REALMS.filter(filter||(()=>true)).map(r=>`<option value="${esc(r.n)}"${r.n===sel?' selected':''}>T${r.tier} · ${esc(r.n)}</option>`).join('')}
+const SBGEN=(function(){var module={exports:{}};// Original stat blocks in the Monster Manual layout, generated from a monster's challenge, body plan,
+// and drops. Nothing here is copied from a book: numbers follow the usual by-CR math, and AC follows
+// FAND's flat system (AC is subtracted from each hit's damage, so values stay small).
+// statblock(monster, body, traitsByDrop) -> compact object for the app.
+
+var XP = { '0': 10, '1/8': 25, '1/4': 50, '1/2': 100, '1': 200, '2': 450, '3': 700, '4': 1100, '5': 1800, '6': 2300, '7': 2900, '8': 3900, '9': 5000, '10': 5900, '11': 7200, '12': 8400, '13': 10000, '14': 11500, '15': 13000, '16': 15000, '17': 18000, '18': 20000, '19': 22000, '20': 25000, '21': 33000, '22': 41000, '23': 50000, '24': 62000, '25': 75000, '26': 90000, '27': 105000, '28': 120000, '29': 135000, '30': 155000 };
+var GRADE_CR = ['1/2', '2', '4', '6', '8', '11', '14', '17', '21', '25'];
+function crNum(c) { if (String(c).indexOf('/') > 0) { var p = String(c).split('/'); return +p[0] / +p[1]; } return +c; }
+function hash(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+function mod(x) { return Math.floor((x - 10) / 2); }
+function sgn(n) { return (n >= 0 ? '+' : '') + n; }
+
+// STR DEX CON INT WIS CHA, and which scores grow with CR
+var PLAN = {
+  beast:      { ab: [14, 12, 13, 3, 12, 6],  grow: [0, 2], type: 'beast', align: 'unaligned', speed: '40 ft.', senses: [], lang: '—', skills: ['Perception', 'Stealth'], atk: [['Bite', 'piercing', 8], ['Claw', 'slashing', 6]] },
+  bird:       { ab: [10, 16, 12, 3, 14, 6],  grow: [1, 4], type: 'beast', align: 'unaligned', speed: '10 ft., fly 60 ft.', senses: [], lang: '—', skills: ['Perception'], traits: [['Keen Sight', 'The creature has advantage on Wisdom (Perception) checks that rely on sight.']], atk: [['Talons', 'slashing', 6], ['Beak', 'piercing', 6]] },
+  reptile:    { ab: [15, 12, 15, 4, 11, 5],  grow: [0, 2], type: 'monstrosity', align: 'unaligned', speed: '30 ft., swim 30 ft.', senses: ['darkvision 60 ft.'], lang: '—', skills: ['Stealth'], atk: [['Bite', 'piercing', 10], ['Tail', 'bludgeoning', 8]] },
+  dragon:     { ab: [17, 10, 15, 12, 11, 15], grow: [0, 2, 5], type: 'dragon', align: 'chaotic evil', speed: '40 ft., climb 40 ft., fly 80 ft.', senses: ['blindsight 60 ft.', 'darkvision 120 ft.'], lang: 'Common, Draconic', skills: ['Perception', 'Stealth'], saves: [1, 2, 4, 5], atk: [['Bite', 'piercing', 10], ['Claw', 'slashing', 6]], breath: true },
+  insect:     { ab: [14, 16, 12, 2, 11, 4],  grow: [1, 2], type: 'monstrosity', align: 'unaligned', speed: '30 ft., climb 30 ft.', senses: ['darkvision 60 ft.'], lang: '—', skills: ['Stealth'], traits: [['Spider Climb', 'The creature can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check.']], atk: [['Bite', 'piercing', 8], ['Sting', 'piercing', 6]], poison: true },
+  aquatic:    { ab: [16, 13, 15, 4, 12, 5],  grow: [0, 2], type: 'beast', align: 'unaligned', speed: '0 ft., swim 50 ft.', senses: ['blindsight 30 ft.'], lang: '—', skills: ['Perception'], traits: [['Water Breathing', 'The creature can breathe only underwater.']], atk: [['Bite', 'piercing', 10], ['Tail', 'bludgeoning', 8]] },
+  aberration: { ab: [16, 12, 16, 18, 15, 16], grow: [3, 4, 2], type: 'aberration', align: 'lawful evil', speed: '20 ft., swim 40 ft.', senses: ['darkvision 120 ft.'], lang: 'Deep Speech, telepathy 120 ft.', skills: ['Perception', 'Insight'], saves: [2, 3, 4], atk: [['Tentacle', 'bludgeoning', 8]], mind: true },
+  undead:     { ab: [13, 12, 15, 6, 10, 8],  grow: [0, 2], type: 'undead', align: 'neutral evil', speed: '30 ft.', senses: ['darkvision 60 ft.'], lang: 'understands the languages it knew in life but can\'t speak', skills: [], atk: [['Slam', 'bludgeoning', 8], ['Life Drain', 'necrotic', 6]], imm: ['poison'], res: ['necrotic'], cond: ['exhaustion', 'poisoned'], traits: [['Undead Nature', 'The creature doesn\'t require air, food, drink, or sleep.']] },
+  construct:  { ab: [20, 8, 18, 3, 11, 1],   grow: [0, 2], type: 'construct', align: 'unaligned', speed: '30 ft.', senses: ['darkvision 60 ft.'], lang: 'understands the languages of its creator but can\'t speak', skills: [], atk: [['Slam', 'bludgeoning', 10]], imm: ['poison', 'psychic'], cond: ['charmed', 'exhaustion', 'frightened', 'paralyzed', 'petrified', 'poisoned'], traits: [['Immutable Form', 'The creature is immune to any spell or effect that would alter its form.'], ['Constructed Nature', 'The creature doesn\'t require air, food, drink, or sleep.']], acBonus: 3 },
+  ooze:       { ab: [16, 5, 16, 1, 6, 1],    grow: [0, 2], type: 'ooze', align: 'unaligned', speed: '20 ft., climb 20 ft.', senses: ['blindsight 60 ft. (blind beyond this radius)'], lang: '—', skills: [], atk: [['Pseudopod', 'acid', 6]], imm: ['acid'], cond: ['blinded', 'charmed', 'deafened', 'exhaustion', 'frightened', 'prone'], traits: [['Amorphous', 'The creature can move through a space as narrow as 1 inch wide without squeezing.']], acBonus: -2 },
+  elemental:  { ab: [16, 14, 16, 6, 10, 8],  grow: [0, 1, 2], type: 'elemental', align: 'neutral', speed: '30 ft.', senses: ['darkvision 60 ft.'], lang: 'Primordial', skills: [], atk: [['Slam', 'bludgeoning', 8]], imm: ['poison'], cond: ['exhaustion', 'paralyzed', 'petrified', 'poisoned', 'unconscious'], res: ['bludgeoning, piercing, and slashing from nonmagical attacks'] },
+  fiend:      { ab: [18, 14, 16, 12, 13, 15], grow: [0, 2, 5], type: 'fiend', align: 'chaotic evil', speed: '30 ft., fly 40 ft.', senses: ['darkvision 120 ft.'], lang: 'Abyssal, Infernal, telepathy 120 ft.', skills: ['Deception', 'Intimidation'], saves: [0, 2, 4], atk: [['Claw', 'slashing', 8], ['Bite', 'piercing', 10]], res: ['cold', 'fire', 'lightning'], imm: ['poison'], cond: ['poisoned'], traits: [['Magic Resistance', 'The creature has advantage on saving throws against spells and other magical effects.']] },
+  celestial:  { ab: [18, 16, 18, 16, 20, 20], grow: [4, 5], type: 'celestial', align: 'lawful good', speed: '30 ft., fly 90 ft.', senses: ['truesight 60 ft.'], lang: 'all, telepathy 120 ft.', skills: ['Insight', 'Perception'], saves: [4, 5], atk: [['Radiant Strike', 'radiant', 8]], res: ['radiant'], cond: ['charmed', 'exhaustion', 'frightened'], traits: [['Magic Resistance', 'The creature has advantage on saving throws against spells and other magical effects.']] },
+  plant:      { ab: [18, 8, 17, 8, 14, 9],   grow: [0, 2], type: 'plant', align: 'neutral', speed: '20 ft.', senses: ['blindsight 30 ft.'], lang: 'Sylvan', skills: [], atk: [['Slam', 'bludgeoning', 8], ['Vine Lash', 'bludgeoning', 6]], vuln: ['fire'], res: ['bludgeoning', 'piercing'], traits: [['False Appearance', 'While the creature remains motionless, it is indistinguishable from an ordinary plant.']] },
+  giant:      { ab: [21, 9, 19, 9, 10, 9],   grow: [0, 2], type: 'giant', align: 'chaotic neutral', speed: '40 ft.', senses: [], lang: 'Giant', skills: ['Athletics', 'Perception'], saves: [0, 2], atk: [['Greatclub', 'bludgeoning', 8], ['Rock', 'bludgeoning', 10, 'ranged']] },
+  fey:        { ab: [8, 18, 12, 14, 13, 18],  grow: [1, 5], type: 'fey', align: 'chaotic neutral', speed: '30 ft., fly 30 ft.', senses: ['darkvision 60 ft.'], lang: 'Common, Sylvan', skills: ['Deception', 'Stealth'], atk: [['Thorned Blade', 'piercing', 6]], traits: [['Fey Ancestry', 'The creature has advantage on saving throws against being charmed, and magic can\'t put it to sleep.']], mind: true },
+  humanoid:   { ab: [14, 12, 13, 10, 11, 10], grow: [0, 1], type: 'humanoid', align: 'any alignment', speed: '30 ft.', senses: [], lang: 'Common', skills: ['Athletics', 'Perception'], atk: [['Longsword', 'slashing', 8], ['Shortbow', 'piercing', 6, 'ranged']] }
+};
+var ABN = ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA'];
+var SKILL_AB = { Perception: 4, Stealth: 1, Insight: 4, Athletics: 0, Deception: 5, Intimidation: 5 };
+var ELEMENT = [[/red|gold|brass|fire|flame|magma|hell|salamander|efreet|phoenix|ember|cinder/i, 'fire'], [/white|silver|frost|ice|cold|winter|yeti|remorhaz/i, 'cold'], [/blue|bronze|storm|lightning|thunder|behir|air|djinni/i, 'lightning'], [/black|copper|acid|ooze|pudding/i, 'acid'], [/green|poison|venom|toxic/i, 'poison'], [/shadow|necro|undead|death|ghost|wraith|vampire|lich/i, 'necrotic'], [/radiant|celestial|angel|solar|sun|holy/i, 'radiant'], [/psion|mind|brain|aboleth|beholder/i, 'psychic']];
+function element(name) { for (var i = 0; i < ELEMENT.length; i++) if (ELEMENT[i][0].test(name)) return ELEMENT[i][1]; return null; }
+
+function size(m, plan, cr) {
+  var n = m.n;
+  if (/ancient|elder brain|kraken|tarrasque|leviathan|colossus|purple worm|dragon turtle|roc\b|titan/i.test(n)) return ['Gargantuan', 20];
+  if (/\badult\b|giant\b(?! (rat|frog|badger|centipede|fire beetle|wasp|spider|bat|weasel|crab|lizard|poisonous snake|owl|eagle|goat|boar|elk|hyena|toad|vulture|octopus|sea horse|scorpion|constrictor))|behemoth|mammoth|treant|hydra|behir|beholder|golem/i.test(n) && cr >= 8) return ['Huge', 12];
+  if (/young|wyvern|owlbear|ogre|troll|horse|bear|griffon|hippogriff|manticore|elephant|minotaur|basilisk|chimera|ettin|giant (spider|scorpion|crab|octopus|elk|boar|toad|lizard|eagle|constrictor)/i.test(n)) return ['Large', 10];
+  if (cr < 2 && /wyrmling|pseudodragon|rat|bat|cat\b|frog|toad|crab|weasel|raven|owl\b|hawk|sprite|pixie|imp\b|quasit|homunculus|stirge|spider\b|lizard\b|centipede|scorpion\b|snake\b|mephit/i.test(n) && !/giant|swarm/i.test(n)) return cr < 1 ? ['Tiny', 4] : ['Small', 6];
+  if (cr < 4 && /kobold|goblin|gnome|halfling|grung|kenku|quickling|redcap|darkling|myconid|dretch|mane|faerie/i.test(n)) return ['Small', 6];
+  if (plan === 'giant') return ['Huge', 12];
+  if (cr >= 20) return ['Gargantuan', 20];
+  if (cr >= 13) return ['Huge', 12];
+  if (cr >= 6) return ['Large', 10];
+  return ['Medium', 8];
+}
+
+// item-trait text ("While equipped, you ...") rewritten for the creature itself
+var VERBS = /\b(it|It|The creature|the creature|and|but) (don't|have|drop|see|regain|take|gain|ignore|resist|are|aren't|know|spot|walk|move|fall|touch|count|slip|teleport|breathe|hang|burrow|climb|speak|read|need|finish|make|deal|can't be|deals)\b/g;
+var FIX = { "don't": "doesn't", have: 'has', are: 'is', "aren't": "isn't", touch: 'touches', "can't be": "can't be", deals: 'deals' };
+function voice(t) {
+  t = t.replace(/^While equipped, you /, 'The creature ').replace(/^While equipped, /, '').replace(/^Once per (short|long) rest, you /, 'Once per $1 rest, the creature ')
+    .replace(/^A weapon (coated )?with this material/, 'Its attacks').replace(/^Armor with this material/, 'Its body').replace(/^Items with this material/, 'Its body')
+    .replace(/^Potions and salves made with this material/, 'Potions made from its parts').replace(/^Potions and food made with it/, 'Potions made from it')
+    .replace(/(hit|struck) by a weapon (coated )?with this material/g, '$1 by its attacks').replace(/\bYou\b/g, 'It').replace(/\byou\b/g, 'it').replace(/\byour\b/g, 'its').replace(/\byourself\b/g, 'itself');
+  return t.replace(VERBS, function (a, who, v) { return who + ' ' + (FIX[v] || (v + (/(s|sh|ch)$/.test(v) ? 'es' : 's'))); }).replace(/^it /, 'It ');
+}
+function statblock(m, body, bestDrop) {
+  var cr = m.cr || GRADE_CR[Math.max(0, Math.min(9, (m.g || 1) - 1))], c = crNum(cr);
+  var plan = PLAN[body] || PLAN.beast, h = hash(m.n);
+  var prof = c < 1 ? 2 : 2 + Math.floor((c - 1) / 4);
+  var sz = size(m, body, c);
+  var ab = plan.ab.map(function (v, i) {
+    var up = plan.grow.indexOf(i) >= 0 ? Math.floor(c / 3) : Math.floor(c / 6);
+    var jitter = (h >> (i * 3) & 3) - 1;
+    var sizeAdj = i === 0 || i === 2 ? ({ Tiny: -6, Small: -3, Medium: 0, Large: 3, Huge: 5, Gargantuan: 7 })[sz[0]] : 0;
+    return Math.max(1, Math.min(30, v + up + jitter + sizeAdj));
+  });
+  var mods = ab.map(mod);
+  var hp = c < 1 ? ({ 0: 4, 0.125: 9, 0.25: 13, 0.5: 22 })[c] || 4 : Math.round(15 * c + 10);
+  var die = sz[1], per = die / 2 + 0.5 + mods[2];
+  var hd = Math.max(1, Math.round(hp / Math.max(1, per)));
+  hp = Math.max(1, Math.floor(hd * (die / 2 + 0.5)) + hd * mods[2]);
+  // Realm scaling (campaign rule: everything scales through the realms). Deeper realms mean tougher, harder-hitting
+  // monsters: +15% HP per realm tier past the Human Realm, and a flat bonus on every hit that keeps pace with the AC
+  // that gear of that realm gives (about +2.5 per tier), since AC is subtracted from each hit.
+  var tier0 = Math.max(0, (m.tier || 1) - 1), realmHit = Math.round(2.5 * tier0);
+  if (tier0) { hd = Math.max(1, Math.round(hd * (1 + 0.15 * tier0))); hp = Math.max(1, Math.floor(hd * (die / 2 + 0.5)) + hd * mods[2]); }
+  // AC scales through the realms as player damage does (deeper-realm materials hit harder): half the CR, natural armor,
+  // +1 for each realm tier past the Human Realm, and +1 for every 5 grades within the realm.
+  var tierBonus = Math.max(0, (m.tier || 1) - 1), gradeBonus = Math.floor((m.g || 1) / 5);
+  var ac = Math.max(0, Math.floor(c / 2) + (plan.acBonus || 0) + (/scale|shell|carapace|plate|armor|armou?red/i.test(m.txt || '') ? 2 : 0) + tierBonus + gradeBonus);
+  // attacks
+  var pri = Math.max(mods[0], mods[1]), hit = prof + pri;
+  var dpr = c < 1 ? ({ 0: 1, 0.125: 3, 0.25: 5, 0.5: 8 })[c] || 2 : Math.round(5 * c + 4);
+  var n = c < 2 ? 1 : c < 8 ? 2 : 3;
+  var elem = element(m.n + ' ' + (m.txt || ''));
+  var actions = [], atks = plan.atk;
+  if (n > 1) {
+    var names = []; for (var k = 0; k < n; k++) names.push(atks[k % atks.length][0]);
+    var cnt = {}; names.forEach(function (x) { cnt[x] = (cnt[x] || 0) + 1; });
+    var words = ['', 'one', 'two', 'three'];
+    actions.push(['Multiattack', 'The creature makes ' + words[n] + ' attacks: ' + Object.keys(cnt).map(function (x) { return words[cnt[x]] + ' with its ' + x.toLowerCase(); }).join(' and ') + '.']);
+  }
+  var dc = 8 + prof + Math.max(mods[2], mods[4], mods[5]);
+  atks.forEach(function (a, i) {
+    if (i > 0 && n === 1 && !a[3]) return;
+    var per = Math.max(1, Math.round(dpr / n)), d = a[2], avg = d / 2 + 0.5;
+    var dice = Math.max(1, Math.round((per - pri) / avg)), dmg = Math.max(1, Math.floor(dice * avg) + pri + realmHit);
+    var ranged = a[3] === 'ranged', kind = a[1];
+    var txt = (ranged ? 'Ranged Weapon Attack: ' : 'Melee Weapon Attack: ') + sgn(hit) + ' to hit, ' + (ranged ? 'range 60/240 ft.' : 'reach ' + (/Large|Huge|Gargantuan/.test(sz[0]) ? 10 : 5) + ' ft.') + ', one target. Hit: ' + dmg + ' (' + dice + 'd' + d + ((pri + realmHit) ? ' ' + ((pri + realmHit) > 0 ? '+ ' : '− ') + Math.abs(pri + realmHit) : '') + ') ' + kind + ' damage';
+    if (elem && i === 0 && kind !== elem && c >= 2) { var ed = Math.max(1, Math.round(c / 3)); txt += ' plus ' + Math.floor(ed * 3.5) + ' (' + ed + 'd6) ' + elem + ' damage'; }
+    if (plan.poison && /Sting|Bite/.test(a[0]) && i > 0) txt += ', and the target must make a DC ' + dc + ' Constitution saving throw or be poisoned for 1 minute';
+    actions.push([a[0], txt + '.']);
+  });
+  if (plan.breath && c >= 1) {
+    var bd = Math.max(2, Math.round(c * 1.2 * (1 + 0.1 * tier0))), bt = elem || 'fire';
+    actions.push(['Breath Weapon (Recharge 5–6)', 'The creature exhales ' + bt + ' in a ' + (c >= 17 ? 60 : c >= 10 ? 30 : 15) + '-foot cone. Each creature in that area must make a DC ' + dc + ' Dexterity saving throw, taking ' + Math.floor(bd * 3.5) + ' (' + bd + 'd6) ' + bt + ' damage on a failed save, or half as much on a successful one.']);
+  }
+  if (plan.mind && c >= 3) actions.push(['Mind Blast (Recharge 5–6)', 'Each creature of the creature\'s choice within 30 feet must succeed on a DC ' + dc + ' Intelligence saving throw or take ' + Math.floor(Math.max(2, Math.round(c)) * 3.5) + ' (' + Math.max(2, Math.round(c)) + 'd6) psychic damage and be stunned until the end of its next turn.']);
+  // traits
+  var traits = (plan.traits || []).slice();
+  if (bestDrop && bestDrop.tr) traits.push(['Signature: ' + bestDrop.tr.n, 'From its ' + bestDrop.n.replace(m.n + ' ', '').toLowerCase() + '. ' + voice(bestDrop.tr.t)]);
+  var boss = (m.g || 0) >= 10 || c >= 17;
+  if (boss) traits.push(['Legendary Resistance (3/Day)', 'If the creature fails a saving throw, it can choose to succeed instead.']);
+  var legendary = boss ? [['Detect', 'The creature makes a Wisdom (Perception) check.'], ['Attack', 'The creature makes one ' + atks[0][0].toLowerCase() + ' attack.'], ['Surge (Costs 2 Actions)', 'The creature moves up to half its speed without provoking opportunity attacks, then makes one attack.']] : null;
+  // saves and skills
+  var saves = (c >= 5 && plan.saves) ? plan.saves.map(function (i) { return ABN[i].charAt(0) + ABN[i].slice(1).toLowerCase() + ' ' + sgn(mods[i] + prof); }).join(', ') : '';
+  var skills = plan.skills.map(function (s) { return s + ' ' + sgn(mods[SKILL_AB[s]] + prof); }).join(', ');
+  var pp = 10 + mods[4] + (plan.skills.indexOf('Perception') >= 0 ? prof : 0);
+  var res = (plan.res || []).slice(), imm = (plan.imm || []).slice();
+  if (elem && (body === 'dragon' || body === 'elemental' || body === 'fiend') && imm.indexOf(elem) < 0) { imm.push(elem); var ri = res.indexOf(elem); if (ri >= 0) res.splice(ri, 1); }
+  var type = plan.type + (body === 'fiend' && /devil|hell|infernal|pit|erinyes|imp\b/i.test(m.n) ? ' (devil)' : body === 'fiend' && /demon|abyss|balor|vrock|hezrou|quasit|dretch|glabrezu|marilith/i.test(m.n) ? ' (demon)' : '');
+  return {
+    sz: sz[0], ty: type, al: plan.align, ac: ac, hp: hp, hd: hd + 'd' + die + (mods[2] ? ' ' + (mods[2] > 0 ? '+ ' : '− ') + Math.abs(hd * mods[2]) : ''),
+    sp: plan.speed, ab: ab, sv: saves, sk: skills, vu: (plan.vuln || []).join(', '), rs: res.join(', '), im: imm.join(', '), ci: (plan.cond || []).join(', '),
+    se: plan.senses.concat(['passive Perception ' + pp]).join(', '), la: plan.lang, cr: cr, xp: XP[cr] || 0, pb: prof,
+    tr: traits, ac2: actions, lg: legendary
+  };
+}
+module.exports = { statblock: statblock, GRADE_CR: GRADE_CR };
+
+return module.exports})();
+// ════════════════════════════════════════════════════════════════
+//  Stat block creator: NPCs, bosses, and named monsters, with a full profile (who they are, habits, goals, gear)
+// ════════════════════════════════════════════════════════════════
+const SB_BODIES=['humanoid','beast','bird','reptile','dragon','insect','aquatic','aberration','undead','construct','ooze','elemental','fiend','celestial','plant','giant','fey'];
+const NPC_LOOKS=['a scar through one eyebrow','ink-stained fingers','a voice too soft for their size','mismatched eyes','a braid threaded with copper wire','a limp they never mention','burn marks along both arms','an immaculate coat, always','a tattoo of a Rune they do not hold','teeth filed to points','a crooked, friendly smile','hands that never stop moving'];
+const NPC_HABITS=['counts their coins twice before every deal','hums the same three notes when thinking','never eats in front of strangers','sharpens a blade that is already sharp','quotes their god\'s law at every chance','keeps a journal of every lie they hear','always sits facing the door','feeds every stray animal they pass','touches iron before making a promise','talks to the dead as if they are listening','bargains for everything, even gifts','collects teeth from defeated foes'];
+const NPC_PERSONA=['cold and exacting','warm until crossed','loud, proud, and generous','patient and quietly cruel','nervous but brilliant','devout to the point of blindness','cheerfully amoral','haunted and tired','ambitious and charming','honest to a fault'];
+const NPC_BACK=['a former soldier of a fallen god\'s army','a guild crafter cast out for forbidden work','a Tower climber who turned back on the last floor','the heir of a merchant house','a temple orphan raised by contractors','a scavenger who once found a progenitor\'s bone','a refugee from a realm that wore away','a smuggler of Void-grade materials','a scholar of the Runes','an ex-Finger who lost their seat'];
+const NPC_GOALS=['to claim an open Finger seat','to pay off a contract debt before it comes due','to find the Tower floor that holds a lost sibling','to steal a relic from a rival god\'s temple','to be left alone with their craft','to see Inane\'s work with their own eyes','to forge a weapon from a progenitor\'s remains','to break a contract without the curse','to buy passage to a deeper realm','to protect a village nobody else will'];
+const BOSS_LAIRS=['the floor tilts toward its master, and every creature not touching it must make a Dexterity save or slide 10 feet','a Rune flares on the wall; spells of that Law cost the boss no slot until its next turn','the air thickens with the realm\'s Pressure; non-natives gain one level of strain until initiative 20 next round','shadows of its past victims rise and grapple one creature','the ground cracks, creating difficult terrain in a 20-foot radius'];
+const BOSS_WEAK=['its old wound under the left arm (critical hits there deal an extra die)','the name of the god it betrayed (speaking it gives it disadvantage on its next attack)','silver from its home realm','its own reflection','music in a minor key','the Rune it never managed to claim'];
+function sbMake(o){
+  const R=rng32(o.seed||1),pk=a=>a[Math.floor(R()*a.length)];
+  const realm=REALM[o.realm]||REALMS[0],L=Math.max(1,+o.level||1);
+  let cr=o.cr||(o.kind==='npc'?String(Math.max(1,Math.min(30,Math.round(crFor(L)*0.8)))):'5');
+  const name=o.name||(o.kind==='npc'?pk(NPC_FIRST)+' '+pk(NPC_LAST):o.kind==='named'?pk(['Gorrak','Vessimar','Old Teeth','Hollowmaw','Saint Ash','Kettle-Eye','the Pale Shepherd','Mother Thorn','Ironjaw','Cinderwife'])+' '+pk(['the Unbowed','of the Seventh Floor','Who Ate the Bridge','the Patient','the Last of Its Brood','the Tower-Warden','the Hungering','Twice-Slain']):pk(['Warden','Tyrant','Matriarch','Devourer','Sovereign','Horror','Colossus'])+' of the '+o.realm+' Tower');
+  const body=o.kind==='npc'?'humanoid':(o.body||'beast'),txt=(o.kind==='npc'?'humanoid ':'')+(o.flavor||'');
+  const g=Math.max(1,Math.min(10,Math.round(crNum(cr)/3)+1));
+  const mat=o.mat&&findMat(o.mat);
+  const m={n:name,txt,cr,g,tier:realm.tier,realm:realm.n};
+  m.sb=SBGEN.statblock(m,body,mat&&mat.tr?mat:null);
+  const sb=m.sb,tr=sb.tr=(sb.tr||[]).slice(),ac2=sb.ac2=(sb.ac2||[]).slice();
+  // NPC: class features, spellcasting, contract
+  if(o.kind==='npc'&&o.cls){
+    const si=stageInfo(o.cls,L),ca=CAST_ABIL[o.cls],slots=slotsFor(o.cls,L),abIdx={str:0,dex:1,con:2,int:3,wis:4,cha:5};
+    // a person, not a monster: Medium, scores shaped by the class, HP from the class's hit die
+    const prim={Fighter:'str',Barbarian:'str',Paladin:'str',Rogue:'dex',Ranger:'dex',Monk:'dex'}[o.cls]||ca||'str',top=15+Math.min(5,Math.floor(L/4)),base=[10,12,13,10,11,10];
+    sb.ab=base.map(v=>v+Math.floor(R()*3)-1);sb.ab[abIdx[prim]]=top;if(prim!=='con')sb.ab[2]=Math.max(sb.ab[2],12+Math.floor(L/8));sb.sz='Medium';
+    const die=CLASS_DIE[o.cls]||8,cm=Math.floor((sb.ab[2]-10)/2);sb.hp=Math.max(1,die+cm+(L-1)*(die/2+1+cm));sb.hd=L+'d'+die+(cm?(cm>0?' + ':' − ')+Math.abs(cm*L):'');
+    const md=i=>Math.floor((sb.ab[i]-10)/2),SKC={Fighter:[['Athletics',0],['Perception',4]],Barbarian:[['Athletics',0],['Survival',4]],Paladin:[['Athletics',0],['Persuasion',5]],Rogue:[['Stealth',1],['Deception',5]],Ranger:[['Survival',4],['Stealth',1]],Monk:[['Acrobatics',1],['Insight',4]],Bard:[['Performance',5],['Persuasion',5]],Cleric:[['Religion',3],['Insight',4]],Druid:[['Nature',3],['Survival',4]],Sorcerer:[['Arcana',3],['Deception',5]],Warlock:[['Arcana',3],['Intimidation',5]],Wizard:[['Arcana',3],['History',3]],Artificer:[['Arcana',3],['Investigation',3]]}[o.cls]||[];
+    sb.sk=SKC.map(([n,i])=>n+' '+sgn(md(i)+sb.pb)).join(', ');sb.se='passive Perception '+(10+md(4)+(SKC.some(x=>x[0]==='Perception')?sb.pb:0));
+    // AC from the armor the class would wear (FAND's flat AC), plus the realm's gear
+    sb.ac=({Fighter:8,Paladin:8,Cleric:5,Barbarian:4,Ranger:4,Artificer:5,Rogue:3,Monk:3,Bard:3,Druid:3,Warlock:3,Wizard:1,Sorcerer:1})[o.cls]+Math.max(0,realm.tier-1);
+    sb.ty='humanoid';sb.al=pk(['any alignment','lawful neutral','neutral good','chaotic neutral','lawful evil','neutral']);
+    if(ca){const i=abIdx[ca];sb.ab[i]=Math.max(sb.ab[i],14+Math.min(6,Math.floor(L/4)));const md=Math.floor((sb.ab[i]-10)/2),dc=8+sb.pb+md;
+      tr.push(['Spellcasting',`${name} is a level ${L} ${si.name.toLowerCase()===o.cls.toLowerCase()?o.cls:si.name+' ('+o.cls+')'} spellcaster. Its spellcasting ability is ${({cha:'Charisma',wis:'Wisdom',int:'Intelligence'})[ca]} (spell save DC ${dc}, +${sb.pb+md} to hit with spell attacks). ${slots?slots.pact?`It has ${slots.n} pact slots of ${slots.lvl} level (short rest).`:'Slots: '+slots.slots.map((k,j)=>k?`${ORDN(j+1)} ${k}`:'').filter(Boolean).join(', ')+'.':''} It can cast spells of the ${si.realms.join(', ')} Realm${si.realms.length>1?'s':''}.`])}
+    const CF={Fighter:['Second Wind','Once per short rest, as a bonus action, it regains 1d10 + '+L+' hit points.'],Rogue:['Sneak Attack','Once per turn it deals an extra '+Math.ceil(L/2)+'d6 damage when it has advantage or an ally is next to the target.'],Barbarian:['Rage','As a bonus action it rages for 1 minute: advantage on Strength checks and saves, +'+(L<9?2:L<16?3:4)+' melee damage, resistance to bludgeoning, piercing, and slashing.'],Monk:['Flurry of Blows','After attacking, it can make two unarmed strikes as a bonus action (1d'+(L<5?4:L<11?6:L<17?8:10)+' each).'],Paladin:['Divine Smite','When it hits, it can spend a slot to deal an extra 2d8 radiant damage, +1d8 per slot level above 1st.'],Ranger:['Hunter\'s Mark','It marks a creature; its weapon attacks against that creature deal an extra 1d6.'],Bard:['Inspiration','As a bonus action, an ally within 60 ft. gains a d'+(L<5?6:L<10?8:L<15?10:12)+' to add to one roll.'],Cleric:['Channel Divinity','It turns undead or calls its god\'s power once per short rest.'],Druid:['Wild Shape','It can become a beast of CR '+Math.max(1,Math.floor(L/3))+' or lower twice per short rest.'],Sorcerer:['Metamagic','It has '+L+' sorcery points to twin, quicken, or empower spells.'],Warlock:['Eldritch Bolt','Ranged spell attack, 120 ft.: 1d10 force damage per beam ('+(L<5?1:L<11?2:L<17?3:4)+' beams).'],Wizard:['Arcane Recovery','Once per day it regains spent slots totalling '+Math.ceil(L/2)+' levels.'],Artificer:['Infused Gear','Its weapon and armor carry +1 infusions; it can fix a broken item in a minute.']}[o.cls];
+    if(CF)tr.push(CF);
+    if(si.k>1&&si.st)si.st.features.forEach(f=>{if(f[0]<=L)tr.push([f[1]+' ('+si.name+')',f[2]])});
+  }
+  if(o.god){const g2=godByKey(o.god),ct=contractOf(o.rank||'Minor');if(g2&&ct){tr.push([`Contract: ${godKey(g2)} (${ct.r})`,ct.power+'. Natural AC +'+ct.ac+'.']);sb.ac+=ct.ac}}
+  // boss and named: tougher, legendary, lair, second phase
+  if(o.kind!=='npc'){
+    if(o.kind==='boss'){sb.hp=Math.round(sb.hp*1.5);tr.push(['Second Phase','The first time it drops to half its hit points, it roars, ends every condition on itself, and takes an extra turn immediately.'])}
+    if(!tr.some(t=>/Legendary Resistance/.test(t[0])))tr.push(['Legendary Resistance (3/Day)','If it fails a saving throw, it can choose to succeed instead.']);
+    if(!sb.lg)sb.lg=[['Detect','It makes a Wisdom (Perception) check.'],['Attack','It makes one attack.'],['Surge (Costs 2 Actions)','It moves up to its speed without provoking opportunity attacks and makes one attack.']];
+  }
+  if(mat&&mat.tr&&!tr.some(t=>/Signature/.test(t[0])))tr.push(['Signature: '+mat.tr.n,voice2(mat.tr.t)]);
+  // profile
+  const P={look:pk(NPC_LOOKS),habit:pk(NPC_HABITS),persona:pk(NPC_PERSONA),back:pk(NPC_BACK),goal:pk(NPC_GOALS)};
+  if(o.kind!=='npc'){P.lair=[pk(BOSS_LAIRS),pk(BOSS_LAIRS)].filter((x,i,a)=>a.indexOf(x)===i);P.weak=pk(BOSS_WEAK)}
+  const gear=MATS.filter(x=>x.realm===realm.n&&!x.gen&&x.price&&x.g<=g+1);P.carry=[pk(gear),pk(gear)].filter(Boolean);
+  P.drops=o.kind==='npc'?[]:MATS.filter(x=>x.realm===realm.n&&x.gen&&Math.abs(x.g-g)<=1).sort(()=>R()-.5).slice(0,3);
+  P.purse=Math.round((10+R()*60)*realm.tier*Math.max(1,crNum(cr)));
+  return {m,P};
+}
+const voice2=t=>t.replace(/^While equipped, you /,'It ').replace(/\byou\b/g,'it').replace(/\byour\b/g,'its');
+function sbProfileHTML(x,o){const {m,P}=x;return `<div class="panel" style="display:flex;flex-direction:column;gap:8px;line-height:1.6">
+  <b style="font-family:var(--serif);font-size:1.25rem">${esc(m.n)}</b><span class="note" style="margin:0">${o.kind==='npc'?esc((o.cls?stageInfo(o.cls,+o.level||1).name+' · level '+(o.level||1):'NPC')):o.kind==='boss'?'Boss':'Named monster'} · ${esc(o.realm)} Realm${o.god?' · contracted to '+esc(o.god)+' ('+esc(o.rank||'Minor')+')':''}</span>
+  <div><b>Looks:</b> ${esc(P.look)}. <b>Habit:</b> ${esc(P.habit)}. <b>Manner:</b> ${esc(P.persona)}.</div>
+  <div><b>Background:</b> ${esc(P.back.charAt(0).toUpperCase()+P.back.slice(1))}. <b>Wants:</b> ${esc(P.goal)}.</div>
+  ${P.lair?`<div><b>Lair actions</b> (initiative 20): ${P.lair.map(esc).join('; ')}.</div><div><b>Weakness:</b> ${esc(P.weak)}.</div>`:''}
+  <div><b>Carries:</b> ${P.carry.map(c=>refChip(c)).join(' ')} and ${gp(P.purse)}${localPrice(P.purse,o.realm)?' ('+localPrice(P.purse,o.realm)+')':''}.</div>
+  ${P.drops.length?`<div><b>Drops:</b> ${P.drops.map(c=>refChip(c)).join(' ')}</div>`:''}
+  <textarea data-sbnote rows="3" placeholder="Your notes for this one" style="background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:6px 8px;color:var(--text);font:inherit">${esc(o.note||'')}</textarea></div>`}
+function sbToolHTML(){
+  const o=Object.assign({kind:'npc',realm:'Human',level:5,cls:'Fighter',cr:'',body:'beast',seed:1},store.get('sbt',{}));
+  return `<div class="tool" style="grid-column:1/-1" id="t-sb"><h3>Stat block creator</h3><div class="sub">An NPC, a boss, or a named monster: a full stat block in the Bestiary's style (scaled to its realm) with who they are, their habits, goals, and gear.</div>
+    <div class="form" style="grid-template-columns:repeat(4,1fr)">
+      <label>Kind<select id="sbt-kind">${[['npc','NPC'],['named','Named monster'],['boss','Boss']].map(([k,l])=>`<option value="${k}"${k===o.kind?' selected':''}>${l}</option>`).join('')}</select></label>
+      <label>Name<input id="sbt-name" value="${esc(o.name||'')}" placeholder="Leave empty to roll one"></label>
+      <label>Realm<select id="sbt-realm">${REALMS.map(r=>`<option${r.n===o.realm?' selected':''}>${esc(r.n)}</option>`).join('')}</select></label>
+      ${o.kind==='npc'?`<label>Class<select id="sbt-cls">${Object.keys(CLASS_DIE).sort().map(c=>`<option${c===o.cls?' selected':''}>${c}</option>`).join('')}</select></label><label>Level<input id="sbt-level" type="number" min="1" max="${MAX_LEVEL}" value="${o.level}"></label>`:`<label>Body<select id="sbt-body">${SB_BODIES.filter(b=>b!=='humanoid').map(b=>`<option${b===o.body?' selected':''}>${b}</option>`).join('')}<option${o.body==='humanoid'?' selected':''}>humanoid</option></select></label><label>Challenge<input id="sbt-cr" value="${esc(o.cr||'8')}" placeholder="e.g. 8"></label>`}
+      <label>God contract<select id="sbt-god"><option value="">None</option>${GODS.map(g=>`<option${godKey(g)===o.god?' selected':''}>${esc(godKey(g))}</option>`).join('')}</select></label>
+      <label>Rank<select id="sbt-rank">${CONTRACT_RANKS.map(r=>`<option${r===o.rank?' selected':''}>${r}</option>`).join('')}</select></label>
+      <label>Signature material<input id="sbt-mat" list="dl-mat" value="${esc(o.mat||'')}" placeholder="optional: its trait becomes theirs"></label>
+      <label style="align-self:end"><button class="btn primary" id="sbt-roll" type="button" style="width:100%">🎲 New</button></label></div>
+    <div class="cols" style="margin-top:12px;align-items:start"><div id="sbt-block"></div><div id="sbt-prof"></div></div>
+    <div style="display:flex;gap:8px;margin-top:8px"><button class="btn" id="sbt-save" type="button">Save to my NPCs</button><button class="btn" id="sbt-combat" type="button">Send to combat tracker →</button><span class="chips" id="sbt-saved"></span></div></div>`;
+}
+function sbToolBind(){
+  const get=()=>Object.assign({kind:'npc',realm:'Human',level:5,cls:'Fighter',cr:'',body:'beast',seed:1},store.get('sbt',{}));
+  const draw=()=>{const o=get(),x=sbMake(o);$('sbt-block').innerHTML=sbHTML(x.m);$('sbt-prof').innerHTML=sbProfileHTML(x,o);diceify($('sbt-block'));
+    $('sbt-prof').querySelector('[data-sbnote]').onchange=e=>{const s2=get();s2.note=e.target.value;store.set('sbt',s2)};
+    const saved=store.get('npcs',[]);$('sbt-saved').innerHTML=saved.map((n,i)=>`<button class="chip" data-sbload="${i}">${esc(n.name||'?')}</button>`).join('');
+    $('sbt-saved').querySelectorAll('[data-sbload]').forEach(b=>b.onclick=()=>{store.set('sbt',Object.assign({},saved[+b.dataset.sbload]));$('t-sb').outerHTML=sbToolHTML();sbToolBind()});
+    sbToolBind.cur=x};
+  const save=()=>{const s2=get(),k=$('sbt-kind').value;const kindChanged=k!==s2.kind;Object.assign(s2,{kind:k,name:$('sbt-name').value.trim(),realm:$('sbt-realm').value,god:$('sbt-god').value,rank:$('sbt-rank').value,mat:$('sbt-mat').value.trim()});
+    if($('sbt-cls'))Object.assign(s2,{cls:$('sbt-cls').value,level:Math.max(1,Math.min(MAX_LEVEL,+$('sbt-level').value||1))});if($('sbt-body'))Object.assign(s2,{body:$('sbt-body').value,cr:$('sbt-cr').value.trim()||'8'});
+    store.set('sbt',s2);if(kindChanged){$('t-sb').outerHTML=sbToolHTML();sbToolBind()}else draw()};
+  ['sbt-kind','sbt-name','sbt-realm','sbt-cls','sbt-level','sbt-body','sbt-cr','sbt-god','sbt-rank','sbt-mat'].forEach(i=>{if($(i))$(i).addEventListener('change',save)});
+  $('sbt-roll').onclick=()=>{const s2=get();s2.seed=(Math.random()*2**31)|0;s2.name='';s2.note='';store.set('sbt',s2);$('sbt-name').value='';draw()};
+  $('sbt-save').onclick=()=>{const s2=get(),x=sbToolBind.cur;s2.name=x.m.n;const L=store.get('npcs',[]).filter(n=>n.name!==s2.name);L.push(s2);store.set('npcs',L.slice(-30));store.set('sbt',s2);$('sbt-name').value=s2.name;toast('Saved '+s2.name);draw()};
+  $('sbt-combat').onclick=()=>{const x=sbToolBind.cur;const C=store.get('combat',{round:1,turn:0,list:[]});C.list.push({id:uid(),name:x.m.n,init:1+Math.floor(Math.random()*20)+Math.floor((x.m.sb.ab[1]-10)/2),dex:Math.floor((x.m.sb.ab[1]-10)/2),hp:x.m.sb.hp,max:x.m.sb.hp,ac:x.m.sb.ac,cond:[]});store.set('combat',C);toast(x.m.n+' added to the combat tracker')};
+  draw();
+}
 function renderTools(){
   $('content').innerHTML=`<div class="page">
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Table tools</h3><p>Quick calculators built on the rules in the vault.</p></div>
@@ -1935,6 +2168,8 @@ function renderTools(){
         <div class="form"><label>Class<select id="ss-c">${Object.keys(CASTER).map(c=>`<option>${c}</option>`).join('')}</select></label><label>Level<input type="number" id="ss-l" value="5" min="1" max="100"></label></div>
         <div class="out" id="ss-out"></div></div>
 
+      ${sbToolHTML()}
+
       <div class="tool full" id="t-shop" style="grid-column:1/-1"><h3>Merchant shop</h3><div class="sub">What a shop has in stock today, priced in gp and the realm's own coin. Void-grade materials and above are never sold.</div>
         <div class="form" style="grid-template-columns:repeat(4,1fr)"><label>Realm<select id="s-realm">${realmOpts('Human',r=>r.base)}</select></label>
         <label>Shop<select id="s-kind">${SHOP_KINDS.map(([k,l])=>`<option value="${k}">${l}</option>`).join('')}</select></label>
@@ -1944,6 +2179,7 @@ function renderTools(){
     </div></div>`;
   const v=id=>$(id).value,n=id=>+$(id).value||0,on=(ids,f)=>{ids.forEach(i=>{$(i).addEventListener('input',f);$(i).addEventListener('change',f)});f()};
   const clampG=g=>Math.min(10,Math.max(1,Math.round(g||1)));
+  sbToolBind();
   // dice and spell slots
   diceLog();$('dr-go').onclick=()=>rollShow($('dr-e').value);$('dr-e').onkeydown=e=>{if(e.key==='Enter')rollShow($('dr-e').value)};
   const slotsOut=()=>{const r=slotsFor(v('ss-c'),n('ss-l'));$('ss-out').innerHTML=!r?'<div class="note">The vault\'s Spell Slots note isn\'t loaded.</div>':r.pact?`<div class="big">${r.n} × ${esc(r.lvl)}-level</div><div class="note">Pact Magic: always cast at this level; all slots return on a short rest.</div>`:r.slots.every(x=>!x)?'<div class="big">No slots yet</div><div class="note">Half casters gain their first slots at level 2.</div>':`<div class="kv">${r.slots.map((k,i)=>k?`<span>${['1st','2nd','3rd','4th','5th','6th','7th','8th','9th'][i]}</span><span><b>${k}</b> ${'●'.repeat(k)}</span>`:'').join('')}</div>`};
@@ -2242,6 +2478,7 @@ function renderSheet(){
         <div class="sh-row">${chk('insp')}<span>Inspiration</span></div>
         <div class="sh-row"><b class="sh-pill">${sgn(pb)}</b><span>Proficiency bonus</span></div>
         <div class="sh-list">${ABIL.map(([k,n])=>`<label>${chk('saves.'+k)}<b>${sgn(M(k)+(c.saves&&c.saves[k]?pb:0))}</b> ${n}</label>`).join('')}<div class="sh-lab">Saving throws</div></div>
+        <div class="sh-list">${(c.custom||[]).map((k,i)=>`<label>${chk('custom.'+i+'.prof')}<b>${sgn(M(k.ab||'int')+(k.prof?pb:0))}</b> ${esc(k.n)} <small>(${(k.ab||'int')[0].toUpperCase()+(k.ab||'int').slice(1)})</small> <span style="cursor:pointer;color:var(--muted)" onclick="sheetSkillRm(${i})" title="Remove">✕</span></label>`).join('')}<div class="sh-row" style="margin-top:4px"><input class="sel" id="sk-new" placeholder="Add a skill (e.g. Runecraft)" style="flex:1;min-width:0"><select class="sel" id="sk-ab">${ABIL.map(([k])=>`<option value="${k}">${k.toUpperCase()}</option>`).join('')}</select><button class="btn" type="button" onclick="sheetSkillAdd()">Add</button></div>${(c.custom||[]).length?'':'<div class="note" style="margin:2px 0 0">Custom skills from your campaign appear here.</div>'}<div class="sh-lab">Custom skills</div></div>
         <div class="sh-list">${SKILLS.map(sk=>`<label>${chk('skills.'+sk[0])}<b>${sgn(skillVal(sk))}</b> ${sk[1]} <small>(${sk[2][0].toUpperCase()+sk[2].slice(1)})</small>${c.skills&&c.skills[sk[0]]?` <span title="Expertise">${chk('expert.'+sk[0],'Expertise')}</span>`:''}</label>`).join('')}<div class="sh-lab">Skills</div></div>
       </div>
       <div class="sh-row" style="grid-column:1/-1"><b class="sh-pill">${10+skillVal(SKILLS.find(x=>x[0]==='perception'))}</b><span>Passive Wisdom (Perception)</span></div>
@@ -2292,6 +2529,8 @@ function renderSheet(){
   $('sh-new').onclick=()=>{const n={id:uid(),name:'',level:1,gear:[],inv:[],abil:{str:10,dex:10,con:10,int:10,wis:10,cha:10}};PARTY.push(n);saveParty();SHEET_ID=n.id;renderSheet()};
   $('sh-print').onclick=()=>{C.querySelectorAll('.sh-page').forEach(x=>x.hidden=false);window.print();setTimeout(renderSheet,300)};
 }
+function sheetSkillAdd(){const c=sheetChar(),n=$('sk-new').value.trim();if(!n)return;c.custom=(c.custom||[]).concat({n,ab:$('sk-ab').value,prof:false});saveParty();renderSheet()}
+function sheetSkillRm(i){const c=sheetChar();c.custom.splice(i,1);saveParty();renderSheet()}
 function sheetSpellAdd(lv){const c=sheetChar(),v=$('sp-add-'+lv).value.trim();if(!v)return;c.spells=c.spells||{};(c.spells[lv]=c.spells[lv]||[]).push(v);saveParty();renderSheet()}
 function sheetSpellRm(lv,i){const c=sheetChar();c.spells[lv].splice(i,1);saveParty();renderSheet()}
 function renderParty(){

@@ -302,6 +302,8 @@ D.GODS.forEach(function (g) {
 //   site/          one page per section; pages share data/core.js, and only spells.html loads the large spell list
 var SITE_DIR = process.argv[5] || path.join(ROOT, 'site');
 var tpl = fs.readFileSync(TEMPLATE, 'utf8');
+// The stat block generator (data/statblock.js) also runs in the page, for the stat block creator on the Tools page.
+tpl = tpl.replace('/*__SBGEN__*/', function () { return 'const SBGEN=(function(){var module={exports:{}};' + fs.readFileSync(path.join(__dirname, '..', 'data', 'statblock.js'), 'utf8').replace(/<\/(script)/gi, '<\\/$1') + '\nreturn module.exports})();'; });
 if (tpl.indexOf('<!--__DATA__-->') < 0) throw new Error('template is missing the <!--__DATA__--> marker');
 var META = { built: new Date().toISOString().slice(0, 10), version: '1.24', realms: REALMS, counts: { spells: D.SPELLS.length } };
 // The world is called Vestige on the site (Atrious in older vault notes). Folder paths and links keep the vault's names.
