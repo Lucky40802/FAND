@@ -808,6 +808,7 @@ const VIEWS={
       {id:'r',label:'All rarities',opts:()=>opts(BPS,b=>b.r,(a,b)=>rarRank(a)-rarRank(b)),test:(b,v)=>b.r===v},
       {id:'lv',label:'All levels',opts:()=>[['1-4','Level 1–4'],['5-8','Level 5–8'],['9-12','Level 9–12'],['13-16','Level 13–16'],['17-19','Level 17–19'],['20-99','Level 20+']],test:(b,v)=>{const [lo,hi]=v.split('-').map(Number);return b.lv>=lo&&b.lv<=hi}},
       {id:'realm',label:'Any material realm',opts:()=>opts(BPS,b=>realmOf(b.gr),realmSort),test:(b,v)=>realmOf(b.gr)===v},
+      {id:'gen',label:'Any general Blueprint',opts:()=>GEN.map(([n])=>[n,n+' ('+fmt((BP_BY_GEN().get(n)||[]).length)+')']).filter(o=>!/\(0\)$/.test(o[1])),test:(b,v)=>genOf(b)===v},
       {id:'mat',label:'',hidden:true,test:(b,v)=>b.mats.some(m=>lc(m)===lc(v)),chip:v=>'Uses '+v},
     ],
     toggles:[
@@ -968,7 +969,7 @@ const NAV_GROUPS=[
   ['Play',['party','encounter','hooks','combat','tools']],
   ['Reference',['rules','about']],
 ];
-const NAV_BLURB={hooks:'Story starters from the gods, Runes, and monsters',lore:'Infinatas, the gods, and the history of Vestige',realms:'The eleven realms and their coin',gods:'Pantheons, Runes, Hands, and rivals',runes:'Every Law, its lineage, and its progenitor',demons:'Archdevils, demon princes, and corruptions',patrons:'Warlock patrons',codex:'Every note from the Obsidian vault',bestiary:'Monsters with stat blocks, lore, and drops',materials:'Graded materials, traits, and prices',blueprints:'Ready-made designs for every profession',forge:'Build a weapon or armor part by part',craft:'Plan what to gather and buy',professions:'The ten professions and their specialties',spells:'Spells by school, tier, and class',subclasses:'Official and homebrew subclasses',party:'Characters, gear, contracts, and money',encounter:'Balanced fights by realm and level',combat:'Initiative, HP, and flat AC',tools:'Calculators and converters',rules:'Rules summaries',about:'What FAND has, version by version'};
+const NAV_BLURB={hooks:'Story starters from the gods, Runes, and monsters',lore:'Infinatas, the gods, and the history of Vestige',realms:'The eleven realms and their coin',gods:'Pantheons, Runes, Hands, and rivals',runes:'Every Law, its lineage, and its progenitor',demons:'Archdevils, demon princes, and corruptions',patrons:'Warlock patrons',codex:'Every note from the Obsidian vault',bestiary:'Monsters with stat blocks, lore, and drops',materials:'Graded materials, traits, and prices',blueprints:'Ready-made designs for every profession',forge:'General Blueprints: pick a material for every part',craft:'Plan what to gather and buy',professions:'The ten professions and their specialties',spells:'Spells by school, tier, and class',subclasses:'Official and homebrew subclasses',party:'Characters, gear, contracts, and money',encounter:'Balanced fights by realm and level',combat:'Initiative, HP, and flat AC',tools:'Calculators and converters',rules:'Rules summaries',about:'What FAND has, version by version'};
 function navGroupOf(t){const g=NAV_GROUPS.find(([,ids])=>ids.includes(t));return g?g[0]:null}
 function openNav(g,btn){
   const pop=$('navpop'),grp=NAV_GROUPS.find(x=>x[0]===g);if(!grp)return;
@@ -1302,7 +1303,8 @@ const MODAL={
       body:kv(rows)+(b.prop?`<div class="callout">✧ <b>${esc(b.prop)}</b>${strong&&strong.prop?`<div style="margin-top:4px">${esc(strong.prop.replace(/^[^:]+:\s*/,''))}</div>`:''}</div>`:'')
         +(b.ds?`<div class="prose">${esc(b.ds)}</div>${b.dsg?SITE_FILL:''}`:b.lost?`<div class="prose lost">This Blueprint's description was lost in an earlier sync of this app; its materials were recovered. The full text is in the vault note <b>${esc(b.n)}</b>.</div>`:'')
         +(ARMOR_CATS.includes(b.cat)&&b.ac?(()=>{const pc=armorPiece(b),d=pieceDrawbacks(pc);return `<div class="callout"><b>Armor drawback</b> (${esc(pc.weight.toLowerCase())} ${esc(pc.slot.toLowerCase())} piece): ${d.length?esc(d.join('; ')):'none'}.${pc.weight!=='Light'&&!['Mount','Enhancement','Buckler','Shield','Tower'].includes(pc.slot)?` Wearing ${pc.weight.toLowerCase()} pieces on 8 or more armor units adds the full-set drawback.`:''}</div>`})():'')
-        +`<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="store.set('craft',Object.assign(store.get('craft',{}),{bp:${esc(JSON.stringify(b.n))},qty:1}));closeAll();go('craft')">⚒ Plan crafting</button>${CAT_TO_BASE[b.cat]?`<button class="btn" onclick="openInForge(BPS[${b._i}])">🔥 Open in the Forge</button>`:''}</div>`
+        +`<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="store.set('craft',Object.assign(store.get('craft',{}),{bp:${esc(JSON.stringify(b.n))},qty:1}));closeAll();go('craft')">⚒ Plan crafting</button>${genOf(b)?`<button class="btn" onclick="openInForge(BPS[${b._i}])">🔥 Build it in the Forge</button>`:''}</div>`
+        +(genOf(b)?blk('General Blueprint',(()=>{const g=genOf(b),G=BASES[g],parts=assignParts(g,b.mats.map(findMat).filter(Boolean));return `<div class="note" style="margin:0 0 8px">This is a version of the general <b>${G.icon} ${esc(g)}</b>${G.props?` (${esc(G.props)})`:''}. Its materials fill these parts; any other material that fits can replace them in the Forge.</div><div class="tablewrap"><table class="t"><tbody>${G.slots.map(sl=>{const m=findMat(parts[sl.id]||''),f=slotFit(sl,m);return `<tr><td style="white-space:nowrap"><b>${esc(sl.name)}</b> <small style="color:var(--muted)">${sl.role==='primary'?'main':sl.role==='structure'?'structure':'extra'}</small></td><td>${m?`<a href="#" data-ref="${ref(m)}">${esc(m.n)}</a>`:`<span style="color:var(--muted)">${sl.optional?'empty (optional)':'not set'}</span>`}</td><td style="color:${{good:'var(--green)',poor:'var(--gold2)',wrong:'var(--red)'}[f.lv]||'var(--muted)'}">${{good:'✓ good fit',poor:'△ poor fit',wrong:'✕ wrong material',missing:'needs a '+sl.ok.map(c=>CAT_NAME[c].toLowerCase()).join(' or '),empty:''}[f.lv]}</td></tr>`}).join('')}</tbody></table></div>`})()):'')
         +blk('Traits when equipped',(()=>{const tr=mats.filter(x=>x.m&&x.m.tr);return tr.length?`<div class="mlist">${tr.map(({m})=>`<button data-ref="${ref(m)}" style="flex-direction:column;align-items:flex-start;gap:2px"><span><b style="color:var(--gold2)">◆ ${esc(m.tr.n)}</b> <span class="x">from ${esc(m.n)}${m.origin&&m.org==='Creature'?' ('+esc(m.origin)+')':''}</span></span><span style="font-size:.8rem">${esc(m.tr.t)}</span></button>`).join('')}</div>`:''})(),'from its materials')
         +blk('Materials',mlist+(b.mi?`<div class="note">The vault lists no materials for this Blueprint. These are suggested by the site: materials its description names, or ones of the right kind for its level. Change them freely.</div>`:''),mats.length?mats.length+(b.mi?' suggested':' required'):'')+blk('Connections',conns?`<div class="chips">${conns}</div>`:'')+vars};
   },
@@ -2204,64 +2206,109 @@ function cbAddMon(){const v=$('cb-add').value.trim(),m=MON_IDX.get(lc(v)),k=Math
 function cbAddParty(){if(!PARTY.length){toast('No characters yet: add them on the Party page');return}PARTY.forEach(c=>{if(!CB.list.some(x=>x.pc===c.id))CB.list.push({id:uid(),name:c.name||'PC',pc:c.id,init:0,dex:0,hp:+c.hp||0,max:+c.hpMax||0,ac:charStats(c).ac,cond:[]})});saveCB();renderCombat()}
 function cbAddCustom(){const n=prompt('Name?');if(!n)return;const hp=+prompt('Max HP?','10')||10,ac=+prompt('AC?','0')||0;CB.list.push({id:uid(),name:n,init:0,dex:0,hp,max:hp,ac,cond:[]});saveCB();renderCombat()}
 
-// ── Forge: generic Blueprints built part by part ──────────────
+// ── Forge: general Blueprints built part by part ───────────────
+// Every Blueprint is a general design (an Axe, a Longsword, a Helm). You choose a material for each part, and the
+// finished item takes something from every material: the main part sets damage (or AC), the structure sets the
+// attack bonus and durability, and every part adds its property and trait. Each part accepts some material
+// categories well, some poorly, and the rest are wrong: a wrong main part makes the item useless.
 // Material categories (type codes): O metal, W wood/plant, G gem/crystal, S stone, F hide/cloth/fiber,
 // B bone/fang/horn/scale, L blood/organ, E essence/core, K mechanism, U supply.
 const CAT_NAME={O:'Metal',W:'Wood / Plant',G:'Gem / Crystal',S:'Stone',F:'Hide / Fiber',B:'Bone / Horn / Scale',L:'Blood / Organ',E:'Essence / Core',K:'Mechanism',U:'Supply'};
-const HARD=/fang|tooth|tusk|claw|talon|horn|antler|scale|shell|carapace|plate|chitin|bone|spine|beak|mandible|stinger|barb/i;
-const STRING=/sinew|silk|string|thread|gut|hair|tendon|strand|web|cord|fiber|fibre/i;
-// role: primary (sets damage/AC; wrong = item useless), structure (holds it together), minor (optional extras)
-const BASES={
-  Axe:{icon:'🪓',cat:'Axe',dmg:[8,'slashing'],slots:[
-    {id:'head',name:'Head',role:'primary',qty:2,ok:['O','S','B'],ideal:{O:null,S:/obsidian|flint|granite|basalt|stone/i,B:HARD},why:'Needs a hard edge: metal, knapped stone, or a fang, horn, tusk, or scale.'},
-    {id:'haft',name:'Haft',role:'structure',qty:1,ok:['W','B','O'],ideal:{W:null,B:/bone|horn|antler/i,O:null},why:'A long, strong shaft: wood, bone, or metal.'},
-    {id:'grip',name:'Grip wrap',role:'minor',qty:1,ok:['F'],optional:true,why:'Leather, hide, or cord.'},
-    {id:'inlay',name:'Inlay',role:'minor',qty:1,ok:['G','E'],optional:true,why:'A gem or essence to carry magic.'}]},
-  Sword:{icon:'⚔',cat:'Sword',dmg:[8,'slashing'],slots:[
-    {id:'blade',name:'Blade',role:'primary',qty:3,ok:['O','B'],ideal:{O:null,B:/fang|tooth|claw|talon|horn|scale|bone|spine/i},why:'Needs metal, or a long fang, claw, or bone that holds an edge.'},
-    {id:'hilt',name:'Hilt and guard',role:'structure',qty:1,ok:['O','W','B'],why:'Metal, wood, or bone.'},
-    {id:'grip',name:'Grip',role:'minor',qty:1,ok:['F','W'],optional:true,why:'Leather, cord, or wood.'},
-    {id:'pommel',name:'Pommel stone',role:'minor',qty:1,ok:['G','E','O'],optional:true,why:'A gem, essence, or metal counterweight.'}]},
-  Dagger:{icon:'🗡',cat:'Dagger',dmg:[4,'piercing'],slots:[
-    {id:'blade',name:'Blade',role:'primary',qty:1,ok:['O','B','S'],ideal:{O:null,B:HARD,S:/obsidian|flint|glass/i},why:'Metal, a fang or claw, or knapped stone.'},
-    {id:'grip',name:'Grip',role:'structure',qty:1,ok:['F','W','B'],why:'Leather, wood, or bone.'},
-    {id:'inlay',name:'Inlay',role:'minor',qty:1,ok:['G','E','L'],optional:true,why:'A gem, essence, or a venom or blood coating.'}]},
-  Hammer:{icon:'🔨',cat:'Hammer',dmg:[8,'bludgeoning'],slots:[
-    {id:'head',name:'Head',role:'primary',qty:3,ok:['O','S','B'],ideal:{O:null,S:null,B:/bone|horn|shell|carapace|skull|knuckle|plate/i},why:'Something heavy and hard: metal, stone, or dense bone or shell.'},
-    {id:'haft',name:'Haft',role:'structure',qty:1,ok:['W','B','O'],why:'Wood, bone, or metal.'},
-    {id:'grip',name:'Grip wrap',role:'minor',qty:1,ok:['F'],optional:true,why:'Leather or cord.'},
-    {id:'inlay',name:'Rune stone',role:'minor',qty:1,ok:['G','E'],optional:true,why:'A gem or essence.'}]},
-  Spear:{icon:'🔱',cat:'Spear',dmg:[6,'piercing'],reach:true,slots:[
-    {id:'point',name:'Point',role:'primary',qty:1,ok:['O','B','S'],ideal:{O:null,B:HARD,S:/obsidian|flint/i},why:'Metal, a fang, horn, or tusk, or knapped stone.'},
-    {id:'shaft',name:'Shaft',role:'structure',qty:2,ok:['W','B'],ideal:{W:null,B:/bone|horn|antler|spine/i},why:'A long wooden or bone shaft.'},
-    {id:'binding',name:'Binding',role:'minor',qty:1,ok:['F'],optional:true,why:'Sinew, hide, or cord to lash the point.'}]},
-  Bow:{icon:'🏹',cat:'Bow',dmg:[8,'piercing'],ranged:'150/600 ft.',slots:[
-    {id:'limbs',name:'Limbs',role:'primary',qty:2,ok:['W','B'],ideal:{W:null,B:/horn|antler|bone|baleen/i},why:'Springy wood, or horn or bone.'},
-    {id:'string',name:'String',role:'structure',qty:1,ok:['F'],ideal:{F:STRING},why:'Sinew, silk, gut, or cord. Hide that isn\'t stringy is a poor fit.'},
-    {id:'grip',name:'Grip',role:'minor',qty:1,ok:['F','W'],optional:true,why:'Leather or wood.'},
-    {id:'nock',name:'Arrow nock inlay',role:'minor',qty:1,ok:['G','E','O'],optional:true,why:'A gem, essence, or metal fitting.'}]},
-  Staff:{icon:'🪄',cat:'Staff',dmg:[6,'bludgeoning'],focus:true,slots:[
-    {id:'shaft',name:'Shaft',role:'primary',qty:2,ok:['W','B'],why:'Wood or a long bone.'},
-    {id:'focus',name:'Focus crown',role:'structure',qty:1,ok:['G','E','L'],ideal:{G:null,E:null,L:/eye|heart|brain/i},why:'A gem, essence, or a potent organ such as an eye or heart.'},
-    {id:'bands',name:'Bands',role:'minor',qty:1,ok:['O'],optional:true,why:'Metal bands.'},
-    {id:'wrap',name:'Wrap',role:'minor',qty:1,ok:['F'],optional:true,why:'Cloth or hide.'}]},
-  'Body Armor':{icon:'🛡',cat:'Armor',armor:true,slots:[
-    {id:'shell',name:'Outer layer',role:'primary',qty:4,ok:['O','B','F'],ideal:{O:null,B:/scale|shell|carapace|plate|chitin|bone|hide/i,F:/hide|pelt|leather|skin|scale|silk/i},why:'Metal plates, scales or shell, or hide.'},
-    {id:'lining',name:'Lining',role:'structure',qty:2,ok:['F'],why:'Cloth, leather, or down.'},
-    {id:'fittings',name:'Buckles and fittings',role:'minor',qty:1,ok:['O','B'],optional:true,why:'Metal or bone.'},
-    {id:'ward',name:'Ward stone',role:'minor',qty:1,ok:['G','E'],optional:true,why:'A gem or essence.'}]},
-  Shield:{icon:'🛡',cat:'Shield',shield:true,slots:[
-    {id:'face',name:'Face',role:'primary',qty:3,ok:['O','W','B'],ideal:{O:null,W:null,B:/scale|shell|carapace|plate|bone|hide/i},why:'Metal, wood, or a broad scale or shell.'},
-    {id:'frame',name:'Frame',role:'structure',qty:1,ok:['W','O','B'],why:'Wood, metal, or bone.'},
-    {id:'straps',name:'Straps',role:'minor',qty:1,ok:['F'],optional:true,why:'Leather or hide.'},
-    {id:'boss',name:'Boss',role:'minor',qty:1,ok:['O','G','E'],optional:true,why:'Metal, gem, or essence.'}]},
-  'Focus / Amulet':{icon:'📿',cat:'Artifact',focus:true,slots:[
-    {id:'heart',name:'Heart stone',role:'primary',qty:1,ok:['G','E','L'],ideal:{G:null,E:null,L:/eye|heart|brain|blood|ichor/i},why:'A gem, essence, or potent organ.'},
-    {id:'setting',name:'Setting',role:'structure',qty:1,ok:['O','B','W'],why:'Metal, bone, or wood.'},
-    {id:'chain',name:'Chain or cord',role:'minor',qty:1,ok:['O','F'],optional:true,why:'Metal chain or cord.'}]},
+const HARD=/fang|tooth|tusk|claw|talon|horn|antler|scale|shell|carapace|plate|chitin|bone|spine|beak|mandible|stinger|barb|spike|quill/i;
+const STRING=/sinew|silk|string|thread|gut|hair|tendon|strand|web|cord|fiber|fibre|tentacle|vine|rope/i;
+const HOLLOW=/reed|bamboo|bone|horn|tube|stalk|cane/i;
+// Why a category is wrong for a kind of part, shown with the penalty.
+const WHY_WRONG={
+  edge:{L:'Blood and organs are soft tissue: they can\'t hold an edge or take a blow.',E:'An essence has no solid form to shape into an edge.',F:'Hide and fiber bend instead of cutting.',W:'Wood won\'t keep a cutting edge.',U:'A supply is used up in crafting, not shaped into a weapon.',K:'A mechanism is a fitting, not a striking surface.',G:'Gems chip and shatter under impact.'},
+  blunt:{L:'Soft tissue has no weight or hardness to strike with.',E:'An essence has no mass to swing.',F:'Hide and fiber are too soft to crush anything.',U:'A supply is used up in crafting.',K:'A mechanism would break on the first blow.'},
+  shaft:{L:'Organs and blood can\'t bear weight or hold a shape.',E:'An essence can\'t be shaped into a shaft.',F:'Hide and fiber flop; a shaft needs to be rigid.',G:'A gem can\'t be cut long and thin without snapping.',S:'Stone this long snaps under its own weight.',U:'A supply is used up in crafting.',K:'A mechanism is not a shaft.'},
+  flex:{L:'Soft tissue has no spring to it.',E:'An essence has no physical spring.',O:'Most metal bends and stays bent; it won\'t spring back like a bow limb.',S:'Stone doesn\'t flex; it breaks.',G:'Gems don\'t flex; they break.',F:'Hide has no stiffness to spring back.',U:'A supply is used up in crafting.',K:'A mechanism is not a limb.'},
+  string:{L:'Organs and blood can\'t be drawn into a cord.',E:'An essence can\'t be spun.',O:'Metal wire cuts the hand and doesn\'t stretch.',W:'Wood can\'t be strung.',B:'Bone doesn\'t bend into a string.',S:'Stone can\'t be strung.',G:'A gem can\'t be strung.',U:'A supply is used up in crafting.',K:'A mechanism is not a string.'},
+  cover:{L:'Soft tissue rots and stops nothing.',E:'An essence has no substance to stop a blow.',W:'Wood splits when worn as armor.',G:'Gems are too brittle and heavy to wear as plates.',S:'Stone this heavy can\'t be worn.',U:'A supply is used up in crafting.',K:'A mechanism is not armor.'},
+  lining:{L:'Organs rot against the skin.',E:'An essence can\'t be sewn.',O:'Metal next to the skin chafes and freezes.',W:'Wood can\'t be worn as padding.',B:'Bone can\'t be worn as padding.',S:'Stone can\'t be worn as padding.',G:'Gems can\'t be worn as padding.',U:'A supply is used up in crafting.',K:'A mechanism is not padding.'},
+  focus:{O:'Plain metal doesn\'t hold magic well.',W:'Wood conducts magic only weakly.',F:'Hide and fiber don\'t hold magic.',S:'Stone is dead to magic.',U:'A supply is used up in crafting.',K:'A mechanism doesn\'t hold magic.',B:'Bone conducts magic only weakly.'},
+  fit:{L:'Organs rot and can\'t be fitted.',E:'An essence can\'t be fitted.',U:'A supply is used up in crafting.'},
 };
+// Part templates. ok: good categories; weak: workable but poor; ideal: within a good category, names that fit best
+// (others in that category count as poor). kind picks the WHY_WRONG reasons.
+const P={
+  edge:(name,qty,extra)=>Object.assign({name,role:'primary',qty,kind:'edge',ok:['O','B'],weak:['S','G'],ideal:{B:HARD,S:/obsidian|flint|glass/i},why:'Needs a hard edge: metal, or a fang, claw, horn, or bone that holds one. Knapped stone and gems cut but are brittle.'},extra||{}),
+  axehead:(qty)=>({name:'Head',role:'primary',qty,kind:'edge',ok:['O','B','S'],weak:['G'],ideal:{B:HARD,S:/obsidian|flint|granite|basalt|stone/i},why:'A hard, heavy edge: metal, knapped stone, or a fang, horn, tusk, or scale.'}),
+  blunt:(qty)=>({name:'Head',role:'primary',qty,kind:'blunt',ok:['O','S','B'],weak:['W','G'],ideal:{B:/bone|horn|shell|carapace|skull|knuckle|plate|tusk/i},why:'Something heavy and hard: metal, stone, or dense bone or shell. Hardwood works, but poorly.'}),
+  point:(qty)=>({name:'Point',role:'primary',qty,kind:'edge',ok:['O','B','S'],weak:['G'],ideal:{B:HARD,S:/obsidian|flint/i},why:'Metal, a fang, horn, or tusk, or knapped stone.'}),
+  haft:(name,qty)=>({name:name||'Haft',role:'structure',qty:qty||1,kind:'shaft',ok:['W','B','O'],ideal:{B:/bone|horn|antler|spine|tusk/i},why:'A long, rigid shaft: wood, bone, or metal.'}),
+  hilt:()=>({name:'Hilt and guard',role:'structure',qty:1,kind:'shaft',ok:['O','W','B'],why:'Metal, wood, or bone.'}),
+  grip:(name)=>({name:name||'Grip wrap',role:'minor',qty:1,kind:'fit',ok:['F','W'],optional:true,why:'Leather, cord, or wood.'}),
+  inlay:(name)=>({name:name||'Inlay',role:'minor',qty:1,kind:'focus',ok:['G','E'],weak:['L'],optional:true,why:'A gem or essence to carry magic. Blood or venom works as a coating.'}),
+  limbs:(qty)=>({name:'Limbs',role:'primary',qty,kind:'flex',ok:['W','B'],ideal:{B:/horn|antler|bone|baleen|rib/i},why:'Springy wood, or horn or bone.'}),
+  string:()=>({name:'String',role:'structure',qty:1,kind:'string',ok:['F'],ideal:{F:STRING},why:'Sinew, silk, gut, or cord. Hide that isn\'t stringy is a poor fit.'}),
+  stock:()=>({name:'Stock',role:'structure',qty:1,kind:'shaft',ok:['W','O','B'],why:'Wood, metal, or bone.'}),
+  trigger:()=>({name:'Trigger and lock',role:'minor',qty:1,kind:'fit',ok:['K','O'],why:'A mechanism or metal fittings.'}),
+  cover:(qty,ok)=>({name:'Outer layer',role:'primary',qty,kind:'cover',ok:ok||['O','B','F'],ideal:{B:/scale|shell|carapace|plate|chitin|bone|hide/i,F:/hide|pelt|leather|skin|scale|silk|wool|cloth|fur/i},why:'Metal plates, scales or shell, or hide.'}),
+  lining:(qty)=>({name:'Lining',role:'structure',qty:qty||1,kind:'lining',ok:['F'],why:'Cloth, leather, fur, or down.'}),
+  fittings:()=>({name:'Buckles and fittings',role:'minor',qty:1,kind:'fit',ok:['O','B'],optional:true,why:'Metal or bone.'}),
+  ward:()=>({name:'Ward stone',role:'minor',qty:1,kind:'focus',ok:['G','E'],optional:true,why:'A gem or essence.'}),
+  heart:(name)=>({name:name||'Focus stone',role:'primary',qty:1,kind:'focus',ok:['G','E'],weak:['L'],ideal:{L:/eye|heart|brain|blood|ichor/i},why:'A gem or essence. A potent organ (an eye, a heart) works, but less reliably.'}),
+  setting:(name)=>({name:name||'Setting',role:'structure',qty:1,kind:'shaft',ok:['O','B','W'],why:'Metal, bone, or wood.'}),
+};
+const pid=n=>n.toLowerCase().replace(/[^a-z]+/g,'-').replace(/^-|-$/g,'');
+function mk(slots){return slots.map(sl=>Object.assign({id:pid(sl.name)},sl))}
+// SRD weapon stats (damage, properties); FAND parts.
+const W_=(group,icon,cat,n,dmg,type,props,slots,extra)=>[n,Object.assign({group,icon,cat,dmg:[dmg,type],props,slots:mk(slots)},extra||{})];
+const GEN=[
+  W_('Simple melee','🏏','Hammer','Club','1d4','bludgeoning','Light',[P.blunt(1),P.grip()]),
+  W_('Simple melee','🗡','Dagger','Dagger','1d4','piercing','Finesse, light, thrown (20/60)',[P.edge('Blade',1),Object.assign(P.hilt(),{name:'Grip',ok:['F','W','B','O']}),P.inlay()]),
+  W_('Simple melee','🏏','Hammer','Greatclub','1d8','bludgeoning','Two-handed',[P.blunt(2),P.haft('Haft'),P.grip()]),
+  W_('Simple melee','🪓','Axe','Handaxe','1d6','slashing','Light, thrown (20/60)',[P.axehead(1),P.haft(),P.grip()]),
+  W_('Simple melee','🔱','Spear','Javelin','1d6','piercing','Thrown (30/120)',[P.point(1),P.haft('Shaft'),P.grip('Binding')]),
+  W_('Simple melee','🔨','Hammer','Light Hammer','1d4','bludgeoning','Light, thrown (20/60)',[P.blunt(1),P.haft(),P.grip()]),
+  W_('Simple melee','🔨','Hammer','Mace','1d6','bludgeoning','',[P.blunt(2),P.haft(),P.grip(),P.inlay('Rune stone')]),
+  W_('Simple melee','🪄','Staff','Quarterstaff','1d6','bludgeoning','Versatile (1d8)',[Object.assign(P.haft('Staff',2),{role:'primary',kind:'shaft',weak:['O']}),Object.assign(P.fittings(),{name:'End caps'}),P.inlay()]),
+  W_('Simple melee','🗡','Dagger','Sickle','1d4','slashing','Light',[P.edge('Blade',1),P.haft('Handle'),P.grip()]),
+  W_('Simple melee','🔱','Spear','Spear','1d6','piercing','Thrown (20/60), versatile (1d8)',[P.point(1),P.haft('Shaft',2),P.grip('Binding')]),
+  W_('Simple ranged','🏹','Bow','Light Crossbow','1d8','piercing','Ammunition (80/320), loading, two-handed',[P.limbs(1),P.string(),P.stock(),P.trigger()],{ranged:'80/320 ft.'}),
+  W_('Simple ranged','🎯','Dagger','Dart','1d4','piercing','Finesse, thrown (20/60)',[P.point(1),Object.assign(P.grip('Flight'),{ok:['F','B'],why:'Feathers, hide, or thin bone.'})],{ranged:'20/60 ft.'}),
+  W_('Simple ranged','🏹','Bow','Shortbow','1d6','piercing','Ammunition (80/320), two-handed',[P.limbs(2),P.string(),P.grip()],{ranged:'80/320 ft.'}),
+  W_('Simple ranged','🪨','Bow','Sling','1d4','bludgeoning','Ammunition (30/120)',[Object.assign(P.lining(1),{name:'Pouch',role:'primary',kind:'string',ideal:{F:/hide|leather|skin|pelt/i},why:'A pouch of hide or leather.'}),Object.assign(P.string(),{name:'Cords'})],{ranged:'30/120 ft.'}),
+  W_('Martial melee','🪓','Axe','Battleaxe','1d8','slashing','Versatile (1d10)',[P.axehead(2),P.haft(),P.grip(),P.inlay()]),
+  W_('Martial melee','⛓','Hammer','Flail','1d8','bludgeoning','',[P.blunt(2),Object.assign(P.haft('Chain'),{ok:['O'],weak:['F'],kind:'shaft',why:'Metal chain. Rope or sinew works, but snaps.'}),P.haft('Handle')]),
+  W_('Martial melee','🔱','Spear','Glaive','1d10','slashing','Heavy, reach, two-handed',[P.edge('Blade',2),P.haft('Pole',2),P.grip()]),
+  W_('Martial melee','🪓','Axe','Greataxe','1d12','slashing','Heavy, two-handed',[P.axehead(3),P.haft('Haft',2),P.grip(),P.inlay()]),
+  W_('Martial melee','⚔','Sword','Greatsword','2d6','slashing','Heavy, two-handed',[P.edge('Blade',4),P.hilt(),P.grip(),P.inlay('Pommel stone')]),
+  W_('Martial melee','🔱','Spear','Halberd','1d10','slashing','Heavy, reach, two-handed',[P.axehead(2),P.haft('Pole',2),P.grip()]),
+  W_('Martial melee','🔱','Spear','Lance','1d12','piercing','Reach, special (mounted)',[P.point(2),P.haft('Shaft',3),Object.assign(P.fittings(),{name:'Vamplate (hand guard)'})]),
+  W_('Martial melee','⚔','Sword','Longsword','1d8','slashing','Versatile (1d10)',[P.edge('Blade',3),P.hilt(),P.grip(),P.inlay('Pommel stone')]),
+  W_('Martial melee','🔨','Hammer','Maul','2d6','bludgeoning','Heavy, two-handed',[P.blunt(4),P.haft('Haft',2),P.grip()]),
+  W_('Martial melee','🔨','Hammer','Morningstar','1d8','piercing','',[P.blunt(2),Object.assign(P.point(1),{name:'Spikes',role:'minor',optional:true}),P.haft(),P.grip()]),
+  W_('Martial melee','🔱','Spear','Pike','1d10','piercing','Heavy, reach, two-handed',[P.point(1),P.haft('Pole',3),P.grip('Binding')]),
+  W_('Martial melee','⚔','Sword','Rapier','1d8','piercing','Finesse',[Object.assign(P.edge('Blade',2),{ok:['O'],weak:['B','G'],why:'A thin, springy blade: metal. Bone or a long fang works, but snaps more easily.'}),P.hilt(),P.grip(),P.inlay('Pommel stone')]),
+  W_('Martial melee','⚔','Sword','Scimitar','1d6','slashing','Finesse, light',[P.edge('Blade',2),P.hilt(),P.grip()]),
+  W_('Martial melee','⚔','Sword','Shortsword','1d6','piercing','Finesse, light',[P.edge('Blade',2),P.hilt(),P.grip(),P.inlay('Pommel stone')]),
+  W_('Martial melee','🔱','Spear','Trident','1d6','piercing','Thrown (20/60), versatile (1d8)',[P.point(2),P.haft('Shaft',2),P.grip('Binding')]),
+  W_('Martial melee','⛏','Hammer','War Pick','1d8','piercing','',[P.point(2),P.haft(),P.grip()]),
+  W_('Martial melee','🔨','Hammer','Warhammer','1d8','bludgeoning','Versatile (1d10)',[P.blunt(2),P.haft(),P.grip(),P.inlay('Rune stone')]),
+  W_('Martial melee','➰','Sword','Whip','1d4','slashing','Finesse, reach',[{name:'Lash',role:'primary',qty:2,kind:'string',ok:['F'],ideal:{F:/hide|leather|sinew|tentacle|tail|gut|hair|cord|rope|strand/i},why:'A long braid of hide, sinew, or cord.'},P.haft('Handle'),Object.assign(P.point(1),{name:'Tip',role:'minor',optional:true,why:'A metal or bone barb.'})]),
+  W_('Martial ranged','🎋','Bow','Blowgun','1','piercing','Ammunition (25/100), loading',[{name:'Tube',role:'primary',qty:1,kind:'shaft',ok:['W','B','O'],ideal:{W:HOLLOW,B:HOLLOW},why:'A straight hollow tube: reed, bamboo, bone, or metal.'},Object.assign(P.fittings(),{name:'Mouthpiece'})],{ranged:'25/100 ft.'}),
+  W_('Martial ranged','🏹','Bow','Hand Crossbow','1d6','piercing','Ammunition (30/120), light, loading',[P.limbs(1),P.string(),P.stock(),P.trigger()],{ranged:'30/120 ft.'}),
+  W_('Martial ranged','🏹','Bow','Heavy Crossbow','1d10','piercing','Ammunition (100/400), heavy, loading, two-handed',[Object.assign(P.limbs(2),{ok:['W','B','O'],why:'Springy wood, horn, or a steel prod.'}),P.string(),P.stock(),P.trigger()],{ranged:'100/400 ft.'}),
+  W_('Martial ranged','🏹','Bow','Longbow','1d8','piercing','Ammunition (150/600), heavy, two-handed',[P.limbs(3),P.string(),P.grip(),P.inlay('Arrow-rest inlay')],{ranged:'150/600 ft.'}),
+  ['Net',{group:'Martial ranged',icon:'🕸',cat:'Artifact',props:'Thrown (5/15); a Large or smaller creature hit is restrained (escape DC 10)',slots:mk([{name:'Mesh',role:'primary',qty:2,kind:'string',ok:['F'],ideal:{F:STRING},why:'Cord, sinew, silk, or web.'},Object.assign(P.fittings(),{name:'Weights',ok:['O','S','B']})])}],
+  // armor pieces, one per slot
+  ...[['Helm','Head','⛑',2],['Cuirass','Body','🛡',4],['Gauntlets','Hands','🧤',1],['Boots','Feet','🥾',1],['Pauldrons','Shoulders','🛡',1]].map(([n,slot,icon,q])=>[n,{group:'Armor',icon,cat:'Armor',armor:true,slot,slots:mk([P.cover(q),P.lining(q>2?2:1),P.fittings(),P.ward()])}]),
+  ['Cloak',{group:'Armor',icon:'🧥',cat:'Armor',armor:true,slot:'Back',slots:mk([P.cover(2,['F','B']),Object.assign(P.fittings(),{name:'Clasp',ok:['O','B','G']}),P.ward()])}],
+  ['Barding',{group:'Armor',icon:'🐎',cat:'Armor',armor:true,slot:'Mount',slots:mk([P.cover(4),P.lining(2),P.fittings()])}],
+  ...[['Buckler',1],['Shield',3],['Tower Shield',5]].map(([n,q])=>[n,{group:'Shields',icon:'🛡',cat:'Shield',shield:true,kind:n==='Tower Shield'?'Tower':n,slots:mk([Object.assign(P.cover(q,['O','W','B']),{name:'Face',ideal:{B:/scale|shell|carapace|plate|bone|hide/i},why:'Metal, wood, or a broad scale or shell.'}),Object.assign(P.haft('Frame'),{why:'Wood, metal, or bone.'}),Object.assign(P.grip('Straps'),{ok:['F']}),Object.assign(P.inlay('Boss'),{ok:['O','G','E']})])}]),
+  // spellcasting focuses
+  ['Staff',{group:'Focuses',icon:'🪄',cat:'Staff',focus:true,dmg:['1d6','bludgeoning'],props:'Versatile (1d8); spellcasting focus',slots:mk([P.heart('Focus crown'),Object.assign(P.haft('Shaft',2),{ok:['W','B'],weak:['O']}),Object.assign(P.fittings(),{name:'Bands'}),P.grip('Wrap')])}],
+  ['Wand',{group:'Focuses',icon:'🪄',cat:'Artifact',focus:true,props:'Spellcasting focus',slots:mk([P.heart('Core'),Object.assign(P.haft('Body'),{ok:['W','B'],weak:['O','G']})])}],
+  ['Orb',{group:'Focuses',icon:'🔮',cat:'Artifact',focus:true,props:'Spellcasting focus',slots:mk([Object.assign(P.heart('Orb'),{qty:2}),P.setting('Cradle')])}],
+  ['Amulet',{group:'Focuses',icon:'📿',cat:'Artifact',focus:true,props:'Spellcasting focus; worn',slots:mk([P.heart('Heart stone'),P.setting(),Object.assign(P.grip('Chain or cord'),{ok:['O','F']})])}],
+  ['Ring',{group:'Focuses',icon:'💍',cat:'Artifact',focus:true,props:'Worn; spellcasting focus',slots:mk([Object.assign(P.setting('Band'),{role:'primary',kind:'fit',ok:['O','B'],weak:['W','G']}),P.heart('Stone')])}],
+];
+const BASES=Object.fromEntries(GEN);
+const BASE_GROUPS=[...new Set(GEN.map(([,b])=>b.group))];
 const SHIELD_KIND={Buckler:1,Shield:2,Tower:3};
-const ARMOR_SLOT_UNITS={Body:4,Head:2,Hands:1,Feet:1,Shoulders:1,Back:1};  // keep in step with tools/data/armor.js
+const ARMOR_SLOT_UNITS={Body:4,Head:2,Hands:1,Feet:1,Shoulders:1,Back:1,Mount:4};  // keep in step with tools/data/armor.js
 const ARMOR_SLOT_MULT=ARMOR_SLOT_UNITS;
 // Same formula as tools/data/armor.js (used by the build and by generators/vaultac.js): a full set of iron gear (10 units of metal at Item Level 1) gives 10 AC.
 const armorAC=(units,code,il)=>Math.max(1,Math.round(units*(code==='O'?1:/[BSG]/.test(code||'')?.7:.4)*(1+((il||1)-1)/20)));
@@ -2269,119 +2316,176 @@ const matCode=m=>m.tc||({'Ore / Metal':'O','Metal':'O','Wood / Plant':'W','Wood'
 function slotFit(slot,m){
   if(!m)return slot.optional?{lv:'empty'}:{lv:'missing'};
   const c=matCode(m);
-  if(!slot.ok.includes(c))return {lv:'wrong',c};
+  if((slot.weak||[]).includes(c))return {lv:'poor',c,why:(WHY_WRONG[slot.kind]||{})[c]||''};
+  if(!slot.ok.includes(c))return {lv:'wrong',c,why:(WHY_WRONG[slot.kind]||{})[c]||'This kind of material doesn\'t work in this part.'};
   const rx=slot.ideal&&slot.ideal[c];
-  if(rx&&!rx.test(m.n))return {lv:'poor',c};
+  if(rx&&!rx.test(m.n))return {lv:'poor',c,why:'Right category, but not the best kind for this part.'};
   return {lv:'good',c};
 }
 const PENALTY={
-  primary:{wrong:'Useless: damage drops to 1d2 (armor gives 0 AC), −5 to attack rolls, the item breaks on a roll of 1–5, and this material\'s property and trait don\'t work.',poor:'Poor fit: −1 to attack rolls (−1 AC for armor), and the property works at half Potency.'},
-  structure:{wrong:'Falls apart: −3 to attack rolls (−2 AC), the item breaks on a natural 1–3, and this material\'s property doesn\'t work.',poor:'Poor fit: −1 to attack rolls, and the item breaks on a natural 1.'},
+  primary:{wrong:'Useless: damage drops to 1d2 (armor gives 0 AC, a focus gives no bonus), −5 to attack rolls, the item breaks on a roll of 1–5, and this material\'s property and trait don\'t work.',poor:'Poor fit: −1 to attack rolls (−1 AC for armor), no damage bonus from this part, the item breaks on a natural 1, and the property works at half Potency.'},
+  structure:{wrong:'Falls apart: −3 to attack rolls (−2 AC), the item breaks on a natural 1–3, and this material\'s property doesn\'t work.',poor:'Poor fit: no attack bonus from this part, and the item breaks on a natural 1.'},
   minor:{wrong:'Wasted: this part gives nothing, and the item has −1 to attack rolls.',poor:'Weak fit: this part\'s property works at half Potency.'}
 };
-let FORGE=store.get('forge',{base:'Axe',parts:{},slot:'Body',shield:'Shield',name:'',showAll:false});
+let FORGE=store.get('forge',{base:'Battleaxe',parts:{},name:'',showAll:false,realm:''});
+if(!BASES[FORGE.base])FORGE.base=({Axe:'Battleaxe',Sword:'Longsword','Body Armor':'Cuirass','Focus / Amulet':'Amulet'})[FORGE.base]||'Battleaxe';
 let DESIGNS=store.get('designs',[]);
 const saveForge=()=>store.set('forge',FORGE);
+// Dice grow with the main part's Item Level: each die steps up one size at Item Level 20 and again at 35.
+function growDice(d,il){const m=/^(\d+)d(\d+)$/.exec(d);if(!m)return d;let n=+m[1],x=+m[2];const steps=(il>=20)+(il>=35);for(let i=0;i<steps;i++)x=x>=12?(n++,x):x+2;return n+'d'+x}
 function forgeResult(){
   const B=BASES[FORGE.base],parts=B.slots.map(s=>{const m=findMat(FORGE.parts[s.id]||'');return {s,m,fit:slotFit(s,m)}});
-  const prim=parts.find(p=>p.s.role==='primary');
-  let hit=0,acAdj=0,breakOn=0,useless=false;const notes=[],props=[],traits=[];
+  const prim=parts.find(p=>p.s.role==='primary'),struc=parts.find(p=>p.s.role==='structure');
+  let hit=0,acAdj=0,breakOn=0,useless=false;const notes=[],props=[],traits=[],adds=[];
   parts.forEach(p=>{
-    if(p.fit.lv==='wrong'||p.fit.lv==='poor')notes.push([p.s.name,p.fit.lv,PENALTY[p.s.role][p.fit.lv]]);
+    if(p.fit.lv==='wrong'||p.fit.lv==='poor')notes.push([p.s.name,p.fit.lv,PENALTY[p.s.role][p.fit.lv],p.fit.why||'']);
     if(p.fit.lv==='wrong'){if(p.s.role==='primary'){useless=true;hit-=5;breakOn=Math.max(breakOn,5)}else if(p.s.role==='structure'){hit-=3;acAdj-=2;breakOn=Math.max(breakOn,3)}else hit-=1}
-    if(p.fit.lv==='poor'){if(p.s.role!=='minor'){hit-=1;if(p.s.role==='primary')acAdj-=1;else breakOn=Math.max(breakOn,1)}}
+    if(p.fit.lv==='poor'&&p.s.role!=='minor'){if(p.s.role==='primary'){hit-=1;acAdj-=1}breakOn=Math.max(breakOn,1)}
     if(p.m&&p.fit.lv!=='wrong'){
-      if(p.m.pn)props.push({m:p.m,s:p.s,half:p.s.role!=='primary'||p.fit.lv==='poor'});
+      if(p.m.pn)props.push({m:p.m,s:p.s,half:p.s.role==='minor'||p.fit.lv==='poor'});
       if(p.m.tr)traits.push({m:p.m,s:p.s});
     }
   });
   const used=parts.filter(p=>p.m);
   const il=used.length?Math.max(...used.map(p=>p.m.il||1)):0;
-  const pm=prim&&prim.m;const pil=pm&&prim.fit.lv!=='wrong'?(pm.il||1):0;
+  const pm=prim&&prim.m,pok=pm&&prim.fit.lv!=='wrong',pil=pok?(pm.il||1):0;
+  const sm=struc&&struc.m,sil=sm&&struc.fit.lv==='good'?(sm.il||1):0;
+  // a structure much weaker than the main part can't carry it
+  if(pm&&sm&&struc.fit.lv!=='wrong'&&(pm.il||1)>(sm.il||1)+10){breakOn=Math.max(breakOn,2);notes.push([struc.s.name,'weak',`Too weak for the ${prim.s.name.toLowerCase()}: the ${esc(sm.n)} (Item Level ${sm.il||1}) can't carry a ${esc(pm.n)} (Item Level ${pm.il||1}). The item breaks on a natural 1–2.`,''])}
   const strongest=used.slice().sort((a,b)=>(b.m.rank||0)-(a.m.rank||0))[0];
   const cost=used.reduce((a,p)=>a+(p.m.price||0)*p.s.qty,0);
-  const out={B,parts,notes,props,traits,il,cost,strongest:strongest&&strongest.m,breakOn};
+  const out={B,parts,notes,props,traits,il,cost,strongest:strongest&&strongest.m,breakOn,adds};
+  const dmgBonus=pok&&prim.fit.lv==='good'?Math.floor(pil/10):0,atkBonus=Math.floor(sil/10);
   if(B.dmg){
-    let die=B.dmg[0];if(pil>=20)die+=2;if(pil>=35)die+=2;
-    const bonus=Math.floor(pil/10);
-    out.attack=bonus+hit;out.damage=useless?'1d2':`1d${die}${bonus?' + '+bonus:''}`;out.dtype=B.dmg[1];
+    out.attack=atkBonus+hit;out.damage=useless?'1d2':`${growDice(B.dmg[0],pil)}${dmgBonus?' + '+dmgBonus:''}`;out.dtype=B.dmg[1];
+    const vm=/Versatile \((\d+d\d+)\)/.exec(B.props||'');if(vm&&!useless)out.vers=`${growDice(vm[1],pil)}${dmgBonus?' + '+dmgBonus:''}`;
+    if(pm)adds.push([prim.s.name,pm,useless?'nothing: wrong material':`damage ${growDice(B.dmg[0],pil)}${dmgBonus?' + '+dmgBonus:''}`]);
+    if(sm)adds.push([struc.s.name,sm,struc.fit.lv==='wrong'?'nothing: wrong material':`attack ${atkBonus>=0?'+':''}${atkBonus}`]);
   }
+  if(B.focus){const fb=pok&&prim.fit.lv==='good'?Math.floor(pil/10):pok?Math.floor(pil/20):0,sb=Math.floor(sil/20);out.focusBonus=useless?0:fb+sb;
+    if(pm&&!B.dmg)adds.push([prim.s.name,pm,useless?'nothing: wrong material':`+${fb} to spell attacks and save DC`]);if(sm&&sb)adds.push([struc.s.name,sm,`+${sb} to spell attacks and save DC`]);}
   if(B.armor||B.shield){
-    const c=pm&&matCode(pm);let base=0;
-    if(pm&&prim.fit.lv!=='wrong')base=armorAC(B.shield?SHIELD_KIND[FORGE.shield]:ARMOR_SLOT_UNITS[FORGE.slot],c,pil);
-    out.ac=Math.max(0,base+acAdj);out.weight=ARMOR_WEIGHT[c]||'Light';out.drawback=pieceDrawbacks({slot:B.shield?FORGE.shield:FORGE.slot,weight:out.weight});
+    const c=pm&&matCode(pm);let base=0;const units=B.shield?SHIELD_KIND[B.kind]:ARMOR_SLOT_UNITS[B.slot];
+    if(pok)base=armorAC(units,c,pil);
+    const lin=sil>=20?1:0;
+    out.ac=Math.max(0,base+acAdj+lin);out.weight=ARMOR_WEIGHT[c]||'Light';out.drawback=pieceDrawbacks({slot:B.shield?B.kind:B.slot,weight:out.weight});
+    if(pm)adds.push([prim.s.name,pm,pok?`AC ${base} (${out.weight.toLowerCase()})`:'nothing: wrong material']);
+    if(sm)adds.push([struc.s.name,sm,struc.fit.lv==='wrong'?'nothing: wrong material':lin?'+1 AC (Item Level 20+)':'comfort; +1 AC from Item Level 20']);
   }
-  const prof=B.focus?'Enchanting':B.armor&&pm&&matCode(pm)==='F'?'Tailoring':pm&&['W','B','S'].includes(matCode(pm))?'Carving':'Blacksmithing';
+  const prof=B.focus?'Enchanting':(B.armor||B.shield)&&pm&&matCode(pm)==='F'?'Tailoring':pm&&['W','B','S'].includes(matCode(pm))?'Carving':'Blacksmithing';
   out.prof=prof;
   out.realmSpec=pm&&matCode(pm)==='O'&&/Hell|Heaven|Void/.test(pm.realm)?{Hell:'Infernal Forging',Heaven:'Celestial Metallurgy',Void:'Void Smithing','Inner Void':'Void Smithing'}[pm.realm]:'';
   out.rar=strongest?strongest.m.rar:'';
-  out.name=FORGE.name||(pm?pm.n.replace(/ (Ore|Ingot|Bar)$/,'')+' '+(B.armor?(FORGE.slot==='Body'?'Armor':FORGE.slot+' Armor'):B.shield?FORGE.shield:FORGE.base):FORGE.base);
+  out.name=FORGE.name||(pm?pm.n.replace(/ (Ore|Ingot|Bar)$/,'')+' '+FORGE.base:FORGE.base);
+  return out;
+}
+// Which general Blueprint a vault Blueprint is an instance of: by its name first, then its category.
+const GEN_KEYS=[['Greataxe',/great ?axe|war ?axe|bearded axe|dane axe/i],['Handaxe',/hand ?axe|hatchet|tomahawk|throwing axe/i],['Halberd',/halberd|bardiche|poleaxe|pole axe|voulge|lochaber|\bji\b/i],['Glaive',/glaive|naginata|guandao|scythe|bill\b|fauchard/i],
+  ['Pike',/\bpike\b|sarissa/i],['Lance',/\blance\b/i],['Trident',/trident/i],['Javelin',/javelin|pilum|atlatl/i],['War Pick',/war ?pick|pickaxe|\bpick\b|hammer of war pick/i],['Maul',/\bmaul\b|great ?hammer|sledge/i],['Light Hammer',/light hammer|throwing hammer/i],
+  ['Morningstar',/morning ?star|holy water sprinkler/i],['Flail',/flail|nunchaku|chain/i],['Mace',/mace|club of|cudgel|scepter|sceptre/i],['Greatclub',/great ?club|tetsubo|kanabo/i],['Club',/\bclub\b|baton|shillelagh/i],
+  ['Greatsword',/great ?sword|claymore|zweihander|flamberge|nodachi|odachi|two-hand(ed)? sword|executioner/i],['Rapier',/rapier|estoc|epee|smallsword/i],['Scimitar',/scimitar|sabre|saber|shamshir|tulwar|falchion|cutlass|khopesh|talwar/i],
+  ['Shortsword',/short ?sword|gladius|wakizashi|seax|xiphos|kopis|machete|sai\b/i],['Longsword',/long ?sword|katana|broadsword|bastard sword|arming sword|blade|sword/i],['Sickle',/sickle|kama|karambit/i],['Dagger',/dagger|knife|dirk|stiletto|kris|tanto|kunai|shiv|athame/i],
+  ['Whip',/whip|lash/i],['Heavy Crossbow',/heavy crossbow|arbalest|ballista/i],['Hand Crossbow',/hand crossbow/i],['Light Crossbow',/crossbow/i],['Longbow',/long ?bow|warbow|yumi/i],['Shortbow',/short ?bow|horse ?bow|recurve|composite bow/i],['Blowgun',/blowgun|blowpipe/i],['Sling',/\bsling\b|slingshot/i],['Dart',/\bdart|shuriken/i],['Net',/\bnet\b/i],
+  ['Tower Shield',/tower|pavise|scutum|wall shield/i],['Buckler',/buckler|targe|parma/i],['Wand',/\bwand\b|rod\b/i],['Orb',/\borb\b|crystal ball|sphere/i],['Ring',/\bring\b|band of/i],['Amulet',/amulet|pendant|talisman|necklace|locket|charm|focus/i],['Quarterstaff',/quarterstaff|\bbo staff|jo staff/i],['Staff',/\bstaff\b|stave/i],
+  ['Helm',/helm|helmet|\bcap\b|hood|coif|crown|circlet|mask|visor/i],['Gauntlets',/gauntlet|glove|bracer|vambrace|mitt/i],['Boots',/boot|greave|sabaton|shoe|sandal/i],['Pauldrons',/pauldron|spaulder|epaulet/i],['Cloak',/cloak|cape|mantle|shroud/i],['Barding',/barding/i]];
+const GEN_CAT={Axe:'Battleaxe',Sword:'Longsword',Dagger:'Dagger',Hammer:'Warhammer',Spear:'Spear',Bow:'Shortbow',Staff:'Quarterstaff',Shield:'Shield'};
+const GEN_SLOT={Head:'Helm',Body:'Cuirass',Hands:'Gauntlets',Feet:'Boots',Shoulders:'Pauldrons',Back:'Cloak',Mount:'Barding',Enhancement:null};
+const WEAPON_CATS=['Axe','Sword','Dagger','Hammer','Spear','Bow','Staff'];
+function genOf(b){
+  if(b._gen!==undefined)return b._gen;
+  let g=null;
+  if(b.cat==='Armor')g=GEN_SLOT[b.slot]===undefined?'Cuirass':GEN_SLOT[b.slot];
+  else if(b.cat==='Shield')g=/tower|pavise|scutum|wall|bastion/i.test(b.n)?'Tower Shield':/buckler|targe|parma/i.test(b.n)?'Buckler':'Shield';
+  else if(WEAPON_CATS.includes(b.cat)||b.cat==='Artifact'){const k=GEN_KEYS.find(([n,rx])=>rx.test(b.n)&&!['Helm','Gauntlets','Boots','Pauldrons','Cloak','Barding','Tower Shield','Buckler'].includes(n));g=k?k[0]:b.cat==='Artifact'?null:GEN_CAT[b.cat];
+    if(b.cat==='Artifact'&&g&&!BASES[g].focus&&!/weapon|blade|sword|axe|dagger|spear|bow|hammer|whip|net|dart|sling/i.test(b.n))g=null}
+  return b._gen=g&&BASES[g]?g:null;
+}
+// Fill a general Blueprint's parts from a list of materials: best fit first, in part order.
+function assignParts(base,mats){
+  const B=BASES[base],parts={},left=mats.slice();
+  B.slots.forEach(s=>{const rank=lv=>left.findIndex(m=>slotFit(s,m).lv===lv);let j=rank('good');if(j<0)j=rank('poor');if(j<0&&!s.optional&&left.length&&s.role==='primary')j=0;if(j>=0){parts[s.id]=left[j].n;left.splice(j,1)}});
+  return parts;
+}
+const CAT_TO_BASE=GEN_CAT;
+function openInForge(b){
+  const base=genOf(b)||'Amulet';
+  FORGE={base,parts:assignParts(base,b.mats.map(findMat).filter(Boolean)),name:b.n,showAll:false,realm:FORGE.realm||''};saveForge();closeAll();go('forge');
+}
+const BP_BY_GEN=()=>{if(!BP_BY_GEN.m){BP_BY_GEN.m=new Map();BPS.forEach(b=>{const g=genOf(b);if(g){if(!BP_BY_GEN.m.has(g))BP_BY_GEN.m.set(g,[]);BP_BY_GEN.m.get(g).push(b)}})}return BP_BY_GEN.m};
+function forgeSuggest(s){
+  const realm=FORGE.realm,taken=new Set(Object.values(FORGE.parts).map(lc));
+  const pool=MATS.filter(m=>(!realm||m.realm===realm)&&!taken.has(lc(m.n))&&slotFit(s,m).lv==='good').sort((a,b)=>(!!a.gen-!!b.gen)||(a.g||0)-(b.g||0)||(a.price||0)-(b.price||0)||byName(a,b));
+  // a few from each accepted category, cheapest first, so every option shows
+  const by=s.ok.map(c=>pool.filter(m=>matCode(m)===c)),out=[];
+  for(let i=0;out.length<6&&i<6;i++)by.forEach(l=>{if(l[i]&&out.length<6)out.push(l[i])});
   return out;
 }
 function renderForge(){
-  const B=BASES[FORGE.base];
+  const B=BASES[FORGE.base],q=lc(FORGE.find||''),byGen=BP_BY_GEN();
   $('content').innerHTML=`<div class="page">${datalists()}
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">The Forge</h3><p>Every Blueprint is a base design. Choose a material for each part; the finished item combines what every material brings. The wrong material in the wrong part carries heavy penalties.</p></div>
-    <div class="chips" style="margin-bottom:14px">${Object.entries(BASES).map(([k,b])=>`<button class="chip" style="padding:7px 13px;font-size:.88rem${k===FORGE.base?';border-color:var(--gold);background:var(--goldbg);color:var(--text)':''}" onclick="FORGE.base='${k}';FORGE.parts={};FORGE.name='';saveForge();renderForge()">${b.icon} ${k}</button>`).join('')}</div>
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">The Forge</h3><p>Every Blueprint is a general design: an Axe, a Longsword, a Helm. Choose the material for each part (the head, the haft, the grip) and the finished item takes something from each: the main part sets the damage or AC, the structure sets the attack bonus and how well it holds together, and every part adds its property and trait. Each part only takes certain kinds of material; the wrong kind brings heavy penalties, and a wrong main part makes the item useless.</p></div>
+    <div class="panel" style="margin-bottom:14px"><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px"><b style="font-family:var(--serif)">General Blueprints</b><input class="sel" id="fg-find" placeholder="Find a design…" value="${esc(FORGE.find||'')}" style="max-width:220px"><span class="note" style="margin:0">${GEN.length} designs; ${fmt([...byGen.values()].reduce((a,x)=>a+x.length,0))} vault Blueprints are versions of them.</span></div>
+      ${BASE_GROUPS.map(gr=>{const items=GEN.filter(([n,b])=>b.group===gr&&(!q||lc(n).includes(q)));return items.length?`<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:6px 0"><span style="width:110px;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)">${esc(gr)}</span>${items.map(([k,b])=>`<button class="chip" style="padding:5px 11px${k===FORGE.base?';border-color:var(--gold);background:var(--goldbg);color:var(--text)':''}" data-base="${esc(k)}">${b.icon} ${esc(k)}${byGen.get(k)?` <small>${byGen.get(k).length}</small>`:''}</button>`).join('')}</div>`:''}).join('')}
+    </div>
     <div class="cols" style="align-items:start">
       <div class="panel" style="display:flex;flex-direction:column;gap:12px">
-        <h4 style="font-size:1.15rem;margin:0">${B.icon} ${esc(FORGE.base)} parts</h4>
-        ${B.armor?`<label class="note" style="margin:0">Slot <select class="sel" id="fg-slot">${Object.keys(ARMOR_SLOT_MULT).map(s=>`<option${s===FORGE.slot?' selected':''}>${s}</option>`).join('')}</select></label>`:''}
-        ${B.shield?`<label class="note" style="margin:0">Kind <select class="sel" id="fg-kind">${Object.keys(SHIELD_KIND).map(s=>`<option${s===FORGE.shield?' selected':''}>${s}</option>`).join('')}</select></label>`:''}
+        <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="font-size:1.15rem;margin:0">${B.icon} ${esc(FORGE.base)}</h4><span class="note" style="margin:0">${esc(B.group)}${B.dmg?` · ${esc(B.dmg[0])} ${esc(B.dmg[1])}`:''}${B.props?` · ${esc(B.props)}`:''}${B.armor?` · ${esc(B.slot)} slot`:''}</span></div>
+        <label class="note" style="margin:0">Suggest materials from <select class="sel" id="fg-realm"><option value="">Every realm</option>${REALMS.map(r=>`<option${r.n===FORGE.realm?' selected':''}>${esc(r.n)}</option>`).join('')}</select></label>
         ${B.slots.map(s=>{const m=findMat(FORGE.parts[s.id]||''),f=slotFit(s,m);const col={good:'var(--green)',poor:'var(--gold2)',wrong:'var(--red)',missing:'var(--muted)',empty:'var(--muted)'}[f.lv];
           const lab={good:'✓ Good fit',poor:'△ Poor fit',wrong:'✕ Wrong material',missing:'Required',empty:'Optional'}[f.lv];
-          const opts=MATS.filter(x=>FORGE.showAll||s.ok.includes(matCode(x)));
-          return `<div style="border:1px solid ${f.lv==='wrong'?'var(--red)':'var(--line)'};border-radius:8px;padding:10px 12px">
+          const okCats=[...s.ok,...(s.weak||[])];const opts=MATS.filter(x=>FORGE.showAll||okCats.includes(matCode(x)));
+          const sug=m?[]:forgeSuggest(s);
+          return `<div style="border:1px solid ${f.lv==='wrong'?'var(--red)':f.lv==='good'?'color-mix(in srgb,var(--green) 45%,var(--line))':'var(--line)'};border-radius:8px;padding:10px 12px">
             <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b>${esc(s.name)}</b><span class="b ghost">${s.role==='primary'?'main part':s.role==='structure'?'structure':'extra'}</span><span class="b ghost">× ${s.qty}</span><span style="margin-left:auto;font-size:.78rem;color:${col};font-weight:600">${lab}</span></div>
-            <div class="note" style="margin:4px 0 6px">${esc(s.why)} Accepts: ${s.ok.map(c=>CAT_NAME[c]).join(', ')}.</div>
-            <div class="keyrow"><input class="sel" list="dl-fg-${s.id}" data-slot="${s.id}" value="${esc(FORGE.parts[s.id]||'')}" placeholder="Choose a material…" style="max-width:none;flex:1"><button class="btn" data-clear-slot="${s.id}" title="Clear">✕</button></div>
+            <div class="note" style="margin:4px 0 6px">${esc(s.why)}<br><span style="color:var(--green)">Good:</span> ${s.ok.map(c=>CAT_NAME[c]).join(', ')}${(s.weak||[]).length?` · <span style="color:var(--gold2)">Poor:</span> ${s.weak.map(c=>CAT_NAME[c]).join(', ')}`:''} · <span style="color:var(--red)">Anything else is wrong.</span></div>
+            <div class="keyrow"><input class="sel" list="dl-fg-${s.id}" data-slot="${s.id}" value="${esc(FORGE.parts[s.id]||'')}" placeholder="Type a material…" style="max-width:none;flex:1"><button class="btn" data-clear-slot="${s.id}" title="Clear">✕</button></div>
             <datalist id="dl-fg-${s.id}">${opts.map(x=>`<option value="${esc(x.n)}">${esc(x.gr||'')} · ${esc(CAT_NAME[matCode(x)]||'')}</option>`).join('')}</datalist>
-            ${m?`<div style="margin-top:6px;font-size:.8rem;color:var(--text2)">${refChip(m)} ${esc(m.gr)} · ${esc(CAT_NAME[matCode(m)]||'')}${m.pn?' · ✧ '+esc(m.pn):''}${m.tr?' · ◆ '+esc(m.tr.n):''}</div>`:''}
-            ${f.lv==='wrong'||f.lv==='poor'?`<div style="margin-top:6px;font-size:.8rem;color:${col}">${esc(PENALTY[s.role][f.lv])}</div>`:''}</div>`}).join('')}
-        <label class="note" style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" id="fg-all" ${FORGE.showAll?'checked':''}> List every material, including wrong ones</label>
+            ${sug.length?`<div class="chips" style="margin-top:6px">${sug.map(x=>`<button class="chip" data-pick="${s.id}" data-mat="${esc(x.n)}" title="${esc(x.gr)}">${esc(x.n)} <small>${esc(x.gr)}</small></button>`).join('')}</div>`:''}
+            ${m?`<div style="margin-top:6px;font-size:.8rem;color:var(--text2)">${refChip(m)} ${esc(m.gr)} · Item Level ${m.il||1} · ${esc(CAT_NAME[matCode(m)]||'')}${m.pn?' · ✧ '+esc(m.pn):''}${m.tr?' · ◆ '+esc(m.tr.n):''}</div>`:''}
+            ${f.lv==='wrong'||f.lv==='poor'?`<div style="margin-top:6px;font-size:.8rem;color:${col}">${f.why?`<b>${esc(f.why)}</b> `:''}${esc(PENALTY[s.role][f.lv])}</div>`:''}</div>`}).join('')}
+        <label class="note" style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" id="fg-all" ${FORGE.showAll?'checked':''}> List every material, including wrong ones (to see the penalties)</label>
       </div>
       <div id="fg-out"></div>
     </div>
-    ${DESIGNS.length?`<section class="sec"><div class="sec-h"><h3>Saved designs</h3><p>${DESIGNS.length} on this device. They can be equipped on the Party page.</p></div><div class="chips">${DESIGNS.map((d,i)=>`<span class="chip" style="padding:5px 10px"><a href="#" onclick="loadDesign(${i});return false" style="color:var(--text);text-decoration:none"><b>${esc(d.n)}</b></a> <small>${esc(d.base)}${d.ac!=null?' · AC '+d.ac:''}${d.dmg?' · '+esc(d.dmg):''}</small> <a href="#" onclick="if(confirm('Delete design?')){DESIGNS.splice(${i},1);store.set('designs',DESIGNS);renderForge()}return false" style="color:var(--muted);text-decoration:none">✕</a></span>`).join('')}</div></section>`:''}
+    ${byGen.get(FORGE.base)?`<section class="sec"><div class="sec-h"><h3>${esc(FORGE.base)} Blueprints in the vault</h3><p>${byGen.get(FORGE.base).length} named versions of this design. Open one to load its materials here.</p></div><div class="chips">${byGen.get(FORGE.base).slice(0,40).map(b=>`<button class="chip" data-load-bp="${esc(b.n)}">${esc(b.n)} <small>Lv ${b.lv}</small></button>`).join('')}${byGen.get(FORGE.base).length>40?`<button class="chip" data-go="blueprints" data-setup='${esc(JSON.stringify({f:{gen:FORGE.base}}))}'>All ${byGen.get(FORGE.base).length} →</button>`:''}</div></section>`:''}
+    ${DESIGNS.length?`<section class="sec"><div class="sec-h"><h3>Saved designs</h3><p>${DESIGNS.length} on this device. They can be equipped on the Party page.</p></div><div class="chips">${DESIGNS.map((d,i)=>`<span class="chip" style="padding:5px 10px"><a href="#" onclick="loadDesign(${i});return false" style="color:var(--text);text-decoration:none"><b>${esc(d.n)}</b></a> <small>${esc(d.base)}${d.ac!=null?' · AC '+d.ac:''}${d.dmg?' · '+esc(d.dmg):''}</small> <span style="cursor:pointer" onclick="DESIGNS.splice(${i},1);store.set('designs',DESIGNS);renderForge()" title="Delete">✕</span></span>`).join('')}</div></section>`:''}
   </div>`;
-  $('content').querySelectorAll('[data-slot]').forEach(el=>el.addEventListener('change',()=>{FORGE.parts[el.dataset.slot]=el.value.trim();FORGE.name='';saveForge();setTimeout(renderForge)}));
-  $('content').querySelectorAll('[data-clear-slot]').forEach(el=>el.addEventListener('click',()=>{delete FORGE.parts[el.dataset.clearSlot];saveForge();renderForge()}));
+  const C=$('content');
+  C.querySelectorAll('[data-base]').forEach(el=>el.onclick=()=>{const old=BASES[FORGE.base],nb=BASES[el.dataset.base];const keep=FORGE.parts;FORGE.base=el.dataset.base;FORGE.parts=assignParts(FORGE.base,Object.values(keep).map(findMat).filter(Boolean).filter(m=>nb.slots.some(sl=>slotFit(sl,m).lv==='good')));FORGE.name='';saveForge();renderForge()});
+  C.querySelectorAll('[data-slot]').forEach(el=>el.addEventListener('change',()=>{FORGE.parts[el.dataset.slot]=el.value.trim();FORGE.name='';saveForge();setTimeout(renderForge)}));
+  C.querySelectorAll('[data-clear-slot]').forEach(el=>el.addEventListener('click',()=>{delete FORGE.parts[el.dataset.clearSlot];saveForge();renderForge()}));
+  C.querySelectorAll('[data-pick]').forEach(el=>el.addEventListener('click',()=>{FORGE.parts[el.dataset.pick]=el.dataset.mat;FORGE.name='';saveForge();renderForge()}));
+  C.querySelectorAll('[data-load-bp]').forEach(el=>el.addEventListener('click',()=>{const b=findBP(el.dataset.loadBp);if(b){FORGE.parts=assignParts(FORGE.base,b.mats.map(findMat).filter(Boolean));FORGE.name=b.n;saveForge();renderForge();$('content').scrollTop=0}}));
+  $('fg-find').oninput=e=>{FORGE.find=e.target.value;const pos=e.target.selectionStart;renderForge();const f=$('fg-find');f.focus();f.setSelectionRange(pos,pos)};
   $('fg-all').onchange=e=>{FORGE.showAll=e.target.checked;saveForge();setTimeout(renderForge)};
-  if($('fg-slot'))$('fg-slot').onchange=e=>{FORGE.slot=e.target.value;saveForge();renderForge()};
-  if($('fg-kind'))$('fg-kind').onchange=e=>{FORGE.shield=e.target.value;saveForge();renderForge()};
+  $('fg-realm').onchange=e=>{FORGE.realm=e.target.value;saveForge();renderForge()};
   forgeOut();
 }
 function forgeOut(){
   const r=forgeResult(),B=r.B;
-  const ready=r.parts.every(p=>p.s.optional||p.m);
-  $('fg-out').innerHTML=`<div class="panel" style="display:flex;flex-direction:column;gap:12px;border-color:${r.notes.some(n=>n[1]==='wrong')?'var(--red)':'var(--gold)'}">
+  const ready=r.parts.every(p=>p.s.optional||p.m),bad=r.notes.some(n=>n[1]==='wrong');
+  $('fg-out').innerHTML=`<div class="panel" style="display:flex;flex-direction:column;gap:12px;border-color:${bad?'var(--red)':'var(--gold)'}">
     <label class="note" style="margin:0">Name<input class="sel" id="fg-name" value="${esc(r.name)}" style="max-width:none;width:100%;margin-top:4px;font-family:var(--serif);font-size:1.1rem;font-weight:700"></label>
-    <div class="badges">${r.rar?rarB(r.rar):''}<span class="b ghost">${esc(B.cat)}</span>${r.il?`<span class="b">Item level ${r.il}</span>`:''}${B.armor?`<span class="b">${esc(FORGE.slot)} · ${esc(r.weight||'')}</span>`:''}</div>
-    ${kv([r.damage!=null?['Damage',`<span class="mono">${esc(r.damage)}</span> ${esc(r.dtype)}`]:null,r.attack!=null?['Attack bonus',(r.attack>=0?'+':'')+r.attack]:null,B.ranged?['Range',B.ranged]:null,B.reach?['Reach','10 ft. (or thrown 20/60)']:null,r.ac!=null?['AC',r.ac]:null,r.ac!=null?['Drawback',`${esc(r.weight)} · ${r.drawback.length?esc(r.drawback.join('; ')):'none'}`]:null,['Breaks on',r.breakOn?'a natural 1'+(r.breakOn>1?'–'+r.breakOn:''):'—'],['Material cost',gp(r.cost)],['Crafted by',esc(r.prof)+(r.realmSpec?` <small style="font-weight:400;color:var(--gold2)">needs ${esc(r.realmSpec)}</small>`:'')]])}
-    ${r.notes.length?`<div class="callout" style="border-color:var(--red);background:color-mix(in srgb,var(--red) 8%,transparent)"><b style="color:var(--red)">Penalties</b><ul style="margin:6px 0 0 18px">${r.notes.map(([s,lv,t])=>`<li><b>${esc(s)}</b> (${lv==='wrong'?'wrong material':'poor fit'}): ${esc(t)}</li>`).join('')}</ul></div>`:''}
-    ${r.props.length?`<div><div class="blk"><h4>Properties</h4></div><div class="mlist">${r.props.map(p=>`<button data-ref="${ref(p.m)}" style="flex-direction:column;align-items:flex-start"><span><b>✧ ${esc(p.m.pn)}</b> <span class="x">${esc(p.s.name)} · ${esc(p.m.n)}${p.half?' · half Potency':''}</span></span><span style="font-size:.8rem">${esc((p.m.prop||'').replace(/^[^:]+:\s*/,''))}</span></button>`).join('')}</div></div>`:''}
+    <div class="badges">${r.rar?rarB(r.rar):''}<span class="b ghost">${esc(FORGE.base)}</span>${r.il?`<span class="b">Item level ${r.il}</span>`:''}${B.armor||B.shield?`<span class="b">${esc(B.slot||B.kind)} · ${esc(r.weight||'')}</span>`:''}${bad?'<span class="b red">Wrong material</span>':''}</div>
+    ${kv([r.damage!=null?['Damage',`<span class="mono">${esc(r.damage)}</span> ${esc(r.dtype)}${r.vers?` <small style="font-weight:400">(<span class="mono">${esc(r.vers)}</span> two-handed)</small>`:''}`]:null,r.attack!=null?['Attack bonus',(r.attack>=0?'+':'')+r.attack]:null,B.ranged?['Range',B.ranged]:null,B.props?['Properties',esc(B.props)]:null,r.focusBonus!=null?['Spellcasting',`+${r.focusBonus} to spell attack rolls and spell save DC`]:null,r.ac!=null?['AC',r.ac]:null,r.ac!=null?['Drawback',`${esc(r.weight)} · ${r.drawback.length?esc(r.drawback.join('; ')):'none'}`]:null,['Breaks on',r.breakOn?'a natural 1'+(r.breakOn>1?'–'+r.breakOn:''):'—'],['Material cost',gp(r.cost)],['Crafted with',esc(r.prof)+(r.realmSpec?' ('+esc(r.realmSpec)+')':'')]].filter(Boolean))}
+    ${r.adds.length?`<div><div class="blk"><h4>What each material adds</h4></div><div class="tablewrap"><table class="t"><tbody>${r.adds.map(([part,m,t])=>`<tr><td style="white-space:nowrap"><b>${esc(part)}</b></td><td><a href="#" data-ref="${ref(m)}">${esc(m.n)}</a></td><td>${esc(t)}</td></tr>`).join('')}</tbody></table></div></div>`:''}
+    ${r.notes.length?`<div class="callout" style="border-color:var(--red);background:color-mix(in srgb,var(--red) 8%,transparent)"><b style="color:var(--red)">Penalties</b><ul style="margin:6px 0 0 18px">${r.notes.map(([s,lv,t,why])=>`<li><b>${esc(s)}</b> (${lv==='wrong'?'wrong material':lv==='poor'?'poor fit':'too weak'}): ${why?esc(why)+' ':''}${lv==='weak'?t:esc(t)}</li>`).join('')}</ul></div>`:''}
+    ${r.props.length?`<div><div class="blk"><h4>Properties from every part</h4></div><div class="mlist">${r.props.map(p=>`<button data-ref="${ref(p.m)}" style="flex-direction:column;align-items:flex-start"><span><b>✧ ${esc(p.m.pn)}</b> <span class="x">${esc(p.s.name)} · ${esc(p.m.n)}${p.half?' · half Potency':''}</span></span><span style="font-size:.8rem">${esc((p.m.prop||'').replace(/^[^:]+:\s*/,''))}</span></button>`).join('')}</div></div>`:''}
     ${r.traits.length?`<div><div class="blk"><h4>Traits when equipped</h4></div><div class="mlist">${r.traits.map(t=>`<button data-ref="${ref(t.m)}" style="flex-direction:column;align-items:flex-start"><span><b style="color:var(--gold2)">◆ ${esc(t.m.tr.n)}</b> <span class="x">${esc(t.s.name)} · ${esc(t.m.n)}</span></span><span style="font-size:.8rem">${esc(t.m.tr.t)}</span></button>`).join('')}</div></div>`:''}
-    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" ${ready?'':'disabled title="Fill every required part first"'} onclick="saveDesign()">Save design</button>${PARTY.length&&ready?`<select class="sel" id="fg-who">${PARTY.map(c=>`<option value="${c.id}">${esc(c.name||'Unnamed')}</option>`).join('')}</select><button class="btn" onclick="giveDesign()">Save and equip</button>`:''}<button class="btn" onclick="FORGE.parts={};FORGE.name='';saveForge();renderForge()">Start over</button></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" ${ready?'':'disabled title="Fill every required part first"'} onclick="saveDesign()">Save design</button>${PARTY.length&&ready?`<select class="sel" id="fg-who">${PARTY.map(c=>`<option value="${c.id}">${esc(c.name||'Unnamed')}</option>`).join('')}</select><button class="btn" onclick="giveDesign()">Save and equip</button>`:''}<button class="btn" onclick="FORGE.parts={};FORGE.name='';saveForge();renderForge()">Clear parts</button></div>
   </div>`;
   $('fg-name').onchange=e=>{FORGE.name=e.target.value.trim();saveForge()};
 }
 function designFromForge(){
   const r=forgeResult();
-  return {n:FORGE.name||r.name,base:FORGE.base,parts:Object.assign({},FORGE.parts),slot:FORGE.slot,shield:FORGE.shield,ac:r.ac!=null?r.ac:null,dmg:r.damage?r.damage+' '+r.dtype:'',cat:r.B.cat,mats:r.parts.filter(p=>p.m&&p.fit.lv!=='wrong').map(p=>p.m.n),pr:r.prof,il:r.il};
+  return {n:FORGE.name||r.name,base:FORGE.base,parts:Object.assign({},FORGE.parts),ac:r.ac!=null?r.ac:null,dmg:r.damage?r.damage+' '+r.dtype:'',cat:r.B.cat,slot:r.B.slot||r.B.kind||'',mats:r.parts.filter(p=>p.m&&p.fit.lv!=='wrong').map(p=>p.m.n),pr:r.prof,il:r.il};
 }
 function saveDesign(){const d=designFromForge();const i=DESIGNS.findIndex(x=>x.n===d.n);if(i>=0)DESIGNS[i]=d;else DESIGNS.push(d);store.set('designs',DESIGNS);toast('Saved '+d.n);renderForge();return d}
 function giveDesign(){const d=saveDesign(),c=PARTY.find(x=>x.id===$('fg-who')?.value)||PARTY[0];if(!c)return;c.gear=(c.gear||[]).concat(d.n);saveParty();toast(d.n+' equipped on '+(c.name||'character'))}
-function loadDesign(i){const d=DESIGNS[i];FORGE={base:d.base,parts:Object.assign({},d.parts),slot:d.slot||'Body',shield:d.shield||'Shield',name:d.n,showAll:FORGE.showAll};saveForge();renderForge()}
-const CAT_TO_BASE={Axe:'Axe',Sword:'Sword',Dagger:'Dagger',Hammer:'Hammer',Spear:'Spear',Bow:'Bow',Staff:'Staff',Armor:'Body Armor',Shield:'Shield'};
-function openInForge(b){
-  const base=CAT_TO_BASE[b.cat]||'Focus / Amulet',B=BASES[base],parts={};
-  const left=b.mats.map(findMat).filter(Boolean);
-  B.slots.forEach(s=>{const i=left.findIndex(m=>slotFit(s,m).lv==='good');const j=i>=0?i:left.findIndex(m=>slotFit(s,m).lv==='poor');if(j>=0){parts[s.id]=left[j].n;left.splice(j,1)}});
-  FORGE={base,parts,slot:'Body',shield:/tower/i.test(b.n)?'Tower':/buckler/i.test(b.n)?'Buckler':'Shield',name:b.n,showAll:false};saveForge();closeAll();go('forge');
-}
+function loadDesign(i){const d=DESIGNS[i];FORGE={base:BASES[d.base]?d.base:'Battleaxe',parts:Object.assign({},d.parts),name:d.n,showAll:FORGE.showAll,realm:FORGE.realm};saveForge();renderForge()}
 // Saved designs act like Blueprints in the party tracker and crafting planner
 const _findBP=findBP;
-findBP=n=>_findBP(n)||(DESIGNS.find(d=>lc(d.n)===lc(n||''))&&(d=>({n:d.n,cat:d.cat,ac:d.ac,mats:d.mats,pr:d.pr,sp:'',lv:d.il,r:'',dc:'',dm:'',design:true}))(DESIGNS.find(d=>lc(d.n)===lc(n||''))));
+findBP=n=>_findBP(n)||(DESIGNS.find(d=>lc(d.n)===lc(n||''))&&(d=>({n:d.n,cat:d.cat,ac:d.ac,slot:d.slot,mats:d.mats,pr:d.pr,sp:'',lv:d.il,r:'',dc:'',dm:'',design:true}))(DESIGNS.find(d=>lc(d.n)===lc(n||''))));
 
 // ════════════════════════════════════════════════════════════════
 //  Settings
@@ -2528,7 +2632,7 @@ FAND rules summary:
 - God Contracts: ten ranks from Minor up to 1st Finger; the five Fingers form a god's Hand. Each rank has spells, AC, duties, and rewards. Gods sharing a Rune are rivals.
 - Monsters: homebrew monsters have level, HP, AC, attacks, a save DC, and a signature trait from their best drop; grade 10 monsters have boss rules. Official monsters have CR, a grade from CR, and graded drops; no stat blocks.
 - Every class picks its subclass at level 3.
-- The Forge: every weapon and armor is a base design (Axe, Sword, Dagger, Hammer, Spear, Bow, Staff, Body Armor, Shield, Focus) built from parts. Each part accepts certain material categories (an axe head takes metal, stone, or hard bone/horn/fang). The main part sets damage or AC from its material's Item Level; every part's property and unique trait apply (secondary parts at half Potency). A wrong material in the main part makes the item useless (1d2 damage, -5 to hit, breaks on 1-5); in a structural part -3 to hit and breaks on 1-3.
+- The Forge: every Blueprint is a version of a general design (every standard weapon such as Battleaxe, Greataxe, Longsword, Rapier, Longbow, Heavy Crossbow, Whip; armor pieces Helm, Cuirass, Gauntlets, Boots, Pauldrons, Cloak, Barding; Buckler, Shield, Tower Shield; focuses Staff, Wand, Orb, Amulet, Ring) built from parts. Each part accepts some material categories well, some poorly, and the rest are wrong (an axe head takes metal, stone, or hard bone/horn/fang; a gem is a poor, brittle head; a dragon eye is soft tissue and useless). The main part sets the damage dice (they grow at Item Level 20 and 35) and a damage bonus of Item Level / 10, or the AC; the structure (haft, hilt, string, lining) sets the attack bonus of Item Level / 10, or +1 AC at Item Level 20+. Main and structure parts give their property at full Potency, extras at half, and every part's unique trait applies. A wrong main part makes the item useless (1d2 damage, -5 to hit, breaks on 1-5); a wrong structure gives -3 to hit and breaks on 1-3; a poor fit loses that part's bonus and breaks on a natural 1; a structure more than 10 Item Levels weaker than the main part breaks on 1-2.
 - Armor drawbacks by total armor AC worn: 10+ = lose Acrobatics, Athletics, and Dexterity (campaign rule); 4-6 and 7-9 rows are proposed (Stealth; Stealth and Acrobatics at disadvantage).
 
 Realms (tier, base price per grade): ${REALMS.map(r=>r.n+' (tier '+r.tier+', '+(r.base?r.base+' gp':'not sold')+')').join('; ')}.
