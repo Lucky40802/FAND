@@ -1,0 +1,3010 @@
+[
+  {
+    "n": "Talisman-Browed Hopper",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Morroane",
+    "rune": "Jiangshi",
+    "tower": "Inner Void",
+    "requires": "Level 89+; Morroane's blood-inked charm",
+    "unlock": "At the top of the Unlit Spire, Morroane's stiff corpse still hops in slow circles with a faded paper charm on its brow; write a fresh charm in your own blood and press it over the old one, and the body kneels and gives you its charm.",
+    "secret": "You must have held your breath through an entire fight with undead, the old trick for passing unseen among them.",
+    "notice": "[Breath held. The charm accepts new ink. Legendary class: Talisman-Browed Hopper.]",
+    "blurb": "Follows Morroane, the Quiet Shade whose Decay-stiffened body kept moving on borrowed Blood: a mortal who bounds where others walk, like the hopping corpses of old tales.",
+    "features": [
+      [
+        89,
+        "Skill: Rigid Bound",
+        "Your movement becomes leaps of up to 30 feet that ignore difficult terrain, and you cannot be knocked prone or shoved."
+      ],
+      [
+        93,
+        "Skill: Borrowed Blood",
+        "When you hit a creature that has blood, regain hit points equal to half the damage dealt; you resist necrotic damage."
+      ],
+      [
+        97,
+        "Ultimate: Hundred-Night Procession",
+        "Once per long rest, for 1 minute you cannot drop below 1 hit point while you have drawn blood that round, and each landing leap deals 6d10 necrotic damage to creatures within 10 feet."
+      ]
+    ],
+    "evolves": "If you go a year without bending at the waist, your stiffened flesh grants +1 AC.",
+    "cost": "Your joints no longer bend: you cannot run, swim or sit, and you must drink fresh blood once a week or lose a level of exhaustion."
+  },
+  {
+    "n": "Gap-Stepper",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Time",
+    "rune": "Jump",
+    "tower": "Mysterious",
+    "requires": "Level 12+; Passing Time's trail test",
+    "unlock": "On the Fogglass Spire's top floor, a trail of footprints left by Time stops mid-stride over nothing; set your feet in the last two prints and jump with your eyes closed.",
+    "secret": "You must never have been late for anything in the past year, so that Time owes you nothing.",
+    "notice": "[Distance skipped. Arrival confirmed. Legendary class: Gap-Stepper.]",
+    "blurb": "Follows Time, who vanished leaving only footprints that end in the air: a mortal who moves a body the way Time once moved a moment.",
+    "features": [
+      [
+        12,
+        "Skill: Missing Stride",
+        "Once per turn as a bonus action, you teleport up to 30 feet to a space you can see."
+      ],
+      [
+        16,
+        "Skill: Landing Edge",
+        "The first attack you make after teleporting has advantage and adds your proficiency bonus to its damage."
+      ],
+      [
+        20,
+        "Ultimate: Mile in No Time",
+        "Once per long rest, you and up to six allies vanish and reappear anywhere you have stood within 1 mile; for the next minute your Missing Stride range doubles."
+      ]
+    ],
+    "evolves": "If you jump into a realm you have never visited and survive a day there, your Missing Stride can cross into it once per year.",
+    "cost": "Every jump steals a moment; you age one day per teleport and always roll initiative last on the first round of a fight."
+  },
+  {
+    "n": "Steelbound Ronin of the Last Draw",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Iron",
+    "rune": "Katana",
+    "tower": "Outer Realm",
+    "requires": "Level 67+; A Steel blade of your own forging",
+    "unlock": "At the top of the Horizon Spire, Iron lies slain with a single curved steel blade still in its hand; defeat its lingering stance in one exchange using a blade you forged from Steel yourself.",
+    "secret": "You must have refused to wield any iron weapon for a full year, since the style demands the harder metal.",
+    "notice": "[One draw. One cut. The steel accepts its heir. Legendary class: Steelbound Ronin of the Last Draw.]",
+    "blurb": "Follows Iron, who died honing the Katana shape from Steel rather than its own metal: a masterless swordsman whose whole art lives in the moment of drawing.",
+    "features": [
+      [
+        67,
+        "Skill: Sheathed Edge",
+        "While your blade is sheathed, you gain +1 AC; drawing it as part of an attack makes that attack a critical hit on 18-20."
+      ],
+      [
+        71,
+        "Skill: Harder Metal",
+        "Your steel weapon ignores the AC reduction of any armour made of a lower grade metal than itself."
+      ],
+      [
+        75,
+        "Ultimate: Cut Before the Draw",
+        "Once per long rest, you make one attack against every creature within 30 feet before anyone else acts, each dealing an extra 8d10 slashing damage."
+      ]
+    ],
+    "evolves": "If you cut through a Diamond grade object with a single draw, your blade becomes a living Steel weapon that grows with you.",
+    "cost": "You may never strike with an iron weapon again; doing so shatters your blade and seals the class for a month."
+  },
+  {
+    "n": "Breath-Beyond-the-Body",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Quoleiel",
+    "rune": "Ki",
+    "tower": "Primordial",
+    "requires": "Level 100+; Passing Quoleiel's empty-mat test",
+    "unlock": "Climb the First Spire to the hall where Quoleiel's empty meditation mat floats; sit on it until your breath leaves your body and returns, which is the test Quoleiel left behind.",
+    "secret": "You must have fasted from food for nine days while still training, refining Martial Spirit until it no longer needs the body.",
+    "notice": "[Spirit refined. The body is optional. Legendary class: Breath-Beyond-the-Body.]",
+    "blurb": "Follows Quoleiel, who vanished after refining Martial Spirit so far it walked out of their body: a mortal whose inner force moves on its own.",
+    "features": [
+      [
+        100,
+        "Skill: Outer Breath",
+        "Your Spirit takes a shape beside you that can strike targets within 15 feet for 2d10 force damage as a bonus action."
+      ],
+      [
+        100,
+        "Skill: Hands Outside",
+        "Your Spirit can grapple, parry and catch missiles on your behalf; once per turn it reduces a hit against you by 2d10."
+      ],
+      [
+        100,
+        "Ultimate: The Breath That Left",
+        "Once per long rest, your Spirit grows to Huge size for 1 minute, its strikes deal 6d10 force damage and reach 60 feet, and your body is immune to all damage while it fights."
+      ]
+    ],
+    "evolves": "If your Spirit fights alone while your body sleeps for a full night, it becomes a second you that can act on its own.",
+    "cost": "While your Spirit is outside you, your body is unconscious if it is ever more than 120 feet away."
+  },
+  {
+    "n": "Doorbreaker of the Ledger",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Quoniix",
+    "rune": "Knocking",
+    "tower": "Hell",
+    "requires": "Level 23+; A shard of Quoniix's knuckle",
+    "unlock": "At the top of the Ledger Spire, a locked iron door stands over Quoniix's remains; knock on it once with your bare fist so hard it opens without being unlocked.",
+    "secret": "You must have entered every room of the Spire's final floor by knocking first, never by breaking or picking a lock.",
+    "notice": "[Knock acknowledged. Every door is open to you. Legendary class: Doorbreaker of the Ledger.]",
+    "blurb": "Follows Quoniix, killed in Hell, whose blows turned into movement: a mortal whose strikes send bodies flying and whose knock opens any door.",
+    "features": [
+      [
+        23,
+        "Skill: Knocked Away",
+        "When you hit with a melee attack, you can push the target up to 20 feet; if it strikes a wall it takes an extra 2d10 bludgeoning damage."
+      ],
+      [
+        27,
+        "Skill: Three Knocks",
+        "Knocking three times on any door, lock or seal opens it, magical or not."
+      ],
+      [
+        31,
+        "Ultimate: Knock on the World",
+        "Once per long rest, you strike the ground: every creature within 60 feet is knocked prone and pushed 30 feet away, and every door and seal in range bursts open."
+      ]
+    ],
+    "evolves": "If you knock open a god's sealed door, you may knock any creature out of a realm once per year.",
+    "cost": "Guards and locksmiths know your knock; you are barred from every city in a realm once your class is known there."
+  },
+  {
+    "n": "Steward of the Quiet Field",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Gnome",
+    "rune": "Land",
+    "tower": "Mysterious",
+    "requires": "Level 12+; Passing the still-field test",
+    "unlock": "On the Fogglass Spire's top floor lies a still field that Gnome once walked; plant one seed and wait without speaking until the ground calms enough to show Gnome's fading trace in the furrow.",
+    "secret": "You must have tilled soil with your own hands for a full season without using any Law or tool beyond a hoe.",
+    "notice": "[The ground is calm. It knows you. Legendary class: Steward of the Quiet Field.]",
+    "blurb": "Follows Gnome's calm side, the plain unshaped Earth with nothing stirring beneath: a mortal who makes the land itself a gentle ally.",
+    "features": [
+      [
+        12,
+        "Skill: Calm Footing",
+        "Ground within 30 feet of you counts as calm land: allies cannot be knocked prone and enemies treat it as difficult terrain."
+      ],
+      [
+        16,
+        "Skill: Furrow and Field",
+        "Once per short rest, you raise a field of grass and soil in a 30 foot radius that grants allies inside half cover."
+      ],
+      [
+        20,
+        "Ultimate: Land That Listens",
+        "Once per long rest, for 1 minute the land in a 120 foot radius obeys you: you can open trenches, raise mounds and swallow Large or smaller creatures with a Strength save."
+      ]
+    ],
+    "evolves": "If you stop an earthquake or eruption with calm alone, you can draw on Gnome's deeper earth.",
+    "cost": "You lose all power on stone floors, worked roads and anywhere the land is not calm."
+  },
+  {
+    "n": "Final Claimant",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ishvaune",
+    "rune": "Last",
+    "tower": "Outer Realm",
+    "requires": "Level 67+; Passing Ishvaune's queue test",
+    "unlock": "At the top of the Horizon Spire, Ishvaune left a trace in the form of a queue of a thousand ghosts; wait to be the very last one through the gate without ever pushing ahead.",
+    "secret": "You must honestly have been last at something that mattered to you, and accepted it without complaint.",
+    "notice": "[You were last. That is enough. Legendary class: Final Claimant.]",
+    "blurb": "Follows Ishvaune, who vanished after claiming Last, the harder half of First: a mortal who wins by being the one who remains at the end.",
+    "features": [
+      [
+        67,
+        "Skill: Last to Act",
+        "You may delay your turn to the end of the round; when you do, your attacks that turn deal an extra 3d10 damage."
+      ],
+      [
+        71,
+        "Skill: Last Word",
+        "You always get a final action: when you would drop to 0 hit points, you can take one action first."
+      ],
+      [
+        75,
+        "Ultimate: Last One Standing",
+        "Once per long rest, if you are the last ally still standing in a fight, you regain all hit points and every attack you make for 1 minute is a critical hit."
+      ]
+    ],
+    "evolves": "If you outlast a holder of First in a contest, you can claim both halves of the paired Law.",
+    "cost": "You always roll initiative last and can never be the first to do anything in a contest."
+  },
+  {
+    "n": "Molten Heir of the Fused Vein",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ignis",
+    "rune": "Lava",
+    "tower": "Chaos",
+    "requires": "Level 34+; Ignis's fused molten ember",
+    "unlock": "At the top of the Shuffled Spire, Ignis's last trial is a floor of fire and earth fighting for room; fuse a handful of each in your bare hands until they become one molten stone.",
+    "secret": "You must have stood in an active volcano's mouth and walked out without using fire resistance.",
+    "notice": "[Fire and earth are one. The flow continues. Legendary class: Molten Heir of the Fused Vein.]",
+    "blurb": "Follows Ignis, slain when part of its Fire fused with Gnome's Earth to make Lava: a mortal whose body runs with molten rock.",
+    "features": [
+      [
+        34,
+        "Skill: Molten Ground",
+        "Ground you walk on becomes molten for 1 round, dealing 2d10 fire damage to enemies that enter it."
+      ],
+      [
+        38,
+        "Skill: Cooling Crust",
+        "When hit, you can harden your skin into crust, reducing that hit's damage by 2d10 once per turn."
+      ],
+      [
+        42,
+        "Ultimate: The Mountain Opens",
+        "Once per long rest, you erupt: a 40 foot radius floods with lava for 1 minute, dealing 8d10 fire damage to creatures that start their turn there."
+      ]
+    ],
+    "evolves": "If you build a new mountain from your own lava, Gnome and Ignis's children both answer you once.",
+    "cost": "Water hurts you; being submerged deals 2d10 damage per round and hardens you, halving your speed."
+  },
+  {
+    "n": "Bearer of the Unpaid Name",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ryzeiel",
+    "rune": "Legacy",
+    "tower": "Hell",
+    "requires": "Level 23+; Ryzeiel's restored name plaque",
+    "unlock": "At the top of the Ledger Spire, Ryzeiel's remains sit under a brass plaque with their name scratched out; restore the name from memory of every deed they did, gathered floor by floor.",
+    "secret": "You must have finished a task a dead person left undone, without ever claiming the credit.",
+    "notice": "[A name restored. Its weight is now yours. Legendary class: Bearer of the Unpaid Name.]",
+    "blurb": "Follows Ryzeiel, killed in Hell and remembered only by reputation: a mortal who wields what the dead leave behind instead of power.",
+    "features": [
+      [
+        23,
+        "Skill: Reputation Precedes",
+        "Creatures that know your name have disadvantage on their first attack against you, and you gain advantage on Persuasion and Intimidation."
+      ],
+      [
+        27,
+        "Skill: Inherited Deeds",
+        "Once per long rest, you call on a dead ally's legacy to use one feature, spell or skill they had in life."
+      ],
+      [
+        31,
+        "Ultimate: Name Remembered",
+        "Once per long rest, every creature within 120 feet who has heard your legend is charmed or frightened (your choice) for 1 minute."
+      ]
+    ],
+    "evolves": "If ten thousand people know your story, your legacy outlives you as a lingering Spirit that guards your heirs.",
+    "cost": "Every disgraceful act is remembered; a single betrayal turns your reputation and reverses Reputation Precedes against you."
+  },
+  {
+    "n": "Teller of the Grown Tale",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Vatheur",
+    "rune": "Legend",
+    "tower": "Void",
+    "requires": "Level 78+; Passing Vatheur's self-writing book test",
+    "unlock": "At the top of the Hollow Spire, Vatheur vanished leaving a book that writes itself; tell it a true deed of yours until the retelling grows larger than what happened, and the book closes on your name.",
+    "secret": "You must have heard a story about yourself that was more impressive than the truth, and never corrected it.",
+    "notice": "[The tale has outgrown the teller. Legendary class: Teller of the Grown Tale.]",
+    "blurb": "Follows Vatheur, who vanished into their own Chronicles: a mortal whose deeds grow bigger each time they are retold.",
+    "features": [
+      [
+        78,
+        "Skill: Retold Larger",
+        "Once per short rest, after rolling, you can treat any one d20 as 20, as if the story already said so."
+      ],
+      [
+        82,
+        "Skill: Heard Around the Fire",
+        "Allies who have heard your legend gain your proficiency bonus to saving throws while within 60 feet of you."
+      ],
+      [
+        86,
+        "Ultimate: The Tale Comes True",
+        "Once per long rest, you narrate one feat aloud; for 1 minute you can attempt it as if you had any needed ability, and you succeed if a d20 roll beats 10."
+      ]
+    ],
+    "evolves": "If a bard in another realm sings your legend, the class can be felt and borrowed across realms.",
+    "cost": "The truth fades as the legend grows; you slowly forget what really happened and must make Wisdom saves to tell your own memories from stories."
+  },
+  {
+    "n": "Undying Self-Keeper",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Quodoeth",
+    "rune": "Lich",
+    "tower": "Chaos",
+    "requires": "Level 34+; Quodoeth's empty phylactery",
+    "unlock": "At the top of the Shuffled Spire, Quodoeth's phylactery spins between floors; catch it and pour a piece of your own Spirit into it while you are still alive.",
+    "secret": "You must have raised yourself from death once by your own hand, not by another's spell.",
+    "notice": "[Your Spirit has a second home. Legendary class: Undying Self-Keeper.]",
+    "blurb": "Follows Quodoeth, killed after carrying their own body and Spirit into undeath: a mortal who keeps all their power past death.",
+    "features": [
+      [
+        34,
+        "Skill: Kept Spirit",
+        "You resist necrotic and cold damage and do not need to eat, drink or breathe."
+      ],
+      [
+        38,
+        "Skill: Undead Clarity",
+        "Spells you cast deal an extra 2d10 necrotic damage, and you can see invisible creatures within 30 feet."
+      ],
+      [
+        42,
+        "Ultimate: Return From the Vessel",
+        "Once per long rest, when you die your Spirit flees to your phylactery and you reform there at full hit points after 1 minute."
+      ]
+    ],
+    "evolves": "If your phylactery survives a whole realm's destruction, you can raise yourself without it ever again.",
+    "cost": "If your phylactery is broken, you lose this class and die at the next sunrise."
+  },
+  {
+    "n": "Silver-Tongued Forsworn",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ortaix",
+    "rune": "Lies",
+    "tower": "Human",
+    "requires": "Level 1+; Ortaix's silvered tongue",
+    "unlock": "On the Milestone Spire's top floor, Ortaix's body lies beside a mirror that shows only truths; tell it a lie it believes, and take Ortaix's tongue from beneath its pillow.",
+    "secret": "You must have told a lie that saved someone's life without them ever knowing it.",
+    "notice": "[A lie accepted as true. Legendary class: Silver-Tongued Forsworn.]",
+    "blurb": "Follows Ortaix, killed for wielding Lies more easily than anyone wielded Truth: a mortal whose falsehoods bend belief.",
+    "features": [
+      [
+        1,
+        "Skill: Believed Lie",
+        "Once per short rest, a creature that hears your lie must make a Wisdom save or believe it completely for 1 hour."
+      ],
+      [
+        5,
+        "Skill: Two Faces",
+        "You gain advantage on Deception checks and on saves against effects that detect lies."
+      ],
+      [
+        9,
+        "Ultimate: The Great Falsehood",
+        "Once per long rest, you speak a lie that everyone within 60 feet believes for 1 minute, even if it changes what they see and hear."
+      ]
+    ],
+    "evolves": "If you deceive a god into breaking their own contract, your lies can bend small Laws.",
+    "cost": "No one can trust you; anyone who learns your class treats every word you speak as a lie."
+  },
+  {
+    "n": "Thief of the Last Heartbeat",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Life",
+    "rune": "Lifesteal",
+    "tower": "Human",
+    "requires": "Level 1+; A drop of Life's cooling blood",
+    "unlock": "On the Milestone Spire's top floor, Life lies dead beside a cup still warm with its blood; drink it before the blood stops moving.",
+    "secret": "You must have pulled a dying ally back from the brink with your own blood, not with a spell.",
+    "notice": "[Life stolen. Life kept. Legendary class: Thief of the Last Heartbeat.]",
+    "blurb": "Follows Life, killed with its Blood still flowing: a mortal who pulls another's Blood-bound Life into their own body.",
+    "features": [
+      [
+        1,
+        "Skill: Stolen Beat",
+        "When you deal damage with a melee attack, regain hit points equal to your proficiency bonus."
+      ],
+      [
+        5,
+        "Skill: Before It Stops",
+        "When a creature within 30 feet drops to 0 hit points, gain temporary hit points equal to its Hit Dice."
+      ],
+      [
+        9,
+        "Ultimate: The Last Heartbeat",
+        "Once per long rest, you drain a creature within 30 feet: it makes a Constitution save or takes 6d10 necrotic damage and you regain twice that much."
+      ]
+    ],
+    "evolves": "If you steal the Life from something that cannot die, you stop aging.",
+    "cost": "Healing spells cast on you work at half strength; only stolen Life heals you fully."
+  },
+  {
+    "n": "Long-Reach Lancer",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Iron",
+    "rune": "Line",
+    "tower": "Mysterious",
+    "requires": "Level 12+; Passing Iron's line-walking test",
+    "unlock": "At the top of the Fogglass Spire, Iron vanished leaving a single straight line scratched across the floor; walk along it in the mist without stepping off once.",
+    "secret": "You must have hit a target farther than any archer or spear-thrower you know could.",
+    "notice": "[Reach over spread. Legendary class: Long-Reach Lancer.]",
+    "blurb": "Follows Iron's trace in the Line shape, favouring reach over spread: a mortal whose every strike travels straight and far.",
+    "features": [
+      [
+        12,
+        "Skill: Straight Reach",
+        "Your melee attacks reach 15 feet, and spells that affect an area can be cast as a 60 foot line instead."
+      ],
+      [
+        16,
+        "Skill: Unbroken Line",
+        "Creatures in a line between you and your target take half the attack's damage."
+      ],
+      [
+        20,
+        "Ultimate: Line Across the World",
+        "Once per long rest, you strike a 300 foot line, dealing 8d10 force damage to every creature in it and splitting any object."
+      ]
+    ],
+    "evolves": "If your line pierces a Tower floor, your reach can cross a realm once a year.",
+    "cost": "You cannot fight in close quarters; enemies within 5 feet have advantage against you."
+  },
+  {
+    "n": "Warden of the Shut Hold",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ornoane",
+    "rune": "Lock",
+    "tower": "Inner Void",
+    "requires": "Level 89+; Ornoane's key-bone",
+    "unlock": "At the top of the Unlit Spire, Ornoane's body is chained to a door it locked from the inside; open it without breaking the lock, then lock it again behind you.",
+    "secret": "You must have kept a secret locked away for years without ever writing it down.",
+    "notice": "[Shut. Not held down. Legendary class: Warden of the Shut Hold.]",
+    "blurb": "Follows Ornoane, killed holding a door shut forever: a mortal who binds things closed instead of pinning them down.",
+    "features": [
+      [
+        89,
+        "Skill: Shut Fast",
+        "As a reaction, you lock a door, chest, mouth or spell within 30 feet; it stays shut until you open it or it is broken."
+      ],
+      [
+        93,
+        "Skill: Locked Body",
+        "You gain +1 AC and cannot be moved against your will while you are holding a doorway."
+      ],
+      [
+        97,
+        "Ultimate: Lock the Hold",
+        "Once per long rest, you seal a 60 foot area: nothing can enter or leave it for 1 minute, including spells and teleportation."
+      ]
+    ],
+    "evolves": "If you lock away a god's power, you can seal a realm's gate once per year.",
+    "cost": "You must lock everything you own; a lock left open drains your power for a day."
+  },
+  {
+    "n": "Stretchwright of the Endless Hand",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Vanoor",
+    "rune": "Longer",
+    "tower": "Inner Void",
+    "requires": "Level 89+; A segment of Vanoor's stretched spine",
+    "unlock": "At the top of the Unlit Spire, Vanoor's corpse lies stretched across the whole floor; walk its length from head to foot, which takes a full day.",
+    "secret": "You must have carried something too long to be carried, such as a ship's mast, up a mountain alone.",
+    "notice": "[Size extended. Legendary class: Stretchwright of the Endless Hand.]",
+    "blurb": "Follows Vanoor, killed while making things longer: a mortal who lengthens shapes, limbs and weapons.",
+    "features": [
+      [
+        89,
+        "Skill: Lengthen",
+        "Your weapons and spells reach twice as far, and your limbs can extend up to 30 feet."
+      ],
+      [
+        93,
+        "Skill: Longer Moment",
+        "Effects you create last twice as long."
+      ],
+      [
+        97,
+        "Ultimate: The Endless Reach",
+        "Once per long rest, your arms stretch up to 1 mile for 1 minute, letting you strike or grasp anything you can see."
+      ]
+    ],
+    "evolves": "If you lengthen a day into two, you can make time longer once per year.",
+    "cost": "Your stretched body is fragile; you take an extra 1d10 damage from every hit."
+  },
+  {
+    "n": "Heir of the Velvet Want",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Haniane",
+    "rune": "Lust",
+    "tower": "Primordial",
+    "requires": "Level 100+; Passing Haniane's curtain test",
+    "unlock": "At the top of the First Spire, Haniane left a trace as a silk curtain that shows what you want most; walk through it without reaching for what you see.",
+    "secret": "You must have wanted something with your whole heart and given it up for nothing.",
+    "notice": "[Desire refined. Legendary class: Heir of the Velvet Want.]",
+    "blurb": "Follows Haniane, who vanished into pure Desire: a mortal whose wanting becomes a force others cannot resist.",
+    "features": [
+      [
+        100,
+        "Skill: Velvet Pull",
+        "Creatures within 30 feet must make a Wisdom save or be drawn 10 feet toward you each turn."
+      ],
+      [
+        100,
+        "Skill: Want Unmasked",
+        "You know what every creature within 60 feet wants most, and gain advantage on checks to bargain with it."
+      ],
+      [
+        100,
+        "Ultimate: The Original Want",
+        "Once per long rest, every creature within 120 feet is charmed by you for 1 minute and fights for you."
+      ]
+    ],
+    "evolves": "If you make a god want something, you can bend their contract.",
+    "cost": "You want everything; you must take one thing you desire each day or have disadvantage on all checks."
+  },
+  {
+    "n": "Lodestone Chooser",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Gravity",
+    "rune": "Magnetic",
+    "tower": "Inner Void",
+    "requires": "Level 89+; Passing Gravity's filing test",
+    "unlock": "At the top of the Unlit Spire, Gravity vanished leaving a trace of iron filings that drift toward one empty spot; stand in it and choose, aloud, the single thing you wish to pull, and only that thing comes.",
+    "secret": "You must have found a lost object by feel alone, with no light and no Law to guide you.",
+    "notice": "[The pull is selective. It chose you back. Legendary class: Lodestone Chooser.]",
+    "blurb": "Follows Gravity's gentler, choosier pull: a mortal who draws only the things they name, metal first and everything else later.",
+    "features": [
+      [
+        89,
+        "Skill: Chosen Pull",
+        "As a bonus action, you pull one metal object or armoured creature within 60 feet up to 30 feet toward you."
+      ],
+      [
+        93,
+        "Skill: Repelling Field",
+        "Metal weapons that attack you subtract an extra 1 from their damage per grade below yours (+1 AC against metal only)."
+      ],
+      [
+        97,
+        "Ultimate: Lodestar",
+        "Once per long rest, for 1 minute every metal object within 120 feet obeys you: you can disarm, crush armour for 4d10 damage, or hurl blades as a storm dealing 8d10 damage."
+      ]
+    ],
+    "evolves": "If you pull a falling star from the sky, the class evolves to choose things beyond metal.",
+    "cost": "Compasses spin near you, and you cannot carry iron without it slowly drifting away."
+  },
+  {
+    "n": "Breaker of Careless Works",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Iron",
+    "rune": "Malfunction",
+    "tower": "Mysterious",
+    "requires": "Level 12+; A cracked cog from Iron's remains",
+    "unlock": "On the Fogglass Spire's top floor, Iron's last trial is a hall of machines built without Redundancy; break every one with a single well-placed fault before they finish their cycle.",
+    "secret": "You must have watched a machine you built fail and kept its broken pieces rather than discarding them.",
+    "notice": "[Fault located. Fault exploited. Legendary class: Breaker of Careless Works.]",
+    "blurb": "Follows Iron, slain by its own unchecked designs: a mortal who finds the one weak part in anything made and makes it fail.",
+    "features": [
+      [
+        12,
+        "Skill: Find the Fault",
+        "As a bonus action, you see the weak point of a construct, object or armour; your next hit against it ignores its AC."
+      ],
+      [
+        16,
+        "Skill: Cascading Failure",
+        "When you destroy a construct or object, every connected mechanism within 30 feet stops working for 1 minute."
+      ],
+      [
+        20,
+        "Ultimate: Total Breakdown",
+        "Once per long rest, every construct, trap and Man-Made item within 60 feet (except yours) must make a save or stop working for 1 minute."
+      ]
+    ],
+    "evolves": "If you break a god's artifact, you can force any Law to misfire once per year.",
+    "cost": "Your own gear breaks too; on a natural 1, the item you are using malfunctions until repaired."
+  },
+  {
+    "n": "Forge-Proud Maker",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ulmiael",
+    "rune": "Man-Made",
+    "tower": "Hell",
+    "requires": "Level 23+; Ulmiael's unfinished work",
+    "unlock": "At the top of the Ledger Spire, Ulmiael died at an anvil; finish the half-made item still on it with nothing natural, using only crafted tools and bought fuel.",
+    "secret": "You must have built something that worked better than anything nature grows for the same task.",
+    "notice": "[Crafted, not grown. Legendary class: Forge-Proud Maker.]",
+    "blurb": "Follows Ulmiael, killed proving that mortal craft could rival a dying spirit's power: a mortal whose crafted things carry Law.",
+    "features": [
+      [
+        23,
+        "Skill: Crafted Grade",
+        "Items you craft count as one realm grade higher than their materials."
+      ],
+      [
+        27,
+        "Skill: Workshop Anywhere",
+        "You can craft any item in one hour instead of days, using only tools and parts you carry."
+      ],
+      [
+        31,
+        "Ultimate: Masterwork",
+        "Once per long rest, you craft one item in 1 minute that grants its wielder +2 to attack and damage and one effect of your choice for 1 day."
+      ]
+    ],
+    "evolves": "If you craft an item a god envies, the class evolves into a Law of your own making.",
+    "cost": "You cannot use Natural Laws such as Druid magic, and wild creatures distrust you."
+  },
+  {
+    "n": "Fine-Hand Shifter",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Quoroar",
+    "rune": "Manipulate",
+    "tower": "Heaven",
+    "requires": "Level 23+; Passing Quoroar's feather test",
+    "unlock": "At the top of the Choir Spire, Quoroar vanished leaving a single feather that changes colour when touched; change it a hundred small ways without once transforming it into anything else.",
+    "secret": "You must have fixed a ruined thing by changing only one small detail of it.",
+    "notice": "[Small change accepted. Legendary class: Fine-Hand Shifter.]",
+    "blurb": "Follows Quoroar, who vanished after forcing small changes on the world without full Transformation: a mortal who tweaks reality piece by piece.",
+    "features": [
+      [
+        23,
+        "Skill: Small Shift",
+        "As an action, you change one property of an object within 30 feet: colour, weight, hardness or temperature."
+      ],
+      [
+        27,
+        "Skill: Shifted Flesh",
+        "Once per short rest, you shift a creature's body: it makes a Constitution save or has disadvantage on attacks for 1 minute."
+      ],
+      [
+        31,
+        "Ultimate: A Hundred Small Changes",
+        "Once per long rest, you make up to ten small changes in a 60 foot area at once, such as turning walls to glass or water to ice."
+      ]
+    ],
+    "evolves": "If you change one detail of a god's Law, you can manipulate Laws themselves.",
+    "cost": "Nothing you shift stays shifted; all changes revert after a day."
+  },
+  {
+    "n": "Faceless Guest",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Zetheiel",
+    "rune": "Mask",
+    "tower": "Mysterious",
+    "requires": "Level 12+; Passing Zetheiel's mask-rack test",
+    "unlock": "On the Fogglass Spire's top floor, Zetheiel left a trace as a rack of masks; find the one that is yours by wearing each until none of the reflections recognise you.",
+    "secret": "You must have lived a whole month under another name without anyone noticing.",
+    "notice": "[Identity hidden. Legendary class: Faceless Guest.]",
+    "blurb": "Follows Zetheiel, who vanished behind a mask, hiding identity rather than truth: a mortal who can be anyone.",
+    "features": [
+      [
+        12,
+        "Skill: Borrowed Face",
+        "You can take the appearance and voice of any creature you have seen, as a bonus action."
+      ],
+      [
+        16,
+        "Skill: Unknown Name",
+        "You cannot be identified by divination or scrying, and anyone who looks for your true name fails."
+      ],
+      [
+        20,
+        "Ultimate: Every Face in the Room",
+        "Once per long rest, every creature within 60 feet sees you as the person they trust most for 1 minute."
+      ]
+    ],
+    "evolves": "If you take a god's face and fool their own priests, your mask becomes permanent and flawless.",
+    "cost": "You forget your own face; you must keep one portrait or lose your identity entirely."
+  },
+  {
+    "n": "Mainspring Pilgrim",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Iron",
+    "rune": "Mechanical",
+    "tower": "Void",
+    "requires": "Level 78+; Passing Iron's silent-clock test",
+    "unlock": "At the top of the Hollow Spire, Iron left a trace: a vast silent clock still ticking with no one to wind it. Find the one missing gear by ear alone, cut it from your own gear, and set it in place.",
+    "secret": "You must have built a working machine of at least a hundred moving parts and never let anyone else touch it.",
+    "notice": "[Missing gear supplied. The mechanism resumes. Legendary class: Mainspring Pilgrim.]",
+    "blurb": "Follows Iron, who vanished into its own moving parts rather than any single fixed shape: a mortal who builds gearwork and slowly becomes part of it.",
+    "features": [
+      [
+        78,
+        "Skill: Wound Tight",
+        "Once per short rest, you wind yourself as a bonus action: for 1 minute you gain an extra action each turn, usable only to Attack, Dash or use an object."
+      ],
+      [
+        82,
+        "Skill: Gearwork Squire",
+        "You build a Medium mechanical companion with hit points equal to your level and +1 AC; it acts on your turn and can carry, shield or strike for 2d10 damage."
+      ],
+      [
+        86,
+        "Ultimate: The Great Escapement",
+        "Once per long rest, you unfold into a Huge walking engine for 1 minute, gaining 100 temporary hit points and a slam that deals 6d10 bludgeoning damage in a 15 foot radius."
+      ]
+    ],
+    "evolves": "If your companion runs for a full year without you winding it, it gains a Spirit and the class evolves.",
+    "cost": "You must wind your own mainspring each dawn; miss a day and your speed is halved until you do."
+  },
+  {
+    "n": "Needle-Kind Restorer",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Sylph",
+    "rune": "Mend",
+    "tower": "Inner Void",
+    "requires": "Level 89+; A thread from Sylph's mended body",
+    "unlock": "At the top of the Unlit Spire, Sylph's body lies torn into ribbons of wind; mend each tear with needle and thread, never a spell, before you forget the floor below.",
+    "secret": "You must have mended a stranger's broken thing without being asked and without accepting payment.",
+    "notice": "[Torn things knit. Legendary class: Needle-Kind Restorer.]",
+    "blurb": "Follows Sylph, killed and torn apart, whose gentlest Law was Mend, closer to Heal than to any smith's repair: a mortal who sews the world closed.",
+    "features": [
+      [
+        89,
+        "Skill: Stitch the Wound",
+        "As an action, touch a creature to restore 4d10 hit points and close any bleeding, or fully repair one object."
+      ],
+      [
+        93,
+        "Skill: Seam of Peace",
+        "Creatures you have mended this day cannot willingly attack you, and allies within 30 feet regain 1d10 hit points at the start of their turns."
+      ],
+      [
+        97,
+        "Ultimate: Mend the Tear",
+        "Once per long rest, you mend everything within 60 feet: allies regain 10d10 hit points, objects are whole again, and a rift or broken ward closes."
+      ]
+    ],
+    "evolves": "If you mend something a god broke on purpose, you can stitch Laws back together.",
+    "cost": "You can never harm anything you have mended, and unmended damage you see causes you pain."
+  },
+  {
+    "n": "Quiet-Seated Sage",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Kaniiel",
+    "rune": "Mental",
+    "tower": "Heaven",
+    "requires": "Level 23+; Passing Kaniiel's still-puzzle test",
+    "unlock": "At the top of the Choir Spire, Kaniiel left a trace as a puzzle that only turns while no one moves; sit before it for a full day, perfectly still, until it solves itself in your head.",
+    "secret": "You must have won a fight without anyone being touched, by thought alone.",
+    "notice": "[Body set aside. Mind admitted. Legendary class: Quiet-Seated Sage.]",
+    "blurb": "Follows Kaniiel, who vanished into the Mental trait that Wisdom and Intelligence share: a mortal whose mind becomes their hands, shield and blade.",
+    "features": [
+      [
+        23,
+        "Skill: Clear Mind",
+        "You add your Intelligence modifier to Wisdom saves and your Wisdom modifier to Intelligence saves, and you cannot be charmed."
+      ],
+      [
+        27,
+        "Skill: Thought Over Muscle",
+        "You can use Intelligence instead of Strength or Dexterity for attacks, checks and saves."
+      ],
+      [
+        31,
+        "Ultimate: The Weight of Thought",
+        "Once per long rest, every creature within 60 feet makes an Intelligence save or is stunned for 1 minute, repeating the save at the end of each turn."
+      ]
+    ],
+    "evolves": "If you out-think a god in a contest of wits, your mind can rewrite a minor Law once.",
+    "cost": "Your body withers; you have disadvantage on Constitution saves and cannot wear heavy armour."
+  },
+  {
+    "n": "Weatherwatcher of Minds",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Harais",
+    "rune": "Mental State",
+    "tower": "Inner Void",
+    "requires": "Level 89+; A cloudy shard of Harais's mind",
+    "unlock": "At the top of the Unlit Spire, Harais's corpse lies in a room where fear, sadness and confusion drift like weather; walk through each storm and name aloud what it does to you before it can.",
+    "secret": "You must have pulled yourself out of a long despair without anyone's help.",
+    "notice": "[State observed. State named. Legendary class: Weatherwatcher of Minds.]",
+    "blurb": "Follows Harais, killed by what splinters of Fear, Confusion and Sadness left in minds: a mortal who reads mental states like weather and changes them.",
+    "features": [
+      [
+        89,
+        "Skill: Read the Sky",
+        "You always know the current mental state and conditions of every creature within 60 feet."
+      ],
+      [
+        93,
+        "Skill: Shift the Weather",
+        "As an action, impose or remove frightened, confused or despairing on one creature within 30 feet (Wisdom save to resist)."
+      ],
+      [
+        97,
+        "Ultimate: Storm Front",
+        "Once per long rest, a mental storm fills 60 feet for 1 minute: enemies choose a random target for each attack, and allies are immune to fear and charm."
+      ]
+    ],
+    "evolves": "If you calm a god's madness, you can set a mind's weather permanently.",
+    "cost": "You feel every state you see; when a creature near you is frightened, so are you."
+  },
+  {
+    "n": "Sparing Blade of the Long War",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ulron",
+    "rune": "Mercy",
+    "tower": "Human",
+    "requires": "Level 1+; Passing Ulron's endless-battle test",
+    "unlock": "On the Milestone Spire's top floor, Ulron left a trace as a battle of shades that never ends; end it without striking a single killing blow, while the shades keep trying to kill you.",
+    "secret": "You must have spared an enemy who later saved your life.",
+    "notice": "[Mercy shown in war. Legendary class: Sparing Blade of the Long War.]",
+    "blurb": "Follows Ulron, who vanished in the middle of a War rather than win it by killing: a mortal whose spared foes lay down their arms.",
+    "features": [
+      [
+        1,
+        "Skill: Spare",
+        "When you reduce a creature to 0 hit points, it falls unconscious instead of dying and has disadvantage on attacks against you from then on."
+      ],
+      [
+        5,
+        "Skill: Merciful Ward",
+        "While you have not killed anything today, you and allies within 10 feet gain +1 AC."
+      ],
+      [
+        9,
+        "Ultimate: Lay Down Arms",
+        "Once per long rest, every hostile creature within 60 feet makes a Wisdom save or drops its weapons and cannot attack for 1 minute."
+      ]
+    ],
+    "evolves": "If you spare an enemy army, the class evolves to spare whole battles at once.",
+    "cost": "If you ever kill a creature that has surrendered, the class is sealed until you atone."
+  },
+  {
+    "n": "Hearth-Bellied Glutton",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Life",
+    "rune": "Metabolism",
+    "tower": "Outer Realm",
+    "requires": "Level 67+; Passing Life's endless-banquet test",
+    "unlock": "At the top of the Horizon Spire, Life vanished leaving a banquet that refills itself; eat for seven days without sleep until your body learns to burn food into strength in a breath.",
+    "secret": "You must have eaten something deadly and burned the poison out with your body alone.",
+    "notice": "[Intake converted. Legendary class: Hearth-Bellied Glutton.]",
+    "blurb": "Follows Life's Metabolism, the speed a body turns Health into Muscle or Ki: a mortal who eats and immediately becomes stronger.",
+    "features": [
+      [
+        67,
+        "Skill: Burn the Meal",
+        "As a bonus action, eat a ration to gain temporary hit points equal to your level."
+      ],
+      [
+        71,
+        "Skill: Fast Body",
+        "You shake off poison, disease and one level of exhaustion at the end of each of your turns."
+      ],
+      [
+        75,
+        "Ultimate: The Inner Furnace",
+        "Once per long rest, you burn your reserves for 1 minute: double speed, an extra 4d10 damage on hits, and you regain 2d10 hit points each turn."
+      ]
+    ],
+    "evolves": "If you live off your own stored fat for a full year, you never need to eat again.",
+    "cost": "You must eat five full meals a day or take a level of exhaustion."
+  },
+  {
+    "n": "Ore-Blooded Primarch",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Gnome",
+    "rune": "Metal",
+    "tower": "Primordial",
+    "requires": "Level 100+; Gnome's raw-ore heart",
+    "unlock": "At the top of the First Spire, Gnome's corpse still holds metal no one has ever shaped; reach into its stone heart barehanded and draw out raw ore without forging it.",
+    "secret": "You must have refused to forge, bend or sell any metal for a full year.",
+    "notice": "[Raw metal answers. Legendary class: Ore-Blooded Primarch.]",
+    "blurb": "Follows Gnome, slain at the very root of Iron, Steel and Diamond: a mortal whose blood runs with metal before it has a name.",
+    "features": [
+      [
+        100,
+        "Skill: Ore Skin",
+        "You gain +2 AC and resistance to slashing and piercing damage."
+      ],
+      [
+        100,
+        "Skill: Before the Shape",
+        "As an action, you reshape any metal within 60 feet into a new form, including weapons in enemy hands."
+      ],
+      [
+        100,
+        "Ultimate: Mother Lode",
+        "Once per long rest, for 1 minute every metal within 1 mile obeys you, rising as walls, spears or chains as you choose."
+      ]
+    ],
+    "evolves": "If you shape a metal grade that does not yet exist, the class evolves to name it.",
+    "cost": "You sink in water and lightning damage against you is doubled."
+  },
+  {
+    "n": "Tinker of Grain-Sized Works",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Iron",
+    "rune": "Micro",
+    "tower": "Human",
+    "requires": "Level 1+; Passing Iron's grain-watch test",
+    "unlock": "On the Milestone Spire's top floor, Iron left a trace as a watch the size of a grain of sand; open and repair it without magnification or Law.",
+    "secret": "You must have built something small enough to sit on your fingernail.",
+    "notice": "[Scale reduced. Legendary class: Tinker of Grain-Sized Works.]",
+    "blurb": "Follows Iron's Micro law, mechanics too small for Precision alone: a mortal who fights with machines no one can see.",
+    "features": [
+      [
+        1,
+        "Skill: Grain Traps",
+        "You carry ten tiny traps; as a bonus action, scatter one within 30 feet that deals 1d10 damage and halves speed when triggered."
+      ],
+      [
+        5,
+        "Skill: Under the Lock",
+        "You can open any mechanical lock or disable any trap as a bonus action."
+      ],
+      [
+        9,
+        "Ultimate: Dust of Gears",
+        "Once per long rest, you release a cloud of tiny machines in a 30 foot radius that deals 6d10 damage to enemies inside each turn for 1 minute."
+      ]
+    ],
+    "evolves": "If you build a machine too small for anyone to see, the class evolves toward Nano.",
+    "cost": "You need steady hands; any amount of alcohol or fear makes your devices fail."
+  },
+  {
+    "n": "Leader of the Long Flight",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Aelshayr",
+    "rune": "Migration",
+    "tower": "Inner Void",
+    "requires": "Level 89+; Passing Aelshayr's circling-flock test",
+    "unlock": "At the top of the Unlit Spire, Aelshayr vanished leaving a flock that circles the floor forever; break its loop and lead every bird down the stairs without losing one.",
+    "secret": "You must have led a group across a whole realm without losing a single member.",
+    "notice": "[The flock follows. Legendary class: Leader of the Long Flight.]",
+    "blurb": "Follows Aelshayr, who vanished leading a migration, moving a whole group rather than a single Animal: a mortal whose people travel as one body.",
+    "features": [
+      [
+        89,
+        "Skill: As One",
+        "You and up to ten allies move at your speed and cannot be separated by teleport or terrain."
+      ],
+      [
+        93,
+        "Skill: Season's Call",
+        "Once per long rest, a migrating herd or flock arrives to fight or carry you for 1 hour."
+      ],
+      [
+        97,
+        "Ultimate: The Great Turning",
+        "Once per long rest, you move up to 100 willing creatures across a realm in a single day."
+      ]
+    ],
+    "evolves": "If you lead a migration through the Void, the class can carry groups between realms.",
+    "cost": "You must move with the seasons; spending a full season in one place seals your power."
+  },
+  {
+    "n": "Overflowing Vessel",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Divine",
+    "rune": "Miracle",
+    "tower": "Inner Realm",
+    "requires": "Level 56+; Passing Divine's overflowing-chalice test",
+    "unlock": "At the top of the Heartwood Spire, Divine vanished leaving a chalice that pours more than it holds; drink, then pour out more than you took to heal a dying stranger in the hall.",
+    "secret": "You must have healed someone beyond what your god contract should allow.",
+    "notice": "[Miracle confirmed. Legendary class: Overflowing Vessel.]",
+    "blurb": "Follows Divine, who vanished leaving miracles behind when Heal works better than diluted power should: a mortal whose grace exceeds its limits.",
+    "features": [
+      [
+        56,
+        "Skill: Overflow",
+        "Your healing spells and features restore an extra 4d10 hit points."
+      ],
+      [
+        60,
+        "Skill: Unasked Grace",
+        "Once per long rest, cast any healing spell without using a slot."
+      ],
+      [
+        64,
+        "Ultimate: The Miracle",
+        "Once per long rest, you restore a creature that died within the past day to life with full hit points."
+      ]
+    ],
+    "evolves": "If you perform a miracle before a god, they offer you a contract at no price.",
+    "cost": "The holy church learns of you; you are hunted or worshipped, never ignored."
+  },
+  {
+    "n": "Ever-Swaying Wanderer",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Sylph",
+    "rune": "Move",
+    "tower": "Mysterious",
+    "requires": "Level 12+; A gust from Sylph's still-moving remains",
+    "unlock": "On the Fogglass Spire's top floor, Sylph's last trial is a room that shifts around you; sway and stumble with it until you can cross it without a single step looking planned.",
+    "secret": "You must have travelled somewhere new every day for a year.",
+    "notice": "[Motion confirmed. Legendary class: Ever-Swaying Wanderer.]",
+    "blurb": "Follows Sylph, killed in plain motion, the Law Flight, Turn and Speed all specialise: a mortal who sways like a drunkard and is never where the blow lands.",
+    "features": [
+      [
+        12,
+        "Skill: Unplanned Step",
+        "Your speed doubles and you cannot be grappled or restrained."
+      ],
+      [
+        16,
+        "Skill: Lurching Dodge",
+        "As a reaction, move 10 feet when attacked; the attack misses if you leave its reach."
+      ],
+      [
+        20,
+        "Ultimate: Everything Moves",
+        "Once per long rest, you move every creature and object within 60 feet to any space within 60 feet of it."
+      ]
+    ],
+    "evolves": "If you move a mountain, the class evolves into the motion of the land itself.",
+    "cost": "You cannot stand still; if you do not move on your turn, you take 2d10 damage."
+  },
+  {
+    "n": "Mire-Born Heir",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Gnome",
+    "rune": "Mud",
+    "tower": "Inner Void",
+    "requires": "Level 89+; Passing Gnome's undried-swamp test",
+    "unlock": "At the top of the Unlit Spire, Gnome vanished leaving a swamp of rain-soaked earth that never dries; wade through it to its centre and drink a handful without drying any of it.",
+    "secret": "You must have lived in a marsh for a year and never once used fire to dry yourself.",
+    "notice": "[Neither earth nor water. Legendary class: Mire-Born Heir.]",
+    "blurb": "Follows Gnome's ground that never dried after Undine's rain: a mortal of both Earth and Water, neither fully.",
+    "features": [
+      [
+        89,
+        "Skill: Mire Footing",
+        "Ground within 30 feet becomes mud: difficult terrain for enemies, normal ground for you."
+      ],
+      [
+        93,
+        "Skill: Clay Skin",
+        "You resist bludgeoning damage and gain +1 AC while standing in mud."
+      ],
+      [
+        97,
+        "Ultimate: Swallowing Fen",
+        "Once per long rest, a 120 foot area becomes deep mire: enemies are restrained and sink 5 feet each turn."
+      ]
+    ],
+    "evolves": "If you reconcile the children of Gnome and Undine, the class evolves to command both.",
+    "cost": "You must stay wet; a day dry gives you a level of exhaustion."
+  },
+  {
+    "n": "Many-Fold Heir",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Selnoor",
+    "rune": "Multiply",
+    "tower": "Outer Realm",
+    "requires": "Level 67+; Selnoor's true remains",
+    "unlock": "At the top of the Horizon Spire, Selnoor's remains lie copied a hundred times; find the real body by counting what all the copies share.",
+    "secret": "You must have doubled your fortune in a single trade without cheating.",
+    "notice": "[Increase confirmed. Legendary class: Many-Fold Heir.]",
+    "blurb": "Follows Selnoor, killed by a Void law of increase: a mortal who multiplies effects instead of adding to them.",
+    "features": [
+      [
+        67,
+        "Skill: Twofold",
+        "Once per short rest, double one damage roll or healing roll."
+      ],
+      [
+        71,
+        "Skill: Many Hands",
+        "You create a copy of yourself with 1 hit point that lasts 1 minute and acts on your turn."
+      ],
+      [
+        75,
+        "Ultimate: Infinite Fold",
+        "Once per long rest, you create ten copies of yourself for 1 minute."
+      ]
+    ],
+    "evolves": "If you hold a hundred copies at once for a full minute, Many Hands copies become permanent companions.",
+    "cost": "Each copy that dies costs you 1d10 hit points, and your gold halves every time you multiply it."
+  },
+  {
+    "n": "Wrapped Keeper of the Long Tomb",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Life",
+    "rune": "Mummies",
+    "tower": "Chaos",
+    "requires": "Level 34+; Passing Life's sealed-tomb test",
+    "unlock": "At the top of the Shuffled Spire, Life vanished leaving a sealed tomb; wrap yourself in its linen and lie there a full day while its floor rearranges around you.",
+    "secret": "You must have preserved a body against Decay with rites, not Law.",
+    "notice": "[Preserved. Legendary class: Wrapped Keeper of the Long Tomb.]",
+    "blurb": "Follows Life's preservation against Decay: a mortal who trades speed for kept power.",
+    "features": [
+      [
+        34,
+        "Skill: Wrapped Body",
+        "You resist necrotic and poison damage and are immune to rot and disease; you gain +1 AC while fully wrapped."
+      ],
+      [
+        38,
+        "Skill: Preserving Rite",
+        "Over a short rest, you wrap a corpse in linen; it stays perfect forever and can later be raised with half its original power, slow but loyal."
+      ],
+      [
+        42,
+        "Ultimate: The Long Tomb",
+        "Once per long rest, up to five wrapped corpses rise for 1 hour with all their original power, and enemies they touch are cursed so that magical healing fails on them."
+      ]
+    ],
+    "evolves": "If you wrap a fallen god and keep it whole for a century, the class evolves into the keeper of that god.",
+    "cost": "You are slow; your speed is halved and you can never take the Dash action."
+  },
+  {
+    "n": "Alchemist of the Unseen Grain",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Iron",
+    "rune": "Nano",
+    "tower": "Outer Realm",
+    "requires": "Level 67+; Passing Iron's clear-flask test",
+    "unlock": "At the top of the Horizon Spire, Iron vanished leaving a flask of clear water that is secretly full of tiny workers; brew it into a cure for the sick climber on the floor without ever seeing what you are mixing.",
+    "secret": "You must have finished an Alchemy recipe so fine that a master could not tell what was in it.",
+    "notice": "[Too small to see. Not too small to command. Legendary class: Alchemist of the Unseen Grain.]",
+    "blurb": "Follows Iron's Nano law, the extreme cousin of Micro wielded in careful Alchemy: a mortal whose brews are armies too small to see.",
+    "features": [
+      [
+        67,
+        "Skill: Living Tincture",
+        "Your potions and alchemical items carry tiny workers: they heal or harm an extra 2d10 and last twice as long."
+      ],
+      [
+        71,
+        "Skill: Inside Work",
+        "As an action, a creature you touch makes a Constitution save or your workers sabotage it from within: 4d10 damage and disadvantage on attacks for 1 minute."
+      ],
+      [
+        75,
+        "Ultimate: The Grey Tide",
+        "Once per long rest, you release an unseen cloud in a 60 foot radius for 1 minute that unmakes nonmagical objects and deals 6d10 damage to enemies each turn."
+      ]
+    ],
+    "evolves": "If your workers rebuild a destroyed thing on their own, they become self-replicating and the class evolves.",
+    "cost": "Your workers sometimes stray; on a natural 1 your Nano effect also targets you."
+  },
+  {
+    "n": "Untended Grove-Speaker",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Morroune",
+    "rune": "Nature",
+    "tower": "Inner Void",
+    "requires": "Level 89+; Passing Morroune's untended-grove test",
+    "unlock": "At the top of the Unlit Spire, Morroune vanished leaving a wild grove that grows without any god's hand; live in it for a month without shaping, pruning or planting anything.",
+    "secret": "You must have let a garden you owned go wild for a whole year and loved it more for it.",
+    "notice": "[Left alone. Thriving. Legendary class: Untended Grove-Speaker.]",
+    "blurb": "Follows Morroune, who vanished into Nature, the four elements acting together when left alone: a mortal who lets the world do as it will, and it answers.",
+    "features": [
+      [
+        89,
+        "Skill: Four Together",
+        "Once per short rest, call fire, water, earth and wind together: a 30 foot burst dealing 4d10 damage of each element's type to enemies."
+      ],
+      [
+        93,
+        "Skill: Unshaped Ground",
+        "Wild terrain within 60 feet favours you: allies gain +1 AC and enemies have disadvantage on Stealth."
+      ],
+      [
+        97,
+        "Ultimate: Wild Season",
+        "Once per long rest, for 1 minute a 1 mile area returns to untouched wilderness: buildings crumble into forest and every plant and beast fights for you."
+      ]
+    ],
+    "evolves": "If you return a whole city to the wild, the class evolves into a guardian of all four elements.",
+    "cost": "You cannot cast spells or use Laws inside cities, forges or any place built by mortal hands."
+  },
+  {
+    "n": "Pale Lantern of the Grave Chance",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Morsayr",
+    "rune": "Necromancy",
+    "tower": "Inner Realm",
+    "requires": "Level 56+; Passing Morsayr's graveyard test",
+    "unlock": "At the top of the Heartwood Spire, Morsayr vanished leaving a graveyard of a hundred corpses; raise one without any Pact, knowing the chance of failure grows with every attempt.",
+    "secret": "You must have been scorned by a town for raising the dead, and raised one anyway to save that town.",
+    "notice": "[The dead rise. Not every time. Legendary class: Pale Lantern of the Grave Chance.]",
+    "blurb": "Follows Morsayr, the scorned Pale Keeper who raised corpses without Pacts on chance alone: a mortal who works the dead for no one's approval.",
+    "features": [
+      [
+        56,
+        "Skill: Pactless Raising",
+        "Once per short rest, you touch a corpse and roll a d20: on 10 or higher it rises as your servant with half its power until destroyed."
+      ],
+      [
+        60,
+        "Skill: Grave Odds",
+        "Your necrotic spells deal an extra 2d10 damage, and you add your proficiency bonus to raising rolls."
+      ],
+      [
+        64,
+        "Ultimate: Lantern Over the Field",
+        "Once per long rest, every corpse within 120 feet rises at once, no roll required, and fights for you for 1 hour."
+      ]
+    ],
+    "evolves": "If a whole town thanks you for raising its dead, the class evolves and the scorn turns to awe.",
+    "cost": "Living creatures distrust you; you have disadvantage on Persuasion checks with any non-undead creature."
+  },
+  {
+    "n": "Voice That Says No",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ortaiel",
+    "rune": "Negation",
+    "tower": "Outer Realm",
+    "requires": "Level 67+; Passing Ortaiel's hall test",
+    "unlock": "At the top of the Horizon Spire, Ortaiel vanished leaving a hall where every Law is cast at you at once; stand in the centre and cancel each, not resist it, until the hall goes quiet.",
+    "secret": "You must have refused a god's contract to their face.",
+    "notice": "[Law denied. Legendary class: Voice That Says No.]",
+    "blurb": "Follows Ortaiel, who vanished after cancelling Laws outright rather than resisting them: a mortal whose word unmakes spells.",
+    "features": [
+      [
+        67,
+        "Skill: Flat Refusal",
+        "As a reaction, cancel a spell or Law effect of a level up to your proficiency bonus targeting a creature within 60 feet."
+      ],
+      [
+        71,
+        "Skill: Null Space",
+        "You and creatures within 10 feet cannot be targeted by magic you do not allow."
+      ],
+      [
+        75,
+        "Ultimate: The Great No",
+        "Once per long rest, all magic and Law effects in a 120 foot radius end and cannot be used for 1 minute, except yours."
+      ]
+    ],
+    "evolves": "If you cancel a god's Law, you can deny one Law permanently.",
+    "cost": "Your own healing and helpful spells from others fail on you half the time."
+  },
+  {
+    "n": "Thousand-Cut Duellist",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Rynior",
+    "rune": "Nick",
+    "tower": "Hell",
+    "requires": "Level 23+; Passing Rynior's scarecrow test",
+    "unlock": "At the top of the Ledger Spire, Rynior left a trace: a scarecrow that never bleeds. Make it bleed by giving it a thousand shallow cuts, without one deep wound.",
+    "secret": "You must have won a duel lasting at least an hour without ever landing a serious blow.",
+    "notice": "[A thousand small cuts. Legendary class: Thousand-Cut Duellist.]",
+    "blurb": "Follows Rynior, who vanished after mastering the small cut that never closes: a mortal whose every nick becomes a slow Bleed.",
+    "features": [
+      [
+        23,
+        "Skill: Never Closing",
+        "Every hit you land leaves a Bleed: the target takes 1d10 damage at the start of its turns, stacking up to ten times."
+      ],
+      [
+        27,
+        "Skill: Shallow Dance",
+        "You can make one extra attack each turn that deals only 1 damage but adds a Bleed stack."
+      ],
+      [
+        31,
+        "Ultimate: Death of a Thousand Cuts",
+        "Once per long rest, every Bleed stack on a creature deals its damage at once, then resets."
+      ]
+    ],
+    "evolves": "If you bring down a creature of twice your level with nicks alone, Never Closing can stack up to twenty times.",
+    "cost": "Your blows are weak; your weapon damage dice are halved."
+  },
+  {
+    "n": "Bad-Dream Shepherd",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Drasael",
+    "rune": "Nightmare",
+    "tower": "Outer Realm",
+    "requires": "Level 67+; Passing Drasael's dream-bed test",
+    "unlock": "At the top of the Horizon Spire, Drasael vanished leaving a bed where every sleeper dreams of Hell; sleep in it, face the worst dream, and lead it out of your head on a leash.",
+    "secret": "You must have slept through a whole week of nightmares without waking anyone.",
+    "notice": "[A dream led out. Legendary class: Bad-Dream Shepherd.]",
+    "blurb": "Follows Drasael, who vanished into Dreams turned foul by Hell and Void: a mortal who leads nightmares like sheep.",
+    "features": [
+      [
+        67,
+        "Skill: Herd of Dreams",
+        "Creatures you damage cannot benefit from a long rest until you allow it."
+      ],
+      [
+        71,
+        "Skill: Stray Nightmare",
+        "As an action, send a nightmare into a creature within 60 feet: 4d10 psychic damage and frightened for 1 minute (Wisdom save)."
+      ],
+      [
+        75,
+        "Ultimate: The Waking Nightmare",
+        "Once per long rest, a shared nightmare fills 120 feet for 1 minute: enemies are frightened and take 4d10 psychic damage each turn."
+      ]
+    ],
+    "evolves": "If you shepherd a god's nightmare, it becomes your pet and companion.",
+    "cost": "You never sleep peacefully; your long rests give only half hit points."
+  },
+  {
+    "n": "Sundown Rider",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Life",
+    "rune": "Nightwalker",
+    "tower": "Inner Void",
+    "requires": "Level 89+; Passing Life's dusk-corpse test",
+    "unlock": "At the top of the Unlit Spire, Life vanished leaving a corpse that wakes only at dusk; walk with it through one night and get it back to its grave before dawn.",
+    "secret": "You must have travelled only by night for a month.",
+    "notice": "[After dark, the dead walk. Legendary class: Sundown Rider.]",
+    "blurb": "Follows Life's Nightwalker trace, drawing on any corpse but only holding together after dark: a mortal who is strongest between dusk and dawn.",
+    "features": [
+      [
+        89,
+        "Skill: Night-Held",
+        "At night, you gain +1 AC, darkvision 120 feet, and an extra 2d10 necrotic damage on hits."
+      ],
+      [
+        93,
+        "Skill: Borrowed Body",
+        "At night, you can raise any corpse within 30 feet as a servant until dawn."
+      ],
+      [
+        97,
+        "Ultimate: Night Without End",
+        "Once per long rest, you make it night within 1 mile for 1 hour."
+      ]
+    ],
+    "evolves": "If you see a sunrise without falling, the class evolves to endure daylight.",
+    "cost": "At dawn, you and your servants collapse into an inert state until dusk."
+  },
+  {
+    "n": "Damp-Wind Mourner",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Sylph",
+    "rune": "Notus",
+    "tower": "Mysterious",
+    "requires": "Level 12+; A leaf from Notus's last autumn",
+    "unlock": "At the top of the Fogglass Spire, Sylph's body lies, and the quiet wind Notus still waits beside it; keep vigil beside them through one long autumn night without speaking.",
+    "secret": "You must have stayed beside a dying friend until the end.",
+    "notice": "[The quiet wind follows. Legendary class: Damp-Wind Mourner.]",
+    "blurb": "Follows Notus, the quiet autumn wind that followed Boreas's winter rage and stayed by Sylph's corpse: a mortal who brings the damp wind of change.",
+    "features": [
+      [
+        12,
+        "Skill: Damp Gust",
+        "As an action, a 30 foot cone of damp wind pushes enemies 15 feet and douses flames."
+      ],
+      [
+        16,
+        "Skill: Autumn's Turn",
+        "Once per long rest, change the season in a 1 mile area to autumn for 1 day."
+      ],
+      [
+        20,
+        "Ultimate: Season of Mourning",
+        "Once per long rest, a storm of damp wind fills 120 feet for 1 minute: enemies are slowed and take 4d10 cold damage each turn."
+      ]
+    ],
+    "evolves": "If you calm Boreas's rage, the class evolves to control all seasons.",
+    "cost": "You cannot bear to leave the dead; you must bury every corpse you find."
+  },
+  {
+    "n": "Dead-Nerve Brawler",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Kazeis",
+    "rune": "Numbness",
+    "tower": "Heaven",
+    "requires": "Level 23+; Kazeis's unfeeling hand",
+    "unlock": "At the top of the Choir Spire, Kazeis's corpse rests one hand on a white-hot brand it never felt; take the brand and hold it while the choir sings, until the singing is the only thing you can feel.",
+    "secret": "You must have finished a fight on a broken limb without once crying out.",
+    "notice": "[Touch refined the wrong way. Pain declined. Legendary class: Dead-Nerve Brawler.]",
+    "blurb": "Follows Kazeis, killed by Touch refined in the wrong direction: a mortal who feels nothing and spreads that nothing through every blow.",
+    "features": [
+      [
+        23,
+        "Skill: Felt Nothing",
+        "You cannot be frightened or stunned, and once per turn you reduce the damage of one hit by 1d10."
+      ],
+      [
+        27,
+        "Skill: Deadening Blow",
+        "When you hit with an unarmed strike or melee weapon, the target's next attack roll has disadvantage and it cannot take reactions until its turn."
+      ],
+      [
+        31,
+        "Ultimate: The Long Numb",
+        "Once per long rest, every creature within 60 feet makes a Constitution save or is paralyzed for 1 minute, repeating the save each turn."
+      ]
+    ],
+    "evolves": "If you feel something again after a year of numbness, the class evolves and you learn to give feeling back as healing.",
+    "cost": "You notice no wounds; the DM tracks your hit points and you learn them only when you rest."
+  },
+  {
+    "n": "Heart That Will Not Let Go",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Varoar",
+    "rune": "Obsession",
+    "tower": "Outer Realm",
+    "requires": "Level 67+; Varoar's clutched locket",
+    "unlock": "At the top of the Horizon Spire, Varoar's corpse still clutches a locket it loved too hard; pry it loose finger by finger while the corpse weeps and begs you to stop.",
+    "secret": "You must have kept loving someone or something for years after it was gone.",
+    "notice": "[A love that will not end. Legendary class: Heart That Will Not Let Go.]",
+    "blurb": "Follows Varoar, killed by a splinter of Love that never let go and turned toward Dark: a mortal whose fixation becomes strength.",
+    "features": [
+      [
+        67,
+        "Skill: Fixed Gaze",
+        "Choose one creature as your fixation; you have advantage on all rolls against it and always know where it is in the same realm."
+      ],
+      [
+        71,
+        "Skill: Will Not Let Go",
+        "Your fixation cannot move away from you willingly while within 30 feet, and you cannot be moved away from it."
+      ],
+      [
+        75,
+        "Ultimate: Only You",
+        "Once per long rest, for 1 minute you and your fixation are cut off from everyone else: no one can enter, leave, target or help either of you."
+      ]
+    ],
+    "evolves": "If your fixation chooses you in return, the class evolves into something closer to the Love it came from.",
+    "cost": "You may change your fixation only when it dies; until then all other creatures have advantage against you."
+  },
+  {
+    "n": "Glass-Edge Assassin",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ignis",
+    "rune": "Obsidian",
+    "tower": "Heaven",
+    "requires": "Level 23+; An Obsidian shard of Ignis",
+    "unlock": "At the top of the Choir Spire, Ignis's last trial is a river of lava that must be cooled in one breath; plunge your blade in and pull it out as black glass before the hymn ends.",
+    "secret": "You must have killed a target with a single cut they did not feel until afterwards.",
+    "notice": "[Cooled too fast. Left sharp. Legendary class: Glass-Edge Assassin.]",
+    "blurb": "Follows Ignis, slain in Heaven, whose Lava cooled too quickly to be ground again and stayed sharp: a mortal whose edges are black glass.",
+    "features": [
+      [
+        23,
+        "Skill: Volcanic Edge",
+        "Your weapons become obsidian: they deal an extra 2d10 slashing damage and score critical hits on 19-20."
+      ],
+      [
+        27,
+        "Skill: Shattering Edge",
+        "When you crit, the blade splinters inside the wound, dealing 2d10 damage at the start of the target's next two turns."
+      ],
+      [
+        31,
+        "Ultimate: Glass Rain",
+        "Once per long rest, a storm of obsidian shards fills a 60 foot radius, dealing 8d10 slashing damage to every enemy and leaving them bleeding."
+      ]
+    ],
+    "evolves": "If you cut through a Diamond-grade ward in a single stroke, your edges stop splintering on you and Shattering Edge triggers on every hit.",
+    "cost": "Your blades are brittle; on a natural 1 your weapon shatters and must be re-cooled from fresh lava."
+  },
+  {
+    "n": "Balm-Hand Apothecary",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Thaldoth",
+    "rune": "Ointment",
+    "tower": "Chaos",
+    "requires": "Level 34+; Thaldoth's ever-changing jar",
+    "unlock": "At the top of the Shuffled Spire, Thaldoth's body lies beside a jar of salve that changes recipe every hour; heal a wounded climber with it without ever repeating the same mixture.",
+    "secret": "You must have healed someone with nothing but an ointment you made yourself.",
+    "notice": "[Balm accepted. Legendary class: Balm-Hand Apothecary.]",
+    "blurb": "Follows Thaldoth, killed among their own Alchemy jars, master of the salve that Rub applies: a mortal whose hands carry healing ointments.",
+    "features": [
+      [
+        34,
+        "Skill: Rubbed Balm",
+        "As a bonus action, rub balm on a creature you touch: it regains 3d10 hit points and ends one poison or disease."
+      ],
+      [
+        38,
+        "Skill: Lasting Salve",
+        "Creatures you have treated gain resistance to one damage type of your choice for 1 hour."
+      ],
+      [
+        42,
+        "Ultimate: Great Unction",
+        "Once per long rest, you anoint all allies within 30 feet: they regain all hit points and are immune to conditions for 1 minute."
+      ]
+    ],
+    "evolves": "If you treat a hundred different wounds without ever repeating a recipe, your balm can be thrown 30 feet as a healing splash.",
+    "cost": "You must gather fresh herbs each dawn; stale balm heals nothing and stings for 1d10 damage."
+  },
+  {
+    "n": "Grey-Crowned Elder",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Orzeiel",
+    "rune": "Old",
+    "tower": "Hell",
+    "requires": "Level 23+; Orzeiel's grey crown",
+    "unlock": "At the top of the Ledger Spire, Orzeiel's corpse is ancient beyond counting; sit beside it and trade away your remaining years until there is nothing left to trade, then stand.",
+    "secret": "You must have grown old without regret.",
+    "notice": "[Nothing left to trade. Legendary class: Grey-Crowned Elder.]",
+    "blurb": "Follows Orzeiel, killed by Old, what Age becomes when there is nothing left to trade: a mortal whose age becomes power.",
+    "features": [
+      [
+        23,
+        "Skill: Old Wisdom",
+        "You add twice your proficiency bonus to Wisdom and Intelligence checks."
+      ],
+      [
+        27,
+        "Skill: Weight of Years",
+        "When you hit, the target ages a decade and has disadvantage on Strength rolls for 1 minute."
+      ],
+      [
+        31,
+        "Ultimate: The Grey Crown",
+        "Once per long rest, all enemies within 60 feet age a century for 1 minute, gaining exhaustion and disadvantage on everything."
+      ]
+    ],
+    "evolves": "If you reach a hundred years of age with this class, Weight of Years can take a decade from a foe and give it to an ally as youth.",
+    "cost": "You are frail; your speed is halved, your Strength drops by 2, and you never grow younger by any means."
+  },
+  {
+    "n": "Living-Matter Gardener",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Gnome",
+    "rune": "Organic",
+    "tower": "Human",
+    "requires": "Level 1+; Passing Gnome's crawling-soil test",
+    "unlock": "On the Milestone Spire's top floor, Gnome vanished leaving a trace of living soil that crawls; grow a plant in it without any metal tool.",
+    "secret": "You must have never used a metal tool for a year.",
+    "notice": "[Living matter, not metal. Legendary class: Living-Matter Gardener.]",
+    "blurb": "Follows Gnome's living matter, set apart from Metal and Man-Made things: a mortal who grows weapons and armour instead of forging them.",
+    "features": [
+      [
+        1,
+        "Skill: Grown Gear",
+        "Your weapons and armour are grown from wood and bone and heal themselves over a short rest."
+      ],
+      [
+        5,
+        "Skill: Living Bond",
+        "Plants and creatures within 30 feet heal 1d10 at the start of your turn."
+      ],
+      [
+        9,
+        "Ultimate: Living Garden",
+        "Once per long rest, a 60 foot area becomes a living garden that heals allies and entangles enemies for 1 minute."
+      ]
+    ],
+    "evolves": "If a tree you grew from seed outlives the oldest building in your home town, Grown Gear can be grafted onto allies.",
+    "cost": "Worked metal sickens you; wearing or wielding any metal item gives disadvantage on Constitution saves."
+  },
+  {
+    "n": "Root-Seeker of First Things",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ostzeel",
+    "rune": "Origin",
+    "tower": "Human",
+    "requires": "Level 1+; Ostzeel's first page",
+    "unlock": "On the Milestone Spire's top floor, Ostzeel's corpse holds a book of where every Law came from; read the first page aloud without forgetting a word.",
+    "secret": "You must have traced your family line back ten generations.",
+    "notice": "[Origin known. Legendary class: Root-Seeker of First Things.]",
+    "blurb": "Follows Ostzeel, killed by Origin, the Void's word for where every Law first came from: a mortal who knows where things begin.",
+    "features": [
+      [
+        1,
+        "Skill: Know the Source",
+        "As an action, you learn the Origin of any spell, Law or creature within 60 feet."
+      ],
+      [
+        5,
+        "Skill: Back to Origin",
+        "Once per short rest, you send a summoned creature or spell back to its source."
+      ],
+      [
+        9,
+        "Ultimate: The First Page",
+        "Once per long rest, all summoned creatures and spells within 120 feet return to their origin."
+      ]
+    ],
+    "evolves": "If you learn the true Origin of whatever killed Ostzeel, you may name a new Origin for one Law, changing what it opposes.",
+    "cost": "Every origin you learn sticks; after each long rest make a Wisdom save or lose a recent memory to make room."
+  },
+  {
+    "n": "Redline Berserker",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Selsaael",
+    "rune": "Overdrive",
+    "tower": "Outer Realm",
+    "requires": "Level 67+; Passing Selsaael's endless-run test",
+    "unlock": "At the top of the Horizon Spire, Selsaael vanished leaving a run that only ends when you collapse; sprint the full plain without stopping and keep going after your body says no.",
+    "secret": "You must have fought until you passed out.",
+    "notice": "[Fatigue deferred. Legendary class: Redline Berserker.]",
+    "blurb": "Follows Selsaael, who vanished into Overdrive, a boost that borrows against fatigue not yet felt: a mortal who pushes past every limit.",
+    "features": [
+      [
+        67,
+        "Skill: Redline",
+        "As a bonus action, you overdrive for 1 minute: an extra attack each turn and +2d10 damage."
+      ],
+      [
+        71,
+        "Skill: Borrowed Strength",
+        "While in overdrive, you cannot drop below 1 hit point."
+      ],
+      [
+        75,
+        "Ultimate: Past the Red",
+        "Once per long rest, your overdrive triples: three extra attacks and +6d10 damage for 1 minute."
+      ]
+    ],
+    "evolves": "If you stay standing through a whole battle in Redline and after it ends, the debt is forgiven and the exhaustion falls to one level.",
+    "cost": "When Redline or Past the Red ends, the borrowed fatigue arrives at once as three levels of exhaustion."
+  },
+  {
+    "n": "Countersigner of Debts",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Rydoix",
+    "rune": "Pacts",
+    "tower": "Hell",
+    "requires": "Level 23+; Rydoix's amended contract",
+    "unlock": "At the top of the Ledger Spire, Rydoix's corpse still holds the last contract it signed with a Devil; read every clause, find the loophole that killed Rydoix, and sign beneath it with that loophole closed.",
+    "secret": "You must have struck a deal with a Devil and paid it back early, in full.",
+    "notice": "[Clause amended. Debt recognised. Legendary class: Countersigner of Debts.]",
+    "blurb": "Follows Rydoix, killed by the small print of a Devil's bargain: a mortal who lends power now and always collects later.",
+    "features": [
+      [
+        23,
+        "Skill: Lend and Collect",
+        "As a bonus action, grant an ally within 30 feet an extra 2d10 damage on their next hit; at the start of their next turn they owe you 1d10 hit points, which you gain."
+      ],
+      [
+        27,
+        "Skill: Binding Clause",
+        "When a creature breaks a promise made to you, it takes 6d10 psychic damage and you learn its location for a day."
+      ],
+      [
+        31,
+        "Ultimate: Foreclosure",
+        "Once per long rest, every creature that owes you anything within 120 feet must pay at once: you take one feature, spell slot or item from each for 1 hour."
+      ]
+    ],
+    "evolves": "If a Devil signs a contract with you as the lender, Devils within the realm treat you as a creditor.",
+    "cost": "You must keep every bargain to the letter; breaking one ends the class and sends your soul's deed to Hell."
+  },
+  {
+    "n": "Unresolved Riddle-Bearer",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Morriur",
+    "rune": "Paradox",
+    "tower": "Abyss",
+    "requires": "Level 45+; Morriur's unresolved shard",
+    "unlock": "At the top of the Sunken Spire, Morriur's body lies both alive and dead; walk to it by descending upward, then carry its paradox home without settling which it is.",
+    "secret": "You must have believed two contradicting things for a year without trying to resolve them.",
+    "notice": "[Contradiction held. Do not resolve. Legendary class: Unresolved Riddle-Bearer.]",
+    "blurb": "Follows Morriur, killed by a Void law built from a contradiction that refuses to resolve: a mortal who holds two answers at once.",
+    "features": [
+      [
+        45,
+        "Skill: Both and Neither",
+        "Once per short rest, when a creature makes an attack or save against you, it is both a success and a failure: you choose the better part of each."
+      ],
+      [
+        49,
+        "Skill: Riddle in the Mind",
+        "As an action, you speak a paradox to a creature within 60 feet; it makes an Intelligence save or is incapacitated trying to resolve it for 1 minute."
+      ],
+      [
+        53,
+        "Ultimate: The Unresolvable",
+        "Once per long rest, for 1 minute you exist in two places at once: you take two full turns each round and attacks have only half a chance to hit either of you."
+      ]
+    ],
+    "evolves": "If you hold a paradox long enough to become one, you can cancel any effect by contradicting it.",
+    "cost": "You lose a little of yourself each time; after each Ultimate make a Wisdom save or forget which of your two memories is real."
+  },
+  {
+    "n": "Tick-Bound Leech",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Vesdoune",
+    "rune": "Parasitism",
+    "tower": "Human",
+    "requires": "Level 1+; Passing Vesdoune's host test",
+    "unlock": "On the Milestone Spire's top floor, Vesdoune vanished leaving a trace inside a living host who wanders the floor; coax the trace out and take it into yourself without killing the host.",
+    "secret": "You must have lived off another's labour for a year without giving anything back.",
+    "notice": "[Host selected. Nothing is given in return. Legendary class: Tick-Bound Leech.]",
+    "blurb": "Follows Vesdoune, who vanished into Parasitism, the one-sided form of Symbiosis: a mortal who latches onto others and takes.",
+    "features": [
+      [
+        1,
+        "Skill: Latch",
+        "As a bonus action, latch onto a creature within 5 feet; while latched you take half damage and it takes 1d10 at the start of your turns, which you regain."
+      ],
+      [
+        5,
+        "Skill: Borrowed Defences",
+        "While latched, you share the host's AC and resistances if they are better than yours."
+      ],
+      [
+        9,
+        "Ultimate: Burrow Deep",
+        "Once per long rest, you burrow into the host for 1 minute; you control its movement and it attacks its own allies."
+      ]
+    ],
+    "evolves": "If you latch onto a god for a full day without being thrown off, you take one of their Laws.",
+    "cost": "You need a host; for each day you spend unlatched, take a level of exhaustion."
+  },
+  {
+    "n": "Reader of Settled Hours",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Time",
+    "rune": "Past",
+    "tower": "Void",
+    "requires": "Level 78+; Passing Time's corridor test",
+    "unlock": "At the top of the Hollow Spire, Time vanished leaving a corridor of moments already gone; walk back through it to the first memory you have and stay there for an hour without changing a thing.",
+    "secret": "You must have forgiven something from your past that no one else did.",
+    "notice": "[What happened stays happened. Legendary class: Reader of Settled Hours.]",
+    "blurb": "Follows Time's face that mortals reach for most, the Past: a mortal who reads, revisits and borrows from what already was.",
+    "features": [
+      [
+        78,
+        "Skill: Read the Past",
+        "By touching an object or place, you see everything that happened to it in the past day."
+      ],
+      [
+        82,
+        "Skill: Borrowed Yesterday",
+        "Once per short rest, you replace a d20 roll with the one you rolled for that same type of roll last time."
+      ],
+      [
+        86,
+        "Ultimate: Settled Hour",
+        "Once per long rest, for 1 minute you replay a past moment: everything within 60 feet returns to how it was a minute ago, except you."
+      ]
+    ],
+    "evolves": "If you meet your past self in Time's corridor and change nothing, Settled Hour can rewind a full hour instead of a minute.",
+    "cost": "You live partly in the past; you have disadvantage on initiative rolls."
+  },
+  {
+    "n": "Little-Friend Keeper",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Morraas",
+    "rune": "Pet",
+    "tower": "Heaven",
+    "requires": "Level 23+; Passing Morraas's singing-animal test",
+    "unlock": "At the top of the Choir Spire, Morraas vanished leaving a tiny animal that sings with the choir; befriend it without offering food or command.",
+    "secret": "You must have kept a small animal as a companion for a year.",
+    "notice": "[A small friend bound. Legendary class: Little-Friend Keeper.]",
+    "blurb": "Follows Morraas, who vanished into Pet, a gentler Tame that binds small things: a mortal whose small companion grows into something mighty.",
+    "features": [
+      [
+        23,
+        "Skill: Little Friend",
+        "You bond with a Tiny companion with hit points equal to your level, which can grow to Large as a bonus action."
+      ],
+      [
+        27,
+        "Skill: Fierce Small Friend",
+        "Your companion's attacks deal 3d10 damage and it shares your AC."
+      ],
+      [
+        31,
+        "Ultimate: Small No More",
+        "Once per long rest, your companion becomes Gargantuan for 1 minute, gains 100 temporary hit points and its attacks strike every enemy within 15 feet."
+      ]
+    ],
+    "evolves": "If your companion saves your life on its own initiative, it unlocks a hidden class of its own.",
+    "cost": "If your companion dies, you lose this class until you bond another."
+  },
+  {
+    "n": "Old-Way Bonesetter",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Divine",
+    "rune": "Physic",
+    "tower": "Heaven",
+    "requires": "Level 23+; Passing Divine's failing-hospital test",
+    "unlock": "At the top of the Choir Spire, Divine vanished leaving a hospital where the church's spells all fail; heal every patient there using the old physic of herbs, splints and bleeding.",
+    "secret": "You must have healed someone with old remedies after the church refused them.",
+    "notice": "[The old way works. Legendary class: Old-Way Bonesetter.]",
+    "blurb": "Follows Divine's older, clumsier word for Heal, used by those who distrust the holy church: a mortal who heals without faith.",
+    "features": [
+      [
+        23,
+        "Skill: Set the Bone",
+        "As an action, you restore 4d10 hit points to a creature by physic; this works even where magic does not."
+      ],
+      [
+        27,
+        "Skill: Old Remedy",
+        "Once per short rest, cure any disease, poison or curse without magic."
+      ],
+      [
+        31,
+        "Ultimate: The Long Practice",
+        "Once per long rest, all allies within 60 feet regain all hit points and lose one level of exhaustion."
+      ]
+    ],
+    "evolves": "If you heal a wound that a holy miracle could not, Set the Bone can also regrow a lost limb.",
+    "cost": "The holy church disowns you; divine healing works at half strength on you."
+  },
+  {
+    "n": "Flesh-First Champion",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Vaniis",
+    "rune": "Physical",
+    "tower": "Mysterious",
+    "requires": "Level 12+; Vaniis's crushed knuckle-bone",
+    "unlock": "At the top of the Fogglass Spire, Vaniis's body lies under a boulder no Law can lift; lift it with muscle alone, while your reflection tries to convince you to use magic instead.",
+    "secret": "You must never have cast a spell or used a Law in your life.",
+    "notice": "[Body only. No Spirit, no Mind. Legendary class: Flesh-First Champion.]",
+    "blurb": "Follows Vaniis, killed holding the broad Physical category that Martial, Muscle and Strength fall under: a mortal who trusts only the body.",
+    "features": [
+      [
+        12,
+        "Skill: Pure Muscle",
+        "Add your Strength modifier to AC (max +2) and to Constitution saves; you are immune to effects that lower Strength."
+      ],
+      [
+        16,
+        "Skill: Unaided",
+        "Your unarmed strikes and weapon attacks deal an extra 1d10 damage for each spell or Law effect active on your target."
+      ],
+      [
+        20,
+        "Ultimate: The Body Answers",
+        "Once per long rest, for 1 minute your Strength becomes 30 and you can lift, hurl or break anything up to Gargantuan size."
+      ]
+    ],
+    "evolves": "If you defeat a spellcaster of twice your level without any magical help, you resist all spell damage.",
+    "cost": "You can never cast spells, use magic items, or accept magical healing."
+  },
+  {
+    "n": "Deep-Vein Delver",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Gnome",
+    "rune": "Pickaxe",
+    "tower": "Outer Realm",
+    "requires": "Level 67+; Passing Gnome's floating-vein test",
+    "unlock": "At the top of the Horizon Spire, Gnome vanished leaving a vein of Diamond in a floating rock; mine it out with a pickaxe without breaking a single crystal.",
+    "secret": "You must have mined Iron or Diamond with your own hands rather than buying it.",
+    "notice": "[The ground opens. Legendary class: Deep-Vein Delver.]",
+    "blurb": "Follows Gnome, who vanished leaving the Pickaxe shape, built for ground rather than fights: a mortal who digs, and fights like they dig.",
+    "features": [
+      [
+        67,
+        "Skill: Strike the Seam",
+        "Your pickaxe ignores the AC of stone or metal armour and deals double damage to constructs and objects."
+      ],
+      [
+        71,
+        "Skill: Tunnel Through",
+        "You gain a burrow speed equal to your walking speed through stone and earth."
+      ],
+      [
+        75,
+        "Ultimate: Cave-In",
+        "Once per long rest, you collapse the ground in a 60 foot radius: enemies fall 30 feet and are buried, restrained until they dig out."
+      ]
+    ],
+    "evolves": "If you mine a grade of ore no one has found before, your pickaxe becomes a living Gnome-grade tool.",
+    "cost": "You crave the dark; in sunlight you have disadvantage on attack rolls."
+  },
+  {
+    "n": "Grey Rider's Herald",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ulkaael",
+    "rune": "Plague",
+    "tower": "Hell",
+    "requires": "Level 23+; Passing Ulkaael's sickbed test",
+    "unlock": "At the top of the Ledger Spire, Ulkaael vanished leaving a sickbed; lie in it, catch the plague it carries, and walk out alive and carrying it.",
+    "secret": "You must have survived a plague that killed everyone else in your town.",
+    "notice": "[Plague carried. The end walks with you. Legendary class: Grey Rider's Herald.]",
+    "blurb": "Follows Ulkaael, who vanished into Plague, one of the four Laws that walk together at the world's end: a mortal who carries sickness.",
+    "features": [
+      [
+        23,
+        "Skill: Carried Sickness",
+        "Creatures that start their turn within 10 feet of you make a Constitution save or are poisoned and take 2d10 poison damage."
+      ],
+      [
+        27,
+        "Skill: Rot of the Many",
+        "Your poison and necrotic damage ignores resistance."
+      ],
+      [
+        31,
+        "Ultimate: Pestilence",
+        "Once per long rest, a plague spreads through a 1 mile area for 1 hour: enemies take 4d10 poison damage each minute and cannot heal."
+      ]
+    ],
+    "evolves": "If you ride beside Famine, War and Apocalypse, you become one of the four.",
+    "cost": "You cannot touch anyone without infecting them; your allies must stay away."
+  },
+  {
+    "n": "Layer-Stepper",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Cosmic",
+    "rune": "Plane",
+    "tower": "Heaven",
+    "requires": "Level 23+; Cosmic's split remains",
+    "unlock": "At the top of the Choir Spire, Cosmic's corpse lies across two layers of reality at once; step into the second layer and walk out of the first.",
+    "secret": "You must have visited three different realms in one year.",
+    "notice": "[Layers crossed. Legendary class: Layer-Stepper.]",
+    "blurb": "Follows Cosmic, killed holding Plane, a whole layer of reality built from Dimension: a mortal who walks between layers.",
+    "features": [
+      [
+        23,
+        "Skill: Step Aside",
+        "As a bonus action, you step into another layer of reality: you cannot be targeted until the start of your next turn."
+      ],
+      [
+        27,
+        "Skill: Layered Strike",
+        "Your attacks deal an extra 2d10 force damage and ignore cover."
+      ],
+      [
+        31,
+        "Ultimate: Fold the Planes",
+        "Once per long rest, you shift everything within 60 feet onto a layer of reality you choose for 1 minute, where enemies have disadvantage and allies resist all damage."
+      ]
+    ],
+    "evolves": "If you open a gate to a realm you have never seen, you can travel between realms freely.",
+    "cost": "Each step aside leaves you a little less real; after the third in a day, you have disadvantage on Charisma checks and mirrors stop showing you."
+  },
+  {
+    "n": "Wanderer-Star Augur",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Vesvayr",
+    "rune": "Planets",
+    "tower": "Heaven",
+    "requires": "Level 23+; Vesvayr's orbiting shards",
+    "unlock": "At the top of the Choir Spire, Vesvayr's remains orbit a central light; catch each wandering body as it passes and set them in order.",
+    "secret": "You must have charted the movement of the wandering stars for a full year.",
+    "notice": "[The wanderers align. Legendary class: Wanderer-Star Augur.]",
+    "blurb": "Follows Vesvayr, killed holding the wandering Cosmic bodies as one Law: a mortal who reads and calls on them.",
+    "features": [
+      [
+        23,
+        "Skill: Read the Wanderers",
+        "At dawn, roll three d20s; you can use them to replace any rolls before your next long rest."
+      ],
+      [
+        27,
+        "Skill: Orbiting Guard",
+        "Three small planets orbit you, each reducing damage from one hit by 2d10 before breaking."
+      ],
+      [
+        31,
+        "Ultimate: Alignment",
+        "Once per long rest, every planet aligns: you call down a 60 foot pillar dealing 10d10 force damage."
+      ]
+    ],
+    "evolves": "If you predict a god's fall and it comes true, Read the Wanderers gives five dice instead of three.",
+    "cost": "Your fate is written in the stars; you cannot change a prediction once made."
+  },
+  {
+    "n": "Lightspeed Wreck",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Cosmic",
+    "rune": "Plasma",
+    "tower": "Outer Realm",
+    "requires": "Level 67+; A sliver of Cosmic's velocity",
+    "unlock": "At the top of the Horizon Spire, Cosmic's remains still race too fast to see; catch one sliver of them in your hand without slowing it down.",
+    "secret": "You must have moved so fast once that you outran sound.",
+    "notice": "[Velocity uncontained. Legendary class: Lightspeed Wreck.]",
+    "blurb": "Follows Cosmic, killed when a sliver of it became pure velocity: a mortal who moves faster than gods can reckon.",
+    "features": [
+      [
+        67,
+        "Skill: Pure Velocity",
+        "Your speed triples and you can move through enemies."
+      ],
+      [
+        71,
+        "Skill: Searing Streak",
+        "Creatures you pass through take 3d10 radiant damage."
+      ],
+      [
+        75,
+        "Ultimate: Lightspeed",
+        "Once per long rest, you become a streak of light for 1 round: you take three turns in a row, and every creature you pass through takes 6d10 radiant damage."
+      ]
+    ],
+    "evolves": "If you outrun a falling star and catch it, you can carry one ally at Pure Velocity.",
+    "cost": "Your body burns from speed; each turn you move more than double speed, take 1d10 damage."
+  },
+  {
+    "n": "Quickrot Vintner",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Life",
+    "rune": "Poison",
+    "tower": "Human",
+    "requires": "Level 1+; Passing Life's quickrot vineyard test",
+    "unlock": "On the Milestone Spire's top floor, Life vanished leaving a vineyard whose grapes rot in minutes; brew a single drop of venom from them before the whole crop is gone.",
+    "secret": "You must have been poisoned by your own brew and drunk it again the next day to learn it.",
+    "notice": "[Decay hastened. Years become minutes. Legendary class: Quickrot Vintner.]",
+    "blurb": "Follows Life's darker trace, Poison, a weaponised sliver of Decay sped up: a mortal whose brews rot a lifetime in a breath.",
+    "features": [
+      [
+        1,
+        "Skill: Hastened Venom",
+        "Coat a weapon as a bonus action; your next three hits deal an extra 1d10 poison damage and the target is poisoned for 1 minute."
+      ],
+      [
+        5,
+        "Skill: Vintner's Tongue",
+        "You are immune to poison and can taste any toxin in food or drink before it harms you."
+      ],
+      [
+        9,
+        "Ultimate: Decade in a Drop",
+        "Once per long rest, a creature you hit makes a Constitution save or ages ten years and takes 6d10 necrotic damage as its body rots forward."
+      ]
+    ],
+    "evolves": "If you brew a poison that kills an undying thing, Hastened Venom can rot stone and metal too.",
+    "cost": "Plants wilt where you sleep, and no garden or orchard will bear fruit within a mile of your home."
+  },
+  {
+    "n": "Bloom-Courier",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Vesleel",
+    "rune": "Pollination",
+    "tower": "Inner Realm",
+    "requires": "Level 56+; A grain of Vesleel's last pollen",
+    "unlock": "At the top of the Heartwood Spire, Vesleel's corpse lies among flowers that never bloom; carry pollen between all of them by hand until the whole floor flowers at once.",
+    "secret": "You must have tended a beehive for a full year without being stung.",
+    "notice": "[Life carried between flowers. Legendary class: Bloom-Courier.]",
+    "blurb": "Follows Vesleel, killed carrying Life between Flowers: a mortal who moves Life from place to place in pollen and petals.",
+    "features": [
+      [
+        56,
+        "Skill: Carried Life",
+        "As a bonus action, transfer up to 2d10 hit points from one willing creature within 30 feet to another."
+      ],
+      [
+        60,
+        "Skill: Petal Cloud",
+        "Once per short rest, release pollen in a 20 foot radius: allies inside regain 3d10 hit points and enemies are blinded until they leave."
+      ],
+      [
+        64,
+        "Ultimate: Full Bloom",
+        "Once per long rest, all plants within 1 mile bloom at once: allies regain all hit points and enemies are charmed by the scent for 1 minute."
+      ]
+    ],
+    "evolves": "If you bring a dead forest back into flower, Carried Life can carry life into the newly dead.",
+    "cost": "Bees and insects swarm you everywhere; you have disadvantage on Stealth checks outdoors."
+  },
+  {
+    "n": "Untested Prodigy",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Quotheune",
+    "rune": "Potential",
+    "tower": "Primordial",
+    "requires": "Level 100+; Quotheune's blank pedestal stone",
+    "unlock": "At the top of the First Spire, Quotheune's remains rest on a pedestal marked with every skill not yet tried; touch it, and you must fail at a hundred things you have never tried before it lets you go.",
+    "secret": "You must never have trained in anything for the purpose of being good at it, only for joy.",
+    "notice": "[Aptitude untested. Ceiling unknown. Legendary class: Untested Prodigy.]",
+    "blurb": "Follows Quotheune, killed holding Potential, what Aptitude looks like before it is tested: a mortal who can become anything, once.",
+    "features": [
+      [
+        100,
+        "Skill: First Try",
+        "You have advantage the first time you ever attempt any skill, tool, spell or weapon."
+      ],
+      [
+        100,
+        "Skill: Untapped",
+        "Once per long rest, gain proficiency in any one skill, tool or weapon until your next long rest."
+      ],
+      [
+        100,
+        "Ultimate: What You Could Have Been",
+        "Once per long rest, for 1 minute you gain all the features of any one other class at your level."
+      ]
+    ],
+    "evolves": "If you master something you failed at during the trial, you can keep one feature from your Ultimate permanently.",
+    "cost": "Every second attempt at something is harder; you have disadvantage the second time you try anything."
+  },
+  {
+    "n": "Hair's-Breadth Engineer",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Iron",
+    "rune": "Precision",
+    "tower": "Inner Void",
+    "requires": "Level 89+; Iron's hair-gap mechanism",
+    "unlock": "At the top of the Unlit Spire, Iron's corpse holds a mechanism with a gap thinner than a hair; fit a part into it before you forget the floor below.",
+    "secret": "You must have built something that would fail if it were off by a hair.",
+    "notice": "[Precision confirmed. Legendary class: Hair's-Breadth Engineer.]",
+    "blurb": "Follows Iron, killed holding Precision, the difference between a working Blacksmith design and a ruined one: a mortal who never misses by even a hair.",
+    "features": [
+      [
+        89,
+        "Skill: Exact Hit",
+        "Any d20 you roll for an attack or tool check counts as at least 8, and items you build never malfunction."
+      ],
+      [
+        93,
+        "Skill: Hair's Breadth",
+        "Once per short rest, you can turn a miss into a hit."
+      ],
+      [
+        97,
+        "Ultimate: The Perfect Strike",
+        "Once per long rest, your next attack automatically hits and is a critical hit dealing maximum damage."
+      ]
+    ],
+    "evolves": "If you build a mechanism that runs a full year without a single fault, Hair's Breadth can be used twice per short rest.",
+    "cost": "Any flaw you notice nags at you; until you fix it you have disadvantage on Wisdom checks."
+  },
+  {
+    "n": "Now-Bound Ascetic",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Time",
+    "rune": "Present",
+    "tower": "Hell",
+    "requires": "Level 23+; Time's held instant",
+    "unlock": "At the top of the Ledger Spire, Time's corpse is caught in a single instant; step into that instant and act within it before it passes.",
+    "secret": "You must have lived a whole day without thinking of past or future.",
+    "notice": "[The present is held. Legendary class: Now-Bound Ascetic.]",
+    "blurb": "Follows Time, killed in the thinnest sliver, the Present: a mortal who lives fully in the now.",
+    "features": [
+      [
+        23,
+        "Skill: Now",
+        "You cannot be surprised and add your Wisdom modifier to initiative."
+      ],
+      [
+        27,
+        "Skill: Instant Strike",
+        "Once per turn, when you hit, you make one more attack against the same target in the same instant."
+      ],
+      [
+        31,
+        "Ultimate: The Eternal Now",
+        "Once per long rest, the present stretches: you take two extra full turns at once, and no one can react to anything you do in them."
+      ]
+    ],
+    "evolves": "If you hold a single instant for a full minute of your own time, the Eternal Now can include one ally.",
+    "cost": "You cannot plan ahead: you can never take the Ready action, and you forget plans made more than a day ago."
+  },
+  {
+    "n": "Banner-Proud Knight",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Zemias",
+    "rune": "Pride",
+    "tower": "Outer Realm",
+    "requires": "Level 67+; Zemias's fallen banner",
+    "unlock": "At the top of the Horizon Spire, Zemias's body lies beneath a fallen banner; raise it and hold it high on the open plain until every lost knight rallies.",
+    "secret": "You must have refused to retreat from a battle you knew you would lose.",
+    "notice": "[Pride shared. Legendary class: Banner-Proud Knight.]",
+    "blurb": "Follows Zemias, killed holding Pride, close kin to Ego but shared: a mortal whose pride lifts everyone around them.",
+    "features": [
+      [
+        67,
+        "Skill: Shared Pride",
+        "Allies within 30 feet gain your Charisma modifier to attack rolls."
+      ],
+      [
+        71,
+        "Skill: Unbowed",
+        "You cannot be frightened, and allies within 30 feet have advantage against fear."
+      ],
+      [
+        75,
+        "Ultimate: Banner Raised",
+        "Once per long rest, all allies within 120 feet regain all hit points and have advantage on everything for 1 minute."
+      ]
+    ],
+    "evolves": "If a hundred soldiers rally to your banner in one battle, Shared Pride reaches anyone who can see the banner.",
+    "cost": "You cannot retreat, surrender or refuse a challenge made in public."
+  },
+  {
+    "n": "Hurler of Anything",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Iron",
+    "rune": "Projectile",
+    "tower": "Human",
+    "requires": "Level 1+; Iron's word-turned-iron",
+    "unlock": "On the Milestone Spire's top floor, Iron's corpse lies pinned by the last thing it threw, a single spoken word turned to iron; pull it free and throw it back through the target at the far wall.",
+    "secret": "You must have knocked a foe down by throwing something that was never meant to be thrown, such as a boot, a loaf or an insult.",
+    "notice": "[Anything can fly. Legendary class: Hurler of Anything.]",
+    "blurb": "Follows Iron, killed holding the shape-neutral Projectile law that lets a Dart, a Ball or even a word be thrown with force: a mortal who turns whatever is in hand into a missile.",
+    "features": [
+      [
+        1,
+        "Skill: Everything Flies",
+        "Any object you can lift is a thrown weapon for you with range 60/180 feet, dealing 1d10 plus your Strength or Dexterity modifier."
+      ],
+      [
+        5,
+        "Skill: Thrown Word",
+        "As a bonus action, hurl a shouted word at a creature within 60 feet: 2d10 force damage and it is knocked prone (Strength save)."
+      ],
+      [
+        9,
+        "Ultimate: Volley of the Armoury",
+        "Once per long rest, every loose object within 30 feet of you flies at once, dealing 8d10 damage split as you choose among creatures within 120 feet."
+      ]
+    ],
+    "evolves": "If you throw a boulder the size of a house, Everything Flies works on creatures you grapple.",
+    "cost": "Your hands are never empty for long; you cannot hold onto keepsakes, as you throw anything in reach when startled."
+  },
+  {
+    "n": "Drum-Hearted Watcher",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Life",
+    "rune": "Pulse",
+    "tower": "Inner Void",
+    "requires": "Level 89+; Passing Life's echoing-heartbeat test",
+    "unlock": "At the top of the Unlit Spire, Life vanished leaving a heartbeat that echoes from no body; follow it across the forgetting floor and match your own heart to it before you lose track of why.",
+    "secret": "You must have kept someone alive by pressing on their chest until help came.",
+    "notice": "[Rhythm matched. Life holds. Legendary class: Drum-Hearted Watcher.]",
+    "blurb": "Follows Life's Pulse, the rhythm Blood keeps while Life still holds it and the first thing Heal checks for: a mortal who hears and steers every heartbeat.",
+    "features": [
+      [
+        89,
+        "Skill: Hear the Beat",
+        "You sense every living creature within 120 feet by its heartbeat, through walls and invisibility, and know its hit points."
+      ],
+      [
+        93,
+        "Skill: Steady the Rhythm",
+        "As a reaction when an ally within 60 feet drops to 0 hit points, they instead drop to 1 and regain 2d10 hit points."
+      ],
+      [
+        97,
+        "Ultimate: Skip a Beat",
+        "Once per long rest, every enemy within 60 feet makes a Constitution save or its heart stops for 1 round: stunned and taking 6d10 damage."
+      ]
+    ],
+    "evolves": "If you restart a heart that has been still for a full day, Steady the Rhythm can bring back the newly dead.",
+    "cost": "Your own pulse is loud; you have disadvantage on Stealth against anything that can hear."
+  },
+  {
+    "n": "Blood-Line Weaver",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Kamios",
+    "rune": "Race",
+    "tower": "Inner Void",
+    "requires": "Level 89+; Kamios's many-lineage bones",
+    "unlock": "At the top of the Unlit Spire, Kamios's corpse wears a different lineage on every limb; name each one and the land it was born in before you forget the floor below.",
+    "secret": "You must have lived among a lineage other than your own for a year and been accepted as kin.",
+    "notice": "[Lineage read. Legendary class: Blood-Line Weaver.]",
+    "blurb": "Follows Kamios, killed holding Race, the category for Elves, Beastmen and every lineage a mortal can be born into: a mortal who borrows traits from any bloodline.",
+    "features": [
+      [
+        89,
+        "Skill: Borrowed Heritage",
+        "After a long rest, choose any lineage you have met; you gain its traits in place of your own until your next long rest."
+      ],
+      [
+        93,
+        "Skill: Kin to All",
+        "Creatures of any lineage treat you as one of their own; you have advantage on Charisma checks with them."
+      ],
+      [
+        97,
+        "Ultimate: All Bloods at Once",
+        "Once per long rest, for 1 minute you gain the traits of up to three lineages at once."
+      ]
+    ],
+    "evolves": "If you are adopted into a lineage that has never accepted outsiders, its traits become permanently yours.",
+    "cost": "You forget your own lineage; your birth family no longer recognises you."
+  },
+  {
+    "n": "Red-Mist Unbound",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Eirkael",
+    "rune": "Rage",
+    "tower": "Mysterious",
+    "requires": "Level 12+; Passing Eirkael's mirror test",
+    "unlock": "At the top of the Fogglass Spire, Eirkael vanished leaving a mirror that shows you everyone who ever wronged you; smash it, then stop yourself before you smash the next one.",
+    "secret": "You must have let anger carry you through a fight you should have lost, and won.",
+    "notice": "[Instinct overridden. Anger takes the reins. Legendary class: Red-Mist Unbound.]",
+    "blurb": "Follows Eirkael, who vanished into Rage, what Anger becomes when a Martial cultivator lets it override Instinct: a mortal whose fury is a weapon.",
+    "features": [
+      [
+        12,
+        "Skill: Red Mist",
+        "As a bonus action, enter the red mist for 1 minute: resistance to physical damage and an extra 2d10 damage on melee hits."
+      ],
+      [
+        16,
+        "Skill: Feed the Fire",
+        "While in the red mist, every time you take damage your next hit deals an extra 1d10."
+      ],
+      [
+        20,
+        "Ultimate: Blind Fury",
+        "Once per long rest, your red mist becomes total for 1 minute: you cannot drop below 1 hit point and attack every creature within reach each turn, friend or foe."
+      ]
+    ],
+    "evolves": "If you calm your own rage mid-fight to spare an ally, you can choose your targets during Blind Fury.",
+    "cost": "In the red mist you cannot tell friend from foe; at the end of each turn make a Wisdom save or attack the nearest creature."
+  },
+  {
+    "n": "Hostage-Broker",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ostzeune",
+    "rune": "Ransom",
+    "tower": "Mysterious",
+    "requires": "Level 12+; Passing Ostzeune's cage test",
+    "unlock": "At the top of the Fogglass Spire, Ostzeune vanished leaving a locked cage with something you love inside; bargain for it with the mist itself without breaking the cage.",
+    "secret": "You must have negotiated someone's freedom without paying a single coin.",
+    "notice": "[Something held. Something owed. Legendary class: Hostage-Broker.]",
+    "blurb": "Follows Ostzeune, who vanished into Ransom, a narrower Take that holds rather than keeps: a mortal who takes things hostage and trades them back.",
+    "features": [
+      [
+        12,
+        "Skill: Held for Trade",
+        "When you hit, you can take one item, spell slot or feature from the target and hold it until they pay your price."
+      ],
+      [
+        16,
+        "Skill: Ransom Note",
+        "A creature whose item you hold has disadvantage on attacks against you."
+      ],
+      [
+        20,
+        "Ultimate: Everything Has a Price",
+        "Once per long rest, you hold one thing from every enemy within 60 feet for 1 minute."
+      ]
+    ],
+    "evolves": "If you ransom a god's Rune back to them, you gain a contract from them free of price.",
+    "cost": "You must always return what you hold if the price is paid, even to enemies."
+  },
+  {
+    "n": "Weaver of What Is",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Liokaix",
+    "rune": "Reality",
+    "tower": "Void",
+    "requires": "Level 78+; Liokaix's last solid fragment",
+    "unlock": "At the top of the Hollow Spire, Liokaix's remains are the only solid thing in the floor; touch them and hold reality together around you while the floor falls apart.",
+    "secret": "You must have refused to believe an illusion even when everyone else did.",
+    "notice": "[Reality held. Legendary class: Weaver of What Is.]",
+    "blurb": "Follows Liokaix, killed holding Reality, the Void's word for what all other laws act on: a mortal who bends the foundation itself, at great risk.",
+    "features": [
+      [
+        78,
+        "Skill: What Is",
+        "You see through all illusions and invisibility, and you can dispel one illusion as a bonus action."
+      ],
+      [
+        82,
+        "Skill: Small Edit",
+        "Once per short rest, change one small fact about the world within 30 feet: a door was always locked, a rope was always there."
+      ],
+      [
+        86,
+        "Ultimate: Rewrite",
+        "Once per long rest, change one larger fact within 120 feet for 1 minute, such as the ground being water or an enemy being an ally."
+      ]
+    ],
+    "evolves": "If you hold reality together in the Void for a full day, Small Edit becomes permanent.",
+    "cost": "Every edit risks the rest; on a natural 1, a random fact around you changes too."
+  },
+  {
+    "n": "Torch of the Unruled",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ishnoiel",
+    "rune": "Rebellion",
+    "tower": "Human",
+    "requires": "Level 1+; Passing Ishnoiel's empty-throne test",
+    "unlock": "On the Milestone Spire's top floor, Ishnoiel vanished leaving a throne with a crown on it; refuse to sit on it, and lead the floor's shades to topple it instead.",
+    "secret": "You must have broken an unjust law in public and stood your ground when the guards came.",
+    "notice": "[Governance refused. Legendary class: Torch of the Unruled.]",
+    "blurb": "Follows Ishnoiel, who vanished into Rebellion, the paired opposite of Governance and the commoner of the two: a mortal who throws off every rule.",
+    "features": [
+      [
+        1,
+        "Skill: No Masters",
+        "You are immune to charm and to any effect that commands you, and you have advantage on saves against Laws used by rulers or gods."
+      ],
+      [
+        5,
+        "Skill: Rally the Many",
+        "As a bonus action, allies within 30 feet who are fighting someone of higher rank gain an extra 1d10 damage on hits."
+      ],
+      [
+        9,
+        "Ultimate: The Throne Falls",
+        "Once per long rest, every creature within 120 feet that is commanded, charmed or bound is freed, and for 1 minute your allies have advantage against any ruler, noble or god."
+      ]
+    ],
+    "evolves": "If a whole town rises behind you, No Masters extends to every ally within 30 feet.",
+    "cost": "You cannot swear fealty to anyone; accepting a god contract or a lord's oath seals the class."
+  },
+  {
+    "n": "Recoil Fighter",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Nyshan",
+    "rune": "Rebound",
+    "tower": "Inner Realm",
+    "requires": "Level 56+; Nyshan's ringed remains",
+    "unlock": "At the top of the Heartwood Spire, Nyshan's corpse sits in a ring of rings, each one a blow it sent back; stand in the centre and send every blow the floor throws at you back to where it came from.",
+    "secret": "You must have won a fight in which you never struck first.",
+    "notice": "[Force returned. Legendary class: Recoil Fighter.]",
+    "blurb": "Follows Nyshan, killed holding Rebound, a Void law that sends force back the way it came: a mortal who fights with what the enemy gives them.",
+    "features": [
+      [
+        56,
+        "Skill: Send It Back",
+        "As a reaction when hit by a melee attack, reduce the damage by 2d10 and deal that much to the attacker."
+      ],
+      [
+        60,
+        "Skill: Recoil Step",
+        "After you are hit, you can move 15 feet without provoking."
+      ],
+      [
+        64,
+        "Ultimate: The Great Rebound",
+        "Once per long rest, for 1 minute all damage you take is also dealt to its source."
+      ]
+    ],
+    "evolves": "If you rebound a god's blow, Send It Back works against spells and Laws too.",
+    "cost": "You cannot strike first; your first attack each fight has disadvantage unless you were hit first."
+  },
+  {
+    "n": "Second-Draw Scribe",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ostsaar",
+    "rune": "Recast",
+    "tower": "Heaven",
+    "requires": "Level 23+; Passing Ostsaar's blank-book test",
+    "unlock": "At the top of the Choir Spire, Ostsaar vanished leaving a spellbook with blank pages; cast one spell into it and draw it back again without spending anything.",
+    "secret": "You must have run out of magic in a fight and kept casting anyway by sheer will.",
+    "notice": "[Spent magic redrawn. Legendary class: Second-Draw Scribe.]",
+    "blurb": "Follows Ostsaar, who vanished into Recast, a minor Void law that draws a spent spell again: a mortal whose magic is never fully used up.",
+    "features": [
+      [
+        23,
+        "Skill: Second Draw",
+        "Once per short rest, after you cast a spell, you can cast it again on your next turn without spending a slot."
+      ],
+      [
+        27,
+        "Skill: Echoed Words",
+        "When you recast a spell, it gains an extra 2d10 damage or healing."
+      ],
+      [
+        31,
+        "Ultimate: The Endless Page",
+        "Once per long rest, for 1 minute every spell you cast is cast twice."
+      ]
+    ],
+    "evolves": "If you recast a spell that a god cast, Second Draw can copy any spell you have seen.",
+    "cost": "Your spells grow faint; spells cast for the third time in a day deal half damage."
+  },
+  {
+    "n": "Keeper of the Last Instruction",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ultaos",
+    "rune": "Recipe",
+    "tower": "Chaos",
+    "requires": "Level 34+; Ultaos's shuffling recipe",
+    "unlock": "At the top of the Shuffled Spire, Ultaos's corpse clutches a recipe whose steps rearrange every hour; finish the dish while the floor shuffles, using only what Ultaos wrote.",
+    "secret": "You must have recreated a lost recipe from a single burnt page.",
+    "notice": "[Recipe followed. Legendary class: Keeper of the Last Instruction.]",
+    "blurb": "Follows Ultaos, killed holding Recipe, the written form of Alchemy useless without someone who understands the Law: a mortal whose written steps carry power.",
+    "features": [
+      [
+        34,
+        "Skill: Written Steps",
+        "You can write a recipe for any potion you have seen; anyone following it creates that potion."
+      ],
+      [
+        38,
+        "Skill: Double Batch",
+        "Potions and alchemy items you create come in pairs."
+      ],
+      [
+        42,
+        "Ultimate: The Master Recipe",
+        "Once per long rest, you write a recipe that, when followed, grants any one spell effect up to 5th level."
+      ]
+    ],
+    "evolves": "If you write a recipe that outlives you, your recipes can be followed even by those who do not understand them.",
+    "cost": "You must follow every recipe to the letter; deviations always fail."
+  },
+  {
+    "n": "Twice-Built Bulwark",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Iron",
+    "rune": "Redundancy",
+    "tower": "Heaven",
+    "requires": "Level 23+; Iron's twinned machine",
+    "unlock": "At the top of the Choir Spire, Iron's corpse lies inside two identical machines; disable one without stopping the other.",
+    "secret": "You must have built a second backup for something that never failed.",
+    "notice": "[Built twice. Legendary class: Twice-Built Bulwark.]",
+    "blurb": "Follows Iron, killed holding Redundancy, the Mechanical law of building twice so one fault does not cost the whole design: a mortal with a backup for everything.",
+    "features": [
+      [
+        23,
+        "Skill: Spare Part",
+        "When you would drop to 0 hit points, drop to half your maximum instead, once per long rest."
+      ],
+      [
+        27,
+        "Skill: Double Guard",
+        "Your armour and shield count as two layers: +1 AC and each hit is reduced by 1d10."
+      ],
+      [
+        31,
+        "Ultimate: Backup Plan",
+        "Once per long rest, you take an extra full turn after any turn in which an attack or action failed."
+      ]
+    ],
+    "evolves": "If your backup saves you a hundred times, Spare Part recharges on a short rest.",
+    "cost": "You carry everything twice; your carrying capacity is halved."
+  },
+  {
+    "n": "Mirror-Blade Dancer",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Vashaix",
+    "rune": "Reflection",
+    "tower": "Inner Realm",
+    "requires": "Level 56+; Passing Vashaix's mirror-dance test",
+    "unlock": "At the top of the Heartwood Spire, Vashaix vanished leaving a mirror in the heart of the tree; dance with your reflection until it misses a step and you don't.",
+    "secret": "You must have turned a spell back on its caster.",
+    "notice": "[Everything returns. Legendary class: Mirror-Blade Dancer.]",
+    "blurb": "Follows Vashaix, the Thread-Spinning Keeper who vanished into Reflection, sending force, light and magic back where it came from: a mortal whose blade is a mirror.",
+    "features": [
+      [
+        56,
+        "Skill: Mirror Edge",
+        "As a reaction when targeted by a spell, you can reflect it back at its caster on a successful Dexterity save."
+      ],
+      [
+        60,
+        "Skill: Light Turned",
+        "When you reflect, you gain +2 AC until your next turn."
+      ],
+      [
+        64,
+        "Ultimate: Hall of Mirrors",
+        "Once per long rest, for 1 minute every spell and ranged attack that targets you or allies within 30 feet is reflected back."
+      ]
+    ],
+    "evolves": "If you reflect a god's Law, Mirror Edge works on Laws as well as spells.",
+    "cost": "Mirrors pull you; you must look into every mirror you pass or take 1d10 psychic damage."
+  },
+  {
+    "n": "Unbinder of the Choir",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Braraas",
+    "rune": "Release",
+    "tower": "Heaven",
+    "requires": "Level 23+; Braraas's last binding cord",
+    "unlock": "At the top of the Choir Spire, Braraas's corpse lies wrapped in a thousand bindings; unbind them one by one, knowing one of them holds something that should stay bound.",
+    "secret": "You must have freed something dangerous on purpose because keeping it caged was wrong.",
+    "notice": "[Bindings undone. Legendary class: Unbinder of the Choir.]",
+    "blurb": "Follows Braraas, killed by Release, the opposite of Bind and the more dangerous when used on the wrong thing: a mortal who lets things go.",
+    "features": [
+      [
+        23,
+        "Skill: Let Go",
+        "As an action, end any binding, restraint, grapple, curse or seal within 30 feet."
+      ],
+      [
+        27,
+        "Skill: Unleashed",
+        "When you end a binding, the freed creature or power deals 3d10 force damage to every enemy within 10 feet of it."
+      ],
+      [
+        31,
+        "Ultimate: The Great Release",
+        "Once per long rest, every binding, seal and contract within 120 feet ends, and wild magic surges through enemies for 6d10 damage."
+      ]
+    ],
+    "evolves": "If you release a god from their own Rune, you gain one of their Laws for a day.",
+    "cost": "You cannot bind or hold anything; your grapples always fail and locks you close spring open."
+  },
+  {
+    "n": "Stone-Still Sentinel",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Zezeyr",
+    "rune": "Remain",
+    "tower": "Heaven",
+    "requires": "Level 23+; Passing Zezeyr's chair test",
+    "unlock": "At the top of the Choir Spire, Zezeyr vanished leaving a single chair; sit in it for a day while the choir sings you to leave, and do not move.",
+    "secret": "You must have refused to move from a place you were asked to guard, even when relieved.",
+    "notice": "[Unchanged. Legendary class: Stone-Still Sentinel.]",
+    "blurb": "Follows Zezeyr, who vanished into Remain, keeping something exactly where and how it is: a mortal who cannot be moved or changed.",
+    "features": [
+      [
+        23,
+        "Skill: Unchanged",
+        "You cannot be moved, polymorphed or aged against your will, and you gain +1 AC while you have not moved this turn."
+      ],
+      [
+        27,
+        "Skill: Hold the Place",
+        "Objects and allies within 10 feet cannot be moved or changed by enemy effects."
+      ],
+      [
+        31,
+        "Ultimate: As It Was",
+        "Once per long rest, for 1 minute everything within 60 feet stays exactly as it is: no damage, movement or changes."
+      ]
+    ],
+    "evolves": "If you hold one doorway for a full year without leaving it, that place becomes a sanctuary no enemy can enter.",
+    "cost": "You resist all change, even good: spells that raise your stats, speed or size have no effect on you."
+  },
+  {
+    "n": "Echo-Step Duellist",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Orleas",
+    "rune": "Repeat",
+    "tower": "Inner Realm",
+    "requires": "Level 56+; Passing Orleas's endless-dance test",
+    "unlock": "At the top of the Heartwood Spire, Orleas vanished leaving a pair of footprints that repeat a dance forever; repeat the dance perfectly a hundred times.",
+    "secret": "You must have done the same task every day for ten years.",
+    "notice": "[Action copied. Legendary class: Echo-Step Duellist.]",
+    "blurb": "Follows Orleas, who vanished into Repeat, a Law that copies an action rather than a shape: a mortal whose every move happens twice.",
+    "features": [
+      [
+        56,
+        "Skill: Echo",
+        "Once per turn, after you take an action, you can repeat it as a bonus action at half effect."
+      ],
+      [
+        60,
+        "Skill: Learned by Repeating",
+        "After seeing an enemy use an action twice, you gain advantage against that action."
+      ],
+      [
+        64,
+        "Ultimate: The Hundredth Time",
+        "Once per long rest, you repeat your last action ten times at full effect."
+      ]
+    ],
+    "evolves": "If you repeat a god's action in front of them, Echo repeats at full effect instead of half.",
+    "cost": "You fall into habits; your first action in every fight must be the one you opened your last fight with."
+  },
+  {
+    "n": "Second-Chance Gambler",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ostshaeth",
+    "rune": "Reroll",
+    "tower": "Human",
+    "requires": "Level 1+; Passing Ostshaeth's dice test",
+    "unlock": "On the Milestone Spire's top floor, Ostshaeth vanished leaving a pair of dice; roll them until you get the result you need, but you only win if you stop the moment you get it.",
+    "secret": "You must have lost everything on a bet and laughed.",
+    "notice": "[Outcome undone. Probability decides again. Legendary class: Second-Chance Gambler.]",
+    "blurb": "Follows Ostshaeth, who vanished into Reroll, a Void law that undoes one outcome and lets Probability decide again: a mortal who gets second chances.",
+    "features": [
+      [
+        1,
+        "Skill: Roll Again",
+        "Once per short rest, reroll any d20 roll made within 60 feet."
+      ],
+      [
+        5,
+        "Skill: Lucky Streak",
+        "Each reroll you make grants +1 to your next d20 roll (up to +5), resetting on a long rest."
+      ],
+      [
+        9,
+        "Ultimate: Rewrite the Odds",
+        "Once per long rest, for 1 minute you can reroll every die rolled within 60 feet."
+      ]
+    ],
+    "evolves": "If one of your rerolls ever turns a natural 1 into a natural 20 when a life depends on it, Roll Again can be used twice per short rest.",
+    "cost": "Your luck is borrowed; every reroll you use gives the DM one reroll against you."
+  },
+  {
+    "n": "Ward-Skinned Holdout",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Kavan",
+    "rune": "Resistance",
+    "tower": "Human",
+    "requires": "Level 1+; Kavan's scarred remains",
+    "unlock": "On the Milestone Spire's top floor, Kavan's corpse lies under a hundred different attacks it endured; endure each one, too, without fleeing.",
+    "secret": "You must have survived a blow that should have killed you.",
+    "notice": "[Resistance learned. Legendary class: Ward-Skinned Holdout.]",
+    "blurb": "Follows Kavan, the Pale Keeper killed by Resistance, the defensive answer to nearly anything: a mortal who learns to resist what hurts them.",
+    "features": [
+      [
+        1,
+        "Skill: Learned Ward",
+        "After taking damage of a type, you gain resistance to it until your next long rest."
+      ],
+      [
+        5,
+        "Skill: Hold Out",
+        "You add your proficiency bonus to all saving throws."
+      ],
+      [
+        9,
+        "Ultimate: Unbreakable Ward",
+        "Once per long rest, for 1 minute you resist all damage and cannot be moved, knocked prone or stunned."
+      ]
+    ],
+    "evolves": "If you survive a single hit that deals more than your maximum hit points, Learned Ward resistances last a week.",
+    "cost": "You can hold only three Learned Ward resistances at once; each new one replaces the oldest."
+  },
+  {
+    "n": "Oath-Risen Avenger",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ultheane",
+    "rune": "Revenants",
+    "tower": "Hell",
+    "requires": "Level 23+; Ultheane's oath-bone",
+    "unlock": "At the top of the Ledger Spire, Ultheane's corpse has risen to finish an unpaid vengeance; finish it for them, and take their oath as yours.",
+    "secret": "You must have sworn vengeance and kept the oath for a year.",
+    "notice": "[Vengeance owed. Legendary class: Oath-Risen Avenger.]",
+    "blurb": "Follows Ultheane, killed and risen for a single act of vengeance with a quarter of their power kept for that purpose alone: a mortal who cannot die before the deed is done.",
+    "features": [
+      [
+        23,
+        "Skill: Sworn Target",
+        "Choose one creature that wronged you; you always know its location and deal an extra 3d10 damage to it."
+      ],
+      [
+        27,
+        "Skill: Not Yet",
+        "While your target lives, you return to 1 hit point when you die, once per day."
+      ],
+      [
+        31,
+        "Ultimate: Vengeance Fulfilled",
+        "Once per long rest, your next attack against your target is a critical hit dealing maximum damage."
+      ]
+    ],
+    "evolves": "If your vengeance is fulfilled, you may swear a new oath against a new target, or lay the class down with your honour whole.",
+    "cost": "Your Skills work only against your sworn target, and while it lives your long rests restore only half your hit points."
+  },
+  {
+    "n": "Back-Turner of Small Things",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Time",
+    "rune": "Reverse",
+    "tower": "Human",
+    "requires": "Level 1+; Passing Time's broken-cup test",
+    "unlock": "On the Milestone Spire's top floor, Time vanished leaving a broken cup; make it unbroken by running its time backward, without touching anything larger.",
+    "secret": "You must have fixed a mistake before anyone noticed.",
+    "notice": "[Time reversed. Legendary class: Back-Turner of Small Things.]",
+    "blurb": "Follows Time's Reverse, running time backward over small things only: a mortal who undoes small mistakes.",
+    "features": [
+      [
+        1,
+        "Skill: Turn Back",
+        "As an action, return an object or creature within 30 feet to how it was a round ago."
+      ],
+      [
+        5,
+        "Skill: Undo",
+        "Once per short rest, as a reaction, undo one attack against you."
+      ],
+      [
+        9,
+        "Ultimate: Reverse the Round",
+        "Once per long rest, reverse the last round for everything within 60 feet."
+      ]
+    ],
+    "evolves": "If you reverse a mortal wound on a dying creature and it lives, Turn Back can reach a minute back instead of a round.",
+    "cost": "You can never reverse anything larger than yourself, and each reversal turns one of your hairs grey; at a hundred, you age a year."
+  },
+  {
+    "n": "Herald of the Four Saddles",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Kakaos",
+    "rune": "Riding",
+    "tower": "Human",
+    "requires": "Level 1+; Passing Kakaos's four-saddle test",
+    "unlock": "On the Milestone Spire's top floor, Kakaos vanished leaving four empty saddles on four restless horses; ride each one in turn across the floor without being thrown, then make all four run as one.",
+    "secret": "You must have led a group of riders who each wanted to go a different way, and brought them home together.",
+    "notice": "[Four as one. The ride begins. Legendary class: Herald of the Four Saddles.]",
+    "blurb": "Follows Kakaos, who vanished into Riding, the Law that lets the end-times powers move as one instead of four: a mortal whose mount and allies charge as a single body.",
+    "features": [
+      [
+        1,
+        "Skill: Bonded Mount",
+        "You gain a loyal mount with hit points equal to five times your level; while riding, you and it share your AC and act on your turn."
+      ],
+      [
+        5,
+        "Skill: Ride as One",
+        "When you Dash while mounted, up to three mounted allies within 30 feet may move with you, and each of your charges deals an extra 1d10 damage."
+      ],
+      [
+        9,
+        "Ultimate: The Four Arrive",
+        "Once per long rest, you and up to three allies charge as one in a 120 foot line: creatures in the path take 6d10 damage and are knocked prone."
+      ]
+    ],
+    "evolves": "If your mount carries you through a realm's Tower without stopping, it gains wings or fins as the realm demands.",
+    "cost": "You must ride everywhere; walking more than a mile on foot gives you a level of exhaustion."
+  },
+  {
+    "n": "Circle-Keeper of the Close Law",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Liotheeth",
+    "rune": "Ring",
+    "tower": "Primordial",
+    "requires": "Level 100+; Liotheeth's last ring",
+    "unlock": "At the top of the First Spire, Liotheeth's corpse wears a ring on every finger but one; find the ring that fits that last finger among a thousand in the hall, and wear it until Liotheeth's hand opens.",
+    "secret": "You must have worn the same ring for ten years without ever taking it off.",
+    "notice": "[A Law kept close. Legendary class: Circle-Keeper of the Close Law.]",
+    "blurb": "Follows Liotheeth, killed holding Ring, a shape for carrying a Law close to a Person without wielding it: a mortal whose rings hold powers for later.",
+    "features": [
+      [
+        100,
+        "Skill: Kept Close",
+        "You can attune to up to ten rings, and each ring can hold one spell you cast into it to release later as a bonus action."
+      ],
+      [
+        100,
+        "Skill: Circle of Charm",
+        "While you wear at least three rings, creatures within 30 feet have disadvantage on saves against your enchantment spells."
+      ],
+      [
+        100,
+        "Ultimate: Ten Rings Open",
+        "Once per long rest, you release every spell stored in your rings at once, all as part of one action."
+      ]
+    ],
+    "evolves": "If you forge a ring that holds a god's Law, Kept Close can hold Laws as well as spells.",
+    "cost": "If anyone takes one of your rings, you lose all stored spells and the thief knows your name."
+  },
+  {
+    "n": "Deep-Tap Rootwalker",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Selzeth",
+    "rune": "Root",
+    "tower": "Mysterious",
+    "requires": "Level 12+; Selzeth's hidden seed",
+    "unlock": "At the top of the Fogglass Spire, Selzeth's corpse is wrapped in roots that grow toward something hidden; follow them down through the mist, losing your way on purpose, until you find the seed at the end.",
+    "secret": "You must have planted a tree and watched it grow taller than you.",
+    "notice": "[Roots first. Legendary class: Deep-Tap Rootwalker.]",
+    "blurb": "Follows Selzeth, killed holding Root, the part of a plant Nature Laws reach first: a mortal who reaches everything below the surface first.",
+    "features": [
+      [
+        12,
+        "Skill: Root Sense",
+        "While touching soil, you sense every creature and buried thing within 60 feet."
+      ],
+      [
+        16,
+        "Skill: Root Bind",
+        "As an action, roots grasp a creature within 60 feet: restrained until it escapes (Strength save)."
+      ],
+      [
+        20,
+        "Ultimate: Deep Roots",
+        "Once per long rest, roots erupt in a 60 foot radius: enemies are restrained and take 4d10 piercing damage each turn for 1 minute."
+      ]
+    ],
+    "evolves": "If a tree grown from Selzeth's seed bears fruit, Root Sense covers a mile.",
+    "cost": "You must touch bare earth daily or lose your powers until you do."
+  },
+  {
+    "n": "Mould-Crowned Withering",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Morroar",
+    "rune": "Rot",
+    "tower": "Hell",
+    "requires": "Level 23+; Passing Morroar's watched-garden test",
+    "unlock": "At the top of the Ledger Spire, Morroar vanished leaving a garden of plants that rot only when watched; watch them all rot and eat what grows from the rot.",
+    "secret": "You must have eaten mushrooms grown on a corpse and lived.",
+    "notice": "[Rot accepted. Legendary class: Mould-Crowned Withering.]",
+    "blurb": "Follows Morroar, who vanished into Rot, the Nature twin of Decay that claims plants: a mortal whose touch spreads rot and fungus.",
+    "features": [
+      [
+        23,
+        "Skill: Creeping Rot",
+        "When you hit, the target takes 1d10 necrotic damage at the start of its turns for 1 minute; plants and plant creatures take double."
+      ],
+      [
+        27,
+        "Skill: Fungal Cloak",
+        "Fungi grow on you: +1 AC and resistance to poison."
+      ],
+      [
+        31,
+        "Ultimate: The Great Mould",
+        "Once per long rest, a 60 foot area rots: enemies take 6d10 necrotic damage, plants wither, and fungus rises to fight for you."
+      ]
+    ],
+    "evolves": "If you rot an entire forest, fungus becomes your mount and army.",
+    "cost": "Plants wither near you; you cannot heal with herbs and your food spoils by the hour."
+  },
+  {
+    "n": "Palm of the Sunken Stone",
+    "tier": "Legendary",
+    "base": "Any",
+    "prog": "Ortheis",
+    "rune": "Rub",
+    "tower": "Abyss",
+    "requires": "Level 45+; Passing Ortheis's polished-stone test",
+    "unlock": "At the top of the Sunken Spire, Ortheis vanished leaving a stone polished smooth by ten thousand hands; rub it while you descend until it glows.",
+    "secret": "You must have soothed a sick child with nothing but your hands.",
+    "notice": "[Contact accepted. Legendary class: Palm of the Sunken Stone.]",
+    "blurb": "Follows Ortheis, who vanished into Rub, a minor contact Law paired with Ointment: a mortal whose touch soothes and strips away harm.",
+    "features": [
+      [
+        45,
+        "Skill: Soothing Rub",
+        "As a bonus action, rub a creature to restore 2d10 hit points and end one condition."
+      ],
+      [
+        49,
+        "Skill: Rub Away",
+        "Your touch can remove curses and magical marks."
+      ],
+      [
+        53,
+        "Ultimate: The Long Touch",
+        "Once per long rest, you touch every ally within 30 feet: they regain 6d10 hit points and end all conditions."
+      ]
+    ],
+    "evolves": "If you work Thaldoth's ointment into a wound with your bare hands, Soothing Rub heals 6d10 instead.",
+    "cost": "Rub works only on bare skin; armour, scales or cloth in the way halve all your healing."
+  }
+]
