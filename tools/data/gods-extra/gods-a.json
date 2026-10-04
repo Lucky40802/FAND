@@ -1,0 +1,2094 @@
+[
+ {
+  "n": "Hades - Lord of the Underworld",
+  "grp": "Greek Pantheon",
+  "myth": "Eldest son of Cronus, who drew the underworld as his share of the cosmos and rules the dead with a stern but fair hand, jealously keeping every soul that enters his realm.",
+  "runes": [
+   "Death",
+   "Wealth",
+   "Sovereignty"
+  ],
+  "home": "Hell",
+  "wants": "Every soul they meet counted and sent below, and no one ever brought back from the dead without his leave",
+  "sig": [
+   "Gravestone",
+   "Shadowsteel",
+   "Undead King's Crown"
+  ],
+  "relic": "Helm of Darkness",
+  "seated": 4,
+  "hand": [
+   "Kleitos the Unreturning",
+   "Melinoe Ashveil",
+   "Aiakos Gatewarden",
+   "Thrasyos Coin-Mouth"
+  ]
+ },
+ {
+  "n": "Ares - God of War",
+  "grp": "Greek Pantheon",
+  "myth": "Son of Zeus and Hera and the god of war's bloodlust and slaughter, loved by few on Olympus and often beaten by cooler heads like Athena.",
+  "runes": [
+   "War",
+   "Rage",
+   "Battle"
+  ],
+  "home": "Chaos Realm",
+  "wants": "Blood spilled in his name on every battlefield, and no retreat once a fight is joined",
+  "sig": [
+   "Bloodiron",
+   "Bloodsteel",
+   "Champion's Blackheart"
+  ],
+  "relic": "Spear of the Bloodied Field",
+  "seated": 5,
+  "hand": [
+   "Phobon Dreadhelm",
+   "Enyalia Spearscream",
+   "Kyknos the Brigand",
+   "Deimara Routbringer",
+   "Ascalaphon Shieldbiter"
+  ]
+ },
+ {
+  "n": "Hestia - Goddess of the Hearth",
+  "grp": "Greek Pantheon",
+  "myth": "Firstborn of Cronus and keeper of the hearth fire, a quiet virgin goddess who gave up her Olympian throne rather than see the gods quarrel over it.",
+  "runes": [
+   "Fire",
+   "Belonging",
+   "Tradition"
+  ],
+  "home": "Heaven",
+  "wants": "Guests sheltered, hearths kept burning, and every household honoured before any temple",
+  "sig": [
+   "Hearthleaf",
+   "Last Light Ember",
+   "Emberstone"
+  ],
+  "relic": "Ever-Burning Hearthstone",
+  "seated": 2,
+  "hand": [
+   "Prytanis Coalkeeper",
+   "Oikia Warmhand"
+  ]
+ },
+ {
+  "n": "Pan - God of the Wild",
+  "grp": "Greek Pantheon",
+  "myth": "Goat-legged god of shepherds, flocks, and wild places, whose pipes charm the woods and whose sudden shout gave the world the word panic.",
+  "runes": [
+   "Nature",
+   "Fear",
+   "Music"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Wild places left untamed, music played in the open air, and travellers frightened off his hills",
+  "sig": [
+   "Reed",
+   "Wisp-Willow",
+   "Fey Stag Antler"
+  ],
+  "relic": "Syrinx Pipes",
+  "seated": 3,
+  "hand": [
+   "Daphnis Goatherd",
+   "Echo Hollowvoice",
+   "Aigipan Hornbrow"
+  ]
+ },
+ {
+  "n": "Eros - God of Desire",
+  "grp": "Greek Pantheon",
+  "myth": "Winged god of love and desire, son of Aphrodite in later tales and a primal force of creation in older ones, whose arrows make gods and mortals fall helplessly in love.",
+  "runes": [
+   "Love",
+   "Desire"
+  ],
+  "home": "Heaven",
+  "wants": "Lovers brought together against all sense, and his arrows never refused by a target",
+  "sig": [
+   "Rose Petal",
+   "Keystone Rose",
+   "Glamour Heart"
+  ],
+  "relic": "Bow of Golden Arrows",
+  "seated": 3,
+  "hand": [
+   "Psychaion Lampbearer",
+   "Himera Swiftwing",
+   "Anteros Returned"
+  ]
+ },
+ {
+  "n": "Nike - Goddess of Victory",
+  "grp": "Greek Pantheon",
+  "myth": "Winged daughter of Styx who flies over every battle and contest, sided with Zeus against the Titans, and stands at Athena's hand to crown the winners.",
+  "runes": [
+   "Success",
+   "Speed"
+  ],
+  "home": "Heaven",
+  "wants": "Victories won cleanly and dedicated to her, and no contest thrown or abandoned",
+  "sig": [
+   "Celestial Gold Leaf",
+   "Gold",
+   "Empyrean Feather"
+  ],
+  "relic": "Wreath of Victory",
+  "seated": 2,
+  "hand": [
+   "Stephanos the Crowned",
+   "Kratia Wingheel"
+  ]
+ },
+ {
+  "n": "Asclepius - God of Medicine",
+  "grp": "Greek Pantheon",
+  "myth": "Son of Apollo raised by the centaur Chiron, a healer so skilled he raised the dead until Zeus struck him down and set him among the stars.",
+  "runes": [
+   "Heal",
+   "Resurrection"
+  ],
+  "home": "Heaven",
+  "wants": "The sick tended without payment, and serpents spared wherever they are found",
+  "sig": [
+   "Silverleaf",
+   "Serpent Oil",
+   "Phoenix Feather"
+  ],
+  "relic": "Serpent-Wound Staff",
+  "seated": 4,
+  "hand": [
+   "Hygeia Clearwater",
+   "Machaon Bonesetter",
+   "Podaleiros the Seer",
+   "Iaso Remedyhand"
+  ]
+ },
+ {
+  "n": "Thanatos - God of Death",
+  "grp": "Greek Pantheon",
+  "myth": "The twin of Hypnos and the gentle personification of death itself, who comes for each mortal at their appointed hour and is famously tricked by Sisyphus.",
+  "runes": [
+   "Death",
+   "Grim Reaper"
+  ],
+  "home": "Hell",
+  "wants": "No mortal allowed to cheat their appointed hour, and cheaters of death hunted down",
+  "sig": [
+   "Bone Shard",
+   "Wraithbone",
+   "Oblivion Poppy"
+  ],
+  "relic": "Sword of the Final Hour",
+  "seated": 3,
+  "hand": [
+   "Sisyphos' Bane",
+   "Keres Blackwing",
+   "Lethe the Quiet"
+  ]
+ },
+ {
+  "n": "Eris - Goddess of Strife",
+  "grp": "Greek Pantheon",
+  "myth": "Goddess of discord who, uninvited to a wedding, tossed a golden apple marked for the fairest and so set off the quarrel that became the Trojan War.",
+  "runes": [
+   "Chaos",
+   "Instigate",
+   "Envy"
+  ],
+  "home": "Chaos Realm",
+  "wants": "Quarrels started among allies, and every feast she was not invited to spoiled",
+  "sig": [
+   "Maybe-Moss",
+   "Chaos Salt",
+   "Kernel Gold"
+  ],
+  "relic": "Apple of Discord",
+  "seated": 5,
+  "hand": [
+   "Neikea Forktongue",
+   "Amphillogia Twicesworn",
+   "Ate the Ruinous",
+   "Dysnomia Lawless",
+   "Philonikos Brawlborn"
+  ]
+ },
+ {
+  "n": "Gaia - Mother Earth",
+  "grp": "Greek Pantheon",
+  "myth": "The primordial earth itself, mother of the sky, the mountains, and the Titans, who plotted against her own children whenever they grew cruel to hers.",
+  "runes": [
+   "Earth",
+   "Life",
+   "Nature"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "The land kept fertile and unspoiled, and any god who imprisons her children brought low",
+  "sig": [
+   "Rootstone",
+   "Primeval Ore",
+   "Earth Elemental Stone"
+  ],
+  "relic": "First Clod of the World",
+  "seated": 2,
+  "hand": [
+   "Chthonia Rootborn",
+   "Antaios Groundfast"
+  ]
+ },
+ {
+  "n": "Cronus - King of the Titans",
+  "grp": "Greek Pantheon",
+  "myth": "Youngest Titan who castrated his father Uranus to seize the throne, then swallowed his own children to escape the same fate until Zeus overthrew him.",
+  "runes": [
+   "Time",
+   "Gluttony",
+   "Betrayal"
+  ],
+  "home": "Abyss",
+  "wants": "The thrones of the Olympians undermined, and every hour he spent in Tartarus repaid",
+  "sig": [
+   "Timeworn Sand",
+   "Ouroboros Steel",
+   "Chronomancy Shard"
+  ],
+  "relic": "Harpe of the Golden Age",
+  "seated": 3,
+  "hand": [
+   "Saturnin Scythehand",
+   "Aion the Patient",
+   "Kronia Feastmaw"
+  ]
+ },
+ {
+  "n": "Rhea - Mother of the Gods",
+  "grp": "Greek Pantheon",
+  "myth": "Titan queen and mother of the Olympians, who saved the infant Zeus by handing Cronus a stone wrapped in swaddling clothes.",
+  "runes": [
+   "Nurture",
+   "Origin",
+   "Protect"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Children protected from their own parents, and mothers given refuge in her mountains",
+  "sig": [
+   "Oak",
+   "First Stone",
+   "Anchorstone"
+  ],
+  "relic": "Swaddled Stone",
+  "seated": 3,
+  "hand": [
+   "Kourete Shieldclash",
+   "Amaltheia Goatmother",
+   "Idaia Cavekeeper"
+  ]
+ },
+ {
+  "n": "Prometheus - Titan of Forethought",
+  "grp": "Greek Pantheon",
+  "myth": "The Titan who shaped humanity from clay and stole fire from the gods to give it to them, and was chained to a mountain for his kindness.",
+  "runes": [
+   "Fire",
+   "Foresee",
+   "Rebellion"
+  ],
+  "home": "Outer Realm",
+  "wants": "Forbidden knowledge put in mortal hands, and the gods defied when they hoard it",
+  "sig": [
+   "Flint",
+   "Remnant Spark",
+   "Ignis Cinder"
+  ],
+  "relic": "Fennel Stalk of Stolen Fire",
+  "seated": 4,
+  "hand": [
+   "Deukalion Floodsurvivor",
+   "Pyrrha Claysmith",
+   "Hesione Chainbreaker",
+   "Epimetheus' Heir"
+  ]
+ },
+ {
+  "n": "Hebe - Goddess of Youth",
+  "grp": "Greek Pantheon",
+  "myth": "Daughter of Zeus and Hera who poured nectar for the gods until she wed the deified Heracles, and who can restore youth to the old.",
+  "runes": [
+   "Youth",
+   "Fruit"
+  ],
+  "home": "Heaven",
+  "wants": "The old given back their vigour, and the cupbearer's duty performed with grace",
+  "sig": [
+   "Fey Honey",
+   "Seraph Sage",
+   "Starfall Nectar"
+  ],
+  "relic": "Cup of Nectar",
+  "seated": 2,
+  "hand": [
+   "Iolaos Twice-Young",
+   "Ganymeda Cupbearer"
+  ]
+ },
+ {
+  "n": "Iris - Goddess of the Rainbow",
+  "grp": "Greek Pantheon",
+  "myth": "Swift golden-winged messenger of Hera, who travels along the rainbow to carry the words of the gods and the water of the Styx for their oaths.",
+  "runes": [
+   "Signal",
+   "Transmission",
+   "Sky"
+  ],
+  "home": "Heaven",
+  "wants": "Messages carried faithfully and fast, and oaths sworn on Styx-water kept",
+  "sig": [
+   "Wild Magic Prismastone",
+   "Skypearl",
+   "Prismatic Tourmaline"
+  ],
+  "relic": "Pitcher of Styx-Water",
+  "seated": 3,
+  "hand": [
+   "Thaumas Colourcaster",
+   "Arke the Swift",
+   "Aellopa Stormrunner"
+  ]
+ },
+ {
+  "n": "Morpheus - God of Dreams",
+  "grp": "Greek Pantheon",
+  "myth": "Son of Hypnos and the shaper of dreams, able to take any human form to deliver messages and visions to sleeping mortals.",
+  "runes": [
+   "Dreams",
+   "Image",
+   "Illusion"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Dreams recorded and shared, and his messengers never woken before the vision ends",
+  "sig": [
+   "Dreamweaver Silk",
+   "Dreamsilver",
+   "Dreaming Poppy"
+  ],
+  "relic": "Mask of a Thousand Faces",
+  "seated": 4,
+  "hand": [
+   "Phantasos Shapedreamer",
+   "Oneira Mistwalker",
+   "Ikelia Veilsleeper",
+   "Phobetor's Shadow"
+  ]
+ },
+ {
+  "n": "Uranus - Primordial Sky",
+  "grp": "Greek Pantheon",
+  "myth": "The starry sky and first king of the cosmos, who imprisoned his monstrous children inside Gaia until his son Cronus maimed and deposed him.",
+  "runes": [
+   "Sky",
+   "Star",
+   "Cosmic"
+  ],
+  "home": "Outer Realm",
+  "wants": "The Titans' line punished for their betrayal, and the stars watched over in his name",
+  "sig": [
+   "Star Chart Fragment",
+   "Starmetal",
+   "Cold Star Shard"
+  ],
+  "relic": "Adamant Sickle-Scar",
+  "seated": 0,
+  "hand": []
+ },
+ {
+  "n": "Atlas - Titan of Endurance",
+  "grp": "Greek Pantheon",
+  "myth": "Titan who led his brothers in war against the Olympians and was sentenced to hold up the sky on his shoulders forever.",
+  "runes": [
+   "Strength",
+   "Gravity"
+  ],
+  "home": "Outer Realm",
+  "wants": "Burdens borne without complaint, and a mortal strong enough to take his place for one day",
+  "sig": [
+   "Granite",
+   "Lodestone",
+   "Titan Bone"
+  ],
+  "relic": "Shoulder-Plate of the Sky",
+  "seated": 3,
+  "hand": [
+   "Hesperos Skybearer",
+   "Maia Stonestrong",
+   "Kalypso's Keeper"
+  ]
+ },
+ {
+  "n": "Themis - Titaness of Divine Law",
+  "grp": "Greek Pantheon",
+  "myth": "Titaness of divine order, custom, and law, the second wife of Zeus and mother of the Seasons and the Fates, who once spoke the oracle at Delphi.",
+  "runes": [
+   "Law",
+   "Order",
+   "Justice"
+  ],
+  "home": "Inner Realm",
+  "wants": "Customs upheld, assemblies called properly, and the gods' own laws obeyed by the gods",
+  "sig": [
+   "Law Lichen",
+   "Tribunal Steel",
+   "Pure Law Crystal"
+  ],
+  "relic": "Blindfold of Right Order",
+  "seated": 5,
+  "hand": [
+   "Dike Lawgiver",
+   "Eunomia Steadyhand",
+   "Eirene Truce-Keeper",
+   "Astraea Last-to-Leave",
+   "Horos Boundary-Setter"
+  ]
+ },
+ {
+  "n": "Mnemosyne - Titaness of Memory",
+  "grp": "Greek Pantheon",
+  "myth": "Titaness of memory and mother of the nine Muses by Zeus, whose pool in the underworld lets the dead remember instead of forget.",
+  "runes": [
+   "Memory",
+   "Past"
+  ],
+  "home": "Inner Realm",
+  "wants": "Histories preserved, poets trained, and her pool drunk instead of Lethe",
+  "sig": [
+   "Vellum",
+   "Echo Stone",
+   "Coreheart Crystal"
+  ],
+  "relic": "Pool-Cup of Remembrance",
+  "seated": 3,
+  "hand": [
+   "Kleio Scrollkeeper",
+   "Kalliope Grandvoice",
+   "Mneme Oldsong"
+  ]
+ },
+ {
+  "n": "Leto - Mother of the Twins",
+  "grp": "Greek Pantheon",
+  "myth": "Titaness who bore Apollo and Artemis on the floating island of Delos after Hera forbade every land on earth to shelter her.",
+  "runes": [
+   "Protect",
+   "Nurture"
+  ],
+  "home": "Heaven",
+  "wants": "Mothers and outcasts sheltered, and those who mock her children punished",
+  "sig": [
+   "Moonmilk Lily",
+   "Pearlweed",
+   "Ki-rin Feather"
+  ],
+  "relic": "Palm of Delos",
+  "seated": 2,
+  "hand": [
+   "Delia Islandborn",
+   "Tityon's Bane"
+  ]
+ },
+ {
+  "n": "Triton - Herald of the Sea",
+  "grp": "Greek Pantheon",
+  "myth": "Merman son of Poseidon and Amphitrite who calms or raises the waves by blowing his twisted conch shell.",
+  "runes": [
+   "Wave",
+   "Tide",
+   "Signal"
+  ],
+  "home": "Heaven",
+  "wants": "Lost sailors guided home, and his conch answered when it sounds",
+  "sig": [
+   "Coral Fragment",
+   "Tidecoral",
+   "Leviathan Kelp"
+  ],
+  "relic": "Conch of the Deep",
+  "seated": 3,
+  "hand": [
+   "Palaimon Wavecaller",
+   "Tritonis Shellhorn",
+   "Glaukos the Reborn"
+  ]
+ },
+ {
+  "n": "Amphitrite - Queen of the Sea",
+  "grp": "Greek Pantheon",
+  "myth": "Nereid queen of the sea and wife of Poseidon, mother of Triton, who rules the creatures of the deep from her golden palace beneath the waves.",
+  "runes": [
+   "Water",
+   "Royalty"
+  ],
+  "home": "Heaven",
+  "wants": "Sea creatures protected, and her court honoured before Poseidon's",
+  "sig": [
+   "Whisper Coral",
+   "River Pearl",
+   "Leviathan Gold"
+  ],
+  "relic": "Coral Crown of the Nereids",
+  "seated": 3,
+  "hand": [
+   "Thetis Silverfoot",
+   "Galateia Foamborn",
+   "Doris Deepmother"
+  ]
+ },
+ {
+  "n": "Heracles - God of Heroes",
+  "grp": "Greek Pantheon",
+  "myth": "The greatest Greek hero, son of Zeus by a mortal woman, who completed twelve impossible labours and was raised to Olympus as a god after his death.",
+  "runes": [
+   "Strength",
+   "Trial"
+  ],
+  "home": "Heaven",
+  "wants": "Monsters slain, impossible tasks undertaken, and the weak defended by the strong",
+  "sig": [
+   "Lion Hide",
+   "Hydra Scale",
+   "Titan Bone"
+  ],
+  "relic": "Club of the Twelve Labours",
+  "seated": 5,
+  "hand": [
+   "Iolaos Lionhide",
+   "Hylas Spring-Lost",
+   "Philoktetes Bowheir",
+   "Deianeira's Penance",
+   "Telamon Wallbreaker"
+  ]
+ },
+ {
+  "n": "Charon - Ferryman of the Dead",
+  "grp": "Greek Pantheon",
+  "myth": "Grim ferryman who poles the souls of the dead across the river Styx, refusing passage to any who cannot pay him his coin.",
+  "runes": [
+   "Voyage",
+   "Ransom",
+   "Death"
+  ],
+  "home": "Hell",
+  "wants": "Every passage paid for, and the unburied dead given the coin they need",
+  "sig": [
+   "Drowned Iron",
+   "Styx Water",
+   "Undead King's Heart"
+  ],
+  "relic": "Ferryman's Pole",
+  "seated": 1,
+  "hand": [
+   "Obolos Coinbearer"
+  ]
+ },
+ {
+  "n": "Loki - The Trickster",
+  "grp": "Norse Pantheon",
+  "myth": "Shape-changing son of giants who lived among the Aesir, alternately helping and betraying them, until he engineered Baldur's death and was bound to await Ragnarok.",
+  "runes": [
+   "Lies",
+   "Shape-shifter",
+   "Betrayal"
+  ],
+  "home": "Chaos Realm",
+  "wants": "Pranks played on the mighty, bonds broken, and no oath sworn to him taken seriously",
+  "sig": [
+   "Doppelganger Skin",
+   "Changeling Thyme",
+   "Mutable Silver"
+  ],
+  "relic": "Net of the Waterfall",
+  "seated": 5,
+  "hand": [
+   "Sigyn Bowlbearer",
+   "Narvi Wolfslip",
+   "Angrboda's Child",
+   "Logi Flickerhand",
+   "Farbauti the Spark"
+  ]
+ },
+ {
+  "n": "Frigg - Queen of Asgard",
+  "grp": "Norse Pantheon",
+  "myth": "Wife of Odin and queen of the Aesir, who knows the fate of all things but never speaks it, and who tried and failed to protect her son Baldur.",
+  "runes": [
+   "Foresee",
+   "Weave",
+   "Royalty"
+  ],
+  "home": "Heaven",
+  "wants": "Households kept, secrets of fate guarded, and her children protected at any cost",
+  "sig": [
+   "Flax Fiber",
+   "Starthread",
+   "Fate Thread"
+  ],
+  "relic": "Distaff of Fensalir",
+  "seated": 3,
+  "hand": [
+   "Fulla Chestkeeper",
+   "Gna Swiftrider",
+   "Hlin the Sheltering"
+  ]
+ },
+ {
+  "n": "Heimdall - Watchman of the Gods",
+  "grp": "Norse Pantheon",
+  "myth": "White god who guards the rainbow bridge Bifrost, who needs less sleep than a bird, can hear grass grow, and will sound the horn that begins Ragnarok.",
+  "runes": [
+   "Vision",
+   "Hearing",
+   "Protect"
+  ],
+  "home": "Heaven",
+  "wants": "Borders watched day and night, and his horn sounded the moment a threat appears",
+  "sig": [
+   "Owlseye Moss",
+   "Watcher's Eye",
+   "Herald's Trumpet Horn"
+  ],
+  "relic": "Gjallarhorn",
+  "seated": 4,
+  "hand": [
+   "Rig Wanderborn",
+   "Jarl Bridgeward",
+   "Gulltopp Rider",
+   "Thrall Sharpear"
+  ]
+ },
+ {
+  "n": "Freyr - God of Harvest",
+  "grp": "Norse Pantheon",
+  "myth": "Vanir god of sunshine, rain, and good harvests, ruler of the elves, who gave away his self-fighting sword for love of the giantess Gerd.",
+  "runes": [
+   "Grow",
+   "Season",
+   "Fruit"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Fields blessed with sun and rain, peace kept at the harvest, and love pursued boldly",
+  "sig": [
+   "Sunwheat",
+   "Boar Tusk",
+   "Gracewheat"
+  ],
+  "relic": "Gullinbursti's Bristle",
+  "seated": 3,
+  "hand": [
+   "Skirnir Errandsworn",
+   "Gerda Fieldbride",
+   "Byggvir Barleyhand"
+  ]
+ },
+ {
+  "n": "Hel - Queen of the Dead",
+  "grp": "Norse Pantheon",
+  "myth": "Daughter of Loki, half living and half corpse, who rules the cold realm of those who die of sickness and old age and refused to release Baldur.",
+  "runes": [
+   "Death",
+   "Decay",
+   "Remain"
+  ],
+  "home": "Hell",
+  "wants": "The dead left in her keeping, and any who escape her halls dragged back",
+  "sig": [
+   "Pale Lichen",
+   "Vampire Ash",
+   "Undead King's Heart"
+  ],
+  "relic": "Plate of Hunger",
+  "seated": 4,
+  "hand": [
+   "Modgud Bridgekeeper",
+   "Ganglot the Slow",
+   "Elvidnir Hall-Steward",
+   "Garmr's Handler"
+  ]
+ },
+ {
+  "n": "Bragi - God of Poetry",
+  "grp": "Norse Pantheon",
+  "myth": "Skaldic god of poetry and eloquence, husband of Idun, with runes carved on his tongue, who welcomes the fallen to Valhalla with verse.",
+  "runes": [
+   "Music",
+   "Word",
+   "Speech"
+  ],
+  "home": "Heaven",
+  "wants": "Deeds of the brave remembered in verse, and oaths spoken at his cup kept",
+  "sig": [
+   "Hymn Gland",
+   "Siren Voicebox",
+   "Choir-glass"
+  ],
+  "relic": "Bragarfull Cup",
+  "seated": 2,
+  "hand": [
+   "Egil Verse-Weaver",
+   "Skald Hallmund"
+  ]
+ },
+ {
+  "n": "Vidar - The Silent God",
+  "grp": "Norse Pantheon",
+  "myth": "Silent son of Odin who will avenge his father at Ragnarok by tearing open Fenrir's jaws with his thick shoe, and who survives into the new world.",
+  "runes": [
+   "Punish",
+   "Last"
+  ],
+  "home": "Heaven",
+  "wants": "Every wrong done to kin avenged, and silence kept until the moment to strike",
+  "sig": [
+   "Leather",
+   "Hush Iron",
+   "Silence Steel"
+  ],
+  "relic": "Thick Shoe of Vengeance",
+  "seated": 2,
+  "hand": [
+   "Hljod the Quiet",
+   "Fenrisbane Ottar"
+  ]
+ },
+ {
+  "n": "Vali - God of Vengeance",
+  "grp": "Norse Pantheon",
+  "myth": "Son of Odin born for a single purpose, who grew to full strength in one day and killed Hodr to avenge Baldur.",
+  "runes": [
+   "Punish",
+   "Grow"
+  ],
+  "home": "Heaven",
+  "wants": "Debts of blood paid quickly, and no grudge carried past its proper end",
+  "sig": [
+   "Wolf Fang",
+   "Dire Wolf Fang",
+   "Bloodstone"
+  ],
+  "relic": "One-Day Bow",
+  "seated": 1,
+  "hand": [
+   "Rind's Son Hakon"
+  ]
+ },
+ {
+  "n": "Ullr - God of Winter Hunting",
+  "grp": "Norse Pantheon",
+  "myth": "Stepson of Thor, a god of archery, skiing, and the winter hunt, said to be so fair a warrior that men called on him before single combat.",
+  "runes": [
+   "Bow",
+   "Snow",
+   "Battle"
+  ],
+  "home": "Heaven",
+  "wants": "Duels fought fairly, game hunted in the snow, and his shield-ship honoured",
+  "sig": [
+   "Yew",
+   "Winter Wolf Pelt",
+   "Frost Iron"
+  ],
+  "relic": "Shield-Ship of Ydalir",
+  "seated": 3,
+  "hand": [
+   "Ondur Snowtrack",
+   "Hjalmvor Skisprint",
+   "Thrudr Frostarrow"
+  ]
+ },
+ {
+  "n": "Sif - Goddess of the Golden Hair",
+  "grp": "Norse Pantheon",
+  "myth": "Wife of Thor whose golden hair Loki sheared as a prank, forcing him to have the dwarves forge her new hair of living gold.",
+  "runes": [
+   "Grow",
+   "Loyalty"
+  ],
+  "home": "Heaven",
+  "wants": "Fields of grain tended, marriages kept faithful, and insults to her repaid with craft",
+  "sig": [
+   "Gracewheat",
+   "Runegold",
+   "Progenitor Gold"
+  ],
+  "relic": "Dwarf-Forged Tresses",
+  "seated": 2,
+  "hand": [
+   "Ullrsdottir Hildr",
+   "Thrud Goldbraid"
+  ]
+ },
+ {
+  "n": "Hodr - The Blind God",
+  "grp": "Norse Pantheon",
+  "myth": "Blind son of Odin, tricked by Loki into throwing the mistletoe dart that killed his brother Baldur, and reconciled with him in the world after Ragnarok.",
+  "runes": [
+   "Dark",
+   "Projectile",
+   "Grief"
+  ],
+  "home": "Hell",
+  "wants": "The blind and the deceived defended, and Loki's tricks exposed",
+  "sig": [
+   "Nightshade",
+   "Unlight Moss",
+   "Shadow Obsidian"
+  ],
+  "relic": "Mistletoe Dart",
+  "seated": 0,
+  "hand": []
+ },
+ {
+  "n": "Eir - Goddess of Healing",
+  "grp": "Norse Pantheon",
+  "myth": "Goddess and valkyrie of healing who sits on the mountain Lyfjaberg, where the sick who climb to her are made whole.",
+  "runes": [
+   "Heal",
+   "Mend"
+  ],
+  "home": "Heaven",
+  "wants": "The wounded healed on the battlefield, and her mountain climbed by any who ask her aid",
+  "sig": [
+   "Herb Bundle",
+   "Mercy Moss",
+   "Positive Energy Crystal"
+  ],
+  "relic": "Lyfjaberg Stone",
+  "seated": 3,
+  "hand": [
+   "Aurboda Herbmaid",
+   "Bjort Bonemender",
+   "Blid the Kind"
+  ]
+ },
+ {
+  "n": "Ran - Goddess of the Drowned",
+  "grp": "Norse Pantheon",
+  "myth": "Sea goddess and wife of Aegir who catches sailors in her net and drags them to her hall beneath the waves.",
+  "runes": [
+   "Wave",
+   "Bind",
+   "Greed"
+  ],
+  "home": "Abyss",
+  "wants": "Gold carried by every sailor for her, and the drowned delivered to her hall",
+  "sig": [
+   "Salt-Cured Rope",
+   "Drowned Iron",
+   "Leviathan Blackblood"
+  ],
+  "relic": "Drowning Net",
+  "seated": 3,
+  "hand": [
+   "Hronn Wavedaughter",
+   "Bylgja Tidegrasp",
+   "Kolga the Cold"
+  ]
+ },
+ {
+  "n": "Aegir - Lord of the Sea",
+  "grp": "Norse Pantheon",
+  "myth": "Giant of the sea and brewer to the gods, whose hall beneath the waves hosts their great feasts and whose daughters are the waves themselves.",
+  "runes": [
+   "Tide",
+   "Entertainment"
+  ],
+  "home": "Abyss",
+  "wants": "Feasts held for friends and foes alike, and ale brewed in his great cauldron",
+  "sig": [
+   "Trench Kelp",
+   "Seasoaked Timber",
+   "Dragon Turtle Shell"
+  ],
+  "relic": "Brewing Cauldron of Hymir",
+  "seated": 3,
+  "hand": [
+   "Fimafeng Quickservant",
+   "Eldir Hearthbrewer",
+   "Himinglaeva Skyshine"
+  ]
+ },
+ {
+  "n": "Sol - Goddess of the Sun",
+  "grp": "Norse Pantheon",
+  "myth": "Maiden who drives the chariot of the sun across the sky, forever chased by the wolf Skoll, who will catch and devour her at Ragnarok.",
+  "runes": [
+   "Sun",
+   "Day"
+  ],
+  "home": "Heaven",
+  "wants": "The sun's path kept clear, and the wolves that hunt her slain",
+  "sig": [
+   "Sunpetal",
+   "Sunfire Citrine",
+   "Solar Feather"
+  ],
+  "relic": "Reins of Arvak and Alsvid",
+  "seated": 2,
+  "hand": [
+   "Svalin Shieldbearer",
+   "Glen Dayrider"
+  ]
+ },
+ {
+  "n": "Mani - God of the Moon",
+  "grp": "Norse Pantheon",
+  "myth": "Brother of Sol who guides the moon across the sky and measures the months, pursued by the wolf Hati.",
+  "runes": [
+   "Moon",
+   "Night",
+   "Time"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Months counted and nights watched, and children carried off by the moon kept safe",
+  "sig": [
+   "Moonstone",
+   "Moonsteel",
+   "Moonpearl"
+  ],
+  "relic": "Moon-Measuring Wheel",
+  "seated": 2,
+  "hand": [
+   "Bil Waterbearer",
+   "Hjuki Pailcarrier"
+  ]
+ },
+ {
+  "n": "Jord - Goddess of the Earth",
+  "grp": "Norse Pantheon",
+  "myth": "Giantess who is the earth itself and mother of Thor by Odin.",
+  "runes": [
+   "Earth",
+   "Land"
+  ],
+  "home": "Inner Realm",
+  "wants": "Soil cared for, and strength drawn from the ground never wasted",
+  "sig": [
+   "River Mud",
+   "Granite",
+   "Worldtree Sap"
+  ],
+  "relic": "Clod of Fjorgyn",
+  "seated": 3,
+  "hand": [
+   "Fjorgyn Stonebrow",
+   "Hlodyn Field-Keeper",
+   "Torgrim Earthblood"
+  ]
+ },
+ {
+  "n": "Gefjon - Goddess of Ploughing",
+  "grp": "Norse Pantheon",
+  "myth": "Goddess who turned her four sons into oxen to plough a huge piece of land out of Sweden, which became the island of Zealand, and who keeps the unmarried dead.",
+  "runes": [
+   "Land",
+   "Chastity"
+  ],
+  "home": "Heaven",
+  "wants": "New land claimed by honest labour, and unwed maidens given shelter",
+  "sig": [
+   "Godfall Soil",
+   "Iron",
+   "Ironbark"
+  ],
+  "relic": "Plough of Zealand",
+  "seated": 4,
+  "hand": [
+   "Skjold Landwinner",
+   "Ox-Driver Hrefna",
+   "Gylfa the Outwitted",
+   "Lejre Furrow-Keeper"
+  ]
+ },
+ {
+  "n": "Hermod - The Brave Messenger",
+  "grp": "Norse Pantheon",
+  "myth": "Swift son of Odin who rode Sleipnir for nine nights down to Hel to beg for Baldur's return.",
+  "runes": [
+   "Speed",
+   "Voyage",
+   "Descend"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Messages carried to impossible places, and errands for the dead undertaken",
+  "sig": [
+   "Pegasus Hoof",
+   "Horizon Ore",
+   "Ki-rin Feather"
+  ],
+  "relic": "Sleipnir's Horseshoe",
+  "seated": 2,
+  "hand": [
+   "Gjoll Bridgecrosser",
+   "Ottar Ninenights"
+  ]
+ },
+ {
+  "n": "Hoenir - The Silent Giver",
+  "grp": "Norse Pantheon",
+  "myth": "Quiet companion of Odin who helped make the first humans and gave them reason, later sent to the Vanir as a hostage and found wanting without Mimir's counsel.",
+  "runes": [
+   "Sentience",
+   "Uncertain"
+  ],
+  "home": "Inner Realm",
+  "wants": "Mortals helped to think for themselves, and decisions never forced",
+  "sig": [
+   "Animus Stone",
+   "Ashwood",
+   "Elderwood"
+  ],
+  "relic": "Mind-Gift of Ask and Embla",
+  "seated": 0,
+  "hand": []
+ },
+ {
+  "n": "Anubis - Guardian of the Dead",
+  "grp": "Egyptian Pantheon",
+  "myth": "Jackal-headed god of embalming and the necropolis, who guides souls through the underworld and weighs their hearts against the feather of Ma'at.",
+  "runes": [
+   "Death",
+   "Balance",
+   "Preserve"
+  ],
+  "home": "Hell",
+  "wants": "Bodies treated with respect, tombs left unrobbed, and every heart weighed honestly",
+  "sig": [
+   "Preservation Oil",
+   "Jackal Hide",
+   "Mummy Lord Essence"
+  ],
+  "relic": "Scales of the Weighing",
+  "seated": 4,
+  "hand": [
+   "Inpu Tombwarden",
+   "Kebechet Purifier",
+   "Duamutef Jarbearer",
+   "Ankhef Embalmer"
+  ]
+ },
+ {
+  "n": "Set - God of Chaos and Storms",
+  "grp": "Egyptian Pantheon",
+  "myth": "Red god of the desert, storms, and foreigners, who murdered his brother Osiris and fought Horus for the throne, yet also defends Ra's barque against Apep each night.",
+  "runes": [
+   "Chaos",
+   "Storm",
+   "Betrayal"
+  ],
+  "home": "Chaos Realm",
+  "wants": "Rivals cut down, the desert feared, and Horus denied the throne",
+  "sig": [
+   "Distant Sand",
+   "Stormglass",
+   "Rift Metal"
+  ],
+  "relic": "Was-Sceptre of the Red Land",
+  "seated": 4,
+  "hand": [
+   "Sutekh the Ruddy",
+   "Nebu Sandstorm",
+   "Ashet Desert-Born",
+   "Typhon's Echo"
+  ]
+ },
+ {
+  "n": "Ptah - God of Craftsmen",
+  "grp": "Egyptian Pantheon",
+  "myth": "Creator god of Memphis who spoke the world into being from his heart and tongue, and patron of builders, sculptors, and smiths.",
+  "runes": [
+   "Creation",
+   "Word",
+   "Forging"
+  ],
+  "home": "Inner Realm",
+  "wants": "Things built to last, craft taught freely, and plans spoken aloud before they are made",
+  "sig": [
+   "Limestone",
+   "Sanctified Marble",
+   "Godsteel"
+  ],
+  "relic": "Djed-Pillar Staff",
+  "seated": 3,
+  "hand": [
+   "Imhotep Planmaker",
+   "Senenmut Stonewright",
+   "Khaemwaset the Restorer"
+  ]
+ },
+ {
+  "n": "Sekhmet - The Lion Goddess",
+  "grp": "Egyptian Pantheon",
+  "myth": "Lion-headed goddess of war and plague, the furious Eye of Ra, who nearly wiped out humanity until the gods tricked her into drinking beer dyed red as blood.",
+  "runes": [
+   "Rage",
+   "Plague",
+   "Heal"
+  ],
+  "home": "Heaven",
+  "wants": "Enemies of the throne destroyed, plagues sent and lifted, and her fury quenched only with red offerings",
+  "sig": [
+   "Sun Lion Claw",
+   "Bloodfire Ruby",
+   "Throne Beast Heartcoal"
+  ],
+  "relic": "Flaming Eye of Ra",
+  "seated": 3,
+  "hand": [
+   "Menhyt Bloodmane",
+   "Wab-Sekhmet the Physician",
+   "Pakhet Lioness"
+  ]
+ },
+ {
+  "n": "Nephthys - Lady of the House",
+  "grp": "Egyptian Pantheon",
+  "myth": "Sister of Isis and Osiris and wife of Set, who mourned and helped restore Osiris and watches over the dead and the coffin.",
+  "runes": [
+   "Grief",
+   "Protect",
+   "Night"
+  ],
+  "home": "Hell",
+  "wants": "The dead mourned properly, and the grieving sheltered in her wings",
+  "sig": [
+   "Shade Cloth",
+   "Sorrowstone",
+   "Twilight Amber"
+  ],
+  "relic": "Mourning Veil of the Kite",
+  "seated": 2,
+  "hand": [
+   "Anpu's Mother Meryt",
+   "Kite-Wing Neferu"
+  ]
+ },
+ {
+  "n": "Ma'at - Goddess of Truth",
+  "grp": "Egyptian Pantheon",
+  "myth": "Goddess of truth, justice, and cosmic order, whose feather is weighed against every heart in the Hall of Judgement.",
+  "runes": [
+   "Truth",
+   "Balance",
+   "Order"
+  ],
+  "home": "Inner Realm",
+  "wants": "Truth spoken even when it hurts, and the order of the world kept",
+  "sig": [
+   "Truthstone",
+   "Axiom Gold",
+   "Balance Scale"
+  ],
+  "relic": "Feather of Truth",
+  "seated": 5,
+  "hand": [
+   "Seshet Featherbearer",
+   "Djehuty Lawkeeper",
+   "Merytmaat the Just",
+   "Ankhu Scalehand",
+   "Nebmaat Truthspeaker"
+  ]
+ },
+ {
+  "n": "Amun - The Hidden One",
+  "grp": "Egyptian Pantheon",
+  "myth": "Hidden god of Thebes whose true nature none can see, who merged with Ra to become Amun-Ra, king of the gods.",
+  "runes": [
+   "Unknown",
+   "Air",
+   "Sovereignty"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "His secrets never pried into, and his temples made the greatest in the land",
+  "sig": [
+   "Sylph Breath",
+   "Seraph Gold",
+   "Unknown Amber"
+  ],
+  "relic": "Twin-Plumed Crown",
+  "seated": 4,
+  "hand": [
+   "Amunet Veilbride",
+   "Herihor Highpriest",
+   "Hatshepsut's Shade",
+   "Kamutef Ramhorn"
+  ]
+ },
+ {
+  "n": "Geb - God of the Earth",
+  "grp": "Egyptian Pantheon",
+  "myth": "God of the earth whose laughter causes earthquakes, separated from his sister-wife Nut by their father Shu, and father of Osiris, Isis, Set, and Nephthys.",
+  "runes": [
+   "Earth",
+   "Land"
+  ],
+  "home": "Inner Realm",
+  "wants": "Graves dug deep and crops grown well, and the earth's riches shared out fairly",
+  "sig": [
+   "River Mud",
+   "Earthquake Amber",
+   "Primeval Ore"
+  ],
+  "relic": "Goose Crown of Geb",
+  "seated": 2,
+  "hand": [
+   "Keb Goose-Voice",
+   "Rennut Fieldmother"
+  ]
+ },
+ {
+  "n": "Nut - Goddess of the Sky",
+  "grp": "Egyptian Pantheon",
+  "myth": "Sky goddess whose star-covered body arches over the earth, who swallows the sun each evening and gives birth to it each morning.",
+  "runes": [
+   "Sky",
+   "Star",
+   "Rebirth"
+  ],
+  "home": "Outer Realm",
+  "wants": "The dead set among the stars, and the night sky painted on every coffin lid",
+  "sig": [
+   "Starmoss",
+   "Nebula Silk",
+   "Leviathan Starbone"
+  ],
+  "relic": "Star-Speckled Mantle",
+  "seated": 3,
+  "hand": [
+   "Sahu Starwalker",
+   "Baket Nightvault",
+   "Sopdet Dogstar"
+  ]
+ },
+ {
+  "n": "Shu - God of the Air",
+  "grp": "Egyptian Pantheon",
+  "myth": "God of dry air and light who holds the sky goddess Nut apart from the earth god Geb, separating heaven from earth.",
+  "runes": [
+   "Air",
+   "Dry",
+   "Separation"
+  ],
+  "home": "Heaven",
+  "wants": "The sky held up and things kept in their places",
+  "sig": [
+   "Feathers",
+   "Air Elemental Essence",
+   "Roc Feather"
+  ],
+  "relic": "Ostrich Plume of Shu",
+  "seated": 2,
+  "hand": [
+   "Heh Skypillar",
+   "Onuris Far-Bringer"
+  ]
+ },
+ {
+  "n": "Tefnut - Goddess of Moisture",
+  "grp": "Egyptian Pantheon",
+  "myth": "Lion-headed twin and wife of Shu, goddess of moisture and rain, whose anger once took her away to Nubia and left Egypt parched.",
+  "runes": [
+   "Wet",
+   "Rain",
+   "Rage"
+  ],
+  "home": "Heaven",
+  "wants": "Water shared in drought, and offerings made to coax her back when she is angry",
+  "sig": [
+   "Distilled Water",
+   "Undine Tear",
+   "Marid Core"
+  ],
+  "relic": "Dew-Bowl of the Lioness",
+  "seated": 3,
+  "hand": [
+   "Mehit Raincaller",
+   "Tjenent Wellkeeper",
+   "Neheb Droughtbreaker"
+  ]
+ },
+ {
+  "n": "Bes - Protector of Households",
+  "grp": "Egyptian Pantheon",
+  "myth": "Dwarfish, grinning household god who wards off snakes, demons, and bad dreams, and protects mothers in childbirth with dancing and noise.",
+  "runes": [
+   "Protect",
+   "Entertainment",
+   "Happiness"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Homes guarded with song and dance, and children kept safe through the night",
+  "sig": [
+   "Hedge Honey",
+   "Ward Wire",
+   "Lion Hide"
+  ],
+  "relic": "Tambourine of Warding",
+  "seated": 4,
+  "hand": [
+   "Aha the Fighter",
+   "Beset Drumdancer",
+   "Hapu Grin-Mask",
+   "Tutu Snakebane"
+  ]
+ },
+ {
+  "n": "Hapi - God of the Flood",
+  "grp": "Egyptian Pantheon",
+  "myth": "God of the annual flooding of the Nile, a plump, bountiful figure who brings the rich silt that feeds all of Egypt.",
+  "runes": [
+   "Water",
+   "Grow",
+   "Nurture"
+  ],
+  "home": "Heaven",
+  "wants": "The flood honoured each year, and no field left unworked after the waters recede",
+  "sig": [
+   "River Mud",
+   "Pearlweed",
+   "Worldtree Sap"
+  ],
+  "relic": "Flood-Gauge of Elephantine",
+  "seated": 2,
+  "hand": [
+   "Akhet Silt-Bringer",
+   "Iteru Reedcrown"
+  ]
+ },
+ {
+  "n": "Wadjet - The Cobra Goddess",
+  "grp": "Egyptian Pantheon",
+  "myth": "Cobra goddess of Lower Egypt who rears on the pharaoh's crown and spits fire at the king's enemies.",
+  "runes": [
+   "Poison",
+   "Royalty",
+   "Protect"
+  ],
+  "home": "Heaven",
+  "wants": "Rightful rulers guarded, and venom turned on usurpers",
+  "sig": [
+   "Yuan-ti Scale",
+   "Spirit Naga Scale",
+   "Naga Scale"
+  ],
+  "relic": "Uraeus Diadem",
+  "seated": 3,
+  "hand": [
+   "Per-Wadjet Cobra-Sworn",
+   "Iaret Firespitter",
+   "Buto Marshguard"
+  ]
+ },
+ {
+  "n": "Montu - God of War",
+  "grp": "Egyptian Pantheon",
+  "myth": "Falcon-headed war god of Thebes, embodiment of the pharaoh's conquering might, whose sacred bull is the Buchis.",
+  "runes": [
+   "War",
+   "Strength",
+   "Battle"
+  ],
+  "home": "Heaven",
+  "wants": "Battles won for rightful kings, and the Buchis bull honoured",
+  "sig": [
+   "Bronze",
+   "Warstone",
+   "Behemoth Heart"
+  ],
+  "relic": "Khopesh of the Conqueror",
+  "seated": 4,
+  "hand": [
+   "Mentuhotep Falconspear",
+   "Rattawy the Fierce",
+   "Buchis-Keeper Senu",
+   "Ahmose Chariotlord"
+  ]
+ },
+ {
+  "n": "Apep - The Great Serpent",
+  "grp": "Egyptian Pantheon",
+  "myth": "Vast serpent of darkness and dissolution who attacks the sun barque every night, seeking to swallow Ra and unmake creation.",
+  "runes": [
+   "Chaos",
+   "Dark",
+   "Emptiness"
+  ],
+  "home": "Abyss",
+  "wants": "The sun stopped forever, creation unravelled, and every name of his enemies erased",
+  "sig": [
+   "Black Water",
+   "Void Iron",
+   "Lightless-leviathan Scale"
+  ],
+  "relic": "Coil of Unmaking",
+  "seated": 2,
+  "hand": [
+   "Nameless Isfet",
+   "Sebau the Devourer"
+  ]
+ },
+ {
+  "n": "Khonsu - God of the Moon",
+  "grp": "Egyptian Pantheon",
+  "myth": "Young moon god of Thebes, son of Amun and Mut, who travels the night sky, measures time, and drives out evil spirits.",
+  "runes": [
+   "Moon",
+   "Time",
+   "Night"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Hours kept and spirits of illness cast out under his light",
+  "sig": [
+   "Moonfire Dust",
+   "Moonstone",
+   "Moonpearl"
+  ],
+  "relic": "Crescent-and-Disc Crown",
+  "seated": 2,
+  "hand": [
+   "Neferhotep Moonward",
+   "Iah the Traveller"
+  ]
+ },
+ {
+  "n": "Atum - The First God",
+  "grp": "Egyptian Pantheon",
+  "myth": "Self-created god who rose from the primeval waters at the dawn of time and made the first gods, and who will one day return everything to those waters.",
+  "runes": [
+   "Beginning",
+   "Ending",
+   "Creation"
+  ],
+  "home": "Void",
+  "wants": "Things begun well and ended completely, and nothing left half-finished",
+  "sig": [
+   "Coreseed",
+   "Genesis Seed",
+   "Heart Shard of an Original God"
+  ],
+  "relic": "Benben Stone",
+  "seated": 2,
+  "hand": [
+   "Iusaas the First Hand",
+   "Nebethetepet"
+  ]
+ },
+ {
+  "n": "Khepri - God of the Rising Sun",
+  "grp": "Egyptian Pantheon",
+  "myth": "Scarab-beetle god who rolls the sun up into the sky each morning, a symbol of daily renewal and self-creation.",
+  "runes": [
+   "Rebirth",
+   "Dawn"
+  ],
+  "home": "Heaven",
+  "wants": "Fresh starts made each morning, and the scarab honoured as a sign of return",
+  "sig": [
+   "Dawnpetal",
+   "Chitin",
+   "Dawnmetal"
+  ],
+  "relic": "Golden Scarab of Becoming",
+  "seated": 3,
+  "hand": [
+   "Kheper Dawnroller",
+   "Wenen the Renewed",
+   "Sia Morningscar"
+  ]
+ },
+ {
+  "n": "Taweret - Goddess of Childbirth",
+  "grp": "Egyptian Pantheon",
+  "myth": "Hippopotamus goddess with a lion's limbs and a crocodile's tail, fierce protector of pregnant women and newborns.",
+  "runes": [
+   "Nurture",
+   "Protection"
+  ],
+  "home": "Heaven",
+  "wants": "Mothers and infants guarded from every danger, and the hippo spared",
+  "sig": [
+   "Hedge Honey",
+   "Crocodile Hide",
+   "Behemoth Hide"
+  ],
+  "relic": "Sa-Knot Amulet",
+  "seated": 4,
+  "hand": [
+   "Reret Midwife",
+   "Ipet Cradlewarden",
+   "Hedjet Birthward",
+   "Mesenet the Brickmother"
+  ]
+ },
+ {
+  "n": "Nekhbet - The Vulture Goddess",
+  "grp": "Egyptian Pantheon",
+  "myth": "Vulture goddess of Upper Egypt who spreads her wings over the pharaoh as his protector and mother.",
+  "runes": [
+   "Protection",
+   "Royalty"
+  ],
+  "home": "Heaven",
+  "wants": "Kings protected beneath her wings, and the fallen picked clean and returned to the land",
+  "sig": [
+   "Feathers",
+   "Giant Vulture Hide",
+   "Planetar Feather"
+  ],
+  "relic": "White Crown of Nekheb",
+  "seated": 2,
+  "hand": [
+   "Mut-Wing Seneb",
+   "Nekhen Skyshade"
+  ]
+ },
+ {
+  "n": "Serket - Goddess of Scorpions",
+  "grp": "Egyptian Pantheon",
+  "myth": "Scorpion goddess who both inflicts and heals venomous stings, and who guards the entrails of the dead.",
+  "runes": [
+   "Poison",
+   "Heal"
+  ],
+  "home": "Hell",
+  "wants": "Stings cured and venom used wisely, and the canopic jars of the dead guarded",
+  "sig": [
+   "Giant Scorpion Stinger",
+   "Wyvern Venom Sac",
+   "Purple Worm Stinger"
+  ],
+  "relic": "Scorpion Crown",
+  "seated": 3,
+  "hand": [
+   "Selkis Venomhand",
+   "Kherep Antidote-Maker",
+   "Tefen Seventail"
+  ]
+ },
+ {
+  "n": "Mut - Mother of the Gods",
+  "grp": "Egyptian Pantheon",
+  "myth": "Vulture-crowned mother goddess of Thebes, wife of Amun and mother of Khonsu, revered as the mother of the pharaoh himself.",
+  "runes": [
+   "Nurture",
+   "Royalty"
+  ],
+  "home": "Heaven",
+  "wants": "Mothers revered, and the royal line kept strong",
+  "sig": [
+   "Prayer Silk",
+   "Halo Gold",
+   "Seraph Gold"
+  ],
+  "relic": "Double Crown of the Mother",
+  "seated": 1,
+  "hand": [
+   "Ishru Lakeward"
+  ]
+ },
+ {
+  "n": "Aten - The Sun Disc",
+  "grp": "Egyptian Pantheon",
+  "myth": "The disc of the sun itself, raised by the pharaoh Akhenaten above all other gods as the single source of life, its rays ending in giving hands.",
+  "runes": [
+   "Sun",
+   "Divinity",
+   "Supreme"
+  ],
+  "home": "Heaven",
+  "wants": "All other gods set aside, and worship given to the light alone",
+  "sig": [
+   "Sunstone",
+   "Sunsteel Ore",
+   "Seraph Heartlight"
+  ],
+  "relic": "Ray-Handed Disc",
+  "seated": 3,
+  "hand": [
+   "Akhenre Sunhymn",
+   "Nefer-Neferu Brightface",
+   "Meritaten Raykeeper"
+  ]
+ },
+ {
+  "n": "Danu - Mother of the Gods",
+  "grp": "Celtic Pantheon",
+  "myth": "Ancient mother goddess from whom the Tuatha De Danann take their name, linked with rivers, waters, and the fertility of the land.",
+  "runes": [
+   "Origin",
+   "Nurture",
+   "Water"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Her children gathered back together, and rivers honoured as her sacred body",
+  "sig": [
+   "River Pearl",
+   "Worldtree Sap",
+   "Progenitor Gold"
+  ],
+  "relic": "Wellspring Torc",
+  "seated": 3,
+  "hand": [
+   "Anu Riverborn",
+   "Danand Mother-of-Hosts",
+   "Ernmas Many-Daughters"
+  ]
+ },
+ {
+  "n": "Nuada - King of the Tuatha De Danann",
+  "grp": "Celtic Pantheon",
+  "myth": "First king of the Tuatha De Danann, who lost his arm in battle, ruled again with an arm of silver, and wields a sword no enemy escapes.",
+  "runes": [
+   "Sovereignty",
+   "Blade",
+   "Regeneration"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Kings judged on their fitness to rule, and the maimed given their chance to rise again",
+  "sig": [
+   "Silver",
+   "Truesilver",
+   "Living Metal"
+  ],
+  "relic": "Silver Arm of Nuada",
+  "seated": 4,
+  "hand": [
+   "Airgetlam the Second",
+   "Credne Silverhand",
+   "Miach Arm-Grower",
+   "Bres' Rival Cathal"
+  ]
+ },
+ {
+  "n": "Manannan mac Lir - Lord of the Sea",
+  "grp": "Celtic Pantheon",
+  "myth": "Sea god and ruler of the Otherworld isles, master of illusions and mists, who rides the waves in a chariot and ferries souls beyond.",
+  "runes": [
+   "Wave",
+   "Illusion",
+   "Voyage"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Hospitality given to strangers, and voyages made to the edge of the known world",
+  "sig": [
+   "Illusion Glass",
+   "Seastone",
+   "Far-tide Glass"
+  ],
+  "relic": "Cloak of Mists",
+  "seated": 3,
+  "hand": [
+   "Mongan Wavechild",
+   "Fand Seabride",
+   "Bran Isle-Seeker"
+  ]
+ },
+ {
+  "n": "Ogma - God of Eloquence",
+  "grp": "Celtic Pantheon",
+  "myth": "Champion and poet of the Tuatha De Danann, strong in arm and tongue, said to have invented the ogham script.",
+  "runes": [
+   "Word",
+   "Strength",
+   "Speech"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Ogham carved and taught, and challenges answered with both words and fists",
+  "sig": [
+   "Rune Chalk",
+   "Rune Stone",
+   "Runesteel"
+  ],
+  "relic": "Ogham-Cut Staff",
+  "seated": 3,
+  "hand": [
+   "Cairbre Satirist",
+   "Etain Ogham-Hand",
+   "Delbaeth Fireword"
+  ]
+ },
+ {
+  "n": "Arawn - King of Annwn",
+  "grp": "Celtic Pantheon",
+  "myth": "King of the Otherworld realm of Annwn, master of a pack of white, red-eared hounds, who once traded places with a mortal prince for a year.",
+  "runes": [
+   "Death",
+   "Shade",
+   "Trade"
+  ],
+  "home": "Hell",
+  "wants": "Bargains kept to the letter, and his hounds never denied their quarry",
+  "sig": [
+   "Hellhound Pelt",
+   "Shadowglass",
+   "Undead King's Crown"
+  ],
+  "relic": "Horn of the Wild Hunt",
+  "seated": 3,
+  "hand": [
+   "Pwyll Year-King",
+   "Hafgan's Bane",
+   "Gwyn Houndmaster"
+  ]
+ },
+ {
+  "n": "Epona - Goddess of Horses",
+  "grp": "Celtic Pantheon",
+  "myth": "Gaulish goddess of horses, ponies, and mules, protector of cavalry and stables, often shown riding side-saddle among foals.",
+  "runes": [
+   "Riding",
+   "Animal"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Horses treated well, stables kept clean, and riders protected on the road",
+  "sig": [
+   "Hemp Rope",
+   "Pegasus Hoof",
+   "Pegasus Feather"
+  ],
+  "relic": "Bridle of the Mare-Queen",
+  "seated": 5,
+  "hand": [
+   "Rigana Mare-Rider",
+   "Ausonius Stablewarden",
+   "Equitia Swiftfoal",
+   "Nemos the Groom",
+   "Brigantia Saddleborn"
+  ]
+ },
+ {
+  "n": "Belenus - God of the Bright Sun",
+  "grp": "Celtic Pantheon",
+  "myth": "Shining Gaulish and British sun god associated with healing springs, whose name survives in the Beltane fires.",
+  "runes": [
+   "Sun",
+   "Heal",
+   "Light"
+  ],
+  "home": "Heaven",
+  "wants": "Bonfires lit at Beltane, and healing springs kept clean",
+  "sig": [
+   "Sunpetal",
+   "Sunfire Citrine",
+   "Solarite"
+  ],
+  "relic": "Beltane Firewheel",
+  "seated": 2,
+  "hand": [
+   "Belisama Brightspring",
+   "Grannos Sunhealer"
+  ]
+ },
+ {
+  "n": "Taranis - God of Thunder",
+  "grp": "Celtic Pantheon",
+  "myth": "Celtic thunder god carrying a lightning bolt and a spoked wheel, honoured across Gaul with fearsome sacrifices.",
+  "runes": [
+   "Lightning",
+   "Storm"
+  ],
+  "home": "Heaven",
+  "wants": "The wheel of the sky kept turning, and storms answered with offerings",
+  "sig": [
+   "Thunder Iron",
+   "Thundercrystal",
+   "Storm Elemental Spark"
+  ],
+  "relic": "Spoked Wheel of Thunder",
+  "seated": 3,
+  "hand": [
+   "Tanaros Boltcaller",
+   "Rotha Wheelwright",
+   "Lugdunon Stormbrand"
+  ]
+ },
+ {
+  "n": "Aengus - God of Love and Youth",
+  "grp": "Celtic Pantheon",
+  "myth": "Young god of love and poetry, son of the Dagda and Boann, whose kisses became birds and who followed his dream-love Caer in the shape of a swan.",
+  "runes": [
+   "Love",
+   "Youth",
+   "Dreams"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Lovers helped to find each other, and dreams of love taken seriously",
+  "sig": [
+   "Dawn Butterfly Scales",
+   "Dreamweaver Silk",
+   "Fey Silk"
+  ],
+  "relic": "Swan-Feather Harp",
+  "seated": 3,
+  "hand": [
+   "Caer Swanmaid",
+   "Diarmuid Lovespot",
+   "Midir's Ward Etain"
+  ]
+ },
+ {
+  "n": "Cerridwen - Keeper of the Cauldron",
+  "grp": "Celtic Pantheon",
+  "myth": "Enchantress who brewed a potion of wisdom in her cauldron for a year and a day, and chased the boy Gwion through many shapes when he stole it.",
+  "runes": [
+   "Transformation",
+   "Wisdom",
+   "Alchemy"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Potions brewed patiently, and stolen knowledge chased down",
+  "sig": [
+   "Herb Bundle",
+   "Transmutation Flux",
+   "Philosopher's Quicksilver"
+  ],
+  "relic": "Cauldron of Awen",
+  "seated": 4,
+  "hand": [
+   "Gwion Thricechanged",
+   "Morfran the Dark",
+   "Creirwy Fairest",
+   "Taliesin Radiant-Brow"
+  ]
+ },
+ {
+  "n": "Goibniu - Smith of the Gods",
+  "grp": "Celtic Pantheon",
+  "myth": "Smith of the Tuatha De Danann who forged weapons that never missed, and who hosted the Feast of Age where his ale granted immortality.",
+  "runes": [
+   "Forging",
+   "Blacksmith"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Weapons made perfectly in three strokes, and his feast shared with the worthy",
+  "sig": [
+   "Iron Ingot",
+   "Starmetal",
+   "Dwarf-Steel"
+  ],
+  "relic": "Three-Stroke Hammer",
+  "seated": 2,
+  "hand": [
+   "Gavida Anvilborn",
+   "Luchtaine Shaftwright"
+  ]
+ },
+ {
+  "n": "Dian Cecht - God of Healing",
+  "grp": "Celtic Pantheon",
+  "myth": "Physician of the Tuatha De Danann who made Nuada's silver arm and blessed a well that healed the wounded, but jealously killed his own son for surpassing him.",
+  "runes": [
+   "Heal",
+   "Mend"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "The wounded healed after battle, and no student allowed to outshine the master",
+  "sig": [
+   "Herb Bundle",
+   "Spirit-Touched Herb",
+   "Troll Heart"
+  ],
+  "relic": "Well of Slaine",
+  "seated": 2,
+  "hand": [
+   "Octriuil Wellkeeper",
+   "Miach's Shadow"
+  ]
+ },
+ {
+  "n": "Lir - God of the Sea",
+  "grp": "Celtic Pantheon",
+  "myth": "Father of the sea god Manannan and of the children of Lir, whose second wife turned his four children into swans for nine hundred years.",
+  "runes": [
+   "Water",
+   "Tide",
+   "Grief"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Kin restored and curses broken, and the swans of the lake left unharmed",
+  "sig": [
+   "Seastone",
+   "Fathomstone",
+   "Silence Leviathan Bone"
+  ],
+  "relic": "Swan-Chain of the Children",
+  "seated": 2,
+  "hand": [
+   "Fionnuala Swansong",
+   "Aodh Lakeborn"
+  ]
+ },
+ {
+  "n": "Boann - Goddess of the River",
+  "grp": "Celtic Pantheon",
+  "myth": "Goddess of the river Boyne who defied the forbidden Well of Wisdom and was swept away by its waters, becoming the river itself.",
+  "runes": [
+   "Water",
+   "Grow",
+   "Knowledge"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Rivers kept free-flowing, and wisdom sought even when forbidden",
+  "sig": [
+   "Reed",
+   "Whisper Coral",
+   "Veinwater"
+  ],
+  "relic": "Salmon of Knowledge",
+  "seated": 3,
+  "hand": [
+   "Segais Wellwarden",
+   "Finnegas Salmonfisher",
+   "Brug Rivermouth"
+  ]
+ },
+ {
+  "n": "Balor - King of the Fomorians",
+  "grp": "Celtic Pantheon",
+  "myth": "One-eyed giant king of the Fomorians whose poisonous gaze destroyed armies, killed at last by his own grandson Lugh.",
+  "runes": [
+   "Destruction",
+   "Curse",
+   "Vision"
+  ],
+  "home": "Abyss",
+  "wants": "His eye opened upon his enemies, and the grandson's prophecy undone",
+  "sig": [
+   "Fomorian Bone",
+   "Fomorian Warlock of the Dark Blood",
+   "Hell General's Heart"
+  ],
+  "relic": "Evil Eye of Mag Tuired",
+  "seated": 4,
+  "hand": [
+   "Cethlenn Crookedtooth",
+   "Indech the Fomor",
+   "Elatha Bright-Warrior",
+   "Tethra Deepking"
+  ]
+ },
+ {
+  "n": "Rhiannon - The Great Queen",
+  "grp": "Celtic Pantheon",
+  "myth": "Otherworld queen who rides a pale horse no rider can catch, falsely accused of killing her son and forced to carry visitors on her back as penance.",
+  "runes": [
+   "Riding",
+   "Charm",
+   "Trust"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "The falsely accused vindicated, and her birds' songs heard by the dying",
+  "sig": [
+   "Fey Silver",
+   "Siren Hair",
+   "Phoenix Feather"
+  ],
+  "relic": "Birds of Rhiannon",
+  "seated": 3,
+  "hand": [
+   "Pryderi Lostborn",
+   "Teyrnon Foalfinder",
+   "Manawydan Patient"
+  ]
+ },
+ {
+  "n": "Toutatis - Protector of the Tribe",
+  "grp": "Celtic Pantheon",
+  "myth": "Gaulish god of the tribe and the people, guardian of the community in war and peace.",
+  "runes": [
+   "Belonging",
+   "War",
+   "Protection"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "The tribe defended above all, and no member left behind",
+  "sig": [
+   "Oak",
+   "Bronze",
+   "Warstone"
+  ],
+  "relic": "Tribal Torc",
+  "seated": 3,
+  "hand": [
+   "Teutates Clanshield",
+   "Rigovira Hillfort",
+   "Comrios Ally-Bound"
+  ]
+ },
+ {
+  "n": "Sucellus - The Good Striker",
+  "grp": "Celtic Pantheon",
+  "myth": "Gaulish god carrying a long-handled mallet and a pot, linked with farming, forests, and wine, who strikes good fortune into the world.",
+  "runes": [
+   "Fruit",
+   "Hammer"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Vineyards tended and grain stored, and the mallet struck for good luck",
+  "sig": [
+   "Oak",
+   "Treant Bark",
+   "Ironwood"
+  ],
+  "relic": "Mallet of Plenty",
+  "seated": 2,
+  "hand": [
+   "Nantosuelta Hearthwife",
+   "Vinios Vat-Keeper"
+  ]
+ },
+ {
+  "n": "Mabon - The Divine Son",
+  "grp": "Celtic Pantheon",
+  "myth": "Divine youth, son of the mother goddess Modron, stolen from her at three nights old and held in a prison none could find until Arthur's men freed him.",
+  "runes": [
+   "Youth",
+   "Imprison",
+   "Release"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Prisoners freed and lost children found",
+  "sig": [
+   "Wolf Hide",
+   "Jailer's Chain",
+   "Returning Heart"
+  ],
+  "relic": "Key of Caer Loyw",
+  "seated": 2,
+  "hand": [
+   "Modron's Hound Gwyn",
+   "Eidoel Prisonmate"
+  ]
+ },
+ {
+  "n": "Airmid - Goddess of Herbs",
+  "grp": "Celtic Pantheon",
+  "myth": "Healer of the Tuatha De Danann who catalogued every herb that grew from her murdered brother's grave, until her father scattered them.",
+  "runes": [
+   "Herb",
+   "Heal"
+  ],
+  "home": "Mysterious Realm",
+  "wants": "Herbs gathered and catalogued, and healing lore never hoarded",
+  "sig": [
+   "Herb Bundle",
+   "Spirit Moss",
+   "Seraph Sage"
+  ],
+  "relic": "Cloak of Three Hundred Herbs",
+  "seated": 3,
+  "hand": [
+   "Miachsdottir Brennan",
+   "Grove-Keeper Liadan",
+   "Ethne Leafsorter"
+  ]
+ }
+]
