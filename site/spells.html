@@ -1146,8 +1146,11 @@ function hideModal(){$('mbg').classList.remove('open');document.body.classList.r
 $('mbg').addEventListener('mousedown',e=>{if(e.target===$('mbg'))closeModal()});
 function step(d){const i=MODAL_LIST.indexOf(CUR);if(i<0)return;const x=MODAL_LIST[i+d];if(x){history.replaceState({m:1},'',hashFor(TAB,x));showModal(x)}}
 
+// Recently viewed entries (this device), shown on Home and in the search box
+function recentAdd(x){if(!x||!x._t||x._t==='note'&&!x.n)return;const k=x._t+'|'+x.n;let r=store.get('recent',[]).filter(z=>z!==k);r.unshift(k);store.set('recent',r.slice(0,16))}
+function recentItems(){return store.get('recent',[]).map(k=>{const [t,...rest]=k.split('|'),n=rest.join('|'),T=TYPES[t];return T&&T.arr.find(y=>y.n===n)}).filter(Boolean)}
 function showModal(x){
-  CUR=x;
+  CUR=x;recentAdd(x);
   const M=MODAL[x._t](x);
   const i=MODAL_LIST.indexOf(x);
   const nav=i>=0&&MODAL_LIST.length>1?`<div class="mnav"><button class="btn" onclick="step(-1)" ${i===0?'disabled':''}>← Previous</button><span class="pos">${fmt(i+1)} / ${fmt(MODAL_LIST.length)}</span><button class="btn" onclick="step(1)" ${i===MODAL_LIST.length-1?'disabled':''}>Next →</button></div>`:'';
@@ -1452,6 +1455,7 @@ function paletteSearch(){
     const pins=pinnedItems().slice(0,8);
     const jump=TABS.filter(t=>t[0]!=='home');
     if(pins.length){h+=`<div class="pal-g">Pinned</div>`;pins.forEach(x=>{PRES.push({x});h+=palRow(x,esc(x.n),PRES.length-1)})}
+    const rec=recentItems().filter(x=>!pins.includes(x)).slice(0,6);if(rec.length){h+=`<div class="pal-g">Recently viewed</div>`;rec.forEach(x=>{PRES.push({x});h+=palRow(x,esc(x.n),PRES.length-1)})}
     h+=`<div class="pal-g">Go to</div>`;jump.forEach(([id,l])=>{PRES.push({tab:id});h+=`<button class="pal-i" data-pi="${PRES.length-1}">${l}<span class="r">section</span></button>`});
   } else {
     const best=[];PAL_ORDER.forEach(([t])=>{const arr=TYPES[t].arr;for(const x of arr){const n=lc(x.n),k=lc(x.n.split(' - ')[0]);if(n===q||k===q){best.push(x);if(best.length>=4)break}}});
@@ -1520,6 +1524,7 @@ function renderHome(){
       <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="randomItem(BPS.concat(MATS,MONSTERS,GODS))">🎲 Show me something random</button></div>
     </section>
     <section class="sec"><div class="stats">${stats.map(([t,v,l])=>`<button class="stat" data-go="${t}"><span class="v">${fmt(v)}</span><span class="l">${l}</span></button>`).join('')}</div></section>
+    ${(()=>{const rec=recentItems().slice(0,10);return rec.length?`<section class="sec"><div class="sec-h"><h3>Recently viewed</h3><p>on this device · <a href="#" onclick="store.set('recent',[]);renderHome();return false">clear</a></p></div><div class="chips">${rec.map(x=>refChip(x,esc(x._t==='god'?godKey(x):x.n),{bp:'Blueprint',mat:'Material',mon:'Monster',god:'God',rune:'Rune',spell:'Spell',sub:'Subclass',realm:'Realm',demon:'Demon',patron:'Patron',note:'Note'}[x._t]||'')).join('')}</div></section>`:''})()}
     ${pins.length?`<section class="sec"><div class="sec-h"><h3>Pinned</h3><p>${pins.length} saved on this device</p></div><div class="grid">${pins.slice(0,12).map(card).join('')}</div></section>`:''}
     <section class="sec"><div class="sec-h"><h3>The realm ladder</h3><p>Eleven realms in ten tiers. Each tier's materials grade 1–10, giving Material Rank 1–100.</p><button class="btn" data-go="realms">All realms →</button></div>
       <div class="ladder">${REALMS.map(r=>`<button class="rung" style="--rc:${r.color}" data-ref="${ref(r)}"><span class="tier">Tier ${r.tier} · Rank ${(r.tier-1)*10+1}–${r.tier*10}</span><span class="nm">${esc(r.n)}</span><span class="ln">${fmt(MATS.filter(m=>m.realm===r.n).length)} materials · ${fmt(MONSTERS.filter(m=>m.realm===r.n).length)} monsters</span></button>`).join('')}</div></section>
@@ -2226,6 +2231,21 @@ function makeHook(kind,R,level,realm){
     return {g:null,text:`In the ${esc(r.n)} Realm, ${pl} is wearing away: stone crumbles, wood rots, and the people there remember less every day, as if centuries are passing in a few weeks. Scholars of the Runes whisper that this is how the gods' old world ended. Is it ${a(RUNE_IDX.get('destruction')||RUNES[0])} working on its own, or has someone found a way to call on Inane?`}}
   return null;
 }
+// NPCs built from the world: a name, a contract with a god (and its rank), a profession, what they want, what they carry.
+const NPC_FIRST=['Aldric','Brenna','Corvin','Dalia','Edda','Fenn','Garreth','Hesta','Ivo','Jora','Kael','Liora','Maren','Nils','Orla','Pell','Quill','Rhea','Soren','Tamsin','Ulric','Vessa','Wren','Yara','Zeph','Ansel','Bryn','Cass','Doran','Elske'];
+const NPC_LAST=['Ashdown','Brightwater','Coldbrook','Duskmantle','Emberly','Fairholt','Greystone','Hollowell','Ironwood','Kettering','Larkspur','Marrow','Nettleby','Oakhart','Pennick','Quarry','Ravensworth','Saltmarsh','Thistle','Underhill','Vane','Whitlock'];
+const NPC_TRAITS=['speak only in questions when nervous','never sit with their back to a door','collect buttons from every town','owe money to three different temples','are terrified of birds','laugh at the wrong moments','keep a ledger of every favor','were once a Finger\'s servant','claim to have seen Inane\'s work','hum hymns to a god they don\'t serve'];
+function makeNPC(R,realm){
+  const pk=a=>a[Math.floor(R()*a.length)],rs=realm?[REALM[realm]]:REALMS.filter(r=>r.tier<=3),r=pk(rs);
+  const g=R()<.7?pk(GODS):null,rank=g?pk(['Minor','Minor','Normal','Normal','Major','Senior']):'';const ct=g&&contractOf(rank);
+  const prof=pk(Object.keys(PROFS)),mats=MATS.filter(m=>m.realm===r.n&&!m.gen&&m.price&&m.g<=4),carry=[pk(mats),pk(mats)].filter(Boolean);
+  return {name:pk(NPC_FIRST)+' '+pk(NPC_LAST),realm:r,g,rank,ct,prof,trait:pk(NPC_TRAITS),want:g&&g.wants?`Serves ${godKey(g)}'s will: ${g.wants.charAt(0).toLowerCase()+g.wants.slice(1).replace(/\.$/,'')}.`:pk(['Wants to clear a family debt.','Wants passage to a higher realm.','Wants revenge on a contractor of a rival god.','Wants a rare material nobody will sell them.','Wants to be left alone.']),carry,purse:Math.round((5+R()*40)*(r.tier))};
+}
+function npcHTML(n){
+  return `<div class="callout" style="border-color:var(--acc)"><div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b style="font-family:var(--serif);font-size:1.1rem">${esc(n.name)}</b><span class="note" style="margin:0">${esc(n.prof)} · from the ${esc(n.realm.n)} Realm</span></div>
+    <div style="line-height:1.6;margin-top:4px">${n.g?`Holds a <b>${esc(n.rank)}</b> contract with ${refChip(n.g,esc(godKey(n.g)))}: ${esc(n.ct.power.charAt(0).toLowerCase()+n.ct.power.slice(1))}.`:'No god holds a contract with them.'} ${esc(n.want)} They ${esc(n.trait)}.
+    <br><span class="note" style="margin:0">Carries ${n.carry.map(m=>refChip(m)).join(', ')}, and ${gp(n.purse)}${localPrice(n.purse,n.realm.n)?` (${localPrice(n.purse,n.realm.n)})`:''}.</span></div></div>`;
+}
 function renderHooks(){
   const st=store.get('hooks',{level:Math.max(1,Math.round(PARTY.reduce((a,c)=>a+(+c.level||1),0)/(PARTY.length||1))||3),realm:'',kinds:[],seed:1});
   $('content').innerHTML=`<div class="page">
@@ -2235,12 +2255,14 @@ function renderHooks(){
       <label>Realm<select id="hk-realm"><option value="">Any realm the party can reach</option>${REALMS.map(r=>`<option${r.n===st.realm?' selected':''}>${esc(r.n)}</option>`).join('')}</select></label>
       <label>Kind<select id="hk-kind"><option value="">Any kind</option>${HOOK_KINDS.map(([k,l])=>`<option value="${k}"${st.kinds[0]===k?' selected':''}>${l}</option>`).join('')}</select></label>
     </div><div style="display:flex;gap:8px;margin-top:12px"><button class="btn primary" id="hk-roll">🎲 New hooks</button></div></div>
-    <div id="hk-out" style="margin-top:14px;display:flex;flex-direction:column;gap:10px"></div></div>`;
+    <div id="hk-out" style="margin-top:14px;display:flex;flex-direction:column;gap:10px"></div>
+    <section class="sec"><div class="sec-h"><h3>People to meet</h3><p>NPCs from the same world: contracts, professions, wants, and what's in their pockets.</p><button class="btn" id="npc-roll" style="margin-left:auto">🎲 New NPCs</button></div><div id="npc-out" style="display:flex;flex-direction:column;gap:10px"></div></section></div>`;
   const save=()=>{const s=store.get('hooks',st);Object.assign(s,{level:Math.min(20,Math.max(1,+$('hk-lv').value||1)),realm:$('hk-realm').value,kinds:$('hk-kind').value?[$('hk-kind').value]:[]});store.set('hooks',s);return s};
   const out=()=>{const s=store.get('hooks',st),R=rng32(s.seed||1),kinds=s.kinds.length?s.kinds:HOOK_KINDS.map(k=>k[0]);const res=[];
     for(let i=0;i<40&&res.length<6;i++){const k=s.kinds.length?kinds[0]:kinds[(i+(s.seed||0))%kinds.length];const h=makeHook(k,R,s.level,s.realm);if(h)res.push([k,h])}
     $('hk-out').innerHTML=res.length?res.map(([k,h])=>`<div class="callout" style="border-color:var(--gold)"><div style="font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">${HOOK_KINDS.find(x=>x[0]===k)[1]}</div><div style="line-height:1.6">${h.text}</div></div>`).join(''):'<div class="empty">No hooks fit. Try another realm or a higher level.</div>'};
   ['hk-lv','hk-realm','hk-kind'].forEach(i=>$(i).addEventListener('change',()=>{save();out()}));
+  const npcs=seed=>{const R=rng32(seed),s=store.get('hooks',st);$('npc-out').innerHTML=[0,1,2].map(()=>npcHTML(makeNPC(R,s.realm))).join('')};npcs((Math.random()*2**31)|0);$('npc-roll').onclick=()=>npcs((Math.random()*2**31)|0);
   $('hk-roll').onclick=()=>{const s=save();s.seed=(Math.random()*2**31)|0;store.set('hooks',s);out()};
   out();
 }
