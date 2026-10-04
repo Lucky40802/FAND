@@ -379,7 +379,7 @@ var PAGE_INFO = {
   patrons: ['Patrons', 'Warlock patrons of FAND: fiends, archfey, Great Old Ones, the undying, celestials, genies, and homebrew.'],
   rules: ['Rules', 'Rules summaries for Armor Class, material grading, properties, refining, economy, professions, realm travel, god contracts, classes, spells, and monster stats.'],
   tools: ['Tools', 'Table tools: damage vs. AC, material grade, refining planner, encounter and loot roller, and realm Pressure check.'],
-  forge: ['Forge', 'Build a weapon or armor part by part: choose a material for each part and see the finished item, with penalties for the wrong materials.'],
+  forge: ['Forge', 'General Blueprints for every weapon, armor piece, shield, and focus: choose a material for each part (head, haft, grip) and see the finished item, with heavy penalties for the wrong materials.'],
   craft: ['Crafting planner', 'Plan a Blueprint: every material, where to get it, what it costs, and what your crafter is missing.'],
   party: ['Party', 'Track each character: god contract, rivals, gear and traits, materials, money, and realm Pressure.'],
   hooks: ['Adventure hooks', 'Story starters built from the gods, Runes, realms, monsters, and Blueprints of Vestige, scaled to your party.'],
