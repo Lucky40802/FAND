@@ -167,6 +167,7 @@ button.chip:hover,a.chip:hover{border-color:var(--acc);color:var(--text)}
 .sec-h{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
 .sec-h h3{font-size:1.2rem}
 .sec-h p{color:var(--muted);font-size:.85rem}
+.rtree{list-style:none;padding-left:16px;margin:0;border-left:1px solid var(--line)}.rtree li{margin:3px 0;font-size:.9rem}.rtree summary{cursor:pointer}.rtree>li>details>summary::marker{color:var(--gold)}
 @media (max-width:640px){.sec-h{flex-direction:column;align-items:flex-start;gap:4px}.tools .form{grid-template-columns:1fr 1fr!important}}
 .sec-h .btn{margin-left:auto}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
@@ -1708,7 +1709,7 @@ function renderLore(){
   const runes=[...RUNE_GODS].sort((a,b)=>b[1].length-a[1].length||a[0].localeCompare(b[0]));
   const prog=MATS.filter(m=>m.pn==='Progenitor Piece');
   const groups=(arr)=>{const o={};arr.forEach(e=>{(o[e.grp]=o[e.grp]||[]).push(e)});return o};
-  const toc=[['cosmos','Infinatas and Inane'],['timeline','Timeline'],['wars','The god wars'],['pantheons','The pantheons'],['runes','Runes'],['realms','The realms'],['progenitors','The progenitors'],['powers','Other powers'],['contracts','Contracts and the Hand']];
+  const toc=[['cosmos','Infinatas and Inane'],['timeline','Timeline'],['tree','Rune family tree'],['wars','The god wars'],['pantheons','The pantheons'],['runes','Runes'],['realms','The realms'],['progenitors','The progenitors'],['powers','Other powers'],['contracts','Contracts and the Hand']];
   const sec=(id,title,body,sub)=>`<section class="rule" id="lore-${id}"><h3>${title}</h3>${sub?`<div class="src">${sub}</div>`:''}${body}</section>`;
   $('content').innerHTML=`<div class="page">
     <section class="hero" style="margin-bottom:18px"><h2>The Lore of Vestige</h2><p>What is known of the powers that shape FAND: the being above the gods, the gods who came here as refugees, the Runes they fight over, and the realms they rule.</p></section>
@@ -1722,6 +1723,7 @@ function renderLore(){
       <li><b>The rivalries.</b> ${CONTESTED.length} Runes are claimed by more than one god, and every shared Rune is a feud.</li>
       <li><b>The god wars.</b> Open war between gods is forbidden, so the feuds over shared Runes are fought through contracts and Fingers. <a href="#lore-wars" onclick="document.getElementById('lore-wars').scrollIntoView();return false">See every front below.</a></li>
       <li><b>If Infinatas falls.</b> Inane takes over and unmakes everything, Infinatas included, until nothing is left; then Infinatas returns and creates it all again.</li></ol>`,'Known so far, in order')}
+    ${sec('tree','Rune family tree',runeTreeHTML(),'Built from the vault\'s Rune lineage')}
     ${sec('wars','The god wars',godWarsHTML(),'Draft built from the vault\'s data: every Rune held by more than one god')}
     ${sec('pantheons','The pantheons',`<p>${GODS.length} gods from ${Object.keys(pantheons).length} pantheons now live in Vestige. Most make their homes in ${(()=>{const c={};GODS.forEach(g=>{if(g.home)c[g.home]=(c[g.home]||0)+1});return Object.entries(c).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([r,n])=>esc(r)+' ('+n+')').join(', ')})()}.</p>
       <div style="display:flex;flex-direction:column;gap:10px;margin-top:10px">${Object.entries(pantheons).map(([p,gs])=>`<div><b style="font-family:var(--serif)">${esc(p)}</b> <span class="note">${gs.length} gods</span><div class="chips" style="margin-top:4px">${gs.map(g=>refChip(g,esc(godKey(g)),g.home||'')).join('')}</div></div>`).join('')}</div>
@@ -2084,6 +2086,7 @@ function charEditor(c){
     <div class="panel"><h4>Gear <em style="font-family:var(--sans);font-size:.75rem;color:var(--muted);font-weight:400">equipped Blueprints</em></h4>
       <div class="mlist" style="margin:8px 0">${(c.gear||[]).map((n,i)=>{const b=findBP(n);return `<button ${b?`data-ref="${ref(b)}"`:''}>${esc(n)}<span class="x">${b?esc(b.cat)+(b.ac?' · AC '+esc(b.ac):''):''}</span><span class="r" onclick="event.stopPropagation();rmGear('${c.id}',${i})" title="Remove">✕</span></button>`}).join('')||'<button disabled>Nothing equipped</button>'}</div>
       <div class="keyrow"><input class="sel" id="pg-add" list="dl-bp" placeholder="Add a Blueprint…" style="max-width:none;flex:1"><button class="btn" onclick="addGear('${c.id}')">Add</button></div>
+      ${(()=>{const at=s.gear.map(b=>b.design&&b.design.dmg?{n:b.n,dmg:b.design.dmg+(b.design.vers?` (${b.design.vers} two-handed)`:''),atk:b.design.atk,props:b.design.props}:b.dc&&b.dm&&!ARMOR_CATS.includes(b.cat)?{n:b.n,dmg:b.dc+' '+b.dm,atk:null,props:genOf(b)&&BASES[genOf(b)].props||''}:null).filter(Boolean);return at.length?`<div class="blk" style="margin-top:10px"><h4>Attacks <em>add your ability modifier and proficiency</em></h4><div class="tablewrap"><table class="t"><tbody>${at.map(a=>`<tr><td><b>${esc(a.n)}</b>${a.props?`<br><small style="color:var(--muted)">${esc(a.props)}</small>`:''}</td><td class="num">${a.atk!=null?(a.atk>=0?'+':'')+a.atk+' to hit':''}</td><td class="mono">${esc(a.dmg)}</td></tr>`).join('')}</tbody></table></div></div>`:''})()}
       ${s.traits.length?`<div class="blk" style="margin-top:10px"><h4>Active traits</h4><div class="mlist">${s.traits.map(({m,b})=>`<button data-ref="${ref(m)}" style="flex-direction:column;align-items:flex-start"><span><b style="color:var(--gold2)">◆ ${esc(m.tr.n)}</b> <span class="x">${esc(m.n)} in ${esc(b.n)}</span></span><span style="font-size:.8rem">${esc(m.tr.t)}</span></button>`).join('')}</div></div>`:''}</div>
     <div class="panel"><h4>Materials <em style="font-family:var(--sans);font-size:.75rem;color:var(--muted);font-weight:400">worth ${gp(s.invGp)}</em></h4>
       <div class="mlist" style="margin:8px 0">${s.inv.map((x,i)=>`<button ${x.m?`data-ref="${ref(x.m)}"`:''}><b style="width:38px">${x.q}×</b>${esc(x.n)}<span class="x">${x.m?esc(x.m.gr):''}</span><span class="r">${x.m&&x.m.price?gp(x.m.price*x.q):''} <span onclick="event.stopPropagation();rmInv('${c.id}',${i})" title="Remove">✕</span></span></button>`).join('')||'<button disabled>No materials</button>'}</div>
@@ -2213,6 +2216,24 @@ function renderHooks(){
   ['hk-lv','hk-realm','hk-kind'].forEach(i=>$(i).addEventListener('change',()=>{save();out()}));
   $('hk-roll').onclick=()=>{const s=save();s.seed=(Math.random()*2**31)|0;store.set('hooks',s);out()};
   out();
+}
+// Rune family tree: every Rune under the Rune it came from (the vault's lineage), roots are progenitors and
+// original Laws; Laws born from mortal emotion gather under the Mortal Realm.
+function runeTreeHTML(){
+  const kids=new Map(),par=new Map(),add=(p,c)=>{if(!kids.has(p))kids.set(p,[]);kids.get(p).push(c);par.set(c,p)};
+  RUNES.forEach(r=>{const ch=(r.lin&&r.lin.chain)||[];if(['Infinatas','Creation','Destruction','Balance'].includes(r.n)){add('✦ Infinatas and Inane',r.n);return}let p=ch[1]&&ch[0].rel!=='opposite'&&ch[1].n;if(!p&&r.vprog&&r.vprog!==r.n)p=r.vprog;if(!p&&r.lin&&r.lin.origin)p='⟡ Mortal Realm';if(p&&lc(p)!==lc(r.n))add(p,r.n)});
+  const roots=[...kids.keys()].filter(k=>!par.has(k));
+  const size=(n,seen=new Set())=>{if(seen.has(n))return 0;seen.add(n);return (kids.get(n)||[]).reduce((a,c)=>a+1+size(c,seen),0)};
+  roots.sort((a,b)=>size(b)-size(a)||a.localeCompare(b));
+  const node=(n,d,seen)=>{if(seen.has(n)||d>7)return '';seen.add(n);const r=RUNE_IDX.get(lc(n)),ks=(kids.get(n)||[]).slice().sort((a,b)=>size(b)-size(a)||a.localeCompare(b)),tot=size(n);
+    const lab=r?`<a href="#" data-ref="${ref(r)}" style="font-weight:600">${esc(n)}</a>${r.gods.length?` <small style="color:var(--gold2)">${r.gods.map(godKey).map(esc).join(', ')}</small>`:''}`:`<b>${esc(n)}</b>${PROG_STATUS[n]?` <small style="color:var(--muted)">${esc(PROG_STATUS[n])}</small>`:''}`;
+    if(!ks.length)return `<li>${lab}</li>`;
+    return `<li><details${d<1&&tot<40?' open':''}><summary>${lab} <span class="b ghost">${tot}</span></summary><ul class="rtree">${ks.map(k=>node(k,d+1,seen)).join('')}</ul></details></li>`};
+  const seen=new Set(),loose=RUNES.filter(r=>!par.has(r.n)&&!kids.has(r.n));
+  return `<p>Every Rune below hangs from the Rune it came from, as the vault's notes describe it: a corpse, a child, a splinter, or a Law formed from others. The roots are the progenitors and original Laws; Laws born from mortal emotion gather under the Mortal Realm. The number is how many Runes descend from each.</p>
+  <ul class="rtree" style="margin-top:8px">${roots.map(r=>node(r,0,seen)).join('')}</ul>
+  ${loose.length?`<details class="fold"><summary>${loose.length} Runes with no recorded parent or descendants</summary><div class="chips">${loose.map(r=>refChip(r)).join('')}</div></details>`:''}
+  <p class="note"><a href="${pageUrl('runes')}" data-go="runes">All Runes →</a></p>`;
 }
 function godWarsHTML(){
   const fronts=CONTESTED.map(rn=>{const gs=RUNE_GODS.get(rn)||[];const pans=[...new Set(gs.map(g=>g.grp))];return {rn,gs,pans}}).sort((a,b)=>b.gs.length-a.gs.length||b.pans.length-a.pans.length||a.rn.localeCompare(b.rn));
@@ -2569,14 +2590,14 @@ function forgeOut(){
 }
 function designFromForge(){
   const r=forgeResult();
-  return {n:FORGE.name||r.name,base:FORGE.base,parts:Object.assign({},FORGE.parts),ac:r.ac!=null?r.ac:null,dmg:r.damage?r.damage+' '+r.dtype:'',cat:r.B.cat,slot:r.B.slot||r.B.kind||'',mats:r.parts.filter(p=>p.m&&p.fit.lv!=='wrong').map(p=>p.m.n),pr:r.prof,il:r.il};
+  return {n:FORGE.name||r.name,base:FORGE.base,parts:Object.assign({},FORGE.parts),ac:r.ac!=null?r.ac:null,dmg:r.damage?r.damage+' '+r.dtype:'',atk:r.attack!=null?r.attack:null,vers:r.vers||'',props:r.B.props||'',cat:r.B.cat,slot:r.B.slot||r.B.kind||'',mats:r.parts.filter(p=>p.m&&p.fit.lv!=='wrong').map(p=>p.m.n),pr:r.prof,il:r.il};
 }
 function saveDesign(){const d=designFromForge();const i=DESIGNS.findIndex(x=>x.n===d.n);if(i>=0)DESIGNS[i]=d;else DESIGNS.push(d);store.set('designs',DESIGNS);toast('Saved '+d.n);renderForge();return d}
 function giveDesign(){const d=saveDesign(),c=PARTY.find(x=>x.id===$('fg-who')?.value)||PARTY[0];if(!c)return;c.gear=(c.gear||[]).concat(d.n);saveParty();toast(d.n+' equipped on '+(c.name||'character'))}
 function loadDesign(i){const d=DESIGNS[i];FORGE={base:BASES[d.base]?d.base:'Battleaxe',parts:Object.assign({},d.parts),name:d.n,showAll:FORGE.showAll,realm:FORGE.realm};saveForge();renderForge()}
 // Saved designs act like Blueprints in the party tracker and crafting planner
 const _findBP=findBP;
-findBP=n=>_findBP(n)||(DESIGNS.find(d=>lc(d.n)===lc(n||''))&&(d=>({n:d.n,cat:d.cat,ac:d.ac,slot:d.slot,mats:d.mats,pr:d.pr,sp:'',lv:d.il,r:'',dc:'',dm:'',design:true}))(DESIGNS.find(d=>lc(d.n)===lc(n||''))));
+findBP=n=>_findBP(n)||(DESIGNS.find(d=>lc(d.n)===lc(n||''))&&(d=>({n:d.n,cat:d.cat,ac:d.ac,slot:d.slot,mats:d.mats,pr:d.pr,sp:'',lv:d.il,r:'',dc:'',dm:'',design:d}))(DESIGNS.find(d=>lc(d.n)===lc(n||''))));
 
 // ════════════════════════════════════════════════════════════════
 //  Settings
