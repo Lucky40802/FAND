@@ -661,7 +661,7 @@ function runeRel(n){
   if(/mortal realm/i.test(t)&&/emotion|masses/i.test(t))return {type:'mortal'};
   return links.length?{type:'derived',parents:links.slice(0,2)}:{type:'unknown'};
 }
-const PROG_STATUS={Ignis:'Dead: its corpse became the Fire Law',Undine:'Dead: its corpse became the Water Law',Gnome:'Dead: its corpse became the Earth Law',Sylph:'Dead: her corpse became the Air Law',Iron:'Alive, caged in the Primordial Realm',Cosmic:'Never fully killed; siphoned piece by piece',Infinatas:'One of the last original gods; never killed or usurped'};
+const PROG_STATUS={Ignis:'Dead: its corpse became the Fire Law',Undine:'Dead: its corpse became the Water Law',Gnome:'Dead: its corpse became the Earth Law',Sylph:'Dead: her corpse became the Air Law',Iron:'Alive, but stuck in the Spirit Realm for unknown reasons',Cosmic:'Never fully killed; siphoned piece by piece',Infinatas:'One of the last original gods; never killed or usurped'};
 function runeLineage(name){
   const chain=[],seen=new Set();let cur=name,prog=null,origin='';
   for(let i=0;i<8&&cur&&!seen.has(lc(cur));i++){
@@ -2300,6 +2300,17 @@ function renderJournal(){
 // ════════════════════════════════════════════════════════════════
 const HC_TIERS=[['Unique','One of a kind: only one person in the world can hold it at a time. When the holder dies or gives it up, it can be claimed again.','var(--gold)'],['Epic','A specialisation of a basic class: the class\'s own skills honed into something sharper (a Rogue can become a Poison Master).','var(--acc)'],['Legendary','Follows one of the Rune progenitors, the original holders of the Laws, and carries a share of that progenitor\'s way.','var(--red)']];
 const HC_FLOOR={Epic:.5,Unique:.75,Legendary:1};
+// The class list is encrypted; HC holds it once the code is entered (remembered for this browser session).
+let HC=null;
+async function hcUnlock(code){
+  const L=HIDDEN.lock;if(!L)return HC=HIDDEN.classes||[];if(!(window.crypto&&crypto.subtle))throw new Error('This browser cannot unlock the list.');
+  const b=x=>Uint8Array.from(atob(x),c=>c.charCodeAt(0)),base=await crypto.subtle.importKey('raw',new TextEncoder().encode(code),'PBKDF2',false,['deriveKey']);
+  const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b(L.salt),iterations:L.it,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt']);
+  const out=await crypto.subtle.decrypt({name:'AES-GCM',iv:b(L.iv)},key,b(L.data));HC=JSON.parse(new TextDecoder().decode(out));try{sessionStorage.setItem('fand.hc',code)}catch(e){}return HC;
+}
+async function hcAuto(){if(HC||!HIDDEN.lock)return;let c=null;try{c=sessionStorage.getItem('fand.hc')}catch(e){}if(c)try{await hcUnlock(c)}catch(e){}}
+function hcLockHTML(){return `<div class="panel" style="max-width:440px;margin:20px auto;text-align:center;border-top:3px solid var(--gold)"><div style="font-size:2rem">🔒</div><b style="font-family:var(--serif);font-size:1.2rem">The list is sealed</b><p class="note">Enter the code to see every hidden class.</p><form id="hc-form" style="display:flex;gap:8px;justify-content:center"><input class="sel" id="hc-code" type="password" inputmode="numeric" autocomplete="off" placeholder="Code" style="max-width:140px;text-align:center;letter-spacing:.3em"><button class="btn primary">Unlock</button></form><div id="hc-err" class="note" style="color:var(--red);min-height:1.2em"></div></div>`}
+function hcBindLock(after){const f=$('hc-form');if(!f)return;f.onsubmit=async e=>{e.preventDefault();try{await hcUnlock($('hc-code').value.trim());after()}catch(err){$('hc-err').textContent=err&&err.message&&/browser/.test(err.message)?err.message:'That code is not right.';$('hc-code').select()}};$('hc-code').focus()}
 // Each unclaimed Rune's excess energy pools into one realm's Tower (fixed by the Rune's name).
 const TOWER_RUNES=(()=>{const m=new Map(REALMS.map(r=>[r.n,[]]));RUNES.filter(r=>!r.gods.length).forEach(r=>{let h=0;for(const c of r.n)h=(h*31+c.charCodeAt(0))>>>0;m.get(REALMS[h%REALMS.length].n).push(r)});return m})();
 function towerOf(realm){const t=(HIDDEN.towers||{})[realm]||{};const R=REALM[realm]||{};return {realm,name:t.name||`The ${realm} Tower`,look:t.look||'',floors:t.floors||(R.tier||1)*10}}
@@ -2307,32 +2318,40 @@ function hcFloor(c){const t=towerOf(c.tower);return Math.max(1,Math.round(t.floo
 function hcCard(c,open){
   const tier=HC_TIERS.find(t=>t[0]===c.tier)||HC_TIERS[1],pr=c.prog&&RUNE_IDX.get(lc(c.prog));
   return `<details class="panel" ${open?'open':''} style="border-left:3px solid ${tier[2]};padding:12px 14px" id="hc-${pid(c.n)}"><summary style="cursor:pointer;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;list-style:none"><b style="font-family:var(--serif);font-size:1.12rem">${esc(c.n)}</b><span class="b" style="color:${tier[2]}">${esc(c.tier)}</span>${c.base?`<span class="b ghost">${esc(c.base)}</span>`:''}${c.prog?`<span class="b ghost">follows ${esc(c.prog)}</span>`:''}<span class="note" style="margin:0 0 0 auto">${esc(towerOf(c.tower).name)} · floor ${hcFloor(c)}</span></summary>
+    ${c.notice?`<div class="mono" style="margin-top:8px;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--gold2);font-size:.85rem">${esc(c.notice)}</div>`:''}
     <div style="margin-top:8px;line-height:1.6">${esc(c.blurb||'')}</div>
     ${kv([['Requires',esc(c.requires||'')],['Unlock',esc(c.unlock||'')],['Tower',`<a href="${pageUrl('towers')}#tw-${pid(c.tower)}" data-go="towers">${esc(towerOf(c.tower).name)}</a> (${esc(c.tower)} Realm), floor ${hcFloor(c)} of ${towerOf(c.tower).floors}`],c.prog?['Progenitor',pr?refChip(pr,esc(c.prog)):esc(c.prog)]:null,c.base?['Basic class',`<a href="#" data-go="subclasses" data-setup='${esc(JSON.stringify({side:c.base}))}'>${esc(c.base)}</a>`]:null].filter(Boolean))}
     <div class="tablewrap" style="margin-top:8px"><table class="t"><tbody>${(c.features||[]).map(([lv,n,t])=>`<tr><td class="num" style="white-space:nowrap">Lv ${lv}</td><td><b>${esc(n)}</b><br><span style="color:var(--text2)">${esc(t)}</span></td></tr>`).join('')}</tbody></table></div>
-    ${c.cost?`<div class="callout" style="border-color:var(--red);margin-top:8px"><b>The price:</b> ${esc(c.cost)}</div>`:''}</details>`;
+    ${c.evolves?`<div class="callout" style="margin-top:8px"><b>Evolution:</b> ${esc(c.evolves)}</div>`:''}
+    ${c.cost?`<div class="callout" style="border-color:var(--red);margin-top:8px"><b>The price:</b> ${esc(c.cost)}</div>`:''}
+    ${c.secret?`<details class="fold" style="margin-top:8px"><summary>DM only: the hidden condition</summary><div class="note" style="margin:4px 0 0">${esc(c.secret)}</div></details>`:''}</details>`;
 }
-function renderHidden(){
-  const st=store.get('hc',{tier:'',q:''}),q=lc(st.q||''),C=(HIDDEN.classes||[]).filter(c=>(!st.tier||c.tier===st.tier)&&(!q||lc([c.n,c.base,c.prog,c.blurb,c.tower].join(' ')).includes(q)));
+async function renderHidden(){
+  await hcAuto();
+  const st=store.get('hc',{tier:'',q:''}),q=lc(st.q||''),ALL=HC||[],C=ALL.filter(c=>(!st.tier||c.tier===st.tier)&&(!q||lc([c.n,c.base,c.prog,c.blurb,c.tower].join(' ')).includes(q)));
   $('content').innerHTML=`<div class="page">
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Hidden classes</h3><p>Beyond the basic classes are hidden classes. No one picks them at character creation: they are unlocked only through quests and by climbing the <a href="${pageUrl('towers')}" data-go="towers">Towers</a> that stand in every realm.</p></div>
-    <div class="cols" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-bottom:14px">${HC_TIERS.map(([t,d,col])=>`<button class="panel" style="text-align:left;cursor:pointer;border-top:3px solid ${col};${st.tier===t?'background:var(--goldbg)':''}" data-hct="${t}"><b style="font-family:var(--serif);font-size:1.15rem;color:${col}">${t}</b> <span class="b ghost">${(HIDDEN.classes||[]).filter(c=>c.tier===t).length}</span><div style="margin-top:4px;font-size:.88rem;color:var(--text2)">${esc(d)}</div></button>`).join('')}</div>
-    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px"><input class="sel" id="hc-q" placeholder="Find a hidden class, a basic class, a progenitor…" value="${esc(st.q||'')}" style="max-width:340px;flex:1">${st.tier?`<button class="btn" data-hct="">Show all tiers</button>`:''}<span class="note" style="margin:0">${C.length} shown</span></div>
-    ${HIDDEN.classes&&HIDDEN.classes.length?(st.tier?[st.tier]:HC_TIERS.map(t=>t[0])).map(t=>{const L=C.filter(c=>c.tier===t);return L.length?`<section class="sec"><div class="sec-h"><h3>${t}</h3></div><div style="display:flex;flex-direction:column;gap:10px">${L.map(c=>hcCard(c,false)).join('')}</div></section>`:''}).join(''):'<div class="empty">No hidden classes yet.</div>'}
+    <div class="cols" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-bottom:14px">${HC_TIERS.map(([t,d,col])=>`<button class="panel" style="text-align:left;cursor:pointer;border-top:3px solid ${col};${st.tier===t?'background:var(--goldbg)':''}" data-hct="${t}"><b style="font-family:var(--serif);font-size:1.15rem;color:${col}">${t}</b> <span class="b ghost">${HC?HC.filter(c=>c.tier===t).length:(HIDDEN.counts||{})[t]||0}</span><div style="margin-top:4px;font-size:.88rem;color:var(--text2)">${esc(d)}</div></button>`).join('')}</div>
+    ${!HC?hcLockHTML():`<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px"><input class="sel" id="hc-q" placeholder="Find a hidden class, a basic class, a progenitor…" value="${esc(st.q||'')}" style="max-width:340px;flex:1">${st.tier?`<button class="btn" data-hct="">Show all tiers</button>`:''}<span class="note" style="margin:0">${C.length} shown</span></div>
+    ${ALL.length?(st.tier?[st.tier]:HC_TIERS.map(t=>t[0])).map(t=>{const L=C.filter(c=>c.tier===t);return L.length?`<section class="sec"><div class="sec-h"><h3>${t}</h3></div><div style="display:flex;flex-direction:column;gap:10px">${L.map(c=>hcCard(c,false)).join('')}</div></section>`:''}).join(''):'<div class="empty">No hidden classes yet.</div>'}`}
   </div>`;
+  if(!HC){hcBindLock(renderHidden);$('content').querySelectorAll('[data-hct]').forEach(b=>b.onclick=()=>{});return}
   $('content').querySelectorAll('[data-hct]').forEach(b=>b.onclick=()=>{const s2=store.get('hc',{});s2.tier=s2.tier===b.dataset.hct?'':b.dataset.hct;store.set('hc',s2);renderHidden()});
   $('hc-q').oninput=e=>{const s2=store.get('hc',{});s2.q=e.target.value;store.set('hc',s2);const pos=e.target.selectionStart;renderHidden();const f=$('hc-q');f.focus();f.setSelectionRange(pos,pos)};
   const h=location.hash.match(/#hc-([\w-]+)/);if(h&&$('hc-'+h[1])){$('hc-'+h[1]).open=true;$('hc-'+h[1]).scrollIntoView()}
+  diceify($('content'));
 }
-function renderTowers(){
+async function renderTowers(){
+  await hcAuto();
   $('content').innerHTML=`<div class="page">
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">The Towers</h3><p>A Tower stands in every realm. No one built them: they grew out of the excess energy of unclaimed Runes, Laws no god holds, whose power has nowhere else to go. The deeper the realm, the taller its Tower. Climbing one is the only way, besides certain quests, to unlock a <a href="${pageUrl('hidden')}" data-go="hidden">hidden class</a>.</p></div>
     <div class="callout" style="margin-bottom:14px">Each floor is guarded by creatures of the Tower's realm, stronger the higher you climb. Epic classes wait halfway up, Unique classes three quarters of the way, and Legendary classes at the top. When a god claims one of a Tower's Runes, that Rune stops feeding it, so Towers can shrink, and new floors open when a Rune is lost.</div>
-    ${REALMS.map(r=>{const t=towerOf(r.n),rs=TOWER_RUNES.get(r.n)||[],cls=(HIDDEN.classes||[]).filter(c=>c.tower===r.n).sort((a,b)=>hcFloor(a)-hcFloor(b));
+    ${REALMS.map(r=>{const t=towerOf(r.n),rs=TOWER_RUNES.get(r.n)||[],cls=(HC||[]).filter(c=>c.tower===r.n).sort((a,b)=>hcFloor(a)-hcFloor(b)),nLocked=(HIDDEN.byTower||{})[r.n]||0;
       const mons=MONSTERS.filter(m=>m.realm===r.n),bands=[0,.25,.5,.75].map((f,i)=>{const lo=Math.max(1,Math.round(t.floors*f)+1),hi=Math.round(t.floors*(f+.25)),gs=mons.filter(m=>m.g>=1+i*2.5&&m.g<=3+i*2.5).sort((a,b)=>a.g-b.g);return [lo,hi,gs.slice(0,6)]});
       return `<section class="sec" id="tw-${pid(r.n)}"><div class="panel" style="border-top:3px solid ${r.color}"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="margin:0;font-size:1.25rem;font-family:var(--serif)">${esc(t.name)}</h4><span class="note" style="margin:0">${refChip(r,esc(r.n)+' Realm')} · ${t.floors} floors · fed by ${rs.length} unclaimed Runes</span></div>
         ${t.look?`<p style="font-style:italic;color:var(--text2);margin:6px 0">${esc(t.look)}</p>`:''}
         <div class="tablewrap" style="margin-top:6px"><table class="t"><thead><tr><th>Floors</th><th>Guardians</th></tr></thead><tbody>${bands.map(([lo,hi,gs])=>`<tr><td style="white-space:nowrap">${lo}–${hi}</td><td>${gs.length?gs.map(m=>refChip(m,esc(m.n),'G'+m.g)).join(' '):'<span class="note">the Tower\'s own constructs</span>'}</td></tr>`).join('')}</tbody></table></div>
+        ${!HC&&nLocked?`<div class="blk" style="margin-top:8px"><h4>Hidden classes in this Tower</h4></div><a class="chip" href="${pageUrl('hidden')}" data-go="hidden">🔒 ${nLocked} sealed: unlock the list to see them</a>`:''}
         ${cls.length?`<div class="blk" style="margin-top:8px"><h4>Hidden classes in this Tower</h4></div><div class="mlist">${cls.map(c=>`<a class="chip" href="${pageUrl('hidden')}#hc-${pid(c.n)}" data-go="hidden" style="text-decoration:none">Floor ${hcFloor(c)} · <b>${esc(c.n)}</b> <small>${esc(c.tier)}${c.base?' · '+esc(c.base):''}${c.prog?' · '+esc(c.prog):''}</small></a>`).join('')}</div>`:''}
         <details class="fold" style="margin-top:8px"><summary>The ${rs.length} unclaimed Runes that feed it</summary><div class="chips">${rs.map(x=>refChip(x)).join('')}</div></details>
       </div></section>`}).join('')}
