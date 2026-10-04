@@ -65,7 +65,7 @@ var ABILITIES = [
     move: ['Current-Rider', 'While equipped, you have a swimming speed of {FT} ft and can\'t be pushed by water currents.'],
     offense: ['Blood in the Water', 'A weapon with this material deals +{P}d4 damage to creatures that are below half their hit points.'],
     sense: ['Deep-Sight', 'While equipped, you have darkvision out to {FT} ft and can see normally through murky water.'] },
-  { re: /red dragon|gold dragon|brass dragon|fire|flame|salamander|hell ?hound|magma|ember|cinder|phoenix|efreet|azer|lava|sun/i, label: 'Fire-Born',
+  { re: /red dragon|gold dragon|brass dragon|fire|flame|salamander|hell ?hound|magma|ember|cinder|phoenix|efreet|azer|lava|\bsun\b|sunfire/i, label: 'Fire-Born',
     defense: ['Flameproof', 'While equipped, you resist fire damage{IMM} and ignore the effects of extreme heat.'],
     offense: ['Searing', 'A weapon with this material deals +{P}d6 fire damage and ignites flammable objects it hits.'],
     vital: ['Inner Furnace', 'While equipped, you don\'t need warm clothing or fire to survive the cold, and once per long rest you can regain {P5} hit points as a bonus action.'] },

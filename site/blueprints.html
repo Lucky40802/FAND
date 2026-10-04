@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="color-scheme" content="dark light">
-<title>Blueprints · FAND Compendium</title>
+<title>Blueprints · FAND</title>
 <meta name="description" content="6,549 craftable Blueprints across ten professions, with materials, rarity, damage, AC, and properties.">
 <meta property="og:title" content="Blueprints · FAND Compendium">
 <meta property="og:description" content="6,549 craftable Blueprints across ten professions, with materials, rarity, damage, AC, and properties.">
@@ -327,6 +327,9 @@ details.fold>div{margin-top:10px}
 .sblk p{margin:0 0 6px;color:var(--text2)}
 .sblk p i b{color:var(--text)}
 .sblk .gen{font-size:.72rem;color:var(--muted);margin-top:8px}
+/* monster lore */
+.lore h5{font-family:var(--serif);font-size:1.05rem;color:var(--text);margin:14px 0 4px;font-variant:small-caps;letter-spacing:.02em}
+.lore p{font-family:var(--serif);font-size:.98rem;line-height:1.7;color:var(--text2)}
 /* assistant + settings */
 .ai-fab{position:fixed;right:20px;bottom:20px;z-index:44;display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--acc),#a07cf0);color:#fff;border:0;border-radius:999px;padding:11px 18px;font-weight:600;font-size:.9rem;box-shadow:0 8px 28px rgba(80,60,200,.45)}
 .ai-fab:hover{filter:brightness(1.08)}
@@ -389,7 +392,7 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
 <header class="top">
   <button class="brand" onclick="go('home')" aria-label="FAND home">
     <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c4b5fd"/><stop offset="1" stop-color="#d9b25a"/></linearGradient></defs><path d="M16 1.5l4.2 10.3L30.5 16l-10.3 4.2L16 30.5l-4.2-10.3L1.5 16l10.3-4.2z" fill="none" stroke="url(#bg1)" stroke-width="1.6"/><path d="M16 9l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="url(#bg1)"/></svg>
-    <div><h1>FAND</h1><small>Compendium of Atrious</small></div>
+    <div><h1>FAND</h1><small>Fantasy and Numerous Disasters</small></div>
   </button>
   <button class="search-btn" onclick="openPalette()" aria-label="Search everything">
     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
@@ -497,6 +500,18 @@ const CURRENCY={
   'Primordial':{coin:'',note:'No coin. The progenitors predate money; trade is by oath and gift.'}
 };
 const EXCHANGE_FEE=0.1;
+// Cosmology, from the campaign's own lore
+const COSMOLOGY=[
+  ['Infinatas','The highest being in existence. Infinatas cares for one thing only: balance, and keeps it through creation.'],
+  ['Inane','Infinatas\'s split personality. Inane also keeps balance, but through destruction. To the gods, Inane was an unknown entity.'],
+  ['The fall of the gods\' world','The gods\' own world eroded away because of Inane.'],
+  ['The gods in Atrious','Infinatas allowed the other gods to come to this realm, but only under strict regulation.'],
+];
+function cosmologyHTML(compact){
+  return `<div class="panel" style="border-color:var(--gold);background:radial-gradient(120% 140% at 0% 0%,var(--goldbg),transparent 60%),var(--surf)">
+    <h4 style="font-size:1.2rem">Cosmology: Infinatas and Inane</h4>
+    <div style="display:grid;grid-template-columns:${compact?'1fr':'repeat(auto-fill,minmax(240px,1fr))'};gap:12px;margin-top:8px">${COSMOLOGY.map(([h,t])=>`<div><b style="font-family:var(--serif);color:var(--gold2)">${esc(h)}</b><p style="font-size:.86rem;color:var(--text2);margin-top:2px">${esc(t)}</p></div>`).join('')}</div></div>`;
+}
 const localPrice=(gpv,realm)=>{const c=CURRENCY[realm];if(!c||!c.coin||!gpv||c.gp===1)return '';const v=gpv/c.gp;return (v%1?v.toFixed(1):fmt(v))+' '+(v===1?c.coin.toLowerCase():c.pl)};
 const REALMS=META.realms.map(r=>Object.assign(r,{color:REALM_COLOR[r.n]||'#888',pressure:r.tier-1}));
 const REALM=Object.fromEntries(REALMS.map(r=>[r.n,r]));
@@ -574,7 +589,7 @@ const pips=(n,of=5)=>`<span class="pips" title="${n} of ${of}">${Array.from({len
 const kv=rows=>`<div class="kvg">${rows.filter(r=>r&&r[1]!==''&&r[1]!=null).map(([l,v])=>`<div><span>${l}</span><b>${v}</b></div>`).join('')}</div>`;
 const blk=(title,body,note)=>body?`<div class="blk"><h4>${title}${note?` <em>${note}</em>`:''}</h4>${body}</div>`:'';
 const subSource=s=>{const m=/\(([^()]*?(?:Guide|Handbook|Cauldron|Coast|Tome|Player|Xanathar|Tasha|Volo|Fizban|Mordenkainen|Glory|Book|Explorer|Ravnica|Theros|Wildemount|Strixhaven|Eberron|Spelljammer|Dragonlance|Ravenloft|Planescape|PHB|Acquisitions|Phandelver)[^()]*)\)\s*$/i.exec(s.ds||'');return m?m[1]:'Homebrew'};
-const BOOKS={MM:'Monster Manual',VGM:"Volo's Guide",MTF:"Mordenkainen's Tome",FTD:"Fizban's Treasury",BGG:'Glory of the Giants'};
+const BOOKS={Myth:'Mythology',MM:'Monster Manual',VGM:"Volo's Guide",MTF:"Mordenkainen's Tome",FTD:"Fizban's Treasury",BGG:'Glory of the Giants'};
 const crNum=c=>{if(!c)return -1;if(String(c).includes('/')){const [a,b]=c.split('/');return a/b}return +c};
 
 // ════════════════════════════════════════════════════════════════
@@ -606,7 +621,7 @@ const CARD={
     const drops=(m.drops||[]).slice(0,3).map(d=>`<span class="chip"><span class="sw" style="background:${rcol(realmOf(d[1]))}"></span>${esc(d[0])}</span>`).join('');
     return `<button class="card" style="--strip:${rcol(m.realm)}" data-ref="${ref(m)}">
       <div class="t"><div class="nm">${esc(m.n)}</div>${isPinned(m)?'<span class="pin">★</span>':''}</div>
-      <div class="badges">${realmB(m.realm+' '+m.g)}${m.cr?`<span class="b">CR ${esc(m.cr)}</span><span class="b ghost" title="${esc(BOOKS[m.book]||m.book)}">${esc(m.book)}</span>`:`<span class="b">CR ${esc(m.sb?m.sb.cr:'?')}</span><span class="b gold">Homebrew</span>`}</div>
+      <div class="badges">${realmB(m.realm+' '+m.g)}${m.cr?`<span class="b">CR ${esc(m.cr)}</span><span class="b ${m.myth?'blue':'ghost'}" title="${esc(BOOKS[m.book]||m.book)}">${esc(m.myth?m.myth+' myth':m.book)}</span>`:`<span class="b">CR ${esc(m.sb?m.sb.cr:'?')}</span><span class="b gold">Homebrew</span>`}</div>
       ${m.sb?`<div class="ln">AC <b>${m.sb.ac}</b> · HP <b>${m.sb.hp}</b> · ${esc(m.sb.sz)} ${esc(m.sb.ty)}${m.sb.lg?' · <b style="color:var(--gold2)">Legendary</b>':''}</div>`:''}
       ${m.hab?`<div class="ln">⌖ ${esc(m.hab)}</div>`:''}
       <div class="ds">${esc(m.txt||m.ds)}</div>
@@ -700,6 +715,7 @@ const VIEWS={
     filters:[
       {id:'src',label:'All sources',opts:()=>[['hb','Homebrew'],...opts(MONSTERS,m=>m.book).map(([v,l])=>[v,l.replace(v,BOOKS[v]||v)])],test:(m,v)=>v==='hb'?!!m.hb:m.book===v},
       {id:'g',label:'All grades',opts:()=>Array.from({length:10},(_,i)=>[String(i+1),'Grade '+(i+1)]),test:(m,v)=>m.g===+v},
+      {id:'myth',label:'Any mythology',opts:()=>opts(MONSTERS,m=>m.myth),test:(m,v)=>m.myth===v},
     ],
     toggles:[{id:'pin',label:'★ Pinned',test:m=>isPinned(m)}],
     sorts:[['g','Grade ↑',(a,b)=>(a.tier-b.tier)||(a.g-b.g)||byName(a,b)],['gd','Grade ↓',(a,b)=>(b.tier-a.tier)||(b.g-a.g)||byName(a,b)],['name','Name A–Z',byName],['cr','CR ↓',(a,b)=>crNum(b.sb?b.sb.cr:b.cr)-crNum(a.sb?a.sb.cr:a.cr)||byName(a,b)]],
@@ -739,7 +755,7 @@ const VIEWS={
 const COLS={
   bp:[['Name',b=>b.n],['Profession',b=>b.pr],['Specialty',b=>b.sp&&b.sp!==b.pr?b.sp:''],['Type',b=>b.cat],['Level',b=>b.lv],['Rarity',b=>b.r],['Damage',b=>b.dc&&b.dm?b.dc+' '+b.dm:''],['AC',b=>b.ac||''],['Property',b=>b.prop||''],['Material grade',b=>b.gr||''],['Materials',b=>b.mats.join(', ')]],
   mat:[['Name',m=>m.n],['Origin',m=>m.org+(m.origin&&m.org==='Creature'?' · '+m.origin:'')],['Unique trait',m=>m.tr?m.tr.n:''],['Realm',m=>m.realm],['Grade',m=>m.g],['Rank',m=>m.rank],['Item level',m=>m.il],['Type',m=>m.ty||m.cat],['Rarity',m=>m.rar||''],['Property',m=>m.pn||''],['Potency',m=>m.pot||''],['Price (gp)',m=>m.price||'']],
-  mon:[['Name',m=>m.n],['Realm',m=>m.realm],['Grade',m=>m.g],['CR',m=>m.sb?m.sb.cr:m.cr||''],['AC',m=>m.sb?m.sb.ac:''],['HP',m=>m.sb?m.sb.hp:''],['Type',m=>m.sb?m.sb.sz+' '+m.sb.ty:''],['Source',m=>m.hb?'Homebrew':(BOOKS[m.book]||m.book)],['Habitat',m=>m.hab||''],['Drops',m=>(m.drops||[]).map(d=>d[0]).join(', ')]],
+  mon:[['Name',m=>m.n],['Realm',m=>m.realm],['Grade',m=>m.g],['CR',m=>m.sb?m.sb.cr:m.cr||''],['AC',m=>m.sb?m.sb.ac:''],['HP',m=>m.sb?m.sb.hp:''],['Type',m=>m.sb?m.sb.sz+' '+m.sb.ty:''],['Source',m=>m.hb?'Homebrew':m.myth?m.myth+' mythology':(BOOKS[m.book]||m.book)],['Habitat',m=>m.hab||''],['Drops',m=>(m.drops||[]).map(d=>d[0]).join(', ')]],
   god:[['Name',g=>godKey(g)],['Title',g=>godTitle(g)],['Pantheon',g=>g.grp],['Home realm',g=>g.home||''],['Runes',g=>(g.runes||[]).join(', ')],['Hand',g=>g.seated!=null?g.seated+'/5':''],['Signature materials',g=>(g.sig||[]).join(', ')]],
   spell:[['Name',x=>x.n],['School',x=>x.sc],['Level',x=>x.lv],['Casting time',x=>x.ct],['Range',x=>x.rng],['Duration',x=>x.dur],['Damage',x=>x.dmg&&x.dmg!=='None'?x.dmg:''],['Classes',x=>(x.cls||[]).join(', ')]],
   sub:[['Name',x=>x.n],['Class',x=>x.par],['Source',x=>subSource(x)]],
@@ -763,9 +779,10 @@ const TABS=[
   ['home','Home'],['blueprints','Blueprints',BPS.length],['materials','Materials',MATS.length],['bestiary','Bestiary',MONSTERS.length],
   ['realms','Realms',REALMS.length],['gods','Gods',GODS.length],['professions','Professions',Object.keys(PROFS).length],
   ['spells','Spells',META.counts.spells],['subclasses','Subclasses',SUBS.length],['demons','Demons',DEMONS.length],['patrons','Patrons',PATRONS.length],
+  ['forge','Forge'],['craft','Craft'],['party','Party'],['encounter','Encounters'],['combat','Combat'],
   ['rules','Rules'],['tools','Tools'],['about','About'],
 ];
-const PAGES={home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,about:renderAbout};
+const PAGES={home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,about:renderAbout,forge:()=>renderForge(),craft:()=>renderCraft(),party:()=>renderParty(),encounter:()=>renderEncounter(),combat:()=>renderCombat()};
 
 // ════════════════════════════════════════════════════════════════
 //  State & routing
@@ -815,7 +832,7 @@ function renderTab(){
   renderTabs();
   toggleDrawer(false);
   $('content').dataset.tab=TAB;
-  document.title=(TABS.find(t=>t[0]===TAB)||[])[1]+' · FAND Compendium';
+  document.title=(TABS.find(t=>t[0]===TAB)||[])[1]+' · FAND';
   if(VIEWS[TAB]){renderSidebar();renderControls();renderList()}
   else{$('sb').hidden=true;$('ctrl').hidden=true;$('content').innerHTML='';PAGES[TAB]()}
   $('content').scrollTop=0;
@@ -915,7 +932,7 @@ function renderList(){
   $('cnt').textContent=n===V.arr.length?`${fmt(n)} ${V.noun||V.title.toLowerCase()}`:`${fmt(n)} of ${fmt(V.arr.length)}`;
   const table=VIEWMODE[TAB]==='table'&&show.length;
   if(table)$('content').innerHTML=`<div class="tablewrap"><table class="t list"><thead><tr>${LIST_COLS(V.type).map(([h])=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${show.map(row).join('')}</tbody></table></div>${n>show.length?`<div class="more" id="more"><button class="btn" onclick="showMore()">Show more · ${fmt(n-show.length)} left</button></div>`:''}`;
-  else $('content').innerHTML=`<div class="grid">${show.length?show.map(card).join(''):`<div class="empty"><b>Nothing matches</b>Try a different search or clear a filter.<div style="margin-top:12px"><button class="btn" onclick="resetFilters()">Clear filters</button></div></div>`}</div>${n>show.length?`<div class="more" id="more"><button class="btn" onclick="showMore()">Show more · ${fmt(n-show.length)} left</button></div>`:''}`;
+  else $('content').innerHTML=(TAB==='gods'&&!s.q&&!s.side?`<div style="margin-bottom:14px">${cosmologyHTML()}</div>`:'')+`<div class="grid">${show.length?show.map(card).join(''):`<div class="empty"><b>Nothing matches</b>Try a different search or clear a filter.<div style="margin-top:12px"><button class="btn" onclick="resetFilters()">Clear filters</button></div></div>`}</div>${n>show.length?`<div class="more" id="more"><button class="btn" onclick="showMore()">Show more · ${fmt(n-show.length)} left</button></div>`:''}`;
   if(io)io.disconnect();
   const m=$('more');if(m&&'IntersectionObserver' in window){io=new IntersectionObserver(es=>{if(es[0].isIntersecting)showMore()},{root:$('content'),rootMargin:'600px'});io.observe(m)}
 }
@@ -979,9 +996,59 @@ function showModal(x){
   const pb=$('pinBtn');if(pb)pb.onclick=()=>{togglePin(x);pb.classList.toggle('on');pb.innerHTML=isPinned(x)?ICON.starf:ICON.star;if(VIEWS[TAB])renderList();else if(TAB==='home')renderTab()};
   $('linkBtn').onclick=()=>{const u=location.href;(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>toast('Link copied'),()=>toast('Copy failed: '+u))};
   $('mbg').classList.add('open');document.body.classList.add('mopen');$('mbg').scrollTop=0;
-  document.title=x.n.split(' - ')[0]+' · FAND Compendium';
+  document.title=x.n.split(' - ')[0]+' · FAND';
 }
 
+// ── Monster lore: original Monster Manual–style write-ups, generated from body plan, realm, stats, and drops ──
+const LORE={
+  beast:{look:['Its body is built for one thing: survival in the wilds of {realm}. Thick muscle, scarred hide, and eyes that miss little.','A hardy creature whose coat and hide bear the marks of a lifetime of fights over food and territory.'],act:'It fights like an animal: it tests a threat, retreats if wounded badly, and fights to the death only when cornered or defending its young.',eco:'It hunts or forages through its territory and marks it by scent. Where it thrives, smaller prey grows wary and scavengers follow in its wake.',soc:'It lives alone or in a small family group, and gathers in larger numbers only around a rich food source.',hook:'Farmers on the edge of {realm} report livestock torn apart. The tracks lead to {n}, but something larger has been driving it out of its usual hunting grounds.'},
+  bird:{look:['Sleek feathers, a hooked beak, and talons that can lock onto prey. Its eyes are its greatest weapon.','A raptor-like body with broad wings; its feathers shift color with the light of {realm}.'],act:'It strikes from above, diving out of the sun or the clouds, and climbs away before its prey can answer. It rarely fights on the ground.',eco:'It nests on high cliffs, ruins, or treetops and ranges for miles in search of prey. Its feathers and eyes are prized by fletchers and seers alike.',soc:'It mates for life and defends its nest fiercely. Flocks form only during migrations between realms.',hook:'A noble wants a living {n} chick for their menagerie. The nest sits atop a cliff in {realm}, and both parents are home.'},
+  reptile:{look:['Cold scales, a long tail, and patient, unblinking eyes.','Its scales are tough as boiled leather and patterned to blend into the stone and mud of {realm}.'],act:'It waits. It lies still for hours until prey comes close, then strikes in a burst of speed and drags its victim down.',eco:'It basks in warm places and slows in the cold. It swallows prey whole or in large pieces, then rests for days.',soc:'It is solitary except when breeding. Its eggs are buried in warm sand or rotting vegetation.',hook:'A clutch of {n} eggs has been stolen from a nest near a village in {realm}. The parent is following the thieves, and it is getting closer to the village every night.'},
+  dragon:{look:['Massive, armored in overlapping scales, with horns that grow with age and wings that blot out the sky.','A sinuous, scaled body; every scale is a shield, every tooth a blade, and its breath is a weapon of its element.'],act:'It opens with its breath weapon from the air, then lands to finish the survivors with claw and fang. It retreats only to return with a better plan; it never forgets an insult.',eco:'It claims a lair at the heart of a territory and hoards treasure. Its presence reshapes the land around it: the climate, the beasts, and the people.',soc:'It is proud and solitary. Younger dragons may serve an elder or a god, and some hold contracts with the gods of {realm}.',hook:'{n} has demanded tribute from every settlement within a day\'s flight. One village refused, and now the party is its only hope, or its tribute.'},
+  insect:{look:['A segmented body in a hard carapace, many legs, and mandibles that click as it moves.','Its chitin is glossy and ridged, and its compound eyes catch every flicker of movement.'],act:'It overwhelms prey with numbers or venom. It climbs walls and ceilings to drop on victims from above.',eco:'It builds nests, webs, or tunnels, and feeds on whatever it can paralyze or dissolve. Its venom and silk are valuable to alchemists and tailors.',soc:'It lives in a hive, a colony, or a lone web. Colonies follow a queen or a single strongest member.',hook:'Miners in {realm} broke into a cavern full of {n} nests. The miners want the tunnel back; an alchemist wants the venom glands intact.'},
+  aquatic:{look:['Smooth or scaled skin, fins, and a body built for the crushing pressure and cold of the deep.','It glistens with slime and shifts color to match the water around it.'],act:'It ambushes from below, drags prey underwater, and lets the water do the rest. Out of the water it is clumsy and far less dangerous.',eco:'It hunts in the rivers, lakes, and seas of {realm}. Sailors know its feeding grounds and avoid them, or pay for charms against it.',soc:'It hunts alone or in schools, and some kinds serve the drowned gods of the deep.',hook:'Fishing boats on the coast of {realm} have been vanishing. The fishers say {n} has learned to follow the boats home.'},
+  aberration:{look:['Its shape defies sense: too many eyes, tentacles where limbs should be, and skin that ripples as if something moves beneath it.','An alien form that hurts to look at for long. It smells of brine and ozone.'],act:'It fights with its mind first. It dominates, confuses, or terrifies, and lets its thralls do the dying. It flees through hidden tunnels when a fight turns against it.',eco:'It lairs deep underground or in the strange corners of {realm}, where it schemes toward goals no mortal understands.',soc:'It rules others or serves something greater still. Its thralls worship it, often without knowing why.',hook:'A town in {realm} has started dreaming the same dream. The dream leads to a sinkhole, and {n} is waiting at the bottom.'},
+  undead:{look:['Rotting flesh, bare bone, or a cold shape of mist and malice. A chill follows it.','What is left of a living thing, held together by necromancy or a grudge too strong to die.'],act:'It feels no fear and no pain, and fights until destroyed. It is drawn to the living and hates them.',eco:'It haunts graveyards, battlefields, and ruins, and gathers where death came suddenly or unjustly. It needs no food, water, or rest.',soc:'Lesser undead obey whoever raised them. Greater undead gather servants and remember who they were in life.',hook:'The dead of a village cemetery in {realm} have risen, led by {n}. Someone is raising them, and they are getting better at it.'},
+  construct:{look:['Metal, stone, wood, or flesh stitched together, animated by a core of bound magic.','Seams, rivets, and runes cover its body. Something glows faintly at its center.'],act:'It follows its orders to the letter and never tires. It fights without fear and without mercy, and stops only when its orders say so or when it is destroyed.',eco:'It guards tombs, vaults, workshops, and the anchors of {realm}. It does not eat or sleep; it waits.',soc:'It has no society, only a master, living or long dead. Its orders may outlive everyone who remembers them.',hook:'An old vault in {realm} has opened, and {n} has walked out of it. It is following orders written a thousand years ago.'},
+  ooze:{look:['A mass of jelly, acid, or slime, half-transparent, with bones and coins floating inside it.','A shapeless mass that flows over the ground and dissolves whatever it touches.'],act:'It engulfs prey and dissolves it. It has no tactics beyond moving toward warmth and movement, which makes it predictable and very dangerous in tight places.',eco:'It lurks in sewers, dungeons, and caves of {realm}, cleaning them of organic matter and leaving metal and stone behind.',soc:'It has no society. Some divide when they grow too large.',hook:'The sewers under a city in {realm} have gone quiet; even the rats are gone. Something large is living down there: {n}.'},
+  elemental:{look:['A living mass of its element: flame, wind, stone, or water, shaped loosely into a body.','It is not flesh but force, held in a shape by a spark of elemental will.'],act:'It fights with the raw power of its element and is hard to harm with ordinary weapons. It is bound to its element and weakens away from it.',eco:'It belongs to the elemental reaches of {realm}. In other places it is usually summoned, bound, or lost.',soc:'It serves elemental lords, binders, and summoners, often against its will.',hook:'A binder lost control of {n} during a ritual in {realm}. It is loose, it is angry, and it is heading for the binder\'s home town.'},
+  fiend:{look:['Horns, claws, and burning eyes; skin of ash, scales, or leathery hide. It smells of sulfur.','A body made for cruelty, with features twisted by the realm that spawned it.'],act:'It fights with cunning and cruelty, and enjoys fear more than victory. It makes deals when outmatched and keeps them only to the letter.',eco:'It belongs to Hell or the Abyss, and comes to other realms through contracts, summonings, and torn places.',soc:'Devils obey a strict hierarchy of contracts. Demons follow whoever is strongest. Both serve greater lords.',hook:'A merchant in {realm} made a deal and the debt has come due. {n} has come to collect, and it will take a substitute.'},
+  celestial:{look:['Radiant and beautiful, with feathered wings and eyes like stars. Its presence feels like sunlight.','A shining form of perfect proportion; its voice carries like a choir.'],act:'It fights only for a cause, and offers mercy to the repentant. Against fiends and undead it is relentless.',eco:'It belongs to Heaven and serves the gods there. In other realms it is a messenger, a guardian, or an exile.',soc:'It serves a god or a celestial host and follows a strict order of rank, much like a god\'s Hand.',hook:'{n} has fallen in {realm}, wounded and hunted. It asks the party for shelter, and something is following it.'},
+  plant:{look:['Bark, vines, leaves, and fungus shaped into something that moves. It smells of earth and rot.','A living plant that has grown teeth, or awareness, or both.'],act:'It waits motionless until prey comes close, then lashes out with vines, spores, or crushing limbs. Fire is its great fear.',eco:'It grows in forests, swamps, and caves of {realm} and feeds on light, water, and sometimes blood.',soc:'It has no society, or a slow one. Some plants answer to a druid or an ancient tree.',hook:'The forest near a village in {realm} is spreading toward the fields. At its heart, {n} is growing.'},
+  giant:{look:['Huge and broad, with skin like weathered stone and a voice like a rockslide.','A towering figure in rough hides and stolen armor, carrying a weapon the size of a tree.'],act:'It fights with brute strength and thrown boulders. It is proud and quick to anger, but it can be bargained with.',eco:'It lives in the mountains, hills, and cold places of {realm}, herding beasts and raiding the lowlands when food runs short.',soc:'It lives in clans ordered by strength or status, and remembers old grudges between clans for centuries.',hook:'A clan of giants in {realm} has blocked the only mountain pass. Their leader, {n}, demands a duel or a tribute.'},
+  fey:{look:['Fey and beautiful, or fey and frightening, and often both. Its eyes reflect light like a cat\'s.','A small or slender form wrapped in glamour; what you see may not be what is there.'],act:'It fights with tricks, charms, and illusions, and loves a clever bargain. It flees from cold iron and from anyone who knows its true name.',eco:'It lives in the Mysterious Realm and the places where it touches others: fairy rings, old forests, and moonlit pools.',soc:'It serves a fey court or a powerful patron, and is bound by its word.',hook:'{n} has stolen a child from a village in {realm} and left a changeling in its place. It will return the child for a fair trade.'},
+  humanoid:{look:['A person, more or less: armed, armored, and shaped by the hard life of {realm}.','Dressed for its trade, with scars that tell its story.'],act:'It fights with weapons and tactics, uses cover, and retreats when the odds turn. It can be reasoned with, bribed, or intimidated.',eco:'It lives in towns, camps, and strongholds across {realm}, and works, fights, or worships for a living.',soc:'It belongs to a band, a guild, a cult, or a kingdom, and has loyalties that can be used.',hook:'{n} has a bounty on its head in {realm}. The bounty is real, but so is the story it tells about who posted it.'}
+};
+const PART_PROF={B:'Scavenging',F:'Scavenging',L:'Scavenging',E:'Scavenging (essences fade within an hour unless bottled)',W:'Harvesting',K:'Engineering salvage'};
+function monsterLore(m){
+  const L=LORE[m.body]||LORE.beast,h=hashStr(m.n),f=s=>s.replace(/\{n\}/g,m.n).replace(/\{realm\}/g,m.realm);
+  const b=m.sb||{},out=[];
+  out.push(['Overview',`${m.n} is a ${(b.sz||'').toLowerCase()} ${b.ty||m.body} of the ${m.realm} (grade ${m.g}, challenge ${b.cr||m.cr}). ${m.txt||''}`]);
+  out.push(['Appearance',f(L.look[h%L.look.length])]);
+  const tac=[f(L.act)];
+  if(b.ac2&&b.ac2.some(a=>/Breath/.test(a[0])))tac.push('It saves its breath weapon for clustered foes and uses it again the moment it recharges.');
+  if(b.ac2&&b.ac2.some(a=>/Mind Blast/.test(a[0])))tac.push('It opens with a psychic blast to stun the most dangerous foes before closing in.');
+  if(b.ac2&&b.ac2.some(a=>/Ranged/.test(a[1])))tac.push('It prefers to fight at range and keeps its distance from heavily armored foes.');
+  if(b.lg)tac.push('As a legendary creature, it acts between its foes\' turns and shrugs off spells that would end a lesser monster. Treat it as a boss.');
+  if(b.ac>=6)tac.push(`Its AC of ${b.ac} blunts weak blows entirely: small hits do nothing. Bring heavy weapons or spells.`);
+  else if(b.ac===0)tac.push('It has no armor to speak of, so every hit lands in full.');
+  out.push(['Behavior and Tactics',tac.join(' ')]);
+  out.push(['Habitat and Ecology',(m.hab?`Found in ${m.hab.toLowerCase()}. `:'')+f(L.eco)]);
+  out.push(['Society',f(L.soc)]);
+  const parts=(m.drops||[]).map(d=>findMat(d[0])).filter(Boolean);
+  if(parts.length){
+    const by={};parts.forEach(x=>{const p=PART_PROF[matCode(x)]||'Scavenging';(by[p]=by[p]||[]).push(x)});
+    const val=parts.reduce((a,x)=>a+(x.price||0),0);
+    out.push(['Harvesting',`A careful harvester can take ${parts.length} parts from its body, worth about ${gp(val)} in all${CURRENCY[m.realm]&&CURRENCY[m.realm].coin&&CURRENCY[m.realm].gp>1?` (${localPrice(val,m.realm)})`:''}. `+Object.entries(by).map(([p,xs])=>`${p}: ${xs.map(x=>x.n.replace(m.n+' ','').toLowerCase()).join(', ')}.`).join(' ')+(parts.some(x=>matCode(x)==='L')?' Blood and organs spoil within a day unless salted, iced, or bottled.':'')]);
+  }
+  const r=REALM[m.realm],gods=[...new Set(parts.flatMap(x=>GOD_BY_MAT.get(lc(x.n))||[]))];
+  const kin=MONSTERS.filter(x=>x!==m&&x.realm===m.realm&&Math.abs(x.g-m.g)<=1).sort((a,c)=>hashStr(m.n+a.n)-hashStr(m.n+c.n)).slice(0,4);
+  out.push(['In FAND',`${m.realm} has a Pressure of ${r?r.pressure:'?'}; travelers with lower Attunement suffer strain while hunting it.`+(CURRENCY[m.realm]&&CURRENCY[m.realm].coin?` Its parts trade for ${CURRENCY[m.realm].pl} there.`:' Its parts are not sold; they are traded by favor and contract.')+(gods.length?` The gods ${gods.map(godKey).join(', ')} prize its parts as signature materials.`:'')+(kin.length?` It is often found near ${kin.map(x=>x.n).join(', ')}.`:'')]);
+  out.push(['Adventure Hook',f(L.hook)]);
+  return out;
+}
+
+function linkNames(html,m){const kin=MONSTERS.filter(x=>x!==m&&x.realm===m.realm&&html.includes(esc(x.n)));kin.sort((a,b)=>b.n.length-a.n.length).forEach(x=>{html=html.split(esc(x.n)).join(`<a href="#" data-ref="${ref(x)}">${esc(x.n)}</a>`)});GODS.forEach(g=>{const k=esc(godKey(g));if(html.includes(' '+k+','))html=html.split(' '+k+',').join(` <a href="#" data-ref="${ref(g)}">${k}</a>,`)});return html}
 function sbHTML(m){
   const b=m.sb;if(!b)return '';
   const ab=b.ab.map((v,i)=>`<div><b>${['STR','DEX','CON','INT','WIS','CHA'][i]}</b>${v} (${(Math.floor((v-10)/2)>=0?'+':'')+Math.floor((v-10)/2)})</div>`).join('');
@@ -1018,6 +1085,8 @@ const MODAL={
       badges:`${rarB(b.r)}<span class="b">Level ${b.lv}</span><span class="b ghost">${esc(b.cat)}</span>${b.mg?'<span class="b gold">✦ Magic artifact</span>':''}`,
       body:kv(rows)+(b.prop?`<div class="callout">✧ <b>${esc(b.prop)}</b>${strong&&strong.prop?`<div style="margin-top:4px">${esc(strong.prop.replace(/^[^:]+:\s*/,''))}</div>`:''}</div>`:'')
         +(b.ds?`<div class="prose">${esc(b.ds)}</div>`:b.lost?`<div class="prose lost">This Blueprint's description was lost in an earlier sync of this app; its materials were recovered. The full text is in the vault note <b>${esc(b.n)}</b>.</div>`:'')
+        +(ARMOR_CATS.includes(b.cat)&&b.ac?`<div class="callout"><b>Armor drawback</b> (this piece alone, AC ${esc(b.ac)}): ${esc(drawbackFor(+b.ac||0)[1])}. Drawbacks count the total AC of all armor worn.</div>`:'')
+        +`<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="store.set('craft',Object.assign(store.get('craft',{}),{bp:${esc(JSON.stringify(b.n))},qty:1}));closeAll();go('craft')">⚒ Plan crafting</button>${CAT_TO_BASE[b.cat]?`<button class="btn" onclick="openInForge(BPS[${b._i}])">🔥 Open in the Forge</button>`:''}</div>`
         +blk('Traits when equipped',(()=>{const tr=mats.filter(x=>x.m&&x.m.tr);return tr.length?`<div class="mlist">${tr.map(({m})=>`<button data-ref="${ref(m)}" style="flex-direction:column;align-items:flex-start;gap:2px"><span><b style="color:var(--gold2)">◆ ${esc(m.tr.n)}</b> <span class="x">from ${esc(m.n)}${m.origin&&m.org==='Creature'?' ('+esc(m.origin)+')':''}</span></span><span style="font-size:.8rem">${esc(m.tr.t)}</span></button>`).join('')}</div>`:''})(),'from its materials')
         +blk('Materials',mlist,mats.length?mats.length+' required':'')+blk('Connections',conns?`<div class="chips">${conns}</div>`:'')+vars};
   },
@@ -1048,11 +1117,12 @@ const MODAL={
     let drops='';
     if(m.drops&&m.drops.length)drops=`<div class="mlist">${m.drops.map(([n,gr])=>{const x=findMat(n);return x?`<button data-ref="${ref(x)}"><span class="sw" style="width:9px;height:9px;border-radius:50%;background:${rcol(x.realm)}"></span>${esc(n)} <span class="x">${esc(gr)}${x.tr?' · ◆ '+esc(x.tr.n):x.pn?' · '+esc(x.pn):''}</span><span class="r">${x.price?gp(x.price):'not sold'}</span></button>`:`<button disabled>${esc(n)} <span class="x">${esc(gr)}</span></button>`}).join('')}</div>`;
     const sugg=!drops?suggestDrops(m,4):[];
-    return {title:esc(m.n),strip:rcol(m.realm),kind:(m.hb?'Homebrew monster':'Official monster')+' · '+esc(m.realm)+' Bestiary',
-      badges:`${realmB(m.realm+' '+m.g)}${m.cr?`<span class="b">CR ${esc(m.cr)}</span><span class="b ghost">${esc(BOOKS[m.book]||m.book)}</span>`:'<span class="b gold">Homebrew</span>'}`,
+    return {title:esc(m.n),strip:rcol(m.realm),kind:(m.hb?'Homebrew monster':m.myth?m.myth+' mythology':'Official monster')+' · '+esc(m.realm)+' Bestiary',
+      badges:`${realmB(m.realm+' '+m.g)}${m.cr?`<span class="b">CR ${esc(m.cr)}</span><span class="b ${m.myth?'blue':'ghost'}">${esc(m.myth?m.myth+' mythology':BOOKS[m.book]||m.book)}</span>`:'<span class="b gold">Homebrew</span>'}`,
       body:kv([['Realm',esc(m.realm)],['Grade',m.g],m.cr?['Challenge',esc(m.cr)]:null,m.hab?['Habitat',esc(m.hab)]:null,realm?['Realm pressure',realm.pressure]:null])
         +`<div class="prose">${esc(m.txt||m.ds)}</div>`
         +sbHTML(m)
+        +`<div class="lore">${monsterLore(m).map(([h,t])=>`<h5>${esc(h)}</h5><p>${linkNames(esc(t),m)}</p>`).join('')}</div>`
         +blk('Drops',drops,(m.drops||[]).length+' harvestable parts')
         +(sugg.length?blk('Suggested drops',`<div class="chips">${sugg.map(x=>matChip(x.n,x.gr)).join('')}</div><div class="note">This official monster's drops are listed on the ${esc(m.realm)} Bestiary page in the vault. These are same-realm materials near its grade, as a starting point.</div>`):'')
         +(realm?`<div><button class="btn" data-ref="${ref(realm)}">Open the ${esc(m.realm)} realm →</button></div>`:'')};
@@ -1129,7 +1199,7 @@ $('pbg').addEventListener('mousedown',e=>{if(e.target===$('pbg'))closePalette()}
 const PAL_ORDER=[['bp','Blueprints'],['mat','Materials'],['mon','Bestiary'],['god','Gods'],['realm','Realms'],['sub','Subclasses'],['demon','Demons'],['patron','Patrons'],['spell','Spells']];
 function hl(s,q){const i=lc(s).indexOf(q);return i<0?esc(s):esc(s.slice(0,i))+'<mark>'+esc(s.slice(i,i+q.length))+'</mark>'+esc(s.slice(i+q.length))}
 function paletteSearch(){
-  const q=lc($('pq').value.trim());
+  const q=lc($('pq').value.trim()).replace(/infinitas/g,'infinatas');
   PRES=[];let h='';
   if(!q){
     const pins=pinnedItems().slice(0,8);
@@ -1191,13 +1261,13 @@ applyTheme(store.get('theme',matchMedia&&matchMedia('(prefers-color-scheme: ligh
 // ════════════════════════════════════════════════════════════════
 function renderHome(){
   const pins=pinnedItems();
-  const official=MONSTERS.filter(m=>!m.hb).length,homebrew=MONSTERS.length-official;
+  const homebrew=MONSTERS.filter(m=>m.hb).length;
   const fingers=GODS.reduce((a,g)=>a+(g.hand||[]).length,0);
-  const stats=[['blueprints',BPS.length,'Blueprints'],['materials',MATS.length,'Graded materials'],['bestiary',MONSTERS.length,`Monsters · ${homebrew} homebrew`],['realms',REALMS.length,'Realm tiers'],['gods',GODS.length,`Gods · ${fingers} named Fingers`],['professions',10,'Professions'],['subclasses',SUBS.length,'Subclasses'],['spells',META.counts.spells,'Spells in the app']];
+  const stats=[['blueprints',BPS.length,'Blueprints'],['materials',MATS.length,'Graded materials'],['bestiary',MONSTERS.length,`Monsters · ${homebrew} homebrew · ${MONSTERS.filter(m=>m.myth).length} from myth`],['realms',REALMS.length,'Realm tiers'],['gods',GODS.length,`Gods · ${fingers} named Fingers`],['professions',10,'Professions'],['subclasses',SUBS.length,'Subclasses'],['spells',META.counts.spells,'Spells in the app']];
   $('content').innerHTML=`<div class="page">
     <section class="hero">
       <div class="badges" style="margin-bottom:12px"><span class="b gold">Version ${esc(META.version)}</span><span class="b ghost">Built ${esc(META.built)}</span></div>
-      <h2>The Compendium of Atrious</h2>
+      <h2>Fantasy and Numerous Disasters</h2><p style="font-family:var(--serif);font-style:italic;color:var(--gold2);margin:-4px 0 8px">The FAND compendium of Atrious</p>
       <p>Every Blueprint, material, monster, realm, and god in the FAND campaign, cross-linked. Click anything to see what it's made from, what drops it, and who wants it.</p>
       <button class="hero-search" onclick="openPalette()">${ICON.search.replace('<svg','<svg width="18" height="18"')}<span>Search everything…</span><kbd>Ctrl K</kbd></button>
       <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="randomItem(BPS.concat(MATS,MONSTERS,GODS))">🎲 Show me something random</button></div>
@@ -1210,6 +1280,8 @@ function renderHome(){
       <div class="panel"><h4>Start here</h4><ul>
         <li><a href="${pageUrl('rules')}" data-go="rules">Rules reference</a>: Armor Class, grading, refining, economy, travel, contracts.</li>
         <li><a href="${pageUrl('tools')}" data-go="tools">Table tools</a>: damage vs. AC, material grades, refining planner, encounter and loot roller.</li>
+        <li><a href="${pageUrl('forge')}" data-go="forge">The Forge</a>: build a weapon or armor part by part from any materials.</li>
+        <li><a href="${pageUrl('party')}" data-go="party">Party</a>, <a href="${pageUrl('encounter')}" data-go="encounter">Encounters</a>, and <a href="${pageUrl('combat')}" data-go="combat">Combat</a>: run the table.</li>
         <li><a href="${pageUrl('professions')}" data-go="professions">Professions</a>: the ten crafts, their specialties, and example Blueprints by level.</li>
         <li>Press <kbd>Ctrl K</kbd> anywhere to search, <kbd>/</kbd> to filter the current list, <kbd>←</kbd> <kbd>→</kbd> to step through results.</li>
       </ul></div>
@@ -1227,6 +1299,7 @@ function renderHome(){
 
 function renderRealms(){
   $('content').innerHTML=`<div class="page">
+    <div style="margin-bottom:16px">${cosmologyHTML()}</div>
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Realms</h3><p>Ordered by tier. Higher tiers mean stronger materials, higher prices, and more Pressure on travelers.</p></div>
     <div class="ladder" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr))">${REALMS.map(r=>{
       const mats=MATS.filter(m=>m.realm===r.n),mons=MONSTERS.filter(m=>m.realm===r.n),gods=GODS.filter(g=>g.home===r.n);
@@ -1274,6 +1347,7 @@ function renderRules(){
     ['ac','Armor Class','',`<ul><li>Armor Class starts at <b>0</b>.</li><li>Armor and other gear each add a small amount of AC to your total.</li><li>Armor that gives more AC comes with drawbacks. For example, full iron gear gives <b>+10 AC</b>, but you lose Acrobatics, Athletics, and Dexterity.</li></ul>
       <div class="formula">damage taken = damage − AC</div>
       <p>AC is subtracted flat from the total damage of each hit.</p>
+      <div class="tablewrap"><table class="t"><thead><tr><th class="num">Armor AC worn</th><th>Drawback</th><th></th></tr></thead><tbody>${ARMOR_DRAWBACKS.map((r,i)=>`<tr><td class="num">${r[0]}${ARMOR_DRAWBACKS[i+1]?'–'+(ARMOR_DRAWBACKS[i+1][0]-1):'+'}</td><td>${esc(r[1])}</td><td style="color:var(--muted);font-size:.8rem">${r[2]?'proposed, adjust as you like':''}</td></tr>`).join('')}</tbody></table></div>
       <p class="note"><a href="${pageUrl('tools')}" data-go="tools">Damage calculator →</a></p>`],
     ['grading','Material Grading','v1.07, v1.10',`<p>Every material has a realm and a grade from 1 to 10. Together they give a Material Rank from 1 to 100, which sets the Item Level (1–50) of what it makes. Blueprints record their strongest material.</p>
       <div class="formula">Material Rank = (tier − 1) × 10 + grade<br>Item Level = ⌈ Rank ÷ 2 ⌉</div>${tierTable()}`],
@@ -1288,7 +1362,7 @@ function renderRules(){
       <div class="tablewrap"><table class="t"><thead><tr><th>Realm</th><th class="num">Base</th><th class="num">Grade 1</th><th class="num">Grade 5</th><th class="num">Grade 10</th></tr></thead><tbody>${REALMS.map(r=>`<tr><td>${esc(r.n)}</td><td class="num">${r.base?gp(r.base):'—'}</td><td class="num">${r.base?gp(r.base):'not sold'}</td><td class="num">${r.base?gp(r.base*5):'—'}</td><td class="num">${r.base?gp(r.base*20):'—'}</td></tr>`).join('')}</tbody></table></div>`],
     ['professions','Professions & Progression','v1.20–1.23',`<ul><li>Ten professions; every Blueprint has a profession and a specialty.</li><li>You start with one specialty and gain more over time. Crafting outside your specialties is at disadvantage, and each specialty has its own requirement.</li><li>Hell, Heaven, and Void metals need a Blacksmith with the matching realm specialty.</li><li>Profession XP comes from crafting, designing, refining, and gathering, with teachers and milestones.</li><li><b>Harvesting</b> gathers ore, stone, crystal, and plants. <b>Scavenging</b> strips hide, bone, blood, organs, and essences from corpses.</li></ul><p class="note"><a href="${pageUrl('professions')}" data-go="professions">All professions →</a></p>`],
     ['travel','Realm Travel','v1.17',`<ul><li>Each realm has a <b>Pressure</b> from 0 to 9. A traveler's <b>Attunement</b> comes from their level, contract rank, or realm-material gear.</li><li>If Pressure is higher than Attunement, the traveler suffers strain.</li><li>There are 11 travel methods, and an anchor from home makes the return trip easier.</li><li>The Realm Map page in the vault diagrams every route between realms.</li></ul><p class="note">The Pressure values shown in this app follow the tier order (tier − 1). Check them against the Realm Travel page in the vault.</p>`],
-    ['contracts','God Contracts','v1.08, v1.15',`<ul><li>Ten ranks, from Minor up to 1st Finger. The five Fingers form the god's Hand.</li><li>Each rank has spells, AC, duties, and a reward ladder.</li><li>There are rules for rising in rank, staying loyal to one god, breaking a contract, and what happens when a god dies.</li><li>${CONTESTED.length} Runes are held by more than one god; those gods are rivals.</li></ul><p class="note"><a href="${pageUrl('gods')}" data-go="gods">All gods →</a></p>`],
+    ['contracts','God Contracts','v1.08, v1.15',`<ul><li>The gods are guests in Atrious: their own world eroded because of Inane, and Infinatas, who cares only for balance, let them in under strict regulation.</li><li>Ten ranks, from Minor up to 1st Finger. The five Fingers form the god's Hand.</li><li>Each rank has spells, AC, duties, and a reward ladder.</li><li>There are rules for rising in rank, staying loyal to one god, breaking a contract, and what happens when a god dies.</li><li>${CONTESTED.length} Runes are held by more than one god; those gods are rivals.</li></ul><p class="note"><a href="${pageUrl('gods')}" data-go="gods">All gods →</a></p>`],
     ['classes','Classes & Subclasses','v1.03, v1.18',`<ul><li>Official subclasses from the Player's Handbook, Xanathar's, Tasha's, and the Sword Coast guide are included as paraphrased summaries, each labeled with its source book.</li><li>Three 2024 Player's Handbook subclasses were added: Path of the World Tree, College of Dance, and Circle of the Sea.</li><li>Each class page notes which of its subclasses the 2024 Player's Handbook revised. Every class picks its subclass at level 3.</li><li>Homebrew Rune subclasses sit alongside the official ones.</li></ul><p class="note"><a href="${pageUrl('subclasses')}" data-go="subclasses">All subclasses →</a></p>`],
     ['spells','Spells','v1.17, v1.23',`<ul><li>Every spell in the vault lists its classes. Pyramid spells get them from their school, plus the class tied to their Rune where one applies.</li><li>73 Tertiary and Secondary damage spells were turned into support spells: they now heal, cure, ward, shield, teleport, or otherwise help. Each was renamed to match its new effect and scales with spell level.</li></ul><p class="note">The vault has about 2,330 spells. The Spells page in this app holds an older, larger generated list (${fmt(META.counts.spells)}), and only some of those list classes.</p>`],
     ['monsters','Monster Stats','v1.20',`<ul><li><b>Homebrew</b> monsters have a level, HP, AC, attacks, a save DC, and a signature trait from their best drop. Grade 10 monsters have boss rules.</li><li><b>Official</b> monsters have their CR, a grade from that CR, an original short description, and graded drops; no stat blocks.</li></ul>`],
@@ -1335,6 +1409,7 @@ function renderAbout(){
   ];
   $('content').innerHTML=`<div class="page">
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">About FAND</h3><p>Everything built in the FAND vault since the Patch Notes began. Current version: <b>${esc(META.version)}</b>.</p></div>
+    <section class="sec">${cosmologyHTML()}</section>
     <section class="sec"><div class="sec-h"><h3>At a glance</h3></div><div class="tablewrap"><table class="t"><thead><tr><th>Area</th><th>Now</th></tr></thead><tbody>${G.map(([a,t,l])=>`<tr><td style="white-space:nowrap;font-weight:600">${l?`<a href="${pageUrl(l)}" data-go="${l}" style="text-decoration:none">${a}</a>`:a}</td><td>${t}</td></tr>`).join('')}</tbody></table></div></section>
     <section class="sec"><div class="sec-h"><h3>Version history</h3><p>Full detail for each version is in the vault's Patch Notes database.</p></div><div class="tablewrap"><table class="t"><thead><tr><th>Version</th><th>What changed</th></tr></thead><tbody>${V.slice().reverse().map(([v,t])=>`<tr><td style="white-space:nowrap"><span class="vtag">${v}</span></td><td>${esc(t)}</td></tr>`).join('')}</tbody></table></div></section>
     <section class="sec cols">
@@ -1467,6 +1542,447 @@ function renderTools(){
 }
 
 // ════════════════════════════════════════════════════════════════
+//  Table tools: Craft, Party, Encounters, Combat
+//  All state is kept in this browser (localStorage); Party can be exported and imported as JSON.
+// ════════════════════════════════════════════════════════════════
+// Armor drawbacks by total armor AC. The 10+ row is the campaign's rule; the lower rows are a
+// starting point to adjust.
+const ARMOR_DRAWBACKS=[
+  [0,'None',''],
+  [4,'Disadvantage on Dexterity (Stealth) checks','proposed'],
+  [7,'Disadvantage on Stealth and Acrobatics checks','proposed'],
+  [10,'You lose Acrobatics, Athletics, and Dexterity',''],
+];
+const drawbackFor=ac=>{let d=ARMOR_DRAWBACKS[0];ARMOR_DRAWBACKS.forEach(r=>{if(ac>=r[0])d=r});return d};
+const ARMOR_CATS=['Armor','Shield'];
+const CONTRACT_RANKS=['Minor','Rank 2','Rank 3','Rank 4','Rank 5','5th Finger','4th Finger','3rd Finger','2nd Finger','1st Finger'];
+const CONDITIONS=['Blinded','Charmed','Deafened','Frightened','Grappled','Incapacitated','Invisible','Paralyzed','Petrified','Poisoned','Prone','Restrained','Stunned','Unconscious','Exhaustion','Concentrating'];
+const uid=()=>Math.random().toString(36).slice(2,9);
+const BP_IDX=new Map();BPS.forEach(b=>{if(!BP_IDX.has(lc(b.n)))BP_IDX.set(lc(b.n),b)});
+let findBP=n=>BP_IDX.get(lc(n||''));
+const godByKey=n=>GOD_IDX.get(lc(n||''));
+let PARTY=store.get('party',[]);
+const saveParty=()=>store.set('party',PARTY);
+function datalists(){
+  if($('dl-bp'))return '';
+  return `<datalist id="dl-bp">${BPS.map(b=>`<option value="${esc(b.n)}">`).join('')}</datalist>
+    <datalist id="dl-mat">${MATS.map(m=>`<option value="${esc(m.n)}">`).join('')}</datalist>
+    <datalist id="dl-mon">${MONSTERS.map(m=>`<option value="${esc(m.n)}">`).join('')}</datalist>`;
+}
+function charStats(c){
+  const gear=(c.gear||[]).map(findBP).filter(Boolean);
+  const armorAC=gear.filter(b=>ARMOR_CATS.includes(b.cat)).reduce((a,b)=>a+(+b.ac||0),0);
+  const otherAC=gear.filter(b=>!ARMOR_CATS.includes(b.cat)).reduce((a,b)=>a+(+b.ac||0),0);
+  const ac=armorAC+otherAC+(+c.acBonus||0);
+  const traits=[];gear.forEach(b=>b.mats.forEach(n=>{const m=findMat(n);if(m&&m.tr&&!traits.some(t=>t.m===m))traits.push({m,b})}));
+  const inv=(c.inv||[]).map(([n,q])=>({m:findMat(n),n,q:+q||0}));
+  const invGp=inv.reduce((a,x)=>a+(x.m&&x.m.price||0)*x.q,0);
+  const purseGp=Object.entries(c.purse||{}).reduce((a,[r,v])=>a+(CURRENCY[r]&&CURRENCY[r].gp||0)*(+v||0),0);
+  const god=godByKey(c.god);const rivals=[];
+  if(god)(god.runes||[]).forEach(r=>(RUNE_GODS.get(r)||[]).forEach(o=>{if(o!==god&&!rivals.includes(o))rivals.push(o)}));
+  return {gear,armorAC,ac,traits,inv,invGp,purseGp,god,rivals,drawback:drawbackFor(armorAC)};
+}
+
+// ── Craft ─────────────────────────────────────────────────────
+function renderCraft(){
+  const st=store.get('craft',{bp:'',qty:1,who:''});
+  $('content').innerHTML=`<div class="page">${datalists()}
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Crafting planner</h3><p>Pick a Blueprint to see every material, where to get it, what it costs, and what a crafter is missing.</p></div>
+    <div class="tool"><div class="form" style="grid-template-columns:2fr 1fr 1.5fr">
+      <label>Blueprint<input id="cf-bp" list="dl-bp" placeholder="Start typing a Blueprint…" value="${esc(st.bp)}"></label>
+      <label>How many<input id="cf-q" type="number" min="1" value="${st.qty||1}"></label>
+      <label>Crafter<select id="cf-who"><option value="">No one in particular</option>${PARTY.map(c=>`<option value="${c.id}"${c.id===st.who?' selected':''}>${esc(c.name||'Unnamed')}</option>`).join('')}</select></label>
+    </div></div><div id="cf-out" style="margin-top:14px"></div></div>`;
+  const run=()=>{store.set('craft',{bp:$('cf-bp').value,qty:+$('cf-q').value||1,who:$('cf-who').value});craftOut()};
+  ['cf-bp','cf-q','cf-who'].forEach(i=>{$(i).addEventListener('change',run);$(i).addEventListener('input',()=>{if(findBP($('cf-bp').value))run()})});
+  craftOut();
+}
+function craftOut(){
+  const st=store.get('craft',{}),b=findBP(st.bp),q=Math.max(1,st.qty||1),who=PARTY.find(c=>c.id===st.who);
+  if(!b){$('cf-out').innerHTML=`<div class="empty" style="padding:30px"><b>Choose a Blueprint</b>Type its name above, or open any Blueprint and press “Plan crafting”.</div>`;return}
+  const have=n=>{if(!who)return 0;const r=(who.inv||[]).find(x=>lc(x[0])===lc(n));return r?+r[1]||0:0};
+  let total=0,unsold=false;const missing=[];
+  const rows=b.mats.map(n=>{
+    const m=findMat(n),need=q,h=have(n),miss=Math.max(0,need-h);if(miss)missing.push([n,miss]);
+    const unit=m&&m.price||0;total+=unit*miss;if(m&&!m.price)unsold=true;
+    const mons=m?(monByMat().get(lc(m.n))||[]).slice(0,3):[];
+    const src=m?[mons.length?'Drops from '+mons.map(x=>refChip(x,esc(x.n),x.realm+' '+x.g)).join(' '):'',m.where?'Gathered at '+esc(m.where)+(m.by?' ('+esc(m.by)+')':''):'',m.price?'Sold by merchants':'Not sold'].filter(Boolean).join('<br>'):'Not in the materials list';
+    const refine=m&&m.g>1?`${fmt(Math.pow(3,m.g-1)*need)} × ${esc(m.realm)} grade 1`:'';
+    return `<tr><td>${m?refChip(m):esc(n)}${m&&m.tr?`<div style="font-size:.75rem;color:var(--gold2)">◆ ${esc(m.tr.n)}</div>`:''}</td><td>${m?esc(m.gr):''}</td><td class="num">${need}</td>${who?`<td class="num" style="color:${h>=need?'var(--green)':'var(--red)'}">${h}</td>`:''}<td class="num">${unit?gp(unit):'—'}</td><td class="num">${unit&&miss?gp(unit*miss):'—'}</td><td style="font-size:.8rem;color:var(--text2)">${src}</td><td style="font-size:.78rem;color:var(--muted)">${refine?'or refine from '+refine:''}</td></tr>`;
+  }).join('');
+  const prof=who?(lc(who.prof)===lc(b.pr)):null,spec=who&&b.sp?(who.specs||[]).map(lc).includes(lc(b.sp)):null;
+  const req=[`<b>${esc(b.pr)}</b>${b.sp&&b.sp!==b.pr?' · specialty <b>'+esc(b.sp)+'</b>':''} · level ${b.lv}`];
+  if(who){req.push(prof?'<span class="b green">Has the profession</span>':'<span class="b red">Lacks the profession</span>');if(b.sp&&b.sp!==b.pr)req.push(spec?'<span class="b green">Has the specialty</span>':'<span class="b red">Crafts at disadvantage (outside their specialties)</span>')}
+  if(/Infernal|Celestial|Void Smith/i.test(b.sp||''))req.push('<span class="b gold">Needs a smith with the matching realm specialty</span>');
+  const traits=b.mats.map(findMat).filter(m=>m&&m.tr);
+  $('cf-out').innerHTML=`<div class="panel" style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="font-size:1.25rem;margin:0">${refChip(b,esc(b.n))}</h4>${rarB(b.r)}<span class="b ghost">${esc(b.cat)}</span>${b.ac?`<span class="b">AC ${esc(b.ac)}</span>`:''}${b.dc?`<span class="b">${esc(b.dc)} ${esc(b.dm)}</span>`:''}</div>
+    <div class="badges" style="gap:6px">${req.join('')}</div>
+    <div class="tablewrap"><table class="t"><thead><tr><th>Material</th><th>Grade</th><th class="num">Need</th>${who?'<th class="num">Has</th>':''}<th class="num">Each</th><th class="num">To buy</th><th>Where to get it</th><th>Refining</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <div class="out" style="margin:0"><div class="big">${gp(total)}</div><div class="kv"><span>To make</span><span>${q} × ${esc(b.n)}</span><span>Still to buy</span><span>${missing.length?missing.map(([n,k])=>k+' × '+esc(n)).join(', '):'nothing, all materials on hand'}</span>${unsold?'<span>Note</span><span>Some materials are not sold; they must be hunted, gathered, or traded.</span>':''}</div></div>
+    ${traits.length?`<div><div class="blk"><h4>Traits when equipped</h4></div><div class="mlist">${traits.map(m=>`<button data-ref="${ref(m)}" style="flex-direction:column;align-items:flex-start"><b style="color:var(--gold2)">◆ ${esc(m.tr.n)}</b><span style="font-size:.8rem">${esc(m.tr.t)}</span></button>`).join('')}</div></div>`:''}
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn" onclick="copyShopping()">Copy shopping list</button>
+      ${who?`<button class="btn primary" onclick="craftNow()">Craft it: use ${esc(who.name||'their')} materials and add to gear</button>`:''}
+    </div></div>`;
+  craftOut.missing=missing;
+}
+function copyShopping(){const st=store.get('craft',{});const t='Shopping list for '+st.bp+':\n'+(craftOut.missing||[]).map(([n,k])=>'- '+k+' × '+n).join('\n');(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('Copied'),()=>toast('Copy failed'))}
+function craftNow(){
+  const st=store.get('craft',{}),b=findBP(st.bp),q=Math.max(1,st.qty||1),c=PARTY.find(x=>x.id===st.who);if(!b||!c)return;
+  if((craftOut.missing||[]).length&&!confirm('Some materials are missing. Craft anyway and use what is on hand?'))return;
+  c.inv=(c.inv||[]).map(([n,k])=>b.mats.some(x=>lc(x)===lc(n))?[n,Math.max(0,(+k||0)-q)]:[n,k]).filter(([,k])=>k>0);
+  c.gear=(c.gear||[]).concat(Array(q).fill(b.n));saveParty();toast(b.n+' added to '+(c.name||'character')+'\'s gear');craftOut();
+}
+
+// ── Party ─────────────────────────────────────────────────────
+let PARTY_SEL=null;
+function renderParty(){
+  if(!PARTY_SEL&&PARTY.length)PARTY_SEL=PARTY[0].id;
+  const c=PARTY.find(x=>x.id===PARTY_SEL);
+  $('content').innerHTML=`<div class="page">${datalists()}
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Party</h3><p>Characters, contracts, gear, materials, and money. Saved in this browser; export to share or back up.</p>
+      <span style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap"><button class="btn primary" onclick="addChar()">+ Add character</button><button class="btn" onclick="exportParty()">Export</button><label class="btn" style="cursor:pointer">Import<input type="file" accept=".json,application/json" style="display:none" onchange="importParty(this)"></label></span></div>
+    ${PARTY.length?`<div class="chips" style="margin-bottom:14px">${PARTY.map(x=>{const s=charStats(x);return `<button class="chip" style="padding:6px 12px;font-size:.85rem${x.id===PARTY_SEL?';border-color:var(--gold);background:var(--goldbg)':''}" onclick="PARTY_SEL='${x.id}';renderParty()"><b>${esc(x.name||'Unnamed')}</b> <small>Lv ${x.level||1} ${esc(x.cls||'')} · AC ${s.ac}</small></button>`}).join('')}</div>`:`<div class="empty"><b>No characters yet</b>Add the party to track contracts, rivals, gear, and materials.</div>`}
+    ${c?charEditor(c):''}</div>`;
+  if(c)bindChar(c);
+}
+function addChar(){const c={id:uid(),name:'New character',level:1,hpMax:10,hp:10,acBonus:0,attune:0,gear:[],inv:[],purse:{Human:0},specs:[]};PARTY.push(c);PARTY_SEL=c.id;saveParty();renderParty()}
+function exportParty(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(PARTY,null,2)],{type:'application/json'}));a.download='fand-party.json';document.body.appendChild(a);a.click();a.remove()}
+function importParty(inp){const f=inp.files[0];if(!f)return;f.text().then(t=>{try{const d=JSON.parse(t);if(!Array.isArray(d))throw 0;PARTY=d.map(x=>Object.assign({id:uid()},x));saveParty();PARTY_SEL=null;renderParty();toast('Imported '+PARTY.length+' characters')}catch(e){toast('That file is not a FAND party export')}})}
+function charEditor(c){
+  const s=charStats(c),classes=[...new Set(SUBS.map(x=>x.par))].sort();
+  const subs=SUBS.filter(x=>x.par===c.cls);
+  const specsAll=c.prof&&PROFS[c.prof]?[...new Set(PROFS[c.prof].abs.concat(BPS.filter(b=>b.pr===c.prof&&b.sp&&b.sp!==b.pr).map(b=>b.sp)))].sort():[];
+  const coinRealms=REALMS.filter(r=>CURRENCY[r.n]&&CURRENCY[r.n].coin);
+  const f=(k,l,type='text',extra='')=>`<label>${l}<input data-k="${k}" type="${type}" value="${esc(c[k]??'')}" ${extra}></label>`;
+  return `<div class="cols" style="align-items:start">
+   <div class="panel" style="display:flex;flex-direction:column;gap:12px">
+    <div class="form">${f('name','Name')}${f('player','Player')}
+      <label>Class<select data-k="cls"><option value=""></option>${classes.map(x=>`<option${x===c.cls?' selected':''}>${esc(x)}</option>`).join('')}</select></label>
+      <label>Subclass<select data-k="sub"><option value=""></option>${subs.map(x=>`<option${x.n===c.sub?' selected':''}>${esc(x.n)}</option>`).join('')}</select></label>
+      ${f('level','Level','number','min="1" max="20"')}${f('attune','Attunement','number','min="0" max="9"')}
+      ${f('hp','HP','number')}${f('hpMax','Max HP','number')}
+      ${f('acBonus','Other AC (traits, magic)','number')}
+      <label>Profession<select data-k="prof"><option value=""></option>${Object.keys(PROFS).map(p=>`<option${p===c.prof?' selected':''}>${p}</option>`).join('')}</select></label>
+      <label class="full">Specialties<select data-k="specs" multiple size="${Math.min(6,Math.max(2,specsAll.length))}">${specsAll.map(x=>`<option${(c.specs||[]).includes(x)?' selected':''}>${esc(x)}</option>`).join('')}</select></label>
+      <label>God contract<select data-k="god"><option value="">None</option>${GODS.map(g=>`<option value="${esc(godKey(g))}"${godKey(g)===c.god?' selected':''}>${esc(godKey(g))} (${esc(g.grp.replace(' Pantheon',''))})</option>`).join('')}</select></label>
+      <label>Contract rank<select data-k="rank"><option value=""></option>${CONTRACT_RANKS.map(r=>`<option${r===c.rank?' selected':''}>${r}</option>`).join('')}</select></label>
+      <label class="full">Notes<textarea data-k="notes" rows="3" style="background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:7px 9px;color:var(--text);font:inherit">${esc(c.notes||'')}</textarea></label></div>
+    <div style="display:flex;justify-content:space-between"><button class="btn" onclick="if(confirm('Delete this character?')){PARTY=PARTY.filter(x=>x.id!=='${c.id}');PARTY_SEL=null;saveParty();renderParty()}">Delete character</button><button class="btn" onclick="go('craft')">Crafting planner →</button></div>
+   </div>
+   <div style="display:flex;flex-direction:column;gap:14px">
+    <div class="panel">${kv([['AC',`${s.ac} <small style="font-weight:400;color:var(--muted)">(armor ${s.armorAC}${s.ac-s.armorAC?', other '+(s.ac-s.armorAC):''})</small>`],['HP',`${c.hp??'?'} / ${c.hpMax??'?'}`],['Armor drawback',esc(s.drawback[1])],['Contract',s.god?refChip(s.god,esc(godKey(s.god)))+(c.rank?' · '+esc(c.rank):''):'None']])}
+      ${s.rivals.length?`<div class="blk" style="margin-top:10px"><h4>Rival gods <em>they share a Rune with your patron</em></h4><div class="chips">${s.rivals.map(g=>refChip(g,esc(godKey(g)))).join('')}</div></div>`:''}
+      <div class="blk" style="margin-top:10px"><h4>Realm Pressure <em>Attunement ${+c.attune||0}</em></h4><div class="chips">${REALMS.map(r=>{const d=r.pressure-(+c.attune||0);return `<span class="chip" style="${d>0?'border-color:var(--red)':''}"><span class="sw" style="background:${r.color}"></span>${esc(r.n)} <small>${d>0?'strain +'+d:'safe'}</small></span>`}).join('')}</div></div></div>
+    <div class="panel"><h4>Gear <em style="font-family:var(--sans);font-size:.75rem;color:var(--muted);font-weight:400">equipped Blueprints</em></h4>
+      <div class="mlist" style="margin:8px 0">${(c.gear||[]).map((n,i)=>{const b=findBP(n);return `<button ${b?`data-ref="${ref(b)}"`:''}>${esc(n)}<span class="x">${b?esc(b.cat)+(b.ac?' · AC '+esc(b.ac):''):''}</span><span class="r" onclick="event.stopPropagation();rmGear('${c.id}',${i})" title="Remove">✕</span></button>`}).join('')||'<button disabled>Nothing equipped</button>'}</div>
+      <div class="keyrow"><input class="sel" id="pg-add" list="dl-bp" placeholder="Add a Blueprint…" style="max-width:none;flex:1"><button class="btn" onclick="addGear('${c.id}')">Add</button></div>
+      ${s.traits.length?`<div class="blk" style="margin-top:10px"><h4>Active traits</h4><div class="mlist">${s.traits.map(({m,b})=>`<button data-ref="${ref(m)}" style="flex-direction:column;align-items:flex-start"><span><b style="color:var(--gold2)">◆ ${esc(m.tr.n)}</b> <span class="x">${esc(m.n)} in ${esc(b.n)}</span></span><span style="font-size:.8rem">${esc(m.tr.t)}</span></button>`).join('')}</div></div>`:''}</div>
+    <div class="panel"><h4>Materials <em style="font-family:var(--sans);font-size:.75rem;color:var(--muted);font-weight:400">worth ${gp(s.invGp)}</em></h4>
+      <div class="mlist" style="margin:8px 0">${s.inv.map((x,i)=>`<button ${x.m?`data-ref="${ref(x.m)}"`:''}><b style="width:38px">${x.q}×</b>${esc(x.n)}<span class="x">${x.m?esc(x.m.gr):''}</span><span class="r">${x.m&&x.m.price?gp(x.m.price*x.q):''} <span onclick="event.stopPropagation();rmInv('${c.id}',${i})" title="Remove">✕</span></span></button>`).join('')||'<button disabled>No materials</button>'}</div>
+      <div class="keyrow"><input class="sel" id="pi-n" type="number" min="1" value="1" style="width:70px"><input class="sel" id="pi-add" list="dl-mat" placeholder="Add a material…" style="max-width:none;flex:1"><button class="btn" onclick="addInv('${c.id}')">Add</button></div></div>
+    <div class="panel"><h4>Purse <em style="font-family:var(--sans);font-size:.75rem;color:var(--muted);font-weight:400">worth ${gp(Math.round(s.purseGp))}</em></h4>
+      <div class="form" style="margin-top:8px">${coinRealms.map(r=>`<label>${esc(CURRENCY[r.n].coin)} <small style="text-transform:none;letter-spacing:0">(${esc(r.n)})</small><input type="number" min="0" data-purse="${esc(r.n)}" value="${(c.purse||{})[r.n]||0}"></label>`).join('')}</div></div>
+   </div></div>`;
+}
+function bindChar(c){
+  $('content').querySelectorAll('[data-k]').forEach(el=>el.addEventListener('change',()=>{
+    const k=el.dataset.k;c[k]=el.multiple?[...el.selectedOptions].map(o=>o.value):el.type==='number'?+el.value:el.value;
+    if(k==='cls')c.sub='';if(k==='prof')c.specs=[];saveParty();setTimeout(renderParty);
+  }));
+  $('content').querySelectorAll('[data-purse]').forEach(el=>el.addEventListener('change',()=>{c.purse=c.purse||{};c.purse[el.dataset.purse]=+el.value||0;saveParty();setTimeout(renderParty)}));
+}
+function addGear(id){const c=PARTY.find(x=>x.id===id),v=$('pg-add').value.trim(),b=findBP(v);if(!b){toast('No Blueprint named “'+v+'”');return}c.gear=(c.gear||[]).concat(b.n);saveParty();renderParty()}
+function rmGear(id,i){const c=PARTY.find(x=>x.id===id);c.gear.splice(i,1);saveParty();renderParty()}
+function addInv(id){const c=PARTY.find(x=>x.id===id),v=$('pi-add').value.trim(),m=findMat(v),k=Math.max(1,+$('pi-n').value||1);if(!m){toast('No material named “'+v+'”');return}c.inv=c.inv||[];const r=c.inv.find(x=>lc(x[0])===lc(m.n));if(r)r[1]=(+r[1]||0)+k;else c.inv.push([m.n,k]);saveParty();renderParty()}
+function rmInv(id,i){const c=PARTY.find(x=>x.id===id);c.inv.splice(i,1);saveParty();renderParty()}
+
+// ── Encounters ────────────────────────────────────────────────
+const XP_TH=[null,[25,50,75,100],[50,100,150,200],[75,150,225,400],[125,250,375,500],[250,500,750,1100],[300,600,900,1400],[350,750,1100,1700],[450,900,1400,2100],[550,1100,1600,2400],[600,1200,1900,2800],[800,1600,2400,3600],[1000,2000,3000,4500],[1100,2200,3400,5100],[1250,2500,3800,5700],[1400,2800,4300,6400],[1600,3200,4800,7200],[2000,3900,5900,8800],[2100,4200,6300,9500],[2400,4900,7300,10900],[2800,5700,8500,12700]];
+const DIFFS=['Easy','Medium','Hard','Deadly'];
+const xpMult=n=>n<=1?1:n===2?1.5:n<=6?2:n<=10?2.5:n<=14?3:4;
+function renderEncounter(){
+  const st=store.get('enc',{size:Math.max(1,PARTY.length||4),level:Math.max(1,Math.round(PARTY.reduce((a,c)=>a+(+c.level||1),0)/(PARTY.length||1))||3),realm:'Human',diff:'Medium',hb:false,list:[]});
+  $('content').innerHTML=`<div class="page">${datalists()}
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Encounter builder</h3><p>Balanced fights from a realm's Bestiary, using the standard XP budget by party level.</p></div>
+    <div class="tool"><div class="form" style="grid-template-columns:repeat(5,1fr)">
+      <label>Party size<input id="en-size" type="number" min="1" max="10" value="${st.size}"></label>
+      <label>Average level<input id="en-lv" type="number" min="1" max="20" value="${st.level}"></label>
+      <label>Realm<select id="en-realm"><option value="">Any realm</option>${REALMS.map(r=>`<option${r.n===st.realm?' selected':''}>${esc(r.n)}</option>`).join('')}</select></label>
+      <label>Difficulty<select id="en-diff">${DIFFS.map(d=>`<option${d===st.diff?' selected':''}>${d}</option>`).join('')}</select></label>
+      <label class="chk" style="align-self:end"><input type="checkbox" id="en-hb"${st.hb?' checked':''}> Homebrew only</label>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><button class="btn primary" onclick="rollEncounter()">🎲 Build encounter</button>
+      <span class="keyrow" style="flex:1;min-width:260px"><input class="sel" id="en-add" list="dl-mon" placeholder="Or add a monster by name…" style="max-width:none;flex:1"><button class="btn" onclick="addEncMon()">Add</button></span>
+      <button class="btn" onclick="sendToCombat()">Send to combat tracker →</button></div></div>
+    <div id="en-out" style="margin-top:14px"></div></div>`;
+  ['en-size','en-lv','en-realm','en-diff','en-hb'].forEach(i=>$(i).addEventListener('change',()=>{saveEncInputs();encOut()}));
+  encOut();
+}
+function saveEncInputs(){const st=store.get('enc',{});Object.assign(st,{size:+$('en-size').value||4,level:Math.min(20,Math.max(1,+$('en-lv').value||1)),realm:$('en-realm').value,diff:$('en-diff').value,hb:$('en-hb').checked});store.set('enc',st);return st}
+const monXP=m=>m.sb?m.sb.xp:0;
+function encBudget(st){const th=XP_TH[st.level]||XP_TH[1];return th.map(x=>x*st.size)}
+function rollEncounter(){
+  const st=saveEncInputs(),budget=encBudget(st)[DIFFS.indexOf(st.diff)];
+  const pool=MONSTERS.filter(m=>(!st.realm||m.realm===st.realm)&&(!st.hb||m.hb)&&monXP(m)>0&&monXP(m)<=budget);
+  if(!pool.length){st.list=[];store.set('enc',st);encOut('No monsters fit that budget in '+(st.realm||'any realm')+'. Try another realm or a higher level.');return}
+  let best=null,bestScore=1e18;
+  for(let t=0;t<400;t++){
+    const k=1+Math.floor(Math.random()*Math.min(6,st.size+2)),pick=[];
+    const lead=pool[Math.floor(Math.random()*pool.length)];pick.push(lead);
+    for(let i=1;i<k;i++){const same=Math.random()<.5;const x=same?lead:pool[Math.floor(Math.random()*pool.length)];pick.push(monXP(x)<=monXP(lead)?x:lead)}
+    const adj=pick.reduce((a,m)=>a+monXP(m),0)*xpMult(pick.length);
+    const score=adj>budget*1.1?(adj-budget)*3:budget-adj;
+    if(score<bestScore){bestScore=score;best=pick}
+  }
+  const counts=new Map();best.forEach(m=>counts.set(m,(counts.get(m)||0)+1));
+  st.list=[...counts].map(([m,n])=>[m.n,n]);store.set('enc',st);encOut();
+}
+function addEncMon(){const v=$('en-add').value.trim(),m=MON_IDX.get(lc(v));if(!m){toast('No monster named “'+v+'”');return}const st=saveEncInputs();st.list=st.list||[];const r=st.list.find(x=>x[0]===m.n);if(r)r[1]++;else st.list.push([m.n,1]);store.set('enc',st);$('en-add').value='';encOut()}
+function encSet(name,d){const st=store.get('enc',{});const r=(st.list||[]).find(x=>x[0]===name);if(!r)return;r[1]+=d;st.list=st.list.filter(x=>x[1]>0);store.set('enc',st);encOut()}
+function encOut(msg){
+  const st=store.get('enc',{}),list=(st.list||[]).map(([n,k])=>({m:MON_IDX.get(lc(n)),k})).filter(x=>x.m);
+  const th=encBudget(st),count=list.reduce((a,x)=>a+x.k,0),raw=list.reduce((a,x)=>a+monXP(x.m)*x.k,0),adj=raw*xpMult(count);
+  let diff='Trivial';th.forEach((t,i)=>{if(adj>=t)diff=DIFFS[i]});
+  const loot=list.reduce((a,x)=>a+x.k*(x.m.drops||[]).reduce((s,d)=>s+((findMat(d[0])||{}).price||0),0),0);
+  $('en-out').innerHTML=(msg?`<div class="note">${esc(msg)}</div>`:'')+`<div class="panel" style="display:flex;flex-direction:column;gap:12px">
+    ${kv([['Difficulty',`<span style="color:${diff==='Deadly'?'var(--red)':diff==='Hard'?'var(--gold2)':'var(--green)'}">${diff}</span>`],['Adjusted XP',fmt(Math.round(adj))],['XP to award',fmt(raw)+' <small style="font-weight:400;color:var(--muted)">('+fmt(Math.round(raw/(st.size||1)))+' each)</small>'],['Budgets',th.map((t,i)=>DIFFS[i][0]+' '+fmt(t)).join(' · ')],['Loot value',gp(loot)+' <small style="font-weight:400;color:var(--muted)">one of each part</small>']])}
+    ${list.length?`<div class="mlist">${list.map(x=>`<button data-ref="${ref(x.m)}"><b style="width:36px">${x.k}×</b>${esc(x.m.n)} <span class="x">${esc(x.m.realm)} ${x.m.g} · CR ${esc(x.m.sb.cr)} · AC ${x.m.sb.ac} · HP ${x.m.sb.hp}</span><span class="r"><span onclick="event.stopPropagation();encSet('${esc(x.m.n).replace(/'/g,"\\'")}',1)" title="One more">＋</span> <span onclick="event.stopPropagation();encSet('${esc(x.m.n).replace(/'/g,"\\'")}',-1)" title="One fewer">－</span> ${fmt(monXP(x.m)*x.k)} XP</span></button>`).join('')}</div>`:'<div class="note" style="margin:0">Press “Build encounter” or add monsters by name.</div>'}
+  </div>`;
+}
+function sendToCombat(){
+  const st=store.get('enc',{}),cb=store.get('combat',{round:1,turn:0,list:[]});
+  (st.list||[]).forEach(([n,k])=>{const m=MON_IDX.get(lc(n));if(!m)return;for(let i=0;i<k;i++)cb.list.push(monCombatant(m,k>1?i+1:0))});
+  PARTY.forEach(c=>{if(!cb.list.some(x=>x.pc===c.id))cb.list.push({id:uid(),name:c.name||'PC',pc:c.id,init:0,dex:0,hp:+c.hp||0,max:+c.hpMax||0,ac:charStats(c).ac,cond:[]})});
+  store.set('combat',cb);go('combat');
+}
+function monCombatant(m,i){return {id:uid(),name:m.n+(i?' '+i:''),mon:m.n,init:0,dex:Math.floor(((m.sb?m.sb.ab[1]:10)-10)/2),hp:m.sb?m.sb.hp:10,max:m.sb?m.sb.hp:10,ac:m.sb?m.sb.ac:0,cond:[]}}
+
+// ── Combat ────────────────────────────────────────────────────
+let CB=null;
+const saveCB=()=>store.set('combat',CB);
+function renderCombat(){
+  CB=store.get('combat',{round:1,turn:0,list:[]});
+  const cur=CB.list[CB.turn];
+  $('content').innerHTML=`<div class="page">${datalists()}
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Combat tracker</h3><p>Initiative, HP, and conditions. Damage applies FAND's flat AC automatically.</p></div>
+    <div class="tool" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+      <span style="font-family:var(--serif);font-size:1.3rem;font-weight:700">Round ${CB.round}</span>
+      ${cur?`<span class="b gold">Turn: ${esc(cur.name)}</span>`:''}
+      <button class="btn primary" onclick="cbNext()">Next turn →</button>
+      <button class="btn" onclick="cbRoll()">🎲 Roll monster initiative</button>
+      <button class="btn" onclick="cbSort()">Sort by initiative</button>
+      <span class="keyrow" style="flex:1;min-width:240px"><input class="sel" id="cb-n" type="number" min="1" value="1" style="width:60px"><input class="sel" id="cb-add" list="dl-mon" placeholder="Add monster…" style="max-width:none;flex:1"><button class="btn" onclick="cbAddMon()">Add</button></span>
+      <button class="btn" onclick="cbAddParty()">+ Party</button>
+      <button class="btn" onclick="cbAddCustom()">+ Custom</button>
+      <label class="note" style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" id="cb-ac" ${CB.noAC?'':'checked'} onchange="CB.noAC=!this.checked;saveCB()"> Subtract AC from damage</label>
+      <button class="btn" onclick="if(confirm('Clear the combat?')){store.set('combat',{round:1,turn:0,list:[]});renderCombat()}">Clear</button>
+    </div>
+    <div class="tablewrap" style="margin-top:14px"><table class="t"><thead><tr><th class="num">Init</th><th>Combatant</th><th class="num">AC</th><th>HP</th><th>Damage / heal</th><th>Conditions</th><th></th></tr></thead><tbody>
+    ${CB.list.length?CB.list.map((x,i)=>{const m=x.mon&&MON_IDX.get(lc(x.mon)),pct=x.max?Math.max(0,Math.min(100,x.hp/x.max*100)):0,down=x.hp<=0;
+      return `<tr style="${i===CB.turn?'background:var(--goldbg);':''}${down?'opacity:.55':''}">
+        <td class="num"><input type="number" value="${x.init}" data-cb="${x.id}" data-f="init" style="width:56px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px;color:var(--text);text-align:right"></td>
+        <td>${i===CB.turn?'▶ ':''}${m?`<a href="#" data-ref="${ref(m)}" style="font-weight:600;color:var(--text)">${esc(x.name)}</a>`:`<b>${esc(x.name)}</b>`}${x.pc?' <span class="b green">PC</span>':''}${down?' <span class="b red">Down</span>':''}</td>
+        <td class="num"><input type="number" value="${x.ac}" data-cb="${x.id}" data-f="ac" style="width:52px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px;color:var(--text);text-align:right"></td>
+        <td style="min-width:130px"><b>${x.hp}</b> / ${x.max}<div class="bar" style="margin-top:4px"><i style="width:${pct}%;background:${pct>50?'var(--green)':pct>25?'var(--gold)':'var(--red)'}"></i></div></td>
+        <td style="white-space:nowrap"><input type="number" min="0" id="dmg-${x.id}" placeholder="0" style="width:64px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px;color:var(--text)"> <button class="btn" onclick="cbHit('${x.id}')">Hit</button> <button class="btn" onclick="cbHeal('${x.id}')">Heal</button></td>
+        <td><div class="chips">${x.cond.map(c=>`<button class="chip" onclick="cbCond('${x.id}','${c}')" title="Remove">${c} ✕</button>`).join('')}<select class="sel" style="padding:2px 6px;font-size:.75rem" onchange="cbCond('${x.id}',this.value)"><option value="">+ condition</option>${CONDITIONS.filter(c=>!x.cond.includes(c)).map(c=>`<option>${c}</option>`).join('')}</select></div></td>
+        <td><button class="btn" onclick="cbRemove('${x.id}')" title="Remove">✕</button></td></tr>`}).join(''):`<tr><td colspan="7"><div class="empty" style="padding:30px"><b>No combatants</b>Add monsters, the party, or send an encounter from the Encounter builder.</div></td></tr>`}
+    </tbody></table></div>
+    <div class="note">Hit subtracts the target's AC from the damage (minimum 0). Untick “Subtract AC” for damage that ignores armor.</div></div>`;
+  $('content').querySelectorAll('[data-cb]').forEach(el=>el.addEventListener('change',()=>{const x=CB.list.find(y=>y.id===el.dataset.cb);x[el.dataset.f]=+el.value||0;saveCB()}));
+}
+const cbFind=id=>CB.list.find(x=>x.id===id);
+function cbHit(id){const x=cbFind(id),d=Math.max(0,+$('dmg-'+id).value||0),taken=CB.noAC?d:Math.max(0,d-(+x.ac||0));x.hp=Math.max(0,x.hp-taken);saveCB();toast(x.name+' takes '+taken+(CB.noAC||!x.ac?'':' ('+d+' − AC '+x.ac+')'));renderCombat()}
+function cbHeal(id){const x=cbFind(id),d=Math.max(0,+$('dmg-'+id).value||0);x.hp=Math.min(x.max,x.hp+d);saveCB();renderCombat()}
+function cbCond(id,c){if(!c)return;const x=cbFind(id);x.cond=x.cond.includes(c)?x.cond.filter(y=>y!==c):x.cond.concat(c);saveCB();renderCombat()}
+function cbRemove(id){const i=CB.list.findIndex(x=>x.id===id);CB.list.splice(i,1);if(CB.turn>=CB.list.length)CB.turn=0;saveCB();renderCombat()}
+function cbNext(){if(!CB.list.length)return;let n=0;do{CB.turn++;if(CB.turn>=CB.list.length){CB.turn=0;CB.round++}n++}while(CB.list[CB.turn].hp<=0&&!CB.list[CB.turn].pc&&n<CB.list.length);saveCB();renderCombat()}
+function cbRoll(){CB.list.forEach(x=>{if(!x.pc)x.init=1+Math.floor(Math.random()*20)+(x.dex||0)});cbSort()}
+function cbSort(){const cur=CB.list[CB.turn];CB.list.sort((a,b)=>b.init-a.init||(b.dex||0)-(a.dex||0));CB.turn=Math.max(0,CB.list.indexOf(cur));saveCB();renderCombat()}
+function cbAddMon(){const v=$('cb-add').value.trim(),m=MON_IDX.get(lc(v)),k=Math.max(1,Math.min(20,+$('cb-n').value||1));if(!m){toast('No monster named “'+v+'”');return}const have=CB.list.filter(x=>x.mon===m.n).length;for(let i=0;i<k;i++)CB.list.push(monCombatant(m,k>1||have?have+i+1:0));saveCB();renderCombat()}
+function cbAddParty(){if(!PARTY.length){toast('No characters yet: add them on the Party page');return}PARTY.forEach(c=>{if(!CB.list.some(x=>x.pc===c.id))CB.list.push({id:uid(),name:c.name||'PC',pc:c.id,init:0,dex:0,hp:+c.hp||0,max:+c.hpMax||0,ac:charStats(c).ac,cond:[]})});saveCB();renderCombat()}
+function cbAddCustom(){const n=prompt('Name?');if(!n)return;const hp=+prompt('Max HP?','10')||10,ac=+prompt('AC?','0')||0;CB.list.push({id:uid(),name:n,init:0,dex:0,hp,max:hp,ac,cond:[]});saveCB();renderCombat()}
+
+// ── Forge: generic Blueprints built part by part ──────────────
+// Material categories (type codes): O metal, W wood/plant, G gem/crystal, S stone, F hide/cloth/fiber,
+// B bone/fang/horn/scale, L blood/organ, E essence/core, K mechanism, U supply.
+const CAT_NAME={O:'Metal',W:'Wood / Plant',G:'Gem / Crystal',S:'Stone',F:'Hide / Fiber',B:'Bone / Horn / Scale',L:'Blood / Organ',E:'Essence / Core',K:'Mechanism',U:'Supply'};
+const HARD=/fang|tooth|tusk|claw|talon|horn|antler|scale|shell|carapace|plate|chitin|bone|spine|beak|mandible|stinger|barb/i;
+const STRING=/sinew|silk|string|thread|gut|hair|tendon|strand|web|cord|fiber|fibre/i;
+// role: primary (sets damage/AC; wrong = item useless), structure (holds it together), minor (optional extras)
+const BASES={
+  Axe:{icon:'🪓',cat:'Axe',dmg:[8,'slashing'],slots:[
+    {id:'head',name:'Head',role:'primary',qty:2,ok:['O','S','B'],ideal:{O:null,S:/obsidian|flint|granite|basalt|stone/i,B:HARD},why:'Needs a hard edge: metal, knapped stone, or a fang, horn, tusk, or scale.'},
+    {id:'haft',name:'Haft',role:'structure',qty:1,ok:['W','B','O'],ideal:{W:null,B:/bone|horn|antler/i,O:null},why:'A long, strong shaft: wood, bone, or metal.'},
+    {id:'grip',name:'Grip wrap',role:'minor',qty:1,ok:['F'],optional:true,why:'Leather, hide, or cord.'},
+    {id:'inlay',name:'Inlay',role:'minor',qty:1,ok:['G','E'],optional:true,why:'A gem or essence to carry magic.'}]},
+  Sword:{icon:'⚔',cat:'Sword',dmg:[8,'slashing'],slots:[
+    {id:'blade',name:'Blade',role:'primary',qty:3,ok:['O','B'],ideal:{O:null,B:/fang|tooth|claw|talon|horn|scale|bone|spine/i},why:'Needs metal, or a long fang, claw, or bone that holds an edge.'},
+    {id:'hilt',name:'Hilt and guard',role:'structure',qty:1,ok:['O','W','B'],why:'Metal, wood, or bone.'},
+    {id:'grip',name:'Grip',role:'minor',qty:1,ok:['F','W'],optional:true,why:'Leather, cord, or wood.'},
+    {id:'pommel',name:'Pommel stone',role:'minor',qty:1,ok:['G','E','O'],optional:true,why:'A gem, essence, or metal counterweight.'}]},
+  Dagger:{icon:'🗡',cat:'Dagger',dmg:[4,'piercing'],slots:[
+    {id:'blade',name:'Blade',role:'primary',qty:1,ok:['O','B','S'],ideal:{O:null,B:HARD,S:/obsidian|flint|glass/i},why:'Metal, a fang or claw, or knapped stone.'},
+    {id:'grip',name:'Grip',role:'structure',qty:1,ok:['F','W','B'],why:'Leather, wood, or bone.'},
+    {id:'inlay',name:'Inlay',role:'minor',qty:1,ok:['G','E','L'],optional:true,why:'A gem, essence, or a venom or blood coating.'}]},
+  Hammer:{icon:'🔨',cat:'Hammer',dmg:[8,'bludgeoning'],slots:[
+    {id:'head',name:'Head',role:'primary',qty:3,ok:['O','S','B'],ideal:{O:null,S:null,B:/bone|horn|shell|carapace|skull|knuckle|plate/i},why:'Something heavy and hard: metal, stone, or dense bone or shell.'},
+    {id:'haft',name:'Haft',role:'structure',qty:1,ok:['W','B','O'],why:'Wood, bone, or metal.'},
+    {id:'grip',name:'Grip wrap',role:'minor',qty:1,ok:['F'],optional:true,why:'Leather or cord.'},
+    {id:'inlay',name:'Rune stone',role:'minor',qty:1,ok:['G','E'],optional:true,why:'A gem or essence.'}]},
+  Spear:{icon:'🔱',cat:'Spear',dmg:[6,'piercing'],reach:true,slots:[
+    {id:'point',name:'Point',role:'primary',qty:1,ok:['O','B','S'],ideal:{O:null,B:HARD,S:/obsidian|flint/i},why:'Metal, a fang, horn, or tusk, or knapped stone.'},
+    {id:'shaft',name:'Shaft',role:'structure',qty:2,ok:['W','B'],ideal:{W:null,B:/bone|horn|antler|spine/i},why:'A long wooden or bone shaft.'},
+    {id:'binding',name:'Binding',role:'minor',qty:1,ok:['F'],optional:true,why:'Sinew, hide, or cord to lash the point.'}]},
+  Bow:{icon:'🏹',cat:'Bow',dmg:[8,'piercing'],ranged:'150/600 ft.',slots:[
+    {id:'limbs',name:'Limbs',role:'primary',qty:2,ok:['W','B'],ideal:{W:null,B:/horn|antler|bone|baleen/i},why:'Springy wood, or horn or bone.'},
+    {id:'string',name:'String',role:'structure',qty:1,ok:['F'],ideal:{F:STRING},why:'Sinew, silk, gut, or cord. Hide that isn\'t stringy is a poor fit.'},
+    {id:'grip',name:'Grip',role:'minor',qty:1,ok:['F','W'],optional:true,why:'Leather or wood.'},
+    {id:'nock',name:'Arrow nock inlay',role:'minor',qty:1,ok:['G','E','O'],optional:true,why:'A gem, essence, or metal fitting.'}]},
+  Staff:{icon:'🪄',cat:'Staff',dmg:[6,'bludgeoning'],focus:true,slots:[
+    {id:'shaft',name:'Shaft',role:'primary',qty:2,ok:['W','B'],why:'Wood or a long bone.'},
+    {id:'focus',name:'Focus crown',role:'structure',qty:1,ok:['G','E','L'],ideal:{G:null,E:null,L:/eye|heart|brain/i},why:'A gem, essence, or a potent organ such as an eye or heart.'},
+    {id:'bands',name:'Bands',role:'minor',qty:1,ok:['O'],optional:true,why:'Metal bands.'},
+    {id:'wrap',name:'Wrap',role:'minor',qty:1,ok:['F'],optional:true,why:'Cloth or hide.'}]},
+  'Body Armor':{icon:'🛡',cat:'Armor',armor:true,slots:[
+    {id:'shell',name:'Outer layer',role:'primary',qty:4,ok:['O','B','F'],ideal:{O:null,B:/scale|shell|carapace|plate|chitin|bone|hide/i,F:/hide|pelt|leather|skin|scale|silk/i},why:'Metal plates, scales or shell, or hide.'},
+    {id:'lining',name:'Lining',role:'structure',qty:2,ok:['F'],why:'Cloth, leather, or down.'},
+    {id:'fittings',name:'Buckles and fittings',role:'minor',qty:1,ok:['O','B'],optional:true,why:'Metal or bone.'},
+    {id:'ward',name:'Ward stone',role:'minor',qty:1,ok:['G','E'],optional:true,why:'A gem or essence.'}]},
+  Shield:{icon:'🛡',cat:'Shield',shield:true,slots:[
+    {id:'face',name:'Face',role:'primary',qty:3,ok:['O','W','B'],ideal:{O:null,W:null,B:/scale|shell|carapace|plate|bone|hide/i},why:'Metal, wood, or a broad scale or shell.'},
+    {id:'frame',name:'Frame',role:'structure',qty:1,ok:['W','O','B'],why:'Wood, metal, or bone.'},
+    {id:'straps',name:'Straps',role:'minor',qty:1,ok:['F'],optional:true,why:'Leather or hide.'},
+    {id:'boss',name:'Boss',role:'minor',qty:1,ok:['O','G','E'],optional:true,why:'Metal, gem, or essence.'}]},
+  'Focus / Amulet':{icon:'📿',cat:'Artifact',focus:true,slots:[
+    {id:'heart',name:'Heart stone',role:'primary',qty:1,ok:['G','E','L'],ideal:{G:null,E:null,L:/eye|heart|brain|blood|ichor/i},why:'A gem, essence, or potent organ.'},
+    {id:'setting',name:'Setting',role:'structure',qty:1,ok:['O','B','W'],why:'Metal, bone, or wood.'},
+    {id:'chain',name:'Chain or cord',role:'minor',qty:1,ok:['O','F'],optional:true,why:'Metal chain or cord.'}]},
+};
+const SHIELD_KIND={Buckler:1,Shield:2,Tower:3};
+const ARMOR_SLOT_MULT={Body:1,Head:.5,Hands:.25,Feet:.25,Shoulders:.25,Back:.25};
+const matCode=m=>m.tc||({'Ore / Metal':'O','Metal':'O','Wood / Plant':'W','Wood':'W','Crystal / Gem':'G','Gemstone & Crystal':'G','Stone':'S','Hide / Cloth / Fiber':'F','Bone / Fang / Horn / Scale':'B','Blood / Organ':'L','Essence / Soul / Core':'E','Mechanism':'K','Supply':'U'})[m.ty||m.cat]||'?';
+function slotFit(slot,m){
+  if(!m)return slot.optional?{lv:'empty'}:{lv:'missing'};
+  const c=matCode(m);
+  if(!slot.ok.includes(c))return {lv:'wrong',c};
+  const rx=slot.ideal&&slot.ideal[c];
+  if(rx&&!rx.test(m.n))return {lv:'poor',c};
+  return {lv:'good',c};
+}
+const PENALTY={
+  primary:{wrong:'Useless: damage drops to 1d2 (armor gives 0 AC), −5 to attack rolls, the item breaks on a roll of 1–5, and this material\'s property and trait don\'t work.',poor:'Poor fit: −1 to attack rolls (−1 AC for armor), and the property works at half Potency.'},
+  structure:{wrong:'Falls apart: −3 to attack rolls (−2 AC), the item breaks on a natural 1–3, and this material\'s property doesn\'t work.',poor:'Poor fit: −1 to attack rolls, and the item breaks on a natural 1.'},
+  minor:{wrong:'Wasted: this part gives nothing, and the item has −1 to attack rolls.',poor:'Weak fit: this part\'s property works at half Potency.'}
+};
+let FORGE=store.get('forge',{base:'Axe',parts:{},slot:'Body',shield:'Shield',name:'',showAll:false});
+let DESIGNS=store.get('designs',[]);
+const saveForge=()=>store.set('forge',FORGE);
+function forgeResult(){
+  const B=BASES[FORGE.base],parts=B.slots.map(s=>{const m=findMat(FORGE.parts[s.id]||'');return {s,m,fit:slotFit(s,m)}});
+  const prim=parts.find(p=>p.s.role==='primary');
+  let hit=0,acAdj=0,breakOn=0,useless=false;const notes=[],props=[],traits=[];
+  parts.forEach(p=>{
+    if(p.fit.lv==='wrong'||p.fit.lv==='poor')notes.push([p.s.name,p.fit.lv,PENALTY[p.s.role][p.fit.lv]]);
+    if(p.fit.lv==='wrong'){if(p.s.role==='primary'){useless=true;hit-=5;breakOn=Math.max(breakOn,5)}else if(p.s.role==='structure'){hit-=3;acAdj-=2;breakOn=Math.max(breakOn,3)}else hit-=1}
+    if(p.fit.lv==='poor'){if(p.s.role!=='minor'){hit-=1;if(p.s.role==='primary')acAdj-=1;else breakOn=Math.max(breakOn,1)}}
+    if(p.m&&p.fit.lv!=='wrong'){
+      if(p.m.pn)props.push({m:p.m,s:p.s,half:p.s.role!=='primary'||p.fit.lv==='poor'});
+      if(p.m.tr)traits.push({m:p.m,s:p.s});
+    }
+  });
+  const used=parts.filter(p=>p.m);
+  const il=used.length?Math.max(...used.map(p=>p.m.il||1)):0;
+  const pm=prim&&prim.m;const pil=pm&&prim.fit.lv!=='wrong'?(pm.il||1):0;
+  const strongest=used.slice().sort((a,b)=>(b.m.rank||0)-(a.m.rank||0))[0];
+  const cost=used.reduce((a,p)=>a+(p.m.price||0)*p.s.qty,0);
+  const out={B,parts,notes,props,traits,il,cost,strongest:strongest&&strongest.m,breakOn};
+  if(B.dmg){
+    let die=B.dmg[0];if(pil>=20)die+=2;if(pil>=35)die+=2;
+    const bonus=Math.floor(pil/10);
+    out.attack=bonus+hit;out.damage=useless?'1d2':`1d${die}${bonus?' + '+bonus:''}`;out.dtype=B.dmg[1];
+  }
+  if(B.armor||B.shield){
+    const c=pm&&matCode(pm);let base=0;
+    if(pm&&prim.fit.lv!=='wrong'){base=B.shield?SHIELD_KIND[FORGE.shield]+Math.floor(pil/12):(c==='O'?2+Math.floor(pil/5):c==='B'?1+Math.floor(pil/6):1+Math.floor(pil/8));}
+    if(B.armor)base=Math.round(base*(ARMOR_SLOT_MULT[FORGE.slot]||1));
+    out.ac=Math.max(0,base+acAdj);out.weight=c==='O'?'Heavy':c==='B'?'Medium':'Light';out.drawback=drawbackFor(out.ac);
+  }
+  const prof=B.focus?'Enchanting':B.armor&&pm&&matCode(pm)==='F'?'Tailoring':pm&&['W','B','S'].includes(matCode(pm))?'Carving':'Blacksmithing';
+  out.prof=prof;
+  out.realmSpec=pm&&matCode(pm)==='O'&&/Hell|Heaven|Void/.test(pm.realm)?{Hell:'Infernal Forging',Heaven:'Celestial Metallurgy',Void:'Void Smithing','Inner Void':'Void Smithing'}[pm.realm]:'';
+  out.rar=strongest?strongest.m.rar:'';
+  out.name=FORGE.name||(pm?pm.n.replace(/ (Ore|Ingot|Bar)$/,'')+' '+(B.armor?(FORGE.slot==='Body'?'Armor':FORGE.slot+' Armor'):B.shield?FORGE.shield:FORGE.base):FORGE.base);
+  return out;
+}
+function renderForge(){
+  const B=BASES[FORGE.base];
+  $('content').innerHTML=`<div class="page">${datalists()}
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">The Forge</h3><p>Every Blueprint is a base design. Choose a material for each part; the finished item combines what every material brings. The wrong material in the wrong part carries heavy penalties.</p></div>
+    <div class="chips" style="margin-bottom:14px">${Object.entries(BASES).map(([k,b])=>`<button class="chip" style="padding:7px 13px;font-size:.88rem${k===FORGE.base?';border-color:var(--gold);background:var(--goldbg);color:var(--text)':''}" onclick="FORGE.base='${k}';FORGE.parts={};FORGE.name='';saveForge();renderForge()">${b.icon} ${k}</button>`).join('')}</div>
+    <div class="cols" style="align-items:start">
+      <div class="panel" style="display:flex;flex-direction:column;gap:12px">
+        <h4 style="font-size:1.15rem;margin:0">${B.icon} ${esc(FORGE.base)} parts</h4>
+        ${B.armor?`<label class="note" style="margin:0">Slot <select class="sel" id="fg-slot">${Object.keys(ARMOR_SLOT_MULT).map(s=>`<option${s===FORGE.slot?' selected':''}>${s}</option>`).join('')}</select></label>`:''}
+        ${B.shield?`<label class="note" style="margin:0">Kind <select class="sel" id="fg-kind">${Object.keys(SHIELD_KIND).map(s=>`<option${s===FORGE.shield?' selected':''}>${s}</option>`).join('')}</select></label>`:''}
+        ${B.slots.map(s=>{const m=findMat(FORGE.parts[s.id]||''),f=slotFit(s,m);const col={good:'var(--green)',poor:'var(--gold2)',wrong:'var(--red)',missing:'var(--muted)',empty:'var(--muted)'}[f.lv];
+          const lab={good:'✓ Good fit',poor:'△ Poor fit',wrong:'✕ Wrong material',missing:'Required',empty:'Optional'}[f.lv];
+          const opts=MATS.filter(x=>FORGE.showAll||s.ok.includes(matCode(x)));
+          return `<div style="border:1px solid ${f.lv==='wrong'?'var(--red)':'var(--line)'};border-radius:8px;padding:10px 12px">
+            <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b>${esc(s.name)}</b><span class="b ghost">${s.role==='primary'?'main part':s.role==='structure'?'structure':'extra'}</span><span class="b ghost">× ${s.qty}</span><span style="margin-left:auto;font-size:.78rem;color:${col};font-weight:600">${lab}</span></div>
+            <div class="note" style="margin:4px 0 6px">${esc(s.why)} Accepts: ${s.ok.map(c=>CAT_NAME[c]).join(', ')}.</div>
+            <div class="keyrow"><input class="sel" list="dl-fg-${s.id}" data-slot="${s.id}" value="${esc(FORGE.parts[s.id]||'')}" placeholder="Choose a material…" style="max-width:none;flex:1"><button class="btn" data-clear-slot="${s.id}" title="Clear">✕</button></div>
+            <datalist id="dl-fg-${s.id}">${opts.map(x=>`<option value="${esc(x.n)}">${esc(x.gr||'')} · ${esc(CAT_NAME[matCode(x)]||'')}</option>`).join('')}</datalist>
+            ${m?`<div style="margin-top:6px;font-size:.8rem;color:var(--text2)">${refChip(m)} ${esc(m.gr)} · ${esc(CAT_NAME[matCode(m)]||'')}${m.pn?' · ✧ '+esc(m.pn):''}${m.tr?' · ◆ '+esc(m.tr.n):''}</div>`:''}
+            ${f.lv==='wrong'||f.lv==='poor'?`<div style="margin-top:6px;font-size:.8rem;color:${col}">${esc(PENALTY[s.role][f.lv])}</div>`:''}</div>`}).join('')}
+        <label class="note" style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" id="fg-all" ${FORGE.showAll?'checked':''}> List every material, including wrong ones</label>
+      </div>
+      <div id="fg-out"></div>
+    </div>
+    ${DESIGNS.length?`<section class="sec"><div class="sec-h"><h3>Saved designs</h3><p>${DESIGNS.length} on this device. They can be equipped on the Party page.</p></div><div class="chips">${DESIGNS.map((d,i)=>`<span class="chip" style="padding:5px 10px"><a href="#" onclick="loadDesign(${i});return false" style="color:var(--text);text-decoration:none"><b>${esc(d.n)}</b></a> <small>${esc(d.base)}${d.ac!=null?' · AC '+d.ac:''}${d.dmg?' · '+esc(d.dmg):''}</small> <a href="#" onclick="if(confirm('Delete design?')){DESIGNS.splice(${i},1);store.set('designs',DESIGNS);renderForge()}return false" style="color:var(--muted);text-decoration:none">✕</a></span>`).join('')}</div></section>`:''}
+  </div>`;
+  $('content').querySelectorAll('[data-slot]').forEach(el=>el.addEventListener('change',()=>{FORGE.parts[el.dataset.slot]=el.value.trim();FORGE.name='';saveForge();setTimeout(renderForge)}));
+  $('content').querySelectorAll('[data-clear-slot]').forEach(el=>el.addEventListener('click',()=>{delete FORGE.parts[el.dataset.clearSlot];saveForge();renderForge()}));
+  $('fg-all').onchange=e=>{FORGE.showAll=e.target.checked;saveForge();setTimeout(renderForge)};
+  if($('fg-slot'))$('fg-slot').onchange=e=>{FORGE.slot=e.target.value;saveForge();renderForge()};
+  if($('fg-kind'))$('fg-kind').onchange=e=>{FORGE.shield=e.target.value;saveForge();renderForge()};
+  forgeOut();
+}
+function forgeOut(){
+  const r=forgeResult(),B=r.B;
+  const ready=r.parts.every(p=>p.s.optional||p.m);
+  $('fg-out').innerHTML=`<div class="panel" style="display:flex;flex-direction:column;gap:12px;border-color:${r.notes.some(n=>n[1]==='wrong')?'var(--red)':'var(--gold)'}">
+    <label class="note" style="margin:0">Name<input class="sel" id="fg-name" value="${esc(r.name)}" style="max-width:none;width:100%;margin-top:4px;font-family:var(--serif);font-size:1.1rem;font-weight:700"></label>
+    <div class="badges">${r.rar?rarB(r.rar):''}<span class="b ghost">${esc(B.cat)}</span>${r.il?`<span class="b">Item level ${r.il}</span>`:''}${B.armor?`<span class="b">${esc(FORGE.slot)} · ${esc(r.weight||'')}</span>`:''}</div>
+    ${kv([r.damage!=null?['Damage',`<span class="mono">${esc(r.damage)}</span> ${esc(r.dtype)}`]:null,r.attack!=null?['Attack bonus',(r.attack>=0?'+':'')+r.attack]:null,B.ranged?['Range',B.ranged]:null,B.reach?['Reach','10 ft. (or thrown 20/60)']:null,r.ac!=null?['AC',r.ac]:null,r.ac!=null?['Drawback',esc(r.drawback[1])]:null,['Breaks on',r.breakOn?'a natural 1'+(r.breakOn>1?'–'+r.breakOn:''):'—'],['Material cost',gp(r.cost)],['Crafted by',esc(r.prof)+(r.realmSpec?` <small style="font-weight:400;color:var(--gold2)">needs ${esc(r.realmSpec)}</small>`:'')]])}
+    ${r.notes.length?`<div class="callout" style="border-color:var(--red);background:color-mix(in srgb,var(--red) 8%,transparent)"><b style="color:var(--red)">Penalties</b><ul style="margin:6px 0 0 18px">${r.notes.map(([s,lv,t])=>`<li><b>${esc(s)}</b> (${lv==='wrong'?'wrong material':'poor fit'}): ${esc(t)}</li>`).join('')}</ul></div>`:''}
+    ${r.props.length?`<div><div class="blk"><h4>Properties</h4></div><div class="mlist">${r.props.map(p=>`<button data-ref="${ref(p.m)}" style="flex-direction:column;align-items:flex-start"><span><b>✧ ${esc(p.m.pn)}</b> <span class="x">${esc(p.s.name)} · ${esc(p.m.n)}${p.half?' · half Potency':''}</span></span><span style="font-size:.8rem">${esc((p.m.prop||'').replace(/^[^:]+:\s*/,''))}</span></button>`).join('')}</div></div>`:''}
+    ${r.traits.length?`<div><div class="blk"><h4>Traits when equipped</h4></div><div class="mlist">${r.traits.map(t=>`<button data-ref="${ref(t.m)}" style="flex-direction:column;align-items:flex-start"><span><b style="color:var(--gold2)">◆ ${esc(t.m.tr.n)}</b> <span class="x">${esc(t.s.name)} · ${esc(t.m.n)}</span></span><span style="font-size:.8rem">${esc(t.m.tr.t)}</span></button>`).join('')}</div></div>`:''}
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" ${ready?'':'disabled title="Fill every required part first"'} onclick="saveDesign()">Save design</button>${PARTY.length&&ready?`<select class="sel" id="fg-who">${PARTY.map(c=>`<option value="${c.id}">${esc(c.name||'Unnamed')}</option>`).join('')}</select><button class="btn" onclick="giveDesign()">Save and equip</button>`:''}<button class="btn" onclick="FORGE.parts={};FORGE.name='';saveForge();renderForge()">Start over</button></div>
+  </div>`;
+  $('fg-name').onchange=e=>{FORGE.name=e.target.value.trim();saveForge()};
+}
+function designFromForge(){
+  const r=forgeResult();
+  return {n:FORGE.name||r.name,base:FORGE.base,parts:Object.assign({},FORGE.parts),slot:FORGE.slot,shield:FORGE.shield,ac:r.ac!=null?r.ac:null,dmg:r.damage?r.damage+' '+r.dtype:'',cat:r.B.cat,mats:r.parts.filter(p=>p.m&&p.fit.lv!=='wrong').map(p=>p.m.n),pr:r.prof,il:r.il};
+}
+function saveDesign(){const d=designFromForge();const i=DESIGNS.findIndex(x=>x.n===d.n);if(i>=0)DESIGNS[i]=d;else DESIGNS.push(d);store.set('designs',DESIGNS);toast('Saved '+d.n);renderForge();return d}
+function giveDesign(){const d=saveDesign(),c=PARTY.find(x=>x.id===$('fg-who')?.value)||PARTY[0];if(!c)return;c.gear=(c.gear||[]).concat(d.n);saveParty();toast(d.n+' equipped on '+(c.name||'character'))}
+function loadDesign(i){const d=DESIGNS[i];FORGE={base:d.base,parts:Object.assign({},d.parts),slot:d.slot||'Body',shield:d.shield||'Shield',name:d.n,showAll:FORGE.showAll};saveForge();renderForge()}
+const CAT_TO_BASE={Axe:'Axe',Sword:'Sword',Dagger:'Dagger',Hammer:'Hammer',Spear:'Spear',Bow:'Bow',Staff:'Staff',Armor:'Body Armor',Shield:'Shield'};
+function openInForge(b){
+  const base=CAT_TO_BASE[b.cat]||'Focus / Amulet',B=BASES[base],parts={};
+  const left=b.mats.map(findMat).filter(Boolean);
+  B.slots.forEach(s=>{const i=left.findIndex(m=>slotFit(s,m).lv==='good');const j=i>=0?i:left.findIndex(m=>slotFit(s,m).lv==='poor');if(j>=0){parts[s.id]=left[j].n;left.splice(j,1)}});
+  FORGE={base,parts,slot:'Body',shield:/tower/i.test(b.n)?'Tower':/buckler/i.test(b.n)?'Buckler':'Shield',name:b.n,showAll:false};saveForge();closeAll();go('forge');
+}
+// Saved designs act like Blueprints in the party tracker and crafting planner
+const _findBP=findBP;
+findBP=n=>_findBP(n)||(DESIGNS.find(d=>lc(d.n)===lc(n||''))&&(d=>({n:d.n,cat:d.cat,ac:d.ac,mats:d.mats,pr:d.pr,sp:'',lv:d.il,r:'',dc:'',dm:'',design:true}))(DESIGNS.find(d=>lc(d.n)===lc(n||''))));
+
+// ════════════════════════════════════════════════════════════════
 //  Settings
 // ════════════════════════════════════════════════════════════════
 const KEY_NAME='fand.anthropicKey';
@@ -1510,7 +2026,7 @@ function brief(x){
   const t=x._t,o={kind:KIND_NAME[t],name:x.n};
   if(t==='bp')Object.assign(o,{profession:x.pr,specialty:x.sp,type:x.cat,level:x.lv,rarity:x.r,damage:x.dc&&x.dm?x.dc+' '+x.dm:undefined,ac:x.ac,property:x.prop,materialGrade:x.gr,materials:x.mats});
   else if(t==='mat')Object.assign(o,{origin:x.org+(x.origin?' ('+x.origin+')':''),uniqueTrait:x.tr?x.tr.n:undefined,grade:x.gr,rank:x.rank,itemLevel:x.il,type:x.ty||x.cat,rarity:x.rar,property:x.pn,potency:x.pot,priceGp:x.price||(x.tier>=8?'not sold':undefined)});
-  else if(t==='mon')Object.assign(o,{grade:x.realm+' '+x.g,cr:x.cr,source:x.hb?'Homebrew':(BOOKS[x.book]||x.book),habitat:x.hab,drops:(x.drops||[]).map(d=>d[0]+' ('+d[1]+')')});
+  else if(t==='mon')Object.assign(o,{grade:x.realm+' '+x.g,cr:x.cr,source:x.hb?'Homebrew':x.myth?x.myth+' mythology':(BOOKS[x.book]||x.book),habitat:x.hab,drops:(x.drops||[]).map(d=>d[0]+' ('+d[1]+')')});
   else if(t==='god')Object.assign(o,{pantheon:x.grp,homeRealm:x.home,runes:x.runes,fingersSeated:x.seated});
   else if(t==='spell')Object.assign(o,{school:x.sc,level:x.lv,classes:x.cls,damage:x.dmg&&x.dmg!=='None'?x.dmg:undefined});
   else if(t==='sub')Object.assign(o,{class:x.par,source:subSource(x)});
@@ -1522,7 +2038,7 @@ function detail(x){
   const t=x._t,o=brief(x);
   if(t==='bp'){o.traitsWhenEquipped=x.mats.map(findMat).filter(m=>m&&m.tr).map(m=>m.tr.n+' (from '+m.n+'): '+m.tr.t);o.description=x.ds||(x.lost?'(description lost from this app; see the vault note)':'');o.materials=x.mats.map(n=>{const m=findMat(n);return m?{name:m.n,grade:m.gr,priceGp:m.price||0,property:m.pn}:{name:n}});const s=strongestMat(x);if(s)o.strongestMaterial=s.n+' (rank '+s.rank+', item level '+s.il+')';o.estimatedMaterialCostGp=x.mats.reduce((a,n)=>a+((findMat(n)||{}).price||0),0);o.connections=x.conns}
   else if(t==='mat'){o.uniqueTraitText=x.tr?x.tr.t:x.basic;o.propertyText=x.prop;o.description=x.ds;o.source=x.src;o.gatheredAt=x.where;o.gatheredBy=x.by;o.usedFor=x.use;o.weaponEffect=MAT_FX[x.n];const u=bpByMat().get(lc(x.n))||[];o.usedInBlueprints={count:u.length,examples:u.slice(0,15).map(b=>b.n)};o.droppedBy=(monByMat().get(lc(x.n))||[]).map(m=>m.n);o.signatureMaterialOf=(GOD_BY_MAT.get(lc(x.n))||[]).map(godKey)}
-  else if(t==='mon'){o.description=x.txt||x.ds;o.statBlock=x.sb;o.drops=(x.drops||[]).map(d=>d[0]+' ('+d[1]+')');if(!(x.drops||[]).length)o.note='Official monster: its drops are on the realm Bestiary page in the vault.'}
+  else if(t==='mon'){o.description=x.txt||x.ds;o.statBlock=x.sb;o.lore=Object.fromEntries(monsterLore(x));o.drops=(x.drops||[]).map(d=>d[0]+' ('+d[1]+')');if(!(x.drops||[]).length)o.note='Official monster: its drops are on the realm Bestiary page in the vault.'}
   else if(t==='god'){o.title=godTitle(x);o.myth=x.myth||x.ds;o.wants=x.wants;o.signatureMaterials=x.sig;o.fingerRelic=x.relic;o.hand=x.hand;const r=new Map();(x.runes||[]).forEach(rn=>(RUNE_GODS.get(rn)||[]).forEach(g=>{if(g!==x){if(!r.has(g))r.set(g,[]);r.get(g).push(rn)}}));o.rivals=[...r].map(([g,rs])=>godKey(g)+' (over '+rs.join(', ')+')')}
   else if(t==='spell'){o.castingTime=x.ct;o.range=x.rng;o.duration=x.dur;o.description=x.desc}
   else if(t==='sub'||t==='demon'||t==='patron')o.description=x.ds;
@@ -1581,11 +2097,13 @@ function validTool(name,inp){
   if(name==='get_entry')return typeof inp.name==='string'&&inp.name.length>0;
   return false;
 }
-const AI_SYSTEM=()=>`You are the FAND Assistant, a helper built into the FAND Compendium website for a homebrew D&D campaign set in the world of Atrious. You answer questions from players and the DM about the campaign's Blueprints (craftable items), materials, monsters, realms, gods, professions, spells, subclasses, demons, patrons, and rules.
+const AI_SYSTEM=()=>`You are the FAND Assistant, a helper built into the FAND Compendium website for FAND (Fantasy and Numerous Disasters), a homebrew D&D campaign set in the world of Atrious. You answer questions from players and the DM about the campaign's Blueprints (craftable items), materials, monsters, realms, gods, professions, spells, subclasses, demons, patrons, and rules.
 
 Ground every specific claim in the compendium: use search_compendium and get_entry to look things up rather than relying on memory, and say plainly when the data doesn't contain something. General D&D 5e knowledge is fine for context, but FAND's own rules (below) override the books where they differ. Don't invent stats, prices, or lore.
 
 When you name an entry that exists in the compendium, wrap its exact name in double square brackets, like [[Adamantine]] or [[Zeus]], so the website can turn it into a link. Keep answers focused and skimmable: short paragraphs and bullet lists, bold for key numbers. Don't use tables. Show the arithmetic briefly when you calculate something (damage after AC, prices, refining counts).
+
+FAND cosmology: Infinatas (sometimes written Infinitas) is the highest being and cares only for balance, keeping it through creation. Inane is Infinatas's split personality and keeps balance through destruction; to the gods it was an unknown entity. The gods' own world eroded because of Inane, and Infinatas allowed the gods into this realm under strict regulation.
 
 FAND rules summary:
 - Armor Class starts at 0. Armor and other gear each add a small amount of AC to the total. Armor that gives more AC carries drawbacks: for example, full iron gear gives +10 AC but you lose Acrobatics, Athletics, and Dexterity. AC is subtracted flat from the total damage of each hit: damage taken = damage - AC.
@@ -1600,6 +2118,8 @@ FAND rules summary:
 - God Contracts: ten ranks from Minor up to 1st Finger; the five Fingers form a god's Hand. Each rank has spells, AC, duties, and rewards. Gods sharing a Rune are rivals.
 - Monsters: homebrew monsters have level, HP, AC, attacks, a save DC, and a signature trait from their best drop; grade 10 monsters have boss rules. Official monsters have CR, a grade from CR, and graded drops; no stat blocks.
 - Every class picks its subclass at level 3.
+- The Forge: every weapon and armor is a base design (Axe, Sword, Dagger, Hammer, Spear, Bow, Staff, Body Armor, Shield, Focus) built from parts. Each part accepts certain material categories (an axe head takes metal, stone, or hard bone/horn/fang). The main part sets damage or AC from its material's Item Level; every part's property and unique trait apply (secondary parts at half Potency). A wrong material in the main part makes the item useless (1d2 damage, -5 to hit, breaks on 1-5); in a structural part -3 to hit and breaks on 1-3.
+- Armor drawbacks by total armor AC worn: 10+ = lose Acrobatics, Athletics, and Dexterity (campaign rule); 4-6 and 7-9 rows are proposed (Stealth; Stealth and Acrobatics at disadvantage).
 
 Realms (tier, base price per grade): ${REALMS.map(r=>r.n+' (tier '+r.tier+', '+(r.base?r.base+' gp':'not sold')+')').join('; ')}.
 
