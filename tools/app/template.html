@@ -914,10 +914,10 @@ const TABS=[
   ['home','Home'],['lore','Lore'],['codex','Codex',NOTES.length],['blueprints','Blueprints',BPS.length],['materials','Materials',MATS.length],['bestiary','Bestiary',MONSTERS.length],
   ['realms','Realms',REALMS.length],['gods','Gods',GODS.length],['runes','Runes',RUNES.length],['professions','Professions',Object.keys(PROFS).length],
   ['spells','Spells',META.counts.spells],['subclasses','Subclasses',SUBS.length],['demons','Demons',DEMONS.length],['patrons','Patrons',PATRONS.length],
-  ['forge','Forge'],['craft','Craft'],['party','Party'],['encounter','Encounters'],['hooks','Hooks'],['combat','Combat'],
+  ['forge','Forge'],['craft','Craft'],['party','Party'],['encounter','Encounters'],['hooks','Hooks'],['journal','Journal'],['combat','Combat'],
   ['rules','Rules'],['tools','Tools'],['about','About'],
 ];
-const PAGES={home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,about:renderAbout,lore:()=>renderLore(),forge:()=>renderForge(),craft:()=>renderCraft(),party:()=>renderParty(),encounter:()=>renderEncounter(),hooks:()=>renderHooks(),combat:()=>renderCombat()};
+const PAGES={home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,about:renderAbout,lore:()=>renderLore(),forge:()=>renderForge(),craft:()=>renderCraft(),party:()=>renderParty(),encounter:()=>renderEncounter(),hooks:()=>renderHooks(),journal:()=>renderJournal(),combat:()=>renderCombat()};
 
 // ════════════════════════════════════════════════════════════════
 //  State & routing
@@ -962,10 +962,10 @@ const NAV_GROUPS=[
   ['Creatures & Materials',['bestiary','materials']],
   ['Items & Crafting',['blueprints','forge','craft','professions']],
   ['Magic & Classes',['spells','subclasses']],
-  ['Play',['party','encounter','hooks','combat','tools']],
+  ['Play',['party','journal','encounter','hooks','combat','tools']],
   ['Reference',['rules','about']],
 ];
-const NAV_BLURB={hooks:'Story starters from the gods, Runes, and monsters',lore:'Infinatas, the gods, and the history of Vestige',realms:'The eleven realms and their coin',gods:'Pantheons, Runes, Hands, and rivals',runes:'Every Law, its lineage, and its progenitor',demons:'Archdevils, demon princes, and corruptions',patrons:'Warlock patrons',codex:'Every note from the Obsidian vault',bestiary:'Monsters with stat blocks, lore, and drops',materials:'Graded materials, traits, and prices',blueprints:'Ready-made designs for every profession',forge:'General Blueprints: pick a material for every part',craft:'Plan what to gather and buy',professions:'The ten professions and their specialties',spells:'Spells by school, tier, and class',subclasses:'Official and homebrew subclasses',party:'Characters, gear, contracts, and money',encounter:'Balanced fights by realm and level',combat:'Initiative, HP, and flat AC',tools:'Calculators and converters',rules:'Rules summaries',about:'What FAND has, version by version'};
+const NAV_BLURB={journal:'Session notes that link to the world',hooks:'Story starters from the gods, Runes, and monsters',lore:'Infinatas, the gods, and the history of Vestige',realms:'The eleven realms and their coin',gods:'Pantheons, Runes, Hands, and rivals',runes:'Every Law, its lineage, and its progenitor',demons:'Archdevils, demon princes, and corruptions',patrons:'Warlock patrons',codex:'Every note from the Obsidian vault',bestiary:'Monsters with stat blocks, lore, and drops',materials:'Graded materials, traits, and prices',blueprints:'Ready-made designs for every profession',forge:'General Blueprints: pick a material for every part',craft:'Plan what to gather and buy',professions:'The ten professions and their specialties',spells:'Spells by school, tier, and class',subclasses:'Official and homebrew subclasses',party:'Characters, gear, contracts, and money',encounter:'Balanced fights by realm and level',combat:'Initiative, HP, and flat AC',tools:'Calculators and converters',rules:'Rules summaries',about:'What FAND has, version by version'};
 function navGroupOf(t){const g=NAV_GROUPS.find(([,ids])=>ids.includes(t));return g?g[0]:null}
 function openNav(g,btn){
   const pop=$('navpop'),grp=NAV_GROUPS.find(x=>x[0]===g);if(!grp)return;
@@ -1318,7 +1318,7 @@ const MODAL={
       ['Price',m.price?gp(m.price)+(localPrice(m.price,m.realm)?` <em style="font-style:normal;font-weight:400;color:var(--muted)">· ${localPrice(m.price,m.realm)}</em>`:'')+`<small style="display:block;font-size:.72rem;color:var(--muted);font-weight:400">merchants buy at ${gp(Math.floor(m.price/2))}</small>`:m.tier>=8?'Not sold':'—']];
     const src=[m.where?`Gathered at ${esc(m.where)}${m.by?` by <b>${esc(m.by)}</b>`:''}.`:'',m.src&&!/^(Gathered|Drops from|Used in)/.test(m.src)?esc(m.src):'',m.use?`Used for: ${esc(m.use)}.`:''].filter(Boolean).join('<br>');
     return {title:esc(m.n),strip:rcol(m.realm),kind:'Material · '+esc(m.ty||m.cat),
-      badges:`${realmB(m.gr)}${rarB(m.rar)}${m.gen?'<span class="b blue">Harvest part</span>':''}${m.supply?'<span class="b ghost">Supply</span>':''}${fx?'<span class="b gold">⚔ Weapon effect</span>':''}`,
+      badges:`<button class="b" style="cursor:pointer" onclick="cmpToggle(${esc(JSON.stringify(m.n))})" title="Compare side by side on the Forge">⚖ Compare</button>${realmB(m.gr)}${rarB(m.rar)}${m.gen?'<span class="b blue">Harvest part</span>':''}${m.supply?'<span class="b ghost">Supply</span>':''}${fx?'<span class="b gold">⚔ Weapon effect</span>':''}`,
       body:kv(rows)
         +(m.tr?`<div class="callout" style="border-color:var(--gold)">◆ <b>Unique trait: ${esc(m.tr.n)}</b>${m.tr.a?` <span style="color:var(--muted)">(${esc(m.tr.a)})</span>`:''}<div style="margin-top:4px">${esc(m.tr.t)}</div>${MATS.filter(o=>o.tr&&o.tr.n===m.tr.n).length>1?`<div style="margin-top:6px"><button class="chip" data-go="materials" data-setup='${esc(JSON.stringify({f:{tr:m.tr.n}}))}'>All ${fmt(MATS.filter(o=>o.tr&&o.tr.n===m.tr.n).length)} materials with ${esc(m.tr.n)} →</button></div>`:''}</div>`:m.basic?`<div class="callout" style="background:var(--surf2);border-color:var(--line)">${esc(m.basic)}</div>`:'')
         +(m.prop?`<div class="callout">✧ <b>Property: ${esc(m.pn)}</b>${m.pot?` · Potency ${m.pot}`:''}<div style="margin-top:4px">${esc(m.prop.replace(/^[^:]+:\s*/,''))}</div></div>`:m.supply?`<div class="callout">Supply: used up in crafting and gives no property.</div>`:'')
@@ -2240,6 +2240,26 @@ function npcHTML(n){
     <div style="line-height:1.6;margin-top:4px">${n.g?`Holds a <b>${esc(n.rank)}</b> contract with ${refChip(n.g,esc(godKey(n.g)))}: ${esc(n.ct.power.charAt(0).toLowerCase()+n.ct.power.slice(1))}.`:'No god holds a contract with them.'} ${esc(n.want)} They ${esc(n.trait)}.
     <br><span class="note" style="margin:0">Carries ${n.carry.map(m=>refChip(m)).join(', ')}, and ${gp(n.purse)}${localPrice(n.purse,n.realm.n)?` (${localPrice(n.purse,n.realm.n)})`:''}.</span></div></div>`;
 }
+// Session journal: dated entries kept on this device; [[Name]] links to any entry on the site.
+function renderJournal(){
+  const J=store.get('journal',[]),q=lc(store.get('jq','')),list=J.map((e,i)=>[e,i]).filter(([e])=>!q||lc(e.t+' '+e.body).includes(q)).reverse();
+  $('content').innerHTML=`<div class="page">
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Session journal</h3><p>Notes from each session, saved on this device. Write <code>[[Owlbear]]</code> or <code>[[Demeter]]</code> to link any monster, god, material, Blueprint, realm, or spell.</p></div>
+    <div class="tool" style="display:flex;flex-direction:column;gap:8px">
+      <div class="form" style="grid-template-columns:2fr 1fr"><label>Title<input id="jn-t" placeholder="Session ${J.length+1}: …"></label><label>Date<input id="jn-d" type="date" value="${new Date().toISOString().slice(0,10)}"></label></div>
+      <textarea id="jn-b" rows="5" placeholder="What happened? Who did the party meet? What did they find?" style="background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:8px 10px;color:var(--text);font:inherit"></textarea>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" id="jn-add">Add entry</button><input class="sel" id="jn-q" placeholder="Search the journal…" value="${esc(store.get('jq',''))}" style="max-width:240px"><span style="margin-left:auto;display:flex;gap:8px"><button class="btn" id="jn-exp">Export</button><label class="btn" style="cursor:pointer">Import<input type="file" id="jn-imp" accept=".json" hidden></label></span></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;margin-top:14px">${list.length?list.map(([e,i])=>`<div class="panel"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><b style="font-family:var(--serif);font-size:1.15rem">${esc(e.t||'Untitled')}</b><span class="note" style="margin:0">${esc(e.d||'')}</span><span style="margin-left:auto;display:flex;gap:6px"><button class="btn" data-jedit="${i}">Edit</button><button class="btn" data-jdel="${i}">Delete</button></span></div><div class="prose" style="margin-top:6px;white-space:pre-wrap">${linkify(esc(e.body||''))}</div></div>`).join(''):`<div class="empty" style="padding:30px"><b>${J.length?'No entries match':'No entries yet'}</b>${J.length?'':'Write the first session above.'}</div>`}</div></div>`;
+  const save=J2=>{store.set('journal',J2);renderJournal()};
+  $('jn-add').onclick=()=>{const t=$('jn-t').value.trim(),b=$('jn-b').value.trim();if(!t&&!b)return;const ed=store.get('jedit',null),J2=store.get('journal',[]),e={t:t||'Session '+(J2.length+1),d:$('jn-d').value,body:b};if(ed!=null&&J2[ed]){J2[ed]=e;store.set('jedit',null)}else J2.push(e);save(J2)};
+  $('jn-q').oninput=e=>{store.set('jq',e.target.value);const pos=e.target.selectionStart;renderJournal();const f=$('jn-q');f.focus();f.setSelectionRange(pos,pos)};
+  $('content').querySelectorAll('[data-jdel]').forEach(b=>b.onclick=()=>{if(confirm('Delete this entry?')){const J2=store.get('journal',[]);J2.splice(+b.dataset.jdel,1);save(J2)}});
+  $('content').querySelectorAll('[data-jedit]').forEach(b=>b.onclick=()=>{const e=store.get('journal',[])[+b.dataset.jedit];store.set('jedit',+b.dataset.jedit);$('jn-t').value=e.t;$('jn-d').value=e.d||'';$('jn-b').value=e.body;$('jn-add').textContent='Save changes';$('content').scrollTop=0;$('jn-b').focus()});
+  $('jn-exp').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(store.get('journal',[]),null,1)],{type:'application/json'}));a.download='FAND journal.json';a.click()};
+  $('jn-imp').onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{try{const d=JSON.parse(t);if(!Array.isArray(d))throw 0;save(store.get('journal',[]).concat(d));toast('Imported '+d.length+' entries')}catch(err){toast('That file is not a FAND journal')}})};
+  store.set('jedit',null);
+}
 function renderHooks(){
   const st=store.get('hooks',{level:Math.max(1,Math.round(PARTY.reduce((a,c)=>a+(+c.level||1),0)/(PARTY.length||1))||3),realm:'',kinds:[],seed:1});
   $('content').innerHTML=`<div class="page">
@@ -2575,6 +2595,15 @@ function forgeSuggest(s){
   for(let i=0;out.length<6&&i<6;i++)by.forEach(l=>{if(l[i]&&out.length<6)out.push(l[i])});
   return out;
 }
+// Material comparison: up to four materials side by side (picked from any material page), shown on the Forge.
+function cmpList(){return store.get('cmp',[]).map(findMat).filter(Boolean)}
+function cmpToggle(n){let c=store.get('cmp',[]);if(c.includes(n))c=c.filter(x=>x!==n);else{c.push(n);if(c.length>4)c.shift()}store.set('cmp',c);toast(c.includes(n)?`Comparing ${c.length} material${c.length>1?'s':''}: see the Forge`:'Removed from comparison')}
+function compareHTML(){
+  const L=cmpList();if(!L.length)return '';
+  const fitFor=m=>{const B=BASES[FORGE.base];return B.slots.map(s=>{const f=slotFit(s,m);return f.lv==='good'?`✓ ${s.name}`:f.lv==='poor'?`△ ${s.name}`:''}).filter(Boolean).join(', ')||'✕ no part'};
+  const rows=[['Realm · grade',m=>esc(m.gr)],['Category',m=>esc(CAT_NAME[matCode(m)]||'')],['Item Level',m=>m.il||1],['Rarity',m=>esc(m.rar||'')],['Property',m=>m.pn?`<b>${esc(m.pn)}</b>${m.pot?' · Potency '+m.pot:''}<br><small>${esc((m.prop||'').replace(/^[^:]+:\s*/,''))}</small>`:'—'],['Unique trait',m=>m.tr?`<b style="color:var(--gold2)">◆ ${esc(m.tr.n)}</b><br><small>${esc(m.tr.t)}</small>`:'—'],['Armor weight',m=>ARMOR_WEIGHT[matCode(m)]||'Light'],[`Fits in a ${esc(FORGE.base)}`,fitFor],['Price',m=>m.price?gp(m.price):'not sold']];
+  return `<section class="sec" id="cmp"><div class="sec-h"><h3>Comparing materials</h3><p>Add up to four from any material's page (⚖ Compare).</p><button class="btn" style="margin-left:auto" onclick="store.set('cmp',[]);renderForge()">Clear</button></div><div class="tablewrap"><table class="t"><thead><tr><th></th>${L.map(m=>`<th><a href="#" data-ref="${ref(m)}">${esc(m.n)}</a> <span style="cursor:pointer;color:var(--muted)" onclick="cmpToggle(${esc(JSON.stringify(m.n))});renderForge()" title="Remove">✕</span></th>`).join('')}</tr></thead><tbody>${rows.map(([l,f])=>`<tr><td style="white-space:nowrap;color:var(--muted)">${l}</td>${L.map(m=>`<td>${f(m)}</td>`).join('')}</tr>`).join('')}</tbody></table></div></section>`;
+}
 function renderForge(){
   const B=BASES[FORGE.base],q=lc(FORGE.find||''),byGen=BP_BY_GEN();
   $('content').innerHTML=`<div class="page">${datalists()}
@@ -2582,6 +2611,7 @@ function renderForge(){
     <div class="panel" style="margin-bottom:14px"><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px"><b style="font-family:var(--serif)">General Blueprints</b><input class="sel" id="fg-find" placeholder="Find a design…" value="${esc(FORGE.find||'')}" style="max-width:220px"><span class="note" style="margin:0">${GEN.length} designs; ${fmt([...byGen.values()].reduce((a,x)=>a+x.length,0))} vault Blueprints are versions of them.</span></div>
       ${BASE_GROUPS.map(gr=>{const items=GEN.filter(([n,b])=>b.group===gr&&(!q||lc(n).includes(q)));return items.length?`<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:6px 0"><span style="width:110px;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)">${esc(gr)}</span>${items.map(([k,b])=>`<button class="chip" style="padding:5px 11px${k===FORGE.base?';border-color:var(--gold);background:var(--goldbg);color:var(--text)':''}" data-base="${esc(k)}">${b.icon} ${esc(k)}${byGen.get(k)?` <small>${byGen.get(k).length}</small>`:''}</button>`).join('')}</div>`:''}).join('')}
     </div>
+    ${compareHTML()}
     <div class="cols" style="align-items:start">
       <div class="panel" style="display:flex;flex-direction:column;gap:12px">
         <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="font-size:1.15rem;margin:0">${B.icon} ${esc(FORGE.base)}</h4><span class="note" style="margin:0">${esc(B.group)}${B.dmg?` · ${esc(B.dmg[0])} ${esc(B.dmg[1])}`:''}${B.props?` · ${esc(B.props)}`:''}${B.armor?` · ${esc(B.slot)} slot`:''}</span></div>
