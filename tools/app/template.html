@@ -1389,6 +1389,7 @@ const MODAL={
       body:kv(rows)
         +(m.tr?`<div class="callout" style="border-color:var(--gold)">◆ <b>Unique trait: ${esc(m.tr.n)}</b>${m.tr.a?` <span style="color:var(--muted)">(${esc(m.tr.a)})</span>`:''}<div style="margin-top:4px">${esc(m.tr.t)}</div>${MATS.filter(o=>o.tr&&o.tr.n===m.tr.n).length>1?`<div style="margin-top:6px"><button class="chip" data-go="materials" data-setup='${esc(JSON.stringify({f:{tr:m.tr.n}}))}'>All ${fmt(MATS.filter(o=>o.tr&&o.tr.n===m.tr.n).length)} materials with ${esc(m.tr.n)} →</button></div>`:''}</div>`:m.basic?`<div class="callout" style="background:var(--surf2);border-color:var(--line)">${esc(m.basic)}</div>`:'')
         +(m.prop?`<div class="callout">✧ <b>Property: ${esc(m.pn)}</b>${m.pot?` · Potency ${m.pot}`:''}<div style="margin-top:4px">${esc(m.prop.replace(/^[^:]+:\s*/,''))}</div></div>`:m.supply?`<div class="callout">Supply: used up in crafting and gives no property.</div>`:'')
+        +(alchOf(m)?`<div class="callout" style="border-color:var(--green)">🧪 <b>In alchemy:</b> ${esc(alchOf(m))}${m.alch?'':' <small style="color:var(--muted)">(from its trait)</small>'}</div>`:'')
         +(m.ds?`<div class="prose">${esc(m.ds)}</div>`:'')
         +(m.gen?`<div class="note" style="margin:0">Harvest part generated in this app so every monster yields 6–10 materials. It isn't in the vault yet.</div>`:'')
         +(fx?blk('Weapon effect',`<div class="vcard mine"><span class="bn">${esc(fx.bonus)} · ${esc(fx.dt)} damage</span><div>${esc(fx.fx)}</div></div>${m.bonus&&m.bonus!=='+0'?`<div class="note">Listed bonus: ${esc(m.bonus)}</div>`:''}`):(m.bonus&&m.bonus!=='+0'?blk('Bonus',`<div class="prose" style="font-size:.9rem">${esc(m.bonus)}</div>`):''))
@@ -2892,6 +2893,8 @@ const WHY_WRONG={
   lining:{L:'Organs rot against the skin.',E:'An essence can\'t be sewn.',O:'Metal next to the skin chafes and freezes.',W:'Wood can\'t be worn as padding.',B:'Bone can\'t be worn as padding.',S:'Stone can\'t be worn as padding.',G:'Gems can\'t be worn as padding.',U:'A supply is used up in crafting.',K:'A mechanism is not padding.'},
   focus:{O:'Plain metal doesn\'t hold magic well.',W:'Wood conducts magic only weakly.',F:'Hide and fiber don\'t hold magic.',S:'Stone is dead to magic.',U:'A supply is used up in crafting.',K:'A mechanism doesn\'t hold magic.',B:'Bone conducts magic only weakly.'},
   fit:{L:'Organs rot and can\'t be fitted.',E:'An essence can\'t be fitted.',U:'A supply is used up in crafting.'},
+  brew:{O:'Metal won\'t dissolve; at best it poisons the brew.',S:'Stone won\'t dissolve.',G:'A gem won\'t dissolve; grind it as a catalyst instead.',K:'A mechanism doesn\'t belong in a cauldron.',F:'Hide and cloth only soak the brew up.'},
+  liquid:{O:'Metal is not a liquid base.',S:'Stone is not a liquid base.',G:'A gem is not a liquid base.',K:'A mechanism is not a liquid base.',F:'Hide and cloth are not a liquid base.',B:'Bone is not a liquid base.'},
 };
 // Part templates. ok: good categories; weak: workable but poor; ideal: within a good category, names that fit best
 // (others in that category count as poor). kind picks the WHY_WRONG reasons.
@@ -2969,6 +2972,26 @@ const GEN=[
   ['Amulet',{group:'Focuses',icon:'📿',cat:'Artifact',focus:true,props:'Spellcasting focus; worn',slots:mk([P.heart('Heart stone'),P.setting(),Object.assign(P.grip('Chain or cord'),{ok:['O','F']})])}],
   ['Ring',{group:'Focuses',icon:'💍',cat:'Artifact',focus:true,props:'Worn; spellcasting focus',slots:mk([Object.assign(P.setting('Band'),{role:'primary',kind:'fit',ok:['O','B'],weak:['W','G']}),P.heart('Stone')])}],
 ];
+// Alchemy: potions and the like, built the same way. The main reagent's alchemy effect is the brew's effect.
+const P_REAGENT=(name,ok)=>({id:'reagent',name:name||'Main reagent',role:'primary',qty:2,kind:'brew',ok:ok||['L','E','W'],weak:['B','U'],why:'The heart of the brew: an organ, blood, venom, an essence, or a herb. Its alchemy effect becomes the brew\'s.'});
+const P_BASE=()=>({id:'base',name:'Base liquid',role:'structure',qty:1,kind:'liquid',ok:['L','W','U'],weak:['E'],ideal:{W:/sap|dew|water|milk|honey|nectar|oil|juice|wine|tea/i,L:/blood|ichor|bile|milk|honey|venom/i},why:'What it all dissolves in: water, sap, honey, blood, or oil. A better base makes it last longer.'});
+const P_CAT=()=>({id:'catalyst',name:'Catalyst',role:'minor',qty:1,kind:'brew',ok:['G','E','O'],weak:['S'],optional:true,why:'A ground gem, an essence, or a pinch of quicksilver: adds its own effect at half strength.'});
+const P_STAB=()=>({id:'stabilizer',name:'Stabilizer',role:'minor',qty:1,kind:'brew',ok:['U','S','W'],optional:true,why:'Salt, ash, or a binding root to keep it from spoiling: doubles its shelf life.'});
+GEN.push(
+  ['Healing Potion',{group:'Alchemy',icon:'🧪',cat:'Potion',potion:'drink',props:'Drink as an action',slots:[P_REAGENT(),P_BASE(),P_CAT(),P_STAB()]}],
+  ['Elixir',{group:'Alchemy',icon:'⚗',cat:'Potion',potion:'drink',props:'Drink as an action; lasts longer',slots:[P_REAGENT(),P_BASE(),P_CAT(),P_STAB()]}],
+  ['Poison',{group:'Alchemy',icon:'☠',cat:'Potion',potion:'poison',props:'Ingested or injected; Constitution save',slots:[P_REAGENT('Venom or toxin',['L','W','E']),P_BASE(),P_CAT(),P_STAB()]}],
+  ['Weapon Oil',{group:'Alchemy',icon:'🗡',cat:'Potion',potion:'coat',props:'Coat a weapon as a bonus action; lasts for 3 hits',slots:[P_REAGENT(),Object.assign(P_BASE(),{ideal:{W:/oil|sap|resin|wax/i,L:/fat|oil|ichor|venom/i}}),P_CAT(),P_STAB()]}],
+  ['Bomb',{group:'Alchemy',icon:'💣',cat:'Potion',potion:'bomb',props:'Thrown 20/60 ft.; 10 ft. radius; Dexterity save for half',slots:[P_REAGENT('Volatile reagent',['E','L','W']),Object.assign(P_BASE(),{name:'Shell',ok:['S','G','O','W'],weak:['B'],kind:'fit',why:'A clay, glass, or metal shell to throw it in.'}),P_CAT(),P_STAB()]}],
+  ['Salve',{group:'Alchemy',icon:'🫙',cat:'Potion',potion:'salve',props:'Applied over a minute',slots:[P_REAGENT(),Object.assign(P_BASE(),{ok:['L','W','U'],ideal:{W:/wax|oil|sap|resin|moss/i,L:/fat|tallow|oil/i},why:'Fat, wax, or oil to carry it into the skin.'}),P_CAT(),P_STAB()]}]
+);
+GEN.forEach(([,b])=>{if(b.group==='Alchemy')b.slots.forEach(sl=>{sl.id=sl.id||pid(sl.name)})});
+// A material's alchemy effect: written for gathered herbs and fauna; for other organic parts it comes from the
+// creature's unique trait (what the part does when worn, it does for a while when drunk).
+const ORGANIC=['L','E','W','B','F'];
+function alchOf(m){if(!m)return '';if(m.alch)return m.alch;const c=matCode(m);if(!ORGANIC.includes(c))return '';
+  const t=m.tr?m.tr.t:m.prop?m.prop.replace(/^[^:]+:\s*/,''):'';if(!t)return '';const dur=(m.g||1)>=7?'8 hours':(m.g||1)>=4?'1 hour':'10 minutes';
+  return 'Drink: for '+dur+', '+t.replace(/^While equipped,?\s*/i,'').replace(/^A weapon (coated )?with this material/i,'your weapon attacks').replace(/^Armor with this material/i,'your body').replace(/,?\s*while (wearing|carrying|holding) (this|it)\b/gi,'').replace(/\s+while equipped\b/gi,'').replace(/^\w/,x=>x.toLowerCase())}
 const BASES=Object.fromEntries(GEN);
 const BASE_GROUPS=[...new Set(GEN.map(([,b])=>b.group))];
 const SHIELD_KIND={Buckler:1,Shield:2,Tower:3};
@@ -3036,7 +3059,16 @@ function forgeResult(){
     if(pm)adds.push([prim.s.name,pm,pok?`AC ${base} (${out.weight.toLowerCase()})`:'nothing: wrong material']);
     if(sm)adds.push([struc.s.name,sm,struc.fit.lv==='wrong'?'nothing: wrong material':lin?'+1 AC (Item Level 20+)':'comfort; +1 AC from Item Level 20']);
   }
-  const prof=B.focus?'Enchanting':(B.armor||B.shield)&&pm&&matCode(pm)==='F'?'Tailoring':pm&&['W','B','S'].includes(matCode(pm))?'Carving':'Blacksmithing';
+  if(B.potion){const eff=pm&&pok?alchOf(pm):'',cm=parts.find(p=>p.s.id==='catalyst'),cat=cm&&cm.m&&cm.fit.lv!=='wrong'?alchOf(cm.m):'',st=parts.find(p=>p.s.id==='stabilizer');
+    const P=pm?Math.max(1,pm.pot||Math.ceil((pm.il||1)/5)):0,base=struc&&struc.m&&struc.fit.lv!=='wrong'?(struc.fit.lv==='good'?1:.5):0;
+    out.potion={kind:B.potion,effect:useless?'Inert: the brew does nothing.':eff?eff.replace(/^(Drink|Brew|Coat|Burn|Salve):\s*/,''):(pm?'A mild tonic: no special effect (this reagent has no alchemy effect).':''),cat:cat?cat.replace(/^(Drink|Brew|Coat|Burn|Salve):\s*/,''):'',
+      dc:8+Math.floor((pil||1)/3)+(base===1?1:0),dmg:`${Math.max(1,Math.ceil((pil||1)/3))}d6`,heal:`${2+Math.floor((pil||1)/4)}d4 + ${Math.max(2,Math.floor((pil||1)/2))}`,
+      shelf:(base?base===1?'a season':'a week':'a day')+(st&&st.m&&st.fit.lv!=='wrong'?', doubled by the stabilizer':''),unstable:struc&&struc.fit.lv==='poor'};
+    if(pm)adds.push([prim.s.name,pm,useless?'nothing: wrong material':eff?'the effect: '+eff.slice(0,90)+(eff.length>90?'…':''):'no alchemy effect']);
+    if(struc&&struc.m)adds.push([struc.s.name,struc.m,struc.fit.lv==='wrong'?'nothing: wrong material':struc.fit.lv==='good'?'a stable brew':'an unstable brew (on a 1 on a d6 it spoils when used)']);
+    if(cm&&cm.m&&cat)adds.push([cm.s.name,cm.m,'adds at half strength: '+cat.slice(0,70)+(cat.length>70?'…':'')]);
+  }
+  const prof=B.potion?'Alchemy':B.focus?'Enchanting':(B.armor||B.shield)&&pm&&matCode(pm)==='F'?'Tailoring':pm&&['W','B','S'].includes(matCode(pm))?'Carving':'Blacksmithing';
   out.prof=prof;
   out.realmSpec=pm&&matCode(pm)==='O'&&/Hell|Heaven|Void/.test(pm.realm)?{Hell:'Infernal Forging',Heaven:'Celestial Metallurgy',Void:'Void Smithing','Inner Void':'Void Smithing'}[pm.realm]:'';
   out.rar=strongest?strongest.m.rar:'';
@@ -3141,7 +3173,7 @@ function forgeOut(){
   $('fg-out').innerHTML=`<div class="panel" style="display:flex;flex-direction:column;gap:12px;border-color:${bad?'var(--red)':'var(--gold)'}">
     <label class="note" style="margin:0">Name<input class="sel" id="fg-name" value="${esc(r.name)}" style="max-width:none;width:100%;margin-top:4px;font-family:var(--serif);font-size:1.1rem;font-weight:700"></label>
     <div class="badges">${r.rar?rarB(r.rar):''}<span class="b ghost">${esc(FORGE.base)}</span>${r.il?`<span class="b">Item level ${r.il}</span>`:''}${B.armor||B.shield?`<span class="b">${esc(B.slot||B.kind)} · ${esc(r.weight||'')}</span>`:''}${bad?'<span class="b red">Wrong material</span>':''}</div>
-    ${kv([r.damage!=null?['Damage',`<span class="mono">${esc(r.damage)}</span> ${esc(r.dtype)}${r.vers?` <small style="font-weight:400">(<span class="mono">${esc(r.vers)}</span> two-handed)</small>`:''}`]:null,r.attack!=null?['Attack bonus',(r.attack>=0?'+':'')+r.attack]:null,B.ranged?['Range',B.ranged]:null,B.props?['Properties',esc(B.props)]:null,r.focusBonus!=null?['Spellcasting',`+${r.focusBonus} to spell attack rolls and spell save DC`]:null,r.ac!=null?['AC',r.ac]:null,r.ac!=null?['Drawback',`${esc(r.weight)} · ${r.drawback.length?esc(r.drawback.join('; ')):'none'}`]:null,['Breaks on',r.breakOn?'a natural 1'+(r.breakOn>1?'–'+r.breakOn:''):'—'],['Material cost',gp(r.cost)],['Crafted with',esc(r.prof)+(r.realmSpec?' ('+esc(r.realmSpec)+')':'')+(()=>{const mt=Math.max(1,...r.parts.filter(p=>p.m).map(p=>((REALM[p.m.realm]||{}).tier||1)));return mt>1?` <small style="font-weight:400;color:var(--muted)">stage ${mt}: level ${stageStart(mt)}+ for ${esc(TIER_NAMES(mt))} materials</small>`:''})()]].filter(Boolean))}
+    ${kv([r.damage!=null?['Damage',`<span class="mono">${esc(r.damage)}</span> ${esc(r.dtype)}${r.vers?` <small style="font-weight:400">(<span class="mono">${esc(r.vers)}</span> two-handed)</small>`:''}`]:null,r.attack!=null?['Attack bonus',(r.attack>=0?'+':'')+r.attack]:null,B.ranged?['Range',B.ranged]:null,B.props?['Properties',esc(B.props)]:null,r.focusBonus!=null?['Spellcasting',`+${r.focusBonus} to spell attack rolls and spell save DC`]:null,r.potion?['Effect',esc(r.potion.effect)+(r.potion.cat?`<br><small>Catalyst (half strength): ${esc(r.potion.cat)}</small>`:'')]:null,r.potion&&r.potion.kind==='drink'&&FORGE.base==='Healing Potion'?['Heals',`<span class="mono">${esc(r.potion.heal)}</span>`]:null,r.potion&&['poison','bomb'].includes(r.potion.kind)?['Save DC',r.potion.dc]:null,r.potion&&['bomb','coat'].includes(r.potion.kind)?['Damage',`<span class="mono">${esc(r.potion.dmg)}</span> (the reagent's element)`]:null,r.potion?['Keeps for',esc(r.potion.shelf)+(r.potion.unstable?'; unstable':'')]:null,r.ac!=null?['AC',r.ac]:null,r.ac!=null?['Drawback',`${esc(r.weight)} · ${r.drawback.length?esc(r.drawback.join('; ')):'none'}`]:null,B.potion?null:['Breaks on',r.breakOn?'a natural 1'+(r.breakOn>1?'–'+r.breakOn:''):'—'],['Material cost',gp(r.cost)],['Crafted with',esc(r.prof)+(r.realmSpec?' ('+esc(r.realmSpec)+')':'')+(()=>{const mt=Math.max(1,...r.parts.filter(p=>p.m).map(p=>((REALM[p.m.realm]||{}).tier||1)));return mt>1?` <small style="font-weight:400;color:var(--muted)">stage ${mt}: level ${stageStart(mt)}+ for ${esc(TIER_NAMES(mt))} materials</small>`:''})()]].filter(Boolean))}
     ${r.adds.length?`<div><div class="blk"><h4>What each material adds</h4></div><div class="tablewrap"><table class="t"><tbody>${r.adds.map(([part,m,t])=>`<tr><td style="white-space:nowrap"><b>${esc(part)}</b></td><td><a href="#" data-ref="${ref(m)}">${esc(m.n)}</a></td><td>${esc(t)}</td></tr>`).join('')}</tbody></table></div></div>`:''}
     ${r.notes.length?`<div class="callout" style="border-color:var(--red);background:color-mix(in srgb,var(--red) 8%,transparent)"><b style="color:var(--red)">Penalties</b><ul style="margin:6px 0 0 18px">${r.notes.map(([s,lv,t,why])=>`<li><b>${esc(s)}</b> (${lv==='wrong'?'wrong material':lv==='poor'?'poor fit':'too weak'}): ${why?esc(why)+' ':''}${lv==='weak'?t:esc(t)}</li>`).join('')}</ul></div>`:''}
     ${r.props.length?`<div><div class="blk"><h4>Properties from every part</h4></div><div class="mlist">${r.props.map(p=>`<button data-ref="${ref(p.m)}" style="flex-direction:column;align-items:flex-start"><span><b>✧ ${esc(p.m.pn)}</b> <span class="x">${esc(p.s.name)} · ${esc(p.m.n)}${p.half?' · half Potency':''}</span></span><span style="font-size:.8rem">${esc((p.m.prop||'').replace(/^[^:]+:\s*/,''))}</span></button>`).join('')}</div></div>`:''}

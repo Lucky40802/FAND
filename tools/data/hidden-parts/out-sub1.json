@@ -1,0 +1,4280 @@
+[
+ {
+  "n": "Kite-Captain of the Updraft",
+  "tier": "Epic",
+  "base": "Artificer",
+  "sub": "Aether Engineer",
+  "tower": "Human",
+  "requires": "Artificer level 5, Aether Engineer subclass",
+  "unlock": "On floor 7 of the Milestone Spire, cross a 300-foot chasm with no bridge using only lift charge, carrying a stranger who cannot fly.",
+  "secret": "You must have never once fallen from a height while hovering before entering the tower.",
+  "notice": "[Hidden job change. The wind has signed on as crew.]",
+  "blurb": "This Aether Engineer stops hovering alone and learns to lift the whole party like kites on one string.",
+  "features": [
+   [
+    5,
+    "Skill: Shared Tether",
+    "Spend 1 stored charge to grant up to three allies within 30 feet a 20-foot hover speed until your next turn."
+   ],
+   [
+    9,
+    "Skill: Gust Rudder",
+    "As a reaction, push a flying or falling creature within 60 feet 15 feet in any direction."
+   ],
+   [
+    13,
+    "Ultimate: Whole Sky Sails",
+    "Once per long rest, you and up to six allies gain a 60-foot fly speed for 10 minutes and cannot be knocked prone."
+   ]
+  ],
+  "evolves": "At level 15, after carrying 100 passengers safely, the tether can lift a Huge vehicle or beast.",
+  "cost": "Every ally lifted draws on your charge; if it empties mid-flight, everyone drops."
+ },
+ {
+  "n": "Stormglass Navigator",
+  "tier": "Epic",
+  "base": "Artificer",
+  "sub": "Aether Engineer",
+  "tower": "Mysterious",
+  "requires": "Artificer level 11, Aether Engineer subclass, Navigation profession level 3",
+  "unlock": "Fly through the Fogglass Spire's mirror-sky on floor 12 and chart all nine of its false horizons on a map you made yourself.",
+  "secret": "You must have flown through a real thunderstorm at least once and kept your stored charge above half the whole time.",
+  "notice": "[Hidden job change. The fog has a shape. You can read it now.]",
+  "blurb": "An engineer who reads air pressure like script, steering lift charge through mist, storm and realm boundaries.",
+  "features": [
+   [
+    11,
+    "Skill: Pressure Chart",
+    "You sense Realm Pressure and weather within 1 mile and ignore the first 1 point of Pressure strain while airborne."
+   ],
+   [
+    15,
+    "Skill: Fogwake",
+    "While flying you are heavily obscured to creatures more than 30 feet away."
+   ],
+   [
+    19,
+    "Ultimate: Horizon Slip",
+    "Once per long rest, fly in a straight line up to 1 mile in one action, ending in any visible place, carrying one willing creature."
+   ]
+  ],
+  "evolves": "At level 21, the charts can map a route between realms, cutting Tower travel time in half.",
+  "cost": "Clear skies make you dizzy; in windless air you lose your hover speed."
+ },
+ {
+  "n": "Thunder-Contract Aeronaut",
+  "tier": "Epic",
+  "base": "Artificer",
+  "sub": "Aether Engineer",
+  "tower": "Heaven",
+  "requires": "Artificer level 21, Aether Engineer subclass, a Minor contract with a sky or storm god",
+  "unlock": "Rise to the Choir Spire's 22nd floor without touching a stair, then let the presiding sky god strike your engine once and keep flying.",
+  "secret": "The god only offers the contract if your engine has never been used to flee from a fight.",
+  "notice": "[Hidden job change. Your engine runs on borrowed thunder.]",
+  "blurb": "The engine's stored charge is replaced by a god's lightning, turning lift into a weapon of judgement.",
+  "features": [
+   [
+    21,
+    "Skill: Divine Coil",
+    "Your charges recover on a short rest, and each spent charge adds 2d6 lightning to your next hit."
+   ],
+   [
+    25,
+    "Skill: Thunderhead Throne",
+    "Hovering 10 feet or higher, you gain +1 AC and resistance to lightning and thunder."
+   ],
+   [
+    29,
+    "Ultimate: Sentence From Above",
+    "Once per long rest, dive from at least 30 feet onto a point; creatures within 20 feet take 10d10 lightning damage (Dex save half)."
+   ]
+  ],
+  "evolves": "Raising the contract to a Finger lets the engine sustain flight indefinitely.",
+  "cost": "The god may call you to fly its errands once a month, and refusal grounds you for a week."
+ },
+ {
+  "n": "Philosopher of the Endless Flask",
+  "tier": "Epic",
+  "base": "Artificer",
+  "sub": "Alchemist",
+  "tower": "Human",
+  "requires": "Artificer level 5, Alchemist subclass, Alchemy profession level 2",
+  "unlock": "On floor 9 of the Milestone Spire, brew one elixir from ingredients gathered on every lower floor, then drink it yourself before anyone else.",
+  "secret": "You must have brewed 100 elixirs and never sold a single one.",
+  "notice": "[Hidden job change. The flask refuses to run dry.]",
+  "blurb": "An Alchemist who chases one perfect formula, a flask that refills itself as long as its maker keeps experimenting.",
+  "features": [
+   [
+    5,
+    "Skill: Bottomless Draught",
+    "Once per short rest, your experimental elixir does not consume a use and you choose its effect."
+   ],
+   [
+    9,
+    "Skill: Reagent Echo",
+    "Potions you brew keep 1 point of their material's Potency as bonus healing or damage."
+   ],
+   [
+    13,
+    "Ultimate: Sip of Forever",
+    "Once per long rest, drink from the flask to regain all hit points and end one condition on yourself."
+   ]
+  ],
+  "evolves": "At level 15, if you have recorded 50 original recipes, the flask can brew a spell of 3rd level or lower as a potion.",
+  "cost": "The flask feeds on curiosity; a week with no new experiment and it goes dry."
+ },
+ {
+  "n": "Brewer of the Thirsty Realm",
+  "tier": "Epic",
+  "base": "Artificer",
+  "sub": "Alchemist",
+  "tower": "Abyss",
+  "requires": "Artificer level 21, Alchemist subclass, attuned to Realm Pressure 5",
+  "unlock": "Descend to floor 43 of the Sunken Spire and distil a drinkable potion from the crushing dark water there.",
+  "secret": "You must have drunk an untested potion of your own at least 30 times without fail.",
+  "notice": "[Hidden job change. The deep tastes you back.]",
+  "blurb": "Brewing from deep realm matter, this Alchemist learns that pressure itself can be bottled and poured.",
+  "features": [
+   [
+    21,
+    "Skill: Pressure Vial",
+    "Throw a vial; creatures within 15 feet of impact treat Realm Pressure as 2 higher until your next turn."
+   ],
+   [
+    25,
+    "Skill: Deep-Water Tonic",
+    "Allies who drink your elixir ignore 2 points of Realm Pressure for 1 hour."
+   ],
+   [
+    29,
+    "Ultimate: Drown the Room",
+    "Once per long rest, flood a 40-foot cube with abyssal brine; enemies inside are restrained and take 8d10 cold damage each turn (Con save ends)."
+   ]
+  ],
+  "evolves": "Brewing with a Void-grade reagent lets the vials crush realm walls themselves.",
+  "cost": "You need double water each day, and fresh potions taste of salt and rot to you."
+ },
+ {
+  "n": "Apothecary of Old Recipes",
+  "tier": "Epic",
+  "base": "Artificer",
+  "sub": "Alchemist",
+  "tower": "Mysterious",
+  "requires": "Artificer level 11, Alchemist subclass, Cooking or Alchemy profession level 4",
+  "unlock": "In the Fogglass Spire find a recipe book with your grandmother's handwriting, follow it exactly and serve the dish to the spirit who wrote it.",
+  "secret": "You must have healed 50 creatures with food or potions and never refused anyone who asked.",
+  "notice": "[Hidden job change. The kitchen and the laboratory were always the same room.]",
+  "blurb": "Folk remedies and old wives' cures become real alchemy in this Alchemist's hands, every meal a mild potion.",
+  "features": [
+   [
+    11,
+    "Skill: Hearth Remedy",
+    "Meals you cook on a short rest grant each eater temporary hit points equal to your Artificer level."
+   ],
+   [
+    15,
+    "Skill: Bitter Cure",
+    "As an action, feed a creature a tonic ending poison, disease or one curse of 4th level or lower."
+   ],
+   [
+    19,
+    "Ultimate: Feast of the Long Table",
+    "Once per long rest, a meal heals up to 10 creatures to full and grants advantage on saves for 8 hours."
+   ]
+  ],
+  "evolves": "At level 21, the recipes can be written down and taught, creating apprentices who brew at half strength.",
+  "cost": "You cannot eat food you did not prepare yourself without becoming poisoned."
+ },
+ {
+  "n": "Iron Hermit Plate",
+  "tier": "Epic",
+  "base": "Artificer",
+  "sub": "Armorer",
+  "tower": "Human",
+  "requires": "Artificer level 5, Armorer subclass",
+  "unlock": "Spend three full days on floor 8 of the Milestone Spire without removing your armor, sleeping and eating inside it.",
+  "secret": "You must have taken 1,000 total damage while wearing your armor and never once fled.",
+  "notice": "[Hidden job change. The suit no longer comes off. It has decided to stay.]",
+  "blurb": "An Armorer whose suit grows into a shell, closer to a hermit crab's home than a set of plate.",
+  "features": [
+   [
+    5,
+    "Skill: Shellsleep",
+    "You can sleep in the armor and gain the benefits of a long rest without removing it."
+   ],
+   [
+    9,
+    "Skill: Hollow Brace",
+    "As a reaction to a hit, reduce its damage by your Intelligence modifier in addition to AC."
+   ],
+   [
+    13,
+    "Ultimate: Close the Shell",
+    "Once per long rest, become immune to damage for 1 round, unable to move or act."
+   ]
+  ],
+  "evolves": "At level 15, the shell grows rooms; one ally can ride inside and gain half cover.",
+  "cost": "After a week inside, taking it off leaves you poisoned for a day."
+ },
+ {
+  "n": "Knight of the Smoldering Seal",
+  "tier": "Epic",
+  "base": "Artificer",
+  "sub": "Armorer",
+  "tower": "Hell",
+  "requires": "Artificer level 21, Armorer subclass, Blacksmithing profession level 5",
+  "unlock": "On the Ledger Spire's 23rd floor, reforge your armor in a devil's furnace and pay for the fuel with a year of your life.",
+  "secret": "Your armor must contain at least one Hell-grade material forged by your own hand.",
+  "notice": "[Hidden job change. Your armor carries a debt. It intends to collect.]",
+  "blurb": "Plate stamped with an infernal seal that burns anyone who strikes it and records their debt.",
+  "features": [
+   [
+    21,
+    "Skill: Branding Plate",
+    "Creatures that hit you in melee take fire damage equal to your Intelligence modifier and are marked."
+   ],
+   [
+    25,
+    "Skill: Collect",
+    "Your attacks against marked creatures deal an extra 3d8 fire damage."
+   ],
+   [
+    29,
+    "Ultimate: The Account Comes Due",
+    "Once per long rest, every marked creature within 60 feet takes 4d10 fire damage per mark (Con save half)."
+   ]
+  ],
+  "evolves": "Binding a devil into the seal lets the armor fight on its own for 1 minute.",
+  "cost": "Your armor glows red-hot when you lie, and healing spells on you are halved."
+ },
+ {
+  "n": "Rune-Lined Vanguard",
+  "tier": "Epic",
+  "base": "Artificer",
+  "sub": "Armorer",
+  "tower": "Chaos",
+  "requires": "Artificer level 21, Armorer subclass, holds the Shield or Protect Rune",
+  "unlock": "On floor 33 of the Shuffled Spire, survive one hour as the floors rearrange, rebuilding your armor each time a floor resets.",
+  "secret": "You must have absorbed at least three different Runes' energy into armor before the trial.",
+  "notice": "[Hidden job change. The plates rearrange. They still hold.]",
+  "blurb": "An Armorer whose suit is lined with a Rune and reshuffles itself to meet each new threat.",
+  "features": [
+   [
+    21,
+    "Skill: Shuffled Plating",
+    "At the start of your turn, choose a damage type; you gain resistance to it until your next turn."
+   ],
+   [
+    25,
+    "Skill: Rune Bulwark",
+    "Allies within 10 feet gain +1 AC while you are not incapacitated."
+   ],
+   [
+    29,
+    "Ultimate: Reassembled",
+    "Once per long rest, when reduced to 0 hit points, the armor rebuilds you with hit points equal to half your maximum."
+   ]
+  ],
+  "evolves": "Feeding the lining a second Rune lets you pick two resistances per turn.",
+  "cost": "The armor randomises one feature's appearance each dawn, and you never look the same twice."
+ },
+ {
+  "n": "Long-Barrel Spotter",
+  "tier": "Epic",
+  "base": "Artificer",
+  "sub": "Artillerist",
+  "tower": "Human",
+  "requires": "Artificer level 5, Artillerist subclass",
+  "unlock": "On floor 10 of the Milestone Spire, hit a bell at the top of the tower from the ground floor with your cannon.",
+  "secret": "You must have landed 200 cannon shots without ever harming an ally.",
+  "notice": "[Hidden job change. Range limit removed. Please aim responsibly.]",
+  "blurb": "An Artillerist who builds one long cannon for extreme range, a siege sniper rather than a turret crew.",
+  "features": [
+   [
+    5,
+    "Skill: Rangefinder",
+    "Your cannon's range triples and ignores half and three-quarters cover."
+   ],
+   [
+    9,
+    "Skill: Marked Ground",
+    "Mark a point; your next cannon attack there deals an extra 2d8 damage."
+   ],
+   [
+    13,
+    "Ultimate: One Mile Shot",
+    "Once per long rest, hit a seen target within 1 mile for 10d10 force damage."
+   ]
+  ],
+  "evolves": "At level 15, after 50 kills from beyond 300 feet, you can fire over walls at a mapped target.",
+  "cost": "Firing the long barrel deafens you for 1 minute."
+ },
+ {
+  "n": "Fireworks Master of the Lantern Fair",
+  "tier": "Epic",
+  "base": "Artificer",
+  "sub": "Artillerist",
+  "tower": "Mysterious",
+  "requires": "Artificer level 11, Artillerist subclass, Engineering profession level 3",
+  "unlock": "Put on a fireworks show in the Fogglass Spire bright enough to burn off the fog on floor 11 for one minute.",
+  "secret": "You must have entertained a crowd of 100 people with your cannons without killing anything that day.",
+  "notice": "[Hidden job change. The sky was always the best canvas.]",
+  "blurb": "Cannon shells become festival rockets, dazzling, blinding and spreading wild coloured flame.",
+  "features": [
+   [
+    11,
+    "Skill: Starburst Shell",
+    "Your cannon's blast blinds creatures within 10 feet of impact until your next turn (Con save)."
+   ],
+   [
+    15,
+    "Skill: Festival Lights",
+    "Allies who see your fireworks gain advantage on saves against fear."
+   ],
+   [
+    19,
+    "Ultimate: Grand Finale",
+    "Once per long rest, launch nine shells at once; each hits a different point for 5d6 fire and radiant damage."
+   ]
+  ],
+  "evolves": "At level 21, the fireworks can write words in the sky readable for 10 miles.",
+  "cost": "Everything you own smells of black powder; stealth checks are at disadvantage."
+ },
+ {
+  "n": "Gunner of the Fallen Star",
+  "tier": "Epic",
+  "base": "Artificer",
+  "sub": "Artillerist",
+  "tower": "Heaven",
+  "requires": "Artificer level 21, Artillerist subclass, holds the Comet or Star Rune",
+  "unlock": "Shoot a falling star out of the Choir Spire's sky on floor 22 and load its core into your cannon.",
+  "secret": "You must have fired at the night sky every night for a month before the climb.",
+  "notice": "[Hidden job change. Ammunition source: the heavens.]",
+  "blurb": "The cannon fires captured starfire, slow to reload but enough to crater a battlefield.",
+  "features": [
+   [
+    21,
+    "Skill: Starcore Round",
+    "Cannon damage becomes radiant and ignores resistance."
+   ],
+   [
+    25,
+    "Skill: Orbit Lock",
+    "Cannon hits tether the target; it cannot fly or teleport until your next turn."
+   ],
+   [
+    29,
+    "Ultimate: Meteor Call",
+    "Once per long rest, call a falling star to a point within 1 mile: 20d6 fire and radiant in a 40-foot radius (Dex half)."
+   ]
+  ],
+  "evolves": "Gaining a contract with a star god lets you fire it twice per long rest.",
+  "cost": "The cannon cools for 1 minute after each Starcore round and cannot fire again."
+ },
+ {
+  "n": "Iron-Hound Packmaster",
+  "tier": "Epic",
+  "base": "Artificer",
+  "sub": "Battle Smith",
+  "tower": "Human",
+  "requires": "Artificer level 5, Battle Smith subclass",
+  "unlock": "On floor 6 of the Milestone Spire, rebuild a wrecked pack of metal hounds and lead them through the floor without losing one.",
+  "secret": "You must have repaired your steel defender after 20 separate destructions.",
+  "notice": "[Hidden job change. One defender was lonely. Now it has a pack.]",
+  "blurb": "This Battle Smith splits the steel defender into a pack of smaller hounds that hunt together.",
+  "features": [
+   [
+    5,
+    "Skill: Split the Frame",
+    "Your defender becomes three Small hounds, each with a third of its hit points, acting on your command."
+   ],
+   [
+    9,
+    "Skill: Pack Tactics Protocol",
+    "Hounds gain advantage on attacks against a creature adjacent to another hound."
+   ],
+   [
+    13,
+    "Ultimate: Run Them Down",
+    "Once per long rest, every hound takes an extra turn and deals 2d8 extra damage."
+   ]
+  ],
+  "evolves": "At level 15, a fourth hound can be built from a Mysterious-grade core.",
+  "cost": "If any hound is destroyed, the rest lose a turn mourning it."
+ },
+ {
+  "n": "Smith of the Twin Anvils",
+  "tier": "Epic",
+  "base": "Artificer",
+  "sub": "Battle Smith",
+  "tower": "Mysterious",
+  "requires": "Artificer level 11, Battle Smith subclass, Blacksmithing profession level 4",
+  "unlock": "Forge a weapon for your defender on the Fogglass Spire's floor 12 using a hammer your reflection hands you.",
+  "secret": "You must have forged the defender's every replacement part yourself.",
+  "notice": "[Hidden job change. Two anvils, one rhythm.]",
+  "blurb": "Maker and machine strike as one, forging weapons in combat and fighting in perfect rhythm.",
+  "features": [
+   [
+    11,
+    "Skill: Anvil Rhythm",
+    "When you and your defender hit the same creature in one round, it takes an extra 2d10 force damage."
+   ],
+   [
+    15,
+    "Skill: Field Forge",
+    "As a bonus action, give your or the defender's weapon a material's Potency until the end of combat."
+   ],
+   [
+    19,
+    "Ultimate: Final Strike",
+    "Once per long rest, you and the defender each attack three times against one target."
+   ]
+  ],
+  "evolves": "At level 21, the defender can learn a profession and craft alongside you.",
+  "cost": "Separated from the defender by more than 1 mile, you have disadvantage on crafting."
+ },
+ {
+  "n": "Warden of the Ancestral Machine",
+  "tier": "Epic",
+  "base": "Artificer",
+  "sub": "Battle Smith",
+  "tower": "Heaven",
+  "requires": "Artificer level 21, Battle Smith subclass, a Minor contract with a forge god",
+  "unlock": "Bring your defender to the Choir Spire's 23rd floor and have it judged worthy of a soul.",
+  "secret": "The defender must have protected an ally from a killing blow at least 10 times.",
+  "notice": "[Hidden job change. Your defender has asked for a name.]",
+  "blurb": "The steel defender gains a soul through a forge god's blessing and becomes a true companion.",
+  "features": [
+   [
+    21,
+    "Skill: Given Will",
+    "Your defender acts on its own initiative and can use its own reactions to protect allies."
+   ],
+   [
+    25,
+    "Skill: Holy Rivets",
+    "The defender gains +2 AC and resistance to all damage but force."
+   ],
+   [
+    29,
+    "Ultimate: Rise Again",
+    "Once per long rest, the defender returns from destruction instantly with full hit points."
+   ]
+  ],
+  "evolves": "Raising the contract to a Finger lets the defender gain hidden classes of its own.",
+  "cost": "The defender can refuse orders it finds wicked."
+ },
+ {
+  "n": "Physician of the Black Rain",
+  "tier": "Epic",
+  "base": "Artificer",
+  "sub": "Plague Doctor",
+  "tower": "Human",
+  "requires": "Artificer level 5, Plague Doctor subclass",
+  "unlock": "On floor 9 of the Milestone Spire, cure a village of illusory plague victims within an hour.",
+  "secret": "You must have cured as many diseases as you have inflicted.",
+  "notice": "[Hidden job change. The beak mask breathes both ways.]",
+  "blurb": "A Plague Doctor who doubles as a healer, balancing infection and cure like scales.",
+  "features": [
+   [
+    5,
+    "Skill: Balanced Ledger",
+    "When you infect a creature, an ally within 30 feet heals 1d8 plus your Intelligence modifier."
+   ],
+   [
+    9,
+    "Skill: Quarantine Cloud",
+    "Create a 15-foot cloud that blocks disease and poison effects for 1 minute."
+   ],
+   [
+    13,
+    "Ultimate: Grand Cure",
+    "Once per long rest, end all diseases on up to 10 creatures and heal each 4d8."
+   ]
+  ],
+  "evolves": "At level 15, you can draw a disease out of an ally and throw it at an enemy.",
+  "cost": "You must treat any sick person you pass, or lose access to your Skills for a day."
+ },
+ {
+  "n": "Rot-Saint of the Blight Fields",
+  "tier": "Epic",
+  "base": "Artificer",
+  "sub": "Plague Doctor",
+  "tower": "Abyss",
+  "requires": "Artificer level 21, Plague Doctor subclass, holds the Plague, Blight or Rot Rune",
+  "unlock": "Grow a living disease garden on floor 42 of the Sunken Spire and keep it alive for a week.",
+  "secret": "You must have survived a disease you created yourself.",
+  "notice": "[Hidden job change. The rot listens to you.]",
+  "blurb": "This Plague Doctor cultivates diseases like crops, harvesting them for weapons.",
+  "features": [
+   [
+    21,
+    "Skill: Spore Bed",
+    "Plant a 20-foot zone that poisons enemies who enter it each turn (Con save)."
+   ],
+   [
+    25,
+    "Skill: Culture Strain",
+    "Name a creature type; your diseases deal double damage to it."
+   ],
+   [
+    29,
+    "Ultimate: Pandemic",
+    "Once per long rest, every enemy within 120 feet is infected and takes 6d10 necrotic damage per turn until cured."
+   ]
+  ],
+  "evolves": "Feeding a Void-grade culture to your garden lets diseases cross realms.",
+  "cost": "Plants wilt near you, and animals flee from your presence."
+ },
+ {
+  "n": "Leech-Bell Surgeon",
+  "tier": "Epic",
+  "base": "Artificer",
+  "sub": "Plague Doctor",
+  "tower": "Mysterious",
+  "requires": "Artificer level 11, Plague Doctor subclass, Harvesting profession level 3",
+  "unlock": "Harvest 100 leeches from the fog pools of the Fogglass Spire's floor 11 and breed a single giant one.",
+  "secret": "You must have saved a life by bloodletting at least once.",
+  "notice": "[Hidden job change. The bell rings when blood moves.]",
+  "blurb": "Leeches and bells are the tools of this surgeon, who draws sickness out through blood.",
+  "features": [
+   [
+    11,
+    "Skill: Leech Swarm",
+    "As an action, set leeches on a creature: it takes 2d6 necrotic per turn and you heal half."
+   ],
+   [
+    15,
+    "Skill: Bell Pulse",
+    "Ringing your bell reveals all diseased or poisoned creatures within 120 feet."
+   ],
+   [
+    19,
+    "Ultimate: Drain the Fever",
+    "Once per long rest, draw all conditions from an ally and inflict them on an enemy within 30 feet."
+   ]
+  ],
+  "evolves": "At level 21, the giant leech can be ridden.",
+  "cost": "Leeches need feeding daily; skip it and they feed on you."
+ },
+ {
+  "n": "Etcher of Borrowed Edges",
+  "tier": "Epic",
+  "base": "Artificer",
+  "sub": "Runesmith",
+  "tower": "Human",
+  "requires": "Artificer level 5, Runesmith subclass, Carving profession level 2",
+  "unlock": "Etch a mark on each weapon of the 10 guards on the Milestone Spire's floor 10 during a fight without them noticing.",
+  "secret": "You must have etched gear for 50 different people.",
+  "notice": "[Hidden job change. Your marks spread faster than you can carve.]",
+  "blurb": "This Runesmith etches enemy and ally gear alike, turning any weapon into a tool.",
+  "features": [
+   [
+    5,
+    "Skill: Etch on Contact",
+    "On a hit, etch a mark on the target's weapon; it deals half damage until removed."
+   ],
+   [
+    9,
+    "Skill: Gift Mark",
+    "As a bonus action, etch an ally's weapon for an extra 1d8 damage for 1 minute."
+   ],
+   [
+    13,
+    "Ultimate: Turned Arsenal",
+    "Once per long rest, all marked weapons within 60 feet attack their wielders."
+   ]
+  ],
+  "evolves": "At level 15, marks can be etched from 30 feet away by a thrown chisel.",
+  "cost": "Marks you etch fade if you fall asleep."
+ },
+ {
+  "n": "Rune-Forger of the Echo Grade",
+  "tier": "Epic",
+  "base": "Artificer",
+  "sub": "Runesmith",
+  "tower": "Chaos",
+  "requires": "Artificer level 21, Runesmith subclass, holds any Rune",
+  "unlock": "Copy the Rune you hold onto a weapon in the Shuffled Spire's floor 34, using a chisel that changes shape every minute.",
+  "secret": "You must have etched over 300 temporary properties into gear.",
+  "notice": "[Hidden job change. The Rune remembers its own echo.]",
+  "blurb": "An Artificer who carves pale echoes of their held Rune into gear, so friends can borrow it.",
+  "features": [
+   [
+    21,
+    "Skill: Rune Shadow",
+    "Etch a faint version of your Rune on an item for 1 hour; its holder gains one minor effect of it."
+   ],
+   [
+    25,
+    "Skill: Matched Set",
+    "Items bearing your echo give +1 AC to allies wearing two or more."
+   ],
+   [
+    29,
+    "Ultimate: Full Resonance",
+    "Once per long rest, all echo items flare for 1 minute, giving their holders your Rune's full power."
+   ]
+  ],
+  "evolves": "Holding a second Rune lets you carve two echoes at once.",
+  "cost": "Every echo weakens your own Rune use; you lose one use per day per active echo."
+ },
+ {
+  "n": "Seal-Smith of the Nine Hammers",
+  "tier": "Epic",
+  "base": "Artificer",
+  "sub": "Runesmith",
+  "tower": "Heaven",
+  "requires": "Artificer level 21, Runesmith subclass, Enchanting profession level 6, a contract with a forge god",
+  "unlock": "Strike nine sacred anvils on the Choir Spire's floor 21 in a rhythm the forge god hums for you.",
+  "secret": "You must never have charged money for an etching.",
+  "notice": "[Hidden job change. The hammers ring in a choir.]",
+  "blurb": "The etchings become sacred seals, permanent and blessed by a god of the forge.",
+  "features": [
+   [
+    21,
+    "Skill: Permanent Seal",
+    "Etchings last until dispelled, with a maximum of your Intelligence modifier active."
+   ],
+   [
+    25,
+    "Skill: Divine Resonance",
+    "Sealed weapons deal an extra 2d8 radiant damage."
+   ],
+   [
+    29,
+    "Ultimate: Seal of Unbreaking",
+    "Once per long rest, make an item indestructible for 24 hours."
+   ]
+  ],
+  "evolves": "Gaining a Finger contract lets you seal Runes into gear permanently.",
+  "cost": "The god demands you forge one gift for a temple each month."
+ },
+ {
+  "n": "Lantern-Soul Keeper",
+  "tier": "Epic",
+  "base": "Artificer",
+  "sub": "Soul Mechanist",
+  "tower": "Human",
+  "requires": "Artificer level 5, Soul Mechanist subclass",
+  "unlock": "Free a trapped soul from a broken lantern on the Milestone Spire's floor 9 and ask its permission before housing it in a construct.",
+  "secret": "You must never have forced an unwilling spirit into a machine.",
+  "notice": "[Hidden job change. The spirit has agreed. It wants to help.]",
+  "blurb": "This Soul Mechanist only uses willing spirits and keeps them in glowing lanterns.",
+  "features": [
+   [
+    5,
+    "Skill: Willing Spark",
+    "Constructs powered by willing souls gain +1 to attack and damage."
+   ],
+   [
+    9,
+    "Skill: Lantern Light",
+    "Your lantern sheds light that reveals invisible creatures within 30 feet."
+   ],
+   [
+    13,
+    "Ultimate: Chorus of Lanterns",
+    "Once per long rest, all souls in your care manifest and each grants an ally a free attack."
+   ]
+  ],
+  "evolves": "At level 15, a spirit can return to its old body if one is found.",
+  "cost": "Souls can leave if mistreated, taking their power with them."
+ },
+ {
+  "n": "Gearwraith Overseer",
+  "tier": "Epic",
+  "base": "Artificer",
+  "sub": "Soul Mechanist",
+  "tower": "Hell",
+  "requires": "Artificer level 21, Soul Mechanist subclass, holds the Wraith or Spirit Rune",
+  "unlock": "Buy 10 damned souls at the Ledger Spire's 22nd floor auction and give each a new body.",
+  "secret": "You must have built a construct that outlived its own soul.",
+  "notice": "[Hidden job change. The ledger accepts your purchase. Handle with care.]",
+  "blurb": "An overseer who works damned spirits into tireless machines of war.",
+  "features": [
+   [
+    21,
+    "Skill: Damned Engine",
+    "Constructs with damned souls deal an extra 2d10 necrotic damage."
+   ],
+   [
+    25,
+    "Skill: Iron Dirge",
+    "Enemies within 30 feet of your constructs have disadvantage on saves against fear."
+   ],
+   [
+    29,
+    "Ultimate: Factory of Ghosts",
+    "Once per long rest, summon 6 spirit constructs for 1 minute with half your hit points each."
+   ]
+  ],
+  "evolves": "Owning 100 souls lets you build a construct the size of a fortress.",
+  "cost": "The souls whisper at night; you sleep only 4 hours per long rest."
+ },
+ {
+  "n": "Clockwork Medium",
+  "tier": "Epic",
+  "base": "Artificer",
+  "sub": "Soul Mechanist",
+  "tower": "Mysterious",
+  "requires": "Artificer level 11, Soul Mechanist subclass, Tinker's tools and Enchanting profession level 3",
+  "unlock": "Build a talking machine on floor 12 of the Fogglass Spire that lets a ghost speak to its living family.",
+  "secret": "You must have helped 10 spirits find peace.",
+  "notice": "[Hidden job change. The machine speaks with the dead.]",
+  "blurb": "This Soul Mechanist builds machines that let ghosts speak and the living listen.",
+  "features": [
+   [
+    11,
+    "Skill: Talking Machine",
+    "Speak with any spirit or dead creature within 60 feet for up to 10 minutes."
+   ],
+   [
+    15,
+    "Skill: Ghost Report",
+    "Ask a spirit one question; it must answer truthfully."
+   ],
+   [
+    19,
+    "Ultimate: Second Voice",
+    "Once per long rest, a dead ally possesses a construct and fights for 1 minute with their old skills."
+   ]
+  ],
+  "evolves": "At level 21, the machine can hold a spirit long enough to be revived.",
+  "cost": "Spirits come to you uninvited, asking for help."
+ },
+ {
+  "n": "Red-Tide Colossus",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Blood Titan",
+  "tower": "Human",
+  "requires": "Barbarian level 5, Blood Titan subclass",
+  "unlock": "On floor 10 of the Milestone Spire, fight the floor guardian while spending at least half your hit points on growth and still win.",
+  "secret": "You must have dropped below 10 hit points in 30 separate fights and never been knocked out.",
+  "notice": "[Hidden job change. Blood spent: enough. Size limit: removed.]",
+  "blurb": "A Blood Titan who keeps pouring blood into size until they tower over the field.",
+  "features": [
+   [
+    5,
+    "Skill: Tidal Growth",
+    "Each 10 hit points spent increases your size by one step, up to Huge."
+   ],
+   [
+    9,
+    "Skill: Heavy Footfall",
+    "While Large or bigger, your moves knock adjacent foes prone (Str save)."
+   ],
+   [
+    13,
+    "Ultimate: Colossus Unbound",
+    "Once per long rest, become Gargantuan for 1 minute; your attacks deal an extra 3d10 damage."
+   ]
+  ],
+  "evolves": "At level 15, you can stay Large indefinitely after spending blood.",
+  "cost": "Shrinking back leaves you with one level of exhaustion."
+ },
+ {
+  "n": "Heartblood Pactbearer",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Blood Titan",
+  "tower": "Hell",
+  "requires": "Barbarian level 21, Blood Titan subclass, a Minor contract with a war god",
+  "unlock": "Pay the Ledger Spire's 21st floor toll in your own blood, filling a bronze cup to the brim three times.",
+  "secret": "You must have spent more than 5,000 total hit points on Blood Titan features.",
+  "notice": "[Hidden job change. The ledger has credited your blood.]",
+  "blurb": "This Blood Titan's spent blood is banked in Hell and repaid as raw power.",
+  "features": [
+   [
+    21,
+    "Skill: Blood Bank",
+    "Blood spent on growth is stored; you can spend it later for 1d6 extra damage per 5 stored."
+   ],
+   [
+    25,
+    "Skill: Debt Armor",
+    "While you have stored blood, you have resistance to all damage."
+   ],
+   [
+    29,
+    "Ultimate: Withdraw All",
+    "Once per long rest, spend all stored blood to deal 1d10 damage per 5 stored to one target."
+   ]
+  ],
+  "evolves": "Raising the contract lets you bank allies' blood as well.",
+  "cost": "Stored blood can be stolen by devils if you are knocked out."
+ },
+ {
+  "n": "Hollowbone Bulwark",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Blood Titan",
+  "tower": "Mysterious",
+  "requires": "Barbarian level 11, Blood Titan subclass, holds the Bones or Iron Rune",
+  "unlock": "Let the Fogglass Spire's floor 11 mirror crack your bones, then reset each one yourself.",
+  "secret": "You must have had every major bone broken at least once.",
+  "notice": "[Hidden job change. Bones hardened. Blood optional.]",
+  "blurb": "A Blood Titan who hardens bones instead of growing, becoming a living wall.",
+  "features": [
+   [
+    11,
+    "Skill: Bone Plating",
+    "Spending blood grants +1 AC instead of size for 1 minute."
+   ],
+   [
+    15,
+    "Skill: Marrow Wall",
+    "As a reaction, take an ally's hit damage instead of them."
+   ],
+   [
+    19,
+    "Ultimate: Unbreakable Frame",
+    "Once per long rest, become immune to all non-magical damage for 1 minute."
+   ]
+  ],
+  "evolves": "At level 21, your bones can be shed as weapons.",
+  "cost": "You sink in water and cannot swim."
+ },
+ {
+  "n": "Rubble King",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of Ruin",
+  "tower": "Human",
+  "requires": "Barbarian level 5, Path of Ruin subclass",
+  "unlock": "Collapse the Milestone Spire's floor 8 walls with your bare hands in under 10 minutes.",
+  "secret": "You must have destroyed 100 structures over your life.",
+  "notice": "[Hidden job change. The rubble crowns you.]",
+  "blurb": "This Barbarian rules the wreckage, turning broken terrain into weapons and thrones.",
+  "features": [
+   [
+    5,
+    "Skill: Wreckage Throw",
+    "Throw rubble for 2d10 bludgeoning at a target within 60 feet."
+   ],
+   [
+    9,
+    "Skill: Throne of Stones",
+    "Standing on difficult terrain grants you +1 AC."
+   ],
+   [
+    13,
+    "Ultimate: Collapse",
+    "Once per long rest, bring down a 30-foot cube of stone on enemies for 10d10 bludgeoning (Dex half)."
+   ]
+  ],
+  "evolves": "At level 15, rubble you create can rebuild into walls on command.",
+  "cost": "You cannot sleep in an intact building."
+ },
+ {
+  "n": "Quake-Herald of Shattered Land",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of Ruin",
+  "tower": "Chaos",
+  "requires": "Barbarian level 21, Path of Ruin subclass, holds the Earth or Destruction Rune",
+  "unlock": "Shatter three floors of the Shuffled Spire before they shuffle, landing on the lowest.",
+  "secret": "You must have ended a battle by breaking the ground under everyone.",
+  "notice": "[Hidden job change. The land shakes to announce you.]",
+  "blurb": "A Path of Ruin barbarian whose every stomp is an earthquake.",
+  "features": [
+   [
+    21,
+    "Skill: Fault Line",
+    "Your melee hits create a 30-foot crack; creatures on it fall prone."
+   ],
+   [
+    25,
+    "Skill: Aftershock",
+    "Enemies knocked prone by you take 3d8 bludgeoning each time they stand."
+   ],
+   [
+    29,
+    "Ultimate: Land Split",
+    "Once per long rest, split the ground in a 120-foot line; creatures fall 60 feet into it."
+   ]
+  ],
+  "evolves": "Holding a second Rune lets the cracks spit lava.",
+  "cost": "Buildings near you crack over time; no innkeeper will host you twice."
+ },
+ {
+  "n": "Wrecker of the Guild Pact",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of Ruin",
+  "tower": "Mysterious",
+  "requires": "Barbarian level 11, Path of Ruin subclass, Scavenging profession level 4",
+  "unlock": "Demolish a fog-built town on floor 12 and salvage at least 100 usable parts.",
+  "secret": "You must have sold more salvage than any other material.",
+  "notice": "[Hidden job change. Demolition licensed.]",
+  "blurb": "Ruin as a trade, this barbarian smashes for salvage and knows where every wall is weakest.",
+  "features": [
+   [
+    11,
+    "Skill: Weak Point",
+    "Your attacks deal double damage to objects and constructs."
+   ],
+   [
+    15,
+    "Skill: Salvage Rage",
+    "When you destroy an object, gain temporary hit points equal to your Barbarian level."
+   ],
+   [
+    19,
+    "Ultimate: Controlled Demolition",
+    "Once per long rest, destroy a structure up to 100 feet without harming creatures you choose."
+   ]
+  ],
+  "evolves": "At level 21, you can find hidden rooms by smashing walls.",
+  "cost": "You are always followed by a guild debt for collateral damage."
+ },
+ {
+  "n": "Rage-Dice Gambler",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of Wild Magic",
+  "tower": "Chaos",
+  "requires": "Barbarian level 21, Path of Wild Magic subclass, holds the Gamble or Probability Rune",
+  "unlock": "Roll every die in the Shuffled Spire's dice-hall on floor 31 and rage through what each one summons.",
+  "secret": "You must have rolled a natural 1 on a wild surge 20 times without dying.",
+  "notice": "[Hidden job change. The dice are on your side, mostly.]",
+  "blurb": "This Barbarian learns to pick the wild surge, bending luck itself.",
+  "features": [
+   [
+    21,
+    "Skill: Loaded Surge",
+    "Roll twice on the wild surge table and choose."
+   ],
+   [
+    25,
+    "Skill: Doubled Luck",
+    "Once per turn, reroll any damage die."
+   ],
+   [
+    29,
+    "Ultimate: Jackpot",
+    "Once per long rest, choose any surge result and apply it at double strength."
+   ]
+  ],
+  "evolves": "Holding a second luck Rune lets allies use your rerolls.",
+  "cost": "Bad luck finds you outside combat; you roll with disadvantage when gambling."
+ },
+ {
+  "n": "Mana-Bleeding Berserk",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of Wild Magic",
+  "tower": "Human",
+  "requires": "Barbarian level 5, Path of Wild Magic subclass",
+  "unlock": "Rage for one full hour on the Milestone Spire's floor 7 without a single surge harming an ally.",
+  "secret": "You must have triggered a wild surge 100 times.",
+  "notice": "[Hidden job change. The leak is steady now. Use it.]",
+  "blurb": "Leaking magic becomes fuel; this barbarian rages harder the more mana spills.",
+  "features": [
+   [
+    5,
+    "Skill: Spill and Swing",
+    "Each wild surge adds 1d6 force damage to your attacks for 1 minute."
+   ],
+   [
+    9,
+    "Skill: Mana Fog",
+    "When you rage, spellcasters within 15 feet have disadvantage on concentration."
+   ],
+   [
+    13,
+    "Ultimate: Burst Dam",
+    "Once per long rest, release all stored mana: 8d8 force in a 30-foot radius."
+   ]
+  ],
+  "evolves": "At level 15, you can trade surges for spell slots.",
+  "cost": "Magical items you touch while raging lose a charge."
+ },
+ {
+  "n": "Witch-Hearth Rager",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of Wild Magic",
+  "tower": "Mysterious",
+  "requires": "Barbarian level 11, Path of Wild Magic subclass, a Minor contract with a magic god",
+  "unlock": "Let a hedge-witch spirit on the Fogglass Spire's floor 11 sew a charm into your skin while you rage.",
+  "secret": "You must have spent at least a season living with a hedge-witch.",
+  "notice": "[Hidden job change. The witch's charm hums in your veins.]",
+  "blurb": "A wild rager guided by a folk witch's charm, turning chaos into small useful spells.",
+  "features": [
+   [
+    11,
+    "Skill: Charm Surge",
+    "When you surge, also cast a 1st level spell of your choice for free."
+   ],
+   [
+    15,
+    "Skill: Kettle Calm",
+    "As a bonus action, end your rage early to heal 3d8."
+   ],
+   [
+    19,
+    "Ultimate: Hearthstorm",
+    "Once per long rest, every ally within 30 feet gains a beneficial surge result."
+   ]
+  ],
+  "evolves": "At level 21, the charm can be sewn into allies.",
+  "cost": "The witch can ask a favour once a season."
+ },
+ {
+  "n": "Ancestor-Called Shieldfather",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the Ancestral Guardian",
+  "tower": "Human",
+  "requires": "Barbarian level 5, Path of the Ancestral Guardian subclass",
+  "unlock": "Carry your clan's oldest relic up 10 floors of the Milestone Spire without letting it be touched.",
+  "secret": "You must know the names of seven generations of your ancestors.",
+  "notice": "[Hidden job change. The old ones step closer.]",
+  "blurb": "Ancestral spirits gather thicker around this barbarian, shielding the whole party.",
+  "features": [
+   [
+    5,
+    "Skill: Line of Shields",
+    "Allies within 10 feet gain resistance to the first hit each turn."
+   ],
+   [
+    9,
+    "Skill: Elder's Rebuke",
+    "Spirits deal 2d8 force to enemies who attack an ally."
+   ],
+   [
+    13,
+    "Ultimate: Gathering of Clans",
+    "Once per long rest, every ancestor manifests; allies are immune to damage for 1 round."
+   ]
+  ],
+  "evolves": "At level 15, you can bind a fallen ally's spirit as an ancestor.",
+  "cost": "Ancestors judge your conduct; dishonourable acts silence them for a week."
+ },
+ {
+  "n": "Grave-Feast Keeper",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the Ancestral Guardian",
+  "tower": "Mysterious",
+  "requires": "Barbarian level 11, Path of the Ancestral Guardian subclass, Cooking profession level 3",
+  "unlock": "Hold a feast for the dead on floor 12 of the Fogglass Spire, setting a place for every ancestor that arrives.",
+  "secret": "You must have fed a stranger's ghost before.",
+  "notice": "[Hidden job change. The ancestors have eaten. They stay.]",
+  "blurb": "An ancestral guardian who feeds the dead and is fed strength in return.",
+  "features": [
+   [
+    11,
+    "Skill: Offering Plate",
+    "On a short rest, an offering grants you 1 ancestral boon for the next fight."
+   ],
+   [
+    15,
+    "Skill: Spirit Guests",
+    "Spirits can scout within 1 mile for 10 minutes."
+   ],
+   [
+    19,
+    "Ultimate: The Long Supper",
+    "Once per long rest, ancestors heal all allies within 60 feet to full."
+   ]
+  ],
+  "evolves": "At level 21, ancestors can answer questions about the past.",
+  "cost": "You must set an extra place at every meal."
+ },
+ {
+  "n": "Spirit-Lord of the Barrow Gate",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the Ancestral Guardian",
+  "tower": "Heaven",
+  "requires": "Barbarian level 21, Path of the Ancestral Guardian subclass, holds the Spirit or Legacy Rune",
+  "unlock": "Open a barrow gate on the Choir Spire's floor 22 and lead lost souls back to rest.",
+  "secret": "You must have defended an ally's grave from desecration.",
+  "notice": "[Hidden job change. The barrow opens. The ancestors kneel.]",
+  "blurb": "Guardian of the gate between living and ancestor, this barbarian commands spirits in battle.",
+  "features": [
+   [
+    21,
+    "Skill: Barrow March",
+    "Summon 4 ancestral warriors for 1 minute with your AC and a quarter of your hit points."
+   ],
+   [
+    25,
+    "Skill: Gatekeeper",
+    "Undead within 30 feet cannot regain hit points."
+   ],
+   [
+    29,
+    "Ultimate: Open the Barrow",
+    "Once per long rest, 20 spirits fight beside you for 1 minute."
+   ]
+  ],
+  "evolves": "A contract with a death god lets ancestors carry your allies back from death.",
+  "cost": "You must spend one night a month guarding a grave."
+ },
+ {
+  "n": "Spike-Hide Brawler",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the Battlerager",
+  "tower": "Human",
+  "requires": "Barbarian level 5, Path of the Battlerager subclass, Blacksmithing profession level 2",
+  "unlock": "Hammer a spike into your armor for every enemy on floor 9 of the Milestone Spire, then crush them all at once.",
+  "secret": "You must have won 50 grapples in spiked armor.",
+  "notice": "[Hidden job change. More spikes. More problems. For them.]",
+  "blurb": "Armor bristling with spikes, this battlerager turns every hug into a slaughter.",
+  "features": [
+   [
+    5,
+    "Skill: Iron Embrace",
+    "Grappled creatures take 2d6 piercing at the start of each turn."
+   ],
+   [
+    9,
+    "Skill: Bristle",
+    "Creatures that grapple or touch you take piercing equal to your Strength."
+   ],
+   [
+    13,
+    "Ultimate: Pincushion Crush",
+    "Once per long rest, deal 10d10 piercing to a grappled creature."
+   ]
+  ],
+  "evolves": "At level 15, spikes can be launched as projectiles.",
+  "cost": "Sleeping in your armor is impossible, and so is hugging friends."
+ },
+ {
+  "n": "Tavern-Hall Champion",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the Battlerager",
+  "tower": "Mysterious",
+  "requires": "Barbarian level 11, Path of the Battlerager subclass",
+  "unlock": "Win the endless tavern brawl on the Fogglass Spire's floor 11 while drunk.",
+  "secret": "You must have started and won 30 tavern fights without killing anyone.",
+  "notice": "[Hidden job change. Bar tab paid. Barstool now a weapon.]",
+  "blurb": "A battlerager made for chaos in close quarters; furniture and fists are weapons.",
+  "features": [
+   [
+    11,
+    "Skill: Improvised Mastery",
+    "Improvised weapons deal 2d6 and count as magic."
+   ],
+   [
+    15,
+    "Skill: Drunken Footing",
+    "Drinking a potion or ale grants resistance to bludgeoning for 1 minute."
+   ],
+   [
+    19,
+    "Ultimate: Brawl Royale",
+    "Once per long rest, attack every creature within 10 feet three times."
+   ]
+  ],
+  "evolves": "At level 21, you can turn any room into a battleground with hazards.",
+  "cost": "Tavern owners recognise you and refuse service."
+ },
+ {
+  "n": "Iron-Oath Hammerer",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the Battlerager",
+  "tower": "Heaven",
+  "requires": "Barbarian level 21, Path of the Battlerager subclass, a contract with a forge or thunder god",
+  "unlock": "Ring a holy bell on Choir Spire's floor 23 by charging into it in spiked armor.",
+  "secret": "You must have shielded a temple with your body.",
+  "notice": "[Hidden job change. The god's hammer recognises your spikes.]",
+  "blurb": "Spiked armor blessed by a god of thunder; each charge rings with holy noise.",
+  "features": [
+   [
+    21,
+    "Skill: Bell Charge",
+    "Charging 20 feet adds 3d8 thunder damage and pushes the target 15 feet."
+   ],
+   [
+    25,
+    "Skill: Holy Rivets",
+    "Your spiked armor gives +1 AC and resistance to thunder."
+   ],
+   [
+    29,
+    "Ultimate: Peal of Judgement",
+    "Once per long rest, a 60-foot radius of thunder deals 10d8 and stuns (Con save)."
+   ]
+  ],
+  "evolves": "A Finger contract lets your bell charge bring down fortresses.",
+  "cost": "You are deafened for 1 hour after each Ultimate."
+ },
+ {
+  "n": "Fang of the Moonless Night",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the Beast",
+  "tower": "Human",
+  "requires": "Barbarian level 5, Path of the Beast subclass",
+  "unlock": "Hunt on floor 8 of the Milestone Spire for a full night with no light and no weapons.",
+  "secret": "You must have spent a month living in the wild.",
+  "notice": "[Hidden job change. The beast howls. The night replies.]",
+  "blurb": "A beast-rager whose form sharpens in darkness, becoming a night predator.",
+  "features": [
+   [
+    5,
+    "Skill: Night Eyes",
+    "Gain darkvision 120 feet and advantage on attacks in darkness."
+   ],
+   [
+    9,
+    "Skill: Pounce",
+    "Moving 20 feet before an attack knocks the target prone (Str save)."
+   ],
+   [
+    13,
+    "Ultimate: Moon Hunt",
+    "Once per long rest, become invisible in darkness for 1 minute while raging."
+   ]
+  ],
+  "evolves": "At level 15, you can call wolves or night beasts to fight beside you.",
+  "cost": "In daylight, you have disadvantage on Perception."
+ },
+ {
+  "n": "Chimera-Hearted",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the Beast",
+  "tower": "Chaos",
+  "requires": "Barbarian level 21, Path of the Beast subclass, holds the Animal or Shape-shifter Rune",
+  "unlock": "On floor 32 of the Shuffled Spire, take three beast forms from the shuffling floors at once.",
+  "secret": "You must have taken the form of 20 different beasts.",
+  "notice": "[Hidden job change. Your beast forms merge.]",
+  "blurb": "Beast forms layer together into a monstrous blend of head, claw and tail.",
+  "features": [
+   [
+    21,
+    "Skill: Triple Form",
+    "Use all three beast attacks in one rage instead of choosing one."
+   ],
+   [
+    25,
+    "Skill: Mixed Hide",
+    "Choose one damage type; gain resistance to it while raging."
+   ],
+   [
+    29,
+    "Ultimate: True Chimera",
+    "Once per long rest, become Huge and attack five times per turn for 1 minute."
+   ]
+  ],
+  "evolves": "Holding a second Rune lets you merge with a companion beast.",
+  "cost": "Your human face slowly takes on animal features."
+ },
+ {
+  "n": "Hunter's Contract Beast",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the Beast",
+  "tower": "Mysterious",
+  "requires": "Barbarian level 11, Path of the Beast subclass, a Minor contract with a hunt god",
+  "unlock": "Hunt and kill the stag that walks the Fogglass Spire's floor 12, offering its heart to the hunt god.",
+  "secret": "You must have hunted only what you ate for a year.",
+  "notice": "[Hidden job change. The hunt god marks your prey.]",
+  "blurb": "A beast-rager chosen as a hunting hound of a god, tracking any prey.",
+  "features": [
+   [
+    11,
+    "Skill: Hunt Mark",
+    "Mark a creature; you always know its direction within 10 miles."
+   ],
+   [
+    15,
+    "Skill: Tracker's Fury",
+    "Your attacks against marked prey deal an extra 2d10."
+   ],
+   [
+    19,
+    "Ultimate: Divine Chase",
+    "Once per long rest, teleport next to your marked prey."
+   ]
+  ],
+  "evolves": "At level 21, the hunt god gifts you a beast companion.",
+  "cost": "You must offer a heart to the god each month."
+ },
+ {
+  "n": "Ironjaw Reaver",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the Berserker",
+  "tower": "Human",
+  "requires": "Barbarian level 5, Path of the Berserker subclass",
+  "unlock": "Fight on floor 10 of the Milestone Spire for 10 rounds without blocking or dodging.",
+  "secret": "You must have killed 100 enemies during a frenzy.",
+  "notice": "[Hidden job change. Your frenzy remembers the fight.]",
+  "blurb": "A berserker who refuses all defence, every round in frenzy adding speed and power.",
+  "features": [
+   [
+    5,
+    "Skill: Rising Frenzy",
+    "Each round you hit, gain +1 damage, up to +10."
+   ],
+   [
+    9,
+    "Skill: Teeth Bared",
+    "Bite as a bonus action for 1d8 piercing."
+   ],
+   [
+    13,
+    "Ultimate: Bloodless Rage",
+    "Once per long rest, ignore all damage for 1 round."
+   ]
+  ],
+  "evolves": "At level 15, frenzy ends with a free attack on each nearby foe.",
+  "cost": "Your vulnerability after the rage lasts twice as long."
+ },
+ {
+  "n": "Rampage Without End",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the Berserker",
+  "tower": "Abyss",
+  "requires": "Barbarian level 21, Path of the Berserker subclass",
+  "unlock": "Descend the Sunken Spire from floor 41 to 45 in a single rage.",
+  "secret": "You must have raged for a full hour at least once.",
+  "notice": "[Hidden job change. The rage no longer ends.]",
+  "blurb": "A berserker whose rage is endless, pulling ever deeper into violence.",
+  "features": [
+   [
+    21,
+    "Skill: Endless Rage",
+    "Your rage does not end unless you choose."
+   ],
+   [
+    25,
+    "Skill: Abyss Frenzy",
+    "Extra frenzy attacks gain 2d6 necrotic damage."
+   ],
+   [
+    29,
+    "Ultimate: Last Rampage",
+    "Once per long rest, gain three extra attacks every turn for 1 minute."
+   ]
+  ],
+  "evolves": "Breaking the rage willingly at the right time lets you become calm.",
+  "cost": "You must make a Wisdom save to stop raging; on failure, you attack the nearest creature."
+ },
+ {
+  "n": "War-Drummer's Fury",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the Berserker",
+  "tower": "Mysterious",
+  "requires": "Barbarian level 11, Path of the Berserker subclass, proficiency with drums",
+  "unlock": "Beat a war drum through the night on floor 11 of the Fogglass Spire to keep the fog from closing in.",
+  "secret": "You must have fought in a war at least once.",
+  "notice": "[Hidden job change. Your heartbeat is a drum.]",
+  "blurb": "Berserker rage set to a drumbeat, carrying allies into frenzy alongside them.",
+  "features": [
+   [
+    11,
+    "Skill: Battle Beat",
+    "Allies within 30 feet gain +2 damage while you rage."
+   ],
+   [
+    15,
+    "Skill: Pounding Heart",
+    "Each rage round, gain temporary hit points equal to your Constitution modifier."
+   ],
+   [
+    19,
+    "Ultimate: Drums of War",
+    "Once per long rest, all allies gain an extra attack for 1 minute."
+   ]
+  ],
+  "evolves": "At level 21, your drums can call an army.",
+  "cost": "Your drumming wakes everything within 1 mile."
+ },
+ {
+  "n": "Hill-Shouldered Heir",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the Giant",
+  "tower": "Human",
+  "requires": "Barbarian level 5, Path of the Giant subclass",
+  "unlock": "Carry a boulder up all 10 floors of the Milestone Spire and set it as the capstone.",
+  "secret": "You must have lifted something heavier than a cart without help.",
+  "notice": "[Hidden job change. The hill accepts your shoulders.]",
+  "blurb": "Giant strength settles into this barbarian's back, carrying stone like a hill giant's heir.",
+  "features": [
+   [
+    5,
+    "Skill: Boulder Toss",
+    "Throw a boulder 60 feet for 2d10 bludgeoning plus Strength."
+   ],
+   [
+    9,
+    "Skill: Stone Back",
+    "While raging, you have resistance to falling and crushing damage."
+   ],
+   [
+    13,
+    "Ultimate: Hill Collapse",
+    "Once per long rest, throw a boulder that explodes for 8d10 in a 20-foot radius."
+   ]
+  ],
+  "evolves": "At level 15, you can grow to Huge while raging.",
+  "cost": "You eat three times as much food."
+ },
+ {
+  "n": "Frost-Jarl's Inheritor",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the Giant",
+  "tower": "Mysterious",
+  "requires": "Barbarian level 11, Path of the Giant subclass, holds the Frost or Ice Rune",
+  "unlock": "On the Fogglass Spire's floor 12, defeat a frost jarl's ghost in single combat in snow up to your waist.",
+  "secret": "You must have survived a blizzard without shelter.",
+  "notice": "[Hidden job change. The ice remembers giant lords.]",
+  "blurb": "A giant-path barbarian who inherits a frost lord's chill and armor of ice.",
+  "features": [
+   [
+    11,
+    "Skill: Rime Skin",
+    "While raging, gain +1 AC and resistance to cold."
+   ],
+   [
+    15,
+    "Skill: Glacier Step",
+    "Your steps freeze ground into difficult terrain for enemies."
+   ],
+   [
+    19,
+    "Ultimate: Winter Throne",
+    "Once per long rest, freeze a 60-foot area; enemies are restrained (Str save)."
+   ]
+  ],
+  "evolves": "At level 21, you can summon an ice giant ally once a day.",
+  "cost": "Fire damage against you is doubled."
+ },
+ {
+  "n": "Titan-Bond Herald",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the Giant",
+  "tower": "Heaven",
+  "requires": "Barbarian level 21, Path of the Giant subclass, a Minor contract with a titan or sky god",
+  "unlock": "On the Choir Spire's floor 21, hold up a fallen pillar for one hour so a temple can be repaired.",
+  "secret": "You must have defended a giant's home.",
+  "notice": "[Hidden job change. The titans bless your back.]",
+  "blurb": "A giant-path barbarian blessed by a titan god, holding up heaven itself.",
+  "features": [
+   [
+    21,
+    "Skill: Pillar Stance",
+    "Allies behind you gain three-quarters cover."
+   ],
+   [
+    25,
+    "Skill: Sky Weight",
+    "Your attacks deal an extra 3d10 force damage."
+   ],
+   [
+    29,
+    "Ultimate: Bear the Sky",
+    "Once per long rest, become Gargantuan for 1 minute."
+   ]
+  ],
+  "evolves": "A Finger contract lets you walk between realms like a titan.",
+  "cost": "You cannot fit through normal doors when raging."
+ },
+ {
+  "n": "Saltwind Rager",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the Storm Herald",
+  "tower": "Human",
+  "requires": "Barbarian level 5, Path of the Storm Herald subclass",
+  "unlock": "Swim against the stormwater current on floor 9 of the Milestone Spire to the top.",
+  "secret": "You must have survived a shipwreck.",
+  "notice": "[Hidden job change. The sea rages with you.]",
+  "blurb": "A sea-herald whose aura becomes salt spray and crashing waves.",
+  "features": [
+   [
+    5,
+    "Skill: Breakwater",
+    "Your aura pushes enemies 10 feet when they enter it."
+   ],
+   [
+    9,
+    "Skill: Salt Sting",
+    "Aura deals 1d10 cold and blinds briefly (Con save)."
+   ],
+   [
+    13,
+    "Ultimate: Tsunami Rage",
+    "Once per long rest, a wave hits a 60-foot line for 8d10 bludgeoning."
+   ]
+  ],
+  "evolves": "At level 15, you can breathe underwater while raging.",
+  "cost": "Fresh water tastes foul; you must drink sea water."
+ },
+ {
+  "n": "Tempest-Navigator Berserk",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the Storm Herald",
+  "tower": "Mysterious",
+  "requires": "Barbarian level 11, Path of the Storm Herald subclass, Navigation profession level 3",
+  "unlock": "Steer a ship through the fog storm on floor 11 of the Fogglass Spire while raging.",
+  "secret": "You must have crossed an ocean.",
+  "notice": "[Hidden job change. You are the storm and the captain.]",
+  "blurb": "Storm Herald turned ship's captain, raging storms that steer ships and wreck foes.",
+  "features": [
+   [
+    11,
+    "Skill: Gale Sails",
+    "Your aura grants allies +10 feet speed."
+   ],
+   [
+    15,
+    "Skill: Lightning Rod",
+    "Ranged attacks against allies in your aura have disadvantage."
+   ],
+   [
+    19,
+    "Ultimate: Captain's Squall",
+    "Once per long rest, summon a storm over 1 mile for 1 hour."
+   ]
+  ],
+  "evolves": "At level 21, the storm can carry a ship through the air.",
+  "cost": "Storms follow you everywhere."
+ },
+ {
+  "n": "Leviathan-Pact Raider",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the Storm Herald",
+  "tower": "Abyss",
+  "requires": "Barbarian level 21, Path of the Storm Herald subclass, a contract with a sea god",
+  "unlock": "Descend into the flooded floor 44 of the Sunken Spire and wake the sleeping sea beast there.",
+  "secret": "You must have killed a sea monster.",
+  "notice": "[Hidden job change. The sea beast swims at your side.]",
+  "blurb": "A storm herald bound to a sea god and a monster of the deep.",
+  "features": [
+   [
+    21,
+    "Skill: Deep Call",
+    "Summon a sea beast for 1 minute that attacks for 4d10."
+   ],
+   [
+    25,
+    "Skill: Pressure Rage",
+    "Aura imposes 2 points of Realm Pressure on enemies."
+   ],
+   [
+    29,
+    "Ultimate: Maelstrom",
+    "Once per long rest, create a whirlpool that pulls in and drowns foes for 10d10."
+   ]
+  ],
+  "evolves": "A Finger contract lets you ride the beast.",
+  "cost": "You must return to the sea once a month."
+ },
+ {
+  "n": "Bear-Mother's Champion",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the Totem Warrior",
+  "tower": "Human",
+  "requires": "Barbarian level 5, Path of the Totem Warrior subclass",
+  "unlock": "On floor 10 of the Milestone Spire, protect a bear cub from hunters for a full day.",
+  "secret": "You must have taken the bear totem at least once.",
+  "notice": "[Hidden job change. The bear mother names you champion.]",
+  "blurb": "A totem warrior who carries a mother bear's fierce protectiveness.",
+  "features": [
+   [
+    5,
+    "Skill: Mother's Guard",
+    "Allies within 10 feet gain resistance while you rage."
+   ],
+   [
+    9,
+    "Skill: Maul",
+    "Bear claws deal 2d8 slashing as a bonus action."
+   ],
+   [
+    13,
+    "Ultimate: Den Defence",
+    "Once per long rest, allies within 30 feet heal 4d10 and are protected for 1 minute."
+   ]
+  ],
+  "evolves": "At level 15, a spirit bear fights at your side.",
+  "cost": "You must defend any child you see."
+ },
+ {
+  "n": "Thousand-Totem Shaman",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the Totem Warrior",
+  "tower": "Chaos",
+  "requires": "Barbarian level 21, Path of the Totem Warrior subclass, holds the Animal or Shaman Rune",
+  "unlock": "Carve totems of every beast on Shuffled Spire's floor 34 before the floor rearranges.",
+  "secret": "You must have taken every totem option at least once.",
+  "notice": "[Hidden job change. All totems answer.]",
+  "blurb": "This totem warrior shifts totems freely, calling any spirit beast at will.",
+  "features": [
+   [
+    21,
+    "Skill: Totem Shift",
+    "Change your totem at the start of each rage."
+   ],
+   [
+    25,
+    "Skill: Two Spirits",
+    "Benefit from two totems at once."
+   ],
+   [
+    29,
+    "Ultimate: Beast Council",
+    "Once per long rest, gain all totems' benefits for 1 minute."
+   ]
+  ],
+  "evolves": "A second Rune lets you share totems with allies.",
+  "cost": "Totems demand offerings; ignore them and lose one."
+ },
+ {
+  "n": "Raven-Messenger Warrior",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the Totem Warrior",
+  "tower": "Mysterious",
+  "requires": "Barbarian level 11, Path of the Totem Warrior subclass, a Minor contract with a war or wisdom god",
+  "unlock": "Carry a god's message through the Fogglass Spire's floor 12 in raven form.",
+  "secret": "You must have tamed a raven.",
+  "notice": "[Hidden job change. The raven speaks for the god.]",
+  "blurb": "A totem warrior serving as a god's raven messenger.",
+  "features": [
+   [
+    11,
+    "Skill: Raven Eye",
+    "See through a raven's eyes within 1 mile."
+   ],
+   [
+    15,
+    "Skill: Feathered Rage",
+    "Gain a fly speed equal to your walking speed while raging."
+   ],
+   [
+    19,
+    "Ultimate: Murder of Crows",
+    "Once per long rest, summon ravens that blind and deal 6d6 in a 30-foot area."
+   ]
+  ],
+  "evolves": "At level 21, the god speaks through you.",
+  "cost": "Ravens follow you, cawing loudly."
+ },
+ {
+  "n": "Root-and-Branch Sentinel",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the World Tree",
+  "tower": "Human",
+  "requires": "Barbarian level 5, Path of the World Tree subclass",
+  "unlock": "Plant a sapling on the Milestone Spire's floor 6 and defend it through three waves of attackers.",
+  "secret": "You must have planted 100 trees.",
+  "notice": "[Hidden job change. The roots wrap your feet.]",
+  "blurb": "A World Tree barbarian who grows roots and branches to bind enemies.",
+  "features": [
+   [
+    5,
+    "Skill: Root Grip",
+    "Your hits root enemies; they cannot move (Str save)."
+   ],
+   [
+    9,
+    "Skill: Branch Reach",
+    "Your reach increases by 10 feet while raging."
+   ],
+   [
+    13,
+    "Ultimate: Grove Shield",
+    "Once per long rest, grow a 30-foot grove giving allies three-quarters cover."
+   ]
+  ],
+  "evolves": "At level 15, you can grow a tree as a fortress.",
+  "cost": "You must drink extra water and seek sunlight."
+ },
+ {
+  "n": "Realm-Bough Wayfarer",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the World Tree",
+  "tower": "Mysterious",
+  "requires": "Barbarian level 11, Path of the World Tree subclass, attuned to Realm Pressure 3",
+  "unlock": "Climb a tree that grows through floors 11 and 12 of the Fogglass Spire and ride it to the next realm.",
+  "secret": "You must have visited two realms.",
+  "notice": "[Hidden job change. The tree's branches reach other realms.]",
+  "blurb": "This barbarian walks the branches of the cosmic tree between realms.",
+  "features": [
+   [
+    11,
+    "Skill: Branch Step",
+    "Teleport 60 feet through a tree as a bonus action."
+   ],
+   [
+    15,
+    "Skill: Realm Bark",
+    "Ignore 2 points of Realm Pressure."
+   ],
+   [
+    19,
+    "Ultimate: Bridge of Boughs",
+    "Once per long rest, grow a branch to another realm for 1 hour."
+   ]
+  ],
+  "evolves": "At level 21, your allies can travel the branches too.",
+  "cost": "Leaves sprout from your hair in spring."
+ },
+ {
+  "n": "Yggdrasil-Sworn Guardian",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the World Tree",
+  "tower": "Heaven",
+  "requires": "Barbarian level 21, Path of the World Tree subclass, a contract with a Norse god",
+  "unlock": "Guard the world-tree sapling on Choir Spire's floor 23 against the serpent that gnaws it.",
+  "secret": "You must have killed a dragon or serpent.",
+  "notice": "[Hidden job change. The tree's guardian awakens.]",
+  "blurb": "A guardian of the cosmic tree, sworn to protect it from serpent and rot.",
+  "features": [
+   [
+    21,
+    "Skill: Serpent Bane",
+    "Attacks against dragons and serpents deal double damage."
+   ],
+   [
+    25,
+    "Skill: Bark Shield",
+    "Allies within 30 feet gain +1 AC."
+   ],
+   [
+    29,
+    "Ultimate: Tree's Wrath",
+    "Once per long rest, roots erupt dealing 10d10 in a 60-foot area."
+   ]
+  ],
+  "evolves": "A Finger contract lets you guard the tree in any realm.",
+  "cost": "You must return to the tree yearly."
+ },
+ {
+  "n": "Martyr of the Burning Psalm",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the Zealot",
+  "tower": "Heaven",
+  "requires": "Barbarian level 21, Path of the Zealot subclass, a contract with a war god",
+  "unlock": "Die on the Choir Spire's floor 22 and be resurrected by your god.",
+  "secret": "You must have died and been raised at least once.",
+  "notice": "[Hidden job change. Death is a door, not a wall.]",
+  "blurb": "A zealot who seeks martyrdom and returns burning with holy fire.",
+  "features": [
+   [
+    21,
+    "Skill: Martyr's Fire",
+    "When you drop to 0, deal 6d10 radiant in 20 feet."
+   ],
+   [
+    25,
+    "Skill: Holy Wrath",
+    "Attacks deal 2d8 extra radiant."
+   ],
+   [
+    29,
+    "Ultimate: Rise in Flame",
+    "Once per long rest, revive with full hit points after dying."
+   ]
+  ],
+  "evolves": "A Finger contract lets you revive allies too.",
+  "cost": "Each revival costs a memory of your choice."
+ },
+ {
+  "n": "Crusader of the Iron Hymn",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the Zealot",
+  "tower": "Human",
+  "requires": "Barbarian level 5, Path of the Zealot subclass",
+  "unlock": "Lead a pilgrimage up the Milestone Spire, keeping all pilgrims alive.",
+  "secret": "You must have converted someone to your faith.",
+  "notice": "[Hidden job change. The hymn rings in iron.]",
+  "blurb": "A zealot crusader who sings hymns while charging into battle.",
+  "features": [
+   [
+    5,
+    "Skill: Battle Hymn",
+    "Allies within 30 feet gain +1 to hit while you rage."
+   ],
+   [
+    9,
+    "Skill: Divine Shield",
+    "Radiant damage you deal heals an ally for half."
+   ],
+   [
+    13,
+    "Ultimate: Crusade",
+    "Once per long rest, allies gain an extra attack for 1 minute."
+   ]
+  ],
+  "evolves": "At level 15, your hymn can be heard by your god.",
+  "cost": "You must pray daily."
+ },
+ {
+  "n": "Fanatic of the Sealed Oath",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Path of the Zealot",
+  "tower": "Hell",
+  "requires": "Barbarian level 21, Path of the Zealot subclass, a Minor contract with any god",
+  "unlock": "Swear an oath on the Ledger Spire's floor 21 and seal it in your blood.",
+  "secret": "You must never have broken an oath.",
+  "notice": "[Hidden job change. The oath is sealed.]",
+  "blurb": "A zealot whose fervor binds to an oath, empowering them as long as it holds.",
+  "features": [
+   [
+    21,
+    "Skill: Oath Fury",
+    "Gain +2 damage while your oath holds."
+   ],
+   [
+    25,
+    "Skill: Sealed Will",
+    "Immune to charm and fear."
+   ],
+   [
+    29,
+    "Ultimate: Oath Fulfilled",
+    "Once per long rest, deal triple damage on one attack."
+   ]
+  ],
+  "evolves": "Raising the contract lets you swear a second oath.",
+  "cost": "Breaking the oath kills you."
+ },
+ {
+  "n": "Thunderborn Reaver",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Storm Reaver",
+  "tower": "Human",
+  "requires": "Barbarian level 5, Storm Reaver subclass",
+  "unlock": "Get struck by lightning on the Milestone Spire's roof and rage through it.",
+  "secret": "You must have been struck by lightning.",
+  "notice": "[Hidden job change. Lightning is in your blood.]",
+  "blurb": "A storm reaver whose blood crackles with lightning.",
+  "features": [
+   [
+    5,
+    "Skill: Chain Strike",
+    "Your lightning arcs hit two extra foes."
+   ],
+   [
+    9,
+    "Skill: Static Rage",
+    "Gain resistance to lightning while raging."
+   ],
+   [
+    13,
+    "Ultimate: Thunderclap",
+    "Once per long rest, deal 8d8 lightning in a 30-foot radius."
+   ]
+  ],
+  "evolves": "At level 15, your lightning can strike from the sky.",
+  "cost": "Metal objects stick to you."
+ },
+ {
+  "n": "Skyhammer Executioner",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Storm Reaver",
+  "tower": "Heaven",
+  "requires": "Barbarian level 21, Storm Reaver subclass, a contract with a thunder god",
+  "unlock": "Swing a thunder god's hammer on Choir Spire's floor 22.",
+  "secret": "You must have killed a giant.",
+  "notice": "[Hidden job change. The god's hammer answers.]",
+  "blurb": "A storm reaver chosen by a thunder god, wielding lightning like a hammer.",
+  "features": [
+   [
+    21,
+    "Skill: Hammer Fall",
+    "Your attacks deal 3d8 extra lightning."
+   ],
+   [
+    25,
+    "Skill: Storm Ride",
+    "Fly while raging."
+   ],
+   [
+    29,
+    "Ultimate: Skyhammer",
+    "Once per long rest, deal 12d10 lightning to one target."
+   ]
+  ],
+  "evolves": "A Finger contract lets you control weather.",
+  "cost": "You must give thanks to the god after every battle."
+ },
+ {
+  "n": "Lightning-Wire Mechanic",
+  "tier": "Epic",
+  "base": "Barbarian",
+  "sub": "Storm Reaver",
+  "tower": "Mysterious",
+  "requires": "Barbarian level 11, Storm Reaver subclass, Engineering profession level 3",
+  "unlock": "Power a fog machine on Fogglass Spire's floor 11 using only your rage.",
+  "secret": "You must have powered a machine with your own lightning.",
+  "notice": "[Hidden job change. You are a battery.]",
+  "blurb": "A storm reaver who channels lightning into machines and weapons.",
+  "features": [
+   [
+    11,
+    "Skill: Charge Weapon",
+    "Your weapon deals 2d6 lightning."
+   ],
+   [
+    15,
+    "Skill: Power Machine",
+    "Power any machine with your rage."
+   ],
+   [
+    19,
+    "Ultimate: Overload",
+    "Once per long rest, deal 10d10 lightning to all machines within 60 feet."
+   ]
+  ],
+  "evolves": "At level 21, you can build a lightning engine.",
+  "cost": "You short out magic items you touch."
+ },
+ {
+  "n": "Keener at the Pyre",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Ash",
+  "tower": "Human",
+  "requires": "Bard level 5, College of Ash subclass",
+  "unlock": "On floor 9 of the Milestone Spire, sing a full funeral rite for every corpse on the floor before the pyre burns out.",
+  "secret": "You must have sung at 30 funerals and never asked for payment.",
+  "notice": "[Hidden job change. The ashes rise when you sing.]",
+  "blurb": "An Ash bard whose dirges lift the smoke of the pyre into a shroud for the living.",
+  "features": [
+   [
+    5,
+    "Skill: Smoke Shroud",
+    "Allies within 15 feet are lightly obscured while you sing."
+   ],
+   [
+    9,
+    "Skill: Last Breath Verse",
+    "A dying ally gets one free action before falling unconscious."
+   ],
+   [
+    13,
+    "Ultimate: Pyre Song",
+    "Once per long rest, burn a 30-foot circle of spectral fire: enemies take 8d8 fire, allies heal 4d8."
+   ]
+  ],
+  "evolves": "At level 15, ashes of the dead can be bottled and sung back as brief spirit allies.",
+  "cost": "Your voice is hoarse and smells of smoke; you cannot whisper."
+ },
+ {
+  "n": "Mourning-Bell Herald",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Ash",
+  "tower": "Mysterious",
+  "requires": "Bard level 11, College of Ash subclass, holds the Grief or Sadness Rune",
+  "unlock": "Ring the funeral bell in the fog on the Fogglass Spire's floor 12 so that every lost spirit hears it.",
+  "secret": "You must have grieved a party member.",
+  "notice": "[Hidden job change. The bell tolls for them. Not you.]",
+  "blurb": "This bard rings grief into enemies, slowing them with the weight of their losses.",
+  "features": [
+   [
+    11,
+    "Skill: Toll",
+    "Ring a bell; enemies within 30 feet have speed halved (Wis save)."
+   ],
+   [
+    15,
+    "Skill: Heavy Heart",
+    "Enemies under Toll deal half damage to allies."
+   ],
+   [
+    19,
+    "Ultimate: Requiem",
+    "Once per long rest, all enemies within 60 feet are stunned for 1 round (Wis save)."
+   ]
+  ],
+  "evolves": "At level 21, the bell can call ghosts to fight.",
+  "cost": "You cannot laugh; joy fades around you."
+ },
+ {
+  "n": "Psalmist of the Lower Ledger",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Ash",
+  "tower": "Hell",
+  "requires": "Bard level 21, College of Ash subclass, a Minor contract with a death god",
+  "unlock": "Sing the names of every damned soul on floor 22 of the Ledger Spire, and pay a coin for each one.",
+  "secret": "You must have paid for a stranger's funeral.",
+  "notice": "[Hidden job change. Debts of the dead: forgiven by song.]",
+  "blurb": "A funeral bard who buys back the dead from Hell's ledgers with song and coin.",
+  "features": [
+   [
+    21,
+    "Skill: Ransom Verse",
+    "Spend 100 gold to cancel a creature's death within 1 minute."
+   ],
+   [
+    25,
+    "Skill: Debt Shroud",
+    "Allies gain resistance to necrotic damage."
+   ],
+   [
+    29,
+    "Ultimate: Choir of the Released",
+    "Once per long rest, freed souls fight beside you for 1 minute."
+   ]
+  ],
+  "evolves": "Raising the contract lets you free souls from Hell itself.",
+  "cost": "Everything costs you double in gold."
+ },
+ {
+  "n": "First-Word Lutist",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Creation",
+  "tower": "Human",
+  "requires": "Bard level 5, College of Creation subclass",
+  "unlock": "On floor 10 of the Milestone Spire, play a song that turns an empty room into a garden.",
+  "secret": "You must have created 100 objects with magic.",
+  "notice": "[Hidden job change. The song keeps building.]",
+  "blurb": "A creation bard whose songs make larger things than any lute should.",
+  "features": [
+   [
+    5,
+    "Skill: Sung Shape",
+    "Create an object up to Medium size for 1 hour."
+   ],
+   [
+    9,
+    "Skill: Song-Wall",
+    "Sing a wall of solid notes, 30 feet long."
+   ],
+   [
+    13,
+    "Ultimate: Song of Making",
+    "Once per long rest, create a small building for 24 hours."
+   ]
+  ],
+  "evolves": "At level 15, sung objects become permanent.",
+  "cost": "The song must keep playing; silence unmakes it."
+ },
+ {
+  "n": "Clay-Song Sculptor",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Creation",
+  "tower": "Mysterious",
+  "requires": "Bard level 11, College of Creation subclass, Carving profession level 3",
+  "unlock": "Carve a statue in the fog on floor 11 and sing it awake.",
+  "secret": "You must have carved a statue that someone wept at.",
+  "notice": "[Hidden job change. Statues dance for you.]",
+  "blurb": "A bard who shapes stone and clay with song, making dancing guardians.",
+  "features": [
+   [
+    11,
+    "Skill: Dancing Statue",
+    "Animate a statue as a Medium construct for 1 minute."
+   ],
+   [
+    15,
+    "Skill: Stone Choir",
+    "Statues heal allies 1d8 each turn."
+   ],
+   [
+    19,
+    "Ultimate: Gallery Awake",
+    "Once per long rest, animate up to 10 statues."
+   ]
+  ],
+  "evolves": "At level 21, statues can sing back.",
+  "cost": "You must carve one statue per week."
+ },
+ {
+  "n": "Echo of Genesis",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Creation",
+  "tower": "Chaos",
+  "requires": "Bard level 21, College of Creation subclass, holds the Creation or Origin Rune",
+  "unlock": "Sing a new floor into the Shuffled Spire that the tower keeps.",
+  "secret": "You must have sung a creature into existence.",
+  "notice": "[Hidden job change. The world remembers its first song.]",
+  "blurb": "A bard echoing the world's first song, shaping reality itself.",
+  "features": [
+   [
+    21,
+    "Skill: Rewrite Terrain",
+    "Change terrain in a 60-foot area."
+   ],
+   [
+    25,
+    "Skill: Sung Life",
+    "Create a creature of CR 5 or lower for 1 hour."
+   ],
+   [
+    29,
+    "Ultimate: First Verse",
+    "Once per long rest, create a 1-mile pocket realm for a day."
+   ]
+  ],
+  "evolves": "A second Rune lets you sing permanent realms.",
+  "cost": "Creation exhausts you; gain a level of exhaustion each Ultimate."
+ },
+ {
+  "n": "Ribbon-Blade Dancer",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Dance",
+  "tower": "Human",
+  "requires": "Bard level 5, College of Dance subclass",
+  "unlock": "Dance through a hall of swinging blades on floor 8 of the Milestone Spire without missing a step.",
+  "secret": "You must have danced at 50 festivals.",
+  "notice": "[Hidden job change. The ribbons cut.]",
+  "blurb": "A dancer whose ribbons become blades in motion.",
+  "features": [
+   [
+    5,
+    "Skill: Ribbon Lash",
+    "Ribbon attacks reach 15 feet and deal 1d8 slashing."
+   ],
+   [
+    9,
+    "Skill: Spinning Guard",
+    "While moving, gain +1 AC."
+   ],
+   [
+    13,
+    "Ultimate: Whirling Ribbons",
+    "Once per long rest, attack every enemy within 15 feet."
+   ]
+  ],
+  "evolves": "At level 15, ribbons can bind enemies.",
+  "cost": "You must dance daily."
+ },
+ {
+  "n": "Moonlit Reveler",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Dance",
+  "tower": "Mysterious",
+  "requires": "Bard level 11, College of Dance subclass, a Minor contract with a moon goddess",
+  "unlock": "Dance with fey spirits under the fog-moon of the Fogglass Spire's floor 12 until dawn.",
+  "secret": "You must have danced in a fairy ring.",
+  "notice": "[Hidden job change. The moon dances with you.]",
+  "blurb": "A dancer blessed by the moon, whose steps charm the night.",
+  "features": [
+   [
+    11,
+    "Skill: Moon Step",
+    "Teleport 30 feet as part of a dance move."
+   ],
+   [
+    15,
+    "Skill: Revel",
+    "Enemies watching your dance are charmed (Wis save)."
+   ],
+   [
+    19,
+    "Ultimate: Night Dance",
+    "Once per long rest, all allies dance with you, gaining double speed for 1 minute."
+   ]
+  ],
+  "evolves": "At level 21, you can dance into the fey realm.",
+  "cost": "You cannot stop dancing under a full moon."
+ },
+ {
+  "n": "Footwork of the Lost Kingdom",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Dance",
+  "tower": "Abyss",
+  "requires": "Bard level 21, College of Dance subclass, holds the Tempo or Speed Rune",
+  "unlock": "Dance on the sunken stage on floor 43 of the Sunken Spire to wake the drowned kingdom's court.",
+  "secret": "You must have learned a forgotten dance.",
+  "notice": "[Hidden job change. The lost court applauds.]",
+  "blurb": "A dancer reviving lost kingdom's dances, powerful and ancient.",
+  "features": [
+   [
+    21,
+    "Skill: Ancient Step",
+    "Gain three reactions per round."
+   ],
+   [
+    25,
+    "Skill: Court Dance",
+    "Allies within 30 feet gain +1 AC."
+   ],
+   [
+    29,
+    "Ultimate: Grand Ball",
+    "Once per long rest, the drowned court fights for you for 1 minute."
+   ]
+  ],
+  "evolves": "A second Rune lets you teach the dances to others.",
+  "cost": "The court demands you return yearly."
+ },
+ {
+  "n": "Lullaby-Weaver",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Dreams",
+  "tower": "Human",
+  "requires": "Bard level 5, College of Dreams subclass",
+  "unlock": "Sing every guard on floor 10 of the Milestone Spire to sleep.",
+  "secret": "You must have sung 100 children to sleep.",
+  "notice": "[Hidden job change. The lullaby weaves sleep.]",
+  "blurb": "A dreams bard whose lullabies drop entire rooms into sleep.",
+  "features": [
+   [
+    5,
+    "Skill: Mass Lullaby",
+    "Cast Sleep with double hit points affected."
+   ],
+   [
+    9,
+    "Skill: Dream Shield",
+    "Sleeping allies are immune to damage for 1 round."
+   ],
+   [
+    13,
+    "Ultimate: Endless Sleep",
+    "Once per long rest, put a creature into enchanted sleep for 1 day."
+   ]
+  ],
+  "evolves": "At level 15, you can heal while singing lullabies.",
+  "cost": "You fall asleep easily; disadvantage on saves against sleep."
+ },
+ {
+  "n": "Nightmare-Keeper",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Dreams",
+  "tower": "Hell",
+  "requires": "Bard level 21, College of Dreams subclass, holds the Nightmare Rune",
+  "unlock": "Steal a nightmare from a devil on Ledger Spire's floor 22.",
+  "secret": "You must have walked into 50 nightmares.",
+  "notice": "[Hidden job change. Nightmares now obey.]",
+  "blurb": "This bard collects nightmares and unleashes them on enemies.",
+  "features": [
+   [
+    21,
+    "Skill: Nightmare Jar",
+    "Release a stored nightmare to frighten foes (Wis save)."
+   ],
+   [
+    25,
+    "Skill: Terror Feed",
+    "Frightened enemies take 3d8 psychic per turn."
+   ],
+   [
+    29,
+    "Ultimate: Waking Nightmare",
+    "Once per long rest, all enemies within 60 feet live their worst fear."
+   ]
+  ],
+  "evolves": "A second Rune lets you make nightmares real.",
+  "cost": "You have nightmares every night."
+ },
+ {
+  "n": "Dreamwalker of the Shared Pillow",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Dreams",
+  "tower": "Mysterious",
+  "requires": "Bard level 11, College of Dreams subclass, Tailoring profession level 3",
+  "unlock": "Sew a pillow from fog-cloth on floor 11 and share a dream with your whole party.",
+  "secret": "You must have shared a dream with someone.",
+  "notice": "[Hidden job change. One pillow. Many dreams.]",
+  "blurb": "A dreams bard who links the party's dreams for rest and planning.",
+  "features": [
+   [
+    11,
+    "Skill: Shared Dream",
+    "Party members can talk in dreams during long rest."
+   ],
+   [
+    15,
+    "Skill: Dream Practice",
+    "Party gains a Skill check proficiency for a day."
+   ],
+   [
+    19,
+    "Ultimate: Dream Battle",
+    "Once per long rest, fight a battle in a dream; damage taken is not real."
+   ]
+  ],
+  "evolves": "At level 21, you can dream of the future.",
+  "cost": "Your allies' nightmares affect you."
+ },
+ {
+  "n": "Canon of Many Voices",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Echoing Chants",
+  "tower": "Human",
+  "requires": "Bard level 5, College of Echoing Chants subclass",
+  "unlock": "Sing in the echo chamber on floor 9 until 10 echoes sing back.",
+  "secret": "You must have sung a round with 10 singers.",
+  "notice": "[Hidden job change. The echo multiplies.]",
+  "blurb": "Echoes layer into a choir, each repeating spells.",
+  "features": [
+   [
+    5,
+    "Skill: Third Echo",
+    "Your echoed spells can hit a third target."
+   ],
+   [
+    9,
+    "Skill: Layered Chant",
+    "Echoed spells deal +1d6 damage."
+   ],
+   [
+    13,
+    "Ultimate: Round of Spells",
+    "Once per long rest, echo a spell on every enemy within 60 feet."
+   ]
+  ],
+  "evolves": "At level 15, echoes last a round longer.",
+  "cost": "Your words echo; you cannot be stealthy."
+ },
+ {
+  "n": "Canyon Chanter",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Echoing Chants",
+  "tower": "Mysterious",
+  "requires": "Bard level 11, College of Echoing Chants subclass, holds the Repeat or Reflection Rune",
+  "unlock": "Find the source of the echo in the Fogglass Spire's canyon floor and sing back to it.",
+  "secret": "You must have sung in a canyon.",
+  "notice": "[Hidden job change. The canyon sings back.]",
+  "blurb": "A bard whose echo bounces endlessly, empowering spells.",
+  "features": [
+   [
+    11,
+    "Skill: Endless Echo",
+    "Spells echo twice."
+   ],
+   [
+    15,
+    "Skill: Reflected Song",
+    "Reflect a spell back at its caster as a reaction."
+   ],
+   [
+    19,
+    "Ultimate: Canyon Roar",
+    "Once per long rest, deal 10d10 thunder in a 60-foot line."
+   ]
+  ],
+  "evolves": "At level 21, echoes can be stored for later.",
+  "cost": "You hear echoes even in silence."
+ },
+ {
+  "n": "Hymnal Resonator",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Echoing Chants",
+  "tower": "Heaven",
+  "requires": "Bard level 21, College of Echoing Chants subclass, a Minor contract with a music god",
+  "unlock": "Sing in the Choir Spire's endless choir on floor 22 until your voice echoes in every song.",
+  "secret": "You must have sung a holy hymn in every temple you have visited.",
+  "notice": "[Hidden job change. The choir sings with you.]",
+  "blurb": "A bard whose echoes become a heavenly choir.",
+  "features": [
+   [
+    21,
+    "Skill: Choir Echo",
+    "Echoed spells heal allies for half damage dealt."
+   ],
+   [
+    25,
+    "Skill: Resonance",
+    "Allies within 30 feet gain advantage on saves."
+   ],
+   [
+    29,
+    "Ultimate: Heaven's Chorus",
+    "Once per long rest, all allies within 120 feet are healed to full."
+   ]
+  ],
+  "evolves": "A Finger contract lets your choir be heard across realms.",
+  "cost": "You must sing in a temple weekly."
+ },
+ {
+  "n": "Silver-Tongue Arbiter",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Eloquence",
+  "tower": "Human",
+  "requires": "Bard level 5, College of Eloquence subclass",
+  "unlock": "Settle a feud between two floor guardians on floor 10 of the Milestone Spire with words alone.",
+  "secret": "You must have ended a war or feud through negotiation.",
+  "notice": "[Hidden job change. Your words end fights.]",
+  "blurb": "An eloquent bard who settles disputes and binds agreements.",
+  "features": [
+   [
+    5,
+    "Skill: Binding Word",
+    "A creature who agrees with you must keep the agreement for 1 day."
+   ],
+   [
+    9,
+    "Skill: Calming Tongue",
+    "End a fight between creatures within 60 feet (Wis save)."
+   ],
+   [
+    13,
+    "Ultimate: Treaty",
+    "Once per long rest, bind two groups to peace for 1 week."
+   ]
+  ],
+  "evolves": "At level 15, treaties become magical contracts.",
+  "cost": "You must keep your own word too."
+ },
+ {
+  "n": "Devil's Advocate",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Eloquence",
+  "tower": "Hell",
+  "requires": "Bard level 21, College of Eloquence subclass, a Minor contract with a law god",
+  "unlock": "Win a debate with a devil on Ledger Spire's floor 21.",
+  "secret": "You must have won 100 debates.",
+  "notice": "[Hidden job change. The devil concedes.]",
+  "blurb": "An eloquent bard who argues with devils and wins.",
+  "features": [
+   [
+    21,
+    "Skill: Loophole",
+    "Find a loophole in any contract or rule."
+   ],
+   [
+    25,
+    "Skill: Persuade Fiend",
+    "Fiends must obey one command (Cha save)."
+   ],
+   [
+    29,
+    "Ultimate: Overturn",
+    "Once per long rest, cancel any contract."
+   ]
+  ],
+  "evolves": "Raising the contract lets you argue with gods.",
+  "cost": "Devils seek you for debates."
+ },
+ {
+  "n": "Herald of the Fogbound Court",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Eloquence",
+  "tower": "Mysterious",
+  "requires": "Bard level 11, College of Eloquence subclass",
+  "unlock": "Speak for the accused in the fog court on floor 11 and win their freedom.",
+  "secret": "You must have defended someone in a trial.",
+  "notice": "[Hidden job change. The court listens.]",
+  "blurb": "A herald who speaks in the fog court, where words are law.",
+  "features": [
+   [
+    11,
+    "Skill: Court Voice",
+    "Your voice carries 1 mile."
+   ],
+   [
+    15,
+    "Skill: Verdict",
+    "A creature must answer truthfully (Wis save)."
+   ],
+   [
+    19,
+    "Ultimate: Final Plea",
+    "Once per long rest, a creature must obey your judgement."
+   ]
+  ],
+  "evolves": "At level 21, you can hold a fog court anywhere.",
+  "cost": "You cannot lie."
+ },
+ {
+  "n": "Thornrose Enchantress",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Glamour",
+  "tower": "Human",
+  "requires": "Bard level 5, College of Glamour subclass",
+  "unlock": "Charm the thorny rose guardian on the Milestone Spire's floor 7.",
+  "secret": "You must have been courted by a fey creature.",
+  "notice": "[Hidden job change. The roses bloom for you.]",
+  "blurb": "A glamour bard whose charm pricks like thorns.",
+  "features": [
+   [
+    5,
+    "Skill: Thorny Charm",
+    "Charmed creatures take 1d8 piercing if they attack."
+   ],
+   [
+    9,
+    "Skill: Rose Veil",
+    "Gain +1 AC while charming a creature."
+   ],
+   [
+    13,
+    "Ultimate: Bloom",
+    "Once per long rest, charm all creatures within 30 feet."
+   ]
+  ],
+  "evolves": "At level 15, roses can be summoned.",
+  "cost": "Thorns grow on you."
+ },
+ {
+  "n": "Fey-Court Ambassador",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Glamour",
+  "tower": "Mysterious",
+  "requires": "Bard level 11, College of Glamour subclass, a Minor contract with a fey god",
+  "unlock": "Represent a mortal kingdom at the fey court on floor 12 and survive the banquet.",
+  "secret": "You must have eaten fey food.",
+  "notice": "[Hidden job change. The fey court acknowledges you.]",
+  "blurb": "A glamour bard who speaks for mortals in the fey court.",
+  "features": [
+   [
+    11,
+    "Skill: Fey Glamour",
+    "Disguise yourself as anyone for 1 hour."
+   ],
+   [
+    15,
+    "Skill: Court Protocol",
+    "Fey cannot harm you without breaking a vow."
+   ],
+   [
+    19,
+    "Ultimate: Fey Escort",
+    "Once per long rest, summon a fey knight for 1 hour."
+   ]
+  ],
+  "evolves": "At level 21, you can rule a fey court.",
+  "cost": "You must keep fey rules."
+ },
+ {
+  "n": "Starlit Idol",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Glamour",
+  "tower": "Heaven",
+  "requires": "Bard level 21, College of Glamour subclass, holds the Fame or Star Rune",
+  "unlock": "Perform for the entire Choir Spire's floor 23.",
+  "secret": "You must have performed for 1,000 people.",
+  "notice": "[Hidden job change. You are a star.]",
+  "blurb": "A glamour bard who becomes a star, adored by all.",
+  "features": [
+   [
+    21,
+    "Skill: Adoration",
+    "Allies gain temporary hit points equal to your Bard level each turn."
+   ],
+   [
+    25,
+    "Skill: Stage Presence",
+    "Enemies have disadvantage on attacks against you."
+   ],
+   [
+    29,
+    "Ultimate: Encore",
+    "Once per long rest, all allies gain another turn."
+   ]
+  ],
+  "evolves": "A second Rune lets your fans follow you to any realm.",
+  "cost": "You cannot hide; fans find you."
+ },
+ {
+  "n": "Keeper of Unwritten Pages",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Lore",
+  "tower": "Human",
+  "requires": "Bard level 5, College of Lore subclass",
+  "unlock": "On floor 9 of the Milestone Spire, recite a story nobody has written down, and have the tower's librarian ghost confirm it is true.",
+  "secret": "You must have collected 100 secrets and shared none of them for profit.",
+  "notice": "[Hidden job change. A blank page has filled itself.]",
+  "blurb": "A Lore bard who hoards the stories nobody wrote, pulling forgotten tricks from them.",
+  "features": [
+   [
+    5,
+    "Skill: Forgotten Verse",
+    "Once per short rest, learn any 1st or 2nd level spell for 1 hour."
+   ],
+   [
+    9,
+    "Skill: Story Shield",
+    "Spend a Bardic Inspiration to cancel a hit on an ally by recalling the attacker's weakness."
+   ],
+   [
+    13,
+    "Ultimate: Lost Chapter",
+    "Once per long rest, learn a creature's weakness, history and true name."
+   ]
+  ],
+  "evolves": "At level 15, unwritten pages can be torn out and given as one-use scrolls.",
+  "cost": "You forget one ordinary memory for every secret learned."
+ },
+ {
+  "n": "Scholar of the Fog Library",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Lore",
+  "tower": "Mysterious",
+  "requires": "Bard level 11, College of Lore subclass, holds the Knowledge or Learning Rune",
+  "unlock": "Find the library that only appears in the Fogglass Spire's floor 12 fog and read one book in it.",
+  "secret": "You must have read 1,000 books.",
+  "notice": "[Hidden job change. The fog library has a new member.]",
+  "blurb": "A lore bard who reads the books that exist only in fog.",
+  "features": [
+   [
+    11,
+    "Skill: Fog Reading",
+    "Learn anything on a topic within 1 minute of reading."
+   ],
+   [
+    15,
+    "Skill: Index",
+    "Learn a spell from any class list."
+   ],
+   [
+    19,
+    "Ultimate: Library Summon",
+    "Once per long rest, call the library for 1 hour."
+   ]
+  ],
+  "evolves": "At level 21, you can write books into the library.",
+  "cost": "Fog follows you indoors."
+ },
+ {
+  "n": "Archivist of the Oath-Books",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Lore",
+  "tower": "Heaven",
+  "requires": "Bard level 21, College of Lore subclass, a Minor contract with a knowledge god",
+  "unlock": "Copy every oath kept in the Choir Spire's floor 21 into a single book.",
+  "secret": "You must have kept a record of every promise you made.",
+  "notice": "[Hidden job change. The god's archive opens to you.]",
+  "blurb": "A lore bard who keeps the archive of oaths for a knowledge god.",
+  "features": [
+   [
+    21,
+    "Skill: Oath Record",
+    "Know whether any creature has broken an oath."
+   ],
+   [
+    25,
+    "Skill: Read the Archive",
+    "Answer any question about a god."
+   ],
+   [
+    29,
+    "Ultimate: Rewrite",
+    "Once per long rest, change one fact in the archive."
+   ]
+  ],
+  "evolves": "A Finger contract lets you read the gods' own oaths.",
+  "cost": "You must write every day."
+ },
+ {
+  "n": "Medium of the Hundred Tales",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Spirits",
+  "tower": "Human",
+  "requires": "Bard level 5, College of Spirits subclass",
+  "unlock": "Tell a story on floor 8 of the Milestone Spire that summons its hero's ghost.",
+  "secret": "You must have told 100 different stories.",
+  "notice": "[Hidden job change. The hero answers.]",
+  "blurb": "A spirits bard who calls up story heroes to aid them.",
+  "features": [
+   [
+    5,
+    "Skill: Hero Spirit",
+    "Summon a story hero for 1 minute with your proficiency to attack."
+   ],
+   [
+    9,
+    "Skill: Tale Boon",
+    "Choose any spirit tale effect instead of rolling."
+   ],
+   [
+    13,
+    "Ultimate: Hall of Heroes",
+    "Once per long rest, summon three heroes."
+   ]
+  ],
+  "evolves": "At level 15, heroes can be bound to items.",
+  "cost": "Heroes have opinions about your choices."
+ },
+ {
+  "n": "Ghost-Light Storyteller",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Spirits",
+  "tower": "Mysterious",
+  "requires": "Bard level 11, College of Spirits subclass, holds the Spirit Rune",
+  "unlock": "Light a candle for every ghost on floor 11 of the Fogglass Spire and tell its story.",
+  "secret": "You must have talked a ghost into peace.",
+  "notice": "[Hidden job change. The ghosts gather round.]",
+  "blurb": "A spirits bard who tells stories by candle, ghosts gathering to listen.",
+  "features": [
+   [
+    11,
+    "Skill: Candle Circle",
+    "Ghosts within 30 feet become allies."
+   ],
+   [
+    15,
+    "Skill: Ghost Tale",
+    "Ghosts can scout and speak through you."
+   ],
+   [
+    19,
+    "Ultimate: Night of Tales",
+    "Once per long rest, all ghosts within 1 mile fight for you."
+   ]
+  ],
+  "evolves": "At level 21, you can tell a ghost back to life.",
+  "cost": "You must light a candle every night."
+ },
+ {
+  "n": "Necro-Bard of the Black Book",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Spirits",
+  "tower": "Hell",
+  "requires": "Bard level 21, College of Spirits subclass, holds the Necromancy Rune",
+  "unlock": "Sign the Black Book on Ledger Spire's floor 23.",
+  "secret": "You must have raised an undead.",
+  "notice": "[Hidden job change. The Black Book opens.]",
+  "blurb": "A spirits bard who tells tales of the damned, calling them into service.",
+  "features": [
+   [
+    21,
+    "Skill: Damned Tale",
+    "Summon damned spirits that deal 3d10 necrotic."
+   ],
+   [
+    25,
+    "Skill: Undead Choir",
+    "Undead within 60 feet follow your commands."
+   ],
+   [
+    29,
+    "Ultimate: Black Chapter",
+    "Once per long rest, summon a damned army for 1 minute."
+   ]
+  ],
+  "evolves": "A second Rune lets you write new tales of the damned.",
+  "cost": "Living creatures distrust you."
+ },
+ {
+  "n": "Seven-Step Bladesinger",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Swords",
+  "tower": "Human",
+  "requires": "Bard level 5, College of Swords subclass",
+  "unlock": "Defeat seven duellists on floor 7 of the Milestone Spire, one per step of a song.",
+  "secret": "You must have won 30 duels.",
+  "notice": "[Hidden job change. Seven steps. Seven strikes.]",
+  "blurb": "A swords bard whose blade song strikes in rhythm.",
+  "features": [
+   [
+    5,
+    "Skill: Step Strike",
+    "Each step of movement before an attack adds 1 damage."
+   ],
+   [
+    9,
+    "Skill: Flourish Chain",
+    "Use two flourishes per turn."
+   ],
+   [
+    13,
+    "Ultimate: Seventh Step",
+    "Once per long rest, attack seven times."
+   ]
+  ],
+  "evolves": "At level 15, steps can be taken in the air.",
+  "cost": "You must duel anyone who challenges you."
+ },
+ {
+  "n": "Circus-Blade Ringmaster",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Swords",
+  "tower": "Mysterious",
+  "requires": "Bard level 11, College of Swords subclass, holds the Entertainment Rune",
+  "unlock": "Run a circus on the Fogglass Spire's floor 12 and perform every act yourself.",
+  "secret": "You must have performed in a circus.",
+  "notice": "[Hidden job change. The show must go on.]",
+  "blurb": "A swords bard who performs sword-swallowing and knife-throwing as combat.",
+  "features": [
+   [
+    11,
+    "Skill: Knife Throw",
+    "Throw three knives as a bonus action."
+   ],
+   [
+    15,
+    "Skill: Ringmaster",
+    "Allies gain +10 speed."
+   ],
+   [
+    19,
+    "Ultimate: Grand Show",
+    "Once per long rest, all enemies are distracted and lose their turn."
+   ]
+  ],
+  "evolves": "At level 21, you can run a travelling circus.",
+  "cost": "You must perform weekly."
+ },
+ {
+  "n": "Sword-Saint of the Singing Steel",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Swords",
+  "tower": "Heaven",
+  "requires": "Bard level 21, College of Swords subclass, a Minor contract with a war god",
+  "unlock": "Sing your blade into a holy sword on Choir Spire's floor 22.",
+  "secret": "You must have defended the weak 100 times.",
+  "notice": "[Hidden job change. Your blade sings.]",
+  "blurb": "A swords bard whose blade sings holy songs.",
+  "features": [
+   [
+    21,
+    "Skill: Singing Blade",
+    "Your blade deals 2d8 radiant damage."
+   ],
+   [
+    25,
+    "Skill: Steel Hymn",
+    "Allies within 30 feet gain +1 AC."
+   ],
+   [
+    29,
+    "Ultimate: Holy Verse",
+    "Once per long rest, deal 10d10 radiant to one target."
+   ]
+  ],
+  "evolves": "A Finger contract lets your blade sing across realms.",
+  "cost": "Your blade must be blessed daily."
+ },
+ {
+  "n": "Standard-Bearer of the Last Charge",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Valor",
+  "tower": "Human",
+  "requires": "Bard level 5, College of Valor subclass",
+  "unlock": "Carry a banner through floor 10 of the Milestone Spire while allies fight beside you.",
+  "secret": "You must have led a charge.",
+  "notice": "[Hidden job change. The banner flies.]",
+  "blurb": "A valor bard carrying a banner that inspires charges.",
+  "features": [
+   [
+    5,
+    "Skill: Banner",
+    "Allies within 30 feet gain +1 to hit."
+   ],
+   [
+    9,
+    "Skill: Charge Song",
+    "Allies who move 20 feet gain +2d6 damage."
+   ],
+   [
+    13,
+    "Ultimate: Last Charge",
+    "Once per long rest, all allies charge and attack."
+   ]
+  ],
+  "evolves": "At level 15, the banner heals.",
+  "cost": "You must protect the banner."
+ },
+ {
+  "n": "Skald of the Frozen Hall",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Valor",
+  "tower": "Mysterious",
+  "requires": "Bard level 11, College of Valor subclass, a Minor contract with a Norse god",
+  "unlock": "Sing a hero's saga in the Fogglass Spire's frozen hall on floor 12.",
+  "secret": "You must have composed a saga.",
+  "notice": "[Hidden job change. The saga lives.]",
+  "blurb": "A valor bard who sings sagas of heroes in frozen halls.",
+  "features": [
+   [
+    11,
+    "Skill: Saga Song",
+    "Allies gain temporary hit points equal to your Bard level."
+   ],
+   [
+    15,
+    "Skill: Frozen Will",
+    "Allies immune to fear."
+   ],
+   [
+    19,
+    "Ultimate: Saga's End",
+    "Once per long rest, allies deal double damage for 1 round."
+   ]
+  ],
+  "evolves": "At level 21, your saga can be passed on.",
+  "cost": "You must sing sagas weekly."
+ },
+ {
+  "n": "Warlord of the Final Verse",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Valor",
+  "tower": "Hell",
+  "requires": "Bard level 21, College of Valor subclass, holds the War Rune",
+  "unlock": "Lead an army on Ledger Spire's floor 21.",
+  "secret": "You must have commanded 100 soldiers.",
+  "notice": "[Hidden job change. The army follows.]",
+  "blurb": "A valor bard who leads armies with song.",
+  "features": [
+   [
+    21,
+    "Skill: Army Song",
+    "Allies within 120 feet gain +1 to hit."
+   ],
+   [
+    25,
+    "Skill: Commander's Voice",
+    "Command allies as a bonus action."
+   ],
+   [
+    29,
+    "Ultimate: Final Verse",
+    "Once per long rest, all allies attack twice."
+   ]
+  ],
+  "evolves": "A second Rune lets you raise an army.",
+  "cost": "You must lead from the front."
+ },
+ {
+  "n": "Rumourmonger of the Thousand Ears",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Whispers",
+  "tower": "Human",
+  "requires": "Bard level 5, College of Whispers subclass",
+  "unlock": "Spread a rumour across floor 8 of the Milestone Spire that turns the guards on each other.",
+  "secret": "You must have ruined someone with a rumour.",
+  "notice": "[Hidden job change. The rumour spreads.]",
+  "blurb": "A whispers bard who spreads rumours like poison.",
+  "features": [
+   [
+    5,
+    "Skill: Rumour",
+    "A rumour causes creatures to distrust each other."
+   ],
+   [
+    9,
+    "Skill: Thousand Ears",
+    "Hear anything said about you within 1 mile."
+   ],
+   [
+    13,
+    "Ultimate: Scandal",
+    "Once per long rest, ruin a creature's reputation."
+   ]
+  ],
+  "evolves": "At level 15, rumours become truth.",
+  "cost": "People distrust you."
+ },
+ {
+  "n": "Face-Collector",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Whispers",
+  "tower": "Mysterious",
+  "requires": "Bard level 11, College of Whispers subclass, holds the Mask Rune",
+  "unlock": "Steal three faces from the mirror-folk on floor 11.",
+  "secret": "You must have stolen an identity.",
+  "notice": "[Hidden job change. Faces collected.]",
+  "blurb": "A whispers bard who collects faces of the dead.",
+  "features": [
+   [
+    11,
+    "Skill: Face Shift",
+    "Wear a collected face perfectly."
+   ],
+   [
+    15,
+    "Skill: Stolen Memories",
+    "Learn the face's memories."
+   ],
+   [
+    19,
+    "Ultimate: Many Faces",
+    "Once per long rest, become three people at once."
+   ]
+  ],
+  "evolves": "At level 21, you can give faces to others.",
+  "cost": "Your own face fades."
+ },
+ {
+  "n": "Hell-Whisper Spymaster",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "College of Whispers",
+  "tower": "Hell",
+  "requires": "Bard level 21, College of Whispers subclass, a contract with a trickster god",
+  "unlock": "Steal a secret from a devil on the Ledger Spire's floor 22.",
+  "secret": "You must have run a spy network.",
+  "notice": "[Hidden job change. Hell's secrets are yours.]",
+  "blurb": "A whispers bard who runs a spy network across realms.",
+  "features": [
+   [
+    21,
+    "Skill: Spy Network",
+    "Know events within 10 miles."
+   ],
+   [
+    25,
+    "Skill: Whispered Command",
+    "Spies obey without question."
+   ],
+   [
+    29,
+    "Ultimate: Revelation",
+    "Once per long rest, learn any secret."
+   ]
+  ],
+  "evolves": "A Finger contract lets you spy on gods.",
+  "cost": "Spies can betray you."
+ },
+ {
+  "n": "Drum-Lord of the Marching Host",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "Warchanter",
+  "tower": "Human",
+  "requires": "Bard level 5, Warchanter subclass",
+  "unlock": "Drum on floor 10 of the Milestone Spire to keep a march going for one day.",
+  "secret": "You must have marched 1,000 miles.",
+  "notice": "[Hidden job change. The host marches.]",
+  "blurb": "A warchanter whose drums keep armies marching.",
+  "features": [
+   [
+    5,
+    "Skill: March Beat",
+    "Allies ignore exhaustion while marching."
+   ],
+   [
+    9,
+    "Skill: War Drum",
+    "Allies gain +1 to hit."
+   ],
+   [
+    13,
+    "Ultimate: Host Charge",
+    "Once per long rest, all allies charge."
+   ]
+  ],
+  "evolves": "At level 15, drums can be heard 10 miles.",
+  "cost": "You must drum daily."
+ },
+ {
+  "n": "Battle-Horn of the Breaking Line",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "Warchanter",
+  "tower": "Mysterious",
+  "requires": "Bard level 11, Warchanter subclass, holds the Horn Rune",
+  "unlock": "Sound a horn on the Fogglass Spire's floor 11 to break the fog line.",
+  "secret": "You must have broken an enemy line.",
+  "notice": "[Hidden job change. The horn breaks lines.]",
+  "blurb": "A warchanter whose horn breaks enemy lines.",
+  "features": [
+   [
+    11,
+    "Skill: Horn Blast",
+    "Enemies in 30-foot cone are frightened."
+   ],
+   [
+    15,
+    "Skill: Line Break",
+    "Frightened enemies drop weapons."
+   ],
+   [
+    19,
+    "Ultimate: Rout",
+    "Once per long rest, enemies flee."
+   ]
+  ],
+  "evolves": "At level 21, horn can call allies.",
+  "cost": "Horn is loud and alerts foes."
+ },
+ {
+  "n": "Anthem of the War God",
+  "tier": "Epic",
+  "base": "Bard",
+  "sub": "Warchanter",
+  "tower": "Heaven",
+  "requires": "Bard level 21, Warchanter subclass, a contract with a war god",
+  "unlock": "Sing the war god's anthem on Choir Spire's floor 23.",
+  "secret": "You must have sung at a war god's temple.",
+  "notice": "[Hidden job change. The war god sings.]",
+  "blurb": "A warchanter who sings the war god's anthem, empowering armies.",
+  "features": [
+   [
+    21,
+    "Skill: Anthem",
+    "Allies within 60 feet deal +2d6."
+   ],
+   [
+    25,
+    "Skill: God's Shield",
+    "Allies gain +1 AC."
+   ],
+   [
+    29,
+    "Ultimate: Divine War",
+    "Once per long rest, allies become immune to damage for 1 round."
+   ]
+  ],
+  "evolves": "A Finger contract lets your anthem summon the god.",
+  "cost": "You must fight in every war."
+ },
+ {
+  "n": "Hedge-Wizard Confessor",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Arcana Domain",
+  "tower": "Human",
+  "requires": "Cleric level 5, Arcana Domain subclass",
+  "unlock": "On floor 8 of the Milestone Spire, hear the confession of a dying wizard and take on his last unfinished spell.",
+  "secret": "You must have copied 20 spells from scrolls or spellbooks and prayed over each one.",
+  "notice": "[Hidden job change. Prayer and formula now share one page.]",
+  "blurb": "A cleric who keeps a spellbook as holy writ, praying wizard spells into being.",
+  "features": [
+   [
+    5,
+    "Skill: Prayed Formula",
+    "Prepare one wizard spell per spell level as a cleric spell."
+   ],
+   [
+    9,
+    "Skill: Sanctified Ward",
+    "Your counterspells and dispels heal the ally they protect for 2d8."
+   ],
+   [
+    13,
+    "Ultimate: Litany of Spells",
+    "Once per long rest, cast two spells of 3rd level or lower in one action."
+   ]
+  ],
+  "evolves": "At level 15, the spellbook can be read aloud as a sermon that grants allies resistance to spells.",
+  "cost": "Lose the spellbook and you lose every borrowed spell until you rewrite it."
+ },
+ {
+  "n": "Spellwell Priest",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Arcana Domain",
+  "tower": "Mysterious",
+  "requires": "Cleric level 11, Arcana Domain subclass, holds the Mana or Magic Rune",
+  "unlock": "Draw water from the mana well on floor 12 of the Fogglass Spire and bless it without spilling a drop.",
+  "secret": "You must have restored spell slots to another caster 30 times.",
+  "notice": "[Hidden job change. The well of power flows through your hands.]",
+  "blurb": "A priest of the well who pours mana into allies like holy water.",
+  "features": [
+   [
+    11,
+    "Skill: Mana Blessing",
+    "Spend a spell slot to restore one of equal level to an ally."
+   ],
+   [
+    15,
+    "Skill: Overflow",
+    "Spells you cast at higher level gain +1d8 damage or healing per level."
+   ],
+   [
+    19,
+    "Ultimate: Fountain",
+    "Once per long rest, all allies regain a spell slot of 3rd level."
+   ]
+  ],
+  "evolves": "At level 21, the well can be planted in a temple.",
+  "cost": "Running out of slots leaves you exhausted."
+ },
+ {
+  "n": "Arch-Magister of the Divine Seal",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Arcana Domain",
+  "tower": "Heaven",
+  "requires": "Cleric level 21, Arcana Domain subclass, a contract with a magic god",
+  "unlock": "Seal a rogue spell storm on the Choir Spire's floor 22 with a sigil drawn in your own light.",
+  "secret": "You must have ended 10 magical disasters.",
+  "notice": "[Hidden job change. The god grants you a seal.]",
+  "blurb": "A cleric charged by a magic god to seal rogue magic across the realms.",
+  "features": [
+   [
+    21,
+    "Skill: Seal Spell",
+    "As a reaction, seal a spell of 5th level or lower."
+   ],
+   [
+    25,
+    "Skill: Magic Sight",
+    "See all magic within 120 feet."
+   ],
+   [
+    29,
+    "Ultimate: Divine Seal",
+    "Once per long rest, seal a creature's magic for 1 day."
+   ]
+  ],
+  "evolves": "A Finger contract lets you seal Runes.",
+  "cost": "You must respond to magical disasters."
+ },
+ {
+  "n": "Gravity-Bell Oracle",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Astral Domain",
+  "tower": "Human",
+  "requires": "Cleric level 5, Astral Domain subclass",
+  "unlock": "Stand under the falling stars on the roof of the Milestone Spire and catch one in a bell.",
+  "secret": "You must have spent 100 nights stargazing.",
+  "notice": "[Hidden job change. The bell pulls the stars.]",
+  "blurb": "An astral cleric whose bell pulls creatures with star gravity.",
+  "features": [
+   [
+    5,
+    "Skill: Bell Pull",
+    "Pull a creature 20 feet toward you (Str save)."
+   ],
+   [
+    9,
+    "Skill: Starward",
+    "Allies within 10 feet gain resistance to falling damage."
+   ],
+   [
+    13,
+    "Ultimate: Crushing Star",
+    "Once per long rest, increase gravity in a 30-foot area: enemies take 8d8 and fall prone."
+   ]
+  ],
+  "evolves": "At level 15, you can reverse gravity.",
+  "cost": "You feel heavy during the day."
+ },
+ {
+  "n": "Constellation Cartographer",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Astral Domain",
+  "tower": "Mysterious",
+  "requires": "Cleric level 11, Astral Domain subclass, Navigation profession level 3",
+  "unlock": "Chart the false stars of the Fogglass Spire's floor 12 and name a new one.",
+  "secret": "You must have navigated by stars.",
+  "notice": "[Hidden job change. The stars align for you.]",
+  "blurb": "A cleric who maps the constellations and draws power from them.",
+  "features": [
+   [
+    11,
+    "Skill: Star Map",
+    "Know direction and location anywhere."
+   ],
+   [
+    15,
+    "Skill: Constellation Shield",
+    "Allies gain +1 AC under starlight."
+   ],
+   [
+    19,
+    "Ultimate: Falling Constellation",
+    "Once per long rest, deal 10d10 radiant in a 60-foot area."
+   ]
+  ],
+  "evolves": "At level 21, you can map other realms' stars.",
+  "cost": "You are weak on cloudy nights."
+ },
+ {
+  "n": "Starborn Wanderer",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Astral Domain",
+  "tower": "Chaos",
+  "requires": "Cleric level 21, Astral Domain subclass, holds the Astral or Starlight Rune",
+  "unlock": "Wander the Shuffled Spire's floors 31-34 in astral form for a full day.",
+  "secret": "You must have traveled in astral form.",
+  "notice": "[Hidden job change. The stars are your road.]",
+  "blurb": "An astral cleric who walks between stars, untouchable.",
+  "features": [
+   [
+    21,
+    "Skill: Astral Walk",
+    "Become incorporeal for 1 minute."
+   ],
+   [
+    25,
+    "Skill: Star Road",
+    "Teleport 1 mile."
+   ],
+   [
+    29,
+    "Ultimate: Starfall",
+    "Once per long rest, rain stars for 12d10 over 120 feet."
+   ]
+  ],
+  "evolves": "A second Rune lets you walk to other realms.",
+  "cost": "Your body fades over time."
+ },
+ {
+  "n": "Ember-Keeper of the Hearth",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Flame Domain",
+  "tower": "Human",
+  "requires": "Cleric level 5, Flame Domain subclass, Cooking profession level 2",
+  "unlock": "Keep a hearth fire burning on floor 10 of the Milestone Spire through a night of rain.",
+  "secret": "You must have kept a fire burning for a month.",
+  "notice": "[Hidden job change. The hearth never dies.]",
+  "blurb": "A flame cleric of the home fire, warming allies and burning intruders.",
+  "features": [
+   [
+    5,
+    "Skill: Hearth Warmth",
+    "Allies within 30 feet heal 1d6 per turn."
+   ],
+   [
+    9,
+    "Skill: Guarding Fire",
+    "Enemies entering your hearth take 2d8 fire."
+   ],
+   [
+    13,
+    "Ultimate: Bonfire",
+    "Once per long rest, all allies heal to full."
+   ]
+  ],
+  "evolves": "At level 15, your hearth can be carried.",
+  "cost": "You must keep a fire burning."
+ },
+ {
+  "n": "Pyre-Judge of Cinders",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Flame Domain",
+  "tower": "Hell",
+  "requires": "Cleric level 21, Flame Domain subclass, holds the Fire or Ignis Rune",
+  "unlock": "Judge a devil in fire on floor 23 of the Ledger Spire.",
+  "secret": "You must have burned a wicked creature alive.",
+  "notice": "[Hidden job change. The cinders judge.]",
+  "blurb": "A flame cleric who judges sinners with fire.",
+  "features": [
+   [
+    21,
+    "Skill: Judgement Fire",
+    "Your fire ignores resistance."
+   ],
+   [
+    25,
+    "Skill: Cinder Brand",
+    "Branded creatures take 3d8 fire each turn."
+   ],
+   [
+    29,
+    "Ultimate: Final Pyre",
+    "Once per long rest, burn a creature for 12d10."
+   ]
+  ],
+  "evolves": "A second Rune lets your fire burn souls.",
+  "cost": "You must burn a sinner each month."
+ },
+ {
+  "n": "Lantern Monk of the Blue Flame",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Flame Domain",
+  "tower": "Mysterious",
+  "requires": "Cleric level 11, Flame Domain subclass",
+  "unlock": "Carry a blue flame through the fog of floor 11 without it going out.",
+  "secret": "You must have meditated in fire.",
+  "notice": "[Hidden job change. The blue flame is yours.]",
+  "blurb": "A flame cleric whose blue fire heals and burns.",
+  "features": [
+   [
+    11,
+    "Skill: Blue Flame",
+    "Your fire can heal."
+   ],
+   [
+    15,
+    "Skill: Fog Burn",
+    "Burn away fog and illusions within 60 feet."
+   ],
+   [
+    19,
+    "Ultimate: Blue Inferno",
+    "Once per long rest, deal or heal 10d10."
+   ]
+  ],
+  "evolves": "At level 21, your flame can cleanse curses.",
+  "cost": "You are cold without fire."
+ },
+ {
+  "n": "Anvil-Priest of the Iron Psalm",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Forge Domain",
+  "tower": "Human",
+  "requires": "Cleric level 5, Forge Domain subclass, Blacksmithing profession level 3",
+  "unlock": "Forge a holy hammer on floor 9 of the Milestone Spire from scrap of every floor.",
+  "secret": "You must have forged 100 weapons.",
+  "notice": "[Hidden job change. The anvil sings.]",
+  "blurb": "A forge cleric whose hammer strokes are prayers.",
+  "features": [
+   [
+    5,
+    "Skill: Psalm Strike",
+    "Your hammer deals 1d8 extra radiant."
+   ],
+   [
+    9,
+    "Skill: Holy Temper",
+    "Bless a weapon for +1 to hit for 1 day."
+   ],
+   [
+    13,
+    "Ultimate: Iron Psalm",
+    "Once per long rest, forge a magic weapon in 1 minute."
+   ]
+  ],
+  "evolves": "At level 15, you can forge holy armor.",
+  "cost": "You must forge daily."
+ },
+ {
+  "n": "Smelter of Fallen Idols",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Forge Domain",
+  "tower": "Hell",
+  "requires": "Cleric level 21, Forge Domain subclass, holds the Metal Rune",
+  "unlock": "Melt down a devil's idol on Ledger Spire's floor 22.",
+  "secret": "You must have destroyed an idol.",
+  "notice": "[Hidden job change. The idols melt.]",
+  "blurb": "A forge cleric who melts down idols into weapons.",
+  "features": [
+   [
+    21,
+    "Skill: Idol Melt",
+    "Destroy unholy objects with a touch."
+   ],
+   [
+    25,
+    "Skill: Forged Faith",
+    "Items you forge deal radiant."
+   ],
+   [
+    29,
+    "Ultimate: Melt the Gods",
+    "Once per long rest, deal 12d10 fire to a fiend."
+   ]
+  ],
+  "evolves": "A second Rune lets you forge with gods' metal.",
+  "cost": "You cannot own idols."
+ },
+ {
+  "n": "Bell-Founder of the Temple",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Forge Domain",
+  "tower": "Heaven",
+  "requires": "Cleric level 21, Forge Domain subclass, a contract with a forge god",
+  "unlock": "Cast a temple bell on the Choir Spire's floor 21 that rings with the choir.",
+  "secret": "You must have built a temple.",
+  "notice": "[Hidden job change. The bell rings.]",
+  "blurb": "A forge cleric who casts holy bells, ringing blessings.",
+  "features": [
+   [
+    21,
+    "Skill: Holy Bell",
+    "Ring a bell to heal allies 4d8."
+   ],
+   [
+    25,
+    "Skill: Bell Ward",
+    "Undead within 60 feet are frightened."
+   ],
+   [
+    29,
+    "Ultimate: Temple Bell",
+    "Once per long rest, allies immune to fear and charm for 1 hour."
+   ]
+  ],
+  "evolves": "A Finger contract lets your bell call the god.",
+  "cost": "You must ring the bell daily."
+ },
+ {
+  "n": "Ferryman of the Last River",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Grave Domain",
+  "tower": "Mysterious",
+  "requires": "Cleric level 11, Grave Domain subclass",
+  "unlock": "Pole a ferry across the fog river of floor 12 of the Fogglass Spire carrying every waiting soul.",
+  "secret": "You must have buried 100 bodies.",
+  "notice": "[Hidden job change. The river awaits.]",
+  "blurb": "A grave cleric who ferries souls across the last river.",
+  "features": [
+   [
+    11,
+    "Skill: Ferry Coin",
+    "Place a coin on a dying ally to stabilise them."
+   ],
+   [
+    15,
+    "Skill: River Crossing",
+    "Teleport allies across water or chasms."
+   ],
+   [
+    19,
+    "Ultimate: Final Ferry",
+    "Once per long rest, send an undead to rest instantly."
+   ]
+  ],
+  "evolves": "At level 21, the ferry can bring souls back.",
+  "cost": "You must pay the ferry coin."
+ },
+ {
+  "n": "Sexton of the Quiet Yard",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Grave Domain",
+  "tower": "Human",
+  "requires": "Cleric level 5, Grave Domain subclass, Harvesting profession level 2",
+  "unlock": "Tend the graveyard on floor 7 of the Milestone Spire for a week and keep every grave undisturbed.",
+  "secret": "You must have tended a graveyard.",
+  "notice": "[Hidden job change. The yard is quiet.]",
+  "blurb": "A grave cleric who keeps the dead resting.",
+  "features": [
+   [
+    5,
+    "Skill: Quiet Yard",
+    "Undead in your yard cannot rise."
+   ],
+   [
+    9,
+    "Skill: Grave Tend",
+    "Heal allies near graves for double."
+   ],
+   [
+    13,
+    "Ultimate: Peaceful Rest",
+    "Once per long rest, all undead within 60 feet fall."
+   ]
+  ],
+  "evolves": "At level 15, you can raise the dead to rest elsewhere.",
+  "cost": "You must tend graves weekly."
+ },
+ {
+  "n": "Death-Ledger Notary",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Grave Domain",
+  "tower": "Hell",
+  "requires": "Cleric level 21, Grave Domain subclass, a contract with a death god",
+  "unlock": "Record every death on the Ledger Spire's floor 22 in a book.",
+  "secret": "You must have recorded deaths.",
+  "notice": "[Hidden job change. The ledger of death is yours.]",
+  "blurb": "A grave cleric who keeps the ledger of death.",
+  "features": [
+   [
+    21,
+    "Skill: Hour of Passing",
+    "Touch a creature to learn how many rounds it could survive at its current wounds."
+   ],
+   [
+    25,
+    "Skill: Pending Entry",
+    "Allies within 30 feet cannot fail death saves while you write."
+   ],
+   [
+    29,
+    "Ultimate: Struck From the Ledger",
+    "Once per long rest, erase one death that occurred in the last minute; the creature returns at half hit points."
+   ]
+  ],
+  "evolves": "A Finger contract lets you write deaths.",
+  "cost": "You must record every death you see."
+ },
+ {
+  "n": "Lamp-Bearer of the Two Roads",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Gravecaller",
+  "tower": "Human",
+  "requires": "Cleric level 5, Gravecaller subclass",
+  "unlock": "On floor 10 of the Milestone Spire, guide one lost soul down to rest and one stray soul back into its body, both in the same night.",
+  "secret": "You must have spoken with the dead of both a friend and an enemy.",
+  "notice": "[Hidden job change. One lamp. Two roads. You walk both.]",
+  "blurb": "A Gravecaller who carries a lantern down the road of the dead and back up again.",
+  "features": [
+   [
+    5,
+    "Skill: Two-Way Lamp",
+    "As a bonus action, your lamp either stabilises a dying ally or frightens an undead within 30 feet."
+   ],
+   [
+    9,
+    "Skill: Return Fare",
+    "When an ally drops to 0, they stand at 1 hit point once per long rest."
+   ],
+   [
+    13,
+    "Ultimate: Crossroads Vigil",
+    "Once per long rest, for 1 minute no ally within 30 feet can die and every undead takes 4d10 radiant each turn."
+   ]
+  ],
+  "evolves": "At level 15, the lamp lets a dead ally speak one last message to anyone they choose.",
+  "cost": "Ghosts gather around your lamp every night asking for directions."
+ },
+ {
+  "n": "Mourner-Saint of the Wailing Hill",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Gravecaller",
+  "tower": "Mysterious",
+  "requires": "Cleric level 11, Gravecaller subclass, holds the Banshee or Grief Rune",
+  "unlock": "Answer the wail on the Fogglass Spire's floor 11 hilltop and calm the spirit making it.",
+  "secret": "You must have predicted a death that came true.",
+  "notice": "[Hidden job change. The wail is now your warning.]",
+  "blurb": "A Gravecaller who hears the death-wail before it comes, warning and shielding the doomed.",
+  "features": [
+   [
+    11,
+    "Skill: Forewail",
+    "You learn when any ally within 1 mile is about to drop below a quarter hit points."
+   ],
+   [
+    15,
+    "Skill: Keen",
+    "Your wail deals 4d8 psychic to enemies within 30 feet (Wis save)."
+   ],
+   [
+    19,
+    "Ultimate: Turn the Doom",
+    "Once per long rest, prevent one death and give it to the attacker."
+   ]
+  ],
+  "evolves": "At level 21, the wail can be heard across realms.",
+  "cost": "You hear every death within 1 mile."
+ },
+ {
+  "n": "Envoy of the Death Court",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Gravecaller",
+  "tower": "Abyss",
+  "requires": "Cleric level 21, Gravecaller subclass, a contract with a death god",
+  "unlock": "Argue a soul's release before the death court on the Sunken Spire's floor 44.",
+  "secret": "You must have pleaded a soul's case before a god.",
+  "notice": "[Hidden job change. You may speak in the court of the dead.]",
+  "blurb": "An envoy between living and the death court, bargaining souls.",
+  "features": [
+   [
+    21,
+    "Skill: Soul Plea",
+    "Revive a creature dead under 1 hour."
+   ],
+   [
+    25,
+    "Skill: Court Escort",
+    "Undead within 60 feet obey."
+   ],
+   [
+    29,
+    "Ultimate: Writ of Release",
+    "Once per long rest, free a soul from any binding."
+   ]
+  ],
+  "evolves": "A Finger contract lets you sit on the court.",
+  "cost": "The court sends you errands."
+ },
+ {
+  "n": "Reader of Margins",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Knowledge Domain",
+  "tower": "Human",
+  "requires": "Cleric level 5, Knowledge Domain subclass",
+  "unlock": "Find a hidden note in the margin of every book on floor 9 of the Milestone Spire.",
+  "secret": "You must have annotated 100 books.",
+  "notice": "[Hidden job change. The margins speak.]",
+  "blurb": "A knowledge cleric who reads between lines and margins.",
+  "features": [
+   [
+    5,
+    "Skill: Margin Note",
+    "Learn a hidden truth about any object you read."
+   ],
+   [
+    9,
+    "Skill: Marked Knowledge",
+    "Gain proficiency in any skill for 1 hour."
+   ],
+   [
+    13,
+    "Ultimate: Full Annotation",
+    "Once per long rest, learn everything about a place."
+   ]
+  ],
+  "evolves": "At level 15, you can write notes into the world.",
+  "cost": "You must read daily."
+ },
+ {
+  "n": "Oracle of the Fog Mirror",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Knowledge Domain",
+  "tower": "Mysterious",
+  "requires": "Cleric level 11, Knowledge Domain subclass, holds the Foresee Rune",
+  "unlock": "Ask the fog mirror on floor 12 a question and see the answer.",
+  "secret": "You must have answered a riddle from a god.",
+  "notice": "[Hidden job change. The mirror answers.]",
+  "blurb": "A knowledge cleric who reads the future in fog mirrors.",
+  "features": [
+   [
+    11,
+    "Skill: Mirror Glimpse",
+    "See the next round's events."
+   ],
+   [
+    15,
+    "Skill: Foresight",
+    "Allies gain advantage on initiative."
+   ],
+   [
+    19,
+    "Ultimate: Prophecy",
+    "Once per long rest, learn one future event."
+   ]
+  ],
+  "evolves": "At level 21, you can change one prophecy.",
+  "cost": "You see deaths of friends."
+ },
+ {
+  "n": "Librarian of the God-Shelf",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Knowledge Domain",
+  "tower": "Heaven",
+  "requires": "Cleric level 21, Knowledge Domain subclass, a contract with a knowledge god",
+  "unlock": "Shelve every book on the Choir Spire's floor 22.",
+  "secret": "You must have built a library.",
+  "notice": "[Hidden job change. The god's shelf is yours.]",
+  "blurb": "A knowledge cleric who keeps the gods' library.",
+  "features": [
+   [
+    21,
+    "Skill: God-Book",
+    "Read a book about any god."
+   ],
+   [
+    25,
+    "Skill: Shelf Ward",
+    "Allies gain resistance to psychic."
+   ],
+   [
+    29,
+    "Ultimate: Library of All",
+    "Once per long rest, know any fact."
+   ]
+  ],
+  "evolves": "A Finger contract lets you write gods' books.",
+  "cost": "You must keep the library."
+ },
+ {
+  "n": "Field-Surgeon of the Holy Order",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Life Domain",
+  "tower": "Human",
+  "requires": "Cleric level 5, Life Domain subclass",
+  "unlock": "On floor 10 of the Milestone Spire a skirmish rages for 10 rounds; keep every one of the 12 tower soldiers above 0 hit points until the horn sounds.",
+  "secret": "You must have stabilised 100 dying creatures by hand, without magic, before you entered.",
+  "notice": "[Hidden job change. Casualties this battle: zero. The Order takes note.]",
+  "blurb": "A Life cleric who works the front line like a battlefield surgeon, stitching and praying in the same breath.",
+  "features": [
+   [
+    5,
+    "Skill: Stitch and Psalm",
+    "As a bonus action, heal an ally within 5 feet for 2d8 plus your Wisdom modifier, and they stand up from prone for free."
+   ],
+   [
+    9,
+    "Skill: Triage Call",
+    "When you cast a healing spell on one creature, two other allies within 30 feet regain half as much."
+   ],
+   [
+    13,
+    "Ultimate: Not On My Field",
+    "Once per long rest, for 1 minute any ally within 30 feet who drops to 0 hit points instead drops to 1."
+   ]
+  ],
+  "evolves": "At level 15, after saving 500 lives, you can reattach severed limbs on a short rest.",
+  "cost": "You cannot walk past a wounded creature, friend or foe, without treating it."
+ },
+ {
+  "n": "Gardener of Second Spring",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Life Domain",
+  "tower": "Mysterious",
+  "requires": "Cleric level 11, Life Domain subclass, Harvesting profession level 3",
+  "unlock": "A dead orchard fills floor 11 of the Fogglass Spire; bring every tree back to fruit within one week using only prayer, water and your own hands.",
+  "secret": "You must have revived a plant that a druid declared dead.",
+  "notice": "[Hidden job change. The orchard remembers spring. So do you.]",
+  "blurb": "Life magic flows into soil as well as flesh, and the land itself starts healing this cleric's allies.",
+  "features": [
+   [
+    11,
+    "Skill: Rooted Mercy",
+    "Your healing spells also create a 10-foot patch of green where allies regain 1d8 hit points at the start of their turns for 1 minute."
+   ],
+   [
+    15,
+    "Skill: Fruit of the Vow",
+    "On a long rest, grow fruits equal to your Wisdom modifier; each restores 3d8 hit points when eaten."
+   ],
+   [
+    19,
+    "Ultimate: Second Spring",
+    "Once per long rest, revive a creature dead for no more than 1 minute, returning it with half its hit points."
+   ]
+  ],
+  "evolves": "At level 21, the orchard can be planted in another realm to ease its Realm Pressure by 1.",
+  "cost": "You must tend living plants daily or your healing is halved."
+ },
+ {
+  "n": "Lifeblood Covenanter",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Life Domain",
+  "tower": "Heaven",
+  "requires": "Cleric level 21, Life Domain subclass, a Minor contract with a healing god",
+  "unlock": "On the Choir Spire's floor 23 a plague ward holds a hundred dying; bleed into the god's chalice until all are saved, and do not stop when you faint.",
+  "secret": "You must have once given up your own healing so that a stranger could live.",
+  "notice": "[Hidden job change. Covenant sealed in blood. Your veins now run with mercy.]",
+  "blurb": "A Life cleric whose own blood becomes a sacrament, trading hit points for miracles.",
+  "features": [
+   [
+    21,
+    "Skill: Blood Sacrament",
+    "Spend up to 30 of your hit points; one ally within 60 feet regains twice that amount."
+   ],
+   [
+    25,
+    "Skill: Covenant Pulse",
+    "Allies within 30 feet regain 1d10 hit points whenever you take damage."
+   ],
+   [
+    29,
+    "Ultimate: The Open Vein",
+    "Once per long rest, drop to 1 hit point and heal every ally within 120 feet to full, ending all conditions."
+   ]
+  ],
+  "evolves": "Raising the contract to a 1st Finger lets your blood revive a creature dead up to a day.",
+  "cost": "Your blood is a prized reagent, and thieves and vampires hunt you for it."
+ },
+ {
+  "n": "Dawnbreaker Herald",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Light Domain",
+  "tower": "Human",
+  "requires": "Cleric level 5, Light Domain subclass",
+  "unlock": "Floor 9 of the Milestone Spire is locked in a night that never ends; climb its bell tower and ring in a dawn that the tower itself accepts.",
+  "secret": "You must have been awake to watch 100 sunrises in a row.",
+  "notice": "[Hidden job change. Dawn has a herald. Darkness has a deadline.]",
+  "blurb": "A Light cleric who carries the first hour of morning, burning off night and the things that live in it.",
+  "features": [
+   [
+    5,
+    "Skill: First Light",
+    "As an action, shed dawn-light in a 60-foot radius for 1 minute; magical darkness inside it ends."
+   ],
+   [
+    9,
+    "Skill: Burning Morning",
+    "Undead and fiends that start their turn in your First Light take 2d8 radiant damage."
+   ],
+   [
+    13,
+    "Ultimate: Sunrise Bell",
+    "Once per long rest, ring dawn across 120 feet: enemies take 8d8 radiant (Con save half) and allies end one condition."
+   ]
+  ],
+  "evolves": "At level 15, your dawn can be kept burning for a full day over a town or camp.",
+  "cost": "After sunset your Light spells deal half damage until midnight."
+ },
+ {
+  "n": "Truth-Lantern Inquisitor",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Light Domain",
+  "tower": "Mysterious",
+  "requires": "Cleric level 11, Light Domain subclass, holds the Truth Rune",
+  "unlock": "Every creature on the Fogglass Spire's floor 12 tells you a lie; find the single one that is true and shine your lantern on it.",
+  "secret": "You must have exposed a liar in front of a crowd at personal cost.",
+  "notice": "[Hidden job change. In this light, only the truth casts a shadow.]",
+  "blurb": "Radiance becomes a tool of inquiry, cutting through fog, disguise and falsehood.",
+  "features": [
+   [
+    11,
+    "Skill: Lantern of Candour",
+    "Creatures in your 30-foot lantern light cannot speak a deliberate lie (Cha save each turn)."
+   ],
+   [
+    15,
+    "Skill: Unmasking Beam",
+    "As a bonus action, a 60-foot line of light reveals invisible creatures and ends disguises and illusions it touches."
+   ],
+   [
+    19,
+    "Ultimate: Full Disclosure",
+    "Once per long rest, every illusion within 300 feet ends and hidden creatures are outlined in light for 1 minute."
+   ]
+  ],
+  "evolves": "At level 21, the lantern can show the true form of a shapeshifter or possessed creature.",
+  "cost": "You cannot lie either, even to protect a friend."
+ },
+ {
+  "n": "Sun-Fist Penitent",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Light Domain",
+  "tower": "Hell",
+  "requires": "Cleric level 21, Light Domain subclass, a Minor contract with a sun god",
+  "unlock": "On the Ledger Spire's floor 21, walk barefoot across the debtors' hall of burning coal and then punch through the devil-cast darkness at its end.",
+  "secret": "You must have confessed a real sin to your god and paid its penance in full.",
+  "notice": "[Hidden job change. Penance accepted. The sun now lives in your hands.]",
+  "blurb": "A penitent Light cleric who sets down mace and shield to fight with fists of trapped sunlight.",
+  "features": [
+   [
+    21,
+    "Skill: Sun Fist",
+    "Your unarmed strikes deal 1d10 plus Wisdom bludgeoning and 2d8 radiant damage."
+   ],
+   [
+    25,
+    "Skill: Penitent's Skin",
+    "You have resistance to necrotic and fire damage while you wear no armor."
+   ],
+   [
+    29,
+    "Ultimate: Noon Strike",
+    "Once per long rest, one punch deals 12d10 radiant damage and blinds the target for 1 minute (Con save half, no blindness)."
+   ]
+  ],
+  "evolves": "A 1st Finger contract lets each strike leave a sunbrand that devils cannot heal.",
+  "cost": "You must fast one day each week, or your fists cool to ordinary flesh."
+ },
+ {
+  "n": "Green-Wood Hierophant",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Nature Domain",
+  "tower": "Human",
+  "requires": "Cleric level 5, Nature Domain subclass",
+  "unlock": "Plant a sapling on floor 6 of the Milestone Spire and protect it as the tower sends three waves of axe-bearing woodcutters.",
+  "secret": "You must have planted at least 100 trees with your own hands.",
+  "notice": "[Hidden job change. The grove has chosen its keeper.]",
+  "blurb": "A Nature cleric who plants a portable sacred grove and fights from inside it.",
+  "features": [
+   [
+    5,
+    "Skill: Pocket Grove",
+    "As an action, raise a 20-foot grove for 1 minute; it is difficult terrain for enemies and allies inside have half cover."
+   ],
+   [
+    9,
+    "Skill: Sap Mending",
+    "Allies who start their turn in your grove regain 1d8 hit points."
+   ],
+   [
+    13,
+    "Ultimate: Old-Growth Rising",
+    "Once per long rest, your grove becomes 60 feet and its trees attack enemies inside for 3d8 bludgeoning each turn."
+   ]
+  ],
+  "evolves": "At level 15, a grove you tend for a month becomes permanent and acts as a shrine.",
+  "cost": "You cannot knowingly burn or cut a living tree without losing your Skills for a day."
+ },
+ {
+  "n": "Beast-Herd Shepherd",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Nature Domain",
+  "tower": "Mysterious",
+  "requires": "Cleric level 11, Nature Domain subclass, holds the Tame Rune",
+  "unlock": "Gather the scattered fog-beasts of the Fogglass Spire's floor 11 into a single herd and lead them through the mist without losing one.",
+  "secret": "You must have spent a full season as a shepherd or herder.",
+  "notice": "[Hidden job change. The herd knows your whistle.]",
+  "blurb": "A Nature cleric who keeps a herd of wild beasts like a shepherd, and they fight like one.",
+  "features": [
+   [
+    11,
+    "Skill: Shepherd's Whistle",
+    "Beasts of CR 2 or lower within 60 feet are charmed by you and follow simple commands."
+   ],
+   [
+    15,
+    "Skill: Stampede",
+    "As an action, your herd charges a 60-foot line for 4d10 bludgeoning (Dex save half) and knocks creatures prone."
+   ],
+   [
+    19,
+    "Ultimate: Call of the Wide Field",
+    "Once per long rest, summon a herd of 12 beasts of CR 3 or lower for 1 hour."
+   ]
+  ],
+  "evolves": "At level 21, the whistle reaches monstrosities, not just beasts.",
+  "cost": "Animals trail after you everywhere, and you must feed them."
+ },
+ {
+  "n": "Thorn-Vow Warden",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Nature Domain",
+  "tower": "Chaos",
+  "requires": "Cleric level 21, Nature Domain subclass, a Minor contract with a nature god",
+  "unlock": "On floor 33 of the Shuffled Spire, grow a thorn hedge that survives every reshuffle for one full day.",
+  "secret": "You must have sworn a vow to defend a forest and kept it through a battle.",
+  "notice": "[Hidden job change. The thorn remembers the vow.]",
+  "blurb": "A Nature cleric sworn to a god of wild places, whose vow takes root as a thorn that obeys no realm's rules.",
+  "features": [
+   [
+    21,
+    "Skill: Thorn Hedge",
+    "As an action, raise a 60-foot thorn wall; creatures passing through take 4d8 piercing."
+   ],
+   [
+    25,
+    "Skill: Vow-Bramble",
+    "Enemies you hit are restrained by brambles until they succeed on a Strength save."
+   ],
+   [
+    29,
+    "Ultimate: Thicket Without End",
+    "Once per long rest, thorns fill a 300-foot area for 10 minutes; only you and chosen allies move through freely."
+   ]
+  ],
+  "evolves": "A 1st Finger contract lets the thicket hold its shape in any realm, ignoring Realm Pressure.",
+  "cost": "You cannot cut, harvest or trample plants yourself."
+ },
+ {
+  "n": "Magistrate of the Iron Gavel",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Order Domain",
+  "tower": "Human",
+  "requires": "Cleric level 5, Order Domain subclass",
+  "unlock": "Hold court on floor 10 of the Milestone Spire, judging three accused and getting every verdict right according to the tower's hidden record.",
+  "secret": "You must have presided over a real trial and ruled against a friend.",
+  "notice": "[Hidden job change. Court is in session.]",
+  "blurb": "An Order cleric who carries a gavel instead of a mace, turning combat into a courtroom.",
+  "features": [
+   [
+    5,
+    "Skill: Gavel Strike",
+    "When you hit with the gavel, the target must obey a one-word command on its next turn (Wis save)."
+   ],
+   [
+    9,
+    "Skill: Contempt of Court",
+    "Creatures that ignore your command take 2d8 psychic damage."
+   ],
+   [
+    13,
+    "Ultimate: Sentence Passed",
+    "Once per long rest, name a crime; a creature guilty of it is stunned for 1 minute (Wis save each turn)."
+   ]
+  ],
+  "evolves": "At level 15, you can set up a court anywhere that binds witnesses to the truth.",
+  "cost": "You must judge fairly, even when it favours your enemies."
+ },
+ {
+  "n": "Sentinel of Heaven's Statute",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Order Domain",
+  "tower": "Heaven",
+  "requires": "Cleric level 21, Order Domain subclass, holds the Law or Rules Rune",
+  "unlock": "On the Choir Spire's floor 22, enforce the statute of the choir for a day, arresting anyone who breaks it, even angels.",
+  "secret": "You must have arrested someone more powerful than you.",
+  "notice": "[Hidden job change. The statute has a sentinel.]",
+  "blurb": "An Order cleric who enforces heaven's statute, laying down rules that bind a battlefield.",
+  "features": [
+   [
+    21,
+    "Skill: Statute",
+    "Declare a rule within 60 feet for 1 minute; creatures who break it take 4d10 radiant."
+   ],
+   [
+    25,
+    "Skill: Ordered Ranks",
+    "Allies within 30 feet gain +1 AC."
+   ],
+   [
+    29,
+    "Ultimate: Edict of Heaven",
+    "Once per long rest, declare three statutes at once for 10 minutes."
+   ]
+  ],
+  "evolves": "Holding a second Rune lets statutes last a day.",
+  "cost": "You must obey your own statutes."
+ },
+ {
+  "n": "Tithe-Collector of the Brass Ledger",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Order Domain",
+  "tower": "Hell",
+  "requires": "Cleric level 21, Order Domain subclass, a Minor contract with a law god",
+  "unlock": "Collect the overdue tithes owed on the Ledger Spire's floor 21 from three devils without breaking a single clause of their contracts.",
+  "secret": "You must have collected a debt from someone who had no way to refuse.",
+  "notice": "[Hidden job change. Tithes are due. Payment is not optional.]",
+  "blurb": "An Order cleric who enforces debts as divine law, taking from enemies what they owe.",
+  "features": [
+   [
+    21,
+    "Skill: Levy",
+    "When you hit, take 2d10 temporary hit points from the target as tithe."
+   ],
+   [
+    25,
+    "Skill: Audit",
+    "Learn a creature's debts, oaths and contracts by touch."
+   ],
+   [
+    29,
+    "Ultimate: Final Collection",
+    "Once per long rest, a creature with unpaid debts takes 12d10 necrotic damage."
+   ]
+  ],
+  "evolves": "A 1st Finger contract lets you collect debts owed to gods.",
+  "cost": "Commoners shun you; you cannot buy at fair prices."
+ },
+ {
+  "n": "Tea-House Peacemaker",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Peace Domain",
+  "tower": "Human",
+  "requires": "Cleric level 5, Peace Domain subclass, Cooking profession level 2",
+  "unlock": "Two warbands fight on floor 8 of the Milestone Spire; set up a table in the middle and serve tea until both sit down.",
+  "secret": "You must have made peace between two enemies over a shared meal.",
+  "notice": "[Hidden job change. Tea is served. Weapons are left at the door.]",
+  "blurb": "A Peace cleric whose tea ceremony is a ritual of calm, binding drinkers together.",
+  "features": [
+   [
+    5,
+    "Skill: Cup of Calm",
+    "As an action, a creature who accepts your tea cannot attack for 1 minute (Wis save if hostile)."
+   ],
+   [
+    9,
+    "Skill: Shared Pot",
+    "Allies who drink with you share your Emboldening Bond bonus for 1 hour."
+   ],
+   [
+    13,
+    "Ultimate: Ceasefire Ceremony",
+    "Once per long rest, all creatures within 60 feet stop fighting for 10 minutes unless attacked."
+   ]
+  ],
+  "evolves": "At level 15, tea brewed with a high-grade leaf heals its Potency in hit points.",
+  "cost": "You must offer tea before any fight you start."
+ },
+ {
+  "n": "Woven-Hearts Mediator",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Peace Domain",
+  "tower": "Mysterious",
+  "requires": "Cleric level 11, Peace Domain subclass, Tailoring profession level 3",
+  "unlock": "Gather a thread from every enemy on the Fogglass Spire's floor 12 and weave them into one tapestry that hangs in the fog.",
+  "secret": "You must have woven a gift for someone who once wronged you.",
+  "notice": "[Hidden job change. The threads are tied. So are the hearts.]",
+  "blurb": "A Peace cleric who weaves hearts together, binding allies so they share each other's burdens.",
+  "features": [
+   [
+    11,
+    "Skill: Heart Thread",
+    "Link two willing creatures; damage to one is split between them."
+   ],
+   [
+    15,
+    "Skill: Woven Ward",
+    "Linked creatures gain +1 AC and advantage on saves against charm."
+   ],
+   [
+    19,
+    "Ultimate: Tapestry of Hearts",
+    "Once per long rest, link all allies within 60 feet for 1 minute."
+   ]
+  ],
+  "evolves": "At level 21, you can weave treaties between whole villages.",
+  "cost": "You feel every hurt done to a linked creature."
+ },
+ {
+  "n": "Truce-Bringer of the White Flag",
+  "tier": "Epic",
+  "base": "Cleric",
+  "sub": "Peace Domain",
+  "tower": "Heaven",
+  "requires": "Cleric level 21, Peace Domain subclass, a Minor contract with a peace god",
+  "unlock": "Raise a white flag on the Choir Spire's floor 23 between two warring angel hosts, and hold it while both test you.",
+  "secret": "You must have ended a war or a blood feud.",
+  "notice": "[Hidden job change. Truce declared. Heaven witnesses.]",
+  "blurb": "A Peace cleric who carries a god's white flag; where it flies, violence falters.",
+  "features": [
+   [
+    21,
+    "Skill: White Flag",
+    "Plant the flag; creatures within 30 feet have disadvantage on attacks while it stands."
+   ],
+   [
+    25,
+    "Skill: Truce Shield",
+    "Allies within 30 feet of the flag gain resistance to all damage."
+   ],
+   [
+    29,
+    "Ultimate: Armistice",
+    "Once per long rest, no creature within 120 feet can deal damage for 1 round."
+   ]
+  ],
+  "evolves": "A 1st Finger contract lets your flag halt battles between realms.",
+  "cost": "You cannot strike a creature first."
+ }
+]
