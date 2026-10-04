@@ -911,10 +911,10 @@ const TABS=[
   ['home','Home'],['lore','Lore'],['codex','Codex',NOTES.length],['blueprints','Blueprints',BPS.length],['materials','Materials',MATS.length],['bestiary','Bestiary',MONSTERS.length],
   ['realms','Realms',REALMS.length],['gods','Gods',GODS.length],['runes','Runes',RUNES.length],['professions','Professions',Object.keys(PROFS).length],
   ['spells','Spells',META.counts.spells],['subclasses','Subclasses',SUBS.length],['demons','Demons',DEMONS.length],['patrons','Patrons',PATRONS.length],
-  ['forge','Forge'],['craft','Craft'],['party','Party'],['encounter','Encounters'],['combat','Combat'],
+  ['forge','Forge'],['craft','Craft'],['party','Party'],['encounter','Encounters'],['hooks','Hooks'],['combat','Combat'],
   ['rules','Rules'],['tools','Tools'],['about','About'],
 ];
-const PAGES={home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,about:renderAbout,lore:()=>renderLore(),forge:()=>renderForge(),craft:()=>renderCraft(),party:()=>renderParty(),encounter:()=>renderEncounter(),combat:()=>renderCombat()};
+const PAGES={home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,about:renderAbout,lore:()=>renderLore(),forge:()=>renderForge(),craft:()=>renderCraft(),party:()=>renderParty(),encounter:()=>renderEncounter(),hooks:()=>renderHooks(),combat:()=>renderCombat()};
 
 // ════════════════════════════════════════════════════════════════
 //  State & routing
@@ -959,10 +959,10 @@ const NAV_GROUPS=[
   ['Creatures & Materials',['bestiary','materials']],
   ['Items & Crafting',['blueprints','forge','craft','professions']],
   ['Magic & Classes',['spells','subclasses']],
-  ['Play',['party','encounter','combat','tools']],
+  ['Play',['party','encounter','hooks','combat','tools']],
   ['Reference',['rules','about']],
 ];
-const NAV_BLURB={lore:'Infinatas, the gods, and the history of Vestige',realms:'The eleven realms and their coin',gods:'Pantheons, Runes, Hands, and rivals',runes:'Every Law, its lineage, and its progenitor',demons:'Archdevils, demon princes, and corruptions',patrons:'Warlock patrons',codex:'Every note from the Obsidian vault',bestiary:'Monsters with stat blocks, lore, and drops',materials:'Graded materials, traits, and prices',blueprints:'Ready-made designs for every profession',forge:'Build a weapon or armor part by part',craft:'Plan what to gather and buy',professions:'The ten professions and their specialties',spells:'Spells by school, tier, and class',subclasses:'Official and homebrew subclasses',party:'Characters, gear, contracts, and money',encounter:'Balanced fights by realm and level',combat:'Initiative, HP, and flat AC',tools:'Calculators and converters',rules:'Rules summaries',about:'What FAND has, version by version'};
+const NAV_BLURB={hooks:'Story starters from the gods, Runes, and monsters',lore:'Infinatas, the gods, and the history of Vestige',realms:'The eleven realms and their coin',gods:'Pantheons, Runes, Hands, and rivals',runes:'Every Law, its lineage, and its progenitor',demons:'Archdevils, demon princes, and corruptions',patrons:'Warlock patrons',codex:'Every note from the Obsidian vault',bestiary:'Monsters with stat blocks, lore, and drops',materials:'Graded materials, traits, and prices',blueprints:'Ready-made designs for every profession',forge:'Build a weapon or armor part by part',craft:'Plan what to gather and buy',professions:'The ten professions and their specialties',spells:'Spells by school, tier, and class',subclasses:'Official and homebrew subclasses',party:'Characters, gear, contracts, and money',encounter:'Balanced fights by realm and level',combat:'Initiative, HP, and flat AC',tools:'Calculators and converters',rules:'Rules summaries',about:'What FAND has, version by version'};
 function navGroupOf(t){const g=NAV_GROUPS.find(([,ids])=>ids.includes(t));return g?g[0]:null}
 function openNav(g,btn){
   const pop=$('navpop'),grp=NAV_GROUPS.find(x=>x[0]===g);if(!grp)return;
@@ -1237,6 +1237,7 @@ function loadDetails(){
   s.onload=()=>{VDETAILS=typeof VAULT_DETAILS!=='undefined'?VAULT_DETAILS:{};if(CUR&&$('mbg').classList.contains('open'))showModal(CUR)};
   s.onerror=()=>{VDETAILS={}};document.head.appendChild(s);
 }
+const SITE_FILL='<div class="note" style="margin-top:-4px">Written by the site to fill a gap; the vault has no description for this yet.</div>';
 function vaultBlock(x){
   const t={bp:'bp',mat:'mat',spell:'spell',sub:'sub',mon:'mon',god:'god'}[x._t];if(!t)return '';
   if(!VDETAILS){loadDetails();return SITE&&VAULT_DATA.imported?'<div class="note">Loading the vault entry…</div>':''}
@@ -1293,11 +1294,11 @@ const MODAL={
       kind:'Blueprint · '+esc(b.pr),
       badges:`${rarB(b.r)}<span class="b">Level ${b.lv}</span><span class="b ghost">${esc(b.cat)}</span>${b.mg?'<span class="b gold">✦ Magic artifact</span>':''}`,
       body:kv(rows)+(b.prop?`<div class="callout">✧ <b>${esc(b.prop)}</b>${strong&&strong.prop?`<div style="margin-top:4px">${esc(strong.prop.replace(/^[^:]+:\s*/,''))}</div>`:''}</div>`:'')
-        +(b.ds?`<div class="prose">${esc(b.ds)}</div>`:b.lost?`<div class="prose lost">This Blueprint's description was lost in an earlier sync of this app; its materials were recovered. The full text is in the vault note <b>${esc(b.n)}</b>.</div>`:'')
-        +(ARMOR_CATS.includes(b.cat)&&b.ac?`<div class="callout"><b>Armor drawback</b> (this piece alone, AC ${esc(b.ac)}): ${esc(drawbackFor(+b.ac||0)[1])}. Drawbacks count the total AC of all armor worn.</div>`:'')
+        +(b.ds?`<div class="prose">${esc(b.ds)}</div>${b.dsg?SITE_FILL:''}`:b.lost?`<div class="prose lost">This Blueprint's description was lost in an earlier sync of this app; its materials were recovered. The full text is in the vault note <b>${esc(b.n)}</b>.</div>`:'')
+        +(ARMOR_CATS.includes(b.cat)&&b.ac?(()=>{const pc=armorPiece(b),d=pieceDrawbacks(pc);return `<div class="callout"><b>Armor drawback</b> (${esc(pc.weight.toLowerCase())} ${esc(pc.slot.toLowerCase())} piece): ${d.length?esc(d.join('; ')):'none'}.${pc.weight!=='Light'&&!['Mount','Enhancement','Buckler','Shield','Tower'].includes(pc.slot)?` Wearing ${pc.weight.toLowerCase()} pieces on 8 or more armor units adds the full-set drawback.`:''}</div>`})():'')
         +`<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="store.set('craft',Object.assign(store.get('craft',{}),{bp:${esc(JSON.stringify(b.n))},qty:1}));closeAll();go('craft')">⚒ Plan crafting</button>${CAT_TO_BASE[b.cat]?`<button class="btn" onclick="openInForge(BPS[${b._i}])">🔥 Open in the Forge</button>`:''}</div>`
         +blk('Traits when equipped',(()=>{const tr=mats.filter(x=>x.m&&x.m.tr);return tr.length?`<div class="mlist">${tr.map(({m})=>`<button data-ref="${ref(m)}" style="flex-direction:column;align-items:flex-start;gap:2px"><span><b style="color:var(--gold2)">◆ ${esc(m.tr.n)}</b> <span class="x">from ${esc(m.n)}${m.origin&&m.org==='Creature'?' ('+esc(m.origin)+')':''}</span></span><span style="font-size:.8rem">${esc(m.tr.t)}</span></button>`).join('')}</div>`:''})(),'from its materials')
-        +blk('Materials',mlist,mats.length?mats.length+' required':'')+blk('Connections',conns?`<div class="chips">${conns}</div>`:'')+vars};
+        +blk('Materials',mlist+(b.mi?`<div class="note">The vault lists no materials for this Blueprint. These are suggested by the site: materials its description names, or ones of the right kind for its level. Change them freely.</div>`:''),mats.length?mats.length+(b.mi?' suggested':' required'):'')+blk('Connections',conns?`<div class="chips">${conns}</div>`:'')+vars};
   },
   mat(m){
     const users=bpByMat().get(lc(m.n))||[];
@@ -1399,6 +1400,7 @@ const MODAL={
     return {title:esc(r.n),strip:r.color,kind:'Realm · Tier '+r.tier,
       badges:`<span class="b" style="color:${r.color}">Tier ${r.tier}</span><span class="b ghost">Pressure ${r.pressure}</span><span class="b ghost">${r.base?'Base price '+gp(r.base):'Not sold'}</span>`,
       body:`<div class="prose">${esc(REALM_BLURB[r.n]||'')}</div>`
+        +(()=>{const v=[r.page,r.n+' Realm',r.n].filter(Boolean).map(noteByName).find(Boolean);return v?`<details class="fold" open style="border-top:1px solid var(--line);padding-top:10px"><summary>From the vault <span style="color:var(--muted)">· ${esc(v.f)}/${esc(v.n)}</span></summary><div class="prose vault" style="font-family:var(--sans);font-size:.9rem">${mdVault(v.md)}</div></details>`:''})()
         +kv([['Tier',r.tier],['Material ranks',`${(r.tier-1)*10+1}–${r.tier*10}`],['Item levels',`${Math.ceil(((r.tier-1)*10+1)/2)}–${r.tier*5}`],['Pressure',r.pressure],['Materials',fmt(mats.length)],['Monsters',fmt(mons.length)],['Gods at home',gods.length]])
         +blk('Money',(()=>{const c=CURRENCY[r.n];if(!c)return '';return c.coin?`<div class="callout"><b>${esc(c.coin)}</b> = ${gp(c.gp)}${c.gp>1?' each':''} · ${esc(c.sub)}<div style="margin-top:4px">${esc(c.what)} ${esc(c.note)}</div></div>`:`<div class="callout">${esc(c.note)}</div>`})())
         +blk('Monsters',`<div class="chips">${mons.slice(0,40).map(m=>refChip(m,esc(m.n),'G'+m.g)).join('')}</div>${mons.length>40?`<div style="margin-top:8px"><button class="btn" data-go="bestiary" data-setup='${esc(JSON.stringify({side:r.n}))}'>All ${fmt(mons.length)} in the Bestiary →</button></div>`:''}`,fmt(mons.length))
@@ -1412,7 +1414,7 @@ function entityModal(e,other,label){
   const twin=other.find(x=>x.n.split(' - ')[0].trim()===key);
   const sibs=TYPES[e._t].arr.filter(x=>x.grp===e.grp&&x!==e);
   return {title:esc(p[0]),ep:esc(p.slice(1).join(' - ')),kind:TYPES[e._t].label+' · '+esc(e.grp),badges:`<span class="b acc">${esc(e.grp)}</span>`,
-    body:(e.ds?`<div class="prose">${esc(e.ds)}</div>`:`<div class="prose lost">No description yet. See the vault note for ${esc(p[0])}.</div>`)
+    body:(e.ds?`<div class="prose">${esc(e.ds)}</div>${e.dsg?SITE_FILL:''}`:`<div class="prose lost">No description yet. See the vault note for ${esc(p[0])}.</div>`)
       +(twin?blk(label,`<div class="chips">${refChip(twin)}</div>`):'')
       +blk('Others in '+esc(e.grp),`<div class="chips">${sibs.slice(0,30).map(x=>refChip(x,esc(x.n.split(' - ')[0]))).join('')}</div>`)};
 }
@@ -1582,7 +1584,9 @@ function renderRules(){
       <div class="formula">damage taken = damage − AC</div>
       <p><b>How much AC gear gives.</b> Each slot is worth armor units: Body 4, Head 2, Hands 1, Feet 1, Shoulders 1, Back 1 (a full set is 10). Shields: Buckler 1, Shield 2, Tower 3. Each unit gives 1 AC in metal, 0.7 in bone, scale, or stone, and 0.4 in hide or cloth, raised by the material's Item Level (×(1 + (Item Level − 1) ÷ 20)). A full set of iron gear gives <b>10 AC</b>. Every piece gives at least 1.</p>
       <p>AC is subtracted flat from the total damage of each hit.</p>
-      <div class="tablewrap"><table class="t"><thead><tr><th class="num">Armor AC worn</th><th>Drawback</th><th></th></tr></thead><tbody>${ARMOR_DRAWBACKS.map((r,i)=>`<tr><td class="num">${r[0]}${ARMOR_DRAWBACKS[i+1]?'–'+(ARMOR_DRAWBACKS[i+1][0]-1):'+'}</td><td>${esc(r[1])}</td><td style="color:var(--muted);font-size:.8rem">${r[2]?'proposed, adjust as you like':''}</td></tr>`).join('')}</tbody></table></div>
+      <p><b>Drawbacks depend on what you wear.</b> Each piece's drawback comes from its slot and the weight of its material: <b>heavy</b> (metal), <b>medium</b> (bone, scale, stone, gem), or <b>light</b> (hide, cloth, and the rest). Light armor has no drawbacks. Drawbacks from different pieces stack; speed penalties add up.</p>
+      <div class="tablewrap"><table class="t"><thead><tr><th>Piece</th><th>Heavy (metal)</th><th>Medium (bone, scale, stone)</th><th>Light</th></tr></thead><tbody>${['Body','Head','Hands','Feet','Shoulders','Back','Shield','Tower','Mount'].map(sl=>`<tr><td><b>${sl==='Tower'?'Tower shield':sl==='Mount'?'Barding (mount)':sl}</b></td>${['Heavy','Medium','Light'].map(w=>`<td>${esc(((PIECE_DRAWBACKS[sl]||{})[w]||['None']).join('; '))}</td>`).join('')}</tr>`).join('')}</tbody></table></div>
+      <p><b>Full sets.</b> ${SET_DRAWBACKS.map(x=>esc(x[2])).join(' ')} A set counts the armor units of Body, Head, Hands, Feet, Shoulders, and Back (8 of the 10). Bucklers and enhancements never add drawbacks.</p>
       <p class="note"><a href="${pageUrl('tools')}" data-go="tools">Damage calculator →</a></p>`],
     ['grading','Material Grading','v1.07, v1.10',`<p>Every material has a realm and a grade from 1 to 10. Together they give a Material Rank from 1 to 100, which sets the Item Level (1–50) of what it makes. Blueprints record their strongest material.</p>
       <div class="formula">Material Rank = (tier − 1) × 10 + grade<br>Item Level = ⌈ Rank ÷ 2 ⌉</div>${tierTable()}`],
@@ -1685,7 +1689,7 @@ function renderLore(){
   const runes=[...RUNE_GODS].sort((a,b)=>b[1].length-a[1].length||a[0].localeCompare(b[0]));
   const prog=MATS.filter(m=>m.pn==='Progenitor Piece');
   const groups=(arr)=>{const o={};arr.forEach(e=>{(o[e.grp]=o[e.grp]||[]).push(e)});return o};
-  const toc=[['cosmos','Infinatas and Inane'],['timeline','Timeline'],['pantheons','The pantheons'],['runes','Runes'],['realms','The realms'],['progenitors','The progenitors'],['powers','Other powers'],['contracts','Contracts and the Hand']];
+  const toc=[['cosmos','Infinatas and Inane'],['timeline','Timeline'],['wars','The god wars'],['pantheons','The pantheons'],['runes','Runes'],['realms','The realms'],['progenitors','The progenitors'],['powers','Other powers'],['contracts','Contracts and the Hand']];
   const sec=(id,title,body,sub)=>`<section class="rule" id="lore-${id}"><h3>${title}</h3>${sub?`<div class="src">${sub}</div>`:''}${body}</section>`;
   $('content').innerHTML=`<div class="page">
     <section class="hero" style="margin-bottom:18px"><h2>The Lore of Vestige</h2><p>What is known of the powers that shape FAND: the being above the gods, the gods who came here as refugees, the Runes they fight over, and the realms they rule.</p></section>
@@ -1697,7 +1701,9 @@ function renderLore(){
       <li><b>The arrival.</b> Infinatas allows the surviving gods into this realm under strict regulation.</li>
       <li><b>The Hands.</b> Each god binds mortals by contract, from Minor up to the five Fingers that make up its Hand. ${GODS.reduce((a,g)=>a+(g.hand||[]).length,0)} Fingers are named so far.</li>
       <li><b>The rivalries.</b> ${CONTESTED.length} Runes are claimed by more than one god, and every shared Rune is a feud.</li>
-      <li><b>Still to be written:</b> the god wars, and what Inane does next.</li></ol>`,'Known so far, in order')}
+      <li><b>The god wars.</b> Open war between gods is forbidden, so the feuds over shared Runes are fought through contracts and Fingers. <a href="#lore-wars" onclick="document.getElementById('lore-wars').scrollIntoView();return false">See every front below.</a></li>
+      <li><b>If Infinatas falls.</b> Inane takes over and unmakes everything, Infinatas included, until nothing is left; then Infinatas returns and creates it all again.</li></ol>`,'Known so far, in order')}
+    ${sec('wars','The god wars',godWarsHTML(),'Draft built from the vault\'s data: every Rune held by more than one god')}
     ${sec('pantheons','The pantheons',`<p>${GODS.length} gods from ${Object.keys(pantheons).length} pantheons now live in Vestige. Most make their homes in ${(()=>{const c={};GODS.forEach(g=>{if(g.home)c[g.home]=(c[g.home]||0)+1});return Object.entries(c).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([r,n])=>esc(r)+' ('+n+')').join(', ')})()}.</p>
       <div style="display:flex;flex-direction:column;gap:10px;margin-top:10px">${Object.entries(pantheons).map(([p,gs])=>`<div><b style="font-family:var(--serif)">${esc(p)}</b> <span class="note">${gs.length} gods</span><div class="chips" style="margin-top:4px">${gs.map(g=>refChip(g,esc(godKey(g)),g.home||'')).join('')}</div></div>`).join('')}</div>
       <p class="note"><a href="${pageUrl('gods')}" data-go="gods">Browse the gods →</a></p>`)}
@@ -1812,15 +1818,36 @@ function renderTools(){
 //  Table tools: Craft, Party, Encounters, Combat
 //  All state is kept in this browser (localStorage); Party can be exported and imported as JSON.
 // ════════════════════════════════════════════════════════════════
-// Armor drawbacks by total armor AC. The 10+ row is the campaign's rule; the lower rows are a
-// starting point to adjust.
-const ARMOR_DRAWBACKS=[
-  [0,'None',''],
-  [4,'Disadvantage on Dexterity (Stealth) checks','proposed'],
-  [7,'Disadvantage on Stealth and Acrobatics checks','proposed'],
-  [10,'You lose Acrobatics, Athletics, and Dexterity',''],
-];
-const drawbackFor=ac=>{let d=ARMOR_DRAWBACKS[0];ARMOR_DRAWBACKS.forEach(r=>{if(ac>=r[0])d=r});return d};
+// Armor drawbacks come from what is actually worn: each piece's slot and the weight of its material
+// (metal = heavy, bone/scale/stone/gem = medium, hide/cloth and the rest = light). Light armor never has drawbacks.
+// A full heavy set (metal on 8+ armor units) keeps the campaign's rule: you lose Acrobatics, Athletics, and Dexterity.
+const ARMOR_WEIGHT={O:'Heavy',B:'Medium',S:'Medium',G:'Medium'};
+const weightOfCodes=codes=>codes.includes('O')?'Heavy':codes.some(c=>ARMOR_WEIGHT[c])?'Medium':'Light';
+const PIECE_DRAWBACKS={
+  Body:{Heavy:['Disadvantage on Dexterity (Stealth) checks','Speed −5 ft'],Medium:['Disadvantage on Dexterity (Stealth) checks']},
+  Head:{Heavy:['Disadvantage on Wisdom (Perception) checks that rely on hearing or sight to the sides']},
+  Hands:{Heavy:['Disadvantage on Dexterity (Sleight of Hand) checks and on fine work with tools'],Medium:['Disadvantage on Dexterity (Sleight of Hand) checks']},
+  Feet:{Heavy:['Disadvantage on Dexterity (Stealth) checks (loud footsteps)']},
+  Shoulders:{Heavy:['Disadvantage on Dexterity (Acrobatics) checks']},
+  Back:{Heavy:['Disadvantage on Dexterity (Acrobatics) checks']},
+  Mount:{Heavy:['The mount\'s speed −10 ft'],Medium:['The mount\'s speed −5 ft']},
+  Tower:{Heavy:['Speed −5 ft','Disadvantage on Dexterity (Stealth) checks'],Medium:['Speed −5 ft'],Light:['Speed −5 ft']},
+  Shield:{Heavy:['Disadvantage on Dexterity (Acrobatics) checks']},
+};
+const SET_DRAWBACKS=[['Heavy',8,'Full heavy set: you lose Acrobatics, Athletics, and Dexterity (Dexterity counts as 10 and you cannot use it for AC, attacks, or saves that would benefit).'],
+  ['Medium',8,'Full medium set: disadvantage on Strength (Athletics) and Dexterity (Acrobatics) checks.']];
+const SLOT_UNIT_ALL={Body:4,Head:2,Hands:1,Feet:1,Shoulders:1,Back:1,Enhancement:1,Mount:4,Buckler:1,Shield:2,Tower:3};
+// piece: {slot, weight}
+function pieceDrawbacks(pc){return ((PIECE_DRAWBACKS[pc.slot]||{})[pc.weight])||[]}
+function armorPiece(b){const ms=(b.mats||[]).map(findMat).filter(Boolean);return {slot:b.slot||(b.cat==='Shield'?'Shield':'Body'),weight:weightOfCodes(ms.map(matCode)),n:b.n,b}}
+function setDrawbacks(pieces){
+  const out=[];pieces.forEach(pc=>pieceDrawbacks(pc).forEach(d=>{const x=out.find(o=>o.d===d);if(x)x.from.push(pc.n);else out.push({d,from:[pc.n]})}));
+  const speed=out.filter(o=>/^Speed −(\d+)/.test(o.d));if(speed.length>1){const tot=speed.reduce((a,o)=>a+(+o.d.match(/\d+/)[0]),0);const from=speed.flatMap(o=>o.from);speed.forEach(o=>out.splice(out.indexOf(o),1));out.unshift({d:`Speed −${tot} ft`,from})}
+  SET_DRAWBACKS.forEach(([w,min,d])=>{const u=pieces.filter(pc=>pc.weight===w||(w==='Medium'&&pc.weight==='Heavy')).filter(pc=>!['Mount','Enhancement','Buckler','Shield','Tower'].includes(pc.slot)).reduce((a,pc)=>a+(SLOT_UNIT_ALL[pc.slot]||0),0);
+    if(u>=min&&!out.some(o=>/^Full heavy/.test(o.d))&&!(w==='Medium'&&pieces.filter(pc=>pc.weight==='Heavy'&&!['Mount','Enhancement','Buckler','Shield','Tower'].includes(pc.slot)).reduce((a,pc)=>a+(SLOT_UNIT_ALL[pc.slot]||0),0)>=8))out.unshift({d,from:['the whole set']})});
+  return out;
+}
+const drawbackText=list=>list.length?list.map(o=>o.d).join('; '):'None';
 const ARMOR_CATS=['Armor','Shield'];
 const CONTRACT_RANKS=['Minor','Rank 2','Rank 3','Rank 4','Rank 5','5th Finger','4th Finger','3rd Finger','2nd Finger','1st Finger'];
 const CONDITIONS=['Blinded','Charmed','Deafened','Frightened','Grappled','Incapacitated','Invisible','Paralyzed','Petrified','Poisoned','Prone','Restrained','Stunned','Unconscious','Exhaustion','Concentrating'];
@@ -1847,7 +1874,8 @@ function charStats(c){
   const purseGp=Object.entries(c.purse||{}).reduce((a,[r,v])=>a+(CURRENCY[r]&&CURRENCY[r].gp||0)*(+v||0),0);
   const god=godByKey(c.god);const rivals=[];
   if(god)(god.runes||[]).forEach(r=>(RUNE_GODS.get(r)||[]).forEach(o=>{if(o!==god&&!rivals.includes(o))rivals.push(o)}));
-  return {gear,armorAC,ac,traits,inv,invGp,purseGp,god,rivals,drawback:drawbackFor(armorAC)};
+  const pieces=gear.filter(b=>ARMOR_CATS.includes(b.cat)).map(armorPiece);
+  return {gear,armorAC,ac,traits,inv,invGp,purseGp,god,rivals,pieces,drawback:setDrawbacks(pieces)};
 }
 
 // ── Craft ─────────────────────────────────────────────────────
@@ -1939,7 +1967,7 @@ function charEditor(c){
     <div style="display:flex;justify-content:space-between"><button class="btn" onclick="if(confirm('Delete this character?')){PARTY=PARTY.filter(x=>x.id!=='${c.id}');PARTY_SEL=null;saveParty();renderParty()}">Delete character</button><button class="btn" onclick="go('craft')">Crafting planner →</button></div>
    </div>
    <div style="display:flex;flex-direction:column;gap:14px">
-    <div class="panel">${kv([['AC',`${s.ac} <small style="font-weight:400;color:var(--muted)">(armor ${s.armorAC}${s.ac-s.armorAC?', other '+(s.ac-s.armorAC):''})</small>`],['HP',`${c.hp??'?'} / ${c.hpMax??'?'}`],['Armor drawback',esc(s.drawback[1])],['Contract',s.god?refChip(s.god,esc(godKey(s.god)))+(c.rank?' · '+esc(c.rank):''):'None']])}
+    <div class="panel">${kv([['AC',`${s.ac} <small style="font-weight:400;color:var(--muted)">(armor ${s.armorAC}${s.ac-s.armorAC?', other '+(s.ac-s.armorAC):''})</small>`],['HP',`${c.hp??'?'} / ${c.hpMax??'?'}`],['Armor drawbacks',s.drawback.length?`<ul style="margin:0;padding-left:16px;font-weight:400">${s.drawback.map(o=>`<li>${esc(o.d)} <small style="color:var(--muted)">(${esc(o.from.join(', '))})</small></li>`).join('')}</ul>`:'None'],['Contract',s.god?refChip(s.god,esc(godKey(s.god)))+(c.rank?' · '+esc(c.rank):''):'None']])}
       ${s.rivals.length?`<div class="blk" style="margin-top:10px"><h4>Rival gods <em>they share a Rune with your patron</em></h4><div class="chips">${s.rivals.map(g=>refChip(g,esc(godKey(g)))).join('')}</div></div>`:''}
       <div class="blk" style="margin-top:10px"><h4>Realm Pressure <em>Attunement ${+c.attune||0}</em></h4><div class="chips">${REALMS.map(r=>{const d=r.pressure-(+c.attune||0);return `<span class="chip" style="${d>0?'border-color:var(--red)':''}"><span class="sw" style="background:${r.color}"></span>${esc(r.n)} <small>${d>0?'strain +'+d:'safe'}</small></span>`}).join('')}</div></div></div>
     <div class="panel"><h4>Gear <em style="font-family:var(--sans);font-size:.75rem;color:var(--muted);font-weight:400">equipped Blueprints</em></h4>
@@ -2029,6 +2057,61 @@ function monCombatant(m,i){return {id:uid(),name:m.n+(i?' '+i:''),mon:m.n,init:0
 // ── Combat ────────────────────────────────────────────────────
 let CB=null;
 const saveCB=()=>store.set('combat',CB);
+// ════════════════════════════════════════════════════════════════
+//  Adventure hooks: built from the gods, Runes, realms, monsters, and materials on this site
+// ════════════════════════════════════════════════════════════════
+function rng32(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const HOOK_KINDS=[['contract','A god\'s contract'],['rival','A Rune feud'],['progenitor','A progenitor\'s remains'],['hunt','A hunt'],['craft','A commission'],['pact','A dark offer'],['inane','Signs of Inane']];
+function hookRealms(level,realm){const top=Math.max(1,Math.ceil(level/2));const rs=REALMS.filter(r=>realm?r.n===realm:r.tier<=top);return rs.length?rs:REALMS.filter(r=>r.tier===1)}
+function makeHook(kind,R,level,realm){
+  const pk=a=>a.length?a[Math.floor(R()*a.length)]:null;
+  const rs=hookRealms(level,realm),r=pk(rs),a=x=>refChip(x,esc(x._t==='god'?godKey(x):x.n));
+  const mons=MONSTERS.filter(m=>rs.includes(REALM[m.realm])&&crNum(m.sb?m.sb.cr:m.cr)<=level+2&&crNum(m.sb?m.sb.cr:m.cr)>=Math.max(0,level-6));
+  const mats=MATS.filter(m=>rs.includes(REALM[m.realm])&&m.price);
+  const reward=Math.round((50+level*level*40)*(0.75+R()*0.5)/10)*10;
+  if(kind==='contract'){const g=pk(GODS.filter(g=>g.wants));if(!g)return null;const sig=(g.sig||[]).map(findMat).filter(Boolean);const m=pk(sig);
+    return {g,text:`A ${pk(['Minor','Lesser','sworn','newly contracted'])} servant of ${a(g)} comes to the party with an offer. The god wants this: <i>${esc(g.wants.replace(/\.$/,''))}</i>.${m?` The servant also needs ${a(m)}, one of the god's signature materials${m.where?`, found at ${esc(m.where)}`:''}.`:''} ${g.seated!=null&&g.seated<5?`${esc(godKey(g))} has open Finger seats (${g.seated} of 5 filled). Do well and one of them could be offered.`:`Success earns the god's favor and ${gp(reward)}.`}`}}
+  if(kind==='rival'){const rn=pk(CONTESTED);if(!rn)return null;const gs=RUNE_GODS.get(rn)||[];const [x,y]=[...gs].sort(()=>R()-.5);const ru=RUNE_IDX.get(lc(rn));
+    return {g:x,text:`${a(x)} and ${a(y)} both claim the ${ru?a(ru):esc(rn)} Rune. A Finger of ${esc(godKey(x))} asks the party to ${pk(['steal a relic tied to the Rune from a shrine of '+esc(godKey(y)),'escort a mortal who carries a sliver of the Rune to safety','find out who among '+esc(godKey(y))+'\'s contracted servants is selling secrets','break a contract '+esc(godKey(y))+' holds over a village'])}. Infinatas forbids open war between the gods, so neither side can be seen to act. Whoever the party helps, the other god remembers.`}}
+  if(kind==='progenitor'){const ru=pk(RUNES.filter(x=>x.fig&&x.fig.fate&&x.fig.fate!=='Never lost'));if(!ru)return null;const f=ru.fig;
+    return {g:null,text:`Word spreads that remains of <b>${esc(f.name)}</b>${f.title?`, ${esc(f.title)},`:''} the progenitor of the ${a(ru)} Rune, have surfaced in the ${esc(r.n)} Realm${f.remains?`: ${esc(f.remains)}`:''}. ${f.fate==='Vanished'?'Some say the progenitor only vanished, and that whatever was found is still warm.':'The progenitor was killed long ago, but its remains still hold the Rune\'s power.'} ${(ru.gods||[]).length?`${ru.gods.map(a).join(' and ')} will want it.`:'No god holds this Rune yet, so whoever takes the remains could become its holder.'}`}}
+  if(kind==='hunt'){const m=pk(mons);if(!m)return null;const d=(m.drops||[]).map(x=>findMat(x[0])).filter(Boolean);const best=d.sort((p,q)=>(q.price||0)-(p.price||0))[0];
+    return {g:null,text:`A ${a(m)} has been seen near a ${pk(['mining town','river crossing','monastery','border fort','market road','farming village'])} in the ${esc(m.realm)} Realm${m.sb?` (CR ${esc(m.sb.cr)})`:''}. The locals offer ${gp(reward)}${best?`, and its ${a(best)} alone is worth ${gp(best.price)} to the right buyer`:''}. ${pk(['It is not hunting. Something drove it out of its lair.','It has taken a hostage, or something it treats like one.','Another party went after it first and has not come back.','A god\'s servant wants it taken alive.'])}`}}
+  if(kind==='craft'){const b=pk(BPS.filter(b=>b.lv<=level+2&&b.lv>=Math.max(1,level-4)&&b.mats.length));if(!b)return null;const ms=b.mats.map(findMat).filter(Boolean);const m=ms.sort((p,q)=>(q.rank||0)-(p.rank||0))[0];
+    return {g:null,text:`A ${pk(['master smith','guild alchemist','court enchanter','retired adventurer','temple artificer'])} has a commission for ${a(b)} and cannot finish it without ${m?a(m):'one rare material'}${m&&m.where?`, gathered at ${esc(m.where)}`:m&&m.from&&m.from.length?`, taken from a ${esc(m.from[0])}`:''}. They offer ${gp(reward)}, or the finished piece at cost.`}}
+  if(kind==='pact'){const e=pk([...DEMONS,...PATRONS].filter(e=>e.ds));if(!e)return null;
+    return {g:null,text:`A stranger who speaks for ${a(e)} makes the party an offer: ${pk(['power now, and a favor named later','a cure for a dying friend','the location of a progenitor\'s remains','a way past a god\'s contract'])}. <span class="note">${esc(e.ds)}</span>`}}
+  if(kind==='inane'){const pl=pk(['a village','a stretch of forest','a castle','an old road','a monastery','a lake']);
+    return {g:null,text:`In the ${esc(r.n)} Realm, ${pl} is wearing away: stone crumbles, wood rots, and the people there remember less every day, as if centuries are passing in a few weeks. Scholars of the Runes whisper that this is how the gods' old world ended. Is it ${a(RUNE_IDX.get('destruction')||RUNES[0])} working on its own, or has someone found a way to call on Inane?`}}
+  return null;
+}
+function renderHooks(){
+  const st=store.get('hooks',{level:Math.max(1,Math.round(PARTY.reduce((a,c)=>a+(+c.level||1),0)/(PARTY.length||1))||3),realm:'',kinds:[],seed:1});
+  $('content').innerHTML=`<div class="page">
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Adventure hooks</h3><p>Story starters built from this site's own gods, Runes, realms, monsters, and Blueprints, scaled to your party. Every name links to its entry.</p></div>
+    <div class="tool"><div class="form" style="grid-template-columns:repeat(3,1fr)">
+      <label>Party level<input id="hk-lv" type="number" min="1" max="20" value="${st.level}"></label>
+      <label>Realm<select id="hk-realm"><option value="">Any realm the party can reach</option>${REALMS.map(r=>`<option${r.n===st.realm?' selected':''}>${esc(r.n)}</option>`).join('')}</select></label>
+      <label>Kind<select id="hk-kind"><option value="">Any kind</option>${HOOK_KINDS.map(([k,l])=>`<option value="${k}"${st.kinds[0]===k?' selected':''}>${l}</option>`).join('')}</select></label>
+    </div><div style="display:flex;gap:8px;margin-top:12px"><button class="btn primary" id="hk-roll">🎲 New hooks</button></div></div>
+    <div id="hk-out" style="margin-top:14px;display:flex;flex-direction:column;gap:10px"></div></div>`;
+  const save=()=>{const s=store.get('hooks',st);Object.assign(s,{level:Math.min(20,Math.max(1,+$('hk-lv').value||1)),realm:$('hk-realm').value,kinds:$('hk-kind').value?[$('hk-kind').value]:[]});store.set('hooks',s);return s};
+  const out=()=>{const s=store.get('hooks',st),R=rng32(s.seed||1),kinds=s.kinds.length?s.kinds:HOOK_KINDS.map(k=>k[0]);const res=[];
+    for(let i=0;i<40&&res.length<6;i++){const k=s.kinds.length?kinds[0]:kinds[(i+(s.seed||0))%kinds.length];const h=makeHook(k,R,s.level,s.realm);if(h)res.push([k,h])}
+    $('hk-out').innerHTML=res.length?res.map(([k,h])=>`<div class="callout" style="border-color:var(--gold)"><div style="font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">${HOOK_KINDS.find(x=>x[0]===k)[1]}</div><div style="line-height:1.6">${h.text}</div></div>`).join(''):'<div class="empty">No hooks fit. Try another realm or a higher level.</div>'};
+  ['hk-lv','hk-realm','hk-kind'].forEach(i=>$(i).addEventListener('change',()=>{save();out()}));
+  $('hk-roll').onclick=()=>{const s=save();s.seed=(Math.random()*2**31)|0;store.set('hooks',s);out()};
+  out();
+}
+function godWarsHTML(){
+  const fronts=CONTESTED.map(rn=>{const gs=RUNE_GODS.get(rn)||[];const pans=[...new Set(gs.map(g=>g.grp))];return {rn,gs,pans}}).sort((a,b)=>b.gs.length-a.gs.length||b.pans.length-a.pans.length||a.rn.localeCompare(b.rn));
+  const cross=fronts.filter(f=>f.pans.length>1).length;
+  const most=(()=>{const c=new Map();fronts.forEach(f=>f.gs.forEach(g=>c.set(g,(c.get(g)||0)+1)));return [...c].sort((a,b)=>b[1]-a[1]).slice(0,5)})();
+  return `<p>Infinatas let the gods into Vestige on one condition: no open war. The gods obey the letter of it. Where two gods hold the same Rune, neither can take it from the other by force, so they fight through what they are allowed to use: contracts, Fingers, relics, and mortals. Each shared Rune is a front.</p>
+  <p>There are <b>${fronts.length}</b> fronts. ${cross===fronts.length?'Every one of them crosses pantheon lines: no two gods of the same pantheon share a Rune.':`<b>${cross}</b> of them cross pantheon lines; the other ${fronts.length-cross} are feuds inside a single pantheon.`} The gods with the most fronts are ${most.map(([g,n])=>`${refChip(g,esc(godKey(g)),n+' fronts')}`).join(' ')}.</p>
+  <div class="tablewrap" style="margin-top:10px"><table class="t"><thead><tr><th>Front (Rune)</th><th>Claimants</th><th>Kind</th></tr></thead><tbody>${fronts.map(f=>{const ru=RUNE_IDX.get(lc(f.rn));return `<tr><td style="white-space:nowrap">${ru?`<a href="#" data-ref="${ref(ru)}">${esc(f.rn)}</a>`:esc(f.rn)}</td><td>${f.gs.map(g=>`<a href="#" data-ref="${ref(g)}">${esc(godKey(g))}</a> <small style="color:var(--muted)">${esc(g.grp.replace(' Pantheon',''))}</small>`).join(', ')}</td><td>${f.pans.length>1?'Between pantheons':'Inside the '+esc(f.pans[0].replace(' Pantheon',''))+' pantheon'}</td></tr>`}).join('')}</tbody></table></div>
+  <p class="note">The vault lists the god wars as still to be written. This section only arranges what the vault already says (who holds which Rune); the battles themselves are yours to tell. <a href="${pageUrl('hooks')}" data-go="hooks">Roll a Rune-feud adventure hook →</a></p>`;
+}
 function renderCombat(){
   CB=store.get('combat',{round:1,turn:0,list:[]});
   const cur=CB.list[CB.turn];
@@ -2177,7 +2260,7 @@ function forgeResult(){
   if(B.armor||B.shield){
     const c=pm&&matCode(pm);let base=0;
     if(pm&&prim.fit.lv!=='wrong')base=armorAC(B.shield?SHIELD_KIND[FORGE.shield]:ARMOR_SLOT_UNITS[FORGE.slot],c,pil);
-    out.ac=Math.max(0,base+acAdj);out.weight=c==='O'?'Heavy':c==='B'?'Medium':'Light';out.drawback=drawbackFor(out.ac);
+    out.ac=Math.max(0,base+acAdj);out.weight=ARMOR_WEIGHT[c]||'Light';out.drawback=pieceDrawbacks({slot:B.shield?FORGE.shield:FORGE.slot,weight:out.weight});
   }
   const prof=B.focus?'Enchanting':B.armor&&pm&&matCode(pm)==='F'?'Tailoring':pm&&['W','B','S'].includes(matCode(pm))?'Carving':'Blacksmithing';
   out.prof=prof;
@@ -2225,7 +2308,7 @@ function forgeOut(){
   $('fg-out').innerHTML=`<div class="panel" style="display:flex;flex-direction:column;gap:12px;border-color:${r.notes.some(n=>n[1]==='wrong')?'var(--red)':'var(--gold)'}">
     <label class="note" style="margin:0">Name<input class="sel" id="fg-name" value="${esc(r.name)}" style="max-width:none;width:100%;margin-top:4px;font-family:var(--serif);font-size:1.1rem;font-weight:700"></label>
     <div class="badges">${r.rar?rarB(r.rar):''}<span class="b ghost">${esc(B.cat)}</span>${r.il?`<span class="b">Item level ${r.il}</span>`:''}${B.armor?`<span class="b">${esc(FORGE.slot)} · ${esc(r.weight||'')}</span>`:''}</div>
-    ${kv([r.damage!=null?['Damage',`<span class="mono">${esc(r.damage)}</span> ${esc(r.dtype)}`]:null,r.attack!=null?['Attack bonus',(r.attack>=0?'+':'')+r.attack]:null,B.ranged?['Range',B.ranged]:null,B.reach?['Reach','10 ft. (or thrown 20/60)']:null,r.ac!=null?['AC',r.ac]:null,r.ac!=null?['Drawback',esc(r.drawback[1])]:null,['Breaks on',r.breakOn?'a natural 1'+(r.breakOn>1?'–'+r.breakOn:''):'—'],['Material cost',gp(r.cost)],['Crafted by',esc(r.prof)+(r.realmSpec?` <small style="font-weight:400;color:var(--gold2)">needs ${esc(r.realmSpec)}</small>`:'')]])}
+    ${kv([r.damage!=null?['Damage',`<span class="mono">${esc(r.damage)}</span> ${esc(r.dtype)}`]:null,r.attack!=null?['Attack bonus',(r.attack>=0?'+':'')+r.attack]:null,B.ranged?['Range',B.ranged]:null,B.reach?['Reach','10 ft. (or thrown 20/60)']:null,r.ac!=null?['AC',r.ac]:null,r.ac!=null?['Drawback',`${esc(r.weight)} · ${r.drawback.length?esc(r.drawback.join('; ')):'none'}`]:null,['Breaks on',r.breakOn?'a natural 1'+(r.breakOn>1?'–'+r.breakOn:''):'—'],['Material cost',gp(r.cost)],['Crafted by',esc(r.prof)+(r.realmSpec?` <small style="font-weight:400;color:var(--gold2)">needs ${esc(r.realmSpec)}</small>`:'')]])}
     ${r.notes.length?`<div class="callout" style="border-color:var(--red);background:color-mix(in srgb,var(--red) 8%,transparent)"><b style="color:var(--red)">Penalties</b><ul style="margin:6px 0 0 18px">${r.notes.map(([s,lv,t])=>`<li><b>${esc(s)}</b> (${lv==='wrong'?'wrong material':'poor fit'}): ${esc(t)}</li>`).join('')}</ul></div>`:''}
     ${r.props.length?`<div><div class="blk"><h4>Properties</h4></div><div class="mlist">${r.props.map(p=>`<button data-ref="${ref(p.m)}" style="flex-direction:column;align-items:flex-start"><span><b>✧ ${esc(p.m.pn)}</b> <span class="x">${esc(p.s.name)} · ${esc(p.m.n)}${p.half?' · half Potency':''}</span></span><span style="font-size:.8rem">${esc((p.m.prop||'').replace(/^[^:]+:\s*/,''))}</span></button>`).join('')}</div></div>`:''}
     ${r.traits.length?`<div><div class="blk"><h4>Traits when equipped</h4></div><div class="mlist">${r.traits.map(t=>`<button data-ref="${ref(t.m)}" style="flex-direction:column;align-items:flex-start"><span><b style="color:var(--gold2)">◆ ${esc(t.m.tr.n)}</b> <span class="x">${esc(t.s.name)} · ${esc(t.m.n)}</span></span><span style="font-size:.8rem">${esc(t.m.tr.t)}</span></button>`).join('')}</div></div>`:''}
@@ -2384,7 +2467,7 @@ FAND cosmology: Infinatas (sometimes written Infinitas) is the creator of all th
 Runes: the vault's Rune notes are the source of truth: Runes are the power of lost or weakened original gods and spirits; today's gods are replicas built from them; Ignis, Undine, Gnome, and Sylph are dead progenitor spirits whose corpses became the Fire, Water, Earth, and Air Laws; Iron (Gnome's child) is caged alive; Cosmic was never fully killed; Infinatas is one of the last original gods. Where the vault is silent, the site suggests a progenitor: every Rune had a progenitor, its original holder and the first being to embody that principle, who was killed or vanished before the gods arrived; the gods inherited the Runes they hold (use get_entry with kind "rune"). Infinatas and Creation belong to Infinatas, Destruction to Inane, Balance to both; Ignis, Sylph, Undine, and Gnome are the progenitors.
 
 FAND rules summary:
-- Armor Class starts at 0. Armor and other gear each add a small amount of AC to the total: slot units Body 4, Head 2, Hands/Feet/Shoulders/Back 1 each (a full set is 10); shields Buckler 1, Shield 2, Tower 3; x1 for metal, x0.7 bone/scale/stone, x0.4 hide/cloth, x(1 + (Item Level - 1)/20); minimum 1 per piece. A full set of iron gear gives 10 AC. Armor that gives more AC carries drawbacks: for example, full iron gear gives +10 AC but you lose Acrobatics, Athletics, and Dexterity. AC is subtracted flat from the total damage of each hit: damage taken = damage - AC.
+- Armor Class starts at 0. Armor and other gear each add a small amount of AC to the total: slot units Body 4, Head 2, Hands/Feet/Shoulders/Back 1 each (a full set is 10); shields Buckler 1, Shield 2, Tower 3; x1 for metal, x0.7 bone/scale/stone, x0.4 hide/cloth, x(1 + (Item Level - 1)/20); minimum 1 per piece. A full set of iron gear gives 10 AC. Drawbacks depend on the pieces actually worn: each piece's slot and material weight (metal heavy; bone/scale/stone/gem medium; hide/cloth light, no drawbacks). Heavy body: Stealth disadvantage and speed -5 ft; medium body: Stealth disadvantage; heavy hands: Sleight of Hand disadvantage; heavy feet: Stealth disadvantage; heavy head: Perception disadvantage for hearing/side sight; heavy shoulders or back, or a metal shield: Acrobatics disadvantage; tower shield: speed -5 ft. A full heavy set (metal on 8+ of the 10 body units) means you lose Acrobatics, Athletics, and Dexterity; a full medium set gives disadvantage on Athletics and Acrobatics. AC is subtracted flat from the total damage of each hit: damage taken = damage - AC.
 - Material grading: every material has a realm (tier 1-10) and a grade 1-10. Material Rank = (tier - 1) x 10 + grade (1-100). Item Level = ceil(Rank / 2) (1-50). Blueprints record their strongest material.
 - Material origins and unique traits: creature parts carry a unique trait drawn from the creature's signature ability and the body part (a hawk's eye sharpens sight; troll blood regenerates); plants give small herbal effects; ores, stones, gems, and supplies are basic and carry only their property. An item gains the unique traits of its materials while equipped.
 - Material properties: each material gives a property (48 in all); supplies give none. Potency = min(10, max(1, floor(Item Level / 5)) + 1 at grade 9, + 2 at grade 10). Weapons, armor, and shields carry the property of their strongest material.
