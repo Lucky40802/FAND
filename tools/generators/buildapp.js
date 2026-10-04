@@ -168,26 +168,17 @@ D.MATS.sort(function (a, b) { return a.n < b.n ? -1 : a.n > b.n ? 1 : 0; });
 var dropCounts = D.MONSTERS.map(function (m) { return (m.drops || []).length; });
 log.push('harvest parts: +' + genAdded + ' materials (now ' + D.MATS.length + '); drops per monster ' + Math.min.apply(null, dropCounts) + '-' + Math.max.apply(null, dropCounts) + '; body plans ' + JSON.stringify(kinds));
 
-// ---- Armor Class rescale to the flat system: AC is subtracted from each hit, and a full set of iron gear gives 10.
-// units by slot (a full set is 10) x material class (metal 1, bone/scale/stone 0.7, hide/cloth 0.4) x grade factor.
-// The vault's original value is kept as ac0. Keep in step with armorAC() in tools/app/template.html.
-var SLOT_UNITS = { Body: 4, Head: 2, Hands: 1, Feet: 1, Shoulders: 1, Back: 1 }, SHIELD_UNITS = { Buckler: 1, Shield: 2, Tower: 3 };
-function armorSlot(b) {
-  if (b.cat === 'Shield') return /buckler/i.test(b.n) ? 'Buckler' : /tower|pavise|wall/i.test(b.n) ? 'Tower' : 'Shield';
-  return /helm|helmet|hood|crown|circlet|mask|hat|coif|cowl|visor/i.test(b.n) ? 'Head' : /gauntlet|glove|bracer|vambrace|mitt/i.test(b.n) ? 'Hands'
-    : /boot|greave|sabaton|shoe|sandal|treads/i.test(b.n) ? 'Feet' : /pauldron|mantle|spaulder|shoulder|epaulet/i.test(b.n) ? 'Shoulders'
-    : /cloak|cape|wing|shroud/i.test(b.n) ? 'Back' : 'Body';
-}
+// ---- Armor Class rescale to the flat system (data/armor.js): a full set of iron gear gives 10.
+// The vault's original value is kept as ac0. generators/vaultac.js applies the same formula to the vault notes.
+var ARM = require(path.join(__dirname, '..', 'data', 'armor.js'));
 var matByN = {}; D.MATS.forEach(function (m) { matByN[m.n.toLowerCase()] = m; });
 var acDone = 0;
 D.BPS.forEach(function (b) {
   if (b.ac0 === undefined && !b.ac) return;
   if (b.ac0 === undefined) b.ac0 = b.ac;
   var ms = b.mats.map(function (n) { return matByN[n.toLowerCase()]; }).filter(Boolean);
-  var cls = ms.some(function (m) { return m.tc === 'O'; }) ? 1 : ms.some(function (m) { return /[BSG]/.test(m.tc || ''); }) ? 0.7 : 0.4;
-  var il = ms.reduce(function (a, m) { return Math.max(a, m.il || 1); }, 1);
-  var slot = armorSlot(b), units = b.cat === 'Shield' ? SHIELD_UNITS[slot] : SLOT_UNITS[slot];
-  b.slot = slot; b.ac = String(Math.max(1, Math.round(units * cls * (1 + (il - 1) / 20)))); acDone++;
+  var r = ARM.armorAC(b.n, b.cat, ms);
+  b.slot = r.slot; b.ac = String(r.ac); acDone++;
 });
 log.push('armor AC rescaled on ' + acDone + ' Blueprints');
 
@@ -253,12 +244,31 @@ var tpl = fs.readFileSync(TEMPLATE, 'utf8');
 if (tpl.indexOf('<!--__DATA__-->') < 0) throw new Error('template is missing the <!--__DATA__--> marker');
 var META = { built: new Date().toISOString().slice(0, 10), version: '1.24', realms: REALMS, counts: { spells: D.SPELLS.length } };
 function lit(k) { return 'const ' + k + '=' + JSON.stringify(D[k]).replace(/<\/(script)/gi, '<\\/$1') + ';'; }
+var VAULT_FILE = process.env.VAULT_JSON || path.join(__dirname, '..', 'data', 'vault.json');
+D.VAULT = fs.existsSync(VAULT_FILE) ? JSON.parse(fs.readFileSync(VAULT_FILE, 'utf8')) : { imported: '', notes: [] };
+// Notes that match a website entry are attached to it ("From the vault"); the rest stay in the Codex.
+D.VAULT_DETAILS = { bp: {}, mat: {}, spell: {}, sub: {}, mon: {}, god: {} };
+(function () {
+  var idx = {};
+  function add(t, arr, key) { arr.forEach(function (x) { var name = key ? key(x) : x.n, k = name.toLowerCase(); if (!idx[k]) idx[k] = [t, name]; }); }
+  add('god', D.GODS, function (g) { return g.n.split(' - ')[0].trim(); }); add('bp', D.BPS); add('mat', D.MATS); add('mon', D.MONSTERS); add('sub', D.SUBS);
+  var spellNames = {}; D.SPELLS.forEach(function (x) { spellNames[x.n.toLowerCase()] = x.n; });
+  var codex = [], attached = 0;
+  D.VAULT.notes.forEach(function (n) {
+    var k = n.n.toLowerCase(), hit = idx[k] || (spellNames[k] ? ['spell', spellNames[k]] : null);
+    var dataFolder = /(^|\/)(Blueprints|Materials|Spells|Subclasses)(\/|$)/i.test(n.f);
+    if (hit && (dataFolder || hit[0] === 'god' || hit[0] === 'mon' || hit[0] === 'sub')) { D.VAULT_DETAILS[hit[0]][hit[1]] = { f: n.f, md: n.md }; attached++; }
+    else codex.push(n);
+  });
+  D.VAULT = { imported: D.VAULT.imported, notes: codex };
+  log.push('vault notes: ' + codex.length + ' in the Codex, ' + attached + ' attached to website entries' + (D.VAULT.imported ? ' (imported ' + D.VAULT.imported + ')' : ' (none yet: run generators/importvault.js)'));
+})();
 var CORE = ['BPS', 'MATS', 'MONSTERS', 'SUBS', 'GODS', 'DEMONS', 'PATRONS', 'MAT_FX'];
 var metaLine = 'const META=' + JSON.stringify(META) + ';';
 var VENDOR = fs.readFileSync(path.join(__dirname, '..', 'app', 'vendor', 'anthropic.js'), 'utf8');
-var single = '<script>\n' + VENDOR.replace(/<\/(script)/gi, '<\\/$1') + '\n</script>\n<script>\nconst SITE=null;\n' + ['BPS', 'SPELLS'].concat(CORE.slice(1)).map(lit).join('\n') + '\n' + metaLine + '\n</script>';
+var single = '<script>\n' + VENDOR.replace(/<\/(script)/gi, '<\\/$1') + '\n</script>\n<script>\nconst SITE=null;\n' + ['BPS', 'SPELLS', 'VAULT', 'VAULT_DETAILS'].concat(CORE.slice(1)).map(lit).join('\n') + '\n' + metaLine + '\n</script>';
 var out = tpl.split('<!--__DATA__-->').join(single);
-var PAGES = ['home', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'professions', 'spells', 'subclasses', 'demons', 'patrons', 'forge', 'craft', 'party', 'encounter', 'combat', 'rules', 'tools', 'about'];
+var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'subclasses', 'demons', 'patrons', 'forge', 'craft', 'party', 'encounter', 'combat', 'rules', 'tools', 'about'];
 var site = {};
 var PAGE_INFO = {
   home: ['Home', 'FAND (Fantasy and Numerous Disasters) campaign compendium: Blueprints, materials, monsters, realms, gods, spells, rules, and table tools for the world of Atrious.'],
@@ -279,13 +289,18 @@ var PAGE_INFO = {
   party: ['Party', 'Track each character: god contract, rivals, gear and traits, materials, money, and realm Pressure.'],
   encounter: ['Encounters', 'Build balanced encounters from a realm\'s Bestiary by party size and level.'],
   combat: ['Combat', 'Initiative, HP, and conditions, with FAND\'s flat AC applied to every hit.'],
+  lore: ['Lore', 'The lore of Atrious: Infinatas and Inane, how the gods came to this realm, the pantheons, the contested Runes, the realms, and the progenitors.'],
+  runes: ['Runes', 'Every Rune in FAND, the gods who hold and contest it, the relics that channel it, and the figure behind it.'],
+  codex: ['Codex', 'Every note from the FAND Obsidian vault: rules, Runes, realms, classes, gods, the Player\'s Guide, and patch notes.'],
   about: ['About', 'What has been built in FAND, version by version, and what is still open.']
 };
 site['data/core.js'] = CORE.map(lit).join('\n') + '\n' + metaLine + '\n';
 site['data/spells.js'] = lit('SPELLS') + '\n';
 site['vendor/anthropic.js'] = VENDOR;
+site['data/vault.js'] = lit('VAULT') + '\n';
+site['data/vault-details.js'] = lit('VAULT_DETAILS') + '\n';
 PAGES.forEach(function (pg) {
-  var tags = '<script>const SITE={page:' + JSON.stringify(pg) + '};</script>\n<script src="data/core.js"></script>' + (pg === 'spells' ? '\n<script src="data/spells.js"></script>' : '');
+  var tags = '<script>const SITE={page:' + JSON.stringify(pg) + '};</script>\n<script src="data/core.js"></script>\n<script src="data/vault.js"></script>' + (pg === 'spells' ? '\n<script src="data/spells.js"></script>' : '');
   var html = tpl.split('<!--__DATA__-->').join(tags);
   var info = PAGE_INFO[pg];
   html = html.replace('<title>FAND · Fantasy and Numerous Disasters</title>', '<title>' + (pg === 'home' ? 'FAND · Fantasy and Numerous Disasters' : info[0] + ' · FAND') + '</title>')

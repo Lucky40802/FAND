@@ -442,6 +442,7 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
 
 <script>const SITE={page:"patrons"};</script>
 <script src="data/core.js"></script>
+<script src="data/vault.js"></script>
 <script>
 'use strict';
 // ════════════════════════════════════════════════════════════════
@@ -521,6 +522,8 @@ const RAR_ORDER=['Common','Uncommon','Rare','Very Rare','Legendary','Artifact'];
 const rarRank=r=>{const i=RAR_ORDER.indexOf(r);return i<0?9:i};
 
 const SP=typeof SPELLS!=='undefined'?SPELLS:[];
+const VAULT_DATA=typeof VAULT!=='undefined'?VAULT:{imported:'',notes:[]};
+const NOTES=VAULT_DATA.notes;
 const pageUrl=t=>SITE?(t==='home'?'index.html':t+'.html'):'#/'+t;
 const TYPES={
   bp:{arr:BPS,tab:'blueprints',label:'Blueprint'},
@@ -532,6 +535,7 @@ const TYPES={
   demon:{arr:DEMONS,tab:'demons',label:'Demon'},
   patron:{arr:PATRONS,tab:'patrons',label:'Patron'},
   realm:{arr:REALMS,tab:'realms',label:'Realm'},
+  note:{arr:NOTES,tab:'codex',label:'Vault note'},
 };
 for(const k in TYPES)TYPES[k].arr.forEach((x,i)=>{x._t=k;x._i=i});
 const ref=x=>x._t+':'+x._i;
@@ -552,6 +556,63 @@ function monByMat(){if(!_monByMat){_monByMat=new Map();const add=(k,m)=>{k=lc(k)
 const GOD_BY_MAT=new Map();GODS.forEach(g=>(g.sig||[]).forEach(s=>{const k=lc(s);if(!GOD_BY_MAT.has(k))GOD_BY_MAT.set(k,[]);GOD_BY_MAT.get(k).push(g)}));
 const RUNE_GODS=new Map();GODS.forEach(g=>(g.runes||[]).forEach(r=>{if(!RUNE_GODS.has(r))RUNE_GODS.set(r,[]);RUNE_GODS.get(r).push(g)}));
 const CONTESTED=[...RUNE_GODS].filter(([,gs])=>gs.length>1).map(([r])=>r).sort();
+function hashStr(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+// ── Runes and the figures behind them ─────────────────────────
+// Every Rune: held by gods, channeled by Blueprints, or described in the vault. Each has a figure: the first being to
+// embody that principle when Infinatas shaped the realm. Figures are website lore, generated from the Rune's nature.
+const RUNE_CAT={
+  Emotion:/^(Anger|Belonging|Betrayal|Clarity|Confusion|Depression|Despair|Empathy|Envy|Fear|Grief|Hate|Heartbreak|Hope|Isolation|Lust|Obsession|Pride|Sadness|Scorn|Serenity|Trust|Love|Happiness|Courage|Seduction|Gluttony|Greed|Sloth|Dedication|Loyalty)$/,
+  Element:/^(Fire|Water|Lightning|Sky|Tide|Wave|Snow|Frost|Storm|Rain|Air|Typhoon|Sun|Moon|Night|Dark|Dawn|Day|Light|Lava|Heat|Plasma|Star|Swamp|Iron|Diamond|Bloom|Grow|Season|Fruit|Mold|Animal|Forest|Nature)$/,
+  Cosmos:/^(Gravity|Cosmic|Void|Zero|Singularity|Dimension|Spin|Symmetry|Entropy|Time|Paradox|Infinite|Existence|Deletion|Decay|Chaos|Order|Beginning|Descend)$/,
+  Craft:/^(Forging|Blacksmith|Hammer|Bow|Trade|Commerce|Wealth|Treasure|Art|Music|Entertainment|Weave|Word|Learning|Knowledge|Wisdom|Memory|Aptitude|Unlock|Success|Voyage|Speed)$/,
+  Rule:/^(Governance|Diplomacy|Sovereignty|Royalty|Law|Justice|Punish|Martial|Battle|War|Strength|Power|Protect|Protection|Preserve|Purity|Truth)$/,
+  Fate:/^(Life|Death|Rebirth|Resurrection|Heal|Regeneration|Nurture|Youth|Famine|Fatigue|Pain|Blood|Necromancy|Fate|Omen|Prophet|Foresee|Vision|Dreams|Probability|Gamble|Curse|Magic|Enchantment|Illusion|Transmutation|Transformation|Divine|Divinity|Reflection|Resistance|Runes|Devil)$/
+};
+const runeCat=r=>{for(const k in RUNE_CAT)if(RUNE_CAT[k].test(r))return k;return 'Mystery'};
+const SPECIAL_FIGURES={
+  Infinatas:{name:'Infinatas',title:'the Highest, the Balance Itself',form:'No fixed form. Those who have felt its attention describe a stillness so complete that time seems to wait for it.',temper:'Infinatas cares for nothing but balance. It creates to restore what Inane destroys, and it lets the gods stay in this realm only because, so far, they have not tipped the scales.',symbol:'A circle with nothing inside it'},
+  Creation:{name:'Infinatas',title:'in its aspect of Creation',form:'Seen, when it is seen at all, as light taking shape before the eye can follow.',temper:'Infinatas keeps the balance by making. Every new thing in Atrious is, in a small way, its answer to Inane.',symbol:'An open hand'},
+  Destruction:{name:'Inane',title:'Infinatas\'s other self',form:'An absence that moves. Places it has passed look worn, as if centuries went by in a breath.',temper:'Inane keeps the same balance as Infinatas, but by unmaking. The gods\' old world eroded under its attention; they never learned what it was.',symbol:'A closed fist'},
+  Balance:{name:'Infinatas and Inane',title:'the Two Who Are One',form:'Never seen together, yet never apart: where one has been, the other always follows.',temper:'Creation and destruction in equal measure. Balance is the only Rune that both halves of the highest being agree on.',symbol:'A scale with an empty pan on each side'},
+  Ignis:{name:'Ignis',title:'Progenitor of Fire',form:'A living blaze older than the gods, whose cinders still burn in the Primordial Realm.',temper:'Hungry, generous, and impossible to hold. Its remains count toward the Fire class.',symbol:'A cinder that never cools'},
+  Sylph:{name:'Sylph',title:'Progenitor of Air',form:'A breath with a will, felt more than seen.',temper:'Restless and free. Its breath, once bottled, counts toward the Air class.',symbol:'A spiral of wind'},
+  Undine:{name:'Undine',title:'Progenitor of Water',form:'A shape of moving water that weeps tears of the first sea.',temper:'Patient and deep. Its tears count toward the Water class.',symbol:'A single tear'},
+  Gnome:{name:'Gnome',title:'Progenitor of Earth',form:'A shape of stone and root, slow as mountains.',temper:'Stubborn and steadfast. Its knuckle-bones count toward the Earth class.',symbol:'A knuckle of stone'}
+};
+const SYL=[['Va','Ish','Or','Ael','Ka','Ze','Mor','Thal','Ny','Sel','Bra','Ul','Eir','Quo','Dra','Lio','Ves','Ha','Ry','Ost'],['ra','ka','le','no','the','mi','sa','ri','do','va','lu','ze','ni','ro','sha','ta'],['n','th','el','is','ar','os','une','ael','eth','or','ix','ane','iel','ur','yr','as']];
+const FIG_ADJ={Emotion:['Weeping','Burning','Hollow','Tender','Restless','Smiling','Silent','Unquiet'],Element:['Ever-Turning','Untamed','Radiant','Deep','Wild','First','Bright','Endless'],Cosmos:['Unfathomable','Silent','Turning','Unbound','Last','First','Infinite','Folded'],Craft:['Tireless','Patient','Clever','Steady','Gifted','First','Wandering','Watchful'],Rule:['Iron','Crowned','Unbending','Sworn','Stern','Shining','Vigilant','Just'],Fate:['Veiled','Pale','Patient','Thread-Spinning','Unblinking','Twice-Born','Hidden','Quiet'],Mystery:['Nameless','Strange','Hidden','Unknown','Forgotten','Shrouded','Twin-Faced','Quiet']};
+const FIG_ROLE={Emotion:'Heart',Element:'Spirit',Cosmos:'Shape',Craft:'Hand',Rule:'Warden',Fate:'Keeper',Mystery:'Shade'};
+const FIG_FORM={
+  Emotion:['A figure whose face shifts to mirror whoever looks at it, always showing {r}.','A tall, shadowed figure; those near it feel {rl} rise in them unbidden.','A child-sized figure with ancient eyes, wrapped in the colors of {rl}.'],
+  Element:['A shape of living {rl}, loosely human, that never stays still.','A towering figure crowned with {rl}, its footsteps leaving marks of its element.','An animal of {rl}, too large and too old to be a beast.'],
+  Cosmos:['A rip in the world shaped like a person, through which {rl} shows.','A geometry that hurts to look at, folding around the idea of {rl}.','A robed figure whose outline flickers between here and somewhere else.'],
+  Craft:['A broad-handed figure who never stops working, its tools made of {rl} itself.','A wanderer in plain clothes who leaves {rl} in its wake.','A figure of many hands, each busy with a different art of {rl}.'],
+  Rule:['An armored figure on a throne of {rl}, its gaze weighing everyone it sees.','A sentinel taller than a gate, holding a standard of {rl}.','A crowned figure whose voice compels silence.'],
+  Fate:['A veiled figure holding threads, one of which is always {rl}.','A pale figure who appears at doorways at the moment {rl} arrives.','A figure with an hourglass for a heart, counting out {rl}.'],
+  Mystery:['A figure no two witnesses describe the same way.','A shape at the edge of sight that vanishes when looked at directly.','A masked figure; behind the mask, only {rl}.']
+};
+const FIG_TEMPER={Emotion:'It feeds on {rl} and gives it back a hundredfold. It is drawn to mortals at the height of that feeling, and those it touches rarely forget it.',Element:'It is as fickle or as steady as its element. It favors those who respect {rl} and punishes those who waste it.',Cosmos:'It is barely aware of mortals. It turns the great wheels of {rl}, and the gods who draw on it borrow more than they understand.',Craft:'It loves work done well. It teaches, in dreams, those who devote their lives to {rl}, and despises shortcuts.',Rule:'It is proud and exacting. It lends its strength to those who uphold {rl} and withdraws it the moment they falter.',Fate:'It is patient beyond measure. It knows how every story of {rl} ends and seldom says.',Mystery:'Its purposes are its own. Even the gods who hold {rl} are not sure what it wants.'};
+const FIG_SYMBOL={Fire:'A flame',Water:'A wave',Lightning:'A forked bolt',Sky:'An open eye in a cloud',Sun:'A rayed disc',Moon:'A crescent',Night:'A black star',Dark:'A closed eye',Dawn:'A half-risen sun',Day:'A full sun',Light:'A lantern',Death:'A closed door',Life:'A sprouting seed',War:'Crossed blades',Battle:'A broken shield',Love:'Two joined hands',Wisdom:'An owl\'s eye',Knowledge:'An open book',Memory:'A knot in a cord',Time:'An hourglass',Void:'An empty circle',Zero:'A ring with nothing inside',Storm:'A spiral cloud',Music:'A struck string',Trade:'A balanced coin',Wealth:'A stack of coins',Justice:'A drawn sword over a scale',Law:'A sealed scroll',Order:'A square',Chaos:'A broken square',Fate:'A spindle',Dreams:'A sleeping eye',Heal:'A bound wound',Blood:'A single drop',Iron:'An anvil',Forging:'A hammer on an anvil',Hammer:'A hammer',Bow:'A drawn bow',Gravity:'A falling stone',Star:'A seven-pointed star',Hope:'A candle in the dark',Fear:'A shadow larger than its caster',Anger:'A clenched jaw',Pride:'A raised chin',Greed:'A closed hand full of coins',Envy:'A green eye',Lust:'A red ribbon',Gluttony:'An empty plate',Sloth:'A drooping candle',Despair:'A well with no bottom',Grief:'A broken vase'};
+function runeFigure(r,gods){
+  if(SPECIAL_FIGURES[r])return Object.assign({special:true,cat:runeCat(r)},SPECIAL_FIGURES[r]);
+  const h=hashStr('rune:'+r),cat=runeCat(r),rl=r.toLowerCase();
+  const name=SYL[0][h%SYL[0].length]+SYL[1][(h>>>5)%SYL[1].length]+SYL[2][(h>>>9)%SYL[2].length];
+  const adj=FIG_ADJ[cat][(h>>>13)%FIG_ADJ[cat].length];
+  const fill=s=>s.replace(/\{r\}/g,r).replace(/\{rl\}/g,rl);
+  const ruinous=/^(Decay|Deletion|Despair|Entropy|Zero|Void|Famine|Curse|Pain|Hate|Scorn|Isolation|Depression)$/.test(r);
+  return {cat,name,title:`the ${adj} ${FIG_ROLE[cat]} of ${r}`,form:fill(FIG_FORM[cat][(h>>>17)%FIG_FORM[cat].length]),temper:fill(FIG_TEMPER[cat]),symbol:FIG_SYMBOL[r]||`A sigil of ${r}`,
+    origin:ruinous?`${name} took shape from what Inane left behind when the gods' old world wore away, and some say it still answers to Inane.`:`When Infinatas shaped this realm, ${name} was the first being to embody ${rl}.`};
+}
+const RUNE_BP=new Map();
+BPS.forEach(b=>{const m=/fragment of ([A-Z][\w' -]*?) directly/.exec(b.ds||'');const r=m&&m[1];if(r){if(!RUNE_BP.has(r))RUNE_BP.set(r,[]);RUNE_BP.get(r).push(b)}});
+const RUNES=(()=>{const names=new Set([...RUNE_GODS.keys(),...RUNE_BP.keys()]);NOTES.filter(n=>/(^|\/)Runes(\/|$)/i.test(n.f)).forEach(n=>names.add(n.n));
+  return [...names].sort().map(n=>{const gods=RUNE_GODS.get(n)||[];const note=NOTES.find(x=>lc(x.n)===lc(n)&&/(^|\/)Runes(\/|$)/i.test(x.f))||null;const fig=runeFigure(n,gods);
+    // The vault comes first: a Rune note's frontmatter can set figure, figureTitle, figureForm, figureNature, figureOrigin, and symbol.
+    const fm=note&&note.fm||{};if(fm.figure){fig.name=fm.figure;fig.special=true}if(fm.figureTitle)fig.title=fm.figureTitle;if(fm.figureForm)fig.form=fm.figureForm;if(fm.figureNature)fig.temper=fm.figureNature;if(fm.figureOrigin)fig.origin=fm.figureOrigin;if(fm.symbol)fig.symbol=fm.symbol;
+    return {n,gods,contested:gods.length>1,bps:RUNE_BP.get(n)||[],note,fig}})})();
+const RUNE_IDX=new Map(RUNES.map(r=>[lc(r.n),r]));
+
+TYPES.rune={arr:RUNES,tab:'runes',label:'Rune'};RUNES.forEach((x,i)=>{x._t='rune';x._i=i;x.cat=x.fig.cat});
 const strongestMat=b=>{let best=null;b.mats.forEach(n=>{const m=findMat(n);if(m&&m.rank&&(!best||m.rank>best.rank))best=m});return best};
 
 const PROFS={
@@ -661,6 +722,9 @@ const CARD={
     </button>`},
 };
 CARD.demon=CARD.entity;CARD.patron=CARD.entity;
+const plainMd=s=>String(s||'').replace(/^#.*$/gm,'').replace(/!\[\[[^\]]*\]\]/g,'').replace(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/g,(m,a)=>a.split('/').pop()).replace(/[*_`>|#-]+/g,' ').replace(/\[!\w+\]/g,'').replace(/\s+/g,' ').trim();
+CARD.rune=r=>`<button class="card" style="--strip:${r.contested?'var(--red)':r.gods.length?'var(--gold)':'var(--acc)'}" data-ref="${ref(r)}"><div class="t"><div class="nm">ᚱ ${esc(r.n)}</div>${isPinned(r)?'<span class="pin">★</span>':''}</div><div class="ep">${esc(r.fig.name)}, ${esc(r.fig.title)}</div><div class="badges"><span class="b acc">${esc(r.cat)}</span>${r.contested?'<span class="b red">Contested</span>':''}${r.gods.length?`<span class="b gold">${r.gods.length} god${r.gods.length>1?'s':''}</span>`:'<span class="b ghost">Unclaimed</span>'}${r.bps.length?`<span class="b ghost">${r.bps.length} relics</span>`:''}</div>${r.gods.length?`<div class="chips">${r.gods.map(g=>`<span class="chip">${esc(godKey(g))}</span>`).join('')}</div>`:''}<div class="ds">${esc(r.fig.form)}</div></button>`;
+CARD.note=n=>`<button class="card" data-ref="${ref(n)}"><div class="t"><div class="nm">${esc(n.n)}</div>${isPinned(n)?'<span class="pin">★</span>':''}</div><div class="badges"><span class="b acc">${esc(n.f)}</span>${SUPERSEDED[n.n]?'<span class="b gold">Updated on the website</span>':''}</div><div class="ds">${esc(plainMd(n.md).slice(0,260))}</div></button>`;
 const card=x=>CARD[x._t](x);
 
 // ════════════════════════════════════════════════════════════════
@@ -748,6 +812,11 @@ const VIEWS={
     toggles:[{id:'pin',label:'★ Pinned',test:s=>isPinned(s)}],
     sorts:[['name','Name A–Z',byName]],
   },
+  codex:{type:'note',arr:NOTES,title:'Codex',noun:'notes',side:{label:'Folder',key:'f'},hay:n=>n.n+' '+n.f+' '+n.md,filters:[],toggles:[{id:'pin',label:'★ Pinned',test:n=>isPinned(n)}],sorts:[['name','Name A–Z',byName],['folder','Folder',(a,b)=>a.f.localeCompare(b.f)||byName(a,b)]]},
+  runes:{type:'rune',arr:RUNES,title:'Runes',side:{label:'Kind',key:'cat'},hay:r=>[r.n,r.fig.name,r.fig.title,r.fig.form,r.fig.temper,r.gods.map(godKey).join(' ')].join(' '),
+    filters:[{id:'god',label:'Any god',opts:()=>opts(RUNES.flatMap(r=>r.gods.map(g=>({g:godKey(g)}))),x=>x.g),test:(r,v)=>r.gods.some(g=>godKey(g)===v)}],
+    toggles:[{id:'con',label:'Contested',test:r=>r.contested},{id:'held',label:'Held by a god',test:r=>r.gods.length>0},{id:'free',label:'Unclaimed',test:r=>!r.gods.length},{id:'pin',label:'★ Pinned',test:r=>isPinned(r)}],
+    sorts:[['name','Name A–Z',byName],['gods','Most claimed',(a,b)=>b.gods.length-a.gods.length||byName(a,b)],['bps','Most relics',(a,b)=>b.bps.length-a.bps.length||byName(a,b)]]},
   demons:{type:'demon',arr:DEMONS,title:'Demons',side:{label:'Group',key:'grp'},hay:e=>e.n+' '+(e.ds||''),filters:[],toggles:[{id:'pin',label:'★ Pinned',test:e=>isPinned(e)}],sorts:[['def','Default',null],['name','Name A–Z',byName]]},
   patrons:{type:'patron',arr:PATRONS,title:'Patrons',side:{label:'Group',key:'grp'},hay:e=>e.n+' '+(e.ds||''),filters:[],toggles:[{id:'pin',label:'★ Pinned',test:e=>isPinned(e)}],sorts:[['def','Default',null],['name','Name A–Z',byName]]},
 };
@@ -759,6 +828,8 @@ const COLS={
   god:[['Name',g=>godKey(g)],['Title',g=>godTitle(g)],['Pantheon',g=>g.grp],['Home realm',g=>g.home||''],['Runes',g=>(g.runes||[]).join(', ')],['Hand',g=>g.seated!=null?g.seated+'/5':''],['Signature materials',g=>(g.sig||[]).join(', ')]],
   spell:[['Name',x=>x.n],['School',x=>x.sc],['Level',x=>x.lv],['Casting time',x=>x.ct],['Range',x=>x.rng],['Duration',x=>x.dur],['Damage',x=>x.dmg&&x.dmg!=='None'?x.dmg:''],['Classes',x=>(x.cls||[]).join(', ')]],
   sub:[['Name',x=>x.n],['Class',x=>x.par],['Source',x=>subSource(x)]],
+  note:[['Name',n=>n.n],['Folder',n=>n.f]],
+  rune:[['Rune',r=>r.n],['Kind',r=>r.cat],['Figure',r=>r.fig.name+', '+r.fig.title],['Held by',r=>r.gods.map(godKey).join(', ')],['Relics',r=>r.bps.length]],
   demon:[['Name',e=>e.n],['Group',e=>e.grp],['Description',e=>e.ds||'']],
   patron:[['Name',e=>e.n],['Group',e=>e.grp],['Description',e=>e.ds||'']],
 };
@@ -776,13 +847,13 @@ function exportCSV(){
 }
 function randomItem(arr){arr=arr||LIST;if(!arr.length)return;const x=arr[Math.floor(Math.random()*arr.length)];openItem(x)}
 const TABS=[
-  ['home','Home'],['blueprints','Blueprints',BPS.length],['materials','Materials',MATS.length],['bestiary','Bestiary',MONSTERS.length],
-  ['realms','Realms',REALMS.length],['gods','Gods',GODS.length],['professions','Professions',Object.keys(PROFS).length],
+  ['home','Home'],['lore','Lore'],['codex','Codex',NOTES.length],['blueprints','Blueprints',BPS.length],['materials','Materials',MATS.length],['bestiary','Bestiary',MONSTERS.length],
+  ['realms','Realms',REALMS.length],['gods','Gods',GODS.length],['runes','Runes',RUNES.length],['professions','Professions',Object.keys(PROFS).length],
   ['spells','Spells',META.counts.spells],['subclasses','Subclasses',SUBS.length],['demons','Demons',DEMONS.length],['patrons','Patrons',PATRONS.length],
   ['forge','Forge'],['craft','Craft'],['party','Party'],['encounter','Encounters'],['combat','Combat'],
   ['rules','Rules'],['tools','Tools'],['about','About'],
 ];
-const PAGES={home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,about:renderAbout,forge:()=>renderForge(),craft:()=>renderCraft(),party:()=>renderParty(),encounter:()=>renderEncounter(),combat:()=>renderCombat()};
+const PAGES={home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,about:renderAbout,lore:()=>renderLore(),forge:()=>renderForge(),craft:()=>renderCraft(),party:()=>renderParty(),encounter:()=>renderEncounter(),combat:()=>renderCombat()};
 
 // ════════════════════════════════════════════════════════════════
 //  State & routing
@@ -833,6 +904,7 @@ function renderTab(){
   toggleDrawer(false);
   $('content').dataset.tab=TAB;
   document.title=(TABS.find(t=>t[0]===TAB)||[])[1]+' · FAND';
+  if(TAB==='codex'&&!NOTES.length){$('sb').hidden=true;$('ctrl').hidden=true;$('content').innerHTML=`<div class="page"><div class="empty" style="text-align:left;max-width:640px;margin:40px auto"><b>The Codex is empty</b><p>The Codex shows every note from the FAND Obsidian vault. To fill it, run these from the repository's <code>tools</code> folder on the computer that has the vault, then commit and push:</p><pre class="formula">node generators/importvault.js go\nnode generators/buildapp.js go</pre><p class="note">Blueprints, materials, spells, and the Bestiary come from the website's own data and aren't duplicated here. Where a note and the website differ, the website takes priority.</p></div></div>`;return}
   if(VIEWS[TAB]){renderSidebar();renderControls();renderList()}
   else{$('sb').hidden=true;$('ctrl').hidden=true;$('content').innerHTML='';PAGES[TAB]()}
   $('content').scrollTop=0;
@@ -982,6 +1054,7 @@ function showModal(x){
   const M=MODAL[x._t](x);
   const i=MODAL_LIST.indexOf(x);
   const nav=i>=0&&MODAL_LIST.length>1?`<div class="mnav"><button class="btn" onclick="step(-1)" ${i===0?'disabled':''}>← Previous</button><span class="pos">${fmt(i+1)} / ${fmt(MODAL_LIST.length)}</span><button class="btn" onclick="step(1)" ${i===MODAL_LIST.length-1?'disabled':''}>Next →</button></div>`:'';
+  M.body+=vaultBlock(x);
   $('modal').innerHTML=`<div class="mh" style="${M.strip?'--strip:'+M.strip:''}">
       <div class="kind">${M.kind||TYPES[x._t].label}</div>
       <h2 id="mtitle">${M.title}</h2>${M.ep?`<div class="ep">${M.ep}</div>`:''}
@@ -1064,6 +1137,55 @@ function sbHTML(m){
     ${b.lg?`<h5>Legendary Actions</h5><p>The creature can take 3 legendary actions, choosing from the options below. Only one legendary action can be used at a time and only at the end of another creature's turn. It regains spent legendary actions at the start of its turn.</p>${ent(b.lg)}`:''}
     <div class="gen">Stat block generated for FAND from this monster's challenge, body, and drops. AC uses FAND's flat rule: subtract it from each hit's damage.</div></div>`;
 }
+// Where a vault note and the website disagree, the website's version applies.
+const SUPERSEDED={
+  'Armor Class':{msg:'The Armor Class rules have changed. AC now starts at 0, gear adds small amounts (a full set of iron gear gives 10), heavier armor carries drawbacks, and AC is subtracted flat from each hit. The percentage formula, headshots, and Natural vs. Gear AC below no longer apply.',go:'rules'},
+  'Monster Stats':{msg:'Official monsters no longer convert AC with 2 × (book AC − 10) + CR; every monster now has a generated stat block on the website using the flat AC rule.',go:'bestiary'},
+};
+// Vault text attached to website entries; on the multi-page site it loads the first time an entry is opened.
+let VDETAILS=typeof VAULT_DETAILS!=='undefined'?VAULT_DETAILS:null,VD_LOADING=false;
+function loadDetails(){
+  if(VDETAILS||VD_LOADING||!SITE)return;VD_LOADING=true;
+  const s=document.createElement('script');s.src='data/vault-details.js';
+  s.onload=()=>{VDETAILS=typeof VAULT_DETAILS!=='undefined'?VAULT_DETAILS:{};if(CUR&&$('mbg').classList.contains('open'))showModal(CUR)};
+  s.onerror=()=>{VDETAILS={}};document.head.appendChild(s);
+}
+function vaultBlock(x){
+  const t={bp:'bp',mat:'mat',spell:'spell',sub:'sub',mon:'mon',god:'god'}[x._t];if(!t)return '';
+  if(!VDETAILS){loadDetails();return SITE&&VAULT_DATA.imported?'<div class="note">Loading the vault entry…</div>':''}
+  const key=t==='god'?godKey(x):x.n,d=(VDETAILS[t]||{})[key];if(!d)return '';
+  return `<details class="fold" open style="border-top:1px solid var(--line);padding-top:10px"><summary>From the vault <span style="color:var(--muted)">· ${esc(d.f)}</span></summary><div><div class="note" style="margin:0 0 8px">The website's data above takes priority where the two differ.</div><div class="prose vault" style="font-family:var(--sans);font-size:.9rem">${mdVault(d.md)}</div></div></details>`;
+}
+function noteByName(name){const k=lc(name.split('/').pop().replace(/#.*$/,''));return NOTES.find(n=>lc(n.n)===k)}
+function resolveLink(target){
+  const k=lc(target.split('/').pop().replace(/#.*$/,'').trim());
+  const note=NOTES.find(n=>lc(n.n)===k);if(note)return note;
+  for(const t of ['god','realm','mat','bp','mon','sub','demon','patron','spell']){const arr=TYPES[t].arr;const x=arr.find(y=>lc(y.n)===k)||(t==='god'||t==='demon'||t==='patron'?arr.find(y=>lc(y.n.split(' - ')[0])===k):null)||(t==='realm'?arr.find(y=>lc(y.page||'')===k):null);if(x)return x}
+  return null;
+}
+function mdVault(src){
+  const inline=s=>esc(s).replace(/!\[\[[^\]]*\]\]/g,'').replace(/\[\[([^\]|]+)(?:\\?\|([^\]]+))?\]\]/g,(m,t,a)=>{const label=a||t.split('/').pop().replace(/#.*$/,'');const x=resolveLink(t.replace(/&amp;/g,'&').replace(/&#39;/g,"'"));return x?`<a href="#" data-ref="${ref(x)}">${label}</a>`:`<span style="color:var(--muted)" title="Not on the website">${label}</span>`})
+    .replace(/\[([^\]]+)\]\((https?:[^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>')
+    .replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/(^|[^*])\*([^*\n]+)\*/g,'$1<em>$2</em>').replace(/==([^=]+)==/g,'<mark>$1</mark>');
+  const L=String(src||'').split('\n');let out='',i=0;
+  while(i<L.length){
+    let l=L[i];
+    if(/^\s*\|/.test(l)&&i+1<L.length&&/^\s*\|?\s*:?-{2,}/.test(L[i+1])){
+      const row=x=>x.trim().replace(/^\||\|$/g,'').split(/(?<!\\)\|/).map(c=>c.trim());
+      const head=row(l);i+=2;const body=[];while(i<L.length&&/^\s*\|/.test(L[i])){body.push(row(L[i]));i++}
+      out+=`<div class="tablewrap" style="margin:10px 0"><table class="t"><thead><tr>${head.map(h=>`<th>${inline(h)}</th>`).join('')}</tr></thead><tbody>${body.map(r=>`<tr>${r.map(c=>`<td>${inline(c.replace(/\\\|/g,'|'))}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;continue;
+    }
+    if(/^>/.test(l)){const q=[];while(i<L.length&&/^>/.test(L[i])){q.push(L[i].replace(/^>\s?/,''));i++}let title='';const m=/^\[!(\w+)\][-+]?\s*(.*)$/.exec(q[0]||'');if(m){title=m[2]||m[1];q.shift()}out+=`<div class="callout" style="margin:10px 0">${title?`<b>${inline(title)}</b><br>`:''}${q.map(inline).join('<br>')}</div>`;continue}
+    let m;
+    if((m=/^(#{1,6})\s+(.*)/.exec(l))){const lv=m[1].length;out+=lv<=1?'':`<h${Math.min(5,lv+2)} style="font-family:var(--serif);margin:16px 0 6px;color:var(--text)">${inline(m[2])}</h${Math.min(5,lv+2)}>`;i++;continue}
+    if(/^\s*(-{3,}|\*{3,})\s*$/.test(l)){out+='<hr style="border:0;border-top:1px solid var(--line);margin:12px 0">';i++;continue}
+    if(/^\s*([-*+]|\d+[.)])\s+/.test(l)){const ord=/^\s*\d/.test(l);let h=ord?'<ol>':'<ul>';while(i<L.length&&/^\s*([-*+]|\d+[.)])\s+/.test(L[i])){const ind=(/^\s*/.exec(L[i])[0].length);h+=`<li style="margin-left:${ind*6}px">${inline(L[i].replace(/^\s*([-*+]|\d+[.)])\s+(\[[ x]\]\s*)?/,''))}</li>`;i++}out+=h+(ord?'</ol>':'</ul>');continue}
+    if(!l.trim()){i++;continue}
+    const para=[];while(i<L.length&&L[i].trim()&&!/^(#|>|\s*\||\s*([-*+]|\d+[.)])\s)/.test(L[i])){para.push(L[i]);i++}
+    out+=`<p>${para.map(inline).join('<br>')}</p>`;
+  }
+  return out;
+}
 const MODAL={
   bp(b){
     const rows=[['Profession',esc(b.pr)],['Specialty',b.sp&&b.sp!==b.pr?esc(b.sp):''],['Item type',esc(b.cat)],['Level',b.lv],['Rarity',esc(b.r)],
@@ -1132,7 +1254,7 @@ const MODAL={
     (g.runes||[]).forEach(r=>(RUNE_GODS.get(r)||[]).forEach(o=>{if(o!==g){if(!rivals.has(o))rivals.set(o,[]);rivals.get(o).push(r)}}));
     const hand=g.seated!=null?`<div class="mlist">${['1st','2nd','3rd','4th','5th'].map((o,i)=>`<button disabled style="cursor:default;opacity:1"><b style="color:var(--gold2);width:84px;flex-shrink:0;white-space:nowrap">${o} Finger</b>${g.hand&&g.hand[i]?esc(g.hand[i]):'<span class="x">Vacant seat</span>'}</button>`).join('')}</div>`:'';
     return {title:esc(godKey(g)),ep:esc(godTitle(g)),strip:rcol(g.home),kind:'God · '+esc(g.grp),
-      badges:`${g.home?realmB(g.home):''}${(g.runes||[]).map(r=>`<span class="b ${CONTESTED.includes(r)?'red':'acc'}" title="${CONTESTED.includes(r)?'Contested Rune':''}">ᚱ ${esc(r)}</span>`).join('')}`,
+      badges:`${g.home?realmB(g.home):''}${(g.runes||[]).map(r=>{const x=RUNE_IDX.get(lc(r));return `<button class="b ${CONTESTED.includes(r)?'red':'acc'}" style="cursor:pointer;border:0" ${x?`data-ref="${ref(x)}"`:''} title="${x?esc(x.fig.name+', '+x.fig.title):''}">ᚱ ${esc(r)}</button>`}).join('')}`,
       body:(g.myth?`<div class="prose">${esc(g.myth)}</div>`:`<div class="prose">${esc(g.ds||'')}</div>`)
         +(g.wants?`<div class="callout"><b>Wants from contractors:</b> ${esc(g.wants)}</div>`:'')
         +kv([['Home realm',g.home?esc(g.home):''],['Runes',(g.runes||[]).length||''],['Hand',g.seated!=null?g.seated+' of 5 seated':''],['Finger relic',g.relic?esc(g.relic):'']])
@@ -1158,6 +1280,27 @@ const MODAL={
   },
   demon(e){return entityModal(e,PATRONS,'Also a patron')},
   patron(e){return entityModal(e,DEMONS,'Also listed among the demons')},
+  note(n){
+    const sup=SUPERSEDED[n.n];
+    const fm=Object.entries(n.fm||{}).filter(([k])=>!/^(tags|aliases|cssclass)/i.test(k)).slice(0,12);
+    return {title:esc(n.n),kind:'Vault note · '+esc(n.f),
+      badges:`<span class="b acc">${esc(n.f)}</span>${sup?'<span class="b gold">Updated on the website</span>':''}`,
+      body:(sup?`<div class="callout" style="border-color:var(--gold)"><b>The website takes priority.</b> ${esc(sup.msg)} <a href="${pageUrl(sup.go)}" data-go="${sup.go}">See the current version →</a></div>`:'')
+        +(fm.length?kv(fm.map(([k,v])=>[esc(k),esc(v)])):'')
+        +`<div class="prose vault" style="font-family:var(--sans);font-size:.92rem">${mdVault(n.md)}</div>`
+        +`<div class="note" style="margin:0">From the Obsidian vault (imported ${esc(VAULT_DATA.imported||'')}). Where it differs from the website, the website's version applies.</div>`};
+  },
+  rune(r){
+    const f=r.fig,rivals=r.contested?r.gods.map(godKey):[];
+    return {title:'ᚱ '+esc(r.n),ep:esc(f.name)+', '+esc(f.title),kind:'Rune · '+esc(r.cat),strip:r.contested?'var(--red)':'',
+      badges:`<span class="b acc">${esc(r.cat)}</span>${r.contested?'<span class="b red">Contested</span>':''}${r.gods.length?'':'<span class="b ghost">Unclaimed</span>'}`,
+      body:(r.note?`<div class="prose vault" style="font-family:var(--sans);font-size:.92rem">${mdVault(r.note.md)}</div>`:'')+`<div class="callout" style="border-color:var(--gold)"><b>The figure behind the Rune: ${esc(f.name)}</b>, ${esc(f.title)}<div style="margin-top:6px">${esc(f.form)}</div></div>`
+        +kv([['Kind',esc(r.cat)],['Symbol',esc(f.symbol)],['Held by',r.gods.length?r.gods.length+' god'+(r.gods.length>1?'s':''):'No god'],['Relics',r.bps.length||'']])
+        +`<div class="lore"><h5>Nature</h5><p>${esc(f.temper)}</p>${f.origin?`<h5>Origin</h5><p>${esc(f.origin)}</p>`:''}<h5>The gods</h5><p>${r.gods.length?(r.contested?`${esc(rivals.length>2?rivals.slice(0,-1).join(', ')+',':rivals[0])} and ${esc(rivals.slice(-1)[0])} ${rivals.length>2?'all ':'both '}claim ${esc(r.n)}, and the feud between them never cools. ${esc(f.name)} has favored none of them.`:`${esc(godKey(r.gods[0]))} holds ${esc(r.n)} alone, and draws on ${esc(f.name)}'s power through it.`):`No god holds ${esc(r.n)}. Its power reaches the world only through relics that hold a fragment of it.`}</p></div>`
+        +blk('Held by',r.gods.length?`<div class="chips">${r.gods.map(g=>refChip(g,esc(godKey(g)),g.grp.replace(' Pantheon',''))).join('')}</div>`:'')
+        +blk('Relics that channel it',r.bps.length?`<div class="chips">${r.bps.slice(0,24).map(b=>refChip(b,esc(b.n),b.cat)).join('')}</div>`:'',r.bps.length?String(r.bps.length):'')
+        +`<div class="note" style="margin:0">${f.special?'This figure comes from the campaign\'s own lore.':'The figure is website lore written for this Rune. To replace it, add figure, figureTitle, figureForm, figureNature, figureOrigin, or symbol to the Rune\'s note in the vault and re-import.'}</div>`};
+  },
   realm(r){
     const mats=MATS.filter(m=>m.realm===r.n),mons=MONSTERS.filter(m=>m.realm===r.n).sort((a,b)=>a.g-b.g||byName(a,b)),gods=GODS.filter(g=>g.home===r.n);
     const byG={};mats.forEach(m=>{(byG[m.g]=byG[m.g]||[]).push(m)});
@@ -1182,7 +1325,6 @@ function entityModal(e,other,label){
       +(twin?blk(label,`<div class="chips">${refChip(twin)}</div>`):'')
       +blk('Others in '+esc(e.grp),`<div class="chips">${sibs.slice(0,30).map(x=>refChip(x,esc(x.n.split(' - ')[0]))).join('')}</div>`)};
 }
-function hashStr(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
 function suggestDrops(m,n){
   const pool=MATS.filter(x=>x.realm===m.realm&&Math.abs((x.g||0)-m.g)<=1&&!x.supply&&/Bone|Blood|Hide|Essence|Creature/.test(x.ty||x.cat));
   pool.sort((a,b)=>hashStr(m.n+a.n)-hashStr(m.n+b.n));
@@ -1196,7 +1338,7 @@ let PSEL=0,PRES=[];
 function openPalette(){$('pbg').classList.add('open');$('pq').value='';paletteSearch();setTimeout(()=>$('pq').focus(),10)}
 function closePalette(){$('pbg').classList.remove('open')}
 $('pbg').addEventListener('mousedown',e=>{if(e.target===$('pbg'))closePalette()});
-const PAL_ORDER=[['bp','Blueprints'],['mat','Materials'],['mon','Bestiary'],['god','Gods'],['realm','Realms'],['sub','Subclasses'],['demon','Demons'],['patron','Patrons'],['spell','Spells']];
+const PAL_ORDER=[['rune','Runes'],['note','Codex'],['bp','Blueprints'],['mat','Materials'],['mon','Bestiary'],['god','Gods'],['realm','Realms'],['sub','Subclasses'],['demon','Demons'],['patron','Patrons'],['spell','Spells']];
 function hl(s,q){const i=lc(s).indexOf(q);return i<0?esc(s):esc(s.slice(0,i))+'<mark>'+esc(s.slice(i,i+q.length))+'</mark>'+esc(s.slice(i+q.length))}
 function paletteSearch(){
   const q=lc($('pq').value.trim()).replace(/infinitas/g,'infinatas');
@@ -1226,7 +1368,7 @@ function paletteSearch(){
   $('pres').innerHTML=h;PSEL=0;palMark();
 }
 function palRow(x,label,i){
-  const sub=x._t==='bp'?x.pr+' · Lv '+x.lv:x._t==='mat'?x.gr||'':x._t==='mon'?x.realm+' '+x.g:x._t==='god'?x.grp:x._t==='spell'?x.sc+' · '+(x.lv?'Lv '+x.lv:'Cantrip'):x._t==='sub'?x.par:x._t==='realm'?'Tier '+x.tier:x.grp||'';
+  const sub=x._t==='rune'?x.fig.name:x._t==='bp'?x.pr+' · Lv '+x.lv:x._t==='mat'?x.gr||'':x._t==='mon'?x.realm+' '+x.g:x._t==='god'?x.grp:x._t==='spell'?x.sc+' · '+(x.lv?'Lv '+x.lv:'Cantrip'):x._t==='sub'?x.par:x._t==='realm'?'Tier '+x.tier:x.grp||'';
   const col=x._t==='mat'?rcol(x.realm):x._t==='mon'?rcol(x.realm):x._t==='realm'?x.color:x._t==='god'?rcol(x.home):'';
   return `<button class="pal-i" data-pi="${i}">${col?`<span class="sw" style="width:8px;height:8px;border-radius:50%;background:${col};flex-shrink:0"></span>`:''}<span>${label}</span><span class="r">${esc(sub)}</span></button>`;
 }
@@ -1278,6 +1420,7 @@ function renderHome(){
       <div class="ladder">${REALMS.map(r=>`<button class="rung" style="--rc:${r.color}" data-ref="${ref(r)}"><span class="tier">Tier ${r.tier} · Rank ${(r.tier-1)*10+1}–${r.tier*10}</span><span class="nm">${esc(r.n)}</span><span class="ln">${fmt(MATS.filter(m=>m.realm===r.n).length)} materials · ${fmt(MONSTERS.filter(m=>m.realm===r.n).length)} monsters</span></button>`).join('')}</div></section>
     <section class="sec cols">
       <div class="panel"><h4>Start here</h4><ul>
+        <li><a href="${pageUrl('lore')}" data-go="lore">Lore</a>: Infinatas and Inane, the pantheons, the Runes, and the realms.</li>
         <li><a href="${pageUrl('rules')}" data-go="rules">Rules reference</a>: Armor Class, grading, refining, economy, travel, contracts.</li>
         <li><a href="${pageUrl('tools')}" data-go="tools">Table tools</a>: damage vs. AC, material grades, refining planner, encounter and loot roller.</li>
         <li><a href="${pageUrl('forge')}" data-go="forge">The Forge</a>: build a weapon or armor part by part from any materials.</li>
@@ -1443,6 +1586,38 @@ function renderAbout(){
       </ul></div>
     </section>
   </div>`;
+}
+
+// ── Lore ──────────────────────────────────────────────────────
+function renderLore(){
+  const pantheons={};GODS.forEach(g=>{(pantheons[g.grp]=pantheons[g.grp]||[]).push(g)});
+  const runes=[...RUNE_GODS].sort((a,b)=>b[1].length-a[1].length||a[0].localeCompare(b[0]));
+  const prog=MATS.filter(m=>m.pn==='Progenitor Piece');
+  const groups=(arr)=>{const o={};arr.forEach(e=>{(o[e.grp]=o[e.grp]||[]).push(e)});return o};
+  const toc=[['cosmos','Infinatas and Inane'],['timeline','Timeline'],['pantheons','The pantheons'],['runes','Runes'],['realms','The realms'],['progenitors','The progenitors'],['powers','Other powers'],['contracts','Contracts and the Hand']];
+  const sec=(id,title,body,sub)=>`<section class="rule" id="lore-${id}"><h3>${title}</h3>${sub?`<div class="src">${sub}</div>`:''}${body}</section>`;
+  $('content').innerHTML=`<div class="page">
+    <section class="hero" style="margin-bottom:18px"><h2>The Lore of Atrious</h2><p>What is known of the powers that shape FAND: the being above the gods, the gods who came here as refugees, the Runes they fight over, and the realms they rule.</p></section>
+    <div class="rules"><nav class="toc">${toc.map(([id,t])=>`<a href="#lore-${id}" onclick="document.getElementById('lore-${id}').scrollIntoView();return false">${t}</a>`).join('')}</nav><div>
+    ${sec('cosmos','Infinatas and Inane',cosmologyHTML(true)+`<p style="margin-top:12px">Above every god stands <b>Infinatas</b>, whose only concern is balance. Infinatas keeps it by creating. <b>Inane</b>, Infinatas's other self, keeps the same balance by destroying. The gods did not know what Inane was; they only saw their world wear away until nothing was left. Infinatas let them into this realm, but the gods of Atrious are guests, and they live by Infinatas's rules.</p>${noteByName('Infinatas')||noteByName('Infinitas')?`<p class="note">Read the full vault entry: <a href="#" data-ref="${ref(noteByName('Infinatas')||noteByName('Infinitas'))}">Infinatas</a>.</p>`:''}<p class="note">Infinatas has its own Rune page and Blueprints in the vault, such as <a href="#" data-ref="${ref(BPS.find(b=>/^Infinatas's/.test(b.n))||BPS[0])}">${esc((BPS.find(b=>/^Infinatas's/.test(b.n))||{}).n||'')}</a>.</p>`)}
+    ${sec('timeline','Timeline',`<ol style="padding-left:20px;display:flex;flex-direction:column;gap:8px">
+      <li><b>Before the gods came.</b> Infinatas keeps the balance of this realm through creation.</li>
+      <li><b>The erosion.</b> The gods' own world erodes away, worn down by Inane, an entity the gods cannot name.</li>
+      <li><b>The arrival.</b> Infinatas allows the surviving gods into this realm under strict regulation.</li>
+      <li><b>The Hands.</b> Each god binds mortals by contract, from Minor up to the five Fingers that make up its Hand. ${GODS.reduce((a,g)=>a+(g.hand||[]).length,0)} Fingers are named so far.</li>
+      <li><b>The rivalries.</b> ${CONTESTED.length} Runes are claimed by more than one god, and every shared Rune is a feud.</li>
+      <li><b>Still to be written:</b> the god wars, and what Inane does next.</li></ol>`,'Known so far, in order')}
+    ${sec('pantheons','The pantheons',`<p>${GODS.length} gods from ${Object.keys(pantheons).length} pantheons now live in Atrious. Most make their homes in ${(()=>{const c={};GODS.forEach(g=>{if(g.home)c[g.home]=(c[g.home]||0)+1});return Object.entries(c).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([r,n])=>esc(r)+' ('+n+')').join(', ')})()}.</p>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:10px">${Object.entries(pantheons).map(([p,gs])=>`<div><b style="font-family:var(--serif)">${esc(p)}</b> <span class="note">${gs.length} gods</span><div class="chips" style="margin-top:4px">${gs.map(g=>refChip(g,esc(godKey(g)),g.home||'')).join('')}</div></div>`).join('')}</div>
+      <p class="note"><a href="${pageUrl('gods')}" data-go="gods">Browse the gods →</a></p>`)}
+    ${sec('runes','Runes',`<p>Every god holds one or more Runes, the domains of its power, and behind every Rune stands a figure: the first being to embody it. <a href="${pageUrl('runes')}" data-go="runes">Meet the figures on the Runes page →</a></p><p> <b style="color:var(--red)">Contested</b> Runes are held by more than one god; those gods are rivals.</p>
+      <div class="tablewrap" style="margin-top:10px"><table class="t"><thead><tr><th>Rune</th><th>Held by</th></tr></thead><tbody>${runes.map(([r,gs])=>`<tr><td style="white-space:nowrap">${RUNE_IDX.get(lc(r))?`<a href="#" data-ref="${ref(RUNE_IDX.get(lc(r)))}" style="text-decoration:none">`:''}<b style="${gs.length>1?'color:var(--red)':''}">ᚱ ${esc(r)}</b>${RUNE_IDX.get(lc(r))?'</a>':''}${gs.length>1?' <span class="b red">contested</span>':''}</td><td><div class="chips">${gs.map(g=>refChip(g,esc(godKey(g)))).join('')}</div></td></tr>`).join('')}</tbody></table></div>`,runes.length+' Runes · '+CONTESTED.length+' contested')}
+    ${sec('realms','The realms',`<p>Eleven realms in ten tiers. The deeper the tier, the stronger its materials and the heavier its Pressure on travelers.</p><div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">${REALMS.map(r=>{const c=CURRENCY[r.n]||{};const gods=GODS.filter(g=>g.home===r.n);return `<div style="border-left:3px solid ${r.color};padding:4px 12px"><a href="#" data-ref="${ref(r)}" style="font-family:var(--serif);font-weight:700;color:${r.color};text-decoration:none">${esc(r.n)}</a> <span class="note">tier ${r.tier} · Pressure ${r.pressure}${c.coin?' · coin: '+esc(c.coin):' · no coin'}${gods.length?' · '+gods.length+' gods at home':''}</span><p style="margin-top:2px">${esc(REALM_BLURB[r.n]||'')}</p></div>`}).join('')}</div>`)}
+    ${sec('progenitors','The progenitors',`<p>The Primordial Realm belongs to the progenitors, older than the gods. Their remains count as Primary pieces toward the elemental classes.</p><div class="mlist" style="margin-top:10px">${prog.map(m=>`<button data-ref="${ref(m)}"><b style="color:var(--gold2)">${esc(m.n.split(' ')[0])}</b> ${esc(m.n)}<span class="x">${esc((m.ds||'').replace(/\. Property:.*$/,''))}</span></button>`).join('')}</div>
+      <p class="note">Divine Spark materials (${MATS.filter(m=>m.pn==='Divine Spark').length}) hold fragments of a god's power and are sought by gods and their Fingers.</p>`)}
+    ${sec('powers','Other powers',`${[['Demons and devils',DEMONS,'demons'],['Warlock patrons',PATRONS,'patrons']].map(([t,arr,tab])=>`<h4 style="margin:6px 0">${t}</h4><div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px">${Object.entries(groups(arr)).map(([g,es])=>`<div><b>${esc(g)}</b> <span class="note">${es.length}</span><div class="chips" style="margin-top:4px">${es.slice(0,12).map(e=>refChip(e,esc(e.n.split(' - ')[0]))).join('')}${es.length>12?`<button class="chip" data-go="${tab}" data-setup='${esc(JSON.stringify({side:g}))}'>+${es.length-12} more</button>`:''}</div></div>`).join('')}</div>`).join('')}`)}
+    ${sec('contracts','Contracts and the Hand',`<ul><li>Mortals serve the gods by contract, in ten ranks from <b>Minor</b> up to <b>1st Finger</b>.</li><li>The five Fingers together form the god's <b>Hand</b>. Each rank brings spells, AC, duties, and rewards.</li><li>A contractor is expected to stay loyal to one god. Breaking a contract, and the death of a god, have their own rules in the vault.</li><li>Gods that share a Rune are rivals, and so are their Hands.</li></ul><p class="note"><a href="${pageUrl('rules')}" data-go="rules">God Contracts in the rules →</a></p>`)}
+    </div></div></div>`;
 }
 
 // ── Tools ─────────────────────────────────────────────────────
@@ -1863,9 +2038,9 @@ const BASES={
     {id:'chain',name:'Chain or cord',role:'minor',qty:1,ok:['O','F'],optional:true,why:'Metal chain or cord.'}]},
 };
 const SHIELD_KIND={Buckler:1,Shield:2,Tower:3};
-const ARMOR_SLOT_UNITS={Body:4,Head:2,Hands:1,Feet:1,Shoulders:1,Back:1};
+const ARMOR_SLOT_UNITS={Body:4,Head:2,Hands:1,Feet:1,Shoulders:1,Back:1};  // keep in step with tools/data/armor.js
 const ARMOR_SLOT_MULT=ARMOR_SLOT_UNITS;
-// Same formula as the build's rescale (tools/generators/buildapp.js): a full set of iron gear (10 units of metal at Item Level 1) gives 10 AC.
+// Same formula as tools/data/armor.js (used by the build and by generators/vaultac.js): a full set of iron gear (10 units of metal at Item Level 1) gives 10 AC.
 const armorAC=(units,code,il)=>Math.max(1,Math.round(units*(code==='O'?1:/[BSG]/.test(code||'')?.7:.4)*(1+((il||1)-1)/20)));
 const matCode=m=>m.tc||({'Ore / Metal':'O','Metal':'O','Wood / Plant':'W','Wood':'W','Crystal / Gem':'G','Gemstone & Crystal':'G','Stone':'S','Hide / Cloth / Fiber':'F','Bone / Fang / Horn / Scale':'B','Blood / Organ':'L','Essence / Soul / Core':'E','Mechanism':'K','Supply':'U'})[m.ty||m.cat]||'?';
 function slotFit(slot,m){
@@ -2022,9 +2197,9 @@ $('sbg').addEventListener('mousedown',e=>{if(e.target===$('sbg'))closeSettings()
 const AI={model:'claude-opus-5-5',client:null,busy:false,msgs:[],view:[]};
 try{const c=JSON.parse(sessionStorage.getItem('fand.chat')||'null');if(c&&Array.isArray(c.msgs)){AI.msgs=c.msgs;AI.view=c.view||[]}}catch(e){}
 function saveChat(){try{sessionStorage.setItem('fand.chat',JSON.stringify({msgs:AI.msgs,view:AI.view}))}catch(e){}}
-const KIND={blueprint:'bp',material:'mat',monster:'mon',god:'god',realm:'realm',subclass:'sub',demon:'demon',patron:'patron',spell:'spell'};
+const KIND={rune:'rune',note:'note',blueprint:'bp',material:'mat',monster:'mon',god:'god',realm:'realm',subclass:'sub',demon:'demon',patron:'patron',spell:'spell'};
 const KIND_NAME=Object.fromEntries(Object.entries(KIND).map(([k,v])=>[v,k]));
-const HAY={bp:VIEWS.blueprints.hay,mat:VIEWS.materials.hay,mon:VIEWS.bestiary.hay,god:VIEWS.gods.hay,spell:VIEWS.spells.hay,sub:VIEWS.subclasses.hay,demon:VIEWS.demons.hay,patron:VIEWS.patrons.hay,realm:r=>r.n+' '+(REALM_BLURB[r.n]||'')};
+const HAY={rune:VIEWS.runes.hay,note:VIEWS.codex.hay,bp:VIEWS.blueprints.hay,mat:VIEWS.materials.hay,mon:VIEWS.bestiary.hay,god:VIEWS.gods.hay,spell:VIEWS.spells.hay,sub:VIEWS.subclasses.hay,demon:VIEWS.demons.hay,patron:VIEWS.patrons.hay,realm:r=>r.n+' '+(REALM_BLURB[r.n]||'')};
 function brief(x){
   const t=x._t,o={kind:KIND_NAME[t],name:x.n};
   if(t==='bp')Object.assign(o,{profession:x.pr,specialty:x.sp,type:x.cat,level:x.lv,rarity:x.r,damage:x.dc&&x.dm?x.dc+' '+x.dm:undefined,ac:x.ac,property:x.prop,materialGrade:x.gr,materials:x.mats});
@@ -2035,6 +2210,8 @@ function brief(x){
   else if(t==='sub')Object.assign(o,{class:x.par,source:subSource(x)});
   else if(t==='demon'||t==='patron')Object.assign(o,{group:x.grp});
   else if(t==='realm')Object.assign(o,{tier:x.tier,pressure:x.pressure});
+  else if(t==='rune')Object.assign(o,{figure:x.fig.name+', '+x.fig.title,heldBy:x.gods.map(godKey),contested:x.contested});
+  else if(t==='note')Object.assign(o,{folder:x.f,snippet:plainMd(x.md).slice(0,200)});
   return o;
 }
 function detail(x){
@@ -2045,12 +2222,15 @@ function detail(x){
   else if(t==='god'){o.title=godTitle(x);o.myth=x.myth||x.ds;o.wants=x.wants;o.signatureMaterials=x.sig;o.fingerRelic=x.relic;o.hand=x.hand;const r=new Map();(x.runes||[]).forEach(rn=>(RUNE_GODS.get(rn)||[]).forEach(g=>{if(g!==x){if(!r.has(g))r.set(g,[]);r.get(g).push(rn)}}));o.rivals=[...r].map(([g,rs])=>godKey(g)+' (over '+rs.join(', ')+')')}
   else if(t==='spell'){o.castingTime=x.ct;o.range=x.rng;o.duration=x.dur;o.description=x.desc}
   else if(t==='sub'||t==='demon'||t==='patron')o.description=x.ds;
+  if(VDETAILS){const vt={bp:'bp',mat:'mat',spell:'spell',sub:'sub',mon:'mon',god:'god'}[t];const d=vt&&(VDETAILS[vt]||{})[vt==='god'?godKey(x):x.n];if(d)o.fromVault=d.md.slice(0,8000)}
+  if(t==='rune'){Object.assign(o,{figureForm:x.fig.form,figureNature:x.fig.temper,figureOrigin:x.fig.origin,symbol:x.fig.symbol,relics:x.bps.map(b=>b.n).slice(0,30)})}
+  if(t==='note'){o.text=x.md.slice(0,12000);o.frontmatter=x.fm;if(SUPERSEDED[x.n])o.supersededBy='The website version applies: '+SUPERSEDED[x.n].msg}
   else if(t==='realm'){o.description=REALM_BLURB[x.n];o.materialRanks=((x.tier-1)*10+1)+'-'+x.tier*10;o.basePriceGp=x.base||'not sold';o.monsters=MONSTERS.filter(m=>m.realm===x.n).sort((a,b)=>a.g-b.g).map(m=>m.n+' (G'+m.g+')').slice(0,60);o.materialCount=MATS.filter(m=>m.realm===x.n).length;o.godsAtHome=GODS.filter(g=>g.home===x.n).map(godKey)}
   return JSON.parse(JSON.stringify(o));
 }
 function aiSearch(inp){
   const q=lc(inp.query||'').trim(),words=q.split(/\s+/).filter(Boolean);
-  const kinds=inp.kind&&inp.kind!=='any'?[KIND[inp.kind]]:['bp','mat','mon','god','realm','sub','demon','patron','spell'];
+  const kinds=inp.kind&&inp.kind!=='any'?[KIND[inp.kind]]:['rune','note','bp','mat','mon','god','realm','sub','demon','patron','spell'];
   const lim=Math.min(25,Math.max(1,inp.limit||10));
   const res=[];let total=0;
   for(const t of kinds){
@@ -2082,7 +2262,7 @@ const AI_TOOLS=[
    description:'Search the FAND compendium (the campaign data on this website). Returns short summaries of matching entries and the total number of matches. Matches every word of `query` against names and descriptions; leave `query` empty to list entries by filters alone. Use it before answering anything about specific Blueprints, materials, monsters, gods, realms, subclasses, demons, patrons, or spells.',
    input_schema:{type:'object',properties:{
      query:{type:'string',description:'Words to match, e.g. "dragon scale" or "fire". May be empty.'},
-     kind:{type:'string',enum:['any','blueprint','material','monster','god','realm','subclass','demon','patron','spell'],description:'Restrict to one kind of entry. Default any.'},
+     kind:{type:'string',enum:['any','rune','note','blueprint','material','monster','god','realm','subclass','demon','patron','spell'],description:'Restrict to one kind of entry. Default any. "note" means a note from the campaign\'s Obsidian vault (rules pages, Runes, realms, classes, lore, patch notes).'},
      realm:{type:'string',description:'Only entries from this realm, e.g. "Hell", "Inner Void". Applies to materials, monsters, Blueprints (by material grade), and gods (by home realm).'},
      min_grade:{type:'integer',minimum:1,maximum:10,description:'Materials and monsters: lowest grade.'},
      max_grade:{type:'integer',minimum:1,maximum:10,description:'Materials and monsters: highest grade.'},
@@ -2092,7 +2272,7 @@ const AI_TOOLS=[
      limit:{type:'integer',minimum:1,maximum:25,description:'How many results to return. Default 10.'}},required:['query']}},
   {name:'get_entry',eager_input_streaming:true,
    description:'Get the full details of one entry by its exact name, with cross-references: the Blueprints that use a material, the monsters that drop it and gods who hold it; a Blueprint\'s materials, prices, and estimated cost; a god\'s Runes, Hand, and rivals; a realm\'s monsters and gods.',
-   input_schema:{type:'object',properties:{name:{type:'string',description:'Exact entry name as returned by search_compendium.'},kind:{type:'string',enum:['blueprint','material','monster','god','realm','subclass','demon','patron','spell']}},required:['name']}},
+   input_schema:{type:'object',properties:{name:{type:'string',description:'Exact entry name as returned by search_compendium.'},kind:{type:'string',enum:['rune','note','blueprint','material','monster','god','realm','subclass','demon','patron','spell']}},required:['name']}},
 ];
 function validTool(name,inp){
   if(!inp||typeof inp!=='object')return false;
@@ -2102,11 +2282,15 @@ function validTool(name,inp){
 }
 const AI_SYSTEM=()=>`You are the FAND Assistant, a helper built into the FAND Compendium website for FAND (Fantasy and Numerous Disasters), a homebrew D&D campaign set in the world of Atrious. You answer questions from players and the DM about the campaign's Blueprints (craftable items), materials, monsters, realms, gods, professions, spells, subclasses, demons, patrons, and rules.
 
+The compendium includes notes from the campaign's Obsidian vault (kind "note"). Where a vault note disagrees with the website's data or rules, the website takes priority.
+
 Ground every specific claim in the compendium: use search_compendium and get_entry to look things up rather than relying on memory, and say plainly when the data doesn't contain something. General D&D 5e knowledge is fine for context, but FAND's own rules (below) override the books where they differ. Don't invent stats, prices, or lore.
 
 When you name an entry that exists in the compendium, wrap its exact name in double square brackets, like [[Adamantine]] or [[Zeus]], so the website can turn it into a link. Keep answers focused and skimmable: short paragraphs and bullet lists, bold for key numbers. Don't use tables. Show the arithmetic briefly when you calculate something (damage after AC, prices, refining counts).
 
 FAND cosmology: Infinatas (sometimes written Infinitas) is the highest being and cares only for balance, keeping it through creation. Inane is Infinatas's split personality and keeps balance through destruction; to the gods it was an unknown entity. The gods' own world eroded because of Inane, and Infinatas allowed the gods into this realm under strict regulation.
+
+Runes: every Rune has a figure behind it, the first being to embody that principle when Infinatas shaped the realm (use get_entry with kind "rune"). Infinatas and Creation belong to Infinatas, Destruction to Inane, Balance to both; Ignis, Sylph, Undine, and Gnome are the progenitors.
 
 FAND rules summary:
 - Armor Class starts at 0. Armor and other gear each add a small amount of AC to the total: slot units Body 4, Head 2, Hands/Feet/Shoulders/Back 1 each (a full set is 10); shields Buckler 1, Shield 2, Tower 3; x1 for metal, x0.7 bone/scale/stone, x0.4 hide/cloth, x(1 + (Item Level - 1)/20); minimum 1 per piece. A full set of iron gear gives 10 AC. Armor that gives more AC carries drawbacks: for example, full iron gear gives +10 AC but you lose Acrobatics, Athletics, and Dexterity. AC is subtracted flat from the total damage of each hit: damage taken = damage - AC.
@@ -2171,6 +2355,7 @@ function loadSDK(){
 }
 function setStatus(t){const s=$('aiStatus');if(s)s.textContent=t;else renderAI(t)}
 async function ask(){
+  loadDetails();
   const q=$('aiQ').value.trim();if(!q||AI.busy)return;
   if(!getKey()){openSettings();return}
   AI.busy=true;$('aiSend').disabled=true;$('aiQ').value='';$('aiQ').style.height='';
