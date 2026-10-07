@@ -543,7 +543,7 @@ function diceify(root){if(!root)return;const w=document.createTreeWalker(root,No
 document.addEventListener('click',e=>{const d=e.target.closest('.dice');if(d){e.preventDefault();e.stopPropagation();rollShow(d.textContent)}},true);
 function diceLog(){const L=store.get('dicelog',[]);$('dl-log').innerHTML=L.length?L.map(x=>`<div style="display:flex;gap:8px;font-size:.88rem"><b style="width:44px;text-align:right">${x.t}</b><span class="mono">${esc(x.e)}</span><span style="color:var(--muted)">${x.r.join(', ')}${x.mod?(x.mod>0?' +':' ')+x.mod:''}</span></div>`).join(''):'<div class="note">No rolls yet.</div>'}
 // On the play pages, dice in freshly drawn content become clickable.
-let DICE_OBS=null;function diceWatch(){if(DICE_OBS)DICE_OBS.disconnect();if(!['party','forge','encounter','combat','hooks','craft'].includes(TAB))return;diceify($('content'));DICE_OBS=new MutationObserver(()=>{DICE_OBS.disconnect();diceify($('content'));DICE_OBS.observe($('content'),{childList:true,subtree:true})});DICE_OBS.observe($('content'),{childList:true,subtree:true})}
+let DICE_OBS=null;function diceWatch(){if(DICE_OBS)DICE_OBS.disconnect();if(!['party','forge','encounter','combat','hooks','craft','prep'].includes(TAB))return;diceify($('content'));DICE_OBS=new MutationObserver(()=>{DICE_OBS.disconnect();diceify($('content'));DICE_OBS.observe($('content'),{childList:true,subtree:true})});DICE_OBS.observe($('content'),{childList:true,subtree:true})}
 function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('show'),1800)}
 const store={get(k,d){try{const v=localStorage.getItem('fand.'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('fand.'+k,JSON.stringify(v))}catch(e){}}};
 
@@ -987,10 +987,10 @@ const TABS=[
   ['home','Home'],['lore','Lore'],['codex','Codex',NOTES.length],['blueprints','Blueprints',BPS.length],['materials','Materials',MATS.length],['bestiary','Bestiary',MONSTERS.length],
   ['realms','Realms',REALMS.length],['gods','Gods',GODS.length],['runes','Runes',RUNES.length],['professions','Professions',Object.keys(PROFS).length],
   ['spells','Spells',META.counts.spells],['subclasses','Subclasses',SUBS.length],['demons','Demons',DEMONS.length],['patrons','Patrons',PATRONS.length],
-  ['forge','Forge'],['craft','Craft'],['party','Party'],['sheet','Character sheet'],['encounter','Encounters'],['hooks','Hooks'],['journal','Journal'],['hidden','Hidden classes'],['towers','Towers'],['combat','Combat'],
+  ['forge','Forge'],['craft','Craft'],['party','Party'],['sheet','Character sheet'],['encounter','Encounters'],['hooks','Hooks'],['prep','Session prep'],['journal','Journal'],['hidden','Hidden classes'],['towers','Towers'],['combat','Combat'],
   ['rules','Rules'],['tools','Tools'],['about','About'],
 ];
-const PAGES={home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,about:renderAbout,lore:()=>renderLore(),forge:()=>renderForge(),craft:()=>renderCraft(),party:()=>renderParty(),sheet:()=>renderSheet(),encounter:()=>renderEncounter(),hooks:()=>renderHooks(),journal:()=>renderJournal(),hidden:()=>renderHidden(),towers:()=>renderTowers(),combat:()=>renderCombat()};
+const PAGES={home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,about:renderAbout,lore:()=>renderLore(),forge:()=>renderForge(),craft:()=>renderCraft(),party:()=>renderParty(),sheet:()=>renderSheet(),encounter:()=>renderEncounter(),hooks:()=>renderHooks(),prep:()=>renderPrep(),journal:()=>renderJournal(),hidden:()=>renderHidden(),towers:()=>renderTowers(),combat:()=>renderCombat()};
 
 // ════════════════════════════════════════════════════════════════
 //  State & routing
@@ -1035,7 +1035,7 @@ const NAV_GROUPS=[
   ['Creatures & Materials',['bestiary','materials']],
   ['Items & Crafting',['blueprints','forge','craft','professions']],
   ['Magic & Classes',['subclasses','hidden','spells']],
-  ['Play',['sheet','party','journal','encounter','hooks','combat','tools']],
+  ['Play',['prep','sheet','party','journal','encounter','hooks','combat','tools']],
   ['Reference',['rules','about']],
 ];
 const NAV_BLURB={sheet:'Create a character on a full sheet worked out with FAND\'s rules',hidden:'Unique, Epic, and Legendary classes unlocked through quests and Towers',towers:'A Tower in every realm, grown from unclaimed Runes',journal:'Session notes that link to the world',hooks:'Story starters from the gods, Runes, and monsters',lore:'Infinatas, the gods, and the history of Vestige',realms:'The eleven realms and their coin',gods:'Pantheons, Runes, Hands, and rivals',runes:'Every Law, its lineage, and its progenitor',demons:'Archdevils, demon princes, and corruptions',patrons:'Warlock patrons',codex:'Every note from the Obsidian vault',bestiary:'Monsters with stat blocks, lore, and drops',materials:'Graded materials, traits, and prices',blueprints:'Ready-made designs for every profession',forge:'General Blueprints: pick a material for every part',craft:'Plan what to gather and buy',professions:'The ten professions and their specialties',spells:'Spells by school, tier, and class',subclasses:'Official and homebrew subclasses',party:'Characters, gear, contracts, and money',encounter:'Balanced fights by realm and level',combat:'Initiative, HP, and flat AC',tools:'Calculators and converters',rules:'Rules summaries',about:'What FAND has, version by version'};
@@ -2071,7 +2071,7 @@ function sbMake(o){
     sb.ac=({Fighter:8,Paladin:8,Cleric:5,Barbarian:4,Ranger:4,Artificer:5,Rogue:3,Monk:3,Bard:3,Druid:3,Warlock:3,Wizard:1,Sorcerer:1})[o.cls]+Math.max(0,realm.tier-1);
     sb.ty='humanoid';sb.al=pk(['any alignment','lawful neutral','neutral good','chaotic neutral','lawful evil','neutral']);
     if(ca){const i=abIdx[ca];sb.ab[i]=Math.max(sb.ab[i],14+Math.min(6,Math.floor(L/4)));const md=Math.floor((sb.ab[i]-10)/2),dc=8+sb.pb+md;
-      tr.push(['Spellcasting',`${name} is a level ${L} ${si.name.toLowerCase()===o.cls.toLowerCase()?o.cls:si.name+' ('+o.cls+')'} spellcaster. Its spellcasting ability is ${({cha:'Charisma',wis:'Wisdom',int:'Intelligence'})[ca]} (spell save DC ${dc}, +${sb.pb+md} to hit with spell attacks). ${slots?slots.pact?`It has ${slots.n} pact slots of ${slots.lvl} level (short rest).`:'Slots: '+slots.slots.map((k,j)=>k?`${ORDN(j+1)} ${k}`:'').filter(Boolean).join(', ')+'.':''} It can cast spells of the ${si.realms.join(', ')} Realm${si.realms.length>1?'s':''}.`])}
+      tr.push(['Spellcasting',`${name} is a level ${L} ${si.name.toLowerCase()===o.cls.toLowerCase()?o.cls:si.name+' ('+o.cls+')'} spellcaster. Its spellcasting ability is ${({cha:'Charisma',wis:'Wisdom',int:'Intelligence'})[ca]} (spell save DC ${dc}, +${sb.pb+md} to hit with spell attacks). ${slots?slots.pact?`It has ${slots.n} pact slots of ${slots.lvl} level (short rest).`:'Slots: '+slots.slots.map((k,j)=>k?`${ORDN(j+1)} ${k}`:'').filter(Boolean).join(', ')+'.':''} It can cast spells from ${si.realms.length>1?'these realms':'this realm'}: ${si.realms.join(', ')}.${si.k>1?` Its spell damage and healing dice are multiplied by ${si.k} (stage ${si.k}).`:''}${npcSpells(o.cls,si.k,slots,R)}`])}
     const CF={Fighter:['Second Wind','Once per short rest, as a bonus action, it regains 1d10 + '+L+' hit points.'],Rogue:['Sneak Attack','Once per turn it deals an extra '+Math.ceil(L/2)+'d6 damage when it has advantage or an ally is next to the target.'],Barbarian:['Rage','As a bonus action it rages for 1 minute: advantage on Strength checks and saves, +'+(L<9?2:L<16?3:4)+' melee damage, resistance to bludgeoning, piercing, and slashing.'],Monk:['Flurry of Blows','After attacking, it can make two unarmed strikes as a bonus action (1d'+(L<5?4:L<11?6:L<17?8:10)+' each).'],Paladin:['Divine Smite','When it hits, it can spend a slot to deal an extra 2d8 radiant damage, +1d8 per slot level above 1st.'],Ranger:['Hunter\'s Mark','It marks a creature; its weapon attacks against that creature deal an extra 1d6.'],Bard:['Inspiration','As a bonus action, an ally within 60 ft. gains a d'+(L<5?6:L<10?8:L<15?10:12)+' to add to one roll.'],Cleric:['Channel Divinity','It turns undead or calls its god\'s power once per short rest.'],Druid:['Wild Shape','It can become a beast of CR '+Math.max(1,Math.floor(L/3))+' or lower twice per short rest.'],Sorcerer:['Metamagic','It has '+L+' sorcery points to twin, quicken, or empower spells.'],Warlock:['Eldritch Bolt','Ranged spell attack, 120 ft.: 1d10 force damage per beam ('+(L<5?1:L<11?2:L<17?3:4)+' beams).'],Wizard:['Arcane Recovery','Once per day it regains spent slots totalling '+Math.ceil(L/2)+' levels.'],Artificer:['Infused Gear','Its weapon and armor carry +1 infusions; it can fix a broken item in a minute.']}[o.cls];
     if(CF)tr.push(CF);
     if(si.k>1&&si.st)si.st.features.forEach(f=>{if(f[0]<=L)tr.push([f[1]+' ('+si.name+')',f[2]])});
@@ -2087,7 +2087,7 @@ function sbMake(o){
   // profile
   const P={look:pk(NPC_LOOKS),habit:pk(NPC_HABITS),persona:pk(NPC_PERSONA),back:pk(NPC_BACK),goal:pk(NPC_GOALS)};
   if(o.kind!=='npc'){P.lair=[pk(BOSS_LAIRS),pk(BOSS_LAIRS)].filter((x,i,a)=>a.indexOf(x)===i);P.weak=pk(BOSS_WEAK)}
-  const gear=MATS.filter(x=>x.realm===realm.n&&!x.gen&&x.price&&x.g<=g+1);P.carry=[pk(gear),pk(gear)].filter(Boolean);
+  const rm=MATS.filter(x=>x.realm===realm.n&&!x.gen),rp=rm.filter(x=>x.price),gear=(rp.length?rp:rm).filter(x=>x.g<=g+1);P.carry=[...new Set([pk(gear),pk(gear)])].filter(Boolean);
   P.drops=o.kind==='npc'?[]:MATS.filter(x=>x.realm===realm.n&&x.gen&&Math.abs(x.g-g)<=1).sort(()=>R()-.5).slice(0,3);
   P.purse=Math.round((10+R()*60)*realm.tier*Math.max(1,crNum(cr)));
   return {m,P};
@@ -2098,9 +2098,18 @@ function sbProfileHTML(x,o){const {m,P}=x;return `<div class="panel" style="disp
   <div><b>Looks:</b> ${esc(P.look)}. <b>Habit:</b> ${esc(P.habit)}. <b>Manner:</b> ${esc(P.persona)}.</div>
   <div><b>Background:</b> ${esc(P.back.charAt(0).toUpperCase()+P.back.slice(1))}. <b>Wants:</b> ${esc(P.goal)}.</div>
   ${P.lair?`<div><b>Lair actions</b> (initiative 20): ${P.lair.map(esc).join('; ')}.</div><div><b>Weakness:</b> ${esc(P.weak)}.</div>`:''}
-  <div><b>Carries:</b> ${P.carry.map(c=>refChip(c)).join(' ')} and ${gp(P.purse)}${localPrice(P.purse,o.realm)?' ('+localPrice(P.purse,o.realm)+')':''}.</div>
+  <div><b>Carries:</b> ${P.carry.length?P.carry.map(c=>refChip(c)).join(' ')+' and ':''}${gp(P.purse)}${localPrice(P.purse,o.realm)?' ('+localPrice(P.purse,o.realm)+')':''}.</div>
   ${P.drops.length?`<div><b>Drops:</b> ${P.drops.map(c=>refChip(c)).join(' ')}</div>`:''}
   <textarea data-sbnote rows="3" placeholder="Your notes for this one" style="background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:6px 8px;color:var(--text);font:inherit">${esc(o.note||'')}</textarea></div>`}
+// a few spells an NPC caster knows: a cantrip and up to three of its highest slot levels, from realms its stage allows,
+// damage-dealing ones first, with dice already multiplied by its stage
+function npcSpells(cls,k,slots,R){
+  if(!SP.length||!slots)return '';const top=slots.pact?({'1st':1,'2nd':2,'3rd':3,'4th':4,'5th':5}[slots.lvl]||1):slots.slots.reduce((a,v,i)=>v?i+1:a,0);
+  const pick=lv=>{const pool=SP.filter(s=>s.lv===lv&&(s.cls||[]).includes(cls)&&spellNeed(s)<=k);if(!pool.length)return null;const dm=pool.filter(spellScales),from=dm.length&&R()<.7?dm:pool;return from[Math.floor(R()*from.length)]};
+  const out=[pick(0)];for(let lv=top;lv>=1&&out.length<4;lv-=Math.max(1,Math.ceil(top/3)))out.push(pick(lv));
+  const list=out.filter(Boolean);
+  return list.length?' Spells known include: '+list.map(s=>`${s.n} (${s.lv?ORDN(s.lv):'cantrip'}${spellScales(s)?', '+spellAt(s.dmg,k):''})`).join('; ')+'.':'';
+}
 function sbToolHTML(){
   const o=Object.assign({kind:'npc',realm:'Human',level:5,cls:'Fighter',cr:'',body:'beast',seed:1},store.get('sbt',{}));
   return `<div class="tool" style="grid-column:1/-1" id="t-sb"><h3>Stat block creator</h3><div class="sub">An NPC, a boss, or a named monster: a full stat block in the Bestiary's style (scaled to its realm) with who they are, their habits, goals, and gear.</div>
@@ -2650,19 +2659,22 @@ const monXP=m=>m.sb?m.sb.xp:0;
 // the Primordial counts as level 15). A party above a realm's stage counts higher; past 20 the budget grows about 12% a level.
 function encLevel(st){const t=st.realm&&REALM[st.realm]?REALM[st.realm].tier:stageOf(st.level);return Math.max(1,(+st.level||1)-10*Math.max(0,t-2))}
 function encBudget(st){const L=encLevel(st),th=L>20?XP_TH[20].map(x=>Math.round(x*Math.pow(1.12,L-20))):(XP_TH[L]||XP_TH[1]);return th.map(x=>x*st.size)}
-function rollEncounter(){
-  const st=saveEncInputs(),budget=encBudget(st)[DIFFS.indexOf(st.diff)];
-  const pool=MONSTERS.filter(m=>(!st.realm||m.realm===st.realm)&&(!st.hb||m.hb)&&monXP(m)>0&&monXP(m)<=budget);
-  if(!pool.length){st.list=[];store.set('enc',st);encOut('No monsters fit that budget in '+(st.realm||'any realm')+'. Try another realm or a higher level.');return}
-  let best=null,bestScore=1e18;
+// the best group of up to six monsters from a pool for an XP budget (R: a random source, so prep can be seeded)
+function encPick(pool,size,budget,R){let best=null,bestScore=1e18;
   for(let t=0;t<400;t++){
-    const k=1+Math.floor(Math.random()*Math.min(6,st.size+2)),pick=[];
-    const lead=pool[Math.floor(Math.random()*pool.length)];pick.push(lead);
-    for(let i=1;i<k;i++){const same=Math.random()<.5;const x=same?lead:pool[Math.floor(Math.random()*pool.length)];pick.push(monXP(x)<=monXP(lead)?x:lead)}
+    const k=1+Math.floor(R()*Math.min(6,size+2)),pick=[];
+    const lead=pool[Math.floor(R()*pool.length)];pick.push(lead);
+    for(let i=1;i<k;i++){const same=R()<.5;const x=same?lead:pool[Math.floor(R()*pool.length)];pick.push(monXP(x)<=monXP(lead)?x:lead)}
     const adj=pick.reduce((a,m)=>a+monXP(m),0)*xpMult(pick.length);
     const score=adj>budget*1.1?(adj-budget)*3:budget-adj;
     if(score<bestScore){bestScore=score;best=pick}
   }
+  return best}
+function rollEncounter(){
+  const st=saveEncInputs(),budget=encBudget(st)[DIFFS.indexOf(st.diff)];
+  const pool=MONSTERS.filter(m=>(!st.realm||m.realm===st.realm)&&(!st.hb||m.hb)&&monXP(m)>0&&monXP(m)<=budget);
+  if(!pool.length){st.list=[];store.set('enc',st);encOut('No monsters fit that budget in '+(st.realm||'any realm')+'. Try another realm or a higher level.');return}
+  const best=encPick(pool,st.size,budget,Math.random);
   const counts=new Map();best.forEach(m=>counts.set(m,(counts.get(m)||0)+1));
   st.list=[...counts].map(([m,n])=>[m.n,n]);store.set('enc',st);encOut();
 }
@@ -2724,13 +2736,13 @@ const NPC_TRAITS=['speak only in questions when nervous','never sit with their b
 function makeNPC(R,realm){
   const pk=a=>a[Math.floor(R()*a.length)],rs=realm?[REALM[realm]]:REALMS.filter(r=>r.tier<=3),r=pk(rs);
   const g=R()<.7?pk(GODS):null,rank=g?pk(['Minor','Minor','Normal','Normal','Major','Senior']):'';const ct=g&&contractOf(rank);
-  const prof=pk(Object.keys(PROFS)),mats=MATS.filter(m=>m.realm===r.n&&!m.gen&&m.price&&m.g<=4),carry=[pk(mats),pk(mats)].filter(Boolean);
+  const prof=pk(Object.keys(PROFS)),priced=MATS.filter(m=>m.realm===r.n&&!m.gen&&m.price),realmMats=priced.length?priced:MATS.filter(m=>m.realm===r.n&&!m.gen),low=realmMats.filter(m=>m.g<=4),mats=low.length?low:realmMats.filter(m=>m.g<=Math.min(...realmMats.map(x=>x.g))+1),carry=[...new Set([pk(mats),pk(mats)])].filter(Boolean);
   return {name:pk(NPC_FIRST)+' '+pk(NPC_LAST),realm:r,g,rank,ct,prof,trait:pk(NPC_TRAITS),want:g&&g.wants?`Serves ${godKey(g)}'s will: ${g.wants.charAt(0).toLowerCase()+g.wants.slice(1).replace(/\.$/,'')}.`:pk(['Wants to clear a family debt.','Wants passage to a higher realm.','Wants revenge on a contractor of a rival god.','Wants a rare material nobody will sell them.','Wants to be left alone.']),carry,purse:Math.round((5+R()*40)*(r.tier))};
 }
 function npcHTML(n){
   return `<div class="callout" style="border-color:var(--acc)"><div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b style="font-family:var(--serif);font-size:1.1rem">${esc(n.name)}</b><span class="note" style="margin:0">${esc(n.prof)} · from the ${esc(n.realm.n)} Realm</span></div>
     <div style="line-height:1.6;margin-top:4px">${n.g?`Holds a <b>${esc(n.rank)}</b> contract with ${refChip(n.g,esc(godKey(n.g)))}: ${esc(n.ct.power.charAt(0).toLowerCase()+n.ct.power.slice(1))}.`:'No god holds a contract with them.'} ${esc(n.want)} They ${esc(n.trait)}.
-    <br><span class="note" style="margin:0">Carries ${n.carry.map(m=>refChip(m)).join(', ')}, and ${gp(n.purse)}${localPrice(n.purse,n.realm.n)?` (${localPrice(n.purse,n.realm.n)})`:''}.</span></div></div>`;
+    <br><span class="note" style="margin:0">Carries ${n.carry.length?n.carry.map(m=>refChip(m)).join(', ')+(n.carry.length>1?', and ':' and '):''}${gp(n.purse)}${localPrice(n.purse,n.realm.n)?` (${localPrice(n.purse,n.realm.n)})`:''}.</span></div></div>`;
 }
 // Session journal: dated entries kept on this device; [[Name]] links to any entry on the site.
 function renderJournal(){
@@ -2836,6 +2848,9 @@ function makeTrial(o){
   const text=kind[1].replace(/\{R\}/g,rune.n).replace('{T}',3+Math.floor(R()*4)).replace('{L}',law);
   const mons=trialMonsters(o.realm,L,boss,R),over=(o.level|0)>L;
   const rw=[];
+  // over-level parties get no gold, materials, or items; a Class Change Book can still drop, at a reduced chance that
+  // halves for every 5 levels above the floor (50%, 25%, 12.5%, never below 10%)
+  const bookCh=over?Math.max(.1,Math.pow(.5,Math.ceil(((o.level|0)-L)/5))):1;
   if(!over){
     const tier=(REALM[o.realm]||{}).tier||1,g=Math.round(25*Math.pow(L,1.6)*tier*(boss?3:1)*(0.75+R()*0.5)/5)*5;rw.push({k:'gold',t:gp(g),v:g});
     // materials of the Tower's realm, their grade rising with the floor's level (a boss gives one grade more)
@@ -2843,13 +2858,15 @@ function makeTrial(o){
     // items at the floor's level; rarer the higher the floor
     const RAR=['Common','Uncommon','Rare','Very Rare','Legendary'],rmax=RAR[Math.min(4,Math.floor((Math.min(L,20)-1)/2)+(boss?1:0))],BL=Math.min(20,L);
     if(boss||R()<.4){const bp=BPS.filter(b=>b.lv<=BL+1&&b.lv>=Math.max(1,BL-2)&&RAR.indexOf(b.r)<=RAR.indexOf(rmax)&&!['Food','Crop','Fertilizer','Livestock','Structure','Fortification'].includes(b.cat));const b=bp.sort((a,c)=>RAR.indexOf(c.r)-RAR.indexOf(a.r)).slice(0,Math.max(8,bp.length>>2))[Math.floor(R()*Math.min(bp.length,Math.max(8,bp.length>>2)))];if(b)rw.push({k:'item',x:b})}
-    const here=HC?HC.filter(c=>c.tower===o.realm):[],sealed=(HIDDEN.byTower||{})[o.realm]||0;
-    const onFloor=here.filter(c=>hcFloor(c)===floor);
-    if(onFloor.length)rw.push({k:'book',c:onFloor[Math.floor(R()*onFloor.length)]});
-    if(!onFloor.length&&boss&&R()<.3){const can=here.filter(c=>hcFloor(c)<=floor);if(can.length)rw.push({k:'book',c:can[Math.floor(R()*can.length)]});else if(!HC&&sealed)rw.push({k:'sealed'})}
-    if(!HC&&sealed&&!rw.some(x=>x.k==='sealed')&&[.5,.75,1].some(f=>Math.round(T.floors*f)===floor))rw.push({k:'sealed'});
   }
-  return {T,floor,L,boss,rune,kind:kind[0],text,mons,over,rw};
+  {
+    const here=HC?HC.filter(c=>c.tower===o.realm):[],sealed=(HIDDEN.byTower||{})[o.realm]||0;
+    const onFloor=here.filter(c=>hcFloor(c)===floor),bookRoll=R();
+    if(bookRoll<bookCh&&onFloor.length)rw.push({k:'book',c:onFloor[Math.floor(R()*onFloor.length)]});
+    if(bookRoll<bookCh&&!onFloor.length&&boss&&R()<.3){const can=here.filter(c=>hcFloor(c)<=floor);if(can.length)rw.push({k:'book',c:can[Math.floor(R()*can.length)]});else if(!HC&&sealed)rw.push({k:'sealed'})}
+    if(bookRoll<bookCh&&!HC&&sealed&&!rw.some(x=>x.k==='sealed')&&[.5,.75,1].some(f=>Math.round(T.floors*f)===floor))rw.push({k:'sealed'});
+  }
+  return {T,floor,L,boss,rune,kind:kind[0],text,mons,over,rw,bookCh};
 }
 function trialHTML(t,o){
   const prog=store.get('towerprog',{})[o.realm]||0,ports=[1];for(let f=10;f<=prog;f+=10)ports.push(f);
@@ -2858,7 +2875,7 @@ function trialHTML(t,o){
     <p style="line-height:1.6;margin:8px 0">${esc(t.text)}</p>
     ${t.mons.length?`<div class="blk"><h4>${t.boss?'Floor guardian':'Guardians'}</h4></div><div class="chips">${t.mons.map(m=>refChip(m,esc(m.n),'CR '+(m.sb?m.sb.cr:m.cr))).join('')}</div>`:''}
     <div class="blk" style="margin-top:10px"><h4>Reward <em>scaled to floor ${t.floor} (level ${t.L}) of a tier-${(REALM[o.realm]||{}).tier||1} Tower</em></h4></div>
-    ${t.over?`<div class="callout" style="border-color:var(--red)"><b>No loot.</b> The party (level ${o.level}) is above this floor's level (${t.L}). The Tower gives nothing to those who climb beneath themselves.</div>`:`<div class="mlist">${t.rw.map(r=>r.k==='gold'?`<button disabled style="opacity:1;cursor:default">💰 <b>${r.t}</b><span class="x">${localPrice(r.v,o.realm)||''}</span></button>`:r.k==='mat'?`<button data-ref="${ref(r.x)}">⛏ <b>${r.q}× ${esc(r.x.n)}</b><span class="x">${esc(r.x.gr)}${r.x.pn?' · '+esc(r.x.pn):''}</span></button>`:r.k==='item'?`<button data-ref="${ref(r.x)}">🎁 <b>${esc(r.x.n)}</b><span class="x">${esc(r.x.cat)} · Lv ${r.x.lv}${r.x.r?' · '+esc(r.x.r):''}</span></button>`:r.k==='book'?`<a class="chip" href="${pageUrl('hidden')}#hc-${pid(r.c.n)}" data-go="hidden" style="text-decoration:none;padding:8px 12px">📕 <b>Class Change Book: ${esc(r.c.n)}</b> <small>${esc(r.c.tier)}${r.c.base&&r.c.base!=='Any'?' · for '+esc(r.c.base):''}</small></a>`:`<a class="chip" href="${pageUrl('hidden')}" data-go="hidden" style="padding:8px 12px">📕 <b>A sealed Class Change Book</b> <small>unlock the hidden class list to see which</small></a>`).join('')}</div>`}
+    ${t.over?`<div class="callout" style="border-color:var(--red)"><b>No loot.</b> The party (level ${o.level}) is above this floor's level (${t.L}). The Tower gives nothing to those who climb beneath themselves, except perhaps a Class Change Book: ${Math.round(t.bookCh*100)}% chance here (it halves for every 5 levels above the floor).</div>`:''}${!t.rw.length?(t.over?'<div class="note">No Class Change Book this time.</div>':''):`<div class="mlist">${t.rw.map(r=>r.k==='gold'?`<button disabled style="opacity:1;cursor:default">💰 <b>${r.t}</b><span class="x">${localPrice(r.v,o.realm)||''}</span></button>`:r.k==='mat'?`<button data-ref="${ref(r.x)}">⛏ <b>${r.q}× ${esc(r.x.n)}</b><span class="x">${esc(r.x.gr)}${r.x.pn?' · '+esc(r.x.pn):''}</span></button>`:r.k==='item'?`<button data-ref="${ref(r.x)}">🎁 <b>${esc(r.x.n)}</b><span class="x">${esc(r.x.cat)} · Lv ${r.x.lv}${r.x.r?' · '+esc(r.x.r):''}</span></button>`:r.k==='book'?`<a class="chip" href="${pageUrl('hidden')}#hc-${pid(r.c.n)}" data-go="hidden" style="text-decoration:none;padding:8px 12px">📕 <b>Class Change Book: ${esc(r.c.n)}</b> <small>${esc(r.c.tier)}${r.c.base&&r.c.base!=='Any'?' · for '+esc(r.c.base):''}</small></a>`:`<a class="chip" href="${pageUrl('hidden')}" data-go="hidden" style="padding:8px 12px">📕 <b>A sealed Class Change Book</b> <small>unlock the hidden class list to see which</small></a>`).join('')}</div>`}
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px">${t.boss?`<button class="btn primary" id="tr-conquer">⚔ Mark floor ${t.floor} conquered</button>`:''}<span class="note" style="margin:0">Teleport to: ${ports.map(f=>`<button class="chip" data-tp="${f}">Floor ${f}</button>`).join(' ')}${prog?` · conquered up to floor ${prog}`:''}</span></div></div>`;
 }
 function trialTool(){
@@ -2889,7 +2906,7 @@ async function renderTowers(){
   $('content').innerHTML=`<div class="page">
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">The Towers</h3><p>A Tower stands in every realm. No one built them: they grew out of the excess energy of unclaimed Runes, Laws no god holds, whose power has nowhere else to go. The deeper the realm, the taller its Tower. Climbing one is the only way, besides certain quests, to unlock a <a href="${pageUrl('hidden')}" data-go="hidden">hidden class</a>.</p></div>
     ${trialTool()}
-    <div class="callout" style="margin:14px 0">Every 10 floors is one level band, starting at the realm's own class-change band: the Human Tower's floors 1–10 are level 1, the Mysterious Tower's start at level 11, Hell's and Heaven's at 21, and so on, with a boss on every 10th floor. Conquer a boss floor and you can teleport to it from then on. A party whose level is above a floor's level gets no loot there. Each floor is guarded by creatures of the Tower's realm, stronger the higher you climb. Epic classes wait halfway up, Unique classes three quarters of the way, and Legendary classes at the top. When a god claims one of a Tower's Runes, that Rune stops feeding it, so Towers can shrink, and new floors open when a Rune is lost.</div>
+    <div class="callout" style="margin:14px 0">Every 10 floors is one level band, starting at the realm's own class-change band: the Human Tower's floors 1–10 are level 1, the Mysterious Tower's start at level 11, Hell's and Heaven's at 21, and so on, with a boss on every 10th floor. Conquer a boss floor and you can teleport to it from then on. A party whose level is above a floor's level gets no gold, materials, or items there; a Class Change Book can still drop, at a reduced chance (50%, halving every 5 levels over, never below 10%). Each floor is guarded by creatures of the Tower's realm, stronger the higher you climb. Epic classes wait halfway up, Unique classes three quarters of the way, and Legendary classes at the top. When a god claims one of a Tower's Runes, that Rune stops feeding it, so Towers can shrink, and new floors open when a Rune is lost.</div>
     ${REALMS.map(r=>{const t=towerOf(r.n),rs=TOWER_RUNES.get(r.n)||[],cls=(HC||[]).filter(c=>c.tower===r.n).sort((a,b)=>hcFloor(a)-hcFloor(b)),nLocked=(HIDDEN.byTower||{})[r.n]||0;
       const mons=MONSTERS.filter(m=>m.realm===r.n),bands=[0,.25,.5,.75].map((f,i)=>{const lo=Math.max(1,Math.round(t.floors*f)+1),hi=Math.round(t.floors*(f+.25)),gs=mons.filter(m=>m.g>=1+i*2.5&&m.g<=3+i*2.5).sort((a,b)=>a.g-b.g);return [lo,hi,gs.slice(0,6)]});
       return `<section class="sec" id="tw-${pid(r.n)}"><div class="panel" style="border-top:3px solid ${r.color}"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="margin:0;font-size:1.25rem;font-family:var(--serif)">${esc(t.name)}</h4><span class="note" style="margin:0">${refChip(r,esc(r.n)+' Realm')} · ${t.floors} floors · fed by ${rs.length} unclaimed Runes</span></div>
@@ -2902,6 +2919,53 @@ async function renderTowers(){
   </div>`;
   trialBind();
   const h=location.hash.match(/#tw-([\w-]+)/);if(h&&$('tw-'+h[1]))$('tw-'+h[1]).scrollIntoView();
+}
+// ── Session prep: one page that rolls everything a session needs for a party, from the site's own generators ──
+function renderPrep(){
+  const avg=Math.max(1,Math.round(PARTY.reduce((a,c)=>a+(+c.level||1),0)/(PARTY.length||1))||3);
+  const st=store.get('prep',{level:avg,size:Math.max(1,PARTY.length||4),realm:'',seed:(Math.random()*2**31)|0});
+  $('content').innerHTML=`<div class="page prep">
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem;white-space:nowrap">Session prep</h3><p>Everything for one session in one place: hooks, people, three fights, a named foe, a Tower floor, the loot, and the deeds that would earn a level. Every part is rolled from this site's own data and links to its entry.</p></div>
+    <div class="tool sh-noprint"><div class="form" style="grid-template-columns:repeat(3,1fr)">
+      <label>Party level<input id="pp-lv" type="number" min="1" max="100" value="${st.level}"></label>
+      <label>Party size<input id="pp-size" type="number" min="1" max="10" value="${st.size}"></label>
+      <label>Realm<select id="pp-realm"><option value="">The party's own stage realm</option>${REALMS.map(r=>`<option${r.n===st.realm?' selected':''}>${esc(r.n)}</option>`).join('')}</select></label>
+    </div><div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><button class="btn primary" id="pp-roll">🎲 Roll a new session</button><button class="btn" id="pp-journal">📓 Save to Journal</button><button class="btn" onclick="print()">🖨 Print</button></div></div>
+    <div id="pp-out" style="margin-top:14px;display:flex;flex-direction:column;gap:6px"></div></div>`;
+  const save=()=>{const s=store.get('prep',st);Object.assign(s,{level:Math.min(MAX_LEVEL,Math.max(1,+$('pp-lv').value||1)),size:Math.min(10,Math.max(1,+$('pp-size').value||4)),realm:$('pp-realm').value});store.set('prep',s);return s};
+  const out=()=>{$('pp-out').innerHTML=prepHTML(store.get('prep',st));$('pp-out').querySelectorAll('#tr-conquer,[data-tp]').forEach(b=>b.remove())};
+  ['pp-lv','pp-size','pp-realm'].forEach(i=>$(i).addEventListener('change',()=>{save();out()}));
+  $('pp-roll').onclick=()=>{const s=save();s.seed=(Math.random()*2**31)|0;store.set('prep',s);out()};
+  $('pp-journal').onclick=()=>{const s=save(),J=store.get('journal',[]);J.push({t:'Session prep: level '+s.level+', '+(s.realm||REALMS.find(r=>r.tier===stageOf(s.level)).n),d:new Date().toISOString().slice(0,10),body:$('pp-out').innerText.replace(/\n{3,}/g,'\n\n').trim()});store.set('journal',J);toast('Saved to the Journal')};
+  out();
+}
+function prepHTML(s){
+  const R=rng32(s.seed||1),L=s.level,realm=s.realm||REALMS.find(r=>r.tier===stageOf(L)).n,RL=REALM[realm];
+  const sec=(t,sub,body)=>`<section class="sec" style="margin-top:10px"><div class="sec-h"><h3>${t}</h3>${sub?`<p>${sub}</p>`:''}</div>${body}</section>`;
+  // hooks and people
+  const hooks=[];for(let i=0;i<30&&hooks.length<2;i++){const k=HOOK_KINDS[Math.floor(R()*HOOK_KINDS.length)][0];const h=makeHook(k,R,L,realm);if(h&&!hooks.some(x=>x[0]===k))hooks.push([k,h])}
+  const npcs=[0,1].map(()=>makeNPC(R,realm));
+  // three fights, Easy to Hard, from the realm's Bestiary (budgets realm-relative, as in the encounter builder)
+  const est={level:L,size:s.size,realm},th=encBudget(est),fights=[0,1,2].map(d=>{const pool=MONSTERS.filter(m=>m.realm===realm&&monXP(m)>0&&monXP(m)<=th[d]);if(!pool.length)return null;const pick=encPick(pool,s.size,th[d],R),c=new Map();pick.forEach(m=>c.set(m,(c.get(m)||0)+1));return {d:DIFFS[d],list:[...c]}});
+  // a named foe at the party's level, with a full profile
+  const foeCR=String(Math.min(30,crFor(encLevel(est))+2)),foe=sbMake({kind:'named',level:L,realm,cr:foeCR,seed:(R()*2**31)|0}),fo={kind:'named',level:L,realm,cr:foeCR};
+  // the realm's Tower: the boss floor of the party's level band, if the party has reached that Tower
+  const T=towerOf(realm),start=towerStart(realm),band=L-start;let tower='';
+  if(T&&band>=0){const floor=Math.min(T.floors,(band+1)*10),o={realm,floor,level:L,seed:(R()*2**31)|0};tower=trialHTML(makeTrial(o),o)}
+  else if(T)tower=`<div class="note">The ${esc(realm)} Tower starts at level ${start}; this party (level ${L}) can't climb it yet.</div>`;
+  // loot: every fight's drops, priced
+  const drops=new Map();fights.filter(Boolean).forEach(f=>f.list.forEach(([m,n])=>(m.drops||[]).forEach(d=>{const x=findMat(d[0]);if(x)drops.set(x,(drops.get(x)||0)+n)})));
+  const lootVal=[...drops].reduce((a,[m,n])=>a+(m.price||0)*n,0);
+  const deeds=DEEDS.slice().sort(()=>R()-.5).slice(0,3);
+  const nextChange=L<MAX_LEVEL&&L%10===0;
+  return `<div class="callout" style="border-color:var(--gold)"><b>Level ${L} party of ${s.size}</b> · ${esc(realm)} Realm (tier ${RL.tier}) · stage ${stageOf(L)}${stageOf(L)>1?` · spell dice ×${stageOf(L)}`:''}${encLevel(est)!==L?` · fights budget as level ${encLevel(est)}`:''}${RL.tier>stageOf(L)?` · <span style="color:var(--red)">this realm is deeper than the party's stage: its spells and materials are beyond them</span>`:''}</div>`
+    +sec('Hooks','Pick one to open the session.',`<div style="display:flex;flex-direction:column;gap:10px">${hooks.map(([k,h])=>`<div class="callout" style="border-color:var(--gold)"><div style="font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">${HOOK_KINDS.find(x=>x[0]===k)[1]}</div><div style="line-height:1.6">${h.text}</div></div>`).join('')}</div>`)
+    +sec('People to meet','',`<div style="display:flex;flex-direction:column;gap:10px">${npcs.map(npcHTML).join('')}</div>`)
+    +sec('Fights','Easy, Medium, and Hard, from the realm\'s Bestiary.',`<div style="display:flex;flex-direction:column;gap:8px">${fights.map((f,i)=>f?`<div class="panel" style="padding:10px 12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><b style="min-width:70px">${f.d}</b>${f.list.map(([m,n])=>`<span>${n}× ${refChip(m,esc(m.n),'CR '+esc(m.sb.cr))}</span>`).join('')}</div>`:`<div class="note">No ${DIFFS[i]} fight fits in ${esc(realm)} at this level.</div>`).join('')}</div>`)
+    +sec('Named foe',`A recurring enemy at CR ${foeCR} (the realm's own scaling on top), ready to drop into any of the hooks.`,sbProfileHTML(foe,fo)+sbHTML(foe.m))
+    +(tower?sec('Tower floor',T?`The ${esc(T.name||realm+' Tower')} at the party's level band.`:'',tower):'')
+    +sec('Loot',drops.size?`Harvestable drops from all three fights, worth about ${gp(lootVal)}.`:'',drops.size?`<div class="chips">${[...drops].map(([m,n])=>refChip(m,n+'× '+esc(m.n),esc(m.gr))).join('')}</div>`:'<div class="note">These fights drop nothing harvestable.</div>')
+    +sec('Deeds that earn a level','Levelling is by accomplishment: any of these, done this session, is worth a level at your call.',`<ul style="line-height:1.8;margin:0">${deeds.map(d=>`<li>${esc(d)}</li>`).join('')}${nextChange?`<li><b>Level ${L+1} is a class change</b> into the ${ORDN(stageOf(L+1))} version of each class: a fitting moment for a class change trial.</li>`:''}</ul>`);
 }
 function renderHooks(){
   const st=store.get('hooks',{level:Math.max(1,Math.round(PARTY.reduce((a,c)=>a+(+c.level||1),0)/(PARTY.length||1))||3),realm:'',kinds:[],seed:1});
