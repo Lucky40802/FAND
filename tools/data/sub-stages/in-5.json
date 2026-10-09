@@ -1,0 +1,270 @@
+[
+ {
+  "class": "Sorcerer",
+  "ladder": [
+   {
+    "stage": 2,
+    "level": 11,
+    "realm": "Mysterious",
+    "classChange": "Fogblood Savant",
+    "classBlurb": "The Sorcerer's blood stirs with veiled magic, spells that blur and bend what others see."
+   },
+   {
+    "stage": 3,
+    "level": 21,
+    "realm": "Hell and Heaven",
+    "classChange": "Haloflame Scion",
+    "classBlurb": "The Sorcerer's magic burns with both infernal and celestial fire, a halo of flame around their head."
+   },
+   {
+    "stage": 4,
+    "level": 31,
+    "realm": "Chaos",
+    "classChange": "Entropic Firebrand",
+    "classBlurb": "The Sorcerer's magic is wild and powerful, but dangerous, sparking in unpredictable ways."
+   },
+   {
+    "stage": 5,
+    "level": 41,
+    "realm": "Abyss",
+    "classChange": "Undertow Prodigy",
+    "classBlurb": "The Sorcerer's magic is drawn from the deep, heavy and cold as the bottom of the sea."
+   },
+   {
+    "stage": 6,
+    "level": 51,
+    "realm": "Inner Realm",
+    "classChange": "Heartcore Wellspring",
+    "classBlurb": "The Sorcerer's power flows from the heart of the world, a deep well of magic that never runs dry."
+   },
+   {
+    "stage": 7,
+    "level": 61,
+    "realm": "Outer Realm",
+    "classChange": "Skyfire Exarch",
+    "classBlurb": "The Sorcerer's magic reaches the stars, calling down fire from beyond the horizon."
+   },
+   {
+    "stage": 8,
+    "level": 71,
+    "realm": "Void",
+    "classChange": "Null-Flame Archon",
+    "classBlurb": "The Sorcerer's flames burn nothing into existence, consuming magic itself."
+   },
+   {
+    "stage": 9,
+    "level": 81,
+    "realm": "Inner Void",
+    "classChange": "Unborn Flame",
+    "classBlurb": "The Sorcerer's power comes from before their own birth, magic that the world forgot it ever gave."
+   },
+   {
+    "stage": 10,
+    "level": 91,
+    "realm": "Primordial",
+    "classChange": "First-Spark Paragon",
+    "classBlurb": "The Sorcerer's blood carries the first spark of magic, a mortal flame from the dawn of the world."
+   }
+  ],
+  "subclasses": [
+   {
+    "n": "Aberrant Mind",
+    "ds": "Sorcery from a psionic taint — telepathy and mind magic. (Tasha's Cauldron of Everything)"
+   },
+   {
+    "n": "Celestial Ruin",
+    "ds": "A sorcerer descended from a star that fell rather than one that still burns, calling down delayed bursts of radiant ruin."
+   },
+   {
+    "n": "Chaos Shaper",
+    "ds": "A wild magic sorcerer who has learned to direct their chaos, turning randomness into a weapon."
+   },
+   {
+    "n": "Clockwork Soul",
+    "ds": "Sorcerers infused with the power of cosmic order. (Tasha's Cauldron of Everything)"
+   },
+   {
+    "n": "Divine Soul",
+    "ds": "Sorcery inherited from a celestial parent or ancestor. (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "Draconic Bloodline",
+    "ds": "Magic inherited from a dragon ancestor — extra durability and a growing elemental affinity tied to that dragon's damage type."
+   },
+   {
+    "n": "Dragonblood",
+    "ds": "Dragonblood expands the fantasy and gameplay style of the Sorcerer class.\n This subclass focuses on a unique identity, combat role, and spell progression."
+   },
+   {
+    "n": "Gnome Bloodline",
+    "ds": "Gnome Bloodline is a Sorcerous Origin for the Sorcerer class, tracing its power to Earth and the dead earth spirit Gnome."
+   },
+   {
+    "n": "Ignis Bloodline",
+    "ds": "Ignis Bloodline is a Sorcerous Origin for the Sorcerer class, tracing its power to Fire and the dead fire spirit Ignis rather than a dragon."
+   },
+   {
+    "n": "Lunar Sorcery",
+    "ds": "Sorcerers empowered by the phases of the moon. (Dragonlance: Shadow of the Dragon Queen)"
+   },
+   {
+    "n": "Mirror Mage",
+    "ds": "A sorcerer whose magic reflects and duplicates, turning opponents' spells against them."
+   },
+   {
+    "n": "Shadow Magic (Sorcerer)",
+    "ds": "Sorcery touched by the Shadowfell. (File is named to avoid clashing with this vault's Shadow Magic spell school.) (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "Storm Sorcery",
+    "ds": "Sorcery tied to wind, thunder, and lightning. (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "Sylph Bloodline",
+    "ds": "Sylph Bloodline is a Sorcerous Origin for the Sorcerer class, tracing its power to Air and the dead air spirit Sylph."
+   },
+   {
+    "n": "Undine Bloodline",
+    "ds": "Undine Bloodline is a Sorcerous Origin for the Sorcerer class, tracing its power to Water and the dead water spirit Undine."
+   },
+   {
+    "n": "Voidborn",
+    "ds": "A sorcerer born already touched by the Void rather than by any bloodline, resistant to force and able to silence nearby spells."
+   },
+   {
+    "n": "Wild Magic (Sorcerer)",
+    "ds": "Magic drawn from raw chaos rather than any bloodline — unpredictable, occasionally spectacular, and never fully controlled."
+   }
+  ]
+ },
+ {
+  "class": "Warlock",
+  "ladder": [
+   {
+    "stage": 2,
+    "level": 11,
+    "realm": "Mysterious",
+    "classChange": "Veil-Bargainer",
+    "classBlurb": "The Warlock makes deals with hidden patrons, beings of fog and mirror who trade in secrets."
+   },
+   {
+    "stage": 3,
+    "level": 21,
+    "realm": "Hell and Heaven",
+    "classChange": "Brimstone Signatory",
+    "classBlurb": "The Warlock signs contracts with devils and angels, wielding the power of binding deals."
+   },
+   {
+    "stage": 4,
+    "level": 31,
+    "realm": "Chaos",
+    "classChange": "Chaos-Pact Gambler",
+    "classBlurb": "The Warlock gambles with chaotic patrons, betting their power for even greater rewards."
+   },
+   {
+    "stage": 5,
+    "level": 41,
+    "realm": "Abyss",
+    "classChange": "Abyss-Tithe Votary",
+    "classBlurb": "The Warlock pays a tithe to patrons in the deep, drawing on dark power from below."
+   },
+   {
+    "stage": 6,
+    "level": 51,
+    "realm": "Inner Realm",
+    "classChange": "Heartbound Pactmaster",
+    "classBlurb": "The Warlock binds their pact to their heart, making it part of their very life."
+   },
+   {
+    "stage": 7,
+    "level": 61,
+    "realm": "Outer Realm",
+    "classChange": "Starwide Covenant-Lord",
+    "classBlurb": "The Warlock's pacts extend across worlds, binding patrons from beyond the stars."
+   },
+   {
+    "stage": 8,
+    "level": 71,
+    "realm": "Void",
+    "classChange": "Pactless Hollow",
+    "classBlurb": "The Warlock breaks free from all patrons, drawing on the power of nothing instead."
+   },
+   {
+    "stage": 9,
+    "level": 81,
+    "realm": "Inner Void",
+    "classChange": "Debtor of Nothing",
+    "classBlurb": "The Warlock trades in forgotten debts, collecting on deals no one remembers making."
+   },
+   {
+    "stage": 10,
+    "level": 91,
+    "realm": "Primordial",
+    "classChange": "First Covenant",
+    "classBlurb": "The Warlock makes a pact with the first Laws of the world, binding power older than gods."
+   }
+  ],
+  "subclasses": [
+   {
+    "n": "Diamond's Patron",
+    "ds": "Diamond's Patron is an Otherworldly Patron for the Warlock class — the patron being Diamond's shattered remains rather than a Fiend or Great Old One."
+   },
+   {
+    "n": "Iron's Patron",
+    "ds": "Iron's Patron is an Otherworldly Patron for the Warlock class — the patron being Iron himself, sealed away rather than dead, closer to an Undying patron than a Fiend or Great Old One."
+   },
+   {
+    "n": "The Archfey (Patron)",
+    "ds": "A pact with a lord or lady of the Feywild. (Player's Handbook)"
+   },
+   {
+    "n": "The Ashen Eye",
+    "ds": "A patron that is little more than a burnt-out watcher, seeing everything through smoke and ash and wanting little in return."
+   },
+   {
+    "n": "The Celestial (Patron)",
+    "ds": "A pact with a being from the Upper Planes. (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "The Fathomless (Patron)",
+    "ds": "A patron of the deep ocean. (Tasha's Cauldron of Everything)"
+   },
+   {
+    "n": "The Fiend (Patron)",
+    "ds": "A pact with a devil, demon, or other fiend from the lower planes — a patron who rewards dealing death with resilience and, eventually, the power to banish enemies outright."
+   },
+   {
+    "n": "The Genie (Patron)",
+    "ds": "A patron who is a noble genie of one of the four elements. (Tasha's Cauldron of Everything)"
+   },
+   {
+    "n": "The Great Old One (Patron)",
+    "ds": "A pact with an alien entity beyond the stars. (Player's Handbook)"
+   },
+   {
+    "n": "The Hexblade (Patron)",
+    "ds": "A pact with a sentient weapon from the Shadowfell. (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "The Hollow King",
+    "ds": "A patron that is an empty crown and an empty throne, nothing more, granting authority borrowed rather than earned."
+   },
+   {
+    "n": "The Star Eater",
+    "ds": "A patron whose hunger consumes light itself, feeding the warlock on wounds dealt to the already-dying."
+   },
+   {
+    "n": "The Undead (Patron)",
+    "ds": "A patron that is a powerful undead being. (Van Richten's Guide to Ravenloft)"
+   },
+   {
+    "n": "The Undying (Patron)",
+    "ds": "A patron who has cheated death. (Sword Coast Adventurer's Guide)"
+   },
+   {
+    "n": "Void Caller",
+    "ds": "A warlock whose patron dwells in the absolute void between planes. They wield the power of absolute nothingness."
+   }
+  ]
+ }
+]

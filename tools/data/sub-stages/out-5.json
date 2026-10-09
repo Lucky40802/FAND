@@ -1,0 +1,1794 @@
+{
+  "Aberrant Mind": [
+    {
+      "stage": 2,
+      "name": "Fogthought Seer",
+      "feat": "Whispers in the Mist",
+      "text": "As a bonus action, choose up to three creatures within 60 feet. Each must succeed on a Wisdom saving throw or take 2d8 psychic damage and be unable to see beyond 10 feet until the end of your next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Contract-Mind Oracle",
+      "feat": "Read the Fine Print",
+      "text": "When a creature you can see within 60 feet casts a spell or makes an attack, you can use your reaction to learn its intent and impose disadvantage on the roll. Uses equal to your Charisma modifier per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Shatterthought Savant",
+      "feat": "Scrambled Psyche",
+      "text": "When you deal psychic damage to a creature, it must succeed on an Intelligence saving throw or roll a d4 at the start of its turn: 1 it attacks a random ally, 2 it loses its action, 3-4 it acts normally. Lasts 1 minute."
+    },
+    {
+      "stage": 5,
+      "name": "Pressure-Mind Leviathan",
+      "feat": "Crushing Thoughts",
+      "text": "As an action, press your mind on a creature within 90 feet. It makes an Intelligence saving throw, taking 4d10 psychic damage and becoming restrained for 1 round on a failure, or half damage on a success. Recharge 5-6."
+    },
+    {
+      "stage": 6,
+      "name": "Heartmind Wellspring",
+      "feat": "Living Hive",
+      "text": "You and up to six willing creatures share a telepathic bond for 1 hour. Bonded creatures cannot be surprised, gain +1 AC while within 30 feet of another bonded creature, and can use your spell save DC. Once per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Starmind Exarch",
+      "feat": "Thoughts Across the Sky",
+      "text": "Your telepathy reaches any creature on the same plane you have met. Once per long rest you can cast a sorcerer spell through that link as if the target were within range, spending no spell slot of 5th level or lower."
+    },
+    {
+      "stage": 8,
+      "name": "Silent-Mind Archon",
+      "feat": "Hollow the Mind",
+      "text": "As an action, a creature within 120 feet makes an Intelligence saving throw. On a failure it takes 6d10 psychic damage and cannot cast spells or use telepathy for 1 minute, repeating the save each turn. Twice per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Unremembered Mind",
+      "feat": "Unthought",
+      "text": "Choose any number of creatures within 300 feet. Each must succeed on a Wisdom saving throw or forget you entirely for 1 hour, unable to target you with attacks or spells unless you harm it. Once per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First-Thought Paragon",
+      "feat": "The Primal Psyche",
+      "text": "Once per long rest, you speak a thought into every mind within 1 mile. Hostile creatures make an Intelligence saving throw or take 10d10 psychic damage and are stunned for 1 round; allies gain advantage on all saves for 1 hour."
+    }
+  ],
+  "Celestial Ruin": [
+    {
+      "stage": 2,
+      "name": "Fogfall Herald",
+      "feat": "Veiled Impact",
+      "text": "When you cast a spell that deals radiant damage, you can delay it: the damage lands at the start of your next turn and the target gains no warning, making its saving throw with disadvantage. Uses equal to your Charisma modifier per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Judgement-Star Scion",
+      "feat": "Falling Verdict",
+      "text": "As a bonus action, mark a point within 120 feet. At the end of your next turn a burning star strikes it: creatures within 15 feet make a Dexterity saving throw, taking 3d10 fire and radiant damage on a failure, half on success."
+    },
+    {
+      "stage": 4,
+      "name": "Erratic Meteor",
+      "feat": "Scattered Ruin",
+      "text": "When a delayed burst of yours detonates, roll a d6. On a 1-3 it splits into two 10-foot bursts you place within 30 feet of the original; on a 4-6 it deals an extra 2d8 radiant damage."
+    },
+    {
+      "stage": 5,
+      "name": "Sunken Star",
+      "feat": "Crater of the Deep",
+      "text": "Your delayed bursts leave a 20-foot crater of crushing pressure for 1 minute. The crater is difficult terrain, and a creature that starts its turn there takes 2d8 bludgeoning damage and its speed is halved."
+    },
+    {
+      "stage": 6,
+      "name": "Heartfallen Comet",
+      "feat": "Ember of the Core",
+      "text": "You carry a fallen star's core. Once per turn when a delayed burst detonates, you regain one expended sorcery point and gain temporary hit points equal to twice your Charisma modifier."
+    },
+    {
+      "stage": 7,
+      "name": "Skyfall Exarch",
+      "feat": "Rain of Dead Stars",
+      "text": "Once per long rest, as an action, call down 6 fallen stars at points within 1 mile that you can see. Each detonates at the start of your next turn in a 20-foot radius, 6d10 radiant damage, Dexterity save for half."
+    },
+    {
+      "stage": 8,
+      "name": "Lightless Comet",
+      "feat": "Burnt-Out Ruin",
+      "text": "Creatures damaged by your delayed bursts cannot regain hit points and shed no light, and magical darkness or invisibility on them ends. This lasts until the end of your next turn. On a critical burst the effect lasts 1 minute."
+    },
+    {
+      "stage": 9,
+      "name": "Collapsed Star",
+      "feat": "Inward Fall",
+      "text": "Once per short rest, a delayed burst can collapse instead of explode. Creatures within 30 feet make a Strength saving throw or are pulled to its center, taking 8d10 force damage and being restrained for 1 round."
+    },
+    {
+      "stage": 10,
+      "name": "First-Fall Paragon",
+      "feat": "The Star That Began",
+      "text": "Once per long rest, you become a falling star for 1 minute. Each of your turns, a 30-foot burst of 8d10 radiant damage falls where you choose within 300 feet, Dexterity save for half, and you gain flying speed 120 feet."
+    }
+  ],
+  "Chaos Shaper": [
+    {
+      "stage": 2,
+      "name": "Fogchance Weaver",
+      "feat": "Misted Odds",
+      "text": "When you roll on a random table or the Wild Magic Surge table, you can roll twice and choose either result. You can do this a number of times equal to your Charisma modifier per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Wager-Flame Scion",
+      "feat": "Infernal Gamble",
+      "text": "When you cast a spell of 1st level or higher, you can wager: roll a d20. On 11 or higher the spell deals maximum damage; on 10 or lower you take 2d8 fire damage. Once per turn."
+    },
+    {
+      "stage": 4,
+      "name": "Entropic Shaper",
+      "feat": "Bent Probability",
+      "text": "As a reaction when a creature within 60 feet rolls a d20, you can swap the number on its die with the number on a d20 you roll. Uses equal to your proficiency bonus per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Undertow Gambler",
+      "feat": "Drowned Chances",
+      "text": "When a creature fails a saving throw against your spell, it rolls a d6. On a 1-2 it is also knocked prone, 3-4 restrained until the end of its next turn, 5-6 takes an extra 3d8 cold damage."
+    },
+    {
+      "stage": 6,
+      "name": "Heartchaos Wellspring",
+      "feat": "Ordered Chaos",
+      "text": "At the start of each of your turns, roll a d4 and gain the matching boon until your next turn: +1 AC, +10 feet speed, +2 to spell save DC, or 1 regained sorcery point."
+    },
+    {
+      "stage": 7,
+      "name": "Starscatter Exarch",
+      "feat": "Shuffled Heavens",
+      "text": "As an action, choose up to eight creatures within 120 feet. Unwilling ones make a Charisma saving throw. You swap the positions of any of them as you choose. Recharge 5-6."
+    },
+    {
+      "stage": 8,
+      "name": "Null-Odds Archon",
+      "feat": "Zero Chance",
+      "text": "Once per long rest, choose a creature within 120 feet. For 1 minute, it treats every d20 roll of 10 or higher as a 1, Charisma saving throw at the end of each turn to end it."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Dice",
+      "feat": "Unrolled Fate",
+      "text": "When you or a creature you can see within 120 feet makes a roll, you can use your reaction to erase it as if it never happened; the creature must reroll and use the new result. Three times per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First-Roll Paragon",
+      "feat": "Dawn of Chance",
+      "text": "Once per long rest, for 1 minute you decide every die you roll after seeing it, and once per round you may choose the result of another creature's d20 roll within 300 feet."
+    }
+  ],
+  "Clockwork Soul": [
+    {
+      "stage": 2,
+      "name": "Fogwork Savant",
+      "feat": "Hidden Gears",
+      "text": "As a reaction when a creature within 60 feet rolls with advantage or disadvantage, you can cancel it, and the creature cannot see you until the end of its next turn. Uses equal to your Charisma modifier per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Ledger-Gear Scion",
+      "feat": "Clause of Balance",
+      "text": "As a bonus action, bind two creatures within 60 feet by contract for 1 minute. Whenever one takes damage, the other takes the same amount, halved. Unwilling targets make a Charisma save. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Entropy-Breaker",
+      "feat": "Unshifting Law",
+      "text": "You and allies within 30 feet are immune to effects that would teleport, transform or randomly redirect you unless willing, and you treat any d20 roll of 9 or lower as a 10. Active while not incapacitated."
+    },
+    {
+      "stage": 5,
+      "name": "Deepgear Prodigy",
+      "feat": "Pressure Regulator",
+      "text": "When a creature within 60 feet would take damage, you can use your reaction to set that damage to the average of its dice instead of rolling. Uses equal to your proficiency bonus per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Heartspring Mechanism",
+      "feat": "Living Clockwork",
+      "text": "Once per long rest, become a mechanism of order for 1 minute: you have resistance to all damage, +2 AC, and each turn you regain 2d8 hit points."
+    },
+    {
+      "stage": 7,
+      "name": "Orrery Exarch",
+      "feat": "Turning of the Spheres",
+      "text": "As an action, create a 60-foot sphere of cosmic order for 1 minute. Hostile creatures inside take only one action or bonus action each turn and cannot take reactions. Wisdom save negates. Once per long rest."
+    },
+    {
+      "stage": 8,
+      "name": "Stillgear Archon",
+      "feat": "The Stopped Clock",
+      "text": "Once per long rest, stop time for every creature but you for 1d4+1 rounds. Your actions affecting other creatures end this effect immediately."
+    },
+    {
+      "stage": 9,
+      "name": "Unwound Regulator",
+      "feat": "Reset",
+      "text": "Once per long rest, as a reaction, rewind yourself and up to five allies within 60 feet to the hit points, position and conditions you each had at the start of your last turn."
+    },
+    {
+      "stage": 10,
+      "name": "Prime Mechanism",
+      "feat": "First Law of Order",
+      "text": "Once per long rest, declare a rule for 1 minute within 1 mile, such as no flight or no teleportation. Creatures that would break it make a Charisma saving throw or are stunned for 1 round and take 8d10 force damage."
+    }
+  ],
+  "Divine Soul": [
+    {
+      "stage": 2,
+      "name": "Fogsaint Savant",
+      "feat": "Veiled Grace",
+      "text": "When you heal a creature with a spell, it also becomes invisible until the end of its next turn and gains temporary hit points equal to your Charisma modifier plus your proficiency bonus."
+    },
+    {
+      "stage": 3,
+      "name": "Haloed Scion",
+      "feat": "Choir of Judgement",
+      "text": "As an action, unleash a ringing choir. Fiends and undead within 30 feet take 4d8 radiant damage, Wisdom save for half, and are frightened of you for 1 minute on a failure. Allies regain 2d8 hit points. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Wavering Saint",
+      "feat": "Fickle Blessing",
+      "text": "When you cast a healing spell, roll a d6: on 1-2 it also ends one condition, on 3-4 it grants +1 AC for 1 minute, on 5-6 it heals an additional creature within 30 feet for the same amount."
+    },
+    {
+      "stage": 5,
+      "name": "Drowned Saint",
+      "feat": "Grace of the Depths",
+      "text": "Allies within 30 feet of you cannot drop below 1 hit point from damage of 20 or less. Once this protects a creature, it cannot do so again for that creature until it finishes a short rest."
+    },
+    {
+      "stage": 6,
+      "name": "Heartsoul Wellspring",
+      "feat": "Unfailing Font",
+      "text": "When you finish a short rest, you regain one expended spell slot of 6th level or lower. When you heal a creature, it regains extra hit points equal to your sorcerer level."
+    },
+    {
+      "stage": 7,
+      "name": "Seraph-Star Exarch",
+      "feat": "Wings Beyond the Horizon",
+      "text": "You gain a flying speed of 90 feet. Once per long rest, spread your wings for 1 minute: allies within 60 feet gain your flying speed and advantage on saving throws."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Saint",
+      "feat": "Hush of the Divine",
+      "text": "Once per long rest, as an action, end every spell of 8th level or lower cast by hostile creatures within 60 feet, and those creatures cannot cast spells until the end of your next turn, Charisma save negates."
+    },
+    {
+      "stage": 9,
+      "name": "Unborn Saint",
+      "feat": "Grace Before Birth",
+      "text": "Once per long rest, when an ally within 120 feet dies, you can undo it as a reaction: it returns with full hit points and gains a vision granting advantage on all rolls until the end of its next turn."
+    },
+    {
+      "stage": 10,
+      "name": "First-Light Paragon",
+      "feat": "Dawnsoul",
+      "text": "Once per long rest, you shine with the first light for 1 minute. Allies within 120 feet regain 4d10 hit points at the start of each of your turns; hostile creatures there take 4d10 radiant damage, Constitution save for half."
+    }
+  ],
+  "Draconic Bloodline": [
+    {
+      "stage": 2,
+      "name": "Fogscale Savant",
+      "feat": "Misted Wings",
+      "text": "While flying with your draconic wings, you are heavily obscured to creatures more than 30 feet away, and your first spell each turn of your affinity's damage type deals an extra 1d10 damage."
+    },
+    {
+      "stage": 3,
+      "name": "Pyre-Wyrm Scion",
+      "feat": "Wyrm's Bargain",
+      "text": "When you deal damage of your affinity type to a creature, it gains vulnerability to that type until the end of your next turn unless it succeeds on a Constitution saving throw. Once per turn."
+    },
+    {
+      "stage": 4,
+      "name": "Wild-Scale Firebrand",
+      "feat": "Shifting Breath",
+      "text": "As an action, exhale a 60-foot cone of a damage type you roll on a d4: acid, cold, fire or lightning. Creatures take 6d8 damage, Dexterity save for half. Recharge 5-6."
+    },
+    {
+      "stage": 5,
+      "name": "Deepwyrm Prodigy",
+      "feat": "Hoard-Weight",
+      "text": "Your scales harden under pressure: +1 AC and resistance to bludgeoning, piercing and slashing damage. When a creature hits you in melee, it takes 2d6 damage of your affinity type."
+    },
+    {
+      "stage": 6,
+      "name": "Heartwyrm Wellspring",
+      "feat": "Dragon Heart",
+      "text": "Your heart beats as a dragon's. You are immune to your affinity type, and once per long rest when reduced to 0 hit points you instead drop to 1 and regain 6d10 hit points."
+    },
+    {
+      "stage": 7,
+      "name": "Skywyrm Exarch",
+      "feat": "Horizon Dragon",
+      "text": "Once per long rest, become a huge dragon for 1 minute: flying speed 120 feet, +2 AC, and a bite attack using your spell attack that deals 4d10 damage of your affinity type."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow-Scale Archon",
+      "feat": "Breath of Nothing",
+      "text": "Your affinity damage ignores resistance and treats immunity as resistance. Once per long rest, exhale a 120-foot line of nothing: 10d10 force damage, Dexterity save for half."
+    },
+    {
+      "stage": 9,
+      "name": "Unhatched Wyrm",
+      "feat": "The Egg Before",
+      "text": "Once per long rest, when you would die, you seal yourself in a forgotten egg until the start of your next turn, immune to all damage, then hatch with full hit points and all sorcery points."
+    },
+    {
+      "stage": 10,
+      "name": "Elder-Wyrm Paragon",
+      "feat": "First Dragon's Roar",
+      "text": "Once per long rest, roar as the first dragon. Hostile creatures within 300 feet make a Wisdom saving throw or take 10d10 damage of your affinity type and are frightened for 1 minute; half and no fear on a success."
+    }
+  ],
+  "Dragonblood": [
+    {
+      "stage": 2,
+      "name": "Fogblood Drake",
+      "feat": "Blood in the Mist",
+      "text": "As a bonus action, spend 2 sorcery points to exhale draconic fog in a 20-foot radius for 1 minute. You see through it, and hostile creatures inside take 1d10 acid damage at the start of their turns."
+    },
+    {
+      "stage": 3,
+      "name": "Brimscale Scion",
+      "feat": "Blood Oath of the Wyrm",
+      "text": "When you spend sorcery points, you can pay hit points instead at 5 hit points per point. Spells fueled this way deal an extra 2d8 fire damage to one target."
+    },
+    {
+      "stage": 4,
+      "name": "Riotblood Drake",
+      "feat": "Surging Blood",
+      "text": "When you roll damage for a spell, you can reroll any dice showing 1 or 2 and must use the new rolls. If any reroll shows its maximum, you regain 1 sorcery point."
+    },
+    {
+      "stage": 5,
+      "name": "Abyssal Drakeblood",
+      "feat": "Cold-Blooded Depths",
+      "text": "You gain resistance to cold and necrotic damage. Once per short rest, as a reaction to taking damage, harden your blood to reduce that damage by 4d10 plus your Charisma modifier."
+    },
+    {
+      "stage": 6,
+      "name": "Heartblood Wellspring",
+      "feat": "Dragon's Pulse",
+      "text": "At the start of each of your turns, if you have fewer than half your sorcery points, regain 1. Once per long rest, regain all expended sorcery points as a bonus action."
+    },
+    {
+      "stage": 7,
+      "name": "Starblood Exarch",
+      "feat": "Constellation Wyrm",
+      "text": "Once per long rest, summon a spectral star dragon in an unoccupied space within 60 feet for 1 minute. It acts on your turn, has your AC, and its breath deals 6d10 radiant damage in a 60-foot cone, Dexterity save for half."
+    },
+    {
+      "stage": 8,
+      "name": "Nullblood Archon",
+      "feat": "Drained Veins",
+      "text": "When a creature fails a save against your spell, you can drain it of magic: it loses its highest unexpended spell slot or a use of a recharge ability, and you regain 2 sorcery points. Three times per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Wyrmblood",
+      "feat": "Ancestral Echo",
+      "text": "Once per long rest, you call on a dragon ancestor the world forgot. For 1 minute you cast sorcerer spells of 5th level or lower without spending slots, once per turn."
+    },
+    {
+      "stage": 10,
+      "name": "Primal Dragonblood",
+      "feat": "Blood of the First Wyrm",
+      "text": "Your blood is the first dragon's. You are immune to fear and charm. Once per long rest, all your spells for 1 minute deal maximum damage and allies within 30 feet gain resistance to all damage."
+    }
+  ],
+  "Gnome Bloodline": [
+    {
+      "stage": 2,
+      "name": "Fogstone Savant",
+      "feat": "Buried in Mist",
+      "text": "As a bonus action, sink into the ground and emerge in an unoccupied space on solid earth within 60 feet. Until the end of your next turn, attacks against you have disadvantage. Uses equal to your Charisma modifier per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Cinderstone Scion",
+      "feat": "Brimstone Bulwark",
+      "text": "As a reaction when hit, raise a stone of hellish basalt: gain +2 AC against that attack, and the attacker takes 2d8 fire damage. Uses equal to your proficiency bonus per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Quaking Firebrand",
+      "feat": "Restless Earth",
+      "text": "As an action, shake the ground in a 30-foot radius within 120 feet. Creatures there make a Dexterity saving throw or take 4d8 bludgeoning damage and fall prone. The area becomes difficult terrain for 1 minute."
+    },
+    {
+      "stage": 5,
+      "name": "Bedrock Prodigy",
+      "feat": "Weight of the Deep Stone",
+      "text": "As an action, a creature within 60 feet makes a Strength saving throw or begins to petrify: restrained and taking 3d10 bludgeoning damage per turn for 1 minute, saving at end of each turn. Recharge 5-6."
+    },
+    {
+      "stage": 6,
+      "name": "Heartstone Wellspring",
+      "feat": "Gnome's Living Core",
+      "text": "While touching the ground, you regain 1d10 hit points at the start of each turn and cannot be moved against your will. Once per long rest, raise a 60-foot wall of living stone."
+    },
+    {
+      "stage": 7,
+      "name": "Mountain-Star Exarch",
+      "feat": "Falling Mountain",
+      "text": "Once per long rest, tear up a hill and hurl it at a point within 1 mile. Creatures within 40 feet make a Dexterity saving throw, taking 8d10 bludgeoning damage on a failure, half on success, and the area becomes rubble."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow-Earth Archon",
+      "feat": "Ground Unmade",
+      "text": "As an action, erase the ground in a 30-foot radius within 120 feet for 1 round. Non-flying creatures there fall 100 feet into nothing, taking 6d10 force damage, Dexterity save negates. Once per short rest."
+    },
+    {
+      "stage": 9,
+      "name": "Dead-Earth Remnant",
+      "feat": "Gnome's Last Echo",
+      "text": "You carry the memory of the dead spirit Gnome. Once per long rest, become stone for 1 minute: immune to all damage except force and psychic, and your earth spells deal an extra 4d10 damage."
+    },
+    {
+      "stage": 10,
+      "name": "First-Stone Paragon",
+      "feat": "Bedrock of Creation",
+      "text": "Once per long rest, reshape all earth and stone within 1 mile for 1 minute as you wish. Creatures caught in the shaping make a Strength saving throw or take 10d10 bludgeoning damage and are restrained."
+    }
+  ],
+  "Ignis Bloodline": [
+    {
+      "stage": 2,
+      "name": "Fogcinder Savant",
+      "feat": "Smoldering Haze",
+      "text": "When you deal fire damage, you can fill a 10-foot radius around the target with smoke that lasts until the end of your next turn. Creatures inside other than you are blinded and take 1d10 fire damage."
+    },
+    {
+      "stage": 3,
+      "name": "Hellforge Scion",
+      "feat": "Infernal Kindling",
+      "text": "Your fire damage ignores resistance. When a creature fails a save against your fire spell, it burns for 1 minute, taking 2d8 fire damage at the start of each of its turns, Constitution save at the end to end it."
+    },
+    {
+      "stage": 4,
+      "name": "Wildfire Firebrand",
+      "feat": "Spreading Blaze",
+      "text": "When you reduce a creature to 0 hit points with fire, flames leap to a creature of your choice within 30 feet, dealing 4d8 fire damage, Dexterity save for half. This chain can repeat once per turn."
+    },
+    {
+      "stage": 5,
+      "name": "Deepfire Prodigy",
+      "feat": "Fire Beneath the Sea",
+      "text": "Your flames burn underwater and cannot be put out by any nonmagical means. Once per short rest, erupt a 20-foot geyser of magma within 90 feet: 5d10 fire damage, Dexterity save for half."
+    },
+    {
+      "stage": 6,
+      "name": "Heartflame Wellspring",
+      "feat": "Ignis Ember Heart",
+      "text": "You are immune to fire. Whenever you take fire damage, you instead regain that many hit points, and you gain a sorcery point once per turn when you deal fire damage to a hostile creature."
+    },
+    {
+      "stage": 7,
+      "name": "Starfire Exarch",
+      "feat": "Sunborn Pyre",
+      "text": "Once per long rest, call a sun's flare to a 60-foot radius within 1 mile. Creatures inside take 8d10 fire damage, Constitution save for half, and are blinded for 1 minute on a failure."
+    },
+    {
+      "stage": 8,
+      "name": "Null-Flame Kindler",
+      "feat": "Flame That Eats Magic",
+      "text": "Once per short rest, when you deal fire damage to a creature, you can also end one spell affecting it of 7th level or lower, regaining sorcery points equal to that spell's level."
+    },
+    {
+      "stage": 9,
+      "name": "Dead-Fire Remnant",
+      "feat": "Ignis Remembered",
+      "text": "You carry the last ember of the dead spirit Ignis. Once per long rest, become living flame for 1 minute: immune to nonmagical damage, flying speed 60 feet, and creatures that touch or hit you take 4d10 fire damage."
+    },
+    {
+      "stage": 10,
+      "name": "First-Fire Paragon",
+      "feat": "The Kindling of the World",
+      "text": "Once per long rest, ignite the first fire for 1 minute in a 300-foot radius. Hostile creatures take 8d10 fire damage at the start of each of their turns, Constitution save for half; you and allies are immune."
+    }
+  ],
+  "Lunar Sorcery": [
+    {
+      "stage": 2,
+      "name": "Fogmoon Savant",
+      "feat": "Clouded Moon",
+      "text": "When you cast a spell, you can veil it in moonfog: the target makes its saving throw with disadvantage and cannot tell who cast the spell. Uses equal to your Charisma modifier per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Eclipse Scion",
+      "feat": "Sun and Moon Accord",
+      "text": "As a bonus action, switch between Bright Moon and Dark Moon. Bright: allies within 30 feet regain 1d8 hit points at the start of your turn. Dark: hostile creatures there take 1d8 necrotic damage instead."
+    },
+    {
+      "stage": 4,
+      "name": "Waxing-Waning Firebrand",
+      "feat": "Tidal Phases",
+      "text": "At the start of each of your turns roll a d4: on 1 full moon, your spells deal extra 2d8 radiant damage; 2 new moon, you are invisible; 3 crescent, +1 AC; 4 gibbous, regain 1 sorcery point."
+    },
+    {
+      "stage": 5,
+      "name": "Tide-Moon Prodigy",
+      "feat": "Pull of the Deep Moon",
+      "text": "As an action, pull creatures of your choice within 60 feet 20 feet toward a point you choose. Each makes a Strength saving throw or takes 4d8 force damage and falls prone. Recharge 5-6."
+    },
+    {
+      "stage": 6,
+      "name": "Heartmoon Wellspring",
+      "feat": "Ever-Renewing Phase",
+      "text": "When you finish a short rest you can change your lunar phase and regain spell slots totaling up to 6 levels. Spells of your current phase's list cost no sorcery points to metamagic once per turn."
+    },
+    {
+      "stage": 7,
+      "name": "Moonrise Exarch",
+      "feat": "Second Moon",
+      "text": "Once per long rest, raise a second moon for 1 hour. Its light reveals invisible creatures within 1 mile, and you can cast your lunar spells from any point it shines on within that range."
+    },
+    {
+      "stage": 8,
+      "name": "Moonless Archon",
+      "feat": "Night Without Moon",
+      "text": "Once per long rest, extinguish all light within 120 feet for 1 minute. Only you see normally. Hostile creatures inside take 4d10 necrotic damage each turn, Wisdom save for half."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Moon",
+      "feat": "The Moon That Was",
+      "text": "Once per long rest, call a lost moon. For 1 minute, all three of your lunar phases are active at once, and your spells of 7th level or lower cost no spell slots once per turn."
+    },
+    {
+      "stage": 10,
+      "name": "First-Moon Paragon",
+      "feat": "Dawn Moon's Gaze",
+      "text": "Once per long rest, the first moon looks through you for 1 minute. You control tides and night within 1 mile, and each turn one creature you see makes a Charisma save or is stunned and takes 10d10 radiant damage."
+    }
+  ],
+  "Mirror Mage": [
+    {
+      "stage": 2,
+      "name": "Fogglass Savant",
+      "feat": "Misted Reflection",
+      "text": "As a bonus action, create two illusory duplicates of yourself for 1 minute. When a creature targets you, roll a d6: on a 4 or higher it targets a duplicate, which is destroyed. Uses equal to your Charisma modifier per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Halo-Glass Scion",
+      "feat": "Judgement Mirror",
+      "text": "When a creature within 60 feet casts a spell targeting you, use your reaction to make it roll its own saving throw against the spell first; on a failure it suffers the effect too. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Shattered Mirror",
+      "feat": "Splintered Spell",
+      "text": "When you cast a single-target spell, roll a d4. On a 3 or 4, a shard of the spell strikes a second target within 30 feet of the first for half the effect, at no extra cost."
+    },
+    {
+      "stage": 5,
+      "name": "Deepglass Prodigy",
+      "feat": "Drowned Reflection",
+      "text": "When a creature fails a save against your spell, its reflection drags it down: its speed becomes 0 and it takes 3d10 cold damage at the start of its next turn."
+    },
+    {
+      "stage": 6,
+      "name": "Heartglass Wellspring",
+      "feat": "Living Mirror",
+      "text": "When you see a creature cast a spell of 6th level or lower, you can copy it, storing it for 1 hour, and cast it later using your spellcasting modifier without a slot. Once per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Starglass Exarch",
+      "feat": "Sky Mirror",
+      "text": "As a reaction when a spell targets you or an ally within 60 feet, reflect it back at its caster, who becomes the target instead. Three times per long rest."
+    },
+    {
+      "stage": 8,
+      "name": "Blank-Glass Archon",
+      "feat": "Mirror of Nothing",
+      "text": "As an action, show a creature within 60 feet its absent reflection. It makes a Charisma saving throw or takes 8d10 psychic damage and cannot cast spells until the end of your next turn."
+    },
+    {
+      "stage": 9,
+      "name": "Unreflected Mage",
+      "feat": "The Forgotten Image",
+      "text": "Once per long rest, step into a mirror for 1 minute. You are untargetable and cannot be seen, and you can cast spells out of any reflective surface within 1 mile."
+    },
+    {
+      "stage": 10,
+      "name": "First-Mirror Paragon",
+      "feat": "Reflection of Creation",
+      "text": "Once per long rest, create a perfect duplicate of yourself for 1 minute. It has your statistics and spells, acts on your turn, and copies every spell you cast."
+    }
+  ],
+  "Shadow Magic (Sorcerer)": [
+    {
+      "stage": 2,
+      "name": "Fogshade Savant",
+      "feat": "Mistshade Step",
+      "text": "As a bonus action, teleport up to 60 feet between areas of dim light, darkness or fog. Your next spell attack this turn has advantage and deals an extra 2d6 necrotic damage."
+    },
+    {
+      "stage": 3,
+      "name": "Pyreshadow Scion",
+      "feat": "Shadow of the Pit",
+      "text": "Your darkness spells also burn: hostile creatures that start their turn inside take 3d8 fire and necrotic damage. Hellish darkness cannot be dispelled by spells of 5th level or lower."
+    },
+    {
+      "stage": 4,
+      "name": "Fractured Shade",
+      "feat": "Restless Shadow",
+      "text": "Your shadow detaches and acts on its own. Each turn it moves 30 feet and strikes a creature within 5 feet with your spell attack, dealing 2d8 necrotic damage, or grants you +1 AC."
+    },
+    {
+      "stage": 5,
+      "name": "Deepshade Prodigy",
+      "feat": "Shadow of the Depths",
+      "text": "As an action, a creature within 60 feet makes a Wisdom saving throw or its shadow drowns it: 5d10 necrotic damage and blinded until the end of its next turn. Recharge 5-6."
+    },
+    {
+      "stage": 6,
+      "name": "Heartshade Wellspring",
+      "feat": "Living Darkness",
+      "text": "Once per long rest, become pure shadow for 1 minute: resistance to all damage but radiant, move through creatures and objects, and your hound of ill omen attacks twice per turn."
+    },
+    {
+      "stage": 7,
+      "name": "Nightsky Exarch",
+      "feat": "Shadow Between Stars",
+      "text": "Once per long rest, swallow a 120-foot radius in starless night for 1 minute. You and allies see through it; enemies inside have disadvantage on attacks and saves against your spells."
+    },
+    {
+      "stage": 8,
+      "name": "Null-Shade Archon",
+      "feat": "Shadow of Nothing",
+      "text": "When a creature within 60 feet you can see dies, you can absorb its shadow and regain one expended spell slot of 6th level or lower. Three times per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Shadow of the Unborn",
+      "feat": "Unremembered Shade",
+      "text": "Once per long rest, erase a creature's shadow. It makes a Charisma saving throw or is erased from memory for 1 minute: allies cannot see or help it, and it takes 6d10 necrotic damage each turn."
+    },
+    {
+      "stage": 10,
+      "name": "First-Dark Paragon",
+      "feat": "Night Before Creation",
+      "text": "Once per long rest, cover 1 mile in the first darkness for 10 minutes. You see everything in it, hostile creatures are blinded unless they succeed on a Wisdom save each turn, and you cannot be targeted from outside."
+    }
+  ],
+  "Storm Sorcery": [
+    {
+      "stage": 2,
+      "name": "Fogstorm Savant",
+      "feat": "Thunder in the Mist",
+      "text": "When you cast a spell of 1st level or higher, you can wrap yourself in stormfog: fly 20 feet without provoking, and creatures within 10 feet of where you land take 2d8 thunder damage, Constitution save for half."
+    },
+    {
+      "stage": 3,
+      "name": "Choir-Storm Scion",
+      "feat": "Thunder of Judgement",
+      "text": "As an action, call a peal of heavenly thunder in a 30-foot radius within 120 feet. Creatures make a Constitution saving throw, taking 4d8 thunder damage and being deafened and stunned until the end of their next turn on a failure."
+    },
+    {
+      "stage": 4,
+      "name": "Tempest Firebrand",
+      "feat": "Wild Lightning",
+      "text": "When you deal lightning damage, roll a d6. On 4-6, a bolt arcs to another creature within 30 feet for 3d8 lightning damage, and can arc again on the same roll result, to a maximum of three arcs."
+    },
+    {
+      "stage": 5,
+      "name": "Undertow Tempest",
+      "feat": "Maelstrom",
+      "text": "Once per short rest, create a 40-foot whirlpool of wind and water within 120 feet for 1 minute. Creatures entering or starting there make a Strength save or are pulled 20 feet toward the center and take 4d10 bludgeoning damage."
+    },
+    {
+      "stage": 6,
+      "name": "Heartstorm Wellspring",
+      "feat": "Eye of the Storm",
+      "text": "You are always in a calm eye: ranged weapon attacks against you have disadvantage, you have flying speed 60 feet, and you regain 1 sorcery point whenever you deal thunder or lightning damage, once per turn."
+    },
+    {
+      "stage": 7,
+      "name": "Skystorm Exarch",
+      "feat": "Storm Across Horizons",
+      "text": "Once per long rest, command the weather within 5 miles for 1 hour. Each turn as a bonus action, call a lightning bolt within that area: 6d10 lightning damage to a creature, Dexterity save for half."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Storm Archon",
+      "feat": "Soundless Thunder",
+      "text": "Your thunder makes no sound. Thunder damage you deal ignores resistance and immunity, and creatures damaged by it cannot cast spells with verbal components until the end of your next turn."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Tempest",
+      "feat": "Storm That Never Ended",
+      "text": "Once per long rest, summon a forgotten storm for 1 minute in a 300-foot radius. Hostile creatures take 6d10 lightning and thunder damage each turn, Dexterity save for half, and flying creatures fall."
+    },
+    {
+      "stage": 10,
+      "name": "First-Storm Paragon",
+      "feat": "Breath of the First Sky",
+      "text": "Once per long rest, become the first storm for 1 minute: you are immune to damage from nonmagical attacks, fly 120 feet, and each turn deal 10d10 lightning damage in a 60-foot line, Dexterity save for half."
+    }
+  ],
+  "Sylph Bloodline": [
+    {
+      "stage": 2,
+      "name": "Fogwind Savant",
+      "feat": "Misted Gale",
+      "text": "As a bonus action, become a gust of misty wind until the start of your next turn: fly 60 feet, pass through gaps an inch wide, and attacks against you have disadvantage. Uses equal to your Charisma modifier per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Choirwind Scion",
+      "feat": "Breath of Heaven and Hell",
+      "text": "As an action, blow a 60-foot cone of scorching or holy wind. Creatures take 4d8 fire or radiant damage (your choice), Strength save for half, and are pushed 20 feet on a failure. Recharge 5-6."
+    },
+    {
+      "stage": 4,
+      "name": "Whirlwind Firebrand",
+      "feat": "Chaotic Gust",
+      "text": "When a creature within 60 feet moves, you can use your reaction to redirect it: it makes a Strength saving throw or you choose where it moves instead, up to its remaining movement."
+    },
+    {
+      "stage": 5,
+      "name": "Deepwind Prodigy",
+      "feat": "Stolen Breath",
+      "text": "As an action, a creature within 90 feet makes a Constitution saving throw or the air leaves its lungs: it takes 5d10 thunder damage and cannot speak or cast verbal spells for 1 minute, saving each turn."
+    },
+    {
+      "stage": 6,
+      "name": "Heartwind Wellspring",
+      "feat": "Sylph's Breath of Life",
+      "text": "You no longer need to breathe. Allies within 30 feet gain +10 feet speed and +1 AC. Once per long rest, a breath of living air restores 6d10 hit points to each ally within 60 feet."
+    },
+    {
+      "stage": 7,
+      "name": "Skywind Exarch",
+      "feat": "Wind Between Worlds",
+      "text": "Once per long rest, you and up to eight allies become wind for 1 hour, flying 300 feet per turn, immune to nonmagical damage, and able to travel to any location on the plane you have seen."
+    },
+    {
+      "stage": 8,
+      "name": "Airless Archon",
+      "feat": "Vacuum",
+      "text": "Once per short rest, remove the air from a 30-foot radius within 120 feet for 1 round. Creatures inside take 6d10 force damage, Constitution save for half, and cannot cast spells with verbal components."
+    },
+    {
+      "stage": 9,
+      "name": "Dead-Wind Remnant",
+      "feat": "Sylph's Last Sigh",
+      "text": "You carry the last breath of the dead spirit Sylph. Once per long rest, exhale it as a 300-foot line: 8d10 thunder damage, Strength save for half, and creatures that fail are flung 60 feet."
+    },
+    {
+      "stage": 10,
+      "name": "First-Wind Paragon",
+      "feat": "Breath of Creation",
+      "text": "Once per long rest, become the first wind for 1 minute: invisible, flying 120 feet, untargetable by ranged attacks, and each turn every hostile creature within 60 feet makes a Strength save or takes 8d10 force damage and is knocked prone."
+    }
+  ],
+  "Undine Bloodline": [
+    {
+      "stage": 2,
+      "name": "Fogwater Savant",
+      "feat": "Rising Mist",
+      "text": "As a bonus action, turn into mist until the start of your next turn: you have resistance to all damage and can move through occupied spaces. Uses equal to your Charisma modifier per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Holy-Water Scion",
+      "feat": "Baptism and Brine",
+      "text": "As an action, douse creatures in a 20-foot radius within 60 feet. Allies regain 3d8 hit points; fiends and undead take 3d8 radiant damage, Constitution save for half. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Riptide Firebrand",
+      "feat": "Unpredictable Current",
+      "text": "When you cast a water spell, you can roll a d4 to add a current: 1 push 20 feet, 2 pull 20 feet, 3 knock prone, 4 extra 2d8 cold damage. The target makes a Strength save to avoid the movement effects."
+    },
+    {
+      "stage": 5,
+      "name": "Abyssal Tide",
+      "feat": "Crushing Depths",
+      "text": "As an action, encase a creature within 60 feet in deep water. It makes a Strength saving throw or is restrained and takes 4d10 bludgeoning damage at the start of each turn for 1 minute, saving at end of turn. Recharge 5-6."
+    },
+    {
+      "stage": 6,
+      "name": "Heartspring Undine",
+      "feat": "Wellspring of Life",
+      "text": "You never need to drink or breathe. Once per turn when you cast a spell, an ally within 30 feet regains hit points equal to the spell's level plus your Charisma modifier."
+    },
+    {
+      "stage": 7,
+      "name": "Ocean-Star Exarch",
+      "feat": "Tide of the Starlit Sea",
+      "text": "Once per long rest, call a wave 300 feet wide and 30 feet tall. Creatures in its path make a Strength saving throw, taking 8d10 bludgeoning damage and being swept 60 feet on a failure, half on success."
+    },
+    {
+      "stage": 8,
+      "name": "Dry-Void Archon",
+      "feat": "Drawn Dry",
+      "text": "As an action, draw the water from a creature within 60 feet. It makes a Constitution saving throw, taking 6d10 necrotic damage and having exhaustion level 1 on a failure, half on success. Twice per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Dead-Water Remnant",
+      "feat": "Undine's Memory",
+      "text": "You carry the memory of the dead spirit Undine. Once per long rest, become water for 1 minute: resistance to all damage, immunity to grapples and restraints, and your water spells deal an extra 4d10 damage."
+    },
+    {
+      "stage": 10,
+      "name": "First-Sea Paragon",
+      "feat": "The Waters Before Land",
+      "text": "Once per long rest, flood a 1-mile radius with primordial water for 1 minute. You and allies breathe and move freely; hostile creatures make a Strength save each turn or take 8d10 bludgeoning damage and are restrained."
+    }
+  ],
+  "Voidborn": [
+    {
+      "stage": 2,
+      "name": "Foghollow Savant",
+      "feat": "Veiled Absence",
+      "text": "As a reaction when a creature within 30 feet casts a spell, it makes a Charisma saving throw or the spell fails to manifest and its slot is lost. Uses equal to your Charisma modifier per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Unsigned Scion",
+      "feat": "Contract Void",
+      "text": "Spells of 3rd level or lower cannot target you unless you allow it. When a creature tries, it takes 2d8 force damage as its magic unravels."
+    },
+    {
+      "stage": 4,
+      "name": "Entropic Nullborn",
+      "feat": "Random Nothing",
+      "text": "At the start of each of your turns roll a d4: on 1 you are invisible, on 2 you are immune to force, on 3 spells within 10 feet of you fail, on 4 you regain 2 sorcery points. Lasts until your next turn."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Hollow Prodigy",
+      "feat": "Pressure of Nothing",
+      "text": "As an action, a 20-foot sphere of nothing appears within 90 feet. Creatures inside make a Constitution save, taking 5d10 force damage on a failure, half on success. Spells cannot be cast inside it until your next turn. Recharge 5-6."
+    },
+    {
+      "stage": 6,
+      "name": "Hollow-Heart Wellspring",
+      "feat": "The Heart That Is Not",
+      "text": "You are immune to force damage. Spells of 5th level or lower cast within 20 feet of you, other than yours, require the caster to succeed on a Constitution save or the spell fails."
+    },
+    {
+      "stage": 7,
+      "name": "Star-Void Exarch",
+      "feat": "Space Between Stars",
+      "text": "Once per long rest, create a 120-foot sphere of silent void for 1 minute. Only you and allies you choose can cast spells inside; hostile creatures there take 4d10 force damage each turn."
+    },
+    {
+      "stage": 8,
+      "name": "Silence-Born Archon",
+      "feat": "Absolute Silence",
+      "text": "Once per short rest, as an action, end every spell and magical effect in a 60-foot radius of 8th level or lower that you choose. Creatures that lose a spell take 6d10 force damage."
+    },
+    {
+      "stage": 9,
+      "name": "Never-Born",
+      "feat": "Before Existence",
+      "text": "Once per long rest, become nothing for 1 minute: you cannot be targeted, damaged or perceived, but you can still cast spells. Casting a damaging spell ends this after it resolves."
+    },
+    {
+      "stage": 10,
+      "name": "Primeval Void",
+      "feat": "The Nothing Before All",
+      "text": "Once per long rest, you unmake magic within 1 mile for 1 minute. No spells can be cast or sustained except yours, and creatures summoned or made by magic make a Charisma save or are destroyed."
+    }
+  ],
+  "Wild Magic (Sorcerer)": [
+    {
+      "stage": 2,
+      "name": "Fogsurge Savant",
+      "feat": "Misted Surge",
+      "text": "Whenever you roll on the Wild Magic Surge table, you also become heavily obscured until the end of your next turn, and you can teleport up to 30 feet to a space you can see."
+    },
+    {
+      "stage": 3,
+      "name": "Hellspark Scion",
+      "feat": "Infernal Surge",
+      "text": "When you surge, flames erupt: creatures of your choice within 20 feet take 3d8 fire or radiant damage, Dexterity save for half. You regain hit points equal to half the total damage dealt."
+    },
+    {
+      "stage": 4,
+      "name": "Pure Chaos Firebrand",
+      "feat": "Cascade",
+      "text": "When you cast a spell of 1st level or higher, roll a d20. On a 1 or 20, you surge and immediately cast another known spell of 3rd level or lower without a slot."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Surge Prodigy",
+      "feat": "Drowning Surge",
+      "text": "When you surge, a creature of your choice within 60 feet makes a Strength saving throw or is dragged 30 feet toward you and takes 4d10 cold damage."
+    },
+    {
+      "stage": 6,
+      "name": "Heartwild Wellspring",
+      "feat": "Wild Heart",
+      "text": "Your heart pulses with chaos. Once per turn, you can add 1d6 to the attack roll or save DC of a spell. If you roll a 6, you regain 1 sorcery point and surge."
+    },
+    {
+      "stage": 7,
+      "name": "Starwild Exarch",
+      "feat": "Wild Stars",
+      "text": "Once per long rest, roll on the Wild Magic Surge table three times and choose which results happen. For 1 minute, all your spells of 6th level or lower surge without risk to you."
+    },
+    {
+      "stage": 8,
+      "name": "Null-Wild Archon",
+      "feat": "Chaos of Nothing",
+      "text": "When you surge, you can cancel a spell of 7th level or lower within 120 feet, and its caster must succeed on a Constitution save or lose that spell slot. Three times per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Surge",
+      "feat": "Lost Chaos",
+      "text": "Once per long rest, roll on the Wild Magic Surge table and keep the result for 1 hour, applied to each of your turns, and choose a second result to apply once."
+    },
+    {
+      "stage": 10,
+      "name": "First-Chaos Paragon",
+      "feat": "Wildspark of Creation",
+      "text": "Once per long rest, become pure chaos for 1 minute. Every spell you cast surges, you choose the results, and each turn you can cast any sorcerer spell of 7th level or lower without a slot."
+    }
+  ],
+  "Diamond's Patron": [
+    {
+      "stage": 2,
+      "name": "Fogshard Bargainer",
+      "feat": "Clouded Facets",
+      "text": "As a bonus action, surround yourself with drifting diamond shards in misty light for 1 minute. You gain +1 AC, and a creature that misses you with an attack takes 2d8 slashing damage. Once per short rest."
+    },
+    {
+      "stage": 3,
+      "name": "Prism-Contract Signatory",
+      "feat": "Refracted Pact",
+      "text": "When you cast eldritch blast or a warlock spell that deals damage, you can split it through Diamond's shards: one additional target within 30 feet of the first takes half the damage. Uses equal to your Charisma modifier per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Shattered Facet Gambler",
+      "feat": "Broken Brilliance",
+      "text": "When you are hit, roll a d6. On a 5 or 6, a shard of Diamond breaks off and the attack's damage is halved, and the attacker takes 3d8 piercing damage."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Diamond Votary",
+      "feat": "Crushed Into Gems",
+      "text": "As an action, a creature within 60 feet makes a Constitution saving throw or begins to crystallize: restrained and taking 4d10 slashing damage per turn for 1 minute, saving each turn. Recharge 5-6."
+    },
+    {
+      "stage": 6,
+      "name": "Heart-Diamond Pactmaster",
+      "feat": "Diamond Heart",
+      "text": "Your heart becomes a shard of Diamond. You have resistance to slashing, piercing and radiant damage, and once per long rest you can ignore all damage from one source as a reaction."
+    },
+    {
+      "stage": 7,
+      "name": "Starfacet Covenant-Lord",
+      "feat": "Constellation of Shards",
+      "text": "Once per long rest, scatter Diamond's shards into a 120-foot radius for 1 minute. Each turn, you can teleport between shards and fire a beam from each of up to 3 shards for 3d10 radiant damage."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow-Gem Remnant",
+      "feat": "Empty Facet",
+      "text": "Diamond's shards now hold nothing. As an action, trap a creature within 60 feet inside a hollow gem: Charisma save or it is banished there for 1 minute, saving at the end of each turn. Once per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Shard",
+      "feat": "Diamond Remembered",
+      "text": "Once per long rest, reassemble Diamond for 1 minute as a huge construct beside you. It acts on your turn, has AC equal to yours plus 2, and strikes for 6d10 slashing damage."
+    },
+    {
+      "stage": 10,
+      "name": "Diamond Unbroken",
+      "feat": "Restored Patron",
+      "text": "Once per long rest, become Diamond whole for 1 minute: immune to all damage except psychic, and each turn a 60-foot cone of light deals 10d10 radiant damage, Dexterity save for half."
+    }
+  ],
+  "Iron's Patron": [
+    {
+      "stage": 2,
+      "name": "Fogiron Bargainer",
+      "feat": "Rust in the Mist",
+      "text": "As a bonus action, a creature within 60 feet makes a Constitution saving throw or its armor rusts in the fog, reducing its AC by 2 until the end of your next turn. Uses equal to your Charisma modifier per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Chainbound Signatory",
+      "feat": "Iron Chains of Contract",
+      "text": "As an action, bind a creature within 60 feet in spectral iron chains. It makes a Strength saving throw or is restrained for 1 minute, taking 2d8 force damage each turn. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Ironwild Gambler",
+      "feat": "Molten Iron Roll",
+      "text": "When you hit with eldritch blast, roll a d6: 1-2 the target is pushed 10 feet, 3-4 it takes 2d8 fire damage, 5-6 it is restrained until your next turn."
+    },
+    {
+      "stage": 5,
+      "name": "Iron-Tide Votary",
+      "feat": "Weight of Iron",
+      "text": "Your body becomes heavy as iron: you cannot be moved against your will, gain +1 AC, and your melee hits deal an extra 2d10 bludgeoning damage."
+    },
+    {
+      "stage": 6,
+      "name": "Iron-Heart Pactmaster",
+      "feat": "Seal of the Undying Iron",
+      "text": "You do not age and cannot be killed by aging. Once per long rest, when you would drop to 0 hit points, you instead drop to 1 and become iron until your next turn, immune to all damage."
+    },
+    {
+      "stage": 7,
+      "name": "Iron-Star Covenant-Lord",
+      "feat": "Falling Iron Star",
+      "text": "Once per long rest, call down a meteor of iron at a point within 1 mile. Creatures within 40 feet take 8d10 bludgeoning damage, Dexterity save for half."
+    },
+    {
+      "stage": 8,
+      "name": "Sealed Hollow",
+      "feat": "Iron Prison",
+      "text": "Once per long rest, seal a creature within 60 feet in Iron's prison. It makes a Charisma saving throw or is imprisoned for 1 minute, unable to act and taking 6d10 force damage each turn, saving at end of turn."
+    },
+    {
+      "stage": 9,
+      "name": "Iron Unsealed",
+      "feat": "Iron's Breath",
+      "text": "Iron stirs in his seal. Once per long rest, borrow his strength for 1 minute: Strength 30, resistance to all damage, and your melee hits deal an extra 6d10 force damage."
+    },
+    {
+      "stage": 10,
+      "name": "First Iron",
+      "feat": "Iron Before the World",
+      "text": "Once per long rest, become Iron's vessel for 1 minute: immune to nonmagical damage, +2 AC, and as a bonus action each turn bind a creature within 120 feet, Strength save or restrained and taking 10d10 force damage."
+    }
+  ],
+  "The Archfey (Patron)": [
+    {
+      "stage": 2,
+      "name": "Fogglamour Bargainer",
+      "feat": "Mist Bewitchment",
+      "text": "When a creature within 30 feet hits you, use your reaction to vanish into fog and teleport 60 feet. The attacker makes a Wisdom save or is charmed by you until the end of your next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Contract-Fey Signatory",
+      "feat": "Faerie Bargain",
+      "text": "As an action, offer a bargain to a creature within 60 feet. It makes a Charisma saving throw or must obey one command of up to five words for 1 minute. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Changeling Gambler",
+      "feat": "Fey Shuffle",
+      "text": "As a bonus action, swap places with a creature within 60 feet you can see. An unwilling creature makes a Charisma save to resist. Uses equal to your proficiency bonus per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Fey Votary",
+      "feat": "Drowned Glamour",
+      "text": "Creatures charmed by you take 3d10 psychic damage at the start of each of their turns and cannot willingly move away from you."
+    },
+    {
+      "stage": 6,
+      "name": "Heart-Fey Pactmaster",
+      "feat": "Court of the Heart",
+      "text": "Once per long rest, summon a fey court for 1 hour. Allies within 30 feet of you have advantage on saves against charm and fear, and you have +1 AC."
+    },
+    {
+      "stage": 7,
+      "name": "Starfey Covenant-Lord",
+      "feat": "Wild Hunt Across Worlds",
+      "text": "Once per long rest, summon a spectral hunt of 4 fey riders for 1 minute. Each acts on your turn and deals 4d10 piercing damage to a creature you choose."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow-Fey Remnant",
+      "feat": "Empty Glamour",
+      "text": "Once per short rest, as an action, a creature within 60 feet makes a Wisdom saving throw or forgets its own identity for 1 minute, becoming charmed by you and taking 6d10 psychic damage."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Faerie",
+      "feat": "The Bargain Forgotten",
+      "text": "Once per long rest, a creature within 120 feet forgets every deal it ever made: all its charm, contract and pact effects end, and it must succeed on a Charisma save or be stunned for 1 minute."
+    },
+    {
+      "stage": 10,
+      "name": "First-Fey Paragon",
+      "feat": "The First Glamour",
+      "text": "Once per long rest, the first fey dream covers 1 mile for 1 minute. Hostile creatures make a Wisdom saving throw each turn or are charmed by you and take 8d10 psychic damage."
+    }
+  ],
+  "The Ashen Eye": [
+    {
+      "stage": 2,
+      "name": "Fogash Bargainer",
+      "feat": "Smoke-Sight",
+      "text": "You see through fog, smoke and magical darkness out to 120 feet. Once per turn, a creature you see this way that has not seen you takes an extra 2d8 fire damage from your warlock spells."
+    },
+    {
+      "stage": 3,
+      "name": "Ashen-Judge Signatory",
+      "feat": "Burning Gaze",
+      "text": "As a bonus action, fix your gaze on a creature within 120 feet. For 1 minute it cannot become hidden or invisible to you, and your attacks against it deal an extra 2d8 fire damage."
+    },
+    {
+      "stage": 4,
+      "name": "Wild-Ember Gambler",
+      "feat": "Ash Storm",
+      "text": "As an action, unleash a 30-foot cloud of hot ash within 90 feet. Creatures inside are blinded and take 4d8 fire damage, Constitution save for half and no blindness. Recharge 5-6."
+    },
+    {
+      "stage": 5,
+      "name": "Abyssal Watcher",
+      "feat": "Gaze From Below",
+      "text": "Your senses reach through the ground. You know the location of any creature within 300 feet. Once per short rest, a creature you sense makes a Wisdom save or takes 5d10 psychic damage."
+    },
+    {
+      "stage": 6,
+      "name": "Heart-Ember Pactmaster",
+      "feat": "Ember Eye",
+      "text": "Your eye burns with a living ember. You cannot be blinded, and once per long rest you can see through the eyes of any creature within 1 mile for 1 hour."
+    },
+    {
+      "stage": 7,
+      "name": "Star-Eye Covenant-Lord",
+      "feat": "Watcher of Horizons",
+      "text": "Once per long rest, look through the sky to any location on your plane you have seen. You can cast a warlock spell at a creature you see there as if it were within range."
+    },
+    {
+      "stage": 8,
+      "name": "Burnt-Out Archon",
+      "feat": "The Dead Eye",
+      "text": "Once per short rest, look into a creature within 60 feet with your burnt-out eye. It makes a Wisdom saving throw or is blinded for 1 minute and takes 6d10 necrotic damage."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Watcher",
+      "feat": "Unseen Eye",
+      "text": "Once per long rest, become ash for 1 minute: you are invisible, cannot be targeted, and see everything within 1 mile. Attacking ends the effect after the attack."
+    },
+    {
+      "stage": 10,
+      "name": "First-Eye Paragon",
+      "feat": "The First Gaze",
+      "text": "Once per long rest, open the first eye for 1 minute. You see all things within 1 mile, and each turn one creature you see makes a Wisdom save or takes 10d10 fire damage and is stunned."
+    }
+  ],
+  "The Celestial (Patron)": [
+    {
+      "stage": 2,
+      "name": "Fogdawn Bargainer",
+      "feat": "Mist of Mercy",
+      "text": "As a bonus action, an ally within 60 feet you can see becomes veiled in healing mist: it regains 2d8 hit points and attacks against it have disadvantage until the start of your next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Seraph Signatory",
+      "feat": "Contract of Light",
+      "text": "When an ally within 60 feet drops to 0 hit points, use your reaction to restore it to hit points equal to twice your warlock level. Once per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Wavering Light Gambler",
+      "feat": "Fickle Radiance",
+      "text": "When you deal radiant damage, roll a d6: on a 1-2 an ally regains 2d8 hit points, on 3-4 the target is blinded until your next turn, on 5-6 the damage is increased by 2d8."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Dawn Votary",
+      "feat": "Light in the Deep",
+      "text": "Your light pierces magical darkness within 60 feet. Hostile creatures in your light take 2d10 radiant damage at the start of their turns."
+    },
+    {
+      "stage": 6,
+      "name": "Heart-Sun Pactmaster",
+      "feat": "Inner Sun",
+      "text": "Once per long rest, shine with the heart's light for 1 minute. Allies within 30 feet regain 3d10 hit points at the start of their turns and have +1 AC."
+    },
+    {
+      "stage": 7,
+      "name": "Starward Covenant-Lord",
+      "feat": "Wings of Distant Light",
+      "text": "You gain a flying speed of 90 feet. Once per long rest, carry allies within 30 feet with you to any location on the plane that you have seen."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Halo",
+      "feat": "Hush of Heaven",
+      "text": "Once per short rest, as a reaction, cancel all damage dealt to allies within 60 feet by one attack or spell, and its source takes 4d10 radiant damage."
+    },
+    {
+      "stage": 9,
+      "name": "Unremembered Angel",
+      "feat": "Grace Remembered",
+      "text": "Once per long rest, restore a creature that died in the last minute to life with full hit points, removing all curses and diseases."
+    },
+    {
+      "stage": 10,
+      "name": "First-Dawn Paragon",
+      "feat": "The First Sunrise",
+      "text": "Once per long rest, become the first dawn for 1 minute: allies within 300 feet regain 6d10 hit points each turn, and fiends and undead take 10d10 radiant damage each turn, Constitution save for half."
+    }
+  ],
+  "The Fathomless (Patron)": [
+    {
+      "stage": 2,
+      "name": "Fogtide Bargainer",
+      "feat": "Tentacle in the Mist",
+      "text": "Your tentacle of the deeps strikes from fog: it has advantage on attacks against creatures in dim light or obscured areas and deals an extra 2d8 cold damage."
+    },
+    {
+      "stage": 3,
+      "name": "Drowned-Saint Signatory",
+      "feat": "Drowning Covenant",
+      "text": "As an action, fill a creature's lungs with brine. It makes a Constitution saving throw or takes 4d8 cold damage and cannot speak for 1 minute, saving each turn. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Tidewild Gambler",
+      "feat": "Shifting Current",
+      "text": "As a reaction when a creature within 60 feet moves, roll a d6. On a 4-6, a current drags it 20 feet in a direction you choose."
+    },
+    {
+      "stage": 5,
+      "name": "Deeptithe Votary",
+      "feat": "Abyssal Embrace",
+      "text": "As an action, summon a 30-foot sphere of deep water within 120 feet for 1 minute. Hostile creatures inside are restrained and take 4d10 cold damage at the start of their turns, Strength save to escape."
+    },
+    {
+      "stage": 6,
+      "name": "Heart-Tide Pactmaster",
+      "feat": "Ocean's Pulse",
+      "text": "You gain swim speed 120 feet and resistance to cold and bludgeoning damage. Once per long rest, regain all hit points while submerged."
+    },
+    {
+      "stage": 7,
+      "name": "Starsea Covenant-Lord",
+      "feat": "Sea Beyond Stars",
+      "text": "Once per long rest, open a portal to the sea between stars for 1 minute. Creatures within 60 feet make a Strength save or are pulled 30 feet toward it and take 6d10 cold damage."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow Depths",
+      "feat": "Silent Deep",
+      "text": "Creatures restrained by your tentacles or water cannot cast spells and take 3d10 necrotic damage at the start of each of their turns."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Leviathan",
+      "feat": "Call of the Lost Leviathan",
+      "text": "Once per long rest, summon a forgotten leviathan for 1 minute. It acts on your turn and its bite deals 8d10 piercing damage; on a hit the target is swallowed and restrained."
+    },
+    {
+      "stage": 10,
+      "name": "First-Depth Paragon",
+      "feat": "The First Sea",
+      "text": "Once per long rest, flood 1 mile with the first sea for 1 minute. You and allies swim freely; hostile creatures make a Strength save each turn or take 10d10 bludgeoning damage and are pulled 60 feet."
+    }
+  ],
+  "The Fiend (Patron)": [
+    {
+      "stage": 2,
+      "name": "Fogbrand Bargainer",
+      "feat": "Smoke and Sulfur",
+      "text": "When you reduce a hostile creature to 0 hit points, you can teleport up to 30 feet in a puff of sulfurous fog and gain temporary hit points equal to your Charisma modifier plus your warlock level."
+    },
+    {
+      "stage": 3,
+      "name": "Brimstone Debt-Signer",
+      "feat": "Contract of Souls",
+      "text": "When a creature you have damaged in the last minute dies, its soul is yours: regain one expended warlock spell slot. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Hellchaos Gambler",
+      "feat": "Devil's Dice",
+      "text": "When you roll a d20, you can roll again and take either result. If you take the lower result, regain 2d8 hit points. Uses equal to your Charisma modifier per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Pit-Deep Votary",
+      "feat": "Fall to the Pit",
+      "text": "When a creature fails a saving throw against your spell, it falls into the pit for 1 round. It reappears at the end of your next turn, taking 5d10 fire damage."
+    },
+    {
+      "stage": 6,
+      "name": "Heartflame Pactmaster",
+      "feat": "Infernal Heart",
+      "text": "Your heart burns with hellfire. You are immune to fire and gain resistance to all damage while you have temporary hit points."
+    },
+    {
+      "stage": 7,
+      "name": "Star-Hell Covenant-Lord",
+      "feat": "Banishment Across Worlds",
+      "text": "Once per long rest, banish a creature within 120 feet to a hell of your choice for 1 minute. It makes a Charisma saving throw, and returns taking 8d10 fire damage."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow-Fiend Remnant",
+      "feat": "Hell of Nothing",
+      "text": "Once per short rest, as an action, a creature within 60 feet makes a Charisma saving throw or loses its resistances and immunities for 1 minute."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Debt",
+      "feat": "Debt Collection",
+      "text": "Once per long rest, a creature within 120 feet that owes you a soul or has been banished by you takes 10d10 necrotic damage, Constitution save for half."
+    },
+    {
+      "stage": 10,
+      "name": "First-Fire Fiend",
+      "feat": "The First Hell",
+      "text": "Once per long rest, open the first hell beneath you in a 300-foot radius for 1 minute. Hostile creatures take 8d10 fire damage each turn, Dexterity save for half."
+    }
+  ],
+  "The Genie (Patron)": [
+    {
+      "stage": 2,
+      "name": "Fogvessel Bargainer",
+      "feat": "Mist Vessel",
+      "text": "As a bonus action, you and up to two willing creatures enter your vessel through fog. Inside, you are unseen and can exit within 60 feet. Uses equal to your Charisma modifier per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Wish-Contract Signatory",
+      "feat": "Contract of Wishes",
+      "text": "Once per long rest, cast a spell of 5th level or lower from any class list without a slot. The spell uses your spellcasting ability."
+    },
+    {
+      "stage": 4,
+      "name": "Elemental Gambler",
+      "feat": "Elemental Fortune",
+      "text": "When you deal damage, roll a d4 for an elemental bonus: 1 fire, 2 cold, 3 lightning, 4 thunder. The target takes an extra 2d8 damage of that type."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Vessel Votary",
+      "feat": "Sunken Treasury",
+      "text": "Your vessel holds deep treasures. Once per short rest, you can pull a magic item of uncommon rarity from it for 1 hour."
+    },
+    {
+      "stage": 6,
+      "name": "Heart-Vessel Pactmaster",
+      "feat": "Living Vessel",
+      "text": "Your vessel becomes a pocket realm 300 feet wide. You can rest there with up to 10 creatures and regain all spell slots once per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Star-Djinn Covenant-Lord",
+      "feat": "Elemental Dominion",
+      "text": "Once per long rest, become an elemental of your patron's type for 1 minute: resistance to all damage, flying speed 90 feet, and your spells deal an extra 4d10 damage of your element."
+    },
+    {
+      "stage": 8,
+      "name": "Empty-Vessel Archon",
+      "feat": "Vessel of Nothing",
+      "text": "Once per short rest, as an action, trap a creature within 60 feet in your empty vessel. It makes a Charisma saving throw or is sealed inside for 1 minute."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Wish",
+      "feat": "Wish Unremembered",
+      "text": "Once per long rest, cast wish without the stress or risk of losing it. You cannot use it again until 7 days pass."
+    },
+    {
+      "stage": 10,
+      "name": "First-Djinn Paragon",
+      "feat": "The First Wish",
+      "text": "Once per long rest, grant a wish of reshaping within 1 mile for 1 minute. You can reshape terrain, summon elements, or create an effect that deals 10d10 damage of your element in a 60-foot radius, Dexterity save for half."
+    }
+  ],
+  "The Great Old One (Patron)": [
+    {
+      "stage": 2,
+      "name": "Fogmind Bargainer",
+      "feat": "Whispers Through the Veil",
+      "text": "You can speak telepathically to any creature within 120 feet you can see. As a bonus action, a creature you contact makes a Wisdom saving throw or takes 2d8 psychic damage and cannot see beyond 10 feet until your next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Unholy-Scripture Signatory",
+      "feat": "Forbidden Clause",
+      "text": "When a creature within 60 feet fails a saving throw against your spell, it is also frightened of you for 1 minute, taking 2d8 psychic damage at the start of each turn it remains frightened."
+    },
+    {
+      "stage": 4,
+      "name": "Madness Gambler",
+      "feat": "Alien Logic",
+      "text": "As an action, a creature within 60 feet makes a Wisdom saving throw or rolls a d4 each turn for 1 minute: 1 attacks itself, 2 loses its action, 3 babbles, 4 acts normally. Recharge 5-6."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Mind Votary",
+      "feat": "Dreams of the Drowned",
+      "text": "Once per short rest, a creature within 120 feet makes an Intelligence saving throw or falls into a drowning dream: incapacitated and taking 4d10 psychic damage at the start of each turn for 1 minute, saving each turn."
+    },
+    {
+      "stage": 6,
+      "name": "Heart-Mind Pactmaster",
+      "feat": "Alien Heart",
+      "text": "Your thoughts cannot be read, and you are immune to psychic damage, charm and fear. Creatures that try to read your mind take 6d10 psychic damage."
+    },
+    {
+      "stage": 7,
+      "name": "Star-Mind Covenant-Lord",
+      "feat": "Gaze of the Outer Stars",
+      "text": "Once per long rest, show creatures within 60 feet the stars beyond. Each makes a Wisdom saving throw or takes 8d10 psychic damage and is frightened for 1 minute, half and no fear on a success."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow-Mind Remnant",
+      "feat": "Emptied Thought",
+      "text": "Once per short rest, a creature within 120 feet makes an Intelligence saving throw or its mind empties: it cannot cast spells or take reactions for 1 minute, saving each turn."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Dreamer",
+      "feat": "Dream That Forgets",
+      "text": "Once per long rest, put creatures of your choice within 300 feet into a dream, Wisdom save negates. Dreamers are unconscious for 1 minute and forget the last hour on waking."
+    },
+    {
+      "stage": 10,
+      "name": "First-Mind Paragon",
+      "feat": "The First Thought",
+      "text": "Once per long rest, think the first thought for 1 minute: hostile creatures within 1 mile make a Wisdom save each turn or take 10d10 psychic damage and lose their action."
+    }
+  ],
+  "The Hexblade (Patron)": [
+    {
+      "stage": 2,
+      "name": "Foghex Bargainer",
+      "feat": "Veiled Curse",
+      "text": "Your hexblade's curse can be placed silently: the target does not know it is cursed, and your first hit against it each turn deals an extra 2d8 necrotic damage."
+    },
+    {
+      "stage": 3,
+      "name": "Oathblade Signatory",
+      "feat": "Binding Hex",
+      "text": "When you hit a creature under your curse, it makes a Wisdom saving throw or cannot move away from you until the end of its next turn and takes 2d8 necrotic damage."
+    },
+    {
+      "stage": 4,
+      "name": "Wildhex Gambler",
+      "feat": "Cursed Fortune",
+      "text": "When you hit with a melee attack, roll a d6. On a 5 or 6, the attack is a critical hit. If you roll a 1, you take 2d8 necrotic damage."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Steel Votary",
+      "feat": "Blade of the Depths",
+      "text": "Your pact weapon deals an extra 3d10 cold damage to cursed targets, and a cursed target hit by it has its speed halved until your next turn."
+    },
+    {
+      "stage": 6,
+      "name": "Heartblade Pactmaster",
+      "feat": "Living Blade",
+      "text": "Your pact weapon becomes part of your heart. You gain +1 AC, cannot be disarmed, and once per long rest the blade can animate and fight for you for 1 minute."
+    },
+    {
+      "stage": 7,
+      "name": "Starblade Covenant-Lord",
+      "feat": "Blade Across Worlds",
+      "text": "Once per long rest, swing your pact weapon across 1 mile, striking any creature you can see. On a hit, it takes your weapon damage plus 6d10 force damage."
+    },
+    {
+      "stage": 8,
+      "name": "Hollowblade Archon",
+      "feat": "Edge of Nothing",
+      "text": "Your pact weapon ignores resistance and treats immunity as resistance. Once per short rest, a hit cuts a creature's curse resistance, and it makes saves against your spells with disadvantage for 1 minute."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Blade",
+      "feat": "The Unremembered Edge",
+      "text": "Once per long rest, your blade strikes a creature it has struck before, anywhere on your plane. The creature takes 8d10 necrotic damage, Constitution save for half."
+    },
+    {
+      "stage": 10,
+      "name": "First-Blade Paragon",
+      "feat": "The First Edge",
+      "text": "Once per long rest, for 1 minute your pact weapon cuts anything: every hit is a critical hit and deals an extra 10d10 force damage, and you make one extra attack each turn."
+    }
+  ],
+  "The Hollow King": [
+    {
+      "stage": 2,
+      "name": "Fogcrown Bargainer",
+      "feat": "Crown of Mist",
+      "text": "As a bonus action, put on a misty crown for 1 minute. Creatures within 30 feet who see you must succeed on a Wisdom saving throw or be unable to attack you until the end of their next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Throne-Contract Signatory",
+      "feat": "Borrowed Authority",
+      "text": "As an action, issue a command to up to three creatures within 60 feet. Each makes a Charisma saving throw or obeys the command on its next turn. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Usurper Gambler",
+      "feat": "Crown Toss",
+      "text": "When a creature within 60 feet takes a hostile action, roll a d6. On a 5-6, it loses its action as it bows to the crown."
+    },
+    {
+      "stage": 5,
+      "name": "Sunken Throne Votary",
+      "feat": "Drowned Court",
+      "text": "Once per short rest, call the drowned court for 1 minute. Creatures of your choice within 60 feet are frightened and their speed halved, Wisdom save negates."
+    },
+    {
+      "stage": 6,
+      "name": "Heartcrown Pactmaster",
+      "feat": "Crown of the Heart",
+      "text": "Allies within 30 feet of you gain +1 AC and add your Charisma modifier to their saving throws. You gain advantage on saves against charm."
+    },
+    {
+      "stage": 7,
+      "name": "Star-Throne Covenant-Lord",
+      "feat": "Empire of Stars",
+      "text": "Once per long rest, raise an empty throne within 60 feet for 1 hour. Allies within 120 feet of it are immune to fear and charm, and enemies make attacks with disadvantage."
+    },
+    {
+      "stage": 8,
+      "name": "Throne of Nothing",
+      "feat": "The Empty Seat",
+      "text": "Once per short rest, a creature within 60 feet makes a Charisma saving throw or is dethroned: it loses all spells, legendary actions and resistances for 1 minute."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Monarch",
+      "feat": "Crown Forgotten",
+      "text": "Once per long rest, all creatures within 300 feet make a Charisma save or forget who leads them: they can only act if you allow it for 1 minute."
+    },
+    {
+      "stage": 10,
+      "name": "First Crown",
+      "feat": "The First Throne",
+      "text": "Once per long rest, take the first throne for 1 minute: creatures within 1 mile make a Charisma save or must obey you, and each turn one disobedient creature takes 10d10 psychic damage."
+    }
+  ],
+  "The Star Eater": [
+    {
+      "stage": 2,
+      "name": "Fog-Eater Bargainer",
+      "feat": "Dimmed Wounds",
+      "text": "When you hit a creature below half its hit points, the light around it dims: it is blinded until your next turn and you regain hit points equal to your Charisma modifier."
+    },
+    {
+      "stage": 3,
+      "name": "Pyre-Eater Signatory",
+      "feat": "Eater of Judgement",
+      "text": "When a creature you have damaged dies, you consume its last light, regaining 2d8 hit points and one expended warlock spell slot. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Ravenous Gambler",
+      "feat": "Hunger Roll",
+      "text": "When you hit a creature below half its hit points, roll a d6. On a 4-6, the hit deals an extra 3d8 necrotic damage and you gain that much temporary hit points."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Eater Votary",
+      "feat": "Swallowed Light",
+      "text": "As an action, devour all light in a 30-foot radius within 90 feet. Creatures inside are blinded and take 4d10 necrotic damage, Constitution save for half and no blindness. Recharge 5-6."
+    },
+    {
+      "stage": 6,
+      "name": "Heart-Eater Pactmaster",
+      "feat": "Starved Heart",
+      "text": "You no longer need food. Whenever a creature within 60 feet drops to 0 hit points, you regain 3d10 hit points."
+    },
+    {
+      "stage": 7,
+      "name": "Star-Swallower",
+      "feat": "Feast of Stars",
+      "text": "Once per long rest, eat the light of a star for 1 minute. You gain flying speed 90 feet, and your attacks deal an extra 6d10 radiant damage to creatures below half their hit points."
+    },
+    {
+      "stage": 8,
+      "name": "Lightless Maw",
+      "feat": "The Black Mouth",
+      "text": "Once per short rest, as an action, a creature within 60 feet below half its hit points makes a Constitution saving throw or takes 8d10 necrotic damage."
+    },
+    {
+      "stage": 9,
+      "name": "Dying Star",
+      "feat": "Collapse of Light",
+      "text": "Once per long rest, you collapse inward for 1 round. Creatures within 120 feet make a Strength saving throw or are pulled 60 feet toward you and take 8d10 force damage."
+    },
+    {
+      "stage": 10,
+      "name": "First-Hunger Paragon",
+      "feat": "The First Hunger",
+      "text": "Once per long rest, open the first hunger for 1 minute: all light within 1 mile is yours, and each turn a creature below half hit points makes a Constitution save or is consumed and drops to 0 hit points."
+    }
+  ],
+  "The Undead (Patron)": [
+    {
+      "stage": 2,
+      "name": "Fogdead Bargainer",
+      "feat": "Grave Mist",
+      "text": "As a bonus action, exhale a 15-foot cloud of grave mist. Creatures inside take 2d8 necrotic damage and are frightened of you until the end of your next turn, Wisdom save negates the fear."
+    },
+    {
+      "stage": 3,
+      "name": "Lich-Contract Signatory",
+      "feat": "Phylactery Clause",
+      "text": "Once per long rest, when you drop to 0 hit points, you instead return to 1 hit point and regain hit points equal to five times your Charisma modifier."
+    },
+    {
+      "stage": 4,
+      "name": "Restless Dead Gambler",
+      "feat": "Gamble of the Grave",
+      "text": "When you reduce a creature to 0 hit points, roll a d6. On a 4-6, it rises as a zombie under your control for 1 minute."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Grave Votary",
+      "feat": "Drowned Dead",
+      "text": "As an action, summon 3 drowned dead within 60 feet. They act on your turn for 1 minute and deal 3d10 cold damage on a hit. Once per short rest."
+    },
+    {
+      "stage": 6,
+      "name": "Heart-Grave Pactmaster",
+      "feat": "Undying Heart",
+      "text": "You are immune to disease, poison and necrotic damage. Once per long rest, become undead for 1 minute, gaining resistance to all damage but radiant."
+    },
+    {
+      "stage": 7,
+      "name": "Star-Grave Covenant-Lord",
+      "feat": "Dead Stars",
+      "text": "Once per long rest, raise up to 8 dead creatures within 120 feet as servants for 1 hour. Each acts on your turn and deals 4d10 necrotic damage on a hit."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow Grave",
+      "feat": "Empty Grave",
+      "text": "Once per short rest, a creature within 60 feet makes a Constitution saving throw or has its life drained: it takes 6d10 necrotic damage, and you regain that many hit points."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Dead",
+      "feat": "Death Forgotten",
+      "text": "Once per long rest, when you would die, you forget dying and return to full hit points at the start of your next turn."
+    },
+    {
+      "stage": 10,
+      "name": "First-Death Paragon",
+      "feat": "The First Death",
+      "text": "Once per long rest, become the first death for 1 minute: living creatures within 300 feet make a Constitution save each turn or take 10d10 necrotic damage."
+    }
+  ],
+  "The Undying (Patron)": [
+    {
+      "stage": 2,
+      "name": "Fogeternal Bargainer",
+      "feat": "Mist of Longevity",
+      "text": "When you regain hit points, you can also end one condition affecting you and become heavily obscured until your next turn. Uses equal to your Charisma modifier per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Deathless Signatory",
+      "feat": "Contract of Survival",
+      "text": "Once per short rest, as a reaction to taking damage, reduce it to 0. Once per long rest, when you would die, you instead regain hit points equal to your warlock level."
+    },
+    {
+      "stage": 4,
+      "name": "Defiant Gambler",
+      "feat": "Cheat Death",
+      "text": "When you make a death saving throw, roll twice and take the higher. A natural 20 restores you to half your hit points."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Ageless Votary",
+      "feat": "Endless Depths",
+      "text": "You do not need to breathe, eat or sleep. At the start of each of your turns, you regain 2d10 hit points if you have at least 1 hit point."
+    },
+    {
+      "stage": 6,
+      "name": "Heart-Ageless Pactmaster",
+      "feat": "Ageless Heart",
+      "text": "You cannot be killed by damage that does not reduce you to 0 hit points. Once per long rest, you can regain all your hit points as a bonus action."
+    },
+    {
+      "stage": 7,
+      "name": "Star-Ageless Covenant-Lord",
+      "feat": "Life Among Stars",
+      "text": "Once per long rest, touch up to 8 creatures within 30 feet. For 1 hour, they cannot die from damage; they drop to 1 hit point instead."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow-Ageless Remnant",
+      "feat": "Nothing Can Kill",
+      "text": "Once per long rest, become immune to all damage for 1 minute, but you can only take one action or bonus action per turn."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Undying",
+      "feat": "Death Forgot You",
+      "text": "You no longer age, and death cannot find you. Once per long rest, when you would die, you return at the start of your next turn with full hit points."
+    },
+    {
+      "stage": 10,
+      "name": "First-Life Paragon",
+      "feat": "The First Breath",
+      "text": "Once per long rest, breathe the first breath for 1 minute: allies within 1 mile cannot die and regain 6d10 hit points each turn, and you are immune to all damage."
+    }
+  ],
+  "Void Caller": [
+    {
+      "stage": 2,
+      "name": "Fogvoid Bargainer",
+      "feat": "Call of the Gray",
+      "text": "As a bonus action, call a sliver of void to a creature within 60 feet. It makes a Charisma saving throw or takes 2d8 force damage and cannot see beyond 10 feet until your next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Void-Contract Signatory",
+      "feat": "Nothing Owed",
+      "text": "When a creature you can see casts a spell, you can use your reaction to cancel it if it is 3rd level or lower. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Entropic Caller",
+      "feat": "Random Void",
+      "text": "When you deal force damage, roll a d6: on 1-2 the target is pushed 20 feet, 3-4 it takes 2d8 extra force damage, 5-6 it is teleported 30 feet to a space you choose."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Void Votary",
+      "feat": "Pressure of Nothing",
+      "text": "As an action, a creature within 90 feet makes a Constitution saving throw or takes 5d10 force damage and is restrained for 1 round. Recharge 5-6."
+    },
+    {
+      "stage": 6,
+      "name": "Heart-Void Pactmaster",
+      "feat": "Hollow Heart",
+      "text": "You are immune to force damage. Once per long rest, become a creature of void for 1 minute, immune to all damage but psychic."
+    },
+    {
+      "stage": 7,
+      "name": "Star-Void Covenant-Lord",
+      "feat": "Void Between Worlds",
+      "text": "Once per long rest, open a void portal within 120 feet. Creatures within 60 feet make a Strength saving throw or are pulled into it and banished for 1 minute."
+    },
+    {
+      "stage": 8,
+      "name": "Absolute Null",
+      "feat": "Absolute Nothing",
+      "text": "Once per short rest, as an action, a creature within 60 feet makes a Charisma saving throw or is unmade for 1 round, taking 8d10 force damage when it returns."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Caller",
+      "feat": "Call of Forgetting",
+      "text": "Once per long rest, a creature within 120 feet makes a Charisma saving throw or is forgotten by the world for 1 minute, unable to interact with anything, then returns."
+    },
+    {
+      "stage": 10,
+      "name": "First-Void Paragon",
+      "feat": "The First Nothing",
+      "text": "Once per long rest, call the first nothing for 1 minute in a 1-mile radius. Hostile creatures make a Charisma save each turn or take 10d10 force damage and are banished."
+    }
+  ]
+}

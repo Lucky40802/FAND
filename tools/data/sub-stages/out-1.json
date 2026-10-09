@@ -1,0 +1,1906 @@
+{
+  "Aether Engineer": [
+    {
+      "stage": 2,
+      "name": "Fogdrift Engineer",
+      "feat": "Mirage Lift",
+      "text": "When you use your stored charge to hover, you leave an illusory double of yourself at your starting point. The first attack each round against you has a 50 percent chance to target the double instead. The double lasts 1 minute."
+    },
+    {
+      "stage": 3,
+      "name": "Hymnwind Aeronaut",
+      "feat": "Choir Updraft",
+      "text": "As a bonus action, spend a stored charge to raise a sung updraft in a 20-foot radius for 1 minute. Allies inside gain a flying speed of 40 feet and take radiant damage 2d8 less from falling."
+    },
+    {
+      "stage": 4,
+      "name": "Gyre Engineer",
+      "feat": "Turbulence Engine",
+      "text": "Once per turn, when a creature within 30 feet of you moves, you can spend a reaction to shove it with a random wind gust: roll 1d4 to push it 10, 20, 30, or 40 feet in a direction you choose. Strength save negates."
+    },
+    {
+      "stage": 5,
+      "name": "Pressure-Lift Engineer",
+      "feat": "Ballast Reversal",
+      "text": "As an action, invert the weight of up to four creatures within 60 feet for 1 minute. Unwilling targets make a Constitution save or fall upward 60 feet, taking 4d10 bludgeoning damage, then hang helpless until they succeed on a later save."
+    },
+    {
+      "stage": 6,
+      "name": "Livewind Engineer",
+      "feat": "Breathing Engine",
+      "text": "Your hover engine grows lungs. While flying, you and allies within 30 feet regain 2d8 hit points at the start of each of your turns. You can maintain this for 10 minutes per long rest, spread across uses."
+    },
+    {
+      "stage": 7,
+      "name": "Starsail Aeronaut",
+      "feat": "Horizon Glide",
+      "text": "Once per long rest, you and up to twenty willing creatures can glide to any location you have seen on the same plane, arriving in 1 minute. While gliding you are immune to ranged attacks and falling damage."
+    },
+    {
+      "stage": 8,
+      "name": "Nullweight Engineer",
+      "feat": "Weightless Field",
+      "text": "As an action, emit a 60-foot field for 1 minute where gravity ceases for creatures you choose. Hostile creatures inside make a Strength save each turn or drift helplessly, losing their movement and having disadvantage on attack rolls. Twice per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten-Sky Engineer",
+      "feat": "Unremembered Ascent",
+      "text": "When you fly more than 30 feet in a turn, creatures that saw you forget your position. Attacks against you have disadvantage until you attack or until the start of your next turn. Usable at will while you hold a stored charge."
+    },
+    {
+      "stage": 10,
+      "name": "Prime Aether Architect",
+      "feat": "First Wind",
+      "text": "Once per long rest, you call the primordial wind into a 1-mile radius for 1 hour. You control weather, gravity, and air within it: allies fly at 120 feet and hostile creatures must make a Strength save each round or be hurled 100 feet."
+    }
+  ],
+  "Alchemist": [
+    {
+      "stage": 2,
+      "name": "Mistflask Alchemist",
+      "feat": "Vapor Elixir",
+      "text": "When you create an experimental elixir, you can make it a vapor instead. Uncorking it releases a 15-foot cloud for 1 minute; every ally who starts a turn inside gains the elixir's benefit and is heavily obscured to foes."
+    },
+    {
+      "stage": 3,
+      "name": "Brimstone Apothecary",
+      "feat": "Sulfur and Salt",
+      "text": "Your healing spells and elixirs carry hellfire or holy salt. When you restore hit points to a creature, you can also deal 2d8 fire or radiant damage to one hostile creature within 30 feet of it. Uses equal Intelligence modifier per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Mutagen Alchemist",
+      "feat": "Wild Reagent",
+      "text": "As a bonus action, throw an unstable reagent at a point within 60 feet. Roll 1d6 for a 20-foot burst: acid, fire, cold, lightning, poison, or healing for allies. It deals or heals 4d8. Usable three times per short rest."
+    },
+    {
+      "stage": 5,
+      "name": "Brinewell Alchemist",
+      "feat": "Pressure Draught",
+      "text": "You brew a draught of deep water. A creature that drinks it gains resistance to bludgeoning damage, a swimming speed of 60 feet, and +1 AC for 1 hour. You can brew a number equal to your Intelligence modifier each long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Lifeblood Alchemist",
+      "feat": "Living Tincture",
+      "text": "Your elixirs keep working inside the body. A creature you heal gains regeneration for 1 minute, regaining 2d6 hit points at the start of each turn while above 0 hit points. A severed limb regrows by the end of the minute."
+    },
+    {
+      "stage": 7,
+      "name": "Starfall Alchemist",
+      "feat": "Comet Vial",
+      "text": "As an action, hurl a glowing vial up to 1 mile. It bursts in a 40-foot radius for 6d10 radiant and fire damage, Dexterity save for half, and leaves the area brightly lit for 1 hour. Twice per long rest."
+    },
+    {
+      "stage": 8,
+      "name": "Nullreagent Alchemist",
+      "feat": "Solvent of Nothing",
+      "text": "Once per short rest, coat a creature or object in a solvent of absence. A creature makes a Constitution save or loses all resistances, immunities, and magical bonuses for 1 minute and takes 6d8 necrotic damage on a failure."
+    },
+    {
+      "stage": 9,
+      "name": "Lethe Alchemist",
+      "feat": "Draught of Forgetting",
+      "text": "As an action, give a creature within 30 feet a forgetting vapor. It makes a Wisdom save or forgets one condition, curse, or spell affecting it, ending that effect. A hostile target instead forgets its last hour and is stunned for 1 round."
+    },
+    {
+      "stage": 10,
+      "name": "Prime Alchemist",
+      "feat": "Elixir of First Matter",
+      "text": "Once per long rest, brew one elixir of raw Law. The drinker is restored to full hit points, cured of every condition and curse, and chooses one ability score to raise by 2, to a maximum of 30, for 24 hours."
+    }
+  ],
+  "Armorer": [
+    {
+      "stage": 2,
+      "name": "Mirror-Plate Armorer",
+      "feat": "Twinned Frame",
+      "text": "Your armor casts a fog reflection of itself. As a reaction when hit, swap places with your reflection within 30 feet; the attack strikes the reflection instead and the attacker is blinded until the end of its next turn. Proficiency bonus uses per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Oathplate Armorer",
+      "feat": "Sealed Warplate",
+      "text": "Your armor is engraved with a binding contract. While wearing it, you gain +1 AC, and a creature that hits you with a melee attack takes 2d8 fire or radiant damage, your choice, as the armor collects its fee."
+    },
+    {
+      "stage": 4,
+      "name": "Shiftplate Armorer",
+      "feat": "Reconfiguring Suit",
+      "text": "At the start of each of your turns, you can rebuild your armor's model: Guardian, Infiltrator, or a random third model. Rolling 1d4 grants one bonus: 20 extra feet of speed, 2d8 temporary hit points, advantage on attacks, or flight."
+    },
+    {
+      "stage": 5,
+      "name": "Abyssal Diving Armorer",
+      "feat": "Crushdepth Hull",
+      "text": "Your armor becomes a deep-sea hull. You gain resistance to bludgeoning, piercing, and slashing damage from nonmagical sources, cannot be pushed or knocked prone, and creatures you grapple take 3d10 bludgeoning damage at the start of each of your turns."
+    },
+    {
+      "stage": 6,
+      "name": "Livingmail Armorer",
+      "feat": "Grown Carapace",
+      "text": "Your armor grows like living shell. It repairs itself, and when you are reduced to 0 hit points while wearing it, you drop to 1 instead and regain 4d10 hit points. Once per long rest, or twice with Intelligence 24 or higher."
+    },
+    {
+      "stage": 7,
+      "name": "Starhull Armorer",
+      "feat": "Orbital Plate",
+      "text": "Your armor gains star thrusters. You fly at 120 feet and need no air. Once per short rest, charge in a straight line up to 500 feet, dealing 6d10 force damage to each creature in the path, Dexterity save for half."
+    },
+    {
+      "stage": 8,
+      "name": "Hollowplate Armorer",
+      "feat": "Empty Suit",
+      "text": "As a bonus action, your armor walks on without you for 1 minute as a construct with your AC and half your hit points, acting on your initiative while you are invisible and inaudible. Once per short rest."
+    },
+    {
+      "stage": 9,
+      "name": "Unseen Mantle Armorer",
+      "feat": "Armor That Was Never",
+      "text": "Once per long rest, as a reaction to taking damage, your armor forgets the blow. The damage is reduced to 0 and the attacker must make an Intelligence save or forget you for 1 minute, unable to target you."
+    },
+    {
+      "stage": 10,
+      "name": "Primeforge Armorer",
+      "feat": "Shell of First Law",
+      "text": "Once per long rest, for 1 minute your armor becomes raw Law. You are immune to all damage from a source of your choice, gain +2 AC, and each of your weapon hits deals an extra 6d10 force damage."
+    }
+  ],
+  "Artillerist": [
+    {
+      "stage": 2,
+      "name": "Mirage Cannoneer",
+      "feat": "Phantom Battery",
+      "text": "Your Eldritch Cannon can exist in two places at once. When you create it, place an illusory twin within 60 feet. Either location can be the origin of the cannon's effects, and you can swap them as a bonus action."
+    },
+    {
+      "stage": 3,
+      "name": "Brimstone Gunner",
+      "feat": "Hellfire Salvo",
+      "text": "Your Force Ballista and Flamethrower can be loaded with brimstone or blessed shot. Each blast deals an extra 2d8 fire or radiant damage, and undead or fiends struck must make a Wisdom save or be frightened for 1 minute."
+    },
+    {
+      "stage": 4,
+      "name": "Scatter-Shot Artillerist",
+      "feat": "Roulette Barrage",
+      "text": "As an action, your cannon fires a random volley. Roll 1d6 times: each shot targets a creature you choose within 120 feet and deals 3d8 damage of a random type, Dexterity save for half. Usable once per short rest."
+    },
+    {
+      "stage": 5,
+      "name": "Depthcharge Artillerist",
+      "feat": "Pressure Shell",
+      "text": "Your cannon can fire a depth charge to a point within 300 feet. It implodes in a 30-foot radius, pulling creatures 15 feet toward the center and dealing 5d10 bludgeoning damage, Constitution save for half. Twice per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Living Siege Artillerist",
+      "feat": "Grown Battery",
+      "text": "Your cannons sprout roots and grow. You can maintain three Eldritch Cannons at once, each regains 2d10 hit points at the start of your turn, and destroying one causes a seed of it to regrow in 1 minute."
+    },
+    {
+      "stage": 7,
+      "name": "Starfire Artillerist",
+      "feat": "Horizon Bombardment",
+      "text": "Once per long rest, call a bombardment from orbit onto up to five points you can see within 1 mile. Each point erupts in a 20-foot radius for 8d10 radiant damage, Dexterity save for half, and leaves a crater of difficult terrain."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Siege Artillerist",
+      "feat": "Soundless Gun",
+      "text": "Your cannon's shots make no sound and leave no trace. Attacks and effects from your cannons ignore resistance, and a creature damaged by one must make a Wisdom save or be unable to tell where the shot came from for 1 minute."
+    },
+    {
+      "stage": 9,
+      "name": "Lost Battery Artillerist",
+      "feat": "Forgotten Cannon",
+      "text": "Once per long rest, you place a cannon that no creature remembers. It cannot be targeted or detected, lasts 1 hour, and fires each round on your turn for 5d10 force damage at any target you designate."
+    },
+    {
+      "stage": 10,
+      "name": "Prime Artillerist",
+      "feat": "First Thunder",
+      "text": "Once per long rest, fire the first thunder of the world in a 1-mile line, 30 feet wide. Creatures in the line make a Constitution save, taking 12d10 thunder and force damage on a failure or half on a success, and structures are levelled."
+    }
+  ],
+  "Battle Smith": [
+    {
+      "stage": 2,
+      "name": "Mistwarden Smith",
+      "feat": "Fogsteel Defender",
+      "text": "Your steel defender can turn to fog as a bonus action, becoming immune to nonmagical damage and moving through creatures until the end of its next turn. While fogged, its Deflect Attack imposes disadvantage on attacks against all allies within 10 feet."
+    },
+    {
+      "stage": 3,
+      "name": "Vowsteel Smith",
+      "feat": "Bound Guardian",
+      "text": "Your steel defender is sealed with a holy-infernal contract. It gains +1 AC and resistance to fire and radiant damage, and its Force-Empowered Rend deals an extra 2d8 fire or radiant damage, your choice each hit."
+    },
+    {
+      "stage": 4,
+      "name": "Rebuilding Smith",
+      "feat": "Ever-Shifting Defender",
+      "text": "At the start of your turn, rebuild your steel defender into a new form: Bulwark grants allies within 10 feet +1 AC, Hound doubles its speed, or Ram lets it knock creatures prone on hit, Strength save negates."
+    },
+    {
+      "stage": 5,
+      "name": "Deepforge Smith",
+      "feat": "Anchor Defender",
+      "text": "Your steel defender grows into an iron anchor. It is Large, immune to forced movement, and when it hits a creature, that creature's speed becomes 0 until the end of its next turn and it takes an extra 3d10 bludgeoning damage."
+    },
+    {
+      "stage": 6,
+      "name": "Heartsteel Smith",
+      "feat": "Bonded Construct",
+      "text": "Your steel defender grows a living heart linked to yours. When either of you takes damage, you may split it evenly between you, and whenever you regain hit points, it regains the same amount plus 2d10."
+    },
+    {
+      "stage": 7,
+      "name": "Starforge Smith",
+      "feat": "Wayfaring Defender",
+      "text": "Your steel defender becomes a vessel. Once per long rest it can carry you and up to six allies across any distance on the same plane in 1 hour, and in combat it gains a flying speed of 90 feet."
+    },
+    {
+      "stage": 8,
+      "name": "Nullsteel Smith",
+      "feat": "Silent Sentinel",
+      "text": "Your steel defender becomes a shape of absence. Creatures within 15 feet of it cannot cast spells with verbal components, and its attacks deal an extra 4d10 force damage to creatures concentrating on a spell."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Smith",
+      "feat": "Defender of No Name",
+      "text": "Once per long rest, your steel defender is forgotten for 1 minute. It cannot be targeted or perceived by hostile creatures, and each of its hits automatically becomes a critical hit against creatures that cannot see it."
+    },
+    {
+      "stage": 10,
+      "name": "Prime Smith",
+      "feat": "First Guardian",
+      "text": "Your steel defender becomes a progenitor guardian. It uses your hit point maximum, and once per long rest, when you or an ally within 60 feet would die, it takes the death instead, then rebuilds itself after 1 hour."
+    }
+  ],
+  "Plague Doctor": [
+    {
+      "stage": 2,
+      "name": "Miasma Doctor",
+      "feat": "Fogborne Contagion",
+      "text": "Your infections spread through mist. When a creature you have infected fails a save against your disease, a 10-foot cloud bursts from it, and each hostile creature inside makes a Constitution save or contracts the same infection."
+    },
+    {
+      "stage": 3,
+      "name": "Pestilent Saint",
+      "feat": "Judgement of Rot",
+      "text": "Your plagues carry divine verdict. Creatures suffering from your disease take an extra 2d8 necrotic damage from your attacks, and fiends and celestials make their saves against your infections with disadvantage."
+    },
+    {
+      "stage": 4,
+      "name": "Mutating Plague Doctor",
+      "feat": "Shifting Strain",
+      "text": "Each of your infections mutates once per round. Roll 1d4 at the start of an infected creature's turn: 2d10 poison damage, poisoned, speed halved, or the infection jumps to a creature within 10 feet. Constitution save negates."
+    },
+    {
+      "stage": 5,
+      "name": "Drowned Plague Doctor",
+      "feat": "Lungwater Fever",
+      "text": "As an action, infect a creature within 30 feet with drowning fever. It makes a Constitution save each turn or begins to suffocate, taking 4d10 bludgeoning damage as water fills its lungs, until it succeeds twice. Twice per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Lifewell Doctor",
+      "feat": "Benign Strain",
+      "text": "You learn to breed helpful sicknesses. Allies infected by your benign strain regain 2d8 hit points at the start of each turn for 1 minute and have advantage on saves against poison and disease."
+    },
+    {
+      "stage": 7,
+      "name": "Starpox Doctor",
+      "feat": "Celestial Pandemic",
+      "text": "Once per long rest, release a plague that travels with the wind across 1 mile. Hostile creatures you choose in that area make a Constitution save or take 6d10 poison damage and gain one level of exhaustion."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow Plague Doctor",
+      "feat": "Wasting Nothing",
+      "text": "Creatures infected by you lose their resistances to poison and necrotic damage. As an action, empty one infected creature of strength: it makes a Constitution save or its hit point maximum is reduced by 6d10 until it finishes a long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Plague Doctor",
+      "feat": "Amnesiac Fever",
+      "text": "Your fevers wipe memory. An infected creature makes an Intelligence save at the start of each turn or forgets how to use one of its actions, bonus actions, or reactions, your choice, until the end of that turn."
+    },
+    {
+      "stage": 10,
+      "name": "Prime Plague Doctor",
+      "feat": "First Sickness",
+      "text": "Once per long rest, unleash the first disease the world knew. Each hostile creature within 120 feet makes a Constitution save or takes 10d10 necrotic damage and cannot regain hit points for 1 minute. Immunity to disease does not apply."
+    }
+  ],
+  "Runesmith": [
+    {
+      "stage": 2,
+      "name": "Veilrune Smith",
+      "feat": "Rune of Hidden Edges",
+      "text": "You can etch a veil rune on a weapon or armor. A veiled weapon strikes from an unseen angle, granting advantage on its first attack each turn, and veiled armor makes its wearer invisible while they remain still."
+    },
+    {
+      "stage": 3,
+      "name": "Sigilbound Runesmith",
+      "feat": "Rune of Oath",
+      "text": "Your runes are signed as contracts. A creature wielding gear you etched can, once per turn, deal an extra 2d8 fire or radiant damage on a hit, and anyone who steals the gear takes that damage each round they hold it."
+    },
+    {
+      "stage": 4,
+      "name": "Wildrune Smith",
+      "feat": "Rune of Many Faces",
+      "text": "Once per short rest, etch a chaos rune that rerolls its own property each round. Roll 1d6 at the start of the wielder's turn: flight, +1 AC, 3d8 extra damage, resistance to all damage, haste, or teleport 30 feet."
+    },
+    {
+      "stage": 5,
+      "name": "Deeprune Smith",
+      "feat": "Rune of Pressure",
+      "text": "Your runes carry the weight of the deep. Weapons etched with this rune deal an extra 3d10 bludgeoning damage, and armor etched with it grants immunity to being knocked prone, pushed, or restrained."
+    },
+    {
+      "stage": 6,
+      "name": "Livingrune Smith",
+      "feat": "Rune of Growth",
+      "text": "Your runes grow on their own. An etched item spreads a copy of its rune to one other item its bearer holds, and armor bearing a growth rune grants regeneration of 2d8 hit points at the start of each turn."
+    },
+    {
+      "stage": 7,
+      "name": "Starrune Smith",
+      "feat": "Rune of Far Stars",
+      "text": "You can etch a star rune that links two items across any distance. Their bearers can speak to each other and, once per long rest, either can teleport to the other's side along with up to 10 companions."
+    },
+    {
+      "stage": 8,
+      "name": "Nullrune Smith",
+      "feat": "Rune of Unmaking",
+      "text": "You etch a rune of nothing on a weapon. Its hits end one spell of 5th level or lower on the target and ignore resistance. Against an object or construct, it deals an extra 6d10 force damage."
+    },
+    {
+      "stage": 9,
+      "name": "Lost Rune Smith",
+      "feat": "Rune Unremembered",
+      "text": "Your runes cannot be read or recalled. Etched gear cannot be dispelled, disarmed, or suppressed by antimagic, and creatures that see a lost rune make an Intelligence save or forget their next action."
+    },
+    {
+      "stage": 10,
+      "name": "Prime Runesmith",
+      "feat": "First Rune",
+      "text": "Once per long rest, carve the first rune of Law on any surface. For 1 hour, within 300 feet, you choose one rule of magic that stops working, such as teleportation, healing, or invisibility, for creatures you designate."
+    }
+  ],
+  "Soul Mechanist": [
+    {
+      "stage": 2,
+      "name": "Wisp Mechanist",
+      "feat": "Fog Spirit Lantern",
+      "text": "You capture fog spirits in lanterns. As a bonus action, release one to haunt a creature within 60 feet; it makes a Wisdom save or is frightened and sees false shapes, having disadvantage on attacks for 1 minute."
+    },
+    {
+      "stage": 3,
+      "name": "Soulbound Notary",
+      "feat": "Contracted Spirits",
+      "text": "Spirits in your constructs serve under signed terms. Your constructs gain resistance to necrotic and radiant damage, and when one is destroyed, its spirit can be released to deal 3d8 fire or radiant damage in a 20-foot radius."
+    },
+    {
+      "stage": 4,
+      "name": "Swapsoul Mechanist",
+      "feat": "Transmigrating Core",
+      "text": "As a bonus action, swap the soul fragments of two of your constructs, or a construct and a willing ally, exchanging their positions and hit point totals. Usable three times per short rest."
+    },
+    {
+      "stage": 5,
+      "name": "Drowned Soul Mechanist",
+      "feat": "Grief Engine",
+      "text": "Your constructs are powered by drowned souls. They gain a swimming speed of 60 feet, and creatures within 10 feet of one must make a Wisdom save at the start of their turn or take 3d10 psychic damage and be slowed."
+    },
+    {
+      "stage": 6,
+      "name": "Livesoul Mechanist",
+      "feat": "Kindled Heart",
+      "text": "Your constructs become truly alive. They can be healed by healing spells, gain a bonus to hit and damage equal to your Intelligence modifier, and once per day one destroyed construct revives with half its hit points."
+    },
+    {
+      "stage": 7,
+      "name": "Starsoul Mechanist",
+      "feat": "Constellation Host",
+      "text": "Once per long rest, you call star spirits into empty frames, animating up to five Medium constructs for 1 hour. Each has 60 hit points, flies at 60 feet, and makes a ranged attack for 3d10 radiant damage."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow Soul Mechanist",
+      "feat": "Empty Shell Engine",
+      "text": "You can power constructs with absence. Your constructs are immune to psychic damage, charm, and fear, and as an action you can draw out a creature's spirit within 30 feet: Charisma save or it is stunned for 1 round."
+    },
+    {
+      "stage": 9,
+      "name": "Lost Soul Mechanist",
+      "feat": "Forgotten Anima",
+      "text": "When a creature dies within 60 feet of you, you can capture what it forgot. The next construct you power with it gains one of the dead creature's features or abilities, chosen by the GM, for 24 hours."
+    },
+    {
+      "stage": 10,
+      "name": "Prime Soul Mechanist",
+      "feat": "First Breath Engine",
+      "text": "Once per long rest, give a construct a true soul of first Law. It becomes a permanent ally with your hit point maximum and any one feature you have, or you use this to return a dead creature to life with full memory."
+    }
+  ],
+  "Blood Titan": [
+    {
+      "stage": 2,
+      "name": "Mistblood Titan",
+      "feat": "Red Fog",
+      "text": "When you spend hit points to grow, your blood steams into a 10-foot fog around you for 1 minute. You are lightly obscured, and hostile creatures that start a turn in it take 2d8 necrotic damage."
+    },
+    {
+      "stage": 3,
+      "name": "Brimblood Titan",
+      "feat": "Blood Tithe",
+      "text": "Your blood is a payment both realms accept. When you spend hit points on your features, gain twice that amount as temporary hit points, and your next hit deals extra fire or radiant damage equal to the hit points spent."
+    },
+    {
+      "stage": 4,
+      "name": "Wildblood Titan",
+      "feat": "Unstable Growth",
+      "text": "When you grow, roll 1d4 for your new size: Large, Huge, Huge, or Gargantuan. At Huge or larger your reach increases by 10 feet and your weapon attacks deal an extra 2d10 damage until your rage ends."
+    },
+    {
+      "stage": 5,
+      "name": "Depthblood Titan",
+      "feat": "Crushing Mass",
+      "text": "While enlarged, your weight is like the deep sea. Creatures you hit make a Strength save or are knocked prone and pinned, restrained until they escape with a DC equal to your rage save DC, taking 3d10 bludgeoning each turn."
+    },
+    {
+      "stage": 6,
+      "name": "Heartblood Titan",
+      "feat": "Ancestral Veins",
+      "text": "Each time you spend hit points, half of them return at the start of your next turn as your ancestors' blood refills you. Once per long rest, when you drop to 0 hit points, you instead regain 8d10."
+    },
+    {
+      "stage": 7,
+      "name": "Starblood Titan",
+      "feat": "Horizon Colossus",
+      "text": "Once per long rest, grow to Gargantuan for 1 minute. Your speed triples, your reach becomes 30 feet, and each of your hits deals an extra 4d10 bludgeoning damage and knocks the target 30 feet away."
+    },
+    {
+      "stage": 8,
+      "name": "Bloodless Titan",
+      "feat": "Emptied Veins",
+      "text": "While raging, you no longer bleed. You are immune to necrotic damage and to effects that reduce your hit point maximum, and you can spend hit points you do not have, dropping to 1 instead of below."
+    },
+    {
+      "stage": 9,
+      "name": "Unremembered Titan",
+      "feat": "Forgotten Wound",
+      "text": "Once per long rest, as a reaction, the world forgets every wound you took in the last minute. You regain all hit points lost in that time, and the creatures who dealt it make a Wisdom save or are stunned for 1 round."
+    },
+    {
+      "stage": 10,
+      "name": "Primeblood Titan",
+      "feat": "First Blood Colossus",
+      "text": "Once per long rest, become a colossus of first blood for 1 minute. You are Gargantuan, have resistance to all damage, and each creature you hit makes a Constitution save or takes 10d10 bludgeoning damage and is stunned."
+    }
+  ],
+  "Path of Ruin": [
+    {
+      "stage": 2,
+      "name": "Fogwreck Ravager",
+      "feat": "Shrouded Rubble",
+      "text": "When you destroy terrain or knock a creature prone, dust and fog rise in a 15-foot radius. You and allies have advantage on attacks against prone creatures inside, and you can see through it normally."
+    },
+    {
+      "stage": 3,
+      "name": "Brimstone Wrecker",
+      "feat": "Scorched Ground",
+      "text": "Ground you wreck burns with hellfire and holy light. Difficult terrain you create deals 2d8 fire or radiant damage to hostile creatures that enter it or start their turn in it, lasting 1 minute."
+    },
+    {
+      "stage": 4,
+      "name": "Upheaval Ravager",
+      "feat": "Quake Roll",
+      "text": "As a bonus action while raging, slam the ground. Roll 1d6: the ground within 30 feet buckles, splits, rises, or sinks in a random pattern, and each hostile creature there makes a Dexterity save or falls prone and takes 3d8 bludgeoning."
+    },
+    {
+      "stage": 5,
+      "name": "Sinkhole Ravager",
+      "feat": "Collapse",
+      "text": "As an action, break the ground in a 30-foot radius into a pit 60 feet deep. Hostile creatures inside make a Dexterity save or fall, taking 6d10 bludgeoning damage, and are buried and restrained until freed. Twice per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Rootbreak Ravager",
+      "feat": "Heartstone Strike",
+      "text": "Your blows find the core of anything. Against objects and structures your attacks deal triple damage, and when you hit a creature, you can break one magic item it wears or holds, Strength save negates."
+    },
+    {
+      "stage": 7,
+      "name": "Skyfall Ravager",
+      "feat": "Mountain Breaker",
+      "text": "Once per long rest, you leap up to 500 feet and land with a ruinous impact. Each creature within 60 feet takes 8d10 bludgeoning damage and is knocked prone, Dexterity save for half and remain standing."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow Ruin",
+      "feat": "Leave Nothing",
+      "text": "Creatures and objects you reduce to 0 hit points crumble into nothing and cannot be raised by spells of 8th level or lower. Your attacks ignore resistance to bludgeoning, piercing, and slashing damage."
+    },
+    {
+      "stage": 9,
+      "name": "Erased Ruin",
+      "feat": "Unmade Ground",
+      "text": "Once per long rest, the land within 120 feet forgets it was there. For 1 minute, hostile creatures in the area have no floor: they fall and are restrained, while you and allies walk on the memory of it."
+    },
+    {
+      "stage": 10,
+      "name": "Prime Ruin",
+      "feat": "First Collapse",
+      "text": "Once per long rest, strike with the force that broke the first mountain. Everything within a 300-foot radius takes 12d10 bludgeoning damage, Constitution save for half, and terrain and structures you choose are levelled flat."
+    }
+  ],
+  "Path of Wild Magic": [
+    {
+      "stage": 2,
+      "name": "Fogsurge Berserker",
+      "feat": "Misty Surge",
+      "text": "When you roll on the Wild Magic table, you can teleport up to 30 feet to an unoccupied space you can see, leaving fog behind. Each hostile creature within 5 feet of where you left is blinded until the end of its next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Heaven-and-Hell Surger",
+      "feat": "Twin-Fire Surge",
+      "text": "Your wild surges now come in pairs: one infernal, one holy. Roll twice on the Wild Magic table and choose both, and either one can deal an extra 2d8 fire or radiant damage to a creature in its area."
+    },
+    {
+      "stage": 4,
+      "name": "Pure Chaos Rager",
+      "feat": "Controlled Anarchy",
+      "text": "Chaos agrees with you. When you roll on the Wild Magic table, roll twice and use either result. Once per rage, you can choose the result outright instead of rolling."
+    },
+    {
+      "stage": 5,
+      "name": "Abyss-Surge Rager",
+      "feat": "Deepwell Magic",
+      "text": "When you surge, a pulse of deep magic erupts. Each hostile creature within 20 feet makes a Constitution save or takes 4d10 force damage and has its speed halved until the end of your next turn."
+    },
+    {
+      "stage": 6,
+      "name": "Lifesurge Rager",
+      "feat": "Wild Bloom",
+      "text": "Your surges now heal as well as harm. Each time you roll on the Wild Magic table, you and allies within 30 feet regain 2d10 hit points, and one ally of your choice gains advantage on its next roll."
+    },
+    {
+      "stage": 7,
+      "name": "Starsurge Rager",
+      "feat": "Constellation Burst",
+      "text": "Once per rage, surge into starlight. Choose up to six creatures within 120 feet; each makes a Dexterity save or takes 6d10 radiant damage. You may roll on the Wild Magic table again afterward."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Surge Rager",
+      "feat": "Magic of Nothing",
+      "text": "Your surges can drain rather than fill. As an action while raging, suppress all magic in a 30-foot radius for 1 round, except your own rage. Creatures maintaining spells in the area lose concentration."
+    },
+    {
+      "stage": 9,
+      "name": "Lost Surge Rager",
+      "feat": "Forgotten Effect",
+      "text": "When you surge, you can choose any spell of 6th level or lower you have seen cast in the last day and cast it at no cost, using Constitution as your casting ability. Once per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "Prime Surge Rager",
+      "feat": "First Wildness",
+      "text": "Once per long rest, your rage becomes the raw magic of creation. For 1 minute, at the start of each turn, cast any spell of 8th level or lower, no slot, using Constitution, chosen randomly from three you name."
+    }
+  ],
+  "Path of the Ancestral Guardian": [
+    {
+      "stage": 2,
+      "name": "Mistspirit Guardian",
+      "feat": "Fogbound Ancestors",
+      "text": "Your ancestral spirits wrap the target of your Ancestral Protectors in fog. It is blinded to creatures other than you, and allies within 10 feet of it become invisible to it until the start of your next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Choir-Elder Guardian",
+      "feat": "Judging Ancestors",
+      "text": "Your ancestors render judgement on those who strike your allies. When Spirit Shield reduces damage, the attacker takes 2d8 radiant or fire damage, and the ally shielded gains temporary hit points equal to the damage reduced."
+    },
+    {
+      "stage": 4,
+      "name": "Restless Elder Guardian",
+      "feat": "Wandering Ancestors",
+      "text": "Your spirits shift unpredictably. As a bonus action, swap places with an ally within 60 feet, and the spirits deal 3d8 force damage to each hostile creature adjacent to your arrival point, Dexterity save for half."
+    },
+    {
+      "stage": 5,
+      "name": "Drowned Elder Guardian",
+      "feat": "Ancestors from Below",
+      "text": "Spirits of drowned ancestors rise with you. The target of your Ancestral Protectors has its speed reduced to 0 and takes 3d10 cold damage at the start of each of its turns while marked."
+    },
+    {
+      "stage": 6,
+      "name": "Rootline Guardian",
+      "feat": "Living Lineage",
+      "text": "Your ancestors are bound into your living bloodline. Once per long rest, an ally within 60 feet who would drop to 0 hit points instead drops to 1 and regains 6d10, carried by the spirit of an elder."
+    },
+    {
+      "stage": 7,
+      "name": "Starborne Ancestor Guardian",
+      "feat": "Ancestral Constellation",
+      "text": "Your forebears return as stars. Once per long rest, summon a host of ancestral spirits for 1 minute that grant every ally within 120 feet resistance to all damage from creatures other than you."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Ancestor Guardian",
+      "feat": "Hush of the Dead",
+      "text": "Your spirits hush their targets. A creature marked by Ancestral Protectors cannot cast spells or speak, and its attacks against creatures other than you deal half damage, rounded down."
+    },
+    {
+      "stage": 9,
+      "name": "Nameless Ancestor Guardian",
+      "feat": "Forgotten Forebears",
+      "text": "Spirits whose names are lost serve you. Once per long rest, call 10 forgotten ancestors for 1 minute; each has your AC, 50 hit points, and can use Spirit Shield once per round on an ally within 30 feet."
+    },
+    {
+      "stage": 10,
+      "name": "First Ancestor Guardian",
+      "feat": "Progenitor's Wall",
+      "text": "Once per long rest, the first ancestor of your line stands with you. For 1 minute, allies within 120 feet cannot be reduced below 1 hit point, and creatures that attack them take 8d10 force damage."
+    }
+  ],
+  "Path of the Battlerager": [
+    {
+      "stage": 2,
+      "name": "Fogspike Battlerager",
+      "feat": "Hidden Barbs",
+      "text": "Your spiked armor drips fog. Creatures grappled by you are blinded, and when a creature misses you with a melee attack, it takes your spiked armor damage plus 2d8 piercing."
+    },
+    {
+      "stage": 3,
+      "name": "Hellspike Battlerager",
+      "feat": "Brimstone Barbs",
+      "text": "Your spikes are forged in hell and blessed in heaven. They deal an extra 2d8 fire or radiant damage, and creatures that grapple you or are grappled by you take it at the start of each of their turns."
+    },
+    {
+      "stage": 4,
+      "name": "Shardstorm Battlerager",
+      "feat": "Erratic Spikes",
+      "text": "Your armor spikes regrow at random. As a bonus action, fire them in all directions: each creature within 15 feet makes a Dexterity save or takes 4d8 piercing damage, with a random 1d4 extra effects of push, prone, bleed, or slow."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Spine Battlerager",
+      "feat": "Urchin Mail",
+      "text": "Your armor grows long deep-sea spines. You gain +1 AC, and any creature that touches you or hits you with a melee attack takes 3d10 piercing damage and is poisoned until the end of its next turn."
+    },
+    {
+      "stage": 6,
+      "name": "Thornheart Battlerager",
+      "feat": "Living Spikes",
+      "text": "Your spikes become living thorn grown from your body. When they damage a creature, you regain hit points equal to half the damage dealt, and they cannot be broken or removed."
+    },
+    {
+      "stage": 7,
+      "name": "Comet-Spike Battlerager",
+      "feat": "Meteor Charge",
+      "text": "Once per short rest, charge in a straight line up to 120 feet. Each creature in the path takes 6d10 piercing damage and is knocked prone, Dexterity save for half, and you end grappling one of them."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow-Spike Battlerager",
+      "feat": "Draining Barbs",
+      "text": "Your spikes are hollow and drink. Creatures damaged by your spikes lose 1d10 hit points at the start of each turn until healed, and magical healing on them is halved for 1 minute."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten-Spike Battlerager",
+      "feat": "Unseen Barbs",
+      "text": "Your spikes cannot be remembered or avoided. Creatures have disadvantage on saves against your spike effects, and creatures grappled by you forget how to escape, automatically failing their first escape attempt."
+    },
+    {
+      "stage": 10,
+      "name": "Prime Battlerager",
+      "feat": "Mountain Spine",
+      "text": "Once per long rest, your armor erupts in mountain-sized spikes for 1 minute. Each creature that starts its turn within 30 feet makes a Dexterity save or takes 10d10 piercing damage and is restrained."
+    }
+  ],
+  "Path of the Beast": [
+    {
+      "stage": 2,
+      "name": "Fogbeast Rager",
+      "feat": "Mist Predator",
+      "text": "While your bestial form is manifested, you can move through fog and darkness unseen. You are invisible in dim light or lightly obscured areas, and your first hit each turn from hiding deals an extra 2d8 damage."
+    },
+    {
+      "stage": 3,
+      "name": "Hellhound Rager",
+      "feat": "Infernal Pelt",
+      "text": "Your beast form grows a burning coat and a haloed mane. Your natural weapons deal an extra 2d8 fire or radiant damage, and you gain resistance to fire and radiant damage while raging."
+    },
+    {
+      "stage": 4,
+      "name": "Chimera Rager",
+      "feat": "Shifting Beast",
+      "text": "Each turn while raging, you can swap your manifested natural weapon for free and gain one extra bestial trait at random from 1d4: wings with a 60-foot fly speed, gills, a second bite, or +1 AC hide."
+    },
+    {
+      "stage": 5,
+      "name": "Leviathan Rager",
+      "feat": "Deepbeast Jaws",
+      "text": "Your bite becomes a crushing deep-sea maw. On a hit, the target is grappled and takes an extra 3d10 piercing damage at the start of each of its turns while held. You can swim at twice your speed."
+    },
+    {
+      "stage": 6,
+      "name": "Heartbeast Rager",
+      "feat": "Primal Regrowth",
+      "text": "Your beast form grows from your living core. At the start of each turn while raging, regain 2d10 hit points, and you can regrow lost limbs or reattach severed parts at will."
+    },
+    {
+      "stage": 7,
+      "name": "Starbeast Rager",
+      "feat": "Beast of Far Horizons",
+      "text": "Your beast form becomes vast and fast. Once per long rest, for 1 minute, you are Huge, your speed is 120 feet, and you can make one extra natural weapon attack each turn."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow Beast Rager",
+      "feat": "Empty Hunger",
+      "text": "Your beast feeds on nothing and is never sated. When you reduce a creature to 0 hit points, you can immediately move your speed and make one attack, and your hits drain a level of exhaustion from you."
+    },
+    {
+      "stage": 9,
+      "name": "Nameless Beast Rager",
+      "feat": "Forgotten Predator",
+      "text": "Once per long rest, become a predator the world cannot recall. For 1 minute, creatures have disadvantage on attacks against you, and your hits make the target forget your location, Wisdom save negates."
+    },
+    {
+      "stage": 10,
+      "name": "Primal Beast Rager",
+      "feat": "First Beast",
+      "text": "Once per long rest, become the first beast for 1 minute. You are Gargantuan, your natural weapons deal an extra 8d10 damage, and each creature that sees you transform makes a Wisdom save or is frightened."
+    }
+  ],
+  "Path of the Berserker": [
+    {
+      "stage": 2,
+      "name": "Fogmad Berserker",
+      "feat": "Blind Fury",
+      "text": "While in frenzy, your rage rolls out in a fog. You have blindsight 30 feet, and creatures within 10 feet of you cannot see beyond that fog, making ranged attacks against you at disadvantage."
+    },
+    {
+      "stage": 3,
+      "name": "Brimstone Berserker",
+      "feat": "Burning Frenzy",
+      "text": "Your frenzy burns with hell and heaven. Each frenzy bonus action attack deals an extra 2d8 fire or radiant damage, and you ignore exhaustion while raging."
+    },
+    {
+      "stage": 4,
+      "name": "Wildfury Berserker",
+      "feat": "Madness Unleashed",
+      "text": "While frenzied, roll 1d6 at the start of your turn and gain that many extra feet of reach times 5. On a 6, you also gain one extra attack that turn."
+    },
+    {
+      "stage": 5,
+      "name": "Abyssal Berserker",
+      "feat": "Depthless Rage",
+      "text": "Your frenzy no longer causes exhaustion. While frenzied, you have resistance to all damage except psychic, and each hit deals an extra 3d10 bludgeoning damage."
+    },
+    {
+      "stage": 6,
+      "name": "Lifefury Berserker",
+      "feat": "Undying Frenzy",
+      "text": "While frenzied, you cannot drop below 1 hit point. When the frenzy ends, make a Constitution save DC 15; on a failure you drop to 0 hit points, on a success you regain 4d10."
+    },
+    {
+      "stage": 7,
+      "name": "Starfury Berserker",
+      "feat": "Sweeping Rampage",
+      "text": "While frenzied, your speed doubles, and each time you move at least 20 feet before attacking, you can make one extra weapon attack against a different target."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow Berserker",
+      "feat": "Fearless Void",
+      "text": "While raging, you are immune to fear, charm, stun, and paralysis. Once per turn, when you hit, the target makes a Wisdom save or loses its reaction until the start of its next turn."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Berserker",
+      "feat": "Unremembered Massacre",
+      "text": "Once per long rest, for 1 minute, creatures you damage forget you are there and cannot react to you. You make one extra attack per turn against creatures that cannot see you."
+    },
+    {
+      "stage": 10,
+      "name": "First Fury Berserker",
+      "feat": "Primordial Frenzy",
+      "text": "Once per long rest, enter the first frenzy for 1 minute. You make four extra attacks as a bonus action each turn, each dealing an extra 4d10 damage, and you are immune to all conditions."
+    }
+  ],
+  "Path of the Giant": [
+    {
+      "stage": 2,
+      "name": "Fog Giant Rager",
+      "feat": "Mistborn Stature",
+      "text": "While raging and enlarged, you can become as insubstantial as fog. Once per rage, you can move through creatures and objects for 1 round, and any creature you pass through takes 2d8 cold damage."
+    },
+    {
+      "stage": 3,
+      "name": "Fire-and-Cloud Giant Rager",
+      "feat": "Twin Heritage",
+      "text": "Your giant heritage grows both fiery and heavenly. Your elemental cleaver deals an extra 2d8 fire or radiant damage, and once per rage, throw a creature 60 feet, dealing 4d8 to it and where it lands."
+    },
+    {
+      "stage": 4,
+      "name": "Storm Giant Rager",
+      "feat": "Fickle Titan",
+      "text": "When you rage, roll 1d4 to choose your giant heritage this rage: fire, frost, stone, or storm. Each grants resistance and an extra 3d8 damage of its type on your hits."
+    },
+    {
+      "stage": 5,
+      "name": "Deep Giant Rager",
+      "feat": "Bottom Dweller",
+      "text": "Your enlarged form is vast and heavy. While raging, you are Huge, cannot be moved against your will, and when you hit a creature, it makes a Strength save or is pushed into the ground, prone and restrained."
+    },
+    {
+      "stage": 6,
+      "name": "Elder Giant Rager",
+      "feat": "Ancestral Titan",
+      "text": "You draw on the ancient bloodlines of giants. While raging you gain 5 extra hit points per level and can throw boulders 300 feet, each dealing 6d10 bludgeoning damage, Dexterity save for half."
+    },
+    {
+      "stage": 7,
+      "name": "Horizon Giant Rager",
+      "feat": "Sky Titan",
+      "text": "Once per long rest, for 1 minute, you become Gargantuan and your reach is 30 feet. You can stride 300 feet as a bonus action, stepping over walls and rivers."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow Giant Rager",
+      "feat": "Empty Titan",
+      "text": "While raging, your enormous body is empty and silent. You are immune to psychic damage and conditions from spells, and your footsteps cause no sound."
+    },
+    {
+      "stage": 9,
+      "name": "Lost Giant Rager",
+      "feat": "Forgotten Titan",
+      "text": "Once per long rest, become a giant from an age no one remembers. For 1 minute, your hits ignore all damage resistance and immunity, and creatures you hit forget one of their spells or features."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Giant Rager",
+      "feat": "First Giant",
+      "text": "Once per long rest, become the first giant from which all giants were born. For 1 minute you are Gargantuan, your weapon attacks deal an extra 10d10 damage, and any giant obeys your commands."
+    }
+  ],
+  "Path of the Storm Herald": [
+    {
+      "stage": 2,
+      "name": "Fogtide Herald",
+      "feat": "Sea Mist Aura",
+      "text": "Your sea aura now carries thick sea mist. Hostile creatures in your aura are lightly obscured to their allies, and when you deal lightning damage with the aura, the target is blinded until the end of its turn."
+    },
+    {
+      "stage": 3,
+      "name": "Hymnstorm Herald",
+      "feat": "Tempest of Judgement",
+      "text": "Your storm aura becomes a choir of thunder and fire. The aura's lightning damage increases by 2d8, and you can change it to fire or radiant damage each time you activate it."
+    },
+    {
+      "stage": 4,
+      "name": "Maelstrom Herald",
+      "feat": "Random Squall",
+      "text": "At the start of each turn while raging, roll 1d4 for your aura type: sea, tundra, desert, or a wild storm that does all three. Each grants its damage and a minor effect."
+    },
+    {
+      "stage": 5,
+      "name": "Abyssal Tide Herald",
+      "feat": "Undertow Aura",
+      "text": "Your aura becomes the crushing undertow. Hostile creatures in your aura make a Strength save at the start of their turn or are pulled 15 feet toward you and take 3d10 cold damage."
+    },
+    {
+      "stage": 6,
+      "name": "Lifetide Herald",
+      "feat": "Rain of Renewal",
+      "text": "Your storm aura brings healing rain. Allies within your aura regain 2d10 hit points at the start of each of your turns, and you can extend the aura to 30 feet."
+    },
+    {
+      "stage": 7,
+      "name": "Skystorm Herald",
+      "feat": "Storm Across Horizons",
+      "text": "Once per long rest, you call a storm across 1 mile. Each round for 1 minute, five lightning bolts strike creatures you choose in that area, each dealing 6d10 lightning damage, Dexterity save for half."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Storm Herald",
+      "feat": "Eye of Nothing",
+      "text": "Your aura becomes the silent eye of the storm. Within it, hostile creatures cannot cast spells and allies are immune to ranged attacks that originate outside the aura."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Storm Herald",
+      "feat": "Lost Tempest",
+      "text": "Once per long rest, summon a storm the world has forgotten. For 1 minute, its lightning ignores all resistance and immunity, and hostile creatures in your aura forget their reactions."
+    },
+    {
+      "stage": 10,
+      "name": "First Storm Herald",
+      "feat": "First Tempest",
+      "text": "Once per long rest, call the first storm of the world in a 1-mile radius for 1 hour. You control wind, rain, and lightning, and once per round strike a target for 12d10 lightning damage, Dexterity save for half."
+    }
+  ],
+  "Path of the Totem Warrior": [
+    {
+      "stage": 2,
+      "name": "Mistpelt Totem Warrior",
+      "feat": "Fog Totem",
+      "text": "Your totem spirit cloaks you. While raging, you can become invisible until the end of your turn as a bonus action, and your totem animal's benefit extends to allies within 15 feet of you."
+    },
+    {
+      "stage": 3,
+      "name": "Hellbeast Totem Warrior",
+      "feat": "Sanctified Totem",
+      "text": "Your totem spirit is judged and armed. Bear grants allies resistance to fire and radiant damage, Eagle grants 2d8 radiant on dive attacks, and Wolf grants 2d8 fire damage on pack hits."
+    },
+    {
+      "stage": 4,
+      "name": "Shifting Totem Warrior",
+      "feat": "Many-Spirit Totem",
+      "text": "When you rage, choose a different totem animal or roll 1d4 for a random one from bear, eagle, wolf, or elk. You gain all of its benefits plus advantage on Strength checks."
+    },
+    {
+      "stage": 5,
+      "name": "Leviathan Totem Warrior",
+      "feat": "Shark Spirit",
+      "text": "You gain a deep-sea totem. While raging, you can swim and breathe underwater, and your hits against creatures below half hit points deal an extra 3d10 piercing damage."
+    },
+    {
+      "stage": 6,
+      "name": "Heartwood Totem Warrior",
+      "feat": "Ancient Spirit Pact",
+      "text": "Your totem spirit becomes a living elder. Once per long rest, a spirit beast of your totem appears for 1 hour, with 100 hit points and your AC, fighting at your side."
+    },
+    {
+      "stage": 7,
+      "name": "Starbeast Totem Warrior",
+      "feat": "Constellation Spirit",
+      "text": "Your totem shines among the stars. Once per long rest, your totem grants all allies within 120 feet its benefits for 1 minute, and your attacks deal an extra 4d10 radiant damage."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Totem Warrior",
+      "feat": "Hollow Spirit",
+      "text": "Your totem empties fear from your pack. Allies within 60 feet of you are immune to fear and charm, and creatures you hit make a Wisdom save or are frightened of you for 1 minute."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Totem Warrior",
+      "feat": "Lost Beast Spirit",
+      "text": "You call the spirit of a beast that no longer exists. Once per long rest, gain any beast's ability for 1 hour, such as flight, burrowing, or poison, plus resistance to all damage."
+    },
+    {
+      "stage": 10,
+      "name": "First Totem Warrior",
+      "feat": "Progenitor Beast",
+      "text": "Once per long rest, become the first ancestor of your totem animal for 1 minute. You and allies within 120 feet gain all totem benefits, and your hits deal an extra 8d10 damage."
+    }
+  ],
+  "Path of the World Tree": [
+    {
+      "stage": 2,
+      "name": "Mistroot Warden",
+      "feat": "Fogbranch Path",
+      "text": "Your branches reach into fog. As a bonus action while raging, teleport an ally within 60 feet to a space within 10 feet of you through the mist, granting them 2d8 temporary hit points."
+    },
+    {
+      "stage": 3,
+      "name": "Heaven-Root Warden",
+      "feat": "Branches Above and Below",
+      "text": "Your tree reaches up to heaven and down to hell. While raging, allies within 15 feet gain resistance to fire and radiant damage, and your hits deal an extra 2d8 radiant or fire damage."
+    },
+    {
+      "stage": 4,
+      "name": "Wildroot Warden",
+      "feat": "Shifting Branches",
+      "text": "Your branches shift the battlefield. As a bonus action, swap the positions of two creatures within 60 feet; an unwilling creature makes a Strength save to resist and takes 3d8 bludgeoning damage on a failure."
+    },
+    {
+      "stage": 5,
+      "name": "Deeproot Warden",
+      "feat": "Roots in the Dark",
+      "text": "Your roots drive into the abyss. While raging, you cannot be moved against your will, and hostile creatures within 15 feet of you are restrained on a failed Strength save at the start of their turn."
+    },
+    {
+      "stage": 6,
+      "name": "Heartwood Warden",
+      "feat": "Living Trunk",
+      "text": "Your body becomes the world tree's living heart. While raging, you and allies within 30 feet regain 2d10 hit points at the start of your turn and have advantage on Constitution saves."
+    },
+    {
+      "stage": 7,
+      "name": "Starbranch Warden",
+      "feat": "Crown of Worlds",
+      "text": "Once per long rest, your branches touch the stars. You and up to 20 allies teleport to any realm you have visited, and for 1 minute after arriving you gain an extra 4d10 force damage on hits."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow-Trunk Warden",
+      "feat": "Empty Bark",
+      "text": "Your tree is hollow and silent. While raging, spells that target you have a 50 percent chance to fail, and you can step into your own hollow trunk to become invisible until you attack."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Root Warden",
+      "feat": "Lost Branch",
+      "text": "Once per long rest, your tree reaches into forgotten realms. For 1 minute, you and allies within 60 feet can teleport 60 feet as a bonus action and ignore difficult terrain and walls."
+    },
+    {
+      "stage": 10,
+      "name": "First Tree Warden",
+      "feat": "Root of Creation",
+      "text": "Once per long rest, become the first tree for 1 minute. Allies within 300 feet regain 6d10 hit points each round, and hostile creatures within 60 feet are restrained, Strength save negates."
+    }
+  ],
+  "Path of the Zealot": [
+    {
+      "stage": 2,
+      "name": "Veiled Zealot",
+      "feat": "Fogbound Faith",
+      "text": "Your faith hides you. While raging, you can turn invisible as a bonus action until you attack, and your Divine Fury deals an extra 2d8 damage on hits from invisibility."
+    },
+    {
+      "stage": 3,
+      "name": "Fire-and-Choir Zealot",
+      "feat": "Divine and Infernal Wrath",
+      "text": "Your zeal burns in both realms. Divine Fury deals an extra 2d8 fire or radiant damage, and once per rage, when you hit a creature, it makes a Wisdom save or is frightened of you."
+    },
+    {
+      "stage": 4,
+      "name": "Frenzied Zealot",
+      "feat": "Chaotic Faith",
+      "text": "Your faith grows wild. When you deal Divine Fury damage, roll 1d4: heal yourself 3d8, push the target 20 feet, stun it until the end of its turn, or deal 3d8 extra damage."
+    },
+    {
+      "stage": 5,
+      "name": "Deepfaith Zealot",
+      "feat": "Drowned Prayer",
+      "text": "Your faith reaches into the depths. While raging, you cannot be reduced below 1 hit point by any effect from an aquatic creature, and Divine Fury deals an extra 3d10 cold damage."
+    },
+    {
+      "stage": 6,
+      "name": "Living Faith Zealot",
+      "feat": "Burning Heart",
+      "text": "Your god lives inside you. When you drop to 0 hit points while raging, you can choose to stay conscious until your rage ends, then regain half your hit point maximum. Once per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Starfaith Zealot",
+      "feat": "Choir of Far Stars",
+      "text": "Once per long rest, call your god's wrath from the sky for 1 minute. Each of your hits deals an extra 6d10 radiant damage, and you can fly at 60 feet."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow Zealot",
+      "feat": "Faith Without God",
+      "text": "Your faith needs no god. While raging, you are immune to psychic damage, charm, and fear, and Divine Fury deals an extra 4d10 force damage to creatures that cast a spell this turn."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Zealot",
+      "feat": "Martyr's Erasure",
+      "text": "When you die, the world forgets it happened. Once per long rest, when reduced to 0 hit points, you return to full hit points and creatures that saw you fall are stunned for 1 round."
+    },
+    {
+      "stage": 10,
+      "name": "First Zealot",
+      "feat": "First Faith",
+      "text": "Once per long rest, you become the first believer for 1 minute. You are immune to all damage from creatures that fail a Wisdom save, and your hits deal an extra 10d10 radiant damage."
+    }
+  ],
+  "Storm Reaver": [
+    {
+      "stage": 2,
+      "name": "Fogbolt Reaver",
+      "feat": "Hidden Lightning",
+      "text": "Your lightning strikes from the mist. When you hit with a weapon attack while raging, a bolt arcs to a creature within 20 feet that you can see, dealing 2d8 lightning damage; it cannot see where it came from."
+    },
+    {
+      "stage": 3,
+      "name": "Choirbolt Reaver",
+      "feat": "Thunder of Judgement",
+      "text": "Your lightning carries holy or infernal judgement. Bolts deal an extra 2d8 radiant or fire damage, and creatures struck make a Constitution save or are deafened and lose their reaction."
+    },
+    {
+      "stage": 4,
+      "name": "Chain Lightning Reaver",
+      "feat": "Wild Arc",
+      "text": "Your bolts jump erratically. When an arc hits, roll 1d4 and it jumps that many more times to new targets within 30 feet, dealing 3d8 lightning damage each, Dexterity save for half."
+    },
+    {
+      "stage": 5,
+      "name": "Deep Thunder Reaver",
+      "feat": "Crushing Bolt",
+      "text": "Your lightning strikes like the deep sea's weight. Creatures hit by your bolts take an extra 3d10 bludgeoning damage and are knocked prone on a failed Strength save."
+    },
+    {
+      "stage": 6,
+      "name": "Heartstorm Reaver",
+      "feat": "Living Current",
+      "text": "Your storm flows through allies. As a bonus action, send a current to an ally within 30 feet: they regain 2d10 hit points and their next hit deals an extra 2d10 lightning damage."
+    },
+    {
+      "stage": 7,
+      "name": "Skyfall Reaver",
+      "feat": "Horizon Strike",
+      "text": "Once per long rest, strike from the sky across 1 mile. Up to 10 targets you can see take 8d10 lightning damage, Dexterity save for half, and are stunned on a failure."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Bolt Reaver",
+      "feat": "Soundless Lightning",
+      "text": "Your lightning makes no thunder and no light. Your bolts ignore resistance to lightning damage, and creatures struck must make a Wisdom save or lose concentration."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Bolt Reaver",
+      "feat": "Unremembered Strike",
+      "text": "Once per long rest, your lightning becomes a strike the world forgot. For 1 minute, your bolts ignore all immunity and hit creatures you cannot see, and targets forget their last action."
+    },
+    {
+      "stage": 10,
+      "name": "First Storm Reaver",
+      "feat": "First Thunderbolt",
+      "text": "Once per long rest, hurl the first thunderbolt of the world at a point within 1 mile. Every creature within 120 feet takes 12d10 lightning damage, Dexterity save for half."
+    }
+  ],
+  "College of Ash": [
+    {
+      "stage": 2,
+      "name": "Fogdirge Mourner",
+      "feat": "Mist Requiem",
+      "text": "As a bonus action, sing a misty dirge in a 20-foot radius for 1 minute. Allies inside gain 2d8 temporary hit points at the start of each turn, and dying hostile creatures make death saves at disadvantage."
+    },
+    {
+      "stage": 3,
+      "name": "Pyre-Choir Mourner",
+      "feat": "Funeral Pyre Hymn",
+      "text": "When a creature dies within 60 feet of you, its pyre ignites. Each hostile creature within 10 feet of the corpse takes 2d8 fire or radiant damage, and allies within 10 feet gain one Bardic Inspiration die."
+    },
+    {
+      "stage": 4,
+      "name": "Restless Dirge Singer",
+      "feat": "Scattered Ashes",
+      "text": "As an action, sing ashes into a whirling storm. Roll 1d4: allies regain 3d8 hit points, foes are blinded, foes take 3d8 necrotic damage, or both sides swap 10 feet. Constitution save negates the foe effects."
+    },
+    {
+      "stage": 5,
+      "name": "Drowned Mourner",
+      "feat": "Lament of the Deep",
+      "text": "Your dirges sound like drowning. Each hostile creature within 30 feet makes a Wisdom save or is frightened and takes 3d10 psychic damage, and creatures at half hit points or lower have disadvantage on the save."
+    },
+    {
+      "stage": 6,
+      "name": "Ember-Ring Mourner",
+      "feat": "Remembered Dead",
+      "text": "You can sing the dead back for a moment. Once per long rest, a creature that died in the last minute returns with 6d10 hit points for 1 hour, after which it may be raised normally."
+    },
+    {
+      "stage": 7,
+      "name": "Starward Mourner",
+      "feat": "Wake of Far Stars",
+      "text": "Your funeral rites reach other worlds. Once per long rest, sing a creature's soul to its rest or call one back from any realm, asking it three questions or restoring it to life."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Mourner",
+      "feat": "Hush of the Grave",
+      "text": "As an action, hush a creature within 60 feet with grave silence. It makes a Charisma save or takes 6d8 necrotic damage, cannot speak or cast spells, and cannot regain hit points for 1 minute."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Mourner",
+      "feat": "Unremembered Grief",
+      "text": "Once per long rest, you sing a dirge so sad the world forgets its dead. Allies within 120 feet who died in the last hour return with half their hit points."
+    },
+    {
+      "stage": 10,
+      "name": "First Mourner",
+      "feat": "First Elegy",
+      "text": "Once per long rest, sing the first song of death for 1 minute. Hostile creatures within 120 feet that drop below half hit points must make a Constitution save or die outright."
+    }
+  ],
+  "College of Creation": [
+    {
+      "stage": 2,
+      "name": "Mistforged Maker",
+      "feat": "Fogweave Performance",
+      "text": "Your Performance of Creation can make an item out of fog. It has double the normal size limit and lasts twice as long, and you can make it invisible or visible as a bonus action."
+    },
+    {
+      "stage": 3,
+      "name": "Hymn-and-Brimstone Maker",
+      "feat": "Sacred Forge Song",
+      "text": "Items you create can be sealed in fire or light. A weapon made this way deals an extra 2d8 fire or radiant damage, and armor made this way grants +1 AC."
+    },
+    {
+      "stage": 4,
+      "name": "Chaos Song Maker",
+      "feat": "Ever-Changing Making",
+      "text": "Once per round, transform an item you created into another nonmagical item of equal size. As a bonus action, change an animated item into a different form, gaining 1d4 random traits."
+    },
+    {
+      "stage": 5,
+      "name": "Deepsong Maker",
+      "feat": "Pressure Craft",
+      "text": "You can sing objects into being from deep water. Items you create are immune to damage, and you can create a Huge structure, such as a wall or bridge, lasting 1 hour."
+    },
+    {
+      "stage": 6,
+      "name": "Heartsong Maker",
+      "feat": "Living Creation",
+      "text": "Your Dancing Item becomes a living creature with your Charisma modifier added to its hit points and attacks, and it regains 2d10 hit points at the start of each of its turns."
+    },
+    {
+      "stage": 7,
+      "name": "Starsong Maker",
+      "feat": "Worldsong Construct",
+      "text": "Once per long rest, sing a structure into being across 1 mile, such as a castle, bridge, or tower. It lasts 24 hours and has 1,000 hit points per section."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Song Maker",
+      "feat": "Unsinging",
+      "text": "As an action, sing a nonmagical object of Huge size or smaller out of existence. A creature in contact with an unmade object makes a Dexterity save or takes 6d8 force damage."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Song Maker",
+      "feat": "Item That Never Was",
+      "text": "Once per long rest, create any magic item of rare rarity or lower. It lasts 24 hours, and no creature but you remembers its existence or can target it."
+    },
+    {
+      "stage": 10,
+      "name": "First Song Maker",
+      "feat": "Song of Making",
+      "text": "Once per long rest, you sing the song that shaped the world. Create any nonliving object, structure, or terrain within 1 mile, permanent and of any size, or one legendary magic item lasting 1 day."
+    }
+  ],
+  "College of Dance": [
+    {
+      "stage": 2,
+      "name": "Fogstep Dancer",
+      "feat": "Misty Steps",
+      "text": "When you take the Dash or Disengage action, you can leave a fog image in your old space. Attacks against you have disadvantage until the start of your next turn, and you can move through hostile creatures."
+    },
+    {
+      "stage": 3,
+      "name": "Ember-Choir Dancer",
+      "feat": "Dance of Two Fires",
+      "text": "Your movement leaves trails of hellfire or holy light. Each creature you pass within 5 feet of during your turn takes 2d8 fire or radiant damage, Dexterity save for half, once per turn."
+    },
+    {
+      "stage": 4,
+      "name": "Whirling Dancer",
+      "feat": "Chaotic Twirl",
+      "text": "As a bonus action, whirl wildly. Roll 1d4: swap with a creature within 30 feet, teleport 30 feet, gain an extra attack, or make all creatures within 10 feet take 3d8 slashing damage."
+    },
+    {
+      "stage": 5,
+      "name": "Deepcurrent Dancer",
+      "feat": "Undertow Step",
+      "text": "Your movement drags others. Each time you move at least 20 feet, one creature within 10 feet of your path makes a Strength save or is pulled with you and takes 3d10 bludgeoning damage."
+    },
+    {
+      "stage": 6,
+      "name": "Lifebeat Dancer",
+      "feat": "Heartbeat Rhythm",
+      "text": "Your dance keeps the heart of your allies going. Allies within 30 feet who can see you dance regain 2d10 hit points at the start of their turns and gain 10 feet of speed."
+    },
+    {
+      "stage": 7,
+      "name": "Stardance Dancer",
+      "feat": "Dance Across Horizons",
+      "text": "Once per long rest, dance between stars. You and up to 10 allies can teleport any distance on the same plane, and for 1 minute you may teleport 60 feet as a bonus action."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Dancer",
+      "feat": "Soundless Step",
+      "text": "Your dance makes no sound and leaves no trace. You are invisible while moving, and attacks of opportunity against you automatically miss. Hits after moving 30 feet deal an extra 4d8 damage."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Dancer",
+      "feat": "Unremembered Movement",
+      "text": "Once per long rest, dance so strangely that the world forgets where you are. For 1 minute, attacks against you automatically miss unless the attacker succeeds on an Intelligence save."
+    },
+    {
+      "stage": 10,
+      "name": "First Dancer",
+      "feat": "First Step",
+      "text": "Once per long rest, dance the first step of creation for 1 minute. You and allies within 120 feet gain a flying speed of 120 feet, and hostile creatures within 60 feet are stunned on a failed Wisdom save."
+    }
+  ],
+  "College of Dreams": [
+    {
+      "stage": 2,
+      "name": "Mistdream Weaver",
+      "feat": "Waking Fog",
+      "text": "Creatures you put to sleep sleep inside fog dreams. While asleep, they take 2d8 psychic damage at the start of each turn without waking, and you know their surface thoughts."
+    },
+    {
+      "stage": 3,
+      "name": "Dream-Choir Weaver",
+      "feat": "Nightmares and Visions",
+      "text": "When you put a creature to sleep, choose a heavenly vision or an infernal nightmare. Allies gain 2d8 hit points and advantage on their next save; foes take 2d8 psychic damage each round."
+    },
+    {
+      "stage": 4,
+      "name": "Restless Dream Weaver",
+      "feat": "Shifting Dreamscape",
+      "text": "As an action, pull up to four creatures within 60 feet into a shared dream for 1 minute. Each round, roll 1d4 for its rule: no magic, no movement, double damage, or healing doubles."
+    },
+    {
+      "stage": 5,
+      "name": "Abyssal Dream Weaver",
+      "feat": "Drowning Dream",
+      "text": "As an action, plunge a creature into a drowning dream. It makes a Wisdom save or falls unconscious and takes 4d10 psychic damage each turn, repeating the save at the end of each turn."
+    },
+    {
+      "stage": 6,
+      "name": "Heart-Dream Weaver",
+      "feat": "Dreams of Home",
+      "text": "Your dreams heal deeply. During a short rest, you and allies within 30 feet regain all hit points and recover one expended spell slot of 5th level or lower."
+    },
+    {
+      "stage": 7,
+      "name": "Star-Dream Weaver",
+      "feat": "Dream Across Worlds",
+      "text": "Once per long rest, enter the dreams of any creature on any realm you know of, speaking with it or inflicting 6d10 psychic damage and preventing it from resting."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow Dream Weaver",
+      "feat": "Dreamless Sleep",
+      "text": "As an action, put a creature into a dreamless void. It makes a Wisdom save or becomes unconscious for 1 minute, immune to being woken by damage below 30 in a single hit."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Dream Weaver",
+      "feat": "Dream of Forgetting",
+      "text": "When a creature wakes from your dream, it forgets the last 24 hours, including all spells it cast and any knowledge of you. Wisdom save negates. Usable twice per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Dream Weaver",
+      "feat": "First Dream",
+      "text": "Once per long rest, you dream the first dream of the world. For 1 minute, every hostile creature within 120 feet makes a Wisdom save or falls asleep and cannot be woken by any means."
+    }
+  ],
+  "College of Echoing Chants": [
+    {
+      "stage": 2,
+      "name": "Fogecho Cantor",
+      "feat": "Mist Echo",
+      "text": "When you cast a spell that targets one creature, an echo in the fog repeats it against a second target within 30 feet of the first. The echoed spell deals half damage."
+    },
+    {
+      "stage": 3,
+      "name": "Choir-and-Ember Echoist",
+      "feat": "Twin Choir",
+      "text": "Your echoes carry heaven and hell. Echoed spells deal an extra 2d8 fire or radiant damage, and you can echo spells of 5th level or lower twice per long rest at full strength."
+    },
+    {
+      "stage": 4,
+      "name": "Wild Echo Cantor",
+      "feat": "Erratic Refrain",
+      "text": "When you cast a spell, roll 1d4: the spell echoes 1d4 times at random targets within 60 feet, each echo dealing a quarter damage or applying its full effect at a lower save DC."
+    },
+    {
+      "stage": 5,
+      "name": "Deep Echo Cantor",
+      "feat": "Abyssal Reverb",
+      "text": "Your echoes return from the depths. When an echoed spell deals damage, it deals an extra 3d10 thunder damage and pushes the target 15 feet away, Strength save negates."
+    },
+    {
+      "stage": 6,
+      "name": "Heart-Echo Cantor",
+      "feat": "Living Refrain",
+      "text": "Your echoes can heal as well as harm. When you cast a healing spell, an echo heals a second creature within 60 feet for the same amount, and the original target regains 2d10 extra hit points."
+    },
+    {
+      "stage": 7,
+      "name": "Starecho Cantor",
+      "feat": "Echo Across Horizons",
+      "text": "Your echoes travel across any distance on the same plane. Once per long rest, an echoed spell can target a creature you know anywhere on the plane."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Echo Cantor",
+      "feat": "Echo of Silence",
+      "text": "You can echo the absence of a spell. As a reaction when a creature casts a spell within 60 feet, echo silence into it: Charisma save or the spell fails and its slot is lost."
+    },
+    {
+      "stage": 9,
+      "name": "Lost Echo Cantor",
+      "feat": "Echo Without Source",
+      "text": "Once per long rest, cast a spell of 7th level or lower you have heard in the last week as an echo, without a slot, and the casting cannot be detected or traced."
+    },
+    {
+      "stage": 10,
+      "name": "First Echo Cantor",
+      "feat": "First Refrain",
+      "text": "Once per long rest, echo the first song for 1 minute. Every spell you cast echoes three times at full strength against new targets you choose within 120 feet."
+    }
+  ],
+  "College of Eloquence": [
+    {
+      "stage": 2,
+      "name": "Fogtongue Orator",
+      "feat": "Veiled Words",
+      "text": "When you speak, you can choose a listener who hears a different message than everyone else. Once per short rest, a creature that fails a Wisdom save believes your veiled words for 1 hour."
+    },
+    {
+      "stage": 3,
+      "name": "Silver-and-Sulfur Orator",
+      "feat": "Binding Speech",
+      "text": "Your words become contracts. Once per long rest, a creature that agrees to your terms is bound by them for 1 year; if it breaks them, it takes 10d8 fire or radiant damage."
+    },
+    {
+      "stage": 4,
+      "name": "Discord Orator",
+      "feat": "Maddening Rhetoric",
+      "text": "As an action, speak words that scramble minds. Up to four creatures within 60 feet make an Intelligence save or roll 1d4 for their next action: attack an ally, flee, drop prone, or do nothing."
+    },
+    {
+      "stage": 5,
+      "name": "Deepvoice Orator",
+      "feat": "Crushing Argument",
+      "text": "Your arguments press down like deep water. A creature that hears you and fails a Wisdom save has its speed reduced to 0 and takes 4d10 psychic damage, repeating the save at the end of each turn."
+    },
+    {
+      "stage": 6,
+      "name": "Heartvoice Orator",
+      "feat": "Living Oration",
+      "text": "Your speeches stir the heart of every listener. Allies within 60 feet gain 2d10 temporary hit points and advantage on their next attack or save, and frightened allies are freed."
+    },
+    {
+      "stage": 7,
+      "name": "Starvoice Orator",
+      "feat": "Speech Across Worlds",
+      "text": "Once per long rest, deliver a speech heard by every creature you choose on the plane. Each creature hears it in its own language and is charmed for 1 hour on a failed Wisdom save."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Orator",
+      "feat": "Unspoken Persuasion",
+      "text": "You can persuade without words. Your Unsettling Words, Silver Tongue, and charm spells need no verbal components, and creatures cannot know that they were influenced by you."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Orator",
+      "feat": "Lost Argument",
+      "text": "Once per long rest, make an argument so persuasive the world forgets it was ever questioned. A creature fails its Wisdom save automatically and believes one statement permanently."
+    },
+    {
+      "stage": 10,
+      "name": "First Orator",
+      "feat": "First Word",
+      "text": "Once per long rest, speak the first word of creation. Each creature within 300 feet who hears it makes a Wisdom save or obeys one command from you for 1 hour."
+    }
+  ],
+  "College of Glamour": [
+    {
+      "stage": 2,
+      "name": "Mistglamour Enchanter",
+      "feat": "Misty Majesty",
+      "text": "Your Mantle of Majesty wraps you in shining fog. While it is active, you are heavily obscured to creatures you choose, and those charmed by you take 2d8 psychic damage when they attack your allies."
+    },
+    {
+      "stage": 3,
+      "name": "Halo-and-Horn Enchanter",
+      "feat": "Infernal Charm",
+      "text": "Your glamour shows both an angel and a devil. Creatures charmed by you are also frightened of you, and you can cast command as a bonus action without a slot twice per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Kaleidoscope Enchanter",
+      "feat": "Shifting Beauty",
+      "text": "Each round your appearance shifts. Creatures that see you roll 1d4 at the start of their turns: charmed, frightened, stunned, or unaffected, with a Wisdom save negating each effect."
+    },
+    {
+      "stage": 5,
+      "name": "Deep Glamour Enchanter",
+      "feat": "Siren's Depth",
+      "text": "Your beauty draws others down. Creatures within 60 feet that can hear you make a Wisdom save or are charmed and pulled 30 feet toward you, taking 3d10 psychic damage on a failure."
+    },
+    {
+      "stage": 6,
+      "name": "Heartglamour Enchanter",
+      "feat": "True Adoration",
+      "text": "Your glamour touches the heart. Creatures charmed by you for 1 minute become loyal allies for 24 hours, and you can cast charm spells on creatures immune to charm."
+    },
+    {
+      "stage": 7,
+      "name": "Starglamour Enchanter",
+      "feat": "Horizon Majesty",
+      "text": "Once per long rest, your majesty extends across 1 mile for 1 hour. Every creature that can see you makes a Wisdom save or becomes charmed and cannot attack you."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Glamour Enchanter",
+      "feat": "Beauty of Nothing",
+      "text": "Your glamour becomes an absence. Creatures charmed by you forget all other loyalties, and you can charm creatures immune to charm with a Wisdom save at disadvantage."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Glamour Enchanter",
+      "feat": "Lost Adoration",
+      "text": "Once per long rest, a creature you charm forgets it was ever anything but your servant. On a failed Wisdom save, it remains charmed by you for 30 days."
+    },
+    {
+      "stage": 10,
+      "name": "First Glamour Enchanter",
+      "feat": "First Beauty",
+      "text": "Once per long rest, become the beauty that existed before names. For 1 minute, every creature within 300 feet makes a Wisdom save or is charmed and serves your will."
+    }
+  ],
+  "College of Lore": [
+    {
+      "stage": 2,
+      "name": "Foglore Scholar",
+      "feat": "Hidden Secrets",
+      "text": "You learn secrets hidden in the mist. Once per short rest, ask the GM one question about a creature you can see; you also gain advantage on all attacks against it for 1 minute."
+    },
+    {
+      "stage": 3,
+      "name": "Contract Lore Scholar",
+      "feat": "Infernal Clause",
+      "text": "You know the hidden clauses of every contract. Once per long rest, rewrite one condition of a contract you read, or impose a 2d8 fire or radiant damage penalty on breaking it."
+    },
+    {
+      "stage": 4,
+      "name": "Chaos Lore Scholar",
+      "feat": "Stolen Spells",
+      "text": "Twice per long rest, cast a random spell of 6th level or lower from any class list. Roll on a list you prepare in advance of six spells; the spell costs no slot."
+    },
+    {
+      "stage": 5,
+      "name": "Deep Lore Scholar",
+      "feat": "Knowledge from Below",
+      "text": "You learn the secrets of the abyss. Once per long rest, gain knowledge of all creatures within 1 mile, including their hit points and weaknesses, and advantage on attacks against them for 1 hour."
+    },
+    {
+      "stage": 6,
+      "name": "Heartlore Chronicler",
+      "feat": "Living History",
+      "text": "You can recall the history of a place or object. Once per long rest, see and hear 1 hour of its past, and learn one spell or feature tied to it for 24 hours."
+    },
+    {
+      "stage": 7,
+      "name": "Starlore Scholar",
+      "feat": "Knowledge of Far Stars",
+      "text": "You learn spells from other worlds. Choose two spells of 8th level or lower from any class list; they count as bard spells and you can cast each once per long rest without a slot."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Lore Scholar",
+      "feat": "Unknown Words",
+      "text": "You learn words that no one else knows. Once per long rest, speak a word that ends all spells of 8th level or lower within 120 feet, Charisma save negates for creatures."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Lore Scholar",
+      "feat": "Lost Knowledge",
+      "text": "You learn secrets the world has forgotten. Once per long rest, learn any one spell from any list, any level, and cast it once without a slot within 24 hours."
+    },
+    {
+      "stage": 10,
+      "name": "First Lore Scholar",
+      "feat": "Song of First Knowledge",
+      "text": "Once per long rest, you learn the first truth. For 1 minute, you know every creature's weaknesses, and you can cast any spell of 9th level or lower once without a slot."
+    }
+  ],
+  "College of Spirits": [
+    {
+      "stage": 2,
+      "name": "Mistspirit Teller",
+      "feat": "Fog-Ghost Tale",
+      "text": "Your Spiritual Focus can call ghosts from the mist. When you roll on the Spirit Tales table, add a fog effect: the target is blinded until the end of its next turn on a failed Wisdom save."
+    },
+    {
+      "stage": 3,
+      "name": "Choir-Ghost Teller",
+      "feat": "Saints and Sinners",
+      "text": "Your tales draw on saints and devils. Each tale deals an extra 2d8 fire or radiant damage, and you can roll twice on the Spirit Tales table and choose."
+    },
+    {
+      "stage": 4,
+      "name": "Wild Spirit Teller",
+      "feat": "Many Voices",
+      "text": "Your tales draw on many spirits. When you tell a tale, roll 1d4 extra times on the Spirit Tales table, applying each result to a different target within 60 feet."
+    },
+    {
+      "stage": 5,
+      "name": "Drowned Spirit Teller",
+      "feat": "Tale of the Drowned",
+      "text": "Your tales call drowned spirits. Creatures affected by a Spirit Tale take an extra 3d10 cold damage and have their speed halved for 1 minute as cold hands drag at them, Constitution save negates the slowing."
+    },
+    {
+      "stage": 6,
+      "name": "Ancestor Spirit Teller",
+      "feat": "Tale of Kin",
+      "text": "Your tales call the spirits of your ancestors. Once per long rest, call an ancestral spirit for 1 hour. It has your AC and 100 hit points, acts on your initiative, and can cast your bard spells using your slots."
+    },
+    {
+      "stage": 7,
+      "name": "Star Spirit Teller",
+      "feat": "Tales from Far Stars",
+      "text": "Your tales come from other worlds. Once per long rest, tell a tale that summons a star spirit for 1 minute, dealing 6d10 radiant damage to creatures you choose within 120 feet."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Spirit Teller",
+      "feat": "Tale of Nothing",
+      "text": "Your tales call spirits of absence. A creature affected by a Spirit Tale makes a Charisma save or cannot cast spells, speak, or regain hit points for 1 minute, repeating the save at the end of each turn."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Spirit Teller",
+      "feat": "Tale No One Remembers",
+      "text": "Once per long rest, tell a tale so old the world forgot it. Each hostile creature within 60 feet who hears it makes a Wisdom save or is stunned for 1 minute, repeating the save at the end of each of its turns."
+    },
+    {
+      "stage": 10,
+      "name": "First Spirit Teller",
+      "feat": "First Tale",
+      "text": "Once per long rest, tell the first tale of the world. For 1 minute, every spirit within 1 mile answers you, and you can roll on the Spirit Tales table three times each turn."
+    }
+  ],
+  "College of Swords": [
+    {
+      "stage": 2,
+      "name": "Fogblade Duelist",
+      "feat": "Mist Flourish",
+      "text": "When you use a Blade Flourish, you can teleport 15 feet through fog before or after the attack. The target of your Flourish is blinded until the end of its next turn on a failed Wisdom save."
+    },
+    {
+      "stage": 3,
+      "name": "Hellblade Duelist",
+      "feat": "Brimstone Flourish",
+      "text": "Your Blade Flourishes are on fire. Each Flourish deals an extra 2d8 fire or radiant damage, and you can use two Flourishes in one turn twice per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Wild Blade Duelist",
+      "feat": "Random Flourish",
+      "text": "When you use a Blade Flourish, roll 1d4 to apply a second Flourish for free: Defensive, Slashing, Mobile, or a random one dealing an extra 3d8 damage."
+    },
+    {
+      "stage": 5,
+      "name": "Deepblade Duelist",
+      "feat": "Abyssal Flourish",
+      "text": "Your Flourishes drag like deep water. Targets of your Flourishes take an extra 3d10 bludgeoning damage and have their speed reduced to 0 until the end of their next turn."
+    },
+    {
+      "stage": 6,
+      "name": "Heartblade Duelist",
+      "feat": "Living Steel",
+      "text": "Your blade is grown, not forged. Each time you deal Flourish damage, you regain hit points equal to half that damage, and your blade cannot be broken."
+    },
+    {
+      "stage": 7,
+      "name": "Starblade Duelist",
+      "feat": "Horizon Flourish",
+      "text": "Once per long rest, your blade strikes across 1 mile. For 1 minute, your weapon attacks can hit any creature you can see, regardless of range."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Blade Duelist",
+      "feat": "Soundless Cut",
+      "text": "Your cuts make no sound. Once per turn, a creature hit by your Flourish makes a Constitution save or loses its reaction and its spellcasting until the end of its next turn."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Blade Duelist",
+      "feat": "Unremembered Cut",
+      "text": "Once per long rest, make a cut so strange the target forgets being struck. Its hit point maximum is reduced by the damage dealt for 24 hours."
+    },
+    {
+      "stage": 10,
+      "name": "First Blade Duelist",
+      "feat": "First Cut",
+      "text": "Once per long rest, strike with the first blade for 1 minute. Every hit is a critical hit, and you make one extra attack each turn."
+    }
+  ],
+  "College of Valor": [
+    {
+      "stage": 2,
+      "name": "Fogbanner Skald",
+      "feat": "Mist Inspiration",
+      "text": "When an ally uses your Bardic Inspiration on an attack roll, they can also become invisible until the start of their next turn, cloaked in fog."
+    },
+    {
+      "stage": 3,
+      "name": "Heaven-and-Hell Skald",
+      "feat": "Battle Hymn",
+      "text": "Your Combat Inspiration burns. When an ally adds your Bardic Inspiration to damage, they also add 2d8 fire or radiant damage, and on a defense they gain the same as temporary hit points."
+    },
+    {
+      "stage": 4,
+      "name": "Rampant Skald",
+      "feat": "Wild Battle Song",
+      "text": "At the start of each of your turns, roll 1d4 to grant all allies within 30 feet one bonus: an extra attack, 3d8 temporary hit points, +10 feet speed, or advantage on saves."
+    },
+    {
+      "stage": 5,
+      "name": "Deepline Skald",
+      "feat": "Unbroken Line",
+      "text": "Your allies hold like a wall under the sea. Allies within 30 feet cannot be pushed, knocked prone, or frightened, and gain +1 AC while you are conscious."
+    },
+    {
+      "stage": 6,
+      "name": "Heartsong Skald",
+      "feat": "Rally of Ages",
+      "text": "Once per long rest, rally every ally within 120 feet. They regain hit points equal to 6d10 plus your Charisma modifier and end one condition affecting them."
+    },
+    {
+      "stage": 7,
+      "name": "Starbanner Skald",
+      "feat": "Banner Across Worlds",
+      "text": "Once per long rest, call allies from any distance on the same plane to your side. Up to 20 creatures teleport to you and gain 4d10 temporary hit points."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Skald",
+      "feat": "War Song of Nothing",
+      "text": "Your battle song steals courage. Hostile creatures within 60 feet have disadvantage on attacks and saves against fear while you sing, and lose their bonus actions on failed Wisdom saves."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Skald",
+      "feat": "Unremembered Heroes",
+      "text": "Once per long rest, call back fallen heroes the world forgot. Up to five spirits appear for 1 minute, each with your AC, 100 hit points, and an attack dealing 4d10 force damage."
+    },
+    {
+      "stage": 10,
+      "name": "First Skald",
+      "feat": "First War Song",
+      "text": "Once per long rest, sing the first battle song for 1 minute. Allies within 300 feet make one extra attack per turn and are immune to fear and charm."
+    }
+  ],
+  "College of Whispers": [
+    {
+      "stage": 2,
+      "name": "Fogwhisper Spy",
+      "feat": "Mist Mask",
+      "text": "You can wear the face of any creature you have seen within the last day. Your Mantle of Whispers lasts 24 hours and grants advantage on checks to pass as the creature."
+    },
+    {
+      "stage": 3,
+      "name": "Brimstone Whisperer",
+      "feat": "Damning Whisper",
+      "text": "Your Psychic Blades carry damnation. They deal an extra 2d8 fire or necrotic damage, and creatures hit make a Wisdom save or are frightened of you until the end of your next turn."
+    },
+    {
+      "stage": 4,
+      "name": "Rumor Whisperer",
+      "feat": "Spreading Doubt",
+      "text": "As an action, whisper a rumor that spreads through a crowd within 120 feet. Creatures make a Wisdom save or roll 1d4 for their behavior: attack an ally, flee, freeze, or betray their leader."
+    },
+    {
+      "stage": 5,
+      "name": "Deepwhisper Spy",
+      "feat": "Drowning Thoughts",
+      "text": "As an action, whisper a drowning fear into a creature within 60 feet. It makes a Wisdom save or takes 4d10 psychic damage each turn and is frightened, repeating the save each turn."
+    },
+    {
+      "stage": 6,
+      "name": "Heartwhisper Spy",
+      "feat": "Secret of the Heart",
+      "text": "Once per long rest, whisper a creature's deepest secret to it. It makes a Charisma save or becomes charmed by you for 24 hours and tells you anything it knows."
+    },
+    {
+      "stage": 7,
+      "name": "Starwhisper Spy",
+      "feat": "Whisper Across Worlds",
+      "text": "Once per long rest, whisper to any creature you know on any realm. It hears you as a trusted friend, and you can learn its location and plans."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Whisperer",
+      "feat": "Unspoken Fear",
+      "text": "Your whispers become silence that stings. Creatures within 30 feet who hear no other sound make a Wisdom save at the start of their turn or take 4d8 psychic damage."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Whisperer",
+      "feat": "Stolen Identity",
+      "text": "Once per long rest, steal a creature's identity entirely. On a failed Charisma save, it forgets who it is for 24 hours, and everyone else remembers you as it."
+    },
+    {
+      "stage": 10,
+      "name": "First Whisperer",
+      "feat": "First Secret",
+      "text": "Once per long rest, whisper the first secret of creation. Every hostile creature within 120 feet makes a Wisdom save or is stunned for 1 minute, knowing it is unworthy."
+    }
+  ],
+  "Warchanter": [
+    {
+      "stage": 2,
+      "name": "Fogdrum Warchanter",
+      "feat": "Mist March",
+      "text": "Your war drums roll out fog. Allies within 30 feet who can hear you are lightly obscured and gain 10 feet of speed, and enemies have disadvantage on attacks of opportunity against them."
+    },
+    {
+      "stage": 3,
+      "name": "Hellhymn Warchanter",
+      "feat": "Hymn of Fire and Choir",
+      "text": "Your battle hymn burns. Allies within 30 feet deal an extra 2d8 fire or radiant damage on their first hit each turn and are immune to fear while you chant."
+    },
+    {
+      "stage": 4,
+      "name": "Riot Warchanter",
+      "feat": "Song of Riot",
+      "text": "As a bonus action, change your war song randomly by rolling 1d4: all allies gain an extra attack, 3d8 temporary hit points, double speed, or resistance to all damage until your next turn."
+    },
+    {
+      "stage": 5,
+      "name": "Deepdrum Warchanter",
+      "feat": "Tide of War",
+      "text": "Your drums pound like the ocean. Hostile creatures within 60 feet make a Strength save at the start of their turn or are pushed 15 feet and take 3d10 thunder damage."
+    },
+    {
+      "stage": 6,
+      "name": "Heartdrum Warchanter",
+      "feat": "Pulse of the Army",
+      "text": "Your drums match the heartbeat of your army. Allies within 120 feet regain 2d10 hit points at the start of their turns and cannot drop below 1 hit point while you chant."
+    },
+    {
+      "stage": 7,
+      "name": "Starmarch Warchanter",
+      "feat": "March Across Worlds",
+      "text": "Once per long rest, march an army across any distance on the same plane. You and up to 100 allies travel in 1 hour, arriving with 4d10 temporary hit points."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Warchanter",
+      "feat": "Drumbeat of Nothing",
+      "text": "Your silence is louder than any drum. While you chant, hostile creatures within 60 feet cannot speak or communicate telepathically, and each must make a Wisdom save at the start of its turn or lose its reaction."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Warchanter",
+      "feat": "War Song Unremembered",
+      "text": "Once per long rest, sing a war song from a forgotten age. For 1 minute, allies within 120 feet gain one extra weapon attack each turn, and their attacks ignore resistance to damage while they can hear you."
+    },
+    {
+      "stage": 10,
+      "name": "First Warchanter",
+      "feat": "First Battle Cry",
+      "text": "Once per long rest, shout the first battle cry of the world. Allies within 1 mile gain advantage on attacks and saves for 1 hour, and hostile creatures within 300 feet are frightened."
+    }
+  ]
+}

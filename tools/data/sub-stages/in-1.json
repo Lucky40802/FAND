@@ -1,0 +1,348 @@
+[
+ {
+  "class": "Artificer",
+  "ladder": [
+   {
+    "stage": 2,
+    "level": 11,
+    "realm": "Mysterious",
+    "classChange": "Mirrorwright",
+    "classBlurb": "The Artificer learns to build with fog and reflection, making devices that exist in two places or show what is hidden."
+   },
+   {
+    "stage": 3,
+    "level": 21,
+    "realm": "Hell and Heaven",
+    "classChange": "Hellbrass Patentee",
+    "classBlurb": "The Artificer files patents with devils and angels, building engines powered by signed contracts and sung hymns."
+   },
+   {
+    "stage": 4,
+    "level": 31,
+    "realm": "Chaos",
+    "classChange": "Clockwork Anarch",
+    "classBlurb": "The Artificer's machines stop following plans and start improvising, rebuilding themselves mid-battle into whatever is needed."
+   },
+   {
+    "stage": 5,
+    "level": 41,
+    "realm": "Abyss",
+    "classChange": "Deep-Hull Wright",
+    "classBlurb": "The Artificer builds for crushing depth and darkness, crafting armour and vessels nothing below can break."
+   },
+   {
+    "stage": 6,
+    "level": 51,
+    "realm": "Inner Realm",
+    "classChange": "Heartgear Grafter",
+    "classBlurb": "The Artificer's machines become half alive, grown rather than built, with gears that heal and remember."
+   },
+   {
+    "stage": 7,
+    "level": 61,
+    "realm": "Outer Realm",
+    "classChange": "Starward Shipwright",
+    "classBlurb": "The Artificer builds vessels that sail between strange stars and wide horizons, carrying whole armies across realms."
+   },
+   {
+    "stage": 8,
+    "level": 71,
+    "realm": "Void",
+    "classChange": "Nullframe Maker",
+    "classBlurb": "The Artificer learns to build with absence itself, making devices with no weight, no sound and no way to be stopped."
+   },
+   {
+    "stage": 9,
+    "level": 81,
+    "realm": "Inner Void",
+    "classChange": "Forgotten Inventor",
+    "classBlurb": "The Artificer builds devices so strange that the world forgets them as soon as they leave, yet they keep working."
+   },
+   {
+    "stage": 10,
+    "level": 91,
+    "realm": "Primordial",
+    "classChange": "Prime Artisan",
+    "classBlurb": "The Artificer works raw Law like clay, building tools that shape the first stuff of the world. Still mortal, but their works outlast gods."
+   }
+  ],
+  "subclasses": [
+   {
+    "n": "Aether Engineer",
+    "ds": "A tinkerer who trades grounded machinery for lift and drift, gaining a stored charge that powers hover and flight tricks other Artificers can't."
+   },
+   {
+    "n": "Alchemist",
+    "ds": "Artificers who create potions and reagents through experimental science. (Tasha's Cauldron of Everything)"
+   },
+   {
+    "n": "Armorer",
+    "ds": "Artificers who build a magical suit of armor and fight in it. (Tasha's Cauldron of Everything)"
+   },
+   {
+    "n": "Artillerist",
+    "ds": "Artificers who deploy magical cannons. (Tasha's Cauldron of Everything)"
+   },
+   {
+    "n": "Battle Smith",
+    "ds": "Artificers who fight alongside a steel defender. (Tasha's Cauldron of Everything)"
+   },
+   {
+    "n": "Plague Doctor",
+    "ds": "An artificer who weaponises disease and infection, turning biological processes into armaments."
+   },
+   {
+    "n": "Runesmith",
+    "ds": "An artificer who etches power into gear rather than building it in, granting temporary magical properties to weapons and armor."
+   },
+   {
+    "n": "Soul Mechanist",
+    "ds": "An artificer who powers constructs with captured fragments of spirit rather than raw mechanism."
+   }
+  ]
+ },
+ {
+  "class": "Barbarian",
+  "ladder": [
+   {
+    "stage": 2,
+    "level": 11,
+    "realm": "Mysterious",
+    "classChange": "Mistfang Marauder",
+    "classBlurb": "The Barbarian's rage rolls out like fog, hiding them and confusing every enemy that hears their roar."
+   },
+   {
+    "stage": 3,
+    "level": 21,
+    "realm": "Hell and Heaven",
+    "classChange": "Brimstone Juggernaut",
+    "classBlurb": "The Barbarian's rage becomes holy and hellish fire at once, burning the body forward through any wound."
+   },
+   {
+    "stage": 4,
+    "level": 31,
+    "realm": "Chaos",
+    "classChange": "Wildstorm Rampager",
+    "classBlurb": "The Barbarian's fury breaks the rules of the world, warping the ground and tossing enemies wherever it likes."
+   },
+   {
+    "stage": 5,
+    "level": 41,
+    "realm": "Abyss",
+    "classChange": "Trench-Leviathan",
+    "classBlurb": "The Barbarian grows vast and heavy like a creature from the deep, rage as crushing as the bottom of the sea."
+   },
+   {
+    "stage": 6,
+    "level": 51,
+    "realm": "Inner Realm",
+    "classChange": "Elder-Ring Colossus",
+    "classBlurb": "The Barbarian draws on the rage of every ancestor in their blood, each ring of their life adding another body's strength."
+   },
+   {
+    "stage": 7,
+    "level": 61,
+    "realm": "Outer Realm",
+    "classChange": "Skybreaker Behemoth",
+    "classBlurb": "The Barbarian becomes a giant of far horizons, leaping across battlefields and shattering mountains under strange stars."
+   },
+   {
+    "stage": 8,
+    "level": 71,
+    "realm": "Void",
+    "classChange": "Hollow-Roar Destroyer",
+    "classBlurb": "The Barbarian's rage empties them of fear, pain and hesitation until only the act of destruction remains."
+   },
+   {
+    "stage": 9,
+    "level": 81,
+    "realm": "Inner Void",
+    "classChange": "Nameless Fury",
+    "classBlurb": "The Barbarian becomes rage that the world can no longer remember, striking from places foes forgot to watch."
+   },
+   {
+    "stage": 10,
+    "level": 91,
+    "realm": "Primordial",
+    "classChange": "First Wrath Incarnate",
+    "classBlurb": "The Barbarian embodies the first anger of the world, the rage of storms and earthquakes before anything had a name."
+   }
+  ],
+  "subclasses": [
+   {
+    "n": "Blood Titan",
+    "ds": "A barbarian who grows and hardens by spending their own blood, trading hit points for damage resistance and raw size."
+   },
+   {
+    "n": "Path of Ruin",
+    "ds": "A barbarian who rages to destroy, not just to fight, leaving wrecked terrain and prone enemies in their wake."
+   },
+   {
+    "n": "Path of Wild Magic",
+    "ds": "Barbarians whose rage leaks raw, unpredictable magic. (Tasha's Cauldron of Everything)"
+   },
+   {
+    "n": "Path of the Ancestral Guardian",
+    "ds": "Barbarians who call on the spirits of their ancestors to shield their allies. (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "Path of the Battlerager",
+    "ds": "Armored brawlers who fight in spiked armor. (Originally dwarf-only in the book; many tables drop that restriction.) (Sword Coast Adventurer's Guide)"
+   },
+   {
+    "n": "Path of the Beast",
+    "ds": "Barbarians whose rage reveals a bestial form within. (Tasha's Cauldron of Everything)"
+   },
+   {
+    "n": "Path of the Berserker",
+    "ds": "The simplest, most violent barbarian path — rage turned into more damage and more attacks, at the cost of vulnerability once it ends."
+   },
+   {
+    "n": "Path of the Giant",
+    "ds": "Barbarians who draw on the might of giants. (Bigby Presents: Glory of the Giants)"
+   },
+   {
+    "n": "Path of the Storm Herald",
+    "ds": "A barbarian whose rage summons a storm aura — this vault leans on the Sea variant. (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "Path of the Totem Warrior",
+    "ds": "A barbarian who channels an animal spirit — bear, eagle, or wolf — into their rage. (Player's Handbook)"
+   },
+   {
+    "n": "Path of the World Tree",
+    "ds": "Barbarians who draw on the cosmic tree whose roots and branches connect the realms. (Player's Handbook (2024))"
+   },
+   {
+    "n": "Path of the Zealot",
+    "ds": "A barbarian whose rage is religious fervor, empowered by a god and hard to put down. (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "Storm Reaver",
+    "ds": "A barbarian whose rage calls down lightning rather than just muscle, arcing bolts to nearby foes mid-swing."
+   }
+  ]
+ },
+ {
+  "class": "Bard",
+  "ladder": [
+   {
+    "stage": 2,
+    "level": 11,
+    "realm": "Mysterious",
+    "classChange": "Fogsong Minstrel",
+    "classBlurb": "The Bard learns songs that lead listeners astray, weaving mist and false paths with every verse."
+   },
+   {
+    "stage": 3,
+    "level": 21,
+    "realm": "Hell and Heaven",
+    "classChange": "Choir-and-Ember Herald",
+    "classBlurb": "The Bard sings in both the infernal and heavenly tongues, a voice that can bargain with devils and stir angels."
+   },
+   {
+    "stage": 4,
+    "level": 31,
+    "realm": "Chaos",
+    "classChange": "Discord Maestro",
+    "classBlurb": "The Bard's music turns wild, a symphony that can scramble enemy minds and the battlefield itself."
+   },
+   {
+    "stage": 5,
+    "level": 41,
+    "realm": "Abyss",
+    "classChange": "Deepecho Cantor",
+    "classBlurb": "The Bard sings so low the deep answers, songs that echo up from the dark and bring the fear of drowning."
+   },
+   {
+    "stage": 6,
+    "level": 51,
+    "realm": "Inner Realm",
+    "classChange": "Heartring Chronicler",
+    "classBlurb": "The Bard learns the songs of memory, singing ages back into being and making the past answer for itself."
+   },
+   {
+    "stage": 7,
+    "level": 61,
+    "realm": "Outer Realm",
+    "classChange": "Starfield Troubadour",
+    "classBlurb": "The Bard sings to far horizons, songs that travel across worlds and bring allies from impossible distances."
+   },
+   {
+    "stage": 8,
+    "level": 71,
+    "realm": "Void",
+    "classChange": "Silence-Singer",
+    "classBlurb": "The Bard learns the song of nothing, music made of pauses that steals the power of anything it touches."
+   },
+   {
+    "stage": 9,
+    "level": 81,
+    "realm": "Inner Void",
+    "classChange": "Lost-Verse Skald",
+    "classBlurb": "The Bard sings songs that erase themselves, leaving listeners changed without knowing why."
+   },
+   {
+    "stage": 10,
+    "level": 91,
+    "realm": "Primordial",
+    "classChange": "Voice of the First Song",
+    "classBlurb": "The Bard sings the song the world was shaped to, a mortal voice that can still move the old Laws."
+   }
+  ],
+  "subclasses": [
+   {
+    "n": "College of Ash",
+    "ds": "A bard who performs funeral rites and battlefield dirges, steadying allies while unsettling the dying."
+   },
+   {
+    "n": "College of Creation",
+    "ds": "Bards who channel the song that shaped the world. (Tasha's Cauldron of Everything)"
+   },
+   {
+    "n": "College of Dance",
+    "ds": "Bards whose performance is movement: dancers who fight as they perform. (Player's Handbook (2024))"
+   },
+   {
+    "n": "College of Dreams",
+    "ds": "A bard who plays on sleep and dream rather than waking emotion, drowsing enemies and walking into their nightmares."
+   },
+   {
+    "n": "College of Echoing Chants",
+    "ds": "A bard whose magic repeats and layers rather than striking once, echoing spells onto second targets."
+   },
+   {
+    "n": "College of Eloquence",
+    "ds": "Masters of oratory and persuasion. (Tasha's Cauldron of Everything)"
+   },
+   {
+    "n": "College of Glamour",
+    "ds": "Bards who wield fey enchantment — beauty, charm, and command. (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "College of Lore",
+    "ds": "A bard who collects secrets and knowledge rather than fighting spirit — versatile magic and social utility over any single trick."
+   },
+   {
+    "n": "College of Spirits",
+    "ds": "Storytellers who channel spirits through their tales. (Van Richten's Guide to Ravenloft)"
+   },
+   {
+    "n": "College of Swords",
+    "ds": "Blade-dancing performers who fight as they entertain. (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "College of Valor",
+    "ds": "Battle-poets who inspire allies from the front lines. (Player's Handbook)"
+   },
+   {
+    "n": "College of Whispers",
+    "ds": "Bards who trade in fear, secrets, and stolen identities. (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "Warchanter",
+    "ds": "A bard who specialises in the music of war — battle hymns, war drums, and the songs that drive armies forward."
+   }
+  ]
+ }
+]

@@ -1,0 +1,954 @@
+{
+  "Astromancer": [
+    {
+      "stage": 2,
+      "name": "Mistveiled Stargazer",
+      "feat": "Fogbound Constellation",
+      "text": "As a bonus action, you trace a hidden constellation in the air for 1 minute. Creatures of your choice within 30 feet of it are heavily obscured to enemies, and your spells that target them gain +1 to their spell save DC. Once per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Choir-Star Astrologer",
+      "feat": "Judgement Comet",
+      "text": "When you cast a spell of 1st level or higher, you can call down a burning comet on a point within 120 feet. Each creature in a 15-foot radius makes a Dexterity save, taking 4d10 radiant damage on a failure, half on success. Proficiency bonus uses per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Wandering-Star Magus",
+      "feat": "Shifting Zodiac",
+      "text": "At the start of each of your turns, roll a d6 to align a random sign: on 1-2 you gain +10 feet speed, on 3-4 your spell damage rolls gain +1d8, on 5-6 you regain a 1st-level slot (once per long rest)."
+    },
+    {
+      "stage": 5,
+      "name": "Drowned-Star Seer",
+      "feat": "Sunken Starfall",
+      "text": "As an action, you drag a dead star's weight onto a 20-foot radius within 150 feet. Creatures there make a Strength save or take 6d10 force damage and are knocked prone and restrained until the end of your next turn. Recharge 5-6."
+    },
+    {
+      "stage": 6,
+      "name": "Heartstar Astronomer",
+      "feat": "Living Orrery",
+      "text": "You maintain an orbiting orrery of three living stars. As a reaction when you or an ally within 60 feet is hit, spend a star to reduce the damage by 3d10 plus your Intelligence modifier. Stars regrow on a short or long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Horizon Cosmographer",
+      "feat": "Starlane Step",
+      "text": "Your teleportation spells reach any point you can see in the sky or horizon, up to 1 mile. Once per long rest, you and up to eight willing creatures can step through a starlane to any place you have seen within 1,000 miles."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow-Sky Astromancer",
+      "feat": "Dark Between Stars",
+      "text": "As an action, you open a 30-foot sphere of starless space within 120 feet for 1 minute. Enemies inside cannot hear, take 4d12 cold damage at the start of their turns, and have disadvantage on concentration saves. Once per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Collapsed-Star Oracle",
+      "feat": "Singularity Seed",
+      "text": "As an action, plant a collapsing star at a point within 300 feet. Each creature within 40 feet makes a Strength save or takes 10d10 force damage and is pulled to the center, restrained until it succeeds a save at turn end. Once per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "Firstlight Cosmogonist",
+      "feat": "Ignite a Star",
+      "text": "Once per long rest, you kindle a new star above a 1-mile area for 1 hour. Allies there regain 20 hit points each turn and have advantage on saves; enemies make a Constitution save each turn or take 10d12 radiant damage."
+    }
+  ],
+  "Bladesinging": [
+    {
+      "stage": 2,
+      "name": "Mistdance Bladesinger",
+      "feat": "Veiled Edge Dance",
+      "text": "While your spell-dance is active, you are lightly obscured to creatures more than 10 feet away, and the first creature you hit with a weapon each turn must make a Wisdom save or be unable to see you until your next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Hymnblade Duelist",
+      "feat": "Sworn Cadence",
+      "text": "When you hit with a melee weapon attack, you can expend a spell slot to seal an oath on the target. For 1 minute, it takes 2d8 radiant or fire damage (your choice) whenever it attacks a creature other than you. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Wildstep Spellblade",
+      "feat": "Erratic Flourish",
+      "text": "When you take the Attack action, you can swap any one attack for a cantrip, and after each hit you may teleport up to 15 feet to an unoccupied space you can see. Your movement does not provoke opportunity attacks."
+    },
+    {
+      "stage": 5,
+      "name": "Undertow Bladesinger",
+      "feat": "Pressure Riposte",
+      "text": "When a creature misses you with a melee attack, you can use your reaction to strike back with crushing weight. Make a weapon attack; on a hit it deals an extra 4d8 force damage and the target makes a Strength save or is knocked prone."
+    },
+    {
+      "stage": 6,
+      "name": "Heartsong Duelist",
+      "feat": "Living Melody",
+      "text": "While your dance is active, you regain hit points equal to your Intelligence modifier at the start of each turn, and you can cast a spell of 5th level or lower as a bonus action once per turn. Proficiency bonus uses per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Horizon-Arc Spellblade",
+      "feat": "Long Horizon Cut",
+      "text": "Your melee weapon attacks can reach any creature within 60 feet that you can see, the blade flashing across the distance as a line of starlight. Once per turn, a hit with such an attack deals an extra 3d10 radiant damage."
+    },
+    {
+      "stage": 8,
+      "name": "Silentstep Bladesinger",
+      "feat": "Soundless Cut",
+      "text": "When you hit a creature with a weapon attack, it makes a Constitution save or is silenced and cannot cast spells with verbal components until the end of your next turn. On a failure it also takes 6d8 necrotic damage."
+    },
+    {
+      "stage": 9,
+      "name": "Fold-Edge Duelist",
+      "feat": "Forgotten Strike",
+      "text": "Once per round, when a creature hits you, you can use your reaction to fold the moment away: the attack is forgotten and misses, and you make one weapon attack against the attacker with advantage. Proficiency bonus uses per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Song Swordmage",
+      "feat": "Song of Making",
+      "text": "Once per long rest, for 1 minute your dance becomes a primal song. You make three weapon attacks per Attack action, each hit deals an extra 6d10 force damage, and you have advantage on all saving throws."
+    }
+  ],
+  "Chronomancer": [
+    {
+      "stage": 2,
+      "name": "Hazed-Hour Chronomancer",
+      "feat": "Blurred Moment",
+      "text": "As a reaction when a creature within 60 feet makes an attack roll or saving throw, you nudge the moment into fog: it rerolls and must use the result you choose. Intelligence modifier uses per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Ledger-Hour Notary",
+      "feat": "Borrowed Time Debt",
+      "text": "As a bonus action, you take an extra action this turn, recording a debt. At the start of your next turn you lose your bonus action and take 2d10 psychic damage that cannot be reduced. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Skewed-Hour Mage",
+      "feat": "Scrambled Initiative",
+      "text": "As an action, choose up to six creatures within 60 feet. Each makes a Wisdom save or has its initiative rerolled and swapped with a creature of your choice for 1 minute. Once per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Hour Chronomancer",
+      "feat": "Sunken Second",
+      "text": "When a creature within 90 feet starts its turn, you can use your reaction to drag its time down. It makes a Constitution save or its speed is halved, it cannot take reactions, and it loses its bonus action until its next turn."
+    },
+    {
+      "stage": 6,
+      "name": "Ringtime Chronomancer",
+      "feat": "Recurring Spell",
+      "text": "When you cast a spell of 6th level or lower, you can mark it. At the start of your next turn, it is cast again for free with the same choices, without using a slot. Twice per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Far-Hour Chronomancer",
+      "feat": "Distant Dawn",
+      "text": "Once per long rest, you send yourself and up to five willing creatures forward up to 1 hour, vanishing and reappearing in the same spaces. When you return, each of you regains half your hit points and one expended spell slot of 5th level or lower."
+    },
+    {
+      "stage": 8,
+      "name": "Stilled-Hour Chronomancer",
+      "feat": "Pause of Nothing",
+      "text": "As an action, stop time around one creature within 60 feet. It makes a Wisdom save or is incapacitated and cannot be targeted or damaged for 2 rounds, frozen outside time. Allies can choose to be affected without a save. Recharge 5-6."
+    },
+    {
+      "stage": 9,
+      "name": "Unwound-Hour Chronomancer",
+      "feat": "Erase the Last Round",
+      "text": "Once per long rest, at the end of a round, you can unwind it. Every creature you choose within 120 feet returns to its position, hit points, and conditions from the start of that round."
+    },
+    {
+      "stage": 10,
+      "name": "First-Hour Chronomancer",
+      "feat": "Tick of Creation",
+      "text": "Once per long rest, you rewind your own existence to the dawn of the day: regain all hit points and spell slots of 8th level or lower, and gain three extra turns this combat, taken immediately after your own."
+    }
+  ],
+  "Chronurgy Magic": [
+    {
+      "stage": 2,
+      "name": "Fogclock Chronurgist",
+      "feat": "Clouded Convergence",
+      "text": "When you use a time-altering reroll or swap, you can also make the target unable to see beyond 10 feet until the end of its next turn, its sense of time wrapped in fog. Proficiency bonus uses per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Sealed-Hour Chronurgist",
+      "feat": "Chronal Contract",
+      "text": "You can hold a spell of 4th level or lower in a sealed bead. A creature carrying the bead can break it as an action to release the spell. You can keep two beads at once, recharging on a long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Wildclock Chronurgist",
+      "feat": "Unstable Moment",
+      "text": "When an enemy within 60 feet rolls initiative or a d20, you can force it to roll a d4 and subtract the result. When an ally does, they can add a d4 instead. Intelligence modifier uses per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Depthclock Chronurgist",
+      "feat": "Crushing Aeon",
+      "text": "As an action, a creature within 60 feet ages under the weight of the deep. It makes a Constitution save or takes 6d10 necrotic damage and its speed becomes 0 until the end of your next turn. Recharge 5-6."
+    },
+    {
+      "stage": 6,
+      "name": "Ringclock Chronurgist",
+      "feat": "Arrested Growth",
+      "text": "As an action, you suspend a creature within 60 feet in a ring of stalled time. It makes a Wisdom save or is incapacitated for 1 minute, saving again each turn. Your spells cast on it in that time are stored and land when it ends."
+    },
+    {
+      "stage": 7,
+      "name": "Starclock Chronurgist",
+      "feat": "Horizon Echo",
+      "text": "When you cast a spell of 7th level or lower, you can echo it 1 round later from a point up to 1 mile away that you can see. The echo uses the same slot. Once per long rest."
+    },
+    {
+      "stage": 8,
+      "name": "Nullclock Chronurgist",
+      "feat": "Moment Unmade",
+      "text": "As a reaction when you take damage, you remove that moment from time and take none of it. Then the attacker makes a Constitution save or loses its next turn. Proficiency bonus uses per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Foldclock Chronurgist",
+      "feat": "Collapsed Timeline",
+      "text": "Once per long rest, choose a creature within 120 feet. It makes a Wisdom save or relives its last 3 rounds in an inward loop, incapacitated for 3 rounds and taking 8d10 psychic damage at the end of each."
+    },
+    {
+      "stage": 10,
+      "name": "Firstclock Chronurgist",
+      "feat": "Clock of Origins",
+      "text": "Once per long rest, you set a first clock for 1 minute. You and allies within 60 feet take two turns per round, and enemies within the area make a Wisdom save each round or take only one action, nothing else."
+    }
+  ],
+  "Graviturgy Magic": [
+    {
+      "stage": 2,
+      "name": "Driftfog Graviturgist",
+      "feat": "Weightless Veil",
+      "text": "As a bonus action, you make up to five creatures within 30 feet weightless and fog-blurred for 1 minute. Willing ones gain a flying speed of 30 feet and attacks against them have disadvantage. Once per short rest."
+    },
+    {
+      "stage": 3,
+      "name": "Scalebearer Graviturgist",
+      "feat": "Weight of Judgement",
+      "text": "As an action, choose a creature within 60 feet. It makes a Charisma save or its weight multiplies, reducing its speed to 0, giving it disadvantage on Dexterity saves, and dealing 4d8 force damage. Lasts 1 minute, saves each turn."
+    },
+    {
+      "stage": 4,
+      "name": "Tumbling Graviturgist",
+      "feat": "Wild Pull",
+      "text": "As an action, you randomize gravity in a 30-foot cube within 120 feet for 1 minute. Each turn a creature in the area is pulled 20 feet in a direction you choose, taking 3d8 bludgeoning damage if it strikes a surface."
+    },
+    {
+      "stage": 5,
+      "name": "Fathomweight Graviturgist",
+      "feat": "Abyssal Pressure",
+      "text": "As an action, you press the weight of the deep on a 20-foot radius within 120 feet. Creatures there make a Strength save or take 8d8 force damage and are knocked prone; Large or smaller ones are also restrained until your next turn."
+    },
+    {
+      "stage": 6,
+      "name": "Corepull Graviturgist",
+      "feat": "Heart of Mass",
+      "text": "You become a living center of gravity. As a bonus action, pull every creature of your choice within 60 feet up to 30 feet toward you, or push them 30 feet away. Hostile creatures can make a Strength save to resist."
+    },
+    {
+      "stage": 7,
+      "name": "Orbitbound Graviturgist",
+      "feat": "Captured Orbit",
+      "text": "As an action, place a creature within 120 feet into orbit around you for 1 minute. It makes a Strength save or is held 30 feet above you, restrained, and cannot reach the ground. Once per long rest."
+    },
+    {
+      "stage": 8,
+      "name": "Weightless-Null Graviturgist",
+      "feat": "Zero Gravity Zone",
+      "text": "As an action, you create a 60-foot sphere with no gravity for 1 minute. Enemies inside have their speed reduced to 0 unless they can fly, and ranged attacks against them have advantage. Once per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Event-Horizon Graviturgist",
+      "feat": "Collapse Point",
+      "text": "Once per long rest, create a point of collapse within 300 feet. Each creature within 60 feet makes a Strength save or takes 10d10 force damage and is pulled to the point; a creature reduced to 0 hit points is crushed out of existence."
+    },
+    {
+      "stage": 10,
+      "name": "Primeweight Graviturgist",
+      "feat": "First Mass",
+      "text": "Once per long rest, you set the weight of everything in a 1-mile radius for 1 hour. You choose each creature's weight: allies can fly at double speed, and enemies make a Strength save each turn or are restrained."
+    }
+  ],
+  "Order of Scribes": [
+    {
+      "stage": 2,
+      "name": "Mistpage Scribe",
+      "feat": "Veiled Manuscript",
+      "text": "Your awakened spellbook can manifest as a fog-wrapped page within 60 feet. You can cast spells from its location, and it can turn invisible as a bonus action. Spells cast through it gain +1 to their save DC."
+    },
+    {
+      "stage": 3,
+      "name": "Sealwright Scribe",
+      "feat": "Binding Clause",
+      "text": "When you cast a spell that forces a save, you can append a clause. A creature that fails is also bound by one condition you write (charmed, frightened, or restrained) until the end of your next turn. Proficiency bonus uses per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Scrawling Scribe",
+      "feat": "Rewritten Element",
+      "text": "When you cast a damaging spell, your awakened book can rewrite its damage type to any type, and you roll 2d6 to add a random extra effect: on 2-6 push 10 feet, 7-12 extra 2d8 damage. Unlimited."
+    },
+    {
+      "stage": 5,
+      "name": "Deepink Scribe",
+      "feat": "Pressure Ink",
+      "text": "Spells you cast through your book press with abyssal ink. A creature that fails a save against one has its speed halved and takes an extra 3d8 force damage. Once per turn."
+    },
+    {
+      "stage": 6,
+      "name": "Living-Leaf Scribe",
+      "feat": "Book That Grows",
+      "text": "Your spellbook grows new leaves. Once per long rest, it writes a new spell of 7th level or lower from any wizard list into itself, which you can cast once without a slot. It also gains its own hit points equal to your wizard level."
+    },
+    {
+      "stage": 7,
+      "name": "Starchart Scribe",
+      "feat": "Atlas Pages",
+      "text": "Your book can tear out a page that becomes a portal to any location written in it. Once per long rest, you can open a door for 1 minute to any place you have recorded, up to any distance on the same plane."
+    },
+    {
+      "stage": 8,
+      "name": "Blankpage Scribe",
+      "feat": "Erasure Clause",
+      "text": "As an action, you write a creature's name on a blank page and erase it. The creature within 60 feet makes a Wisdom save or loses one of its spells or special abilities of your choice for 1 minute. Once per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Lostword Scribe",
+      "feat": "Forgotten Chapter",
+      "text": "Your book holds a chapter the world forgot. Once per long rest, you cast any spell of 9th level or lower from any class list, and creatures that fail a save against it forget that the spell was cast."
+    },
+    {
+      "stage": 10,
+      "name": "Firstword Scribe",
+      "feat": "The Opening Line",
+      "text": "Once per long rest, you write one sentence of first Law into your book. For 1 hour, a single rule of your choice holds within 1 mile, such as fire cannot burn or no creature can fly, as long as it targets no single creature."
+    }
+  ],
+  "Rune Sage": [
+    {
+      "stage": 2,
+      "name": "Fogrune Sage",
+      "feat": "Hidden Glyph",
+      "text": "You can inscribe a rune that is invisible to all but you. When a creature you choose comes within 10 feet of it, it triggers a stored spell of 3rd level or lower. You can have two hidden glyphs at once."
+    },
+    {
+      "stage": 3,
+      "name": "Sealrune Sage",
+      "feat": "Covenant Rune",
+      "text": "As an action, you carve a binding rune on a creature within 30 feet. It makes a Charisma save or cannot willingly move more than 30 feet from the rune for 1 minute, taking 3d10 fire damage if it tries."
+    },
+    {
+      "stage": 4,
+      "name": "Shiftrune Sage",
+      "feat": "Rearranged Runes",
+      "text": "When you finish a short rest, you can reorder your inscribed runes, swapping a prepared spell for another wizard spell of equal level and recovering one expended slot of 4th level or lower."
+    },
+    {
+      "stage": 5,
+      "name": "Deeprune Sage",
+      "feat": "Anchor Rune",
+      "text": "You carve a heavy rune into the ground within 60 feet. Enemies within 20 feet of it make a Strength save when they enter or start there, or their speed becomes 0 and they take 4d8 force damage. Lasts 1 minute, once per short rest."
+    },
+    {
+      "stage": 6,
+      "name": "Ringrune Sage",
+      "feat": "Rune of Ages",
+      "text": "Your runes grow like tree rings. Each rune you inscribe stores one expended spell slot of 6th level or lower, and you can recall it as a bonus action. You can hold three such runes, recharging on a long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Starrune Sage",
+      "feat": "Constellation Script",
+      "text": "You can inscribe runes onto stars and the far horizon. Once per long rest, a rune you carved can cast a stored spell of 7th level or lower at any target you can see within 1 mile."
+    },
+    {
+      "stage": 8,
+      "name": "Nullrune Sage",
+      "feat": "Rune of Silence",
+      "text": "As an action, you trace a rune that erases magic in a 30-foot radius within 120 feet. Spells of 7th level or lower there end, and creatures cannot cast spells there for 1 minute. Once per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Lostrune Sage",
+      "feat": "Forgotten Alphabet",
+      "text": "You learn runes the world erased. Once per long rest, you inscribe a rune that recalls every spell slot you expended this combat, up to a combined total of 15 levels."
+    },
+    {
+      "stage": 10,
+      "name": "Firstrune Sage",
+      "feat": "Primordial Rune",
+      "text": "Once per long rest, you carve a rune of first Law that lasts 24 hours. Within 300 feet, you choose one: spells cannot be cast by enemies, allies regain a spell slot each round, or all damage you deal is doubled."
+    }
+  ],
+  "School of Abjuration (Wizard)": [
+    {
+      "stage": 2,
+      "name": "Veilward Abjurer",
+      "feat": "Mirror Ward",
+      "text": "When your arcane ward absorbs damage from a spell, you can reflect a misty copy back. The caster makes a Wisdom save or takes half the absorbed damage as psychic damage. Proficiency bonus uses per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Choirward Abjurer",
+      "feat": "Sanctified Ward",
+      "text": "Your arcane ward gains extra hit points equal to twice your Intelligence modifier. While it has hit points, you and allies within 10 feet have resistance to fire and radiant damage."
+    },
+    {
+      "stage": 4,
+      "name": "Wildward Abjurer",
+      "feat": "Shifting Ward",
+      "text": "When your ward is hit, roll a d6. On 1-2 it gains 2d10 hit points, on 3-4 the attacker takes 2d10 force damage, on 5-6 you gain +2 AC until your next turn."
+    },
+    {
+      "stage": 5,
+      "name": "Fathomward Abjurer",
+      "feat": "Pressure Barrier",
+      "text": "As an action, you raise a 20-foot radius dome of compressed water and force for 1 minute. Ranged attacks entering it have disadvantage, and hostile creatures entering it make a Strength save or are pushed out. Once per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Heartward Abjurer",
+      "feat": "Living Ward",
+      "text": "Your arcane ward regenerates 10 hit points at the start of each of your turns, and you can extend it to cover up to three allies within 30 feet, splitting its hit points among them."
+    },
+    {
+      "stage": 7,
+      "name": "Horizonward Abjurer",
+      "feat": "Distant Bulwark",
+      "text": "You can cast abjuration spells of 7th level or lower on any willing creature you can see within 1 mile, and once per turn you can use your reaction to absorb an attack on such a creature with your ward."
+    },
+    {
+      "stage": 8,
+      "name": "Nullward Abjurer",
+      "feat": "Absence Shield",
+      "text": "As a reaction when you are targeted by a spell of 8th level or lower, you can erase it. The spell has no effect on you and the slot is lost. Twice per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Foldward Abjurer",
+      "feat": "Inward Seal",
+      "text": "Once per long rest, you seal yourself and up to five allies within 30 feet inside a folded ward for 1 minute. You are immune to damage from creatures outside the ward, though you can still act normally."
+    },
+    {
+      "stage": 10,
+      "name": "Firstward Abjurer",
+      "feat": "Law of Protection",
+      "text": "Once per long rest, you write a first Law of warding for 1 minute. You and allies within 120 feet cannot be reduced below 1 hit point, and your arcane ward recovers fully at the start of each of your turns."
+    }
+  ],
+  "School of Conjuration (Wizard)": [
+    {
+      "stage": 2,
+      "name": "Fogcall Conjurer",
+      "feat": "Phantom Summons",
+      "text": "When you conjure a creature or object, you can wrap it in fog, making it invisible until it attacks or acts. A summoned creature that attacks from invisibility deals an extra 2d6 damage once per turn."
+    },
+    {
+      "stage": 3,
+      "name": "Pactcall Conjurer",
+      "feat": "Bound Servant",
+      "text": "Creatures you conjure are bound by contract: they cannot be charmed or turned against you, and they gain extra hit points equal to your wizard level. Once per long rest, summon a celestial or fiend of CR 10 or lower for 1 hour."
+    },
+    {
+      "stage": 4,
+      "name": "Chaoscall Conjurer",
+      "feat": "Random Arrival",
+      "text": "When you cast a conjuration spell, roll a d4. On a 1-2 you summon an extra creature of the same kind, on a 3 your summoned creatures gain +10 feet speed, and on a 4 you regain the spell slot."
+    },
+    {
+      "stage": 5,
+      "name": "Deepcall Conjurer",
+      "feat": "Summoned Tide",
+      "text": "As an action, you conjure a crushing wave in a 60-foot line. Creatures in the line make a Strength save or take 6d8 bludgeoning damage and are pushed 20 feet and knocked prone. Recharge 5-6."
+    },
+    {
+      "stage": 6,
+      "name": "Heartcall Conjurer",
+      "feat": "Grown Familiars",
+      "text": "Creatures you summon grow stronger the longer they remain. At the start of each of your turns, each summoned creature gains 10 temporary hit points and +1d6 damage on its attacks, up to +3d6."
+    },
+    {
+      "stage": 7,
+      "name": "Farcall Conjurer",
+      "feat": "Summoning From Afar",
+      "text": "You can conjure creatures and objects from any place you have seen, across any distance on the same plane. Once per long rest, you can call up to ten willing creatures to your side from anywhere."
+    },
+    {
+      "stage": 8,
+      "name": "Nullcall Conjurer",
+      "feat": "Banishing Swap",
+      "text": "As an action, you swap places between a creature within 120 feet and nothingness. It makes a Charisma save or is banished to an empty void for 1 minute, saving again each turn. Once per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Foldcall Conjurer",
+      "feat": "Remembered Summon",
+      "text": "Once per long rest, you call back any creature you have ever summoned, at full strength, for 1 hour. It obeys your commands and has double its normal hit points."
+    },
+    {
+      "stage": 10,
+      "name": "Firstcall Conjurer",
+      "feat": "Conjure the First Beast",
+      "text": "Once per long rest, you summon a progenitor creature of CR 25 or lower for 1 hour. It obeys you, acts on your initiative, and returns to the beginning of creation when the hour ends."
+    }
+  ],
+  "School of Divination (Wizard)": [
+    {
+      "stage": 2,
+      "name": "Mistseer Diviner",
+      "feat": "Veiled Portent",
+      "text": "You gain one additional portent die. When you use a portent die to replace a roll, you can also see through any illusion or invisibility affecting that creature until the end of your next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Verdict Diviner",
+      "feat": "Foretold Judgement",
+      "text": "When you replace a creature's saving throw with a portent die, you can declare a sentence. If the result is a failure, the creature also takes 4d8 radiant damage. If a success, you regain the portent die. Once per turn."
+    },
+    {
+      "stage": 4,
+      "name": "Chancewise Diviner",
+      "feat": "Twisted Odds",
+      "text": "Once per round, when any creature within 60 feet rolls a d20, you can use your reaction to make it roll a d20 and take whichever of the two results you choose. Intelligence modifier uses per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Deepsight Diviner",
+      "feat": "Sight of the Depths",
+      "text": "You can see through any darkness, fog, or water up to 300 feet. Once per long rest, you can see every creature within 1 mile, including invisible ones, and know their hit points and conditions."
+    },
+    {
+      "stage": 6,
+      "name": "Ringsight Diviner",
+      "feat": "Read the Rings",
+      "text": "As an action, you read a creature's past within 60 feet. You learn its resistances, immunities, and abilities, and you and your allies have advantage on attack rolls against it for 1 minute. Once per short rest."
+    },
+    {
+      "stage": 7,
+      "name": "Starsight Diviner",
+      "feat": "Starlit Prophecy",
+      "text": "Once per long rest, you foresee the course of a fight. For 1 minute, you know the result of every enemy's d20 roll before it is rolled, and you can cancel one of them per round."
+    },
+    {
+      "stage": 8,
+      "name": "Nullsight Diviner",
+      "feat": "Blind Future",
+      "text": "As an action, you erase the future of a creature within 60 feet. It makes a Wisdom save or has disadvantage on all rolls and cannot take reactions for 1 minute, saving again each turn. Once per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Foldsight Diviner",
+      "feat": "Forgotten Outcome",
+      "text": "Once per long rest, you recall a future that did not happen. You can declare that any single roll, attack, or saving throw within 300 feet automatically succeeds or fails."
+    },
+    {
+      "stage": 10,
+      "name": "Firstsight Diviner",
+      "feat": "Prime Portent",
+      "text": "Once per long rest, you roll seven portent dice. For 1 hour, you can use them to replace any roll made by any creature you can see, regardless of distance."
+    }
+  ],
+  "School of Enchantment (Wizard)": [
+    {
+      "stage": 2,
+      "name": "Mistcharm Enchanter",
+      "feat": "Dreamlike Gaze",
+      "text": "As an action, a creature within 30 feet makes a Wisdom save or is charmed and wanders aimlessly in a haze for 1 minute. It can repeat the save at turn end. Proficiency bonus uses per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Oathcharm Enchanter",
+      "feat": "Sworn Allegiance",
+      "text": "As an action, a creature within 60 feet makes a Charisma save or swears loyalty to you for 1 hour. It obeys your commands and takes 4d10 psychic damage if it breaks the oath. Once per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Wildcharm Enchanter",
+      "feat": "Bewildering Flux",
+      "text": "When you charm a creature, roll a d6. On 1-3 it attacks the nearest creature, on 4-5 it drops what it holds and flees 30 feet, on 6 it obeys a one-word command."
+    },
+    {
+      "stage": 5,
+      "name": "Deepcharm Enchanter",
+      "feat": "Undertow Whisper",
+      "text": "Your charm spells drag deep into the mind. A creature that fails a save against one takes 4d10 psychic damage and has disadvantage on Wisdom saves for 1 minute."
+    },
+    {
+      "stage": 6,
+      "name": "Heartcharm Enchanter",
+      "feat": "Heartstring Bond",
+      "text": "When you charm a creature, it becomes an ally that grows stronger, gaining temporary hit points equal to your wizard level each turn. It stays charmed until it takes damage from you or your allies."
+    },
+    {
+      "stage": 7,
+      "name": "Starcharm Enchanter",
+      "feat": "Distant Adoration",
+      "text": "You can charm creatures at any distance you can see, up to 1 mile. Once per long rest, you charm every creature of your choice within 300 feet that fails a Wisdom save for 1 hour."
+    },
+    {
+      "stage": 8,
+      "name": "Nullcharm Enchanter",
+      "feat": "Empty Will",
+      "text": "As an action, a creature within 60 feet makes a Wisdom save or forgets its own will, becoming stunned for 1 minute, saving again each turn. Recharge 5-6."
+    },
+    {
+      "stage": 9,
+      "name": "Foldcharm Enchanter",
+      "feat": "Erased Loyalty",
+      "text": "Once per long rest, you cause up to ten creatures within 120 feet to forget their allegiances. Each that fails a Wisdom save treats you as its trusted leader for 24 hours."
+    },
+    {
+      "stage": 10,
+      "name": "Firstcharm Enchanter",
+      "feat": "Word of First Love",
+      "text": "Once per long rest, you speak a primal word of devotion. Every creature of your choice within 1 mile makes a Wisdom save or becomes your ally for 1 week, obeying your commands."
+    }
+  ],
+  "School of Evocation": [
+    {
+      "stage": 2,
+      "name": "Fogburst Evoker",
+      "feat": "Veiled Blast",
+      "text": "When you cast an evocation spell, you can make the area fog-shrouded until the end of your next turn. Creatures inside are blinded, and allies you sculpted out of the spell are hidden within the fog."
+    },
+    {
+      "stage": 3,
+      "name": "Brimstone Evoker",
+      "feat": "Hellfire Sculpt",
+      "text": "When you cast an evocation spell that deals damage, you can convert half the damage to radiant or fire and ignore resistance to it. Allies you sculpt out of the spell regain hit points equal to your Intelligence modifier."
+    },
+    {
+      "stage": 4,
+      "name": "Riftburst Evoker",
+      "feat": "Wild Detonation",
+      "text": "When you cast an evocation spell, roll a d8. On a 1-4, roll an extra 2d8 damage; on 5-7 the area doubles; on an 8 the spell repeats at the start of your next turn for free."
+    },
+    {
+      "stage": 5,
+      "name": "Depthburst Evoker",
+      "feat": "Crushing Evocation",
+      "text": "Your evocation spells hit with abyssal weight. A creature that fails a save against one is knocked prone and takes an extra 3d8 force damage, and its speed is halved until the end of your next turn."
+    },
+    {
+      "stage": 6,
+      "name": "Heartburst Evoker",
+      "feat": "Living Fire",
+      "text": "Your evocation spells that deal damage leave living flame. For 1 minute, each enemy in the area takes 3d6 damage of the spell's type at the start of its turn, and allies in the area regain 2d6 hit points."
+    },
+    {
+      "stage": 7,
+      "name": "Starburst Evoker",
+      "feat": "Starfall Evocation",
+      "text": "When you cast an evocation spell of 7th level or lower, you can make it rain from the sky in a 60-foot radius within 1 mile. Once per long rest, you cast it without expending a slot."
+    },
+    {
+      "stage": 8,
+      "name": "Nullburst Evoker",
+      "feat": "Void Detonation",
+      "text": "Your evocation damage ignores resistance and immunity. Once per long rest, a creature reduced to 0 hit points by your evocation spell is erased from existence."
+    },
+    {
+      "stage": 9,
+      "name": "Collapse Evoker",
+      "feat": "Imploding Sphere",
+      "text": "As an action, you cause a 40-foot radius within 300 feet to implode. Each creature there makes a Constitution save or takes 10d10 force damage and is pulled to the center. Once per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "Firstfire Evoker",
+      "feat": "Primordial Blast",
+      "text": "Once per long rest, you evoke first fire in a 1-mile radius. Each enemy makes a Dexterity save or takes 15d12 fire damage, and allies are untouched. On a success, an enemy still takes half."
+    }
+  ],
+  "School of Illusion (Wizard)": [
+    {
+      "stage": 2,
+      "name": "Deepfog Illusionist",
+      "feat": "Half-Seen Phantasm",
+      "text": "Your illusions become partially real in the fog. Once per turn, a creature that fails a save against your illusion spell takes 3d8 psychic damage, and creatures inspecting your illusions have disadvantage on the check."
+    },
+    {
+      "stage": 3,
+      "name": "Mirage Notary",
+      "feat": "Heavenly Mirage",
+      "text": "As an action, you create an illusion of judgement over a 30-foot radius within 120 feet. Enemies there make a Wisdom save or are frightened of you for 1 minute and take 4d8 psychic damage. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Kaleidoscope Illusionist",
+      "feat": "Shifting Reality",
+      "text": "Once per turn, you can make one of your illusions real for 1 round. A creature affected by it treats it as real, taking 3d10 damage of a type you choose if it is harmed by the illusion."
+    },
+    {
+      "stage": 5,
+      "name": "Depthmirage Illusionist",
+      "feat": "Drowning Phantasm",
+      "text": "As an action, a creature within 60 feet makes a Wisdom save or believes it is drowning in the deep. It is incapacitated and takes 6d8 psychic damage at the start of each turn for 1 minute, saving at turn end. Once per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Heartmirage Illusionist",
+      "feat": "Living Illusion",
+      "text": "Your illusions gain life. When you cast an illusion spell, you can create a duplicate of yourself that acts on your turn, casts cantrips, and has hit points equal to your wizard level for 1 minute. Once per short rest."
+    },
+    {
+      "stage": 7,
+      "name": "Horizonmirage Illusionist",
+      "feat": "Endless Horizon",
+      "text": "As an action, you trap creatures in a 60-foot cube within 300 feet in an illusion of an endless horizon. Each makes a Wisdom save or is lost, unable to leave the area for 1 minute, saving at turn end. Once per long rest."
+    },
+    {
+      "stage": 8,
+      "name": "Nullmirage Illusionist",
+      "feat": "Unseen Existence",
+      "text": "As a bonus action, you become an illusion of nothing for 1 minute. You are invisible to all senses, including truesight, and cannot be targeted by spells unless the caster succeeds an Intelligence check against your spell save DC. Once per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotmirage Illusionist",
+      "feat": "Illusion of Absence",
+      "text": "Once per long rest, you convince up to ten creatures within 120 feet that they do not exist. Each makes a Wisdom save or is incapacitated for 1 minute and takes 8d10 psychic damage at turn end, saving again each turn."
+    },
+    {
+      "stage": 10,
+      "name": "Firstmirage Illusionist",
+      "feat": "The First Dream",
+      "text": "Once per long rest, you weave a primal dream over a 1-mile area for 1 hour. Anything you imagine there becomes real for as long as you concentrate, though it cannot directly kill a creature."
+    }
+  ],
+  "School of Necromancy (Wizard)": [
+    {
+      "stage": 2,
+      "name": "Fogshade Necromancer",
+      "feat": "Mistborn Undead",
+      "text": "Your undead servants become wreathed in fog. They are invisible until they attack, and they gain resistance to radiant damage. Once per short rest, you raise a slain creature as a fog-wrapped ghoul under your command for 1 hour."
+    },
+    {
+      "stage": 3,
+      "name": "Penance Necromancer",
+      "feat": "Soulbound Debt",
+      "text": "When a creature dies within 60 feet, you can claim its soul as a debt. You regain hit points equal to twice its CR plus your wizard level, and you can raise it as an undead under your control. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Wildgrave Necromancer",
+      "feat": "Unruled Dead",
+      "text": "Your undead servants mutate. Each time you raise one, roll a d4: 1 extra attack, 2 extra 2d8 necrotic damage, 3 resistance to all damage, 4 flying speed of 40 feet."
+    },
+    {
+      "stage": 5,
+      "name": "Deepgrave Necromancer",
+      "feat": "Drowned Legion",
+      "text": "As an action, you call up to five drowned dead from the depths within 60 feet. They act on your initiative, have 40 hit points each, and deal 3d8 necrotic damage with their attacks. Last 1 minute, once per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Rootgrave Necromancer",
+      "feat": "Life Siphon Roots",
+      "text": "When you deal necrotic damage, you can siphon life to nourish yourself and allies. You and one ally within 30 feet regain hit points equal to half the necrotic damage dealt. Once per turn."
+    },
+    {
+      "stage": 7,
+      "name": "Stargrave Necromancer",
+      "feat": "Dead Star Call",
+      "text": "As an action, you call the spirits of dead stars down on a 30-foot radius within 300 feet. Each creature there makes a Constitution save or takes 8d8 necrotic damage and is frightened for 1 minute. Recharge 5-6."
+    },
+    {
+      "stage": 8,
+      "name": "Nullgrave Necromancer",
+      "feat": "Hollow Unlife",
+      "text": "Your undead servants are immune to necrotic and radiant damage. Once per long rest, a creature you kill cannot be raised, revived, or resurrected by any means for 1 year."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotgrave Necromancer",
+      "feat": "Legion of the Forgotten",
+      "text": "Once per long rest, you call up to twenty forgotten dead within 120 feet. Each has 60 hit points and deals 4d10 necrotic damage with attacks. They last 1 minute and obey your commands."
+    },
+    {
+      "stage": 10,
+      "name": "Firstgrave Necromancer",
+      "feat": "Law of First Death",
+      "text": "Once per long rest, you declare first death over a creature within 120 feet. It makes a Constitution save or drops to 0 hit points; on a success it takes 20d10 necrotic damage."
+    }
+  ],
+  "School of Transmutation (Wizard)": [
+    {
+      "stage": 2,
+      "name": "Mistshape Transmuter",
+      "feat": "Veiled Transmutation",
+      "text": "When you cast a transmutation spell, you can make its target invisible for 1 round, its form flickering like fog. Proficiency bonus uses per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Gildedseal Transmuter",
+      "feat": "Sanctified Stone",
+      "text": "Your transmuter's stone can bear a holy or infernal seal. While carrying it, a creature gains resistance to fire or radiant damage (chosen when you seal it), and once per long rest it can transmute 1 cubic foot of metal into gold."
+    },
+    {
+      "stage": 4,
+      "name": "Shiftshape Transmuter",
+      "feat": "Unstable Form",
+      "text": "As an action, a creature within 60 feet makes a Constitution save or its form shifts randomly. Roll a d4: 1 blinded, 2 speed 0, 3 cannot cast spells, 4 takes 4d8 force damage. Lasts 1 minute, saving at turn end."
+    },
+    {
+      "stage": 5,
+      "name": "Deepform Transmuter",
+      "feat": "Pressure Shape",
+      "text": "As a bonus action, you transmute your body to withstand the deep. You gain resistance to bludgeoning, piercing, and slashing damage, a swimming speed, and +2 AC for 1 minute. Once per short rest."
+    },
+    {
+      "stage": 6,
+      "name": "Ringform Transmuter",
+      "feat": "Living Metamorphosis",
+      "text": "When you transmute a creature, you can make the change last until dispelled. Once per long rest, you can permanently transform a willing creature into any form of CR 10 or lower."
+    },
+    {
+      "stage": 7,
+      "name": "Starform Transmuter",
+      "feat": "Stellar Alchemy",
+      "text": "As an action, you transmute a 30-foot cube within 300 feet into starlight. Each creature there makes a Constitution save or takes 8d8 radiant damage and is blinded for 1 minute. Once per long rest."
+    },
+    {
+      "stage": 8,
+      "name": "Nullform Transmuter",
+      "feat": "Unmake Matter",
+      "text": "As an action, you transmute a nonmagical object or structure up to a 60-foot cube within 300 feet into nothing. A creature within 60 feet can instead be targeted, taking 10d10 force damage on a failed Constitution save. Recharge 5-6."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotform Transmuter",
+      "feat": "Rewrite Form",
+      "text": "Once per long rest, you transmute a creature within 120 feet into any creature of CR 15 or lower for 24 hours. A hostile creature makes a Wisdom save; on a failure it forgets its original form until the effect ends."
+    },
+    {
+      "stage": 10,
+      "name": "Firstform Transmuter",
+      "feat": "Prime Matter",
+      "text": "Once per long rest, you transmute a 1-mile radius into first matter for 1 hour. You can reshape terrain, objects, and willing creatures freely, though hostile creatures make a Constitution save to avoid being affected."
+    }
+  ],
+  "Void Scholar": [
+    {
+      "stage": 2,
+      "name": "Fog-Void Scholar",
+      "feat": "Misted Fold",
+      "text": "As a bonus action, you fold space to teleport up to 30 feet, leaving a fog-filled gap in your old space that heavily obscures a 10-foot radius until your next turn. Proficiency bonus uses per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Ledger-Void Scholar",
+      "feat": "Unravel Contract",
+      "text": "As an action, you unravel a magical effect, curse, or contract on a creature within 60 feet. Any spell of 6th level or lower affecting it ends, and fiends or celestials bound by it make a Charisma save or are freed."
+    },
+    {
+      "stage": 4,
+      "name": "Chaos-Void Scholar",
+      "feat": "Scatter Fold",
+      "text": "As an action, choose up to five creatures within 60 feet. Each makes a Charisma save or is teleported to a random unoccupied space within 60 feet and takes 3d8 force damage. Once per short rest."
+    },
+    {
+      "stage": 5,
+      "name": "Depth-Void Scholar",
+      "feat": "Abyssal Unraveling",
+      "text": "Your counterspells and dispels pull magic into the depths. When you end a spell, its caster makes a Constitution save or takes 6d8 force damage and cannot cast spells until the end of its next turn."
+    },
+    {
+      "stage": 6,
+      "name": "Root-Void Scholar",
+      "feat": "Woven Absence",
+      "text": "You understand the Void as the root of Law. Once per long rest, you can unravel the magic in a 30-foot radius within 120 feet, ending all spells of 8th level or lower and suppressing magic items for 1 minute."
+    },
+    {
+      "stage": 7,
+      "name": "Horizon-Void Scholar",
+      "feat": "Fold the Horizon",
+      "text": "As an action, you fold space so that two points you can see within 1 mile become adjacent for 1 minute. Creatures can pass between them as if through a doorway. Once per long rest."
+    },
+    {
+      "stage": 8,
+      "name": "Null Scholar",
+      "feat": "Thesis of Nothing",
+      "text": "As an action, you present a creature within 60 feet with proof of its absence. It makes a Wisdom save or takes 10d8 force damage and cannot be healed or regain spell slots for 1 minute. Once per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Inward-Void Scholar",
+      "feat": "Infinite Fold",
+      "text": "Once per long rest, you fold a 60-foot radius inward for 1 minute. Enemies inside cannot leave, teleport, or cast spells above 5th level, and take 6d10 force damage at the start of each turn."
+    },
+    {
+      "stage": 10,
+      "name": "Prime-Void Scholar",
+      "feat": "Unravel Creation",
+      "text": "Once per long rest, you unravel a creature within 120 feet back to its first Law. It makes a Constitution save or takes 20d10 force damage, and loses all magical abilities and resistances for 1 minute."
+    }
+  ],
+  "War Magic": [
+    {
+      "stage": 2,
+      "name": "Fogline War Mage",
+      "feat": "Veiled Deflection",
+      "text": "When you use your arcane deflection reaction, you can also make your form fog-blurred until your next turn, imposing disadvantage on attacks against you. Proficiency bonus uses per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Warpact Magister",
+      "feat": "Battlefield Contract",
+      "text": "As a bonus action, you seal a contract with an ally within 30 feet. For 1 minute, when either of you is hit, the other can use a reaction to cast a spell of 3rd level or lower. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Riftwar Mage",
+      "feat": "Chaotic Surge",
+      "text": "When you cast a spell that deals damage, roll a d6. On a 1-3, add 2d8 force damage; on a 4-5, regain your reaction; on a 6, you can cast a cantrip as a bonus action."
+    },
+    {
+      "stage": 5,
+      "name": "Deepwar Mage",
+      "feat": "Abyssal Bastion",
+      "text": "As a bonus action, you encase yourself in pressurized force for 1 minute. You gain +2 AC and resistance to force damage, and creatures that hit you with a melee attack take 3d8 force damage. Once per short rest."
+    },
+    {
+      "stage": 6,
+      "name": "Heartwar Mage",
+      "feat": "Living Fortress",
+      "text": "Your arcane deflection now applies to allies within 30 feet. Once per round when an ally is hit, you can use your reaction to grant them +2 AC against that attack and deal 4d8 force damage to the attacker."
+    },
+    {
+      "stage": 7,
+      "name": "Starwar Mage",
+      "feat": "Horizon Barrage",
+      "text": "As an action, you launch a barrage of starlight bolts at up to six targets within 300 feet. Each makes a Dexterity save or takes 6d10 radiant damage, half on a success. Recharge 5-6."
+    },
+    {
+      "stage": 8,
+      "name": "Nullwar Mage",
+      "feat": "Silent Defense",
+      "text": "As a reaction when you are hit, you erase the attack's force. You take no damage and the attacker makes a Constitution save or takes 8d8 force damage. Proficiency bonus uses per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Foldwar Mage",
+      "feat": "Collapsed Battlefield",
+      "text": "Once per long rest, you fold the battlefield inward in a 120-foot radius for 1 minute. You and allies gain +2 AC, and enemies have disadvantage on attack rolls and saving throws."
+    },
+    {
+      "stage": 10,
+      "name": "Firstwar Mage",
+      "feat": "War of Creation",
+      "text": "Once per long rest, you invoke the first war for 1 hour. You can cast two spells of 9th level or lower per turn, and you are immune to all damage from spells of 8th level or lower."
+    }
+  ]
+}

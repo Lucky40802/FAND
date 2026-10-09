@@ -415,13 +415,31 @@ D.VAULT.notes = D.VAULT.notes.filter(function (n) { return !/^-+$/.test(n.n); })
   var vs = D.VAULT.notes.filter(function (n) { return /(^|\/)Spells(\/|$)/i.test(n.f) && n.fm && n.fm.school; });
   if (!vs.length) return;
   D.SPELLS = vs.map(function (n) {
-    var fm = n.fm, body = n.md.replace(/^#.*\n+/, '').replace(/^\*[^*\n]+\*\s*\n+/, '').split(/\n\s*\n/)[0] || '';
+    // the description is the first real paragraph: some notes open with a tag line ("Wizard, School of Abjuration" or
+    // "[[Chaos]] - Sorcerer, Wild Magic") and only then the text, so skip short lines with no sentence in them
+    var fm = n.fm, paras = n.md.replace(/^#.*\n+/, '').replace(/^\*[^*\n]+\*\s*\n+/, '').split(/\n\s*\n/).map(function (x) { return x.trim(); }).filter(Boolean);
+    var body = paras.find(function (x) { return /[.!?](\s|$)/.test(x.replace(/\[\[[^\]]*\]\]/g, '')) && !/^\[\[[^\]]*\]\]$/.test(x); }) || paras[0] || '';
     var lv = /cantrip/i.test(fm.level || '') ? 0 : parseInt(fm.level, 10) || 0;
     return { n: n.n, sc: fm.school, lv: lv, ct: fm.castingTime || '', rng: fm.range || '', dur: fm.duration || '', dmg: fm.damage || '', comp: fm.components || '',
       tier: fm.tier || '', rune: fm.rune || '', cls: (fm.class || '').replace(/\[\[(?:[^\]|]*\|)?([^\]]+)\]\]/g, '$1').split(/\s*,\s*/).filter(Boolean),
       desc: body.replace(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/g, function (m, a) { return a.split('/').pop(); }).replace(/\*\*/g, '').replace(/\s+/g, ' ').trim() };
   }).sort(function (a, b) { return a.n < b.n ? -1 : 1; });
   log.push('spells: ' + D.SPELLS.length + ' from the vault (replacing the generated list)');
+  // The Bard-only School of Resonance lives in one vault note, not one note per spell: read its spells from there.
+  (function () {
+    var all = require(path.join(__dirname, '..', 'data', 'vault.json')).notes, r = all.find(function (x) { return x.n === 'School of Resonance'; });
+    if (!r) return; var lv = 0, added = 0, have = {}; D.SPELLS.forEach(function (x) { have[x.n.toLowerCase()] = 1; });
+    r.md.split(/\n(?=#{3,4} )/).forEach(function (sec) {
+      var h3 = /^### (Cantrips|Level (\d))/.exec(sec); if (h3) { lv = h3[2] ? +h3[2] : 0; return; }
+      var h4 = /^#### (.+)/.exec(sec); if (!h4 || have[h4[1].trim().toLowerCase()]) return;
+      var f = function (k) { var m = new RegExp('\\*\\*' + k + ':\\*\\*\\s*(.+)').exec(sec); return m ? m[1].replace(/\*\*/g, '').trim() : ''; };
+      var eff = f('Effect'), dm = /(\d+d\d+)(?: \+ \d+)? ?(\w+)? damage/i.exec(eff);
+      D.SPELLS.push({ n: h4[1].trim(), sc: 'Resonance', lv: lv, ct: f('Casting Time'), rng: f('Range'), dur: f('Duration'), dmg: dm ? dm[1] + (dm[2] ? ' ' + dm[2][0].toUpperCase() + dm[2].slice(1) : '') : '', comp: f('Components'), tier: 'Resonance', rune: '', cls: ['Bard'], desc: eff + ' Resonance: needs the Bard\'s Resonance Phrase (a chant); registers as no school to Detect Magic.' });
+      added++;
+    });
+    D.SPELLS.sort(function (a, b) { return a.n < b.n ? -1 : 1; });
+    log.push('School of Resonance spells added: ' + added);
+  })();
   // healing spells that state their dice only in the text (e.g. Cure Wounds) get a Healing value, so stage scaling applies
   var healed = 0; D.SPELLS.forEach(function (x) { if (x.dmg && x.dmg !== 'None') return; var m = /(?:regains?|heals?|restores?)[^.]{0,60}?(\d+d\d+)/i.exec(x.desc || ''); if (m) { x.dmg = m[1] + ' Healing'; healed++; } });
   log.push('healing spells given a Healing value from their text: ' + healed);
@@ -478,8 +496,42 @@ var HIDDEN_CODE = '4321';
 })();
 // Class changes past level 20 (data/stages.js)
 try { D.STAGES = require(path.join(__dirname, '..', 'data', 'stages.js')); } catch (e) { if (e.code !== 'MODULE_NOT_FOUND') throw e; D.STAGES = {}; }
-log.push('class stages: ' + Object.keys(D.STAGES).length + ' classes');
-var CORE = ['BPS', 'MATS', 'MONSTERS', 'SUBS', 'GODS', 'DEMONS', 'PATRONS', 'MAT_FX', 'HIDDEN', 'STAGES'];
+// Class changes every 20 levels (campaign owner's rule): stages II-V at 21, 41, 61, 81, named "<Class> II" and so on.
+// The written ladder (data/stages.js) has a change every 10 levels; each 20-level stage takes the two written changes that
+// fall inside it (II = the changes at 21 and 31, III = 41 and 51, IV = 61 and 71, V = 81 and 91) with their features at
+// the same levels, and the first one's trial. The change at 11 now falls inside stage I and is left out.
+(function () {
+  var ROMAN = ['I', 'II', 'III', 'IV', 'V'], REALMS5 = { 2: 'Hell, Heaven, Chaos', 3: 'Abyss, Inner Realm', 4: 'Outer Realm, Void', 5: 'Inner Void, Primordial' };
+  Object.keys(D.STAGES).forEach(function (cls) {
+    var old = D.STAGES[cls], by = {}; old.forEach(function (x) { by[x.stage] = x; });
+    D.STAGES[cls] = [2, 3, 4, 5].map(function (k) {
+      var a = by[2 * k - 1], b = by[2 * k]; if (!a && !b) return null;
+      return { stage: k, levels: ((k - 1) * 20 + 1) + '-' + (k * 20), realm: REALMS5[k], name: cls + ' ' + ROMAN[k - 1],
+        blurb: [a && a.blurb, b && b.blurb].filter(Boolean).join(' '), trial: (a || b).trial, features: [].concat(a ? a.features : [], b ? b.features : []) };
+    }).filter(Boolean);
+  });
+})();
+log.push('class stages: ' + Object.keys(D.STAGES).length + ' classes, changes II-V every 20 levels');
+// Subclass changes (data/sub-stages/out-*.json, written per subclass for every 10-level step): each subclass's II-V take
+// its two features inside the stage (II = level 21 and 31, ...), named "<Subclass> II" and so on.
+D.SUBSTAGES = {};
+(function () {
+  var dir = path.join(__dirname, '..', 'data', 'sub-stages'); if (!fs.existsSync(dir)) return;
+  var ROMAN = ['I', 'II', 'III', 'IV', 'V'], n = 0;
+  fs.readdirSync(dir).filter(function (f) { return /^out-.*\.json$/.test(f); }).sort().forEach(function (f) {
+    var o = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'));
+    Object.keys(o).forEach(function (sub) {
+      var by = {}; o[sub].forEach(function (x) { by[x.stage] = x; });
+      D.SUBSTAGES[sub] = [2, 3, 4, 5].map(function (k) {
+        var a = by[2 * k - 1], b = by[2 * k];
+        return { stage: k, name: sub + ' ' + ROMAN[k - 1], features: [a, b].filter(Boolean).map(function (x) { return [(x.stage - 1) * 10 + 1, x.feat, x.text]; }) };
+      });
+      n++;
+    });
+  });
+  log.push('subclass changes: ' + n + ' subclasses, II-V each');
+})();
+var CORE = ['BPS', 'MATS', 'MONSTERS', 'SUBS', 'GODS', 'DEMONS', 'PATRONS', 'MAT_FX', 'HIDDEN', 'STAGES', 'SUBSTAGES'];
 var metaLine = 'const META=' + JSON.stringify(META) + ';';
 var VENDOR = fs.readFileSync(path.join(__dirname, '..', 'app', 'vendor', 'anthropic.js'), 'utf8');
 var single = '<script>\n' + VENDOR.replace(/<\/(script)/gi, '<\\/$1') + '\n</script>\n<script>\nconst SITE=null;\n' + ['BPS', 'SPELLS', 'VAULT', 'VAULT_DETAILS'].concat(CORE.slice(1)).map(lit).join('\n') + '\n' + metaLine + '\n</script>';

@@ -1,0 +1,2130 @@
+{
+  "Oath of Ash": [
+    {
+      "stage": 2,
+      "name": "Fogcinder Knight",
+      "feat": "Smoldering Veil",
+      "text": "When you hit with Divine Smite, the target is wreathed in smoky cinders for 1 minute. It takes 2d6 fire damage at the start of each of its turns and cannot benefit from being heavily obscured. A Constitution save ends it."
+    },
+    {
+      "stage": 3,
+      "name": "Brimstone Ashbringer",
+      "feat": "Pyre Verdict",
+      "text": "As a bonus action, mark a creature you can see within 60 feet for 1 minute. Your fire damage against it ignores resistance, and when it drops to 0 hit points it bursts, dealing 3d8 fire damage within 10 feet. Twice per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Wildfire Crusader",
+      "feat": "Scattering Embers",
+      "text": "When you deal fire damage, roll a d6. On a 5 or 6, cinders leap to a different creature of your choice within 15 feet, dealing 2d8 fire damage. Embers cannot leap to the same creature twice per turn."
+    },
+    {
+      "stage": 5,
+      "name": "Drowned-Ember Warden",
+      "feat": "Coals Beneath Pressure",
+      "text": "Your fire burns underwater and in magical darkness. Once per turn, when a creature you hit is below half its hit points, it takes an extra 3d8 fire damage and cannot regain hit points until the start of your next turn."
+    },
+    {
+      "stage": 6,
+      "name": "Heartcinder Justiciar",
+      "feat": "Living Pyre",
+      "text": "Your aura becomes a slow fire. Enemies that start their turn in your aura take 2d6 fire damage, and you and allies in the aura regain 1d6 hit points when an enemy in it dies. Hostile creatures cannot be invisible inside it."
+    },
+    {
+      "stage": 7,
+      "name": "Starfire Scorcher",
+      "feat": "Burning Horizon",
+      "text": "As an action, call a line of starfire 300 feet long and 15 feet wide. Each creature in it makes a Dexterity save, taking 6d10 fire damage on a failure or half on a success. The ground burns for 1 minute. Once per long rest."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow-Ash Exemplar",
+      "feat": "Ash Without Fire",
+      "text": "Creatures you reduce to 0 hit points crumble to grey ash and cannot be raised by anything short of a wish. Once per short rest, when you score a hit, the target takes an extra 4d10 fire damage that cannot be reduced."
+    },
+    {
+      "stage": 9,
+      "name": "Ember of the Unspoken",
+      "feat": "Forgotten Pyre",
+      "text": "As a reaction when an enemy within 30 feet casts a spell, it makes a Wisdom save. On a failure the spell burns away and is lost, and the caster takes 5d8 fire damage. Three times per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Flame Incarnate",
+      "feat": "The Burning That Began",
+      "text": "Once per long rest, become the first fire for 1 minute. You are immune to fire, your attacks deal an extra 4d12 fire damage, and enemies ending their turn within 30 feet make a Constitution save or take 6d10 fire damage."
+    }
+  ],
+  "Oath of Conquest": [
+    {
+      "stage": 2,
+      "name": "Fogbanner Conqueror",
+      "feat": "Dread in the Mist",
+      "text": "Creatures frightened by you treat the area within 30 feet of you as heavily obscured to their eyes and cannot see allies there. While frightened of you, a creature's speed is 0 and it takes 2d8 psychic damage when it ends its turn."
+    },
+    {
+      "stage": 3,
+      "name": "Tyrant of Twin Thrones",
+      "feat": "Infernal Decree",
+      "text": "As a bonus action, issue a command to a frightened creature within 60 feet: drop, kneel, or flee. It obeys unless it succeeds on a Wisdom save, taking 3d8 psychic damage on a failure. Uses equal to your Charisma modifier per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Iron Riot Warlord",
+      "feat": "Order from Ruin",
+      "text": "When an enemy within 30 feet rolls a d20, you may use your reaction to force it to reroll and take the lower result. If it then fails, it is frightened of you until the end of its next turn. Five times per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Crushing-Depth Overlord",
+      "feat": "Weight of Dominion",
+      "text": "Frightened creatures within your aura are pressed down: their speed is halved, they have disadvantage on Strength saves, and they take 3d8 bludgeoning damage each time they try to move. Your aura reaches 30 feet."
+    },
+    {
+      "stage": 6,
+      "name": "Heartchain Sovereign",
+      "feat": "Vassal Bond",
+      "text": "When a creature frightened of you drops to 0 hit points, you may instead leave it at 1 hit point and charmed by you for 1 hour, obeying simple orders. It may repeat a Wisdom save every 10 minutes. Once per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Starbanner Conqueror",
+      "feat": "Empire of Horizons",
+      "text": "As an action, plant your banner. For 1 minute, all enemies within 120 feet make a Wisdom save or become frightened of you, and allies within the same area gain +1 AC and add 2d6 to their weapon damage. Once per long rest."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow Throne Exemplar",
+      "feat": "Rule Over Nothing",
+      "text": "Creatures frightened of you cannot take reactions or cast spells above 5th level. Once per turn, you may deal an extra 5d8 psychic damage to a frightened creature and extend its fear by 1 round."
+    },
+    {
+      "stage": 9,
+      "name": "Unspoken Dominator",
+      "feat": "Silent Command",
+      "text": "As a bonus action, a creature within 60 feet that can perceive you makes a Wisdom save. On a failure, it forgets its allegiances for 1 round and attacks the creature you choose. Three times per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Conqueror Incarnate",
+      "feat": "Crown Before Kings",
+      "text": "Once per long rest, every creature of your choice within 300 feet makes a Wisdom save or kneels, prone and frightened for 1 minute. While kneeling, they take 6d10 psychic damage at the end of each turn they defy you."
+    }
+  ],
+  "Oath of Devotion": [
+    {
+      "stage": 2,
+      "name": "Veilward Paragon",
+      "feat": "Lantern of Truth",
+      "text": "Your aura sheds bright light in a 30-foot radius that pierces magical fog and illusions. Allies in it have advantage on saves against illusion and charm, and invisible creatures in it are outlined and visible."
+    },
+    {
+      "stage": 3,
+      "name": "Saint of Twin Verdicts",
+      "feat": "Choirblade",
+      "text": "When you hit with Divine Smite, a choir of light rings out. Up to three allies within 30 feet regain hit points equal to 2d8 + your Charisma modifier. Uses equal to your Charisma modifier per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Steadfast Riot Saint",
+      "feat": "Unshaken Devotion",
+      "text": "You and allies in your aura cannot be charmed, polymorphed, or forced to move against their will. Once per short rest, when an ally in your aura fails a save, you may let them reroll it."
+    },
+    {
+      "stage": 5,
+      "name": "Lightwell Bulwark",
+      "feat": "Lamp in the Deep",
+      "text": "As an action, become a lamp of radiant hope for 1 minute. Hostile creatures entering or starting their turn within 30 feet take 4d8 radiant damage, and allies there have resistance to necrotic and psychic damage. Once per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Heartvow Paragon",
+      "feat": "Devotion Made Flesh",
+      "text": "When an ally within your aura would drop to 0 hit points, you may use your reaction to take the damage instead. If you do, you regain 5d10 hit points afterward. Three times per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Starlit Holy Champion",
+      "feat": "Banner of Saints",
+      "text": "Once per long rest, raise a holy banner for 1 minute. You and allies within 60 feet gain +1 AC, advantage on all saves, and deal an extra 2d8 radiant damage with weapon attacks."
+    },
+    {
+      "stage": 8,
+      "name": "Lone Vigil Exemplar",
+      "feat": "Faith Without Witness",
+      "text": "While no ally can see you, you gain +2 AC and your Divine Smite deals maximum damage. Once per long rest, when you would die, you instead return to 1 hit point and become immune to all damage until your next turn."
+    },
+    {
+      "stage": 9,
+      "name": "Keeper of Unspoken Vows",
+      "feat": "Remembered Grace",
+      "text": "As an action, restore a creature within 30 feet: end every curse, charm, fear, and disease on it, and it regains 8d10 hit points. Twice per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Devotion Incarnate",
+      "feat": "Light Before Light",
+      "text": "Once per long rest, shine with the world's first radiance for 1 minute. Fiends and undead within 60 feet make a Charisma save or are banished to their home plane, and your smites deal an extra 6d10 radiant damage."
+    }
+  ],
+  "Oath of Eternity": [
+    {
+      "stage": 2,
+      "name": "Mistbound Undying",
+      "feat": "Fading Not Falling",
+      "text": "When you drop to 0 hit points, you may become a translucent shade instead of falling unconscious. Until the end of your next turn you are invisible, resistant to all damage, and can act. Once per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Deathless Templar",
+      "feat": "Contract of Breath",
+      "text": "When you are reduced to 0 hit points, roll a d20. On 10 or higher, you drop to 1 hit point instead. Each time this succeeds before a long rest, the DC rises by 5."
+    },
+    {
+      "stage": 4,
+      "name": "Unending Riot Knight",
+      "feat": "Rewound Wounds",
+      "text": "Once per turn, when you take damage, roll a d6. On a 6, the damage is undone and you regain hit points equal to half of it. Below half hit points, you gain 2d10 temporary hit points at the start of each turn."
+    },
+    {
+      "stage": 5,
+      "name": "Pressure-Proof Bulwark",
+      "feat": "Endure the Deep",
+      "text": "You no longer need to breathe, eat, or sleep, and you have resistance to bludgeoning, cold, and necrotic damage. When you end your turn at 0 hit points, you regain 4d10 hit points."
+    },
+    {
+      "stage": 6,
+      "name": "Everheart Justiciar",
+      "feat": "Undying Pulse",
+      "text": "Allies within your aura cannot be reduced below 1 hit point by a single hit while you are conscious. Each time this protects an ally, you take 3d8 necrotic damage that cannot be reduced."
+    },
+    {
+      "stage": 7,
+      "name": "Ageless Starwarden",
+      "feat": "Long Watch",
+      "text": "As a reaction when an ally within 60 feet dies, you may halt their death for 1 minute: they stay at 0 hit points, conscious, and able to act. Healing in that minute returns them fully. Twice per long rest."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow-Time Exemplar",
+      "feat": "Outlast the Silence",
+      "text": "Once per long rest, when you would die, you step outside time for 1 round, then return with half your hit points maximum restored and all conditions ended. Enemies within 30 feet make a Wisdom save or are stunned."
+    },
+    {
+      "stage": 9,
+      "name": "Oathkeeper Who Remains",
+      "feat": "Unforgettable Stand",
+      "text": "You cannot be erased, banished, or have your existence altered against your will. When reduced to 0 hit points, you may keep fighting for 3 rounds before falling. Once per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Eternity Incarnate",
+      "feat": "Vow Before Endings",
+      "text": "Once per long rest, for 1 minute you and up to six allies within 60 feet cannot drop below 1 hit point, and each regains 4d10 hit points at the start of their turns."
+    }
+  ],
+  "Oath of Glory": [
+    {
+      "stage": 2,
+      "name": "Mistsung Hero",
+      "feat": "Legend in the Fog",
+      "text": "When you reduce a creature to 0 hit points, ghostly echoes of your deed spread. Allies within 30 feet gain 2d8 temporary hit points and advantage on their next attack roll before the end of their next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Choir-Hailed Champion",
+      "feat": "Hymn of Triumph",
+      "text": "As a bonus action, inspire allies within 30 feet for 1 minute. Each gains a 1d8 bonus die they can add to one attack roll or save per turn. Twice per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Riot-Feat Paragon",
+      "feat": "Impossible Deed",
+      "text": "Once per short rest, after you roll a d20, you may declare it a natural 20. If used on an attack roll, the critical hit deals an extra 3d10 radiant damage."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Legend Bulwark",
+      "feat": "Tale Told in the Dark",
+      "text": "Your Strength and Dexterity saves cannot be lower than 15. When you succeed on a save against an effect, you and allies within 30 feet gain 3d8 temporary hit points."
+    },
+    {
+      "stage": 6,
+      "name": "Heartsong Exemplar",
+      "feat": "Glory Grown",
+      "text": "Each time you defeat a creature of challenge rating 10 or higher, you gain 1 glory point, up to 5. Spend a point to add 3d8 to any roll or to regain 4d10 hit points. Points reset on a long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Starsung Lord-Champion",
+      "feat": "Constellation of Heroes",
+      "text": "As an action, your legend lights the sky for 1 minute. Allies within 120 feet gain an extra 15 feet of speed, +1 AC, and an extra 2d8 radiant damage on their first hit each turn. Once per long rest."
+    },
+    {
+      "stage": 8,
+      "name": "Unsung Exemplar",
+      "feat": "Glory Without Audience",
+      "text": "While no ally can see you, your weapon attacks score critical hits on a 18-20. Once per turn, a critical hit deals an extra 4d10 radiant damage."
+    },
+    {
+      "stage": 9,
+      "name": "Remembered Hero",
+      "feat": "Song That Outlasts",
+      "text": "When an ally within 60 feet would die, you may recount their deeds as a reaction: they instead drop to 1 hit point and gain 6d10 temporary hit points. Twice per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Legend Incarnate",
+      "feat": "The Oldest Tale",
+      "text": "Once per long rest, become a living myth for 1 minute. You make one extra attack each turn, gain advantage on all rolls, and creatures that see you make a Wisdom save or are frightened and awestruck."
+    }
+  ],
+  "Oath of Redemption": [
+    {
+      "stage": 2,
+      "name": "Fogmercy Pilgrim",
+      "feat": "Mercy in the Mist",
+      "text": "As a reaction when a creature within 30 feet attacks, shroud it in calming fog. It makes a Wisdom save or its attack misses and it cannot attack until the end of its next turn. Uses equal to your Charisma modifier per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Absolver of Twin Verdicts",
+      "feat": "Debt Forgiven",
+      "text": "When you take damage from a creature, you may reflect half of it back as radiant damage and impose a Charisma save. On a failure it is charmed by you for 1 minute. Twice per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Calm Within Riot",
+      "feat": "Peace Amid Chaos",
+      "text": "As an action, hostile creatures within 30 feet make a Wisdom save or lose all desire to fight for 1 minute, ending if they or allies are damaged. Once per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Deepmercy Bulwark",
+      "feat": "Lantern for the Lost",
+      "text": "You gain resistance to all damage from creatures you have not attacked in the past minute. Enemies who damage you take 2d10 radiant damage as their own wrath turns on them."
+    },
+    {
+      "stage": 6,
+      "name": "Heartmend Justiciar",
+      "feat": "Turn the Heart",
+      "text": "As an action, touch a creature reduced below half its hit points. It makes a Charisma save. On a failure, it lays down its arms and becomes friendly to you for 24 hours. Once per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Starward Peacemaker",
+      "feat": "Truce of Worlds",
+      "text": "As an action, declare a truce in a 120-foot radius for 1 minute. Any creature that makes an attack there takes 5d8 radiant damage and must make a Wisdom save or be incapacitated until its next turn. Once per long rest."
+    },
+    {
+      "stage": 8,
+      "name": "Quiet Mercy Exemplar",
+      "feat": "Spare the Nothing",
+      "text": "When you reduce a creature to 0 hit points, you may stabilize it and redeem it: it loses hostility toward you and your allies until it is harmed. Once per turn, your reflected damage ignores resistance."
+    },
+    {
+      "stage": 9,
+      "name": "Absolver of the Unspoken",
+      "feat": "Forgotten Sins",
+      "text": "As an action, erase a creature's grudge: a creature within 60 feet makes a Wisdom save or forgets its hostility, cancels its concentration, and cannot target you for 1 minute. Three times per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Mercy Incarnate",
+      "feat": "Peace Before War",
+      "text": "Once per long rest, for 1 minute no creature within 120 feet can deal damage unless it succeeds on a Charisma save at the start of its turn. Those who fail regain 4d10 hit points instead."
+    }
+  ],
+  "Oath of Silence": [
+    {
+      "stage": 2,
+      "name": "Hushveil Knight",
+      "feat": "Fogstep Silence",
+      "text": "You and creatures you choose within your aura make no sound and leave no tracks. When you hit a creature that has not yet acted in combat, deal an extra 3d8 psychic damage, and it cannot speak until your next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Mute Templar",
+      "feat": "Sealed Verdict",
+      "text": "Your Divine Smite also silences: the target makes a Wisdom save or cannot cast spells with verbal components for 1 minute. Uses equal to your Charisma modifier per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Quiet Riot Crusader",
+      "feat": "Silent Shift",
+      "text": "When you move, you never provoke opportunity attacks. Once per turn, after hitting a creature, you may teleport up to 30 feet to an unoccupied space you can see without making a sound."
+    },
+    {
+      "stage": 5,
+      "name": "Soundless Deepwarden",
+      "feat": "Pressure of Quiet",
+      "text": "Your aura becomes a zone of silence that you control. Enemies inside cannot cast verbal spells and take 2d8 thunder damage when they try. Allies inside are unaffected."
+    },
+    {
+      "stage": 6,
+      "name": "Stillheart Justiciar",
+      "feat": "Heart of Hush",
+      "text": "Creatures cannot detect you by sound or tremorsense. When you attack a creature that is unaware of you, you score a critical hit on a 17-20 and deal an extra 4d8 radiant damage."
+    },
+    {
+      "stage": 7,
+      "name": "Starhush Lord-Commander",
+      "feat": "Silence Between Stars",
+      "text": "As an action, smother sound in a 120-foot radius for 1 minute. No spell with verbal components works there, and you may teleport to any point within it as a bonus action. Once per long rest."
+    },
+    {
+      "stage": 8,
+      "name": "Voiceless Exemplar",
+      "feat": "Oath Without Voice",
+      "text": "You are immune to thunder damage and deafness. Once per short rest, when you hit, the target makes a Constitution save or is stunned until the end of its next turn and loses its voice for 1 hour."
+    },
+    {
+      "stage": 9,
+      "name": "Keeper of the Unsaid",
+      "feat": "Unspoken Strike",
+      "text": "Three times per long rest, make an attack that cannot be perceived. It cannot be reacted to, and on a hit it deals an extra 6d8 psychic damage and the target forgets you were ever there."
+    },
+    {
+      "stage": 10,
+      "name": "First Silence Incarnate",
+      "feat": "Hush Before Sound",
+      "text": "Once per long rest, the first silence descends within 300 feet for 1 minute. Enemies cannot speak, cast spells, or take reactions unless they succeed on a Wisdom save at the start of each turn."
+    }
+  ],
+  "Oath of Vengeance": [
+    {
+      "stage": 2,
+      "name": "Fogtrail Avenger",
+      "feat": "Mistmarked Quarry",
+      "text": "Your Vow of Enmity target cannot become hidden or invisible from you. You always know its direction and distance within 1 mile, and your first hit against it each turn deals an extra 2d8 radiant damage."
+    },
+    {
+      "stage": 3,
+      "name": "Hellbound Avenger",
+      "feat": "Debt of Blood",
+      "text": "When your sworn foe damages an ally, it accrues a debt. Your next hit against it deals an extra 3d10 necrotic damage and you regain hit points equal to half of that extra damage."
+    },
+    {
+      "stage": 4,
+      "name": "Relentless Riot Avenger",
+      "feat": "Wrath Uncaged",
+      "text": "Once per turn, when your sworn foe moves away from you, you can teleport to a space within 5 feet of it and make a weapon attack against it as part of the same reaction."
+    },
+    {
+      "stage": 5,
+      "name": "Abyssal Avenger",
+      "feat": "Drag to the Depths",
+      "text": "When you hit your sworn foe, it makes a Strength save or is pulled 20 feet toward you and its speed becomes 0 until your next turn. While grappled by you, it takes 3d8 necrotic damage each turn."
+    },
+    {
+      "stage": 6,
+      "name": "Grudgeheart Justiciar",
+      "feat": "Vengeance Rooted",
+      "text": "You may maintain Vow of Enmity on two creatures at once. When either sworn foe drops to 0 hit points, you regain a use of Channel Divinity and 4d10 hit points."
+    },
+    {
+      "stage": 7,
+      "name": "Starhunt Avenger",
+      "feat": "Pursuit Across Worlds",
+      "text": "Your sworn foe cannot escape you by teleportation or plane shift. When it does, you may follow it to its destination as a reaction. Once per long rest, your next hit after following deals an extra 6d8 radiant damage."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow Grudge Exemplar",
+      "feat": "Unwitnessed Wrath",
+      "text": "Your sworn foe has disadvantage on all saves against your spells and features. Once per short rest, a hit against it is automatically a critical hit."
+    },
+    {
+      "stage": 9,
+      "name": "Avenger of the Unspoken",
+      "feat": "Remembered Wrongs",
+      "text": "As an action, name a wrong done to you. The creature responsible, if within 1 mile, is marked as your sworn foe and takes 5d10 psychic damage. Three times per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Vengeance Incarnate",
+      "feat": "The First Debt Called",
+      "text": "Once per long rest, declare final vengeance on a creature. For 1 minute, every hit against it deals an extra 5d12 radiant damage and it cannot regain hit points, end conditions, or leave your presence by any means."
+    }
+  ],
+  "Oath of the Ancients": [
+    {
+      "stage": 2,
+      "name": "Mistgrove Warden",
+      "feat": "Veil of Leaves",
+      "text": "Your aura fills with drifting leaves and soft fog. Allies within it are lightly obscured to enemies, and creatures hostile to you take 2d6 radiant damage when they enter the aura or start their turn there."
+    },
+    {
+      "stage": 3,
+      "name": "Evergreen Templar",
+      "feat": "Bloom of Judgement",
+      "text": "When an ally within your aura is reduced to 0 hit points, flowers burst from their wound and they regain 4d8 hit points instead. Twice per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Wildgrowth Crusader",
+      "feat": "Rampant Spring",
+      "text": "As an action, the ground within 60 feet erupts with thorny growth for 1 minute. It is difficult terrain for enemies, who take 3d8 piercing damage when they move into it. Once per short rest."
+    },
+    {
+      "stage": 5,
+      "name": "Deeproot Bulwark",
+      "feat": "Roots Below the Dark",
+      "text": "You and allies in your aura cannot be moved or knocked prone. When an enemy inside the aura casts a spell, it makes a Constitution save or vines bind it, restraining it until the end of its next turn."
+    },
+    {
+      "stage": 6,
+      "name": "Heartwood Justiciar",
+      "feat": "Living Old Law",
+      "text": "You regain 3d8 hit points at the start of each of your turns while you have at least 1 hit point. Allies in your aura gain resistance to necrotic damage and cannot be charmed."
+    },
+    {
+      "stage": 7,
+      "name": "Starbloom Elder",
+      "feat": "Garden of Horizons",
+      "text": "Once per long rest, spread a field of light-flowers in a 120-foot radius for 1 minute. Allies in it regain 3d10 hit points at the start of their turns, and enemies take 3d10 radiant damage."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Grove Exemplar",
+      "feat": "Seed in Nothing",
+      "text": "When you die, a seed remains. After 1 minute you regrow from it with half your hit points, unless the seed is destroyed. Once per week."
+    },
+    {
+      "stage": 9,
+      "name": "Elder of Forgotten Spring",
+      "feat": "Memory of Green",
+      "text": "As an action, restore something lost: a creature within 30 feet regains a lost limb, sense, or level of exhaustion, and regains 8d8 hit points. Three times per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Bloom Incarnate",
+      "feat": "The First Spring",
+      "text": "Once per long rest, become the world's first spring for 1 minute. Allies within 120 feet regain 5d10 hit points each turn, and undead and fiends there take 6d10 radiant damage each turn."
+    }
+  ],
+  "Oath of the Crown": [
+    {
+      "stage": 2,
+      "name": "Fogcrown Sentinel",
+      "feat": "Herald in the Mist",
+      "text": "Allies within your aura can hear your commands even through magical silence or fog. Once per turn, an ally in your aura may use its reaction to make one weapon attack when you hit a creature."
+    },
+    {
+      "stage": 3,
+      "name": "Magistrate of Twin Courts",
+      "feat": "Royal Writ",
+      "text": "As a bonus action, declare a law for 1 minute such as no flight or no teleport. A creature that breaks it within 60 feet takes 4d8 radiant damage. Twice per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Unbowed Riot Marshal",
+      "feat": "Hold the Line",
+      "text": "Allies within your aura cannot be frightened or forced to move. Once per turn, when an ally in your aura takes damage, you may reduce it by 2d10."
+    },
+    {
+      "stage": 5,
+      "name": "Deepcourt Bulwark",
+      "feat": "Throne in the Dark",
+      "text": "As an action, become the realm's anchor for 1 minute. You cannot be moved, and allies within 30 feet gain +1 AC and resistance to damage from creatures outside the aura. Once per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Heartcrown Justiciar",
+      "feat": "Living Law",
+      "text": "Any ally in your aura who rolls a 1 on a d20 may reroll it. When you succeed on a save, allies in your aura may also treat their next failed save as a success."
+    },
+    {
+      "stage": 7,
+      "name": "Starcrown Lord-Commander",
+      "feat": "Crown of Many Worlds",
+      "text": "Once per long rest, call your sworn followers. Up to six allies anywhere on the same plane are teleported to you and gain 4d10 temporary hit points."
+    },
+    {
+      "stage": 8,
+      "name": "Empty Throne Exemplar",
+      "feat": "Rule Without a Realm",
+      "text": "You and allies in your aura cannot be charmed or have their will controlled. Once per short rest, a creature that tries is stunned until the end of its next turn and takes 5d8 psychic damage."
+    },
+    {
+      "stage": 9,
+      "name": "Keeper of the Unspoken Crown",
+      "feat": "Silent Mandate",
+      "text": "As a bonus action, command an ally within 60 feet: it takes an extra action on its next turn. Three times per long rest. The ally also gains 3d8 temporary hit points and advantage on its next attack roll."
+    },
+    {
+      "stage": 10,
+      "name": "First Crown Incarnate",
+      "feat": "Law Before Thrones",
+      "text": "Once per long rest, issue a decree that binds all creatures within 300 feet for 1 minute. A creature that breaks it makes a Charisma save or is paralyzed for 1 round and takes 6d10 radiant damage."
+    }
+  ],
+  "Oath of the Watchers": [
+    {
+      "stage": 2,
+      "name": "Veilwatch Sentinel",
+      "feat": "Eyes Past the Fog",
+      "text": "You and allies in your aura see through magical fog, illusions, and invisibility within 30 feet. Extraplanar creatures in your aura cannot become hidden and have disadvantage on Stealth checks."
+    },
+    {
+      "stage": 3,
+      "name": "Gatewarden Templar",
+      "feat": "Seal the Breach",
+      "text": "When an extraplanar creature within 60 feet tries to teleport or plane shift, you may use your reaction to force a Charisma save. On a failure, the effect fails and it takes 4d8 radiant damage."
+    },
+    {
+      "stage": 4,
+      "name": "Rift-Holder Crusader",
+      "feat": "Anchor Reality",
+      "text": "As an action, anchor the space within 60 feet for 1 minute. No creature can teleport into or out of it, and summoned creatures take 3d8 force damage at the start of each turn. Once per short rest."
+    },
+    {
+      "stage": 5,
+      "name": "Abyss-Gate Bulwark",
+      "feat": "Ward the Deep Door",
+      "text": "Your aura repels outsiders. Aberrations, fiends, and elementals cannot willingly enter it without a Charisma save, and take 4d8 radiant damage on a failure. Your aura also reveals their true forms and disguises."
+    },
+    {
+      "stage": 6,
+      "name": "Heartwatch Justiciar",
+      "feat": "Unsleeping Sentinel",
+      "text": "You cannot be surprised, and you and allies in your aura add your Charisma modifier to initiative. Once per round, when an extraplanar creature enters your aura, make an attack against it as a reaction."
+    },
+    {
+      "stage": 7,
+      "name": "Starwatch Lord-Commander",
+      "feat": "Watch the Horizons",
+      "text": "You sense any portal, planar breach, or summoning within 1 mile. Once per long rest, you can banish all summoned creatures within 120 feet unless they succeed on a Charisma save."
+    },
+    {
+      "stage": 8,
+      "name": "Void-Watch Exemplar",
+      "feat": "Vigil Over Nothing",
+      "text": "Creatures from the Void are visible to you at all times. Your weapon attacks against extraplanar creatures deal an extra 4d10 radiant damage and ignore their resistances."
+    },
+    {
+      "stage": 9,
+      "name": "Watcher of the Unspoken",
+      "feat": "Forgotten Doors",
+      "text": "As an action, find every hidden passage, portal, or rift within 300 feet and seal any of them shut for 24 hours. Twice per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Watch Incarnate",
+      "feat": "Guardian of the First Door",
+      "text": "Once per long rest, become the boundary between worlds for 1 minute. Extraplanar creatures within 300 feet make a Charisma save or are banished, and you are immune to their damage."
+    }
+  ],
+  "Oathbreaker": [
+    {
+      "stage": 2,
+      "name": "Fogsworn Betrayer",
+      "feat": "Mist of Doubt",
+      "text": "Your aura of hate is laced with fog. Enemies within it have disadvantage on Wisdom saves and cannot see more than 10 feet. Undead and fiends in it gain your Charisma modifier to damage."
+    },
+    {
+      "stage": 3,
+      "name": "Faithless Templar",
+      "feat": "Infernal Bargain",
+      "text": "When you reduce a creature to 0 hit points, you may raise it as a zombie under your control for 1 hour. You may control up to three this way at once."
+    },
+    {
+      "stage": 4,
+      "name": "Riot-Oath Defiler",
+      "feat": "Broken Laws",
+      "text": "As a reaction when a creature within 30 feet succeeds on a save, you may force it to reroll. If it fails, it takes 3d8 necrotic damage. Uses equal to your Charisma modifier per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Drowned Oath Tyrant",
+      "feat": "Drag Down",
+      "text": "Creatures that start their turn within your aura make a Strength save or have their speed halved and take 3d8 necrotic damage as dark weight presses on them."
+    },
+    {
+      "stage": 6,
+      "name": "Rotten-Heart Despot",
+      "feat": "Cursed Vow",
+      "text": "As an action, curse a creature within 60 feet for 1 minute. It cannot regain hit points and takes 4d8 necrotic damage at the start of each turn. It may make a Wisdom save at the end of each turn. Twice per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Starfall Betrayer",
+      "feat": "Banner of Ruin",
+      "text": "Once per long rest, raise a black banner for 1 minute. Undead and fiends within 120 feet obey your commands, and enemies within that range have disadvantage on attack rolls against you."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow Oath Exemplar",
+      "feat": "Faith in Nothing",
+      "text": "You are immune to necrotic damage and cannot be charmed or frightened. Once per short rest, your smite deals maximum damage and the target cannot be healed until your next turn."
+    },
+    {
+      "stage": 9,
+      "name": "Unspoken Defiler",
+      "feat": "Erased Vow",
+      "text": "As an action, break a creature's bond: a creature within 60 feet loses all magical protections and concentration, and makes a Charisma save or is frightened for 1 minute. Three times per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Betrayal Incarnate",
+      "feat": "The First Broken Promise",
+      "text": "Once per long rest, become the first broken oath for 1 minute. Enemies within 120 feet make a Wisdom save or turn on their allies, and your attacks deal an extra 5d12 necrotic damage."
+    }
+  ],
+  "Oathbreaker Knight": [
+    {
+      "stage": 2,
+      "name": "Fograt Turncloak",
+      "feat": "Treacherous Fog",
+      "text": "When an ally of your target is within 5 feet of it, you deal an extra 3d6 necrotic damage. Once per turn, after hitting, you may become invisible until the start of your next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Oathless Templar",
+      "feat": "Severed Contract",
+      "text": "When you break a promise or deceive a creature, you gain 3d10 temporary hit points and your next attack deals an extra 3d8 necrotic damage. Twice per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Riot-Traitor Knight",
+      "feat": "Twist of Betrayal",
+      "text": "As a reaction when an ally within 30 feet is attacked, you may swap places with it. The attacker then makes a Wisdom save or its attack instead targets another creature you choose."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Betrayer Bulwark",
+      "feat": "Sinking Trust",
+      "text": "Creatures who trust you take 4d8 psychic damage when you attack them. Your first hit against a creature that has not seen you attack deals an extra 4d8 necrotic damage."
+    },
+    {
+      "stage": 6,
+      "name": "Rotheart Knight",
+      "feat": "Shattered Oath",
+      "text": "When you take damage, you may break a piece of your vow: gain resistance to that damage type until the end of your next turn and deal 3d8 necrotic damage to the attacker. Three times per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Starbreak Turncoat",
+      "feat": "Banner Torn Down",
+      "text": "Once per long rest, tear down an enemy banner: enemies within 120 feet lose all bonuses from auras, spells, and inspiration, and make a Wisdom save or become frightened for 1 minute."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow-Oath Exemplar",
+      "feat": "Faithless Strength",
+      "text": "While you have no allies within 30 feet, you score critical hits on a 18-20 and deal an extra 4d10 necrotic damage on critical hits. You cannot be charmed."
+    },
+    {
+      "stage": 9,
+      "name": "Unspoken Turncloak",
+      "feat": "Forsworn Memory",
+      "text": "As an action, a creature within 60 feet makes a Wisdom save or forgets an oath, vow, or promise it holds and becomes charmed by you for 1 minute. Three times per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Traitor Incarnate",
+      "feat": "The Broken Beginning",
+      "text": "Once per long rest, become the first betrayal for 1 minute. Every creature within 120 feet makes a Wisdom save or treats its allies as enemies, and you deal an extra 5d12 necrotic damage."
+    }
+  ],
+  "Beast Lord": [
+    {
+      "stage": 2,
+      "name": "Fogpack Lord",
+      "feat": "Mistbound Pack",
+      "text": "Both of your bonded beasts can move through magical fog without penalty and become invisible while in dim light or fog. When both beasts hit the same target in one round, it takes an extra 2d8 damage."
+    },
+    {
+      "stage": 3,
+      "name": "Hellhound Packmaster",
+      "feat": "Twin Hounds of Judgement",
+      "text": "Your beasts' attacks count as magical and deal an extra 1d8 fire or radiant damage, your choice each turn. When one beast drops to 0 hit points, the other gains 3d10 temporary hit points."
+    },
+    {
+      "stage": 4,
+      "name": "Riotpack Wayleader",
+      "feat": "Shifting Pack",
+      "text": "As a bonus action, swap the positions of your two beasts, or of you and one beast, if they are within 60 feet. A beast that swaps can immediately make one attack."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Pack Overlord",
+      "feat": "Pack Pressure",
+      "text": "When both of your beasts are within 5 feet of a creature, it has disadvantage on attack rolls and saves, and takes 3d8 piercing damage at the start of its turn."
+    },
+    {
+      "stage": 6,
+      "name": "Elderpack Lord",
+      "feat": "Living Bloodline",
+      "text": "Your beasts gain your proficiency bonus to AC, max 2, and saves. Once per long rest, revive a fallen beast as a bonus action with full hit points."
+    },
+    {
+      "stage": 7,
+      "name": "Starpack Outrider",
+      "feat": "Constellation Pack",
+      "text": "Once per long rest, call a third spirit beast for 1 minute. It uses your beast's statistics and its attacks deal an extra 3d8 radiant damage."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Pack Strider",
+      "feat": "Pack Without Sound",
+      "text": "You and your beasts make no sound, leave no trace, and cannot be tracked. Attacks from your beasts against an unaware creature are critical hits."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Pack Lord",
+      "feat": "Unseen Pack",
+      "text": "As an action, your beasts vanish from all memory. For 1 minute, creatures cannot target them unless they succeed on a Wisdom save at the start of their turn. Twice per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Pack Incarnate",
+      "feat": "The Pack Before Packs",
+      "text": "Once per long rest, your beasts become primordial beasts for 1 minute. They grow to Huge size, make two attacks each turn, and deal an extra 4d12 damage."
+    }
+  ],
+  "Beast Master": [
+    {
+      "stage": 2,
+      "name": "Mistfang Companion",
+      "feat": "Fogbond Instinct",
+      "text": "Your beast companion can see through fog and illusion. When it hits a creature, that creature cannot become hidden from you or your companion for 1 minute and takes an extra 2d6 damage."
+    },
+    {
+      "stage": 3,
+      "name": "Hellhound Warden",
+      "feat": "Infernal Bond",
+      "text": "Your companion's attacks deal an extra 1d10 fire damage. When your companion takes damage, you may take half of it instead as a reaction. Your companion may also teleport 15 feet as part of its movement once per turn."
+    },
+    {
+      "stage": 4,
+      "name": "Shiftfur Wayfinder",
+      "feat": "Changing Form",
+      "text": "As a bonus action, your companion may change its form to a beast of the same size, keeping its hit points. Once per turn, it may teleport 15 feet before or after an attack."
+    },
+    {
+      "stage": 5,
+      "name": "Deepfang Trapper",
+      "feat": "Crushing Bite",
+      "text": "When your companion hits, the target makes a Strength save or is grappled and restrained. While grappled this way, it takes 3d8 piercing damage at the start of each turn."
+    },
+    {
+      "stage": 6,
+      "name": "Elderbond Huntmaster",
+      "feat": "Shared Heart",
+      "text": "You and your companion share hit points: when either would drop to 0, the other may give up to half its current hit points to save it. You both gain resistance to poison damage."
+    },
+    {
+      "stage": 7,
+      "name": "Starbeast Outrider",
+      "feat": "Starborn Companion",
+      "text": "Your companion gains a flying speed of 60 feet and its attacks deal an extra 2d10 radiant damage. Once per long rest, it can carry you anywhere within 1 mile instantly."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow-Bond Strider",
+      "feat": "Unseen Bond",
+      "text": "Your companion becomes invisible while it does not attack. Its first attack each turn against a creature that cannot see it deals an extra 4d8 damage."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Beastmaster",
+      "feat": "Memory of the Wild",
+      "text": "Your companion cannot be charmed, frightened, or controlled. Once per long rest, when it dies, it returns at full hit points on your next turn as if it never fell."
+    },
+    {
+      "stage": 10,
+      "name": "First Beast Incarnate",
+      "feat": "Beast Before Names",
+      "text": "Once per long rest, your companion becomes a primordial beast for 1 minute. It grows to Gargantuan size, makes three attacks per turn, and deals an extra 5d12 damage."
+    }
+  ],
+  "Drakewarden": [
+    {
+      "stage": 2,
+      "name": "Fogscale Drakewarden",
+      "feat": "Mistbreath Drake",
+      "text": "Your drake can exhale a 30-foot cone of magical fog. Creatures in it make a Constitution save or take 4d8 damage of your drake's type and are blinded until the end of their next turn. Twice per short rest."
+    },
+    {
+      "stage": 3,
+      "name": "Brimscale Drakewarden",
+      "feat": "Infernal Drake",
+      "text": "Your drake's bite deals an extra 2d8 fire or radiant damage. Once per long rest, it may grow to Large size for 1 minute and you may ride it."
+    },
+    {
+      "stage": 4,
+      "name": "Chaos-Scale Drakewarden",
+      "feat": "Shifting Breath",
+      "text": "When your drake uses its breath, choose any two damage types. The breath deals 6d8 damage of the chosen types, split evenly, in a 60-foot cone."
+    },
+    {
+      "stage": 5,
+      "name": "Deepscale Drakewarden",
+      "feat": "Pressure Scales",
+      "text": "Your drake gains +1 AC and resistance to cold and bludgeoning damage. It can breathe underwater, and its bite pulls targets 10 feet closer on a hit."
+    },
+    {
+      "stage": 6,
+      "name": "Elderdrake Warden",
+      "feat": "Living Bond of Scales",
+      "text": "When your drake hits, you regain 2d8 hit points. When you hit, your drake gains 2d8 temporary hit points. Both gain resistance to your drake's damage type."
+    },
+    {
+      "stage": 7,
+      "name": "Starwing Drakewarden",
+      "feat": "Starborne Drake",
+      "text": "Your drake gains a flying speed of 90 feet and can carry you. Once per long rest, it can breathe starfire in a 120-foot line dealing 8d10 radiant damage on a failed Dexterity save, half on a success."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow-Scale Drakewarden",
+      "feat": "Silent Wings",
+      "text": "Your drake makes no sound and is invisible while flying. Its bite deals an extra 4d8 damage against creatures that cannot see it. You may ride it while it flies, and you share its invisibility."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Drakewarden",
+      "feat": "Dragon Remembered",
+      "text": "Once per long rest, your drake recalls its ancient lineage for 1 minute. It becomes Huge, gains 100 temporary hit points, and its breath recharges on 4-6."
+    },
+    {
+      "stage": 10,
+      "name": "First Dragon Incarnate",
+      "feat": "Drake Before Dragons",
+      "text": "Once per long rest, your drake becomes a primordial dragon for 1 minute. It grows Gargantuan, makes three attacks per turn, and its breath deals 12d12 damage."
+    }
+  ],
+  "Fey Wanderer": [
+    {
+      "stage": 2,
+      "name": "Mistfey Wanderer",
+      "feat": "Fog-Laughing Step",
+      "text": "When you hit a creature, you may teleport up to 30 feet to a space filled with fog or dim light. The target makes a Wisdom save or is charmed by you until the end of its next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Twin Court Wanderer",
+      "feat": "Debt of the Fey",
+      "text": "When a creature fails a save against your charm, it owes you a favour. You can call in the favour as a bonus action to make it attack one of its allies. Twice per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Whimsy Wanderer",
+      "feat": "Chaos Glamour",
+      "text": "As an action, choose a creature within 60 feet. It makes a Wisdom save or rolls on a random effect: frightened, charmed, or confused for 1 minute, and takes 3d8 psychic damage."
+    },
+    {
+      "stage": 5,
+      "name": "Deepfey Wanderer",
+      "feat": "Glamour in the Dark",
+      "text": "Creatures within 30 feet of you have disadvantage on saves against charm. When a creature charmed by you takes damage, it takes an extra 3d8 psychic damage."
+    },
+    {
+      "stage": 6,
+      "name": "Heartfey Wanderer",
+      "feat": "Living Glamour",
+      "text": "You may charm a creature for 24 hours with a touch, unless it succeeds on a Wisdom save. While charmed, it acts as your friend and ally. Once per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Starfey Wanderer",
+      "feat": "Dance Between Worlds",
+      "text": "Once per long rest, you and up to six allies may step into the Fey Paths and appear anywhere within 10 miles. Creatures who see you make a Wisdom save or are charmed for 1 minute."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow Fey Strider",
+      "feat": "Laughter in Silence",
+      "text": "Once per turn, after you hit a creature, it makes a Wisdom save or forgets you exist for 1 minute, unless you attack it again."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Fey Wanderer",
+      "feat": "Erased by Glamour",
+      "text": "As an action, wipe a creature's memory of the last hour. It makes a Wisdom save or loses all knowledge of that time and is stunned until the end of its next turn. Three times per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Fey Incarnate",
+      "feat": "Glamour Before Names",
+      "text": "Once per long rest, become the first fey for 1 minute. All creatures within 120 feet make a Wisdom save or are charmed by you, and you can teleport 60 feet as a bonus action each turn."
+    }
+  ],
+  "Gloom Stalker": [
+    {
+      "stage": 2,
+      "name": "Fogshade Stalker",
+      "feat": "Mistlurker",
+      "text": "While in fog or dim light, you are invisible to creatures that rely on sight. Your first attack each turn against a creature that cannot see you deals an extra 2d8 damage."
+    },
+    {
+      "stage": 3,
+      "name": "Brimdark Stalker",
+      "feat": "Hellshadow Ambush",
+      "text": "On your first turn of combat, you take an extra action. Creatures you hit during that turn take an extra 3d8 necrotic damage and are frightened of you until the end of their next turn."
+    },
+    {
+      "stage": 4,
+      "name": "Shiftgloom Stalker",
+      "feat": "Shifting Shadows",
+      "text": "As a bonus action, teleport from one area of dim light or darkness to another within 60 feet. When you appear, your next attack this turn has advantage."
+    },
+    {
+      "stage": 5,
+      "name": "Pitchdeep Stalker",
+      "feat": "Hunter in the Abyss",
+      "text": "You have truesight in darkness to 120 feet. Creatures in darkness have disadvantage on saves against your features, and your attacks deal an extra 3d8 necrotic damage to them."
+    },
+    {
+      "stage": 6,
+      "name": "Gloomheart Huntmaster",
+      "feat": "Shadow Grown Within",
+      "text": "You gain resistance to necrotic and psychic damage. When you take damage in darkness, you may use your reaction to become invisible until the start of your next turn."
+    },
+    {
+      "stage": 7,
+      "name": "Starless Outrider",
+      "feat": "Darkness Between Stars",
+      "text": "Once per long rest, call total darkness in a 120-foot radius for 1 minute. You see normally inside it, and your attacks there deal an extra 4d10 necrotic damage."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow-Gloom Strider",
+      "feat": "Unseen in Nothing",
+      "text": "You cannot be detected by divination, truesight, or blindsight unless you choose to be. Once per short rest, your first hit on an unaware creature deals maximum damage."
+    },
+    {
+      "stage": 9,
+      "name": "Trackless Gloom",
+      "feat": "Forgotten Shadow",
+      "text": "Creatures that lose sight of you forget you were there and must spend an action to recall you. Your attacks against creatures that have forgotten you are critical hits."
+    },
+    {
+      "stage": 10,
+      "name": "First Dark Incarnate",
+      "feat": "Dark Before Light",
+      "text": "Once per long rest, become the first darkness for 1 minute. Light cannot exist within 60 feet of you, and you make two extra attacks each turn that deal an extra 4d12 necrotic damage."
+    }
+  ],
+  "Horizon Walker": [
+    {
+      "stage": 2,
+      "name": "Fogline Planeswalker",
+      "feat": "Veilstep",
+      "text": "As a bonus action, teleport up to 60 feet through fog or illusion. When you arrive, your next attack deals an extra 2d8 force damage. Uses equal to your Wisdom modifier per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Hell-Gate Warden",
+      "feat": "Burning Portal",
+      "text": "As an action, open a portal for 1 minute. Creatures who pass through take 4d8 fire or radiant damage, and you and allies may step through to any point within 120 feet. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Shiftway Planewalker",
+      "feat": "Shifting Boundaries",
+      "text": "When you teleport, choose one creature within 10 feet of your origin or destination. It makes a Charisma save or is teleported with you to a space adjacent to you."
+    },
+    {
+      "stage": 5,
+      "name": "Deepgate Walker",
+      "feat": "Abyssal Portal",
+      "text": "You can sense planar boundaries within 1 mile. Once per short rest, open a rift beneath a creature within 60 feet; it makes a Dexterity save or falls into the Abyss for 1 round and takes 6d8 cold damage."
+    },
+    {
+      "stage": 6,
+      "name": "Heartgate Walker",
+      "feat": "Living Gate",
+      "text": "Your body becomes a gate. Allies within 30 feet may teleport to any space adjacent to you as a bonus action. Once per turn, you may teleport an ally within 60 feet to you."
+    },
+    {
+      "stage": 7,
+      "name": "Starfield Planestrider",
+      "feat": "Horizon Leap",
+      "text": "Once per long rest, you and up to six allies may teleport to any point you have seen on the same plane, or to another plane you have visited."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow Gate Strider",
+      "feat": "Walk Between Nothing",
+      "text": "You can walk into the Void and return, becoming untargetable until the start of your next turn. While there, you can move up to 120 feet. Three times per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Unremembered Walker",
+      "feat": "Forgotten Road",
+      "text": "As an action, banish a creature within 60 feet into a forgotten corner of the planes. It makes a Charisma save or vanishes for 1 minute, returning confused. Twice per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Gate Incarnate",
+      "feat": "Boundary Before Worlds",
+      "text": "Once per long rest, for 1 minute you can teleport anywhere on any plane as a bonus action, and your attacks banish targets on a failed Charisma save."
+    }
+  ],
+  "Hunter": [
+    {
+      "stage": 2,
+      "name": "Mistmark Hunter",
+      "feat": "Hunter's Fog Sight",
+      "text": "Your Hunter's Mark target cannot hide from you in fog, darkness, or illusion. Once per turn, you deal an extra 2d8 damage to a marked target that is lightly or heavily obscured."
+    },
+    {
+      "stage": 3,
+      "name": "Hellhunt Warden",
+      "feat": "Fiend and Angel Slayer",
+      "text": "Your attacks deal an extra 2d10 damage against fiends and celestials. When you kill one, you regain a use of a hunter's tactic and 2d10 hit points."
+    },
+    {
+      "stage": 4,
+      "name": "Shiftwind Hunter",
+      "feat": "Adaptive Tactics",
+      "text": "At the start of each turn, choose one Hunter option from any tier. You gain that option until your next turn, in addition to your existing ones."
+    },
+    {
+      "stage": 5,
+      "name": "Deeptrack Hunter",
+      "feat": "Pressure Snare",
+      "text": "As an action, set a snare. The next creature to enter a 10-foot square makes a Dexterity save or is restrained and takes 4d8 piercing damage. You may have up to three snares."
+    },
+    {
+      "stage": 6,
+      "name": "Elderwood Hunter",
+      "feat": "Old Hunter's Wisdom",
+      "text": "You gain advantage on Wisdom saves and cannot be surprised. Once per turn, when you miss with an attack, you may reroll it and must use the new roll."
+    },
+    {
+      "stage": 7,
+      "name": "Starfall Hunter",
+      "feat": "Volley of Stars",
+      "text": "Once per short rest, as an action, make a ranged attack against every creature of your choice within 120 feet. Each hit deals an extra 2d10 radiant damage."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Hunter",
+      "feat": "Quiet Kill",
+      "text": "Your attacks make no sound. When you reduce a creature to 0 hit points, you may immediately make one attack against another creature within range."
+    },
+    {
+      "stage": 9,
+      "name": "Trackless Hunter",
+      "feat": "Hunt Unknown",
+      "text": "Your marked target does not know it is hunted. It makes a Wisdom save at the start of its turn or is unable to move away from you, and takes 4d8 psychic damage."
+    },
+    {
+      "stage": 10,
+      "name": "First Hunter Incarnate",
+      "feat": "First Hunt",
+      "text": "Once per long rest, for 1 minute you make two extra attacks each turn, and every hit forces a Constitution save or the target is paralyzed until the end of its next turn."
+    }
+  ],
+  "Monster Slayer": [
+    {
+      "stage": 2,
+      "name": "Mistbane Slayer",
+      "feat": "Unveil the Beast",
+      "text": "Your Slayer's Prey target cannot be invisible or disguised to you. When you hit it, it makes a Wisdom save or loses its resistances until the end of your next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Demonbane Slayer",
+      "feat": "Bane of Hell and Heaven",
+      "text": "Your attacks against fiends, celestials, and undead deal an extra 3d8 radiant damage. They have disadvantage on saves against your features. When one dies within 30 feet, you regain 2d10 hit points."
+    },
+    {
+      "stage": 4,
+      "name": "Chaosbane Slayer",
+      "feat": "Unstable Prey",
+      "text": "When your prey casts a spell, you may use your reaction to force it to make a Constitution save. On a failure, the spell is wasted and it takes 3d8 force damage."
+    },
+    {
+      "stage": 5,
+      "name": "Abyssbane Slayer",
+      "feat": "Depth Slayer",
+      "text": "Against creatures from the Abyss or aberrations, your attacks score critical hits on 19-20 and deal an extra 4d8 damage. Their speed is halved until the end of their next turn after you hit them."
+    },
+    {
+      "stage": 6,
+      "name": "Elderbane Slayer",
+      "feat": "Living Bane",
+      "text": "You may mark two Slayer's Prey targets at once. When one dies, you regain 3d10 hit points and gain advantage on your next attack against the other."
+    },
+    {
+      "stage": 7,
+      "name": "Starbane Slayer",
+      "feat": "Hunter of Star-Beasts",
+      "text": "Once per long rest, mark a creature of challenge rating 20 or higher. For 1 minute, your attacks against it deal an extra 5d10 damage and ignore resistances."
+    },
+    {
+      "stage": 8,
+      "name": "Voidbane Slayer",
+      "feat": "Bane of Nothing",
+      "text": "You see creatures from the Void at all times. Your attacks against them deal an extra 5d8 force damage and they cannot teleport while within 60 feet of you."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Bane Slayer",
+      "feat": "Unremembered Kill",
+      "text": "When you kill a monster, it cannot return by any means short of a wish. Once per long rest, you can make your prey forget its own abilities for 1 minute on a failed Wisdom save."
+    },
+    {
+      "stage": 10,
+      "name": "First Slayer Incarnate",
+      "feat": "Slayer Before Monsters",
+      "text": "Once per long rest, for 1 minute every hit you make against a monster forces a Constitution save or it takes an extra 8d12 damage and is stunned until the end of its next turn."
+    }
+  ],
+  "Moon Hunter": [
+    {
+      "stage": 2,
+      "name": "Fogmoon Hunter",
+      "feat": "Moonlit Mist",
+      "text": "While in dim light or fog, you see as if under bright moonlight. Your attacks against shapechangers deal an extra 2d8 silver radiant damage and force them back into their true form."
+    },
+    {
+      "stage": 3,
+      "name": "Hellmoon Hunt-Warden",
+      "feat": "Blood Moon Verdict",
+      "text": "Once per long rest, call a blood moon for 1 minute. Your attacks deal an extra 3d8 radiant damage, and shapechangers cannot change form. You and allies within 30 feet have advantage on saves against charm and fear under it."
+    },
+    {
+      "stage": 4,
+      "name": "Shiftmoon Hunter",
+      "feat": "Phases of the Moon",
+      "text": "At the start of each turn, roll a d4 to choose a moon phase: speed, stealth, damage, or healing. You gain a 3d8 bonus to that phase's rolls until your next turn."
+    },
+    {
+      "stage": 5,
+      "name": "Drowned Moon Trapper",
+      "feat": "Moon Beneath the Waves",
+      "text": "You can breathe underwater and see in magical darkness. Your attacks against creatures in darkness deal an extra 3d8 cold damage. You also have advantage on Perception checks that rely on sight or smell while underwater or in darkness."
+    },
+    {
+      "stage": 6,
+      "name": "Heartmoon Huntmaster",
+      "feat": "Wolf Within",
+      "text": "As a bonus action, take on a wolfish form for 1 minute. You gain +1 AC, an extra 20 feet of speed, and your attacks deal an extra 2d8 damage. Twice per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Starmoon Outrider",
+      "feat": "Moonrise Over Worlds",
+      "text": "Once per long rest, call a full moon over 1 mile for 1 hour. Shapechangers cannot change shape, and your attacks against them deal an extra 4d10 radiant damage."
+    },
+    {
+      "stage": 8,
+      "name": "New Moon Strider",
+      "feat": "Moonless Silence",
+      "text": "While in darkness, you are invisible and silent. Your first hit each turn against a creature in darkness deals an extra 4d8 radiant damage. Against shapechangers, this extra damage is doubled."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Moon Hunter",
+      "feat": "Eclipse Hunt",
+      "text": "Once per long rest, call an eclipse for 1 minute. Creatures within 300 feet make a Wisdom save or forget their abilities and cannot use them until the eclipse ends."
+    },
+    {
+      "stage": 10,
+      "name": "First Moon Incarnate",
+      "feat": "Moon Before Night",
+      "text": "Once per long rest, become the first moon for 1 minute. Shapechangers within 300 feet are paralyzed, and your attacks deal an extra 6d12 radiant damage."
+    }
+  ],
+  "Swarmkeeper": [
+    {
+      "stage": 2,
+      "name": "Mistswarm Keeper",
+      "feat": "Fogswarm",
+      "text": "Your swarm can become a cloud of fog in a 20-foot radius around you. Creatures inside have disadvantage on attack rolls against you and take 2d6 piercing damage at the start of their turns."
+    },
+    {
+      "stage": 3,
+      "name": "Hellswarm Warden",
+      "feat": "Infernal Swarm",
+      "text": "Your swarm's damage becomes fire or radiant, your choice. When a creature takes swarm damage, it makes a Constitution save or is blinded until the end of its next turn."
+    },
+    {
+      "stage": 4,
+      "name": "Riotswarm Keeper",
+      "feat": "Chaotic Swarm",
+      "text": "When your swarm moves a creature, you may move it up to 30 feet in any direction, including up. The creature takes 3d8 bludgeoning damage if it lands in an obstacle."
+    },
+    {
+      "stage": 5,
+      "name": "Deepswarm Keeper",
+      "feat": "Pressure Swarm",
+      "text": "Your swarm can grapple creatures. While grappled by the swarm, a creature is restrained and takes 3d8 piercing damage at the start of its turn."
+    },
+    {
+      "stage": 6,
+      "name": "Heartswarm Keeper",
+      "feat": "Living Swarm",
+      "text": "Your swarm grows into a horde. You may split it into two swarms that act independently, each dealing your swarm's damage. Once per long rest, revive a lost swarm."
+    },
+    {
+      "stage": 7,
+      "name": "Starswarm Outrider",
+      "feat": "Cloud of Stars",
+      "text": "Once per long rest, your swarm becomes a cloud of starlight 120 feet wide for 1 minute. Enemies inside take 4d10 radiant damage at the start of their turns."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow Swarm Strider",
+      "feat": "Silent Swarm",
+      "text": "Your swarm makes no sound and is invisible. Creatures inside your swarm's area cannot see you, and you may teleport anywhere within the swarm as a bonus action."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Swarm",
+      "feat": "Swarm of Memories",
+      "text": "As an action, your swarm erases a creature's memories within 60 feet. It makes a Wisdom save or forgets its last turn and loses its next reaction. Three times per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Swarm Incarnate",
+      "feat": "Swarm Before Life",
+      "text": "Once per long rest, become the first swarm for 1 minute. You are immune to weapon damage, and creatures within 60 feet take 6d10 piercing damage at the start of their turns."
+    }
+  ],
+  "Thornwalker": [
+    {
+      "stage": 2,
+      "name": "Mistthorn Walker",
+      "feat": "Thorns in the Fog",
+      "text": "You can move through brambles and fog without penalty. When a creature hits you with a melee attack, it takes 2d8 piercing damage from thorns that sprout from your skin."
+    },
+    {
+      "stage": 3,
+      "name": "Brimthorn Warden",
+      "feat": "Hellthorn Barrier",
+      "text": "As an action, raise a wall of burning thorns 60 feet long and 10 feet high for 1 minute. Creatures who pass through take 4d8 fire damage. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Chaosthorn Walker",
+      "feat": "Wild Growth",
+      "text": "When you take damage, thorns lash out at a random creature within 15 feet, dealing 3d8 piercing damage. You may choose to exclude allies from this effect."
+    },
+    {
+      "stage": 5,
+      "name": "Deepthorn Trapper",
+      "feat": "Roots of the Deep",
+      "text": "When you hit a creature, thorny roots bind it. It makes a Strength save or is restrained and takes 3d8 piercing damage at the start of its turn."
+    },
+    {
+      "stage": 6,
+      "name": "Heartthorn Huntmaster",
+      "feat": "Living Briar",
+      "text": "You gain +1 AC and resistance to piercing and slashing damage. Creatures who grapple you take 4d8 piercing damage each turn. When a creature hits you with a melee attack, it makes a Dexterity save or is restrained by briars until its next turn."
+    },
+    {
+      "stage": 7,
+      "name": "Starthorn Outrider",
+      "feat": "Field of Thorns",
+      "text": "Once per long rest, cover 120 feet with thorns for 1 minute. It is difficult terrain for enemies, who take 4d10 piercing damage when they move into it."
+    },
+    {
+      "stage": 8,
+      "name": "Hollowthorn Strider",
+      "feat": "Silent Briar",
+      "text": "Thorns that grow from you are invisible. Creatures that touch you take 4d8 piercing damage and have their speed reduced to 0 until the end of their next turn."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Thornwalker",
+      "feat": "Thorns of Forgetting",
+      "text": "When a creature takes thorn damage from you, it makes a Wisdom save or forgets its last action and cannot take reactions until the start of its next turn. A creature can be affected only once per round."
+    },
+    {
+      "stage": 10,
+      "name": "First Thorn Incarnate",
+      "feat": "Thorn Before Roses",
+      "text": "Once per long rest, become the first thorn for 1 minute. Any creature that hits you takes 6d10 piercing damage, and you deal an extra 4d12 piercing damage."
+    }
+  ],
+  "Void Stalker": [
+    {
+      "stage": 2,
+      "name": "Fogvoid Stalker",
+      "feat": "Glimpse the Unseen",
+      "text": "You can see invisible creatures and things from the Void within 60 feet. When you hit such a creature, it takes an extra 2d8 force damage and cannot become invisible until your next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Brimvoid Hunt-Warden",
+      "feat": "Judgement of the Empty",
+      "text": "Your attacks against creatures from the Void deal an extra 3d8 radiant damage. When you kill one, you gain 3d10 temporary hit points. They also cannot become invisible or ethereal for 1 minute after you hit them."
+    },
+    {
+      "stage": 4,
+      "name": "Chaosvoid Stalker",
+      "feat": "Fracture Hunt",
+      "text": "When you hit a Void creature, it makes a Charisma save or is pulled back into reality and cannot teleport or phase until the end of its next turn."
+    },
+    {
+      "stage": 5,
+      "name": "Abyssvoid Trapper",
+      "feat": "Deep Void Snare",
+      "text": "As an action, place a Void snare in a 10-foot square. The next creature to enter it makes a Dexterity save or is restrained and takes 4d8 force damage."
+    },
+    {
+      "stage": 6,
+      "name": "Heartvoid Huntmaster",
+      "feat": "Living Emptiness",
+      "text": "You gain resistance to force and psychic damage. When a Void creature tries to harm you, it makes a Wisdom save or its attack fails."
+    },
+    {
+      "stage": 7,
+      "name": "Starvoid Outrider",
+      "feat": "Hunt Beyond Stars",
+      "text": "Once per long rest, track a Void creature across any distance on the same plane for 24 hours. Your first hit against it deals an extra 6d10 force damage."
+    },
+    {
+      "stage": 8,
+      "name": "Trueless Void-Strider",
+      "feat": "Nothing Sees Nothing",
+      "text": "You are invisible to creatures from the Void. Your attacks against them are critical hits on 18-20 and deal an extra 4d10 force damage. You also have advantage on saves against their abilities."
+    },
+    {
+      "stage": 9,
+      "name": "Unremembered Stalker",
+      "feat": "Forgotten Prey",
+      "text": "As an action, a Void creature within 60 feet makes a Charisma save or forgets its nature and becomes a mortal creature for 1 minute, losing all resistances and immunities. Twice per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Void-Hunter Incarnate",
+      "feat": "Hunter Before the Void",
+      "text": "Once per long rest, become the first hunter of nothing for 1 minute. All Void creatures within 300 feet are visible, and your attacks against them deal an extra 6d12 force damage."
+    }
+  ],
+  "Arcane Trickster": [
+    {
+      "stage": 2,
+      "name": "Fogglass Trickster",
+      "feat": "Mirror Mist",
+      "text": "As a bonus action, create an illusory double within 30 feet for 1 minute. You may cast spells and make Sneak Attacks as if from its space. A creature that touches it sees through it. Twice per short rest."
+    },
+    {
+      "stage": 3,
+      "name": "Brimstone Conjurer",
+      "feat": "Hellfire Illusion",
+      "text": "Your illusions can burn. Once per turn, a creature that interacts with one of your illusions makes an Intelligence save or takes 3d8 fire or psychic damage as if it were real."
+    },
+    {
+      "stage": 4,
+      "name": "Loaded-Spell Grifter",
+      "feat": "Swapped Spell",
+      "text": "As a reaction when a creature within 60 feet casts a spell, make an Intelligence check against DC 10 + the spell's level. On a success, you steal the spell and may cast it within 1 minute. Twice per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Deepglass Trickster",
+      "feat": "Illusion in the Dark",
+      "text": "Your illusions work in total darkness and against blindsight and tremorsense. Creatures fooled by your illusions take an extra 3d8 psychic damage from your Sneak Attacks."
+    },
+    {
+      "stage": 6,
+      "name": "Heartlock Trickster",
+      "feat": "Mind Lockpick",
+      "text": "As an action, touch a creature and make a Sleight of Hand check against its Wisdom save. On a success, you learn one of its secrets and it is charmed by you for 1 hour. Once per short rest."
+    },
+    {
+      "stage": 7,
+      "name": "Skyroad Illusionist",
+      "feat": "Illusion of Horizons",
+      "text": "Once per long rest, create an illusory landscape up to 1 mile across for 1 hour. Creatures inside make an Intelligence save or become lost, unable to find their way out."
+    },
+    {
+      "stage": 8,
+      "name": "Nothing-Spell Trickster",
+      "feat": "Spell from Nothing",
+      "text": "Three times per long rest, cast a spell of 5th level or lower without using a spell slot or components. Creatures cannot tell that you cast it."
+    },
+    {
+      "stage": 9,
+      "name": "Unremembered Magician",
+      "feat": "Forgotten Spellcraft",
+      "text": "Creatures that see you cast a spell forget it immediately. Your spells cannot be counterspelled, and your illusions cannot be disbelieved by creatures that have forgotten you."
+    },
+    {
+      "stage": 10,
+      "name": "First Trick Incarnate",
+      "feat": "Illusion Before Reality",
+      "text": "Once per long rest, make one illusion real for 1 minute. It can deal damage, block movement, and affect the world as if it were a true object or creature of challenge rating 20 or lower."
+    }
+  ],
+  "Assassin": [
+    {
+      "stage": 2,
+      "name": "Fogknife Assassin",
+      "feat": "Kill in the Mist",
+      "text": "When you attack a creature from fog or dim light, the attack is a critical hit if it hits. You may then move up to 30 feet without provoking opportunity attacks."
+    },
+    {
+      "stage": 3,
+      "name": "Contract Assassin",
+      "feat": "Infernal Contract",
+      "text": "As an action, sign a contract on a creature. For 24 hours, your Sneak Attack against it deals an extra 3d6 damage and you always know its direction. Once per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Chaos-Edge Assassin",
+      "feat": "Unpredictable Strike",
+      "text": "Your attacks cannot be predicted. Creatures cannot take reactions against your attacks, and once per turn you may roll Sneak Attack damage twice and use the higher result."
+    },
+    {
+      "stage": 5,
+      "name": "Pitchblade Assassin",
+      "feat": "Deathless Dark",
+      "text": "When you hit an unaware creature in darkness, it makes a Constitution save. On a failure, it takes an extra 6d8 necrotic damage and is paralyzed until the end of your next turn. Once per short rest."
+    },
+    {
+      "stage": 6,
+      "name": "Heartstop Assassin",
+      "feat": "Silent Heart",
+      "text": "When you deal Sneak Attack damage, the target makes a Constitution save or cannot regain hit points for 1 minute. You can tell how close any creature is to death by sight."
+    },
+    {
+      "stage": 7,
+      "name": "Skyroad Killer",
+      "feat": "Assassination Across Worlds",
+      "text": "Once per long rest, choose a creature you have seen within 1 mile. You teleport behind it and make an attack that is an automatic critical hit."
+    },
+    {
+      "stage": 8,
+      "name": "Nothing-Blade Assassin",
+      "feat": "Blade of Nothing",
+      "text": "Once per short rest, your attack ignores all resistances, immunities, and temporary hit points. If it reduces the target below 100 hit points, the target dies."
+    },
+    {
+      "stage": 9,
+      "name": "Never-Was Killer",
+      "feat": "Unremembered Kill",
+      "text": "When you kill a creature, every creature that saw it forgets you were there. Your attacks against creatures that have forgotten you deal an extra 5d8 damage."
+    },
+    {
+      "stage": 10,
+      "name": "First Death Incarnate",
+      "feat": "Death Before Life",
+      "text": "Once per long rest, make an attack against a creature. It makes a Constitution save. On a failure it dies outright. On a success it takes 20d10 necrotic damage."
+    }
+  ],
+  "Blood Dancer": [
+    {
+      "stage": 2,
+      "name": "Fogblood Dancer",
+      "feat": "Crimson Mist",
+      "text": "As a bonus action, spend 2d6 of your own hit points to exhale a 20-foot cloud of blood mist for 1 minute. You can see through it, and creatures inside have disadvantage on attacks against you."
+    },
+    {
+      "stage": 3,
+      "name": "Debtblood Dancer",
+      "feat": "Blood Price",
+      "text": "When you spend hit points to fuel a feature, your next Sneak Attack deals an extra 1d8 necrotic damage for each 5 hit points spent, up to 6d8."
+    },
+    {
+      "stage": 4,
+      "name": "Riotblood Dancer",
+      "feat": "Wild Spatter",
+      "text": "When you take damage, blood sprays from you, dealing 3d8 necrotic damage to a creature of your choice within 15 feet. If it is a fiend or undead, it is also blinded until the end of its next turn."
+    },
+    {
+      "stage": 5,
+      "name": "Deepblood Dancer",
+      "feat": "Pressure of Veins",
+      "text": "As an action, choose a creature within 30 feet. It makes a Constitution save or its blood pressure spikes, dealing 5d8 necrotic damage and stunning it until the end of its next turn. Once per short rest."
+    },
+    {
+      "stage": 6,
+      "name": "Heartblood Dancer",
+      "feat": "Living Blood",
+      "text": "When you spend hit points, you gain the same amount as temporary hit points at the end of your next turn. You also gain resistance to necrotic damage."
+    },
+    {
+      "stage": 7,
+      "name": "Skyroad Bloodletter",
+      "feat": "Red Horizon",
+      "text": "Once per long rest, spill your blood across 120 feet for 1 minute. Enemies inside take 4d10 necrotic damage at the start of each turn, and you regain hit points equal to half of it."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow-Vein Dancer",
+      "feat": "Bloodless Dance",
+      "text": "You no longer need blood. You can spend hit points without losing them twice per short rest, and creatures cannot drain your life force or hit point maximum."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Blood Dancer",
+      "feat": "Blood Remembers",
+      "text": "As an action, call back all the blood spilled within 60 feet in the past minute. You regain 8d10 hit points and enemies within range take 6d8 necrotic damage. Once per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Blood Incarnate",
+      "feat": "Blood Before Life",
+      "text": "Once per long rest, become the first blood for 1 minute. Your attacks drain 4d12 hit points from the target, and creatures within 60 feet make a Constitution save or bleed out at 0 hit points."
+    }
+  ],
+  "Inquisitive": [
+    {
+      "stage": 2,
+      "name": "Fogsight Inquisitor",
+      "feat": "Read the Mist",
+      "text": "You automatically see through illusions and disguises within 30 feet. As a bonus action, make an Insight check against a creature's Deception; on a success, your next Sneak Attack against it deals an extra 2d8 damage."
+    },
+    {
+      "stage": 3,
+      "name": "Twin Verdict Investigator",
+      "feat": "Verdict of Truth",
+      "text": "As an action, ask a creature within 30 feet one question. It must answer truthfully unless it succeeds on a Charisma save, and if it lies you know it. Three times per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Chaos-Mind Detective",
+      "feat": "Pattern in Chaos",
+      "text": "You cannot be surprised, and you have advantage on initiative rolls. Once per turn, when an enemy acts, you may predict its next action and gain advantage on your next attack against it."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Truth Inquisitor",
+      "feat": "Pierce the Depths",
+      "text": "You have truesight to 60 feet. Creatures that lie to you take 3d8 psychic damage and have disadvantage on their next save against your features."
+    },
+    {
+      "stage": 6,
+      "name": "Heartsight Inquisitor",
+      "feat": "Heart's Secret",
+      "text": "As an action, learn a creature's deepest fear, desire, and weakness. Your attacks against it for 1 hour deal an extra 3d8 psychic damage. Once per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Skyroad Investigator",
+      "feat": "Truth Across Worlds",
+      "text": "Once per long rest, learn the location of any creature or object you have seen, on any plane, and the path to reach it. You also learn whether it is guarded and by what kind of creatures."
+    },
+    {
+      "stage": 8,
+      "name": "Nothing-Hides Inquisitor",
+      "feat": "No Secret Survives",
+      "text": "You cannot be deceived by any magic or mundane means. Once per short rest, after observing a creature for 1 round, you know all its abilities and weaknesses."
+    },
+    {
+      "stage": 9,
+      "name": "Remembering Inquisitor",
+      "feat": "Recover the Forgotten",
+      "text": "As an action, recover any memory that has been erased or forgotten within 60 feet. Creatures whose memories you recover are freed from charm and confusion. Three times per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Truth Incarnate",
+      "feat": "Truth Before Lies",
+      "text": "Once per long rest, for 1 minute no creature within 300 feet can lie, become invisible, or disguise itself. Your attacks against them deal an extra 4d12 psychic damage."
+    }
+  ],
+  "Mastermind": [
+    {
+      "stage": 2,
+      "name": "Fogveil Mastermind",
+      "feat": "Plot in the Mist",
+      "text": "As a bonus action, whisper a plan to an ally within 60 feet. Until the end of its next turn, it is invisible to enemies and has advantage on its next attack, which deals an extra 2d8 damage."
+    },
+    {
+      "stage": 3,
+      "name": "Contract Mastermind",
+      "feat": "Infernal Scheme",
+      "text": "Once per long rest, make a deal with a creature. If it agrees, it must fulfil its side within 24 hours or take 6d10 psychic damage and become charmed by you."
+    },
+    {
+      "stage": 4,
+      "name": "Loaded-Hand Mastermind",
+      "feat": "Rigged Game",
+      "text": "As a reaction when an enemy within 60 feet rolls a d20, you may force a reroll and choose which result it uses. Three times per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Plot Mastermind",
+      "feat": "Pressure Play",
+      "text": "Enemies within 60 feet have disadvantage on saves against your features. Allies within 60 feet may use your Help action as a reaction once per round."
+    },
+    {
+      "stage": 6,
+      "name": "Heartstring Mastermind",
+      "feat": "Puppet Strings",
+      "text": "As an action, choose a creature within 30 feet. It makes a Wisdom save or is charmed by you for 1 minute and follows your commands. Once per short rest."
+    },
+    {
+      "stage": 7,
+      "name": "Skyroad Mastermind",
+      "feat": "Scheme Across Worlds",
+      "text": "Once per long rest, set a plan into motion: up to six allies anywhere on the same plane gain an extra action on their next turn and advantage on all rolls for 1 minute."
+    },
+    {
+      "stage": 8,
+      "name": "Nothing-Plot Mastermind",
+      "feat": "Invisible Hand",
+      "text": "Creatures cannot tell that you are behind any of your schemes. Allies you help with the Help action gain +1 AC until your next turn."
+    },
+    {
+      "stage": 9,
+      "name": "Never-Was Mastermind",
+      "feat": "Forgotten Plot",
+      "text": "As an action, rewrite a creature's plans. It makes a Wisdom save or forgets its current goal and takes 5d8 psychic damage. Three times per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Schemer Incarnate",
+      "feat": "Plan Before Plans",
+      "text": "Once per long rest, rewind the last round. All creatures return to where they were at the start of it, but you and your allies keep the knowledge of what happened."
+    }
+  ],
+  "Nightblade": [
+    {
+      "stage": 2,
+      "name": "Fogshadow Blade",
+      "feat": "Blink in the Mist",
+      "text": "As a bonus action, teleport from one area of dim light, darkness, or fog to another within 60 feet. Your next Sneak Attack this turn deals an extra 2d8 necrotic damage."
+    },
+    {
+      "stage": 3,
+      "name": "Hellshade Blade",
+      "feat": "Infernal Shadowstep",
+      "text": "When you teleport, you leave a burst of hellfire shadow behind. Creatures within 10 feet of your starting point make a Dexterity save or take 3d8 fire damage."
+    },
+    {
+      "stage": 4,
+      "name": "Chaos Shadowblade",
+      "feat": "Scattered Shadows",
+      "text": "When you teleport, you may teleport up to two allies within 10 feet of you to spaces near your destination. Each gains advantage on its next attack."
+    },
+    {
+      "stage": 5,
+      "name": "Pitchdepth Blade",
+      "feat": "Shadow of the Abyss",
+      "text": "You can teleport through any darkness within 120 feet. Creatures in darkness take an extra 3d8 necrotic damage from your Sneak Attack. You also see normally in magical darkness out to 120 feet."
+    },
+    {
+      "stage": 6,
+      "name": "Heartshadow Blade",
+      "feat": "Living Shadow",
+      "text": "Your shadow becomes a companion that can make one attack each turn, dealing 3d8 necrotic damage. It shares your hit points and moves with you."
+    },
+    {
+      "stage": 7,
+      "name": "Starless Shadowblade",
+      "feat": "Shadow Between Stars",
+      "text": "Once per long rest, teleport to any point you can see within 1 mile. Your first attack after arriving deals an extra 6d10 necrotic damage."
+    },
+    {
+      "stage": 8,
+      "name": "Nothing-Shadow Blade",
+      "feat": "Blade of the Void",
+      "text": "While in darkness, you cannot be targeted by attacks or spells unless the attacker succeeds on a Wisdom save. Your Sneak Attack ignores necrotic resistance."
+    },
+    {
+      "stage": 9,
+      "name": "Unremembered Shade",
+      "feat": "Shadow Without Memory",
+      "text": "When you teleport, creatures that saw you before make a Wisdom save or forget you existed. Your attacks against them are critical hits. A creature that succeeds on its save is immune to this for 24 hours."
+    },
+    {
+      "stage": 10,
+      "name": "First Night Incarnate",
+      "feat": "Night Before Day",
+      "text": "Once per long rest, become the first night for 1 minute. You can teleport anywhere within 300 feet as a bonus action, and your attacks deal an extra 5d12 necrotic damage."
+    }
+  ],
+  "Phantom": [
+    {
+      "stage": 2,
+      "name": "Fogghost Phantom",
+      "feat": "Mistborn Spirit",
+      "text": "When a creature dies within 30 feet of you, its spirit lingers in the fog. You may consult it as an action to learn one fact it knew, or deal 3d8 necrotic damage to a creature within 30 feet."
+    },
+    {
+      "stage": 3,
+      "name": "Hell-Shade Phantom",
+      "feat": "Soul Toll",
+      "text": "When you deal Sneak Attack damage, you may deal an extra 3d6 necrotic damage to a second creature within 30 feet. Uses equal to your proficiency bonus per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Riot-Shade Phantom",
+      "feat": "Restless Ghost",
+      "text": "As a bonus action, become incorporeal until the start of your next turn. You can move through creatures and objects and have resistance to all damage."
+    },
+    {
+      "stage": 5,
+      "name": "Drowned-Soul Phantom",
+      "feat": "Pressure of the Dead",
+      "text": "Creatures within 30 feet of you have disadvantage on saves against necrotic damage. When they take necrotic damage, they also take 3d8 cold damage. You gain resistance to cold and necrotic damage."
+    },
+    {
+      "stage": 6,
+      "name": "Heartghost Phantom",
+      "feat": "Soul Trinket",
+      "text": "When a creature dies within 30 feet, you may capture its soul. Spend a captured soul to regain 4d10 hit points or deal an extra 4d10 necrotic damage on a hit."
+    },
+    {
+      "stage": 7,
+      "name": "Skyroad Phantom",
+      "feat": "Ghost Across Worlds",
+      "text": "Once per long rest, become a spirit for 1 hour. You can fly at 120 feet, pass through objects, and cannot be harmed except by force or radiant damage."
+    },
+    {
+      "stage": 8,
+      "name": "Nothing-Ghost Phantom",
+      "feat": "Ghost of Nothing",
+      "text": "When you become incorporeal, you are also invisible. Creatures you pass through take 4d8 necrotic damage and are frightened until the end of their next turn."
+    },
+    {
+      "stage": 9,
+      "name": "Never-Was Phantom",
+      "feat": "Forgotten Soul",
+      "text": "As an action, a creature within 60 feet makes a Charisma save or its spirit forgets its body. It is incapacitated for 1 minute and takes 6d8 necrotic damage. Twice per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Ghost Incarnate",
+      "feat": "Soul Before Death",
+      "text": "Once per long rest, become the first ghost for 1 minute. You are immune to all damage except radiant, and your attacks deal an extra 5d12 necrotic damage."
+    }
+  ],
+  "Scout": [
+    {
+      "stage": 2,
+      "name": "Fogtrail Scout",
+      "feat": "Mistrunner",
+      "text": "You ignore difficult terrain and fog. Once per turn, after you hit, you may move up to half your speed without provoking opportunity attacks and become invisible until the start of your next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Brimstone Outrider",
+      "feat": "Hell-Road Skirmish",
+      "text": "Your speed increases by 20 feet. When an enemy ends its turn within 5 feet of you, you may make one attack against it as a reaction and deal an extra 2d8 fire damage."
+    },
+    {
+      "stage": 4,
+      "name": "Chaos-Path Scout",
+      "feat": "Shifting Path",
+      "text": "As a bonus action, teleport up to 30 feet. Once per turn, if you teleport before attacking, your attack has advantage and deals an extra 2d8 force damage."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Path Scout",
+      "feat": "Survive the Deep",
+      "text": "You can breathe underwater and see in darkness to 120 feet. Your Sneak Attack deals an extra 3d8 damage against creatures in difficult terrain. You also gain a climbing and swimming speed equal to your walking speed."
+    },
+    {
+      "stage": 6,
+      "name": "Heartwild Scout",
+      "feat": "Living Path",
+      "text": "You cannot be slowed, grappled, or restrained. Allies within 30 feet of you gain an extra 10 feet of speed and can move through difficult terrain without penalty."
+    },
+    {
+      "stage": 7,
+      "name": "Starfield Scout",
+      "feat": "Horizon Sight",
+      "text": "You can see clearly up to 10 miles. Once per long rest, you and up to six allies can travel 100 miles in one hour without being noticed."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow-Path Scout",
+      "feat": "Silent Step",
+      "text": "Your movement makes no sound and leaves no trace. Once per short rest, take an extra turn immediately after your current one. During that extra turn, you cannot cast a spell of 6th level or higher."
+    },
+    {
+      "stage": 9,
+      "name": "Never-Was Scout",
+      "feat": "Forgotten Trail",
+      "text": "Creatures cannot track you by any means. As an action, erase the trail of up to six allies for 24 hours. Your first attack each combat deals an extra 5d8 damage."
+    },
+    {
+      "stage": 10,
+      "name": "First Scout Incarnate",
+      "feat": "Path Before Roads",
+      "text": "Once per long rest, for 1 minute you take two turns each round, act first in initiative, and cannot be targeted by reactions. Your speed also doubles and you cannot be slowed or surprised."
+    }
+  ],
+  "Shade Walker": [
+    {
+      "stage": 2,
+      "name": "Fogshade Walker",
+      "feat": "Shadow Streets",
+      "text": "You can move through dim light and fog without being seen. When you start your turn in dim light, you may teleport up to 60 feet to another area of dim light."
+    },
+    {
+      "stage": 3,
+      "name": "Brimshade Walker",
+      "feat": "Shadow Tithe",
+      "text": "Your Sneak Attack deals an extra 2d8 necrotic damage when you attack from darkness. When you reduce a creature to 0 hit points, you gain 3d10 temporary hit points."
+    },
+    {
+      "stage": 4,
+      "name": "Chaos-Shade Walker",
+      "feat": "Shifting Alleys",
+      "text": "As a bonus action, swap places with any creature standing in dim light within 60 feet. It makes a Wisdom save or is stunned until the end of its next turn."
+    },
+    {
+      "stage": 5,
+      "name": "Pitch-Shade Walker",
+      "feat": "Streets of the Deep",
+      "text": "You can see in magical darkness and walk on walls and ceilings of shadow. Your attacks from darkness score critical hits on 19-20. You also cannot be blinded while in darkness."
+    },
+    {
+      "stage": 6,
+      "name": "Heartshade Walker",
+      "feat": "Shadow Bond",
+      "text": "You can merge with an ally's shadow as an action, moving with them and attacking from their space. While merged, you have resistance to all damage."
+    },
+    {
+      "stage": 7,
+      "name": "Starshade Walker",
+      "feat": "Shadows of Distant Worlds",
+      "text": "Once per long rest, step into your shadow and out of any shadow on the same plane that you have seen. You may bring up to two willing creatures within 5 feet of you along with you."
+    },
+    {
+      "stage": 8,
+      "name": "Nothing-Shade Walker",
+      "feat": "Untracked Steps",
+      "text": "You cannot be tracked, scried, or detected by divination magic. Your attacks against a creature that cannot see you deal an extra 4d8 necrotic damage."
+    },
+    {
+      "stage": 9,
+      "name": "Unremembered Walker",
+      "feat": "Shadow That Forgets",
+      "text": "Creatures that lose sight of you make a Wisdom save or forget you exist for 1 minute. You may move through them freely. Your attacks against them have advantage."
+    },
+    {
+      "stage": 10,
+      "name": "First Shade Incarnate",
+      "feat": "Shadow Before Light",
+      "text": "Once per long rest, become the first shadow for 1 minute. You cannot be seen or targeted except by area effects, and your attacks deal an extra 5d12 necrotic damage."
+    }
+  ],
+  "Soul Thief": [
+    {
+      "stage": 2,
+      "name": "Fogsoul Thief",
+      "feat": "Mistborn Theft",
+      "text": "When you deal Sneak Attack damage, you may steal a memory from the target. It forgets one skill proficiency for 1 minute, and you gain that proficiency for the same duration."
+    },
+    {
+      "stage": 3,
+      "name": "Brimsoul Thief",
+      "feat": "Stolen Breath",
+      "text": "When you deal Sneak Attack damage, you steal 2d8 of the target's life force, regaining that many hit points. Fiends and celestials take an extra 2d8 necrotic damage."
+    },
+    {
+      "stage": 4,
+      "name": "Riotsoul Thief",
+      "feat": "Stolen Fortune",
+      "text": "When a creature within 30 feet rolls a 20 on a d20, you may steal it as a reaction, forcing a reroll and banking the 20 to use for your own next d20. Twice per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Deepsoul Thief",
+      "feat": "Pressure of Souls",
+      "text": "When you hit a creature, it makes a Charisma save or loses 3d8 maximum hit points until it finishes a long rest. You gain the same amount as temporary hit points."
+    },
+    {
+      "stage": 6,
+      "name": "Heartsoul Thief",
+      "feat": "Steal Heart's Talent",
+      "text": "As an action, touch a creature and steal one of its class or racial features for 1 hour. It makes a Charisma save to resist. Once per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Skyroad Soulthief",
+      "feat": "Stolen Horizon",
+      "text": "Once per long rest, steal a creature's location. You swap places with any creature you can see within 1 mile, and it makes a Charisma save or is stunned for 1 round."
+    },
+    {
+      "stage": 8,
+      "name": "Nothing-Soul Thief",
+      "feat": "Hollow Soul",
+      "text": "When you reduce a creature to 0 hit points, you capture its soul. While you hold a soul, you gain resistance to necrotic and psychic damage. You may hold up to three souls."
+    },
+    {
+      "stage": 9,
+      "name": "Never-Was Soulthief",
+      "feat": "Forgotten Life",
+      "text": "As an action, steal a creature's identity for 1 hour. It makes a Charisma save or forgets who it is, and you can perfectly impersonate it. Twice per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Soul Incarnate",
+      "feat": "Soul Before Souls",
+      "text": "Once per long rest, steal a creature's soul. It makes a Charisma save or dies, and you gain its hit points as temporary hit points. On a success, it takes 10d10 necrotic damage."
+    }
+  ],
+  "Soulknife": [
+    {
+      "stage": 2,
+      "name": "Mistedge Soulknife",
+      "feat": "Fogblade Mind",
+      "text": "Your psychic blades can be thrown through fog and illusions without penalty. When you hit with a psychic blade, the target makes an Intelligence save or is blinded until the end of its next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Brimmind Soulknife",
+      "feat": "Judgement Blade",
+      "text": "Your psychic blades deal an extra 2d6 psychic damage. When a blade hits a fiend or celestial, the target has disadvantage on its next save."
+    },
+    {
+      "stage": 4,
+      "name": "Chaos-Edge Soulknife",
+      "feat": "Shifting Blades",
+      "text": "As a bonus action, manifest four psychic blades that orbit you for 1 minute. As a reaction when you take damage, launch one, dealing 3d8 psychic damage to the attacker. Once per short rest."
+    },
+    {
+      "stage": 5,
+      "name": "Deepmind Soulknife",
+      "feat": "Mind of the Abyss",
+      "text": "Your psychic blades ignore resistance to psychic damage. When you hit an unaware creature, it is stunned until the end of its next turn on a failed Intelligence save."
+    },
+    {
+      "stage": 6,
+      "name": "Heartmind Soulknife",
+      "feat": "Living Mind Blade",
+      "text": "You gain resistance to psychic damage. Once per turn, when you hit with a psychic blade, you may regain 3d8 hit points. Allies within 30 feet also gain resistance to psychic damage and advantage on Intelligence saves."
+    },
+    {
+      "stage": 7,
+      "name": "Starmind Soulknife",
+      "feat": "Psychic Constellation",
+      "text": "Once per long rest, launch psychic blades at every creature you can see within 300 feet. Each takes 6d10 psychic damage on a failed Intelligence save, half on a success."
+    },
+    {
+      "stage": 8,
+      "name": "Hollowmind Soulknife",
+      "feat": "Blade of No Thought",
+      "text": "Your psychic blades cannot be perceived. They ignore all resistances and immunities, and creatures they hit cannot take reactions until your next turn. Once per turn, a blade hit deals an extra 3d8 psychic damage."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten-Mind Soulknife",
+      "feat": "Mind Erasure",
+      "text": "As an action, a creature within 60 feet makes an Intelligence save or forgets how to cast spells and use features for 1 minute. Three times per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Mind Incarnate",
+      "feat": "Mind Before Thought",
+      "text": "Once per long rest, become the first mind for 1 minute. Your psychic blades deal an extra 5d12 psychic damage, and creatures you hit make an Intelligence save or are paralyzed."
+    }
+  ],
+  "Swashbuckler": [
+    {
+      "stage": 2,
+      "name": "Fogdance Swashbuckler",
+      "feat": "Mist Riposte",
+      "text": "When a creature misses you with a melee attack, you may use your reaction to step into fog and strike back, making a weapon attack that deals an extra 2d8 damage."
+    },
+    {
+      "stage": 3,
+      "name": "Brimstone Duelist",
+      "feat": "Hellfire Panache",
+      "text": "As a bonus action, challenge a creature within 30 feet. For 1 minute, its attacks against anyone but you have disadvantage, and your attacks against it deal an extra 2d8 fire damage."
+    },
+    {
+      "stage": 4,
+      "name": "Wild Swashbuckler",
+      "feat": "Dazzling Chaos",
+      "text": "When you hit a creature, choose a random trick: disarm, trip, or blind. It makes a Dexterity save or suffers that effect until the end of its next turn."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Current Duelist",
+      "feat": "Pressure Parry",
+      "text": "You gain +1 AC. When a creature misses you, its next attack against you has disadvantage and you deal an extra 3d8 damage to it."
+    },
+    {
+      "stage": 6,
+      "name": "Heartstrike Swashbuckler",
+      "feat": "Living Panache",
+      "text": "When you charm a creature, it is charmed for 1 hour. While charmed, it defends you, and you have advantage on Charisma checks against all creatures within 60 feet."
+    },
+    {
+      "stage": 7,
+      "name": "Skyroad Swashbuckler",
+      "feat": "Duel of Worlds",
+      "text": "Once per long rest, challenge a creature to a duel. For 1 minute, you and it are moved to a pocket plane, and you deal an extra 5d10 damage to it."
+    },
+    {
+      "stage": 8,
+      "name": "Nothing-Blade Duelist",
+      "feat": "Parry Nothing",
+      "text": "Once per short rest, when you are hit, the attack instead misses and you make an attack against the attacker that is an automatic critical hit."
+    },
+    {
+      "stage": 9,
+      "name": "Never-Was Swashbuckler",
+      "feat": "Forgotten Duel",
+      "text": "When you duel a creature, all other creatures forget the duel. It makes a Wisdom save or forgets its own allies and fights only you. Three times per long rest."
+    },
+    {
+      "stage": 10,
+      "name": "First Duelist Incarnate",
+      "feat": "Duel Before Swords",
+      "text": "Once per long rest, for 1 minute you make three extra attacks each turn, cannot be hit by attacks of opportunity, and every hit forces a Dexterity save or the target drops prone."
+    }
+  ],
+  "Thief": [
+    {
+      "stage": 2,
+      "name": "Fogfinger Thief",
+      "feat": "Mistlift",
+      "text": "As a bonus action, steal an object from a creature within 30 feet without being seen. It makes a Wisdom save to notice. You can also use magic items without meeting their requirements."
+    },
+    {
+      "stage": 3,
+      "name": "Brimstone Thief",
+      "feat": "Hellbound Haul",
+      "text": "You can steal from devils and angels alike. When you steal a magic item, you may use its properties immediately, and you are immune to curses on stolen items."
+    },
+    {
+      "stage": 4,
+      "name": "Loaded-Hand Thief",
+      "feat": "Stolen Luck",
+      "text": "As a reaction when a creature within 30 feet rolls a d20, you may steal its luck, forcing it to reroll and giving you advantage on your next roll. Three times per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Pitch-Hand Thief",
+      "feat": "Steal in the Dark",
+      "text": "You can steal in total darkness with no penalty. Creatures you steal from in darkness make a Wisdom save or forget they owned the item."
+    },
+    {
+      "stage": 6,
+      "name": "Heartfinger Thief",
+      "feat": "Steal from Within",
+      "text": "As an action, steal a spell, memory, or skill from a creature within 5 feet. It makes a Charisma save or loses it for 1 hour, and you gain it. Once per short rest."
+    },
+    {
+      "stage": 7,
+      "name": "Skyroad Thief",
+      "feat": "Steal Across Worlds",
+      "text": "Once per long rest, steal an object you can see within 1 mile. It appears in your hands, and the owner does not notice for 1 hour."
+    },
+    {
+      "stage": 8,
+      "name": "Nothing-Finger Thief",
+      "feat": "Steal What Isn't",
+      "text": "You can steal intangible things: a creature's shadow, voice, or reflection. Without them, it has disadvantage on related checks. Three times per long rest. The theft lasts 1 hour, or until you return the stolen thing."
+    },
+    {
+      "stage": 9,
+      "name": "Never-Was Thief",
+      "feat": "Forgotten Theft",
+      "text": "When you steal, the owner forgets the item ever existed. Once per long rest, you can steal a creature's memory of you completely. The creature makes a Wisdom save to resist this second effect."
+    },
+    {
+      "stage": 10,
+      "name": "First Theft Incarnate",
+      "feat": "Steal the First Things",
+      "text": "Once per long rest, steal a power from a creature of challenge rating 25 or lower. It loses one feature, spell, or action for 1 minute, and you gain it."
+    }
+  ]
+}

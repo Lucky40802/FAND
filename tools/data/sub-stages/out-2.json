@@ -1,0 +1,1626 @@
+{
+  "Arcana Domain": [
+    {
+      "stage": 2,
+      "name": "Veiled Spellwarden",
+      "feat": "Fogbound Counterspell",
+      "text": "When a creature you can see within 60 feet casts a spell, you can use your reaction to wrap it in mist. It makes a Wisdom save against your spell DC or the spell fails and its slot is lost. Once per short rest."
+    },
+    {
+      "stage": 3,
+      "name": "Sigil-Judge Magister",
+      "feat": "Covenant of Spells",
+      "text": "As an action, inscribe a binding sigil on a creature within 60 feet. For 1 minute, whenever it casts a spell, it takes 3d8 radiant or fire damage (your choice) and you regain a 1st-level spell slot. Once per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Wildweave Theurge",
+      "feat": "Surge Channel",
+      "text": "When you cast a cleric spell of 1st level or higher, roll a d6. On 4 or higher, you also cast a random wizard cantrip at the same target for free. Uses equal to your Wisdom modifier per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Deepglyph Scholar",
+      "feat": "Pressure Ward",
+      "text": "As a reaction when you or an ally within 30 feet fails a save against a spell, they reroll with advantage. On a success, the caster takes 4d8 force damage. Uses equal to your Wisdom modifier per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Heartspell Archmage",
+      "feat": "Living Arcanum",
+      "text": "Choose two wizard spells of 6th level or lower; they become cleric spells for you and are always prepared. Once per long rest you can cast one of them without expending a slot, and its damage or healing dice are maximized."
+    },
+    {
+      "stage": 7,
+      "name": "Starchart Magus",
+      "feat": "Constellation Casting",
+      "text": "When you cast a spell that targets one creature, you can make it target one additional creature within 120 feet of the first, tracing a line of stars between them. Usable a number of times equal to your Wisdom modifier per long rest."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow-Rune Mystic",
+      "feat": "Null Sanctum",
+      "text": "Once per long rest, cast any spell of 8th level or lower from any class list that you have seen cast, using a cleric slot. Targets have disadvantage on saves against it and forget it afterward."
+    },
+    {
+      "stage": 9,
+      "name": "Lost-Script Hierophant",
+      "feat": "Forgotten Formula",
+      "text": "Once per long rest, you can cast any spell from any class list of 8th level or lower that you have seen cast, using a cleric spell slot. Creatures affected cannot recall the spell afterward and have disadvantage on saves to resist it."
+    },
+    {
+      "stage": 10,
+      "name": "First-Word Archmage",
+      "feat": "Utterance of Making",
+      "text": "Once per long rest, speak a fragment of the first Law to cast any two spells of 9th level or lower in one action without expending slots. Each target makes its save with disadvantage, and spell damage ignores resistance."
+    }
+  ],
+  "Astral Domain": [
+    {
+      "stage": 2,
+      "name": "Fogstar Seer",
+      "feat": "Veiled Ascension",
+      "text": "When you enter your incorporeal astral form, you also become invisible until the start of your next turn and can move through creatures. While in that form, attacks against you have disadvantage. Usable twice per short rest."
+    },
+    {
+      "stage": 3,
+      "name": "Haloed Starwarden",
+      "feat": "Judgement Comet",
+      "text": "As an action, call down a burning star within 120 feet. Creatures in a 20-foot radius make a Dexterity save, taking 4d10 radiant damage and being pulled 15 feet toward the center, or half damage on a success. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Shifting-Orbit Priest",
+      "feat": "Wandering Gravity",
+      "text": "At the start of each of your turns for 1 minute, rotate gravity within 30 feet. Enemies there make a Strength save or fall 20 feet in a direction you choose, taking 2d6 bludgeoning damage and landing prone. Once per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Sunken-Star Oracle",
+      "feat": "Crushing Pull",
+      "text": "As a bonus action, a creature within 60 feet makes a Strength save or is pulled 30 feet toward you, takes 5d8 force damage, and is restrained until the end of your next turn. Uses equal to your Wisdom modifier per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Coreflame Astrologer",
+      "feat": "Heart of the Sky",
+      "text": "While in astral form, you shed bright light for 30 feet. Allies in it regain 2d8 hit points at the start of their turns and have advantage on death saves. Your astral form lasts 1 minute, twice per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Horizon-Orbit Prelate",
+      "feat": "Celestial Orbit",
+      "text": "As an action, up to six willing allies within 30 feet join your orbit for 1 minute. Each can teleport 30 feet as a bonus action, and ranged attacks against them have disadvantage. Once per long rest."
+    },
+    {
+      "stage": 8,
+      "name": "Starless Ascetic",
+      "feat": "Dead Star Collapse",
+      "text": "As an action, collapse a point within 120 feet into a black star. Creatures within 30 feet make a Strength save or are pulled to the center, take 8d10 force damage and are restrained for 1 round. Once per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Folded-Sky Exarch",
+      "feat": "Inverted Constellation",
+      "text": "Once per long rest, as a reaction to taking damage, you fold into your astral form and the damage is negated. Until the end of your next turn you are untargetable, and the attacker makes a Wisdom save or forgets you exist for 1 minute."
+    },
+    {
+      "stage": 10,
+      "name": "Firstlight Cosmarch",
+      "feat": "Birth of a Star",
+      "text": "Once per long rest, ignite a star within 300 feet for 1 minute. Enemies within 60 feet of it take 10d10 radiant damage at the start of their turns (Constitution save for half). Allies there regain 20 hit points instead."
+    }
+  ],
+  "Flame Domain": [
+    {
+      "stage": 2,
+      "name": "Smokeveil Firepriest",
+      "feat": "Ghostfire Wreath",
+      "text": "When you wreathe a weapon in pale flame, its hits deal an extra 2d8 fire damage and the target cannot see the wielder until the start of its next turn. Lasts 1 minute, twice per short rest."
+    },
+    {
+      "stage": 3,
+      "name": "Brimstone Psalmist",
+      "feat": "Pyre of Verdict",
+      "text": "As an action, set a creature within 60 feet ablaze with judgement. It makes a Wisdom save or burns for 1 minute, taking 4d8 fire damage at the start of each turn and losing fire resistance. Repeat the save each turn. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Wildflame Hierophant",
+      "feat": "Erratic Blaze",
+      "text": "When you deal fire damage, roll a d4: 1 flames leap to another creature within 15 feet for half; 2 the target is blinded for 1 round; 3 you regain 2d8 hit points; 4 the damage is maximized."
+    },
+    {
+      "stage": 5,
+      "name": "Deepfire Confessor",
+      "feat": "Flame Beneath the Sea",
+      "text": "Your fire burns underwater and in magical darkness, and ignores fire resistance. As a bonus action, a creature you hit with fire makes a Constitution save or is crushed by heat, taking 5d6 extra fire damage and being unable to take reactions."
+    },
+    {
+      "stage": 6,
+      "name": "Hearthcore Pontiff",
+      "feat": "Kindled Heart",
+      "text": "Allies within 30 feet have resistance to cold and fire damage. Once per long rest, as an action, up to six allies deal an extra 2d8 fire damage on weapon hits and regain 10 hit points each turn for 1 minute."
+    },
+    {
+      "stage": 7,
+      "name": "Sunroad Pyrarch",
+      "feat": "Solar Flare",
+      "text": "As an action, release a flare in a 120-foot line, 10 feet wide. Creatures in it make a Dexterity save, taking 8d8 fire damage and being blinded for 1 round on a failure, or half damage on a success. Recharges on a short rest."
+    },
+    {
+      "stage": 8,
+      "name": "Ashless Ember",
+      "feat": "Cold Fire",
+      "text": "Your flames now burn without heat or light and cannot be sensed. Fire damage you deal ignores immunity, treating it as resistance. As a reaction when you take damage, wreathe yourself in void fire, dealing 6d8 fire damage to the attacker. Twice per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Ember of Forgetting",
+      "feat": "Unremembered Pyre",
+      "text": "Once per long rest, burn a creature within 60 feet with the fire of erased memory. It takes 12d10 fire damage (Constitution save for half). On a failure it also forgets one spell or class feature of your choice until its next long rest."
+    },
+    {
+      "stage": 10,
+      "name": "Primal Pyre Pontifex",
+      "feat": "First Flame",
+      "text": "Once per long rest, you become the first fire for 1 minute. You are immune to fire, your weapon attacks deal an extra 4d10 fire damage, and as a bonus action you can heal an ally within 60 feet for 6d10 hit points."
+    }
+  ],
+  "Forge Domain": [
+    {
+      "stage": 2,
+      "name": "Misthammer Artisan",
+      "feat": "Phantom Forging",
+      "text": "As an action, forge a temporary weapon or shield from fog for 1 hour. The weapon gains +1 and deals an extra 2d6 force damage; the shield grants +1 AC. Its wielder is lightly obscured. Twice per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Hellforge Smith",
+      "feat": "Contract Steel",
+      "text": "When you finish a long rest, bind one weapon or armor with an infernal contract. A weapon deals an extra 2d8 fire damage; armor deals 2d8 fire damage to any creature that hits its wearer in melee. One item at a time."
+    },
+    {
+      "stage": 4,
+      "name": "Chaos-Anvil Wright",
+      "feat": "Reforged in Motion",
+      "text": "As a bonus action, reshape a weapon or armor you touch into another form of the same kind, granting +1 to attack rolls or AC until the end of the wielder's next turn. Uses equal to your Wisdom modifier per short rest."
+    },
+    {
+      "stage": 5,
+      "name": "Deepiron Founder",
+      "feat": "Pressure-Tempered Plate",
+      "text": "While wearing heavy armor, you reduce bludgeoning, piercing and slashing damage by an extra 2 per hit and cannot be moved against your will. As a reaction, impose disadvantage on an attack against an ally within 10 feet. Three times per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Heartforge Hierarch",
+      "feat": "Living Metal",
+      "text": "Weapons and armor you craft heal themselves and their wearer. A creature wearing armor you made regains 1d10 hit points at the start of each turn while above 0 hit points. Once per long rest, you can fully restore a destroyed magic item."
+    },
+    {
+      "stage": 7,
+      "name": "Starmetal Forgelord",
+      "feat": "Meteoric Arms",
+      "text": "As an action, call down molten starmetal on a point within 120 feet. Creatures in a 20-foot radius make a Dexterity save, taking 6d10 fire damage or half on a success. The metal cools into a +2 weapon of your choice. Once per long rest."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow-Anvil Smith",
+      "feat": "Unmade Edge",
+      "text": "Once per short rest, as a bonus action, coat a weapon in void-forged edge for 1 minute. Its hits ignore resistance and immunity to its damage type and deal an extra 3d10 force damage. The target cannot regain hit points until your next turn."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten-Furnace Lord",
+      "feat": "Unforged Ruin",
+      "text": "Once per long rest, as an action, touch a magic item that is not an artifact and unmake it from memory. If held, the holder makes a Constitution save to resist, and on a failure also takes 10d10 force damage."
+    },
+    {
+      "stage": 10,
+      "name": "Firstforge Pontifex",
+      "feat": "Anvil of Creation",
+      "text": "Once per long rest, spend 1 minute at your anvil to forge a legendary magic item of your choice that lasts 7 days. Alternatively, as an action, grant up to six allies +2 AC and resistance to all damage for 1 minute."
+    }
+  ],
+  "Grave Domain": [
+    {
+      "stage": 2,
+      "name": "Fogbarrow Warden",
+      "feat": "Mistveil Rest",
+      "text": "When an ally within 60 feet drops to 0 hit points, you can use your reaction to wrap them in grave mist. They instead drop to 1 hit point and become invisible until the end of their next turn. Wisdom modifier uses per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Soul-Ledger Keeper",
+      "feat": "Tally of Souls",
+      "text": "When a creature within 60 feet dies, record its soul. You can spend a recorded soul as a bonus action to grant an ally 4d8 temporary hit points or deal 4d8 necrotic damage to a creature you can see. Hold up to five souls."
+    },
+    {
+      "stage": 4,
+      "name": "Restless-Grave Priest",
+      "feat": "Turning Tide of Death",
+      "text": "When you cast a spell that heals or deals necrotic damage, roll a d6. On an even number, the healing or damage is also applied in reverse to a creature of your choice within 30 feet. Wisdom modifier uses per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Drowned-Tomb Confessor",
+      "feat": "Abyssal Burial",
+      "text": "As an action, a creature within 60 feet with 100 hit points or fewer makes a Constitution save or takes 8d8 necrotic damage and is restrained for 1 minute, repeating the save each turn. Once per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Lifeline Warden",
+      "feat": "Heart's Threshold",
+      "text": "You sense the exact hit points of every creature within 120 feet. Allies there cannot be killed by massive damage, and once per long rest you can return an ally who died within 1 minute to life with half their hit points as a reaction."
+    },
+    {
+      "stage": 7,
+      "name": "Far-Horizon Psychopomp",
+      "feat": "Road of Souls",
+      "text": "When you hit a creature with a spell or attack, it makes a Constitution save or cannot regain hit points until your next turn, and dies outright if reduced below 50 hit points. Twice per long rest."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Barrow Prior",
+      "feat": "Final Stillness",
+      "text": "When you hit a creature with a spell or attack, you can mark it as already dead. Until your next turn it cannot regain hit points, and if it drops below 50 hit points it dies outright. Constitution save negates. Twice per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Keeper of Lost Graves",
+      "feat": "Unremembered Dead",
+      "text": "Once per long rest, choose a creature that died within the last day, even with its body destroyed. It returns to life with full hit points, and enemies that killed it make a Wisdom save or forget it and cannot target it for 1 minute."
+    },
+    {
+      "stage": 10,
+      "name": "First Grave Pontifex",
+      "feat": "Law of Ending",
+      "text": "Once per long rest, as an action, declare a creature within 120 feet ended. If it has 300 hit points or fewer, it makes a Constitution save or dies. On a success it takes 15d10 necrotic damage and cannot be healed for 1 minute."
+    }
+  ],
+  "Gravecaller": [
+    {
+      "stage": 2,
+      "name": "Fogwalk Soulguide",
+      "feat": "Call Across the Veil",
+      "text": "As an action, call a spirit from the mist within 60 feet. It answers three questions truthfully or fights for you for 1 minute as a spectral ally with 60 hit points that deals 2d10 necrotic damage on a hit. Once per short rest."
+    },
+    {
+      "stage": 3,
+      "name": "Two-Gate Psychopomp",
+      "feat": "Judgement at the Gate",
+      "text": "When a creature within 60 feet dies, choose: send it to Heaven, granting allies within 30 feet 4d8 hit points, or to Hell, dealing 4d8 fire damage to enemies within 30 feet of its body. Wisdom modifier uses per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Crossroads Gravecaller",
+      "feat": "Swapped Souls",
+      "text": "As an action, two creatures within 60 feet exchange hit point totals for 1 round, neither exceeding its maximum. An unwilling creature makes a Charisma save to resist. After 1 round, totals return minus any damage taken. Once per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Deepwake Soulcaller",
+      "feat": "Chorus of the Drowned",
+      "text": "As an action, summon drowned spirits in a 30-foot radius within 90 feet for 1 minute. Enemies starting their turn there make a Strength save or take 5d8 necrotic damage and are restrained until the start of their next turn. Once per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Lifevein Mediator",
+      "feat": "Soul Transfer",
+      "text": "As a bonus action, move up to 50 hit points from one willing creature within 60 feet to another. As an action, you can instead drain 6d10 necrotic damage from a hostile creature (Constitution save for half) and give it to an ally."
+    },
+    {
+      "stage": 7,
+      "name": "Starwake Soulguide",
+      "feat": "Procession of Ancestors",
+      "text": "As an action, summon five ancestral spirits within 120 feet for 1 minute. Each acts on your turn, has 80 hit points and AC 16, and grants one ally +1 AC and 3d8 radiant damage on weapon hits while adjacent. Once per long rest."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow-Gate Warden",
+      "feat": "Silence of the Dead",
+      "text": "A creature you can see within 120 feet makes a Charisma save or its soul is pushed into the void for 1 minute. It is incapacitated and cannot be targeted or healed by its allies. It repeats the save each turn. Once per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Caller of Lost Souls",
+      "feat": "Return of the Forgotten",
+      "text": "Once per long rest, call back a soul whose name has been forgotten. Restore a dead creature to life, or summon a spirit with the statistics of any dead creature of CR 20 or lower that you have seen, serving you for 1 hour."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Psychopomp",
+      "feat": "Gate of First Death",
+      "text": "Once per long rest, open the first gate between life and death for 1 minute. Allies within 120 feet who die return at the start of their next turn with 100 hit points. Enemies who die cannot be resurrected."
+    }
+  ],
+  "Knowledge Domain": [
+    {
+      "stage": 2,
+      "name": "Mist-Lore Vicar",
+      "feat": "Glimpse Through the Veil",
+      "text": "As an action, read the surface thoughts and the true form of a creature within 60 feet, seeing through illusions and disguises on it. It makes a Wisdom save or you also learn one of its secrets. Uses equal to Wisdom modifier per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Archivist of Verdicts",
+      "feat": "Sworn Testimony",
+      "text": "As an action, a creature within 30 feet makes a Charisma save or cannot speak a deliberate lie for 1 hour. Each time it tries, it takes 4d8 psychic damage and you learn the truth it hid. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Shifting-Page Sage",
+      "feat": "Borrowed Mastery",
+      "text": "As a bonus action, gain proficiency and expertise in any skill or tool, and proficiency with any one weapon, for 10 minutes. Once per long rest, you also learn one spell of 5th level or lower from any list for 1 hour."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Lore Confessor",
+      "feat": "Drowned Secrets",
+      "text": "When you touch a creature, object or place, you can learn its full history from the last 100 years. A hostile creature makes a Wisdom save or takes 6d8 psychic damage and is stunned until the end of its next turn. Once per short rest."
+    },
+    {
+      "stage": 6,
+      "name": "Heartlore Hierarch",
+      "feat": "Understanding of Law",
+      "text": "You know the hit points, resistances, immunities, vulnerabilities and saving throw bonuses of any creature you see. Once per round, when you or an ally attacks such a creature, the attack ignores one resistance you name."
+    },
+    {
+      "stage": 7,
+      "name": "Starlore Prelate",
+      "feat": "Library of Horizons",
+      "text": "Once per long rest, consult the knowledge of distant worlds for 1 minute to cast commune, legend lore or contact other plane without a slot. You also learn one fact the DM considers crucial about your current goal."
+    },
+    {
+      "stage": 8,
+      "name": "Silent-Page Prior",
+      "feat": "Erasure of Knowing",
+      "text": "As an action, a creature within 60 feet makes an Intelligence save or forgets how to cast spells or use one class feature for 1 minute, repeating the save each turn. On a success, it takes 8d8 psychic damage. Once per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten-Page Keeper",
+      "feat": "Recovered Truths",
+      "text": "Once per long rest, you recall any knowledge ever lost or forgotten. You can ask the DM three questions about anything, past or present, and receive true answers, and you gain advantage on all checks and saves for 1 hour."
+    },
+    {
+      "stage": 10,
+      "name": "First-Thought Pontifex",
+      "feat": "Omniscient Moment",
+      "text": "Once per long rest, for 1 minute you know everything within 1 mile: every creature's location, thoughts and intentions. You cannot be surprised, attacks against you have disadvantage, and your allies gain advantage on attack rolls."
+    }
+  ],
+  "Life Domain": [
+    {
+      "stage": 2,
+      "name": "Mistmend Vicar",
+      "feat": "Veiled Restoration",
+      "text": "When you cast a healing spell, the target is also wreathed in fog until the end of its next turn, becoming heavily obscured to enemies. Healing spells you cast at range now restore an extra 2d8 hit points."
+    },
+    {
+      "stage": 3,
+      "name": "Halo of Mercy",
+      "feat": "Heaven's Second Chance",
+      "text": "When an ally within 60 feet drops to 0 hit points, you can use your reaction to heal them for 4d8 plus your Wisdom modifier and end one condition affecting them. Uses equal to your Wisdom modifier per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Wildbloom Hierophant",
+      "feat": "Unbound Healing",
+      "text": "When you roll healing dice, you can reroll any of them and take the higher. Any excess healing beyond a creature's maximum becomes temporary hit points, up to 30. Healing spells you cast can also end one disease or poison."
+    },
+    {
+      "stage": 5,
+      "name": "Deepspring Confessor",
+      "feat": "Abyssal Wellspring",
+      "text": "As an action, create a 30-foot-radius spring of deep water for 1 minute. Allies starting their turn in it regain 4d8 hit points and end one condition. Enemies there have disadvantage on attacks against creatures in the spring. Once per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Lifeheart Hierarch",
+      "feat": "Undo the Wound",
+      "text": "As an action, touch a creature to undo all damage it has taken in the past minute, restoring those hit points and ending any condition, curse or lost limb from that time. Usable twice per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Dawnroad Lifewarden",
+      "feat": "Healing Across Horizons",
+      "text": "Your healing spells can target any creature you have met that is on the same plane, regardless of distance. Once per long rest, you cast mass heal without a slot, choosing targets across any distance on your plane."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow-Hope Prior",
+      "feat": "Life Without Source",
+      "text": "Your healing works on creatures that cannot normally be healed and ignores effects that prevent healing. Once per long rest, as a reaction, an ally who would die instead drops to 1 hit point and is immune to all damage until your next turn."
+    },
+    {
+      "stage": 9,
+      "name": "Keeper of Unspent Life",
+      "feat": "Unremembered Wounds",
+      "text": "Once per long rest, choose up to six allies within 120 feet. Their wounds are forgotten by the world: each regains all hit points, spent hit dice and spell slots of 5th level or lower, and ends all conditions."
+    },
+    {
+      "stage": 10,
+      "name": "Firstlife Pontifex",
+      "feat": "Breath of First Life",
+      "text": "Once per long rest, breathe first life over a 120-foot radius. Allies within regain all hit points, and any ally who died within the past day returns to life with no penalty. For 1 minute, allies there cannot fall below 1 hit point."
+    }
+  ],
+  "Light Domain": [
+    {
+      "stage": 2,
+      "name": "Lanternfog Vicar",
+      "feat": "Lamp in the Mist",
+      "text": "You shed bright light for 30 feet that reveals invisible creatures and illusions. As a reaction when a creature in your light attacks, impose disadvantage and deal 2d8 radiant damage to it. Uses equal to your Wisdom modifier per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Dawn-Throne Herald",
+      "feat": "Judgement Beam",
+      "text": "As an action, fire a 60-foot line of heavenly light. Creatures in it make a Dexterity save, taking 5d8 radiant damage and being blinded until the end of their next turn, or half damage on a success. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Prismatic Hierophant",
+      "feat": "Shattered Spectrum",
+      "text": "When you deal radiant damage, roll a d6 to split the light: 1-2 fire, 3-4 lightning, 5-6 radiant again, dealing an extra 2d8 of that type to the target and one other creature within 10 feet. Wisdom modifier uses per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Deeplight Confessor",
+      "feat": "Light That Reaches Bottom",
+      "text": "Your light pierces magical darkness and works underwater. Creatures of darkness or the deep that start their turn in your bright light make a Constitution save or take 6d8 radiant damage and lose any resistances until your next turn."
+    },
+    {
+      "stage": 6,
+      "name": "Heartflame Hierarch",
+      "feat": "Inner Sun",
+      "text": "As an action, ignite an inner sun for 1 minute. You and allies within 30 feet gain resistance to necrotic damage and regain 2d8 hit points each turn, while enemies within 30 feet take 3d8 radiant damage each turn. Once per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Sunroad Prelate",
+      "feat": "Daybreak Across Worlds",
+      "text": "Once per long rest, cast sunburst without a slot, centered anywhere within 1 mile you can see. Its damage dice are maximized against fiends and undead, and the area remains in bright sunlight for 1 hour."
+    },
+    {
+      "stage": 8,
+      "name": "Last-Light Prior",
+      "feat": "Light in Nothing",
+      "text": "Your light shines in places of absolute void, antimagic and darkness. As an action, unleash a 60-foot cone of starkest light. Creatures make a Constitution save or take 10d8 radiant damage and are blinded for 1 minute. Half on success. Once per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten-Dawn Keeper",
+      "feat": "Light Remembered",
+      "text": "Once per long rest, you recall a dawn the world forgot. For 1 minute you become pure light: you are immune to radiant damage, have a flying speed of 120 feet, and your attacks and cantrips deal an extra 6d10 radiant damage."
+    },
+    {
+      "stage": 10,
+      "name": "Firstdawn Pontifex",
+      "feat": "The First Morning",
+      "text": "Once per long rest, you call the first dawn over a 1-mile radius. Fiends and undead there make a Charisma save or are destroyed outright if they have 200 hit points or fewer, or take 20d10 radiant damage on a success."
+    }
+  ],
+  "Nature Domain": [
+    {
+      "stage": 2,
+      "name": "Mossfog Vicar",
+      "feat": "Veil of Leaves",
+      "text": "As an action, fill a 30-foot radius within 60 feet with fog and grasping vines for 1 minute. Enemies inside are heavily obscured to others and make a Strength save each turn or are restrained. Allies inside move freely. Once per short rest."
+    },
+    {
+      "stage": 3,
+      "name": "Bloom-and-Brand Druid-Priest",
+      "feat": "Thorns of Judgement",
+      "text": "Vines lash any creature that hits you or an ally within 10 feet of you in melee, dealing 2d8 piercing plus 2d8 fire damage as a reaction. Uses equal to your Wisdom modifier per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Wildgrowth Hierophant",
+      "feat": "Riot of Life",
+      "text": "As an action, cause wild growth in a 40-foot radius for 1 minute. At the start of each turn, roll a d4: thorns, healing pollen, grasping roots, or a summoned beast of CR 5, each with an appropriate effect you choose. Once per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Deeproot Confessor",
+      "feat": "Drowned Grove",
+      "text": "As an action, call kelp and deep roots in a 30-foot radius within 90 feet. Creatures there make a Strength save or take 6d8 bludgeoning damage, are restrained and begin to drown. They repeat the save each turn. Once per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Greenheart Hierarch",
+      "feat": "Voice of the Living Heart",
+      "text": "Plants and beasts within 1 mile tell you all they know. As a bonus action, you can command beasts and plant creatures within 120 feet with CR 15 or lower, which make a Wisdom save or obey you for 1 minute."
+    },
+    {
+      "stage": 7,
+      "name": "Starbloom Prelate",
+      "feat": "Garden of the Far Sky",
+      "text": "Once per long rest, grow a grove of starflowers in a 60-foot radius for 1 hour. Allies resting there gain the benefits of a short rest in 10 minutes, and enemies entering it take 6d8 radiant damage (Constitution save for half)."
+    },
+    {
+      "stage": 8,
+      "name": "Barren-Field Prior",
+      "feat": "Withering Silence",
+      "text": "As an action, drain all life from a 60-foot radius. Enemies there make a Constitution save, taking 10d8 necrotic damage and gaining one level of exhaustion on a failure, or half damage on a success. Plants there die. Once per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten-Glade Keeper",
+      "feat": "Unseen Wildwood",
+      "text": "Once per long rest, raise a forest the world forgets in a 300-foot radius for 1 day. Allies within it cannot be found by any divination or senses. Enemies entering make a Wisdom save or become lost, unable to leave for 1 hour."
+    },
+    {
+      "stage": 10,
+      "name": "First-Garden Pontifex",
+      "feat": "Seed of the World",
+      "text": "Once per long rest, you plant the first seed. For 1 minute, all terrain within 1 mile obeys you: as a bonus action you can restrain any number of creatures you see (Strength save), or heal all allies you see for 10d10 hit points."
+    }
+  ],
+  "Order Domain": [
+    {
+      "stage": 2,
+      "name": "Fogmarshal Vicar",
+      "feat": "Unseen Edict",
+      "text": "When you cast a spell on an ally, you can whisper a command through the mist. A creature within 60 feet makes a Wisdom save or must obey a one-word command, unaware who gave it. Uses equal to your Wisdom modifier per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Magistrate of Two Courts",
+      "feat": "Binding Sentence",
+      "text": "As an action, pronounce a sentence on a creature within 60 feet. It makes a Charisma save or, for 1 minute, takes 4d8 radiant damage each time it attacks anyone other than you. It repeats the save each turn. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Law-in-Chaos Hierophant",
+      "feat": "Imposed Order",
+      "text": "As an action, create a 30-foot-radius zone of order for 1 minute. Inside, no die can roll below 10 for allies, and random magical effects resolve as you choose. Enemies cannot teleport or change shape inside it. Once per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Law Confessor",
+      "feat": "Weight of the Law",
+      "text": "When an ally hits a creature you have sentenced, that creature makes a Strength save or is crushed under the law, taking 5d8 force damage and falling prone with its speed reduced to 0 until your next turn."
+    },
+    {
+      "stage": 6,
+      "name": "Heartlaw Hierarch",
+      "feat": "Living Statute",
+      "text": "Once per long rest, declare a law for a 120-foot radius lasting 1 hour, such as no flight or no teleportation. Creatures that break it take 10d8 force damage (Charisma save for half) and their action fails."
+    },
+    {
+      "stage": 7,
+      "name": "Horizon Lawgiver",
+      "feat": "Decree Across Worlds",
+      "text": "Your Voice of Authority now affects up to three allies at once, and each can make one weapon attack or cast a cantrip as a reaction. Once per long rest you can cast command at 9th level without a slot."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Edict Prior",
+      "feat": "Order of Nothing",
+      "text": "As an action, a creature within 60 feet makes a Charisma save or is forbidden to act. It is incapacitated and cannot use reactions for 1 minute, repeating the save each turn. On a success it is slowed for 1 round. Once per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Keeper of Lost Laws",
+      "feat": "Forgotten Decree",
+      "text": "Once per long rest, invoke a law the world forgot. For 1 minute, choose one game rule such as healing, flight or spellcasting; enemies within 300 feet cannot benefit from it, with no save allowed for creatures under 300 hit points."
+    },
+    {
+      "stage": 10,
+      "name": "First-Law Pontifex",
+      "feat": "The Primal Decree",
+      "text": "Once per long rest, speak a decree in the first Law. All creatures within 300 feet make a Charisma save or obey it for 1 minute, as long as it does not order self-destruction. Allies gain advantage on all rolls while obeying."
+    }
+  ],
+  "Peace Domain": [
+    {
+      "stage": 2,
+      "name": "Fogbond Vicar",
+      "feat": "Bonds in the Mist",
+      "text": "Creatures linked by your Emboldening Bond can see each other through fog and illusion and can swap places as a bonus action once per turn while within 60 feet of each other. Bonded creatures gain +1 AC while adjacent."
+    },
+    {
+      "stage": 3,
+      "name": "Concord Arbiter",
+      "feat": "Pact of Shared Burden",
+      "text": "When a bonded creature takes damage, you can split it evenly among all willing bonded creatures within 60 feet. Each bonded creature also gains 2d8 temporary hit points whenever an ally in the bond drops a foe."
+    },
+    {
+      "stage": 4,
+      "name": "Calm-in-Storm Hierophant",
+      "feat": "Harmony Amid Chaos",
+      "text": "Bonded creatures are immune to the charmed and frightened conditions and cannot have their positions changed against their will. When any bonded creature rolls a 1 on a d20, it can reroll it. Lasts as long as the bond."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Still Confessor",
+      "feat": "Abyssal Calm",
+      "text": "As an action, a creature within 60 feet makes a Wisdom save or is pacified for 1 minute, unable to attack or cast harmful spells. Damage ends it. On a success it takes 6d8 psychic damage. Uses equal to Wisdom modifier per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Heartbond Hierarch",
+      "feat": "One Heart",
+      "text": "Bonded creatures share a single pool of hit points equal to the sum of their own while bonded. Once per long rest, as an action, all bonded creatures regain hit points equal to half that shared maximum."
+    },
+    {
+      "stage": 7,
+      "name": "Far-Concord Prelate",
+      "feat": "Bond Across Horizons",
+      "text": "Your bond works across any distance on the same plane. Bonded creatures can cast spells on each other as if adjacent and, once per long rest each, teleport to the side of another bonded creature as a bonus action."
+    },
+    {
+      "stage": 8,
+      "name": "Silent-Truce Prior",
+      "feat": "Absolute Ceasefire",
+      "text": "Once per long rest, as an action, declare peace in a 120-foot radius for 1 minute. Every creature there makes a Charisma save or cannot deal damage. Any creature that deals damage in the area ends the effect for itself only."
+    },
+    {
+      "stage": 9,
+      "name": "Keeper of Forgotten Feuds",
+      "feat": "Grudges Unremembered",
+      "text": "Once per long rest, a group of up to ten creatures within 300 feet makes a Wisdom save or forgets their hostility toward you and your allies for 24 hours. On a success, they are stunned until the end of their next turn."
+    },
+    {
+      "stage": 10,
+      "name": "First-Peace Pontifex",
+      "feat": "Peace Before Strife",
+      "text": "Once per long rest, restore the peace before the first war in a 1-mile radius for 1 hour. No creature can deal damage there unless it succeeds on a Charisma save each turn. Allies regain 20 hit points each turn."
+    }
+  ],
+  "Rune Priest": [
+    {
+      "stage": 2,
+      "name": "Mistglyph Scribe",
+      "feat": "Veiled Rune",
+      "text": "As a bonus action, inscribe an invisible rune within 30 feet. When an enemy comes within 10 feet of it, it flares for 3d8 force damage and blinds the creature until its next turn. Uses equal to your Wisdom modifier per short rest."
+    },
+    {
+      "stage": 3,
+      "name": "Sigil-Oath Inscriber",
+      "feat": "Rune of Covenant",
+      "text": "Inscribe a rune of Heaven or Hell on an ally. A Heaven rune grants 3d8 temporary hit points at the start of each turn; a Hell rune adds 3d8 fire damage to their weapon hits. Lasts 1 minute, twice per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Shifting-Script Priest",
+      "feat": "Rewritten Rune",
+      "text": "As a bonus action, rewrite any rune you placed within 60 feet into a different rune you know, changing its effect immediately. When a rune triggers, roll a d6; on a 6 it does not vanish and can trigger again."
+    },
+    {
+      "stage": 5,
+      "name": "Deepcarved Lector",
+      "feat": "Rune of Crushing Depths",
+      "text": "Runes you inscribe on allies last until your next long rest. Each ally can carry one, granting resistance to one damage type of your choice and regaining 5 hit points per turn while above 0 hit points."
+    },
+    {
+      "stage": 6,
+      "name": "Heartscript Hierarch",
+      "feat": "Living Text",
+      "text": "Runes you inscribe on allies grow into their bodies and last until your next long rest. Each ally can carry one rune granting resistance to one damage type of your choice and regeneration of 5 hit points per turn while above 0 hit points."
+    },
+    {
+      "stage": 7,
+      "name": "Starscript Prelate",
+      "feat": "Constellation of Runes",
+      "text": "As an action, link up to seven of your runes into a constellation. Allies standing on any linked rune can teleport to any other as a bonus action, and enemies on them take 6d8 radiant damage (Dexterity save for half). Once per long rest."
+    },
+    {
+      "stage": 8,
+      "name": "Blank-Page Prior",
+      "feat": "Rune of Unwriting",
+      "text": "As an action, inscribe a rune of nothing on a creature within 60 feet. It makes a Charisma save or loses all magical effects on it and cannot benefit from magic items for 1 minute, repeating the save each turn. Once per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Keeper of Lost Script",
+      "feat": "Forgotten Glyph",
+      "text": "Once per long rest, carve a glyph the world forgot over a 120-foot radius for 1 minute. You choose one effect for allies, such as immunity to a condition, and one for enemies, such as 8d10 force damage per turn (Constitution save for half)."
+    },
+    {
+      "stage": 10,
+      "name": "First-Script Pontifex",
+      "feat": "The First Word Written",
+      "text": "Once per long rest, write a word of the first Law on reality itself. For 1 hour, the area within 1 mile becomes your sacred text: you can trigger any rune you know anywhere within it as a bonus action, without spending uses."
+    }
+  ],
+  "Tempest Domain": [
+    {
+      "stage": 2,
+      "name": "Fogstorm Vicar",
+      "feat": "Thunder in the Mist",
+      "text": "When you deal lightning or thunder damage, you can surround the target with stormy fog. It makes a Constitution save or is deafened and blinded until the end of its next turn. Uses equal to your Wisdom modifier per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Wrath-Storm Herald",
+      "feat": "Heaven's Lightning",
+      "text": "As an action, call down lightning on up to three creatures within 120 feet. Each makes a Dexterity save, taking 5d10 lightning damage on a failure or half on a success. Fiends and undead have disadvantage on the save. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Wildgale Hierophant",
+      "feat": "Erratic Tempest",
+      "text": "As an action, create a 40-foot-radius storm within 120 feet for 1 minute. At the start of each of your turns roll a d4 for lightning strike, gale push, hail, or thunderclap, each dealing 4d8 damage of its type. Once per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Deepsea Stormcaller",
+      "feat": "Maelstrom Pull",
+      "text": "As an action, create a 30-foot whirlpool within 90 feet. Creatures in it make a Strength save or are pulled 15 feet toward the center, take 6d8 bludgeoning damage and are restrained. Lasts 1 minute, once per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Stormheart Hierarch",
+      "feat": "Eye of the Storm",
+      "text": "You are always at the calm center of storms: you are immune to lightning and thunder damage. When you deal lightning or thunder damage, you can reduce the target's speed to 0 and prevent it from taking reactions until your next turn."
+    },
+    {
+      "stage": 7,
+      "name": "Skyroad Stormlord",
+      "feat": "Storm Across Horizons",
+      "text": "Once per long rest, summon a storm over a 1-mile radius for 1 hour. As a bonus action each turn, call a lightning bolt on any creature you see within it, dealing 8d10 lightning damage (Dexterity save for half)."
+    },
+    {
+      "stage": 8,
+      "name": "Silent-Thunder Prior",
+      "feat": "Thunder of Nothing",
+      "text": "As an action, release a silent shockwave in a 60-foot radius. Creatures make a Constitution save or take 10d8 thunder damage and are deafened and silenced for 1 minute. Half damage on a success. Once per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten-Storm Keeper",
+      "feat": "Lost Tempest",
+      "text": "Once per long rest, call the storm that ended a forgotten world for 1 minute. Lightning you deal ignores immunity, and once per turn you can strike every enemy within 120 feet for 6d10 lightning damage (Dexterity save for half)."
+    },
+    {
+      "stage": 10,
+      "name": "Firststorm Pontifex",
+      "feat": "The First Storm",
+      "text": "Once per long rest, become the first storm for 1 minute. You gain a flying speed of 120 feet and immunity to all damage from weather. Each turn, deal 10d10 lightning or thunder damage to up to three creatures (Dexterity save for half)."
+    }
+  ],
+  "Trickery Domain": [
+    {
+      "stage": 2,
+      "name": "Mistmask Vicar",
+      "feat": "Duplicate in the Fog",
+      "text": "Your Invoke Duplicity now creates two illusory duplicates, and you can teleport to swap places with either as a bonus action. Attacks against you have disadvantage while a duplicate is within 5 feet of you."
+    },
+    {
+      "stage": 3,
+      "name": "Forked-Tongue Arbiter",
+      "feat": "Devil's Bargain",
+      "text": "As an action, offer a creature within 30 feet a false deal. It makes a Wisdom save or believes you are its ally for 1 minute, taking 4d8 psychic damage when it learns otherwise. Uses equal to your Wisdom modifier per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Trickster of Upheaval",
+      "feat": "Shuffled Positions",
+      "text": "As an action, swap the positions of up to four creatures within 60 feet. Unwilling creatures make a Wisdom save to resist. Swapped enemies are confused and cannot take reactions until the end of their next turn. Once per short rest."
+    },
+    {
+      "stage": 5,
+      "name": "Deepmask Confessor",
+      "feat": "Lure of the Deep",
+      "text": "As an action, project an illusion of an irresistible lure within 120 feet. Creatures that see it make a Wisdom save or are charmed and must move toward it for 1 minute, taking 4d8 psychic damage on arrival. Once per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Heartmask Hierarch",
+      "feat": "True Disguise",
+      "text": "You can transform into any creature you have seen for up to 8 hours, gaining its appearance, voice and senses. Spells and abilities cannot reveal your true form unless the caster succeeds on a Wisdom save against your DC."
+    },
+    {
+      "stage": 7,
+      "name": "Far-Mirror Prelate",
+      "feat": "Duplicates Across Worlds",
+      "text": "Your duplicates can now be anywhere on the same plane, and you can see, hear and cast spells through them. Once per long rest, you can swap places with any duplicate or with any creature you have touched within the last day."
+    },
+    {
+      "stage": 8,
+      "name": "Nowhere Prior",
+      "feat": "Unseen Self",
+      "text": "As a bonus action, you remove yourself from all perception for 1 minute. You cannot be seen, heard, sensed or detected by any magic, and your first attack each turn deals an extra 6d8 psychic damage. Twice per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Keeper of Lost Lies",
+      "feat": "Unremembered Truth",
+      "text": "Once per long rest, rewrite the memories of up to ten creatures within 300 feet regarding the last hour. Each makes a Wisdom save or believes whatever version of events you choose, as though it truly happened."
+    },
+    {
+      "stage": 10,
+      "name": "First-Lie Pontifex",
+      "feat": "The First Deception",
+      "text": "Once per long rest, tell a lie to the world itself. For 1 minute, one fact you speak becomes real, such as an enemy being your ally or a wall being open, with any creature affected making a Charisma save to resist."
+    }
+  ],
+  "Twilight Domain": [
+    {
+      "stage": 2,
+      "name": "Duskfog Vicar",
+      "feat": "Veil of Gloaming",
+      "text": "Your Twilight Sanctuary also fills with protective mist. Allies inside are lightly obscured to enemies outside and gain advantage on saves against being frightened or charmed. When an ally ends its turn inside, it can teleport 15 feet."
+    },
+    {
+      "stage": 3,
+      "name": "Vesper Arbiter",
+      "feat": "Evening Judgement",
+      "text": "When an enemy enters your Twilight Sanctuary, it makes a Wisdom save or takes 4d8 radiant damage and is frightened of you until the end of its next turn. Uses equal to your Wisdom modifier per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Shifting-Dusk Hierophant",
+      "feat": "Twilight Waver",
+      "text": "At the start of each of your turns while Twilight Sanctuary is active, roll a d4 to grant allies within it 2d8 temporary hit points, advantage on attacks, 10 feet of extra speed, or the end of one condition."
+    },
+    {
+      "stage": 5,
+      "name": "Deepnight Confessor",
+      "feat": "Light in the Long Night",
+      "text": "Your darkvision pierces magical darkness to 300 feet. Allies within 60 feet share it. As a reaction when an ally within 60 feet is frightened or falls to 0 hit points, they instead regain 5d8 hit points. Twice per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Heartdusk Hierarch",
+      "feat": "Hearth of Twilight",
+      "text": "Your Twilight Sanctuary now has a 60-foot radius. Allies inside it regain 2d8 hit points at the start of each turn and gain resistance to necrotic and psychic damage while inside."
+    },
+    {
+      "stage": 7,
+      "name": "Starlit Vigilant",
+      "feat": "Night of a Thousand Stars",
+      "text": "Once per long rest, turn the sky above a 1-mile radius to starry night for 1 hour. Allies there have truesight to 60 feet and advantage on initiative. Enemies there have disadvantage on saves against your spells."
+    },
+    {
+      "stage": 8,
+      "name": "Darkless Prior",
+      "feat": "Guardian Against Nothing",
+      "text": "Allies within your Twilight Sanctuary cannot be reduced below 1 hit point by necrotic or psychic damage. Once per long rest, as an action, all allies within 60 feet become immune to fear, despair and death effects for 1 minute."
+    },
+    {
+      "stage": 9,
+      "name": "Keeper of Lost Dusks",
+      "feat": "Forgotten Nightfall",
+      "text": "Once per long rest, bring down a night the world forgot over a 300-foot radius for 1 minute. Enemies inside make a Wisdom save or are blinded and frightened. Allies are invisible to enemies inside and regain 4d10 hit points each turn."
+    },
+    {
+      "stage": 10,
+      "name": "First-Dusk Pontifex",
+      "feat": "The First Night",
+      "text": "Once per long rest, summon the first night for 1 hour. Allies within 1 mile cannot drop below 1 hit point, and once per round as a bonus action you can heal one of them for 10d10 hit points."
+    }
+  ],
+  "War Domain": [
+    {
+      "stage": 2,
+      "name": "Fogline Crusader",
+      "feat": "Phantom Strike",
+      "text": "When you use your War Priest feature, your bonus attack can strike from the mist at a creature within 30 feet, teleporting you adjacent to it. On a hit, it deals an extra 2d8 force damage. Wisdom modifier uses per short rest."
+    },
+    {
+      "stage": 3,
+      "name": "Banner-Throne Templar",
+      "feat": "Holy Warcry",
+      "text": "As a bonus action, let out a warcry. Allies within 60 feet gain +1d6 to attack rolls and 3d8 temporary hit points for 1 minute. Enemies within 60 feet make a Wisdom save or are frightened for 1 round. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Chaos-Front Warpriest",
+      "feat": "Fortune of Battle",
+      "text": "When you or an ally within 30 feet misses an attack, roll a d6. On 4 or higher, the miss becomes a hit and deals an extra 3d8 damage. Usable a number of times equal to your Wisdom modifier per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Deepwar Confessor",
+      "feat": "Unstoppable Advance",
+      "text": "You cannot be knocked prone, pushed, grappled or restrained against your will. When you hit a creature with a weapon, you can push it 15 feet and deal an extra 4d8 force damage. Three times per short rest."
+    },
+    {
+      "stage": 6,
+      "name": "Heartwar Hierarch",
+      "feat": "Blessing of the Living Blade",
+      "text": "Your weapon attacks deal an extra 3d8 radiant damage. As a bonus action, you can grant up to four allies within 30 feet an extra attack when they take the Attack action until the end of their next turn. Once per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Horizon Warlord",
+      "feat": "March of the Host",
+      "text": "Once per long rest, summon a host of spectral warriors for 1 minute. Ten soldiers appear within 120 feet, each with 60 hit points and AC 18, dealing 3d10 radiant damage on hits. They act on your initiative and obey your commands."
+    },
+    {
+      "stage": 8,
+      "name": "Silent-Battle Prior",
+      "feat": "Strike of Emptiness",
+      "text": "Once per turn when you hit with a weapon, the target makes a Constitution save or takes an extra 8d8 force damage and cannot regain hit points until your next turn. Uses equal to your Wisdom modifier per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Keeper of Lost Wars",
+      "feat": "Forgotten Campaign",
+      "text": "Once per long rest, call the warriors of a forgotten war for 1 minute. You and allies within 120 feet gain one extra attack per Attack action and +1 AC, and enemies must succeed on a Wisdom save or be frightened."
+    },
+    {
+      "stage": 10,
+      "name": "First-War Pontifex",
+      "feat": "The First Battle",
+      "text": "Once per long rest, become the avatar of the first war for 1 minute. You make four attacks per Attack action, each dealing an extra 6d10 radiant damage, and you are immune to the frightened, stunned and paralyzed conditions."
+    }
+  ],
+  "Circle of Dreams": [
+    {
+      "stage": 2,
+      "name": "Fogdream Warden",
+      "feat": "Hidden Dreamroad",
+      "text": "As an action, open a dream path to a point within 300 feet; you and up to five willing creatures travel it instantly. Enemies within 10 feet of the exit make a Wisdom save or fall asleep for 1 round. Twice per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Lily-Dream Keeper",
+      "feat": "Balm of Paradise",
+      "text": "Your Balm of the Summer Court now restores an extra 2d8 hit points per die and grants the target resistance to fire damage until the start of your next turn. A creature healed this way also ends the frightened condition."
+    },
+    {
+      "stage": 4,
+      "name": "Waking-Dream Shaper",
+      "feat": "Shifting Reverie",
+      "text": "As an action, a creature within 60 feet makes a Wisdom save or is trapped in a changing dream for 1 minute. Each turn roll a d4: it attacks an ally, falls prone, loses its action, or takes 4d8 psychic damage. Once per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Slumber Elder",
+      "feat": "Drowned Sleep",
+      "text": "As an action, creatures in a 30-foot radius within 120 feet make a Wisdom save or fall unconscious for 1 minute, waking only on 20 or more damage. Creatures immune to sleep take 6d8 psychic damage instead. Once per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Dreamheart Archdruid",
+      "feat": "Dream of Renewal",
+      "text": "Allies who finish a short rest within your Hearth of Moonlight and Shadow regain all hit points and one spent spell slot of 5th level or lower. Once per long rest, a short rest within it takes only 10 minutes."
+    },
+    {
+      "stage": 7,
+      "name": "Starsleep Sower",
+      "feat": "Dream Across the Sky",
+      "text": "Once per long rest, you and up to eight creatures enter a shared dream for 1 hour that can carry you to any location on any plane you have heard described. You arrive refreshed, as if you had taken a short rest."
+    },
+    {
+      "stage": 8,
+      "name": "Dreamless Hermit",
+      "feat": "Sleep Without Dreams",
+      "text": "Once per long rest, pull up to ten creatures within 300 feet into a forgotten dream for 1 minute. Enemies make a Wisdom save or are incapacitated, while allies there regain 4d10 hit points each turn."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten-Dream Seed",
+      "feat": "Dream the World Forgets",
+      "text": "Once per long rest, pull up to ten creatures within 300 feet into a forgotten dream for 1 minute. Enemies make a Wisdom save or are incapacitated while allies act normally and regain 4d10 hit points each turn inside the dream."
+    },
+    {
+      "stage": 10,
+      "name": "First-Dreamer Ancient",
+      "feat": "The First Dream",
+      "text": "Once per long rest, you dream the world as it first was. For 1 minute, you can reshape terrain within 1 mile as a bonus action, and any creature you choose makes a Wisdom save or falls into endless sleep until you release it."
+    }
+  ],
+  "Circle of Rot": [
+    {
+      "stage": 2,
+      "name": "Fogmould Warden",
+      "feat": "Mildew Mist",
+      "text": "As an action, release a 20-foot-radius cloud of spore-laden fog within 60 feet for 1 minute. Enemies inside are lightly obscured to others and take 2d8 necrotic damage at the start of each of their turns. Uses equal to your Wisdom modifier per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Ashrot Keeper",
+      "feat": "Rot of the Damned",
+      "text": "Your withering touch carries hellish decay. A creature hit by it makes a Constitution save or loses fire and necrotic resistance and takes 4d8 extra necrotic damage, plus 2d8 at the start of each turn for 1 minute. It repeats the save each turn."
+    },
+    {
+      "stage": 4,
+      "name": "Wildrot Shaper",
+      "feat": "Spreading Blight",
+      "text": "When a creature dies within 30 feet of you, its body bursts with spores. Each enemy within 15 feet of it makes a Constitution save or takes 4d8 poison damage and is poisoned until the end of its next turn. No uses limit."
+    },
+    {
+      "stage": 5,
+      "name": "Drownrot Elder",
+      "feat": "Silt Decay",
+      "text": "As an action, rot the ground in a 30-foot radius within 90 feet into sucking silt for 1 minute. Enemies inside have their speed halved and make a Constitution save each turn or take 5d8 necrotic damage. Once per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Rotheart Archdruid",
+      "feat": "Cycle of the Heart",
+      "text": "Whenever an enemy within 60 feet takes necrotic damage from you, you or an ally within 30 feet regains hit points equal to half of that damage. You are immune to disease, poison damage and the poisoned condition."
+    },
+    {
+      "stage": 7,
+      "name": "Starmould Sower",
+      "feat": "Spores Between Worlds",
+      "text": "Once per long rest, send spores across a 1-mile radius. For 1 hour, enemies there take 4d8 necrotic damage each round and cannot regain hit points; a Constitution save at the start of each turn halves the damage."
+    },
+    {
+      "stage": 8,
+      "name": "Barren-Rot Hermit",
+      "feat": "Absolute Decay",
+      "text": "As an action, touch a creature: it makes a Constitution save or takes 12d8 necrotic damage and its maximum hit points are reduced by the same amount until a long rest. Half damage and no reduction on a success. Twice per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten-Rot Seed",
+      "feat": "Rot of Memory",
+      "text": "Once per long rest, a creature within 120 feet makes a Constitution save or rots away from the world's memory, taking 12d10 necrotic damage. If this reduces it to 0 hit points, it cannot be raised and no one remembers it."
+    },
+    {
+      "stage": 10,
+      "name": "First-Rot Ancient",
+      "feat": "The First Decay",
+      "text": "Once per long rest, become the first decay for 1 minute. All nonmagical objects and plant life within 60 feet rot away, and enemies within that radius take 10d10 necrotic damage at the start of their turns (Constitution save for half)."
+    }
+  ],
+  "Circle of Spores": [
+    {
+      "stage": 2,
+      "name": "Fogspore Warden",
+      "feat": "Veiled Halo",
+      "text": "Your Halo of Spores now has a range of 30 feet and deals 2d8 extra necrotic damage. Creatures damaged by it make a Wisdom save or cannot see beyond 10 feet through the fog of spores until the end of their next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Brimspore Keeper",
+      "feat": "Sulfur Bloom",
+      "text": "While Symbiotic Entity is active, enemies that hit you in melee take 3d8 fire and 3d8 necrotic damage. When it ends, it bursts in a 20-foot radius dealing 4d8 necrotic damage (Constitution save for half)."
+    },
+    {
+      "stage": 4,
+      "name": "Chaosbloom Shaper",
+      "feat": "Mutating Spores",
+      "text": "Creatures you raise as zombies with Fungal Infestation each gain a random mutation on a d4: extra 10 feet of speed, an extra attack, 30 temporary hit points, or poison breath for 4d8 damage. You can raise up to four zombies at once."
+    },
+    {
+      "stage": 5,
+      "name": "Drownspore Elder",
+      "feat": "Abyssal Mycelium",
+      "text": "As an action, spread mycelium in a 30-foot radius within 90 feet. Enemies there make a Strength save or are restrained by fungal threads for 1 minute, taking 4d8 necrotic damage each turn. They repeat the save each turn. Once per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Ringspore Archdruid",
+      "feat": "Mycelial Network",
+      "text": "You are linked to all plants and fungi within 1 mile. You can sense all creatures touching the ground within it, and once per long rest you can teleport yourself and up to five allies to any fungus or plant in that range."
+    },
+    {
+      "stage": 7,
+      "name": "Starspore Sower",
+      "feat": "Panspermia",
+      "text": "Once per long rest, release spores into the sky that settle in a 300-foot radius for 1 hour. Enemies there take 4d10 necrotic damage at the start of their turns (Constitution save for half), and slain enemies rise as your zombies."
+    },
+    {
+      "stage": 8,
+      "name": "Barren-Spore Hermit",
+      "feat": "Final Fruiting",
+      "text": "As an action, a creature within 60 feet makes a Constitution save or spores burst from within it for 10d8 necrotic damage, plus 5d8 to each creature within 10 feet of it. Half damage on a success. Once per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten-Spore Seed",
+      "feat": "Unremembered Colony",
+      "text": "Once per long rest, fill a 120-foot radius with spores the world has forgotten for 1 minute. Enemies there make a Wisdom save or are charmed by the colony and fight for you, repeating the save each turn."
+    },
+    {
+      "stage": 10,
+      "name": "First-Spore Ancient",
+      "feat": "The First Mould",
+      "text": "Once per long rest, you become the primordial colony for 1 minute. You split into up to five spore bodies within 120 feet, each with your hit points divided equally, that act on your turn and can each cast cantrips."
+    }
+  ],
+  "Circle of Stars": [
+    {
+      "stage": 2,
+      "name": "Fogstar Warden",
+      "feat": "Hidden Constellation",
+      "text": "While in your Starry Form, you can become invisible until the end of your turn as a bonus action. Your constellation effects also gain +1d8 to their healing or damage. Uses equal to your Wisdom modifier per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Haloed Astrologer",
+      "feat": "Twin Thrones Constellation",
+      "text": "Gain two new Starry Form options. The Seraph: allies within 30 feet regain 2d8 hit points when you cast a spell. The Brand: enemies you damage take 2d8 fire damage at the start of their next turn."
+    },
+    {
+      "stage": 4,
+      "name": "Wild-Orbit Shaper",
+      "feat": "Falling Stars",
+      "text": "When you enter Starry Form, roll a d6 to change your constellation randomly. You gain its effect and one other of your choice simultaneously for 1 minute. You can use Starry Form twice more per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Sky Elder",
+      "feat": "Sunken Constellation",
+      "text": "While in Starry Form, you see in magical darkness to 120 feet. As an action, a creature within 120 feet makes a Constitution save or is crushed by starlight weight, taking 6d8 radiant damage and being restrained for 1 round."
+    },
+    {
+      "stage": 6,
+      "name": "Heartstar Archdruid",
+      "feat": "Star Within",
+      "text": "Your Starry Form now lasts 1 hour and you can switch constellations at the start of each turn. While in Starry Form, you regain 10 hit points at the start of each of your turns."
+    },
+    {
+      "stage": 7,
+      "name": "Horizon Starseer",
+      "feat": "Zodiac Gate",
+      "text": "Once per long rest, open a gate of stars for 1 minute that lets you and up to ten allies travel to any point within 1 mile. Enemies standing where you arrive take 8d10 radiant damage (Dexterity save for half)."
+    },
+    {
+      "stage": 8,
+      "name": "Dead-Star Hermit",
+      "feat": "Extinguished Constellation",
+      "text": "As an action, extinguish the stars in a 60-foot radius. Enemies there make a Constitution save or take 10d8 cold damage and are blinded for 1 minute. Half damage on a success. Once per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten-Star Seed",
+      "feat": "Lost Constellation",
+      "text": "Once per long rest, call a constellation erased from the sky. For 1 minute, choose all three Starry Form effects at once, and their dice are maximized against any creature that fails a Wisdom save at the start of your turn."
+    },
+    {
+      "stage": 10,
+      "name": "First-Star Ancient",
+      "feat": "The First Light",
+      "text": "Once per long rest, become the first star for 1 minute. You emit bright light for 300 feet: enemies in it take 10d10 radiant damage at the start of their turns (Constitution save for half), and allies regain 10d10 hit points."
+    }
+  ],
+  "Circle of Wildfire": [
+    {
+      "stage": 2,
+      "name": "Fogfire Warden",
+      "feat": "Smoke Spirit",
+      "text": "Your Wildfire Spirit can turn into smoke as a bonus action, becoming heavily obscured and able to move through creatures. When it flame-blasts, the area fills with smoke that blinds enemies who fail a Constitution save until their next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Ember-Lily Keeper",
+      "feat": "Fire and Bloom",
+      "text": "When your fire spells deal damage, an ally within 30 feet of the target regains hit points equal to half the damage. Your Wildfire Spirit now heals 3d8 hit points to allies in its teleport area."
+    },
+    {
+      "stage": 4,
+      "name": "Wildfire Shaper",
+      "feat": "Runaway Blaze",
+      "text": "When you deal fire damage, roll a d6. On 5 or 6, fire spreads to every enemy within 10 feet of the target, dealing 3d8 fire damage. Your Wildfire Spirit's attacks can also trigger this. No use limit."
+    },
+    {
+      "stage": 5,
+      "name": "Deepflame Elder",
+      "feat": "Smouldering Depths",
+      "text": "Your fire burns underwater and ignores fire resistance. As an action, ignite the ground in a 30-foot radius within 90 feet for 1 minute. Enemies there take 6d8 fire damage each turn (Dexterity save for half). Once per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Heartfire Archdruid",
+      "feat": "Renewing Flame",
+      "text": "Once per long rest, as a reaction when you or an ally within 60 feet drops to 0 hit points, they burst into healing fire, regaining hit points equal to half their maximum. Each enemy within 10 feet takes 6d8 fire damage."
+    },
+    {
+      "stage": 7,
+      "name": "Starfire Sower",
+      "feat": "Meteor Seed",
+      "text": "Once per long rest, call a burning meteor that strikes a point within 1 mile. Creatures in a 40-foot radius make a Dexterity save, taking 10d10 fire damage or half on a success. Plants grow back lush there within a day."
+    },
+    {
+      "stage": 8,
+      "name": "Coldember Hermit",
+      "feat": "Fire of Nothing",
+      "text": "Your flames can burn without air, fuel or light. Fire damage you deal ignores immunity, treating it as resistance. As an action, release a 60-foot cone of void fire dealing 10d8 fire damage (Dexterity save for half). Once per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten-Fire Seed",
+      "feat": "Ashes the World Forgets",
+      "text": "Once per long rest, burn a 300-foot radius with forgotten fire for 1 minute. Enemies there take 8d10 fire damage each turn (Constitution save for half). Allies there regain 4d10 hit points each turn instead of being harmed."
+    },
+    {
+      "stage": 10,
+      "name": "First-Fire Ancient",
+      "feat": "The First Wildfire",
+      "text": "Once per long rest, become the first wildfire for 1 minute. You are immune to fire, your Wildfire Spirit grows to Huge size with 300 hit points, and its attacks deal 6d10 fire damage."
+    }
+  ],
+  "Circle of the Eclipse": [
+    {
+      "stage": 2,
+      "name": "Fogshadow Warden",
+      "feat": "Penumbral Veil",
+      "text": "When you switch stances, you can become lightly obscured in shifting fog until your next turn. In the light stance allies within 10 feet gain this too; in the dark stance enemies within 10 feet are blinded on a failed Wisdom save."
+    },
+    {
+      "stage": 3,
+      "name": "Halo-and-Ash Keeper",
+      "feat": "Heaven and Hell Aspect",
+      "text": "Your light stance now grants allies within 30 feet 2d8 hit points each time you change forms. Your dark stance adds 3d8 fire damage to your Wild Shape attacks and inflicts the frightened condition on a critical hit."
+    },
+    {
+      "stage": 4,
+      "name": "Eclipse Shaper",
+      "feat": "Wavering Balance",
+      "text": "At the start of each turn while in Wild Shape, you can change stance for free. When you do, deal 3d8 radiant or necrotic damage to one enemy within 30 feet of you, matching your new stance."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Eclipse Elder",
+      "feat": "Shadow Beneath",
+      "text": "In the dark stance, you gain blindsight to 60 feet and creatures you hit make a Strength save or are pulled under, restrained and blinded until the end of their next turn. Uses equal to your Wisdom modifier per short rest."
+    },
+    {
+      "stage": 6,
+      "name": "Heart-Eclipse Archdruid",
+      "feat": "Union of Aspects",
+      "text": "Once per long rest, merge both stances for 1 minute. You gain the benefits of both, regain 10 hit points each turn, and your Wild Shape attacks deal an extra 3d8 radiant and 3d8 necrotic damage."
+    },
+    {
+      "stage": 7,
+      "name": "Total-Eclipse Sower",
+      "feat": "Celestial Alignment",
+      "text": "Once per long rest, align sun and moon over a 1-mile radius for 1 hour. Allies there choose light or dark stance benefits individually, and enemies there have disadvantage on saves against your spells."
+    },
+    {
+      "stage": 8,
+      "name": "Black-Sun Hermit",
+      "feat": "Lightless Corona",
+      "text": "As an action, become a black sun for 1 minute. Enemies within 30 feet take 6d8 necrotic damage at the start of their turns (Constitution save for half) and cannot regain hit points. Once per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten-Eclipse Seed",
+      "feat": "Eclipse Unremembered",
+      "text": "Once per long rest, cast a forgotten eclipse across 300 feet for 1 minute. Enemies there make a Wisdom save or forget whether it is day or night and cannot take reactions. Allies there are invisible in dim light."
+    },
+    {
+      "stage": 10,
+      "name": "First-Eclipse Ancient",
+      "feat": "The First Dawn and Dusk",
+      "text": "Once per long rest, split yourself into light and dark aspects for 1 minute. Each is a copy with half your hit points that acts on your turn, and either can deal 10d10 radiant or necrotic damage as an action (Dexterity save for half)."
+    }
+  ],
+  "Circle of the Land": [
+    {
+      "stage": 2,
+      "name": "Mistland Warden",
+      "feat": "Fogbound Terrain",
+      "text": "As a bonus action, the ground within 30 feet of you becomes your chosen terrain for 1 minute, shrouded in fog. Allies there are lightly obscured and ignore difficult terrain. Enemies treat it as difficult terrain. Once per short rest."
+    },
+    {
+      "stage": 3,
+      "name": "Ashfield Keeper",
+      "feat": "Garden and Wasteland",
+      "text": "Choose a heavenly garden or a hellish wasteland when you finish a long rest. Garden: allies within 30 feet regain 2d8 hit points at the start of their turns for 1 minute. Wasteland: enemies take 3d8 fire damage instead. Twice per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Wildterrain Shaper",
+      "feat": "Shifting Ground",
+      "text": "As an action, reshape the land in a 60-foot radius within 120 feet for 1 minute. Each round, choose new terrain features such as walls, chasms or pillars. Creatures caught make a Dexterity save or take 4d8 damage. Once per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Deepland Elder",
+      "feat": "Roots in the Abyss",
+      "text": "While touching the ground, you cannot be moved against your will and gain 4d8 temporary hit points at the start of each turn. As an action, crack the earth in a 30-foot line; creatures fall in, taking 6d8 bludgeoning damage (Dexterity save for half)."
+    },
+    {
+      "stage": 6,
+      "name": "Landheart Archdruid",
+      "feat": "Body of the Land",
+      "text": "You are one with your chosen terrain. While standing on it, you regain 10 hit points at the start of your turns and can cast one druid spell of 5th level or lower without a slot once per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Many-Lands Sower",
+      "feat": "Every Land Is Mine",
+      "text": "Your Circle Spells now include all terrains' spells, always prepared. Once per long rest, you can transport yourself and up to eight allies to any terrain you have visited on the same plane."
+    },
+    {
+      "stage": 8,
+      "name": "Barrenland Hermit",
+      "feat": "Waste of Nothing",
+      "text": "As an action, turn a 60-foot radius into barren void-touched land for 1 minute. Enemies there cannot regain hit points and take 6d8 cold damage each turn (Constitution save for half). Once per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten-Land Seed",
+      "feat": "Land Without Name",
+      "text": "Once per long rest, raise a forgotten land in a 1-mile radius for 1 day. Allies there cannot be found by divination or tracked. Enemies entering make a Wisdom save or become lost and return to where they started."
+    },
+    {
+      "stage": 10,
+      "name": "First-Land Ancient",
+      "feat": "The First Ground",
+      "text": "Once per long rest, raise the first land in a 1-mile radius for 1 hour. You can reshape it as a bonus action each turn, and creatures you choose make a Strength save or are swallowed, taking 10d10 bludgeoning damage and restrained."
+    }
+  ],
+  "Circle of the Moon": [
+    {
+      "stage": 2,
+      "name": "Fogmoon Warden",
+      "feat": "Moonmist Shape",
+      "text": "While in Wild Shape, you can turn into mist as a bonus action until the start of your next turn, gaining resistance to all damage and moving through creatures. Your Wild Shape attacks deal an extra 2d8 damage."
+    },
+    {
+      "stage": 3,
+      "name": "Fiend-and-Seraph Shifter",
+      "feat": "Celestial and Infernal Shapes",
+      "text": "You can Wild Shape into celestials and fiends of CR 10 or lower that you have seen. While in such a form, your attacks deal an extra 3d8 radiant or fire damage, matching the form."
+    },
+    {
+      "stage": 4,
+      "name": "Chaosform Shaper",
+      "feat": "Rapid Metamorphosis",
+      "text": "You can change Wild Shape forms as a bonus action without spending a use. When you do, you regain 3d8 hit points and your next attack before the end of your turn has advantage."
+    },
+    {
+      "stage": 5,
+      "name": "Deepmoon Elder",
+      "feat": "Abyssal Forms",
+      "text": "You can Wild Shape into aberrations and monstrosities of CR 15 or lower. While in such a form, your attacks deal an extra 4d8 damage and you gain blindsight to 60 feet."
+    },
+    {
+      "stage": 6,
+      "name": "Moonheart Archdruid",
+      "feat": "True Wild Heart",
+      "text": "While in Wild Shape, you keep your own hit points as well as the form's, and dropping out of the form leaves you with your full total. Once per long rest you can return to Wild Shape automatically when it ends."
+    },
+    {
+      "stage": 7,
+      "name": "Starbeast Sower",
+      "feat": "Beast from Beyond",
+      "text": "You can Wild Shape into any creature of CR 20 or lower you have seen. While in such a form, your attacks deal an extra 5d8 damage, and you gain a flying speed equal to your walking speed."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow-Moon Hermit",
+      "feat": "Shape of Nothing",
+      "text": "Once per long rest, Wild Shape into a void beast for 1 minute. You have resistance to all damage, your attacks deal an extra 8d8 force damage, and creatures you hit make a Constitution save or cannot regain hit points."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten-Moon Seed",
+      "feat": "Form Lost to Time",
+      "text": "Once per long rest, Wild Shape into a forgotten creature of CR 25 or lower of your design, approved by the DM, for 1 hour. Enemies make a Wisdom save or forget they have seen you each time you hit them."
+    },
+    {
+      "stage": 10,
+      "name": "First-Beast Ancient",
+      "feat": "Form of the First Beast",
+      "text": "Once per long rest, become the first beast for 1 minute: a Gargantuan form with 500 hit points, four attacks dealing 8d10 damage each, and immunity to charm, fear and paralysis."
+    }
+  ],
+  "Circle of the Sea": [
+    {
+      "stage": 2,
+      "name": "Fogtide Warden",
+      "feat": "Sea Fog Wrath",
+      "text": "Your Wrath of the Sea now fills with sea fog. Creatures it damages make a Constitution save or are blinded until the start of their next turn. The emanation also deals an extra 2d8 cold damage."
+    },
+    {
+      "stage": 3,
+      "name": "Brine-and-Brimstone Keeper",
+      "feat": "Boiling Tide",
+      "text": "When you cast a spell that deals cold or lightning damage, you can turn the water to boiling brine. The spell also deals 3d8 fire damage to each target. Uses equal to your Wisdom modifier per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Wildtide Shaper",
+      "feat": "Rogue Wave",
+      "text": "As an action, summon a wave in a 60-foot line, 20 feet wide. Creatures in it make a Strength save or take 6d8 bludgeoning damage, are pushed 20 feet in a random direction and knocked prone. Once per short rest."
+    },
+    {
+      "stage": 5,
+      "name": "Drownroot Tideelder",
+      "feat": "Call of the Trench",
+      "text": "As an action, a creature within 120 feet makes a Strength save or is dragged into a trench of crushing water. It takes 8d8 cold damage and is restrained and drowning for 1 minute, repeating the save each turn. Once per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Tideheart Archdruid",
+      "feat": "Living Ocean",
+      "text": "You can breathe water and swim at twice your speed. Allies within 30 feet regain 2d8 hit points at the start of their turns while touching water. Once per long rest, flood a 60-foot radius with water for 1 hour."
+    },
+    {
+      "stage": 7,
+      "name": "Horizon-Sea Sower",
+      "feat": "Sea of Stars",
+      "text": "Once per long rest, summon a starlit ocean in a 1-mile radius for 1 hour. You and allies can swim through it at flying speed, and enemies within it make a Strength save each turn or are pulled 30 feet in a direction you choose."
+    },
+    {
+      "stage": 8,
+      "name": "Still-Water Hermit",
+      "feat": "Dead Calm",
+      "text": "As an action, still all water and air in a 60-foot radius for 1 minute. Enemies there make a Constitution save or take 10d8 cold damage and cannot breathe. Half damage and breathing allowed on a success. Once per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten-Tide Seed",
+      "feat": "Lost Sea",
+      "text": "Once per long rest, raise a forgotten sea in a 300-foot radius for 1 minute. Enemies there make a Strength save each turn or take 8d10 cold damage and are restrained. Allies are unaffected and regain 4d10 hit points each turn."
+    },
+    {
+      "stage": 10,
+      "name": "First-Sea Ancient",
+      "feat": "The First Ocean",
+      "text": "Once per long rest, become the first ocean for 1 minute. You are immune to cold and lightning damage, and each turn you can drown a creature within 300 feet for 10d10 cold damage (Constitution save for half)."
+    }
+  ],
+  "Circle of the Shepherd": [
+    {
+      "stage": 2,
+      "name": "Fogpath Shepherd",
+      "feat": "Mist-Called Pack",
+      "text": "Beasts and fey you summon appear wreathed in mist, invisible until they attack. Your Spirit Totem now also grants allies in its aura 2d8 temporary hit points when it is placed."
+    },
+    {
+      "stage": 3,
+      "name": "Choir-and-Fang Keeper",
+      "feat": "Herd of Two Realms",
+      "text": "Creatures you summon can be celestial or fiendish variants. Celestial summons heal an ally within 30 feet for 2d8 hit points on each turn; fiendish summons deal an extra 2d8 fire damage on hits."
+    },
+    {
+      "stage": 4,
+      "name": "Wildherd Shaper",
+      "feat": "Shifting Flock",
+      "text": "At the start of each of your turns, swap the positions of any two of your summons within 120 feet. Each summon also gains a random benefit on a d4: flight, extra attack, +1 AC, or 20 temporary hit points."
+    },
+    {
+      "stage": 5,
+      "name": "Deepherd Elder",
+      "feat": "Beasts of the Deep",
+      "text": "You can summon abyssal beasts. As an action, summon one beast of CR 15 or lower that serves you for 1 hour. It has blindsight to 60 feet and deals an extra 3d8 cold damage on hits. Once per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Heart-of-the-Herd Archdruid",
+      "feat": "One Herd",
+      "text": "All your summons share your senses and act on your turn. Once per long rest, when a summon drops to 0 hit points, you can restore it to full hit points. Your Spirit Totem aura now has a 60-foot radius."
+    },
+    {
+      "stage": 7,
+      "name": "Star-Herd Sower",
+      "feat": "Beasts Beyond the Stars",
+      "text": "Once per long rest, call a beast from distant worlds of CR 20 or lower to serve you for 1 hour. It has resistance to all damage and deals an extra 4d8 radiant damage on hits."
+    },
+    {
+      "stage": 8,
+      "name": "Lone-Shepherd Hermit",
+      "feat": "Silent Flock",
+      "text": "Your summons cannot be detected by enemies until they attack and are immune to the charmed and frightened conditions. Once per long rest, all your summons gain an extra 6d8 force damage on their next hit."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten-Herd Seed",
+      "feat": "Lost Herd",
+      "text": "Once per long rest, call back the herd of extinct creatures for 1 hour. Summon up to ten beasts of CR 10 or lower that have vanished from the world. They obey you and cannot be targeted by enemy divination."
+    },
+    {
+      "stage": 10,
+      "name": "First-Herd Ancient",
+      "feat": "The First Flock",
+      "text": "Once per long rest, summon the first beasts of the world for 1 hour: three primordial creatures of CR 25 or lower of your choice. They act on your turn and obey your commands."
+    }
+  ],
+  "Storm Caller": [
+    {
+      "stage": 2,
+      "name": "Mist-Thunder Warden",
+      "feat": "Thunder in the Fog",
+      "text": "When you deal lightning or thunder damage, the target is shrouded in fog and cannot see beyond 10 feet until the end of its next turn. Your storm spells deal an extra 2d8 damage. Uses equal to your Wisdom modifier per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Wrathcloud Keeper",
+      "feat": "Hellstorm and Heavenstorm",
+      "text": "As an action, call a storm of fire and holy lightning in a 30-foot radius within 120 feet. Creatures make a Dexterity save, taking 4d8 fire and 4d8 lightning damage, or half on a success. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Wildstorm Shaper",
+      "feat": "Chaos Lightning",
+      "text": "When you deal lightning damage, roll a d6. On 4 or higher, the lightning arcs to another creature within 30 feet, dealing half damage. On a 6, it arcs again. Uses equal to your Wisdom modifier per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Deepgale Elder",
+      "feat": "Pressure Storm",
+      "text": "As an action, drop the pressure in a 30-foot radius within 120 feet. Creatures make a Constitution save or take 6d8 thunder damage and are stunned until the end of their next turn. Half damage on a success. Once per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Stormheart Archdruid",
+      "feat": "Heart of the Tempest",
+      "text": "You are immune to lightning and thunder damage and have a flying speed of 60 feet. When you deal lightning damage, you can heal an ally within 30 feet for half the damage dealt."
+    },
+    {
+      "stage": 7,
+      "name": "Skyroad Stormseeder",
+      "feat": "Storm Across the Sky",
+      "text": "Once per long rest, create a storm over a 1-mile radius for 1 hour. Each round as a bonus action, call lightning on any creature in the storm, dealing 8d10 lightning damage (Dexterity save for half)."
+    },
+    {
+      "stage": 8,
+      "name": "Silent-Storm Hermit",
+      "feat": "Storm Without Sound",
+      "text": "As an action, unleash a silent storm in a 60-foot radius. Creatures make a Constitution save or take 10d8 lightning damage and are deafened and silenced for 1 minute. Half damage on a success. Once per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten-Storm Seed",
+      "feat": "Storm the World Forgot",
+      "text": "Once per long rest, call a forgotten storm for 1 minute. Your lightning ignores immunity and resistance, and once per turn you can strike every enemy within 120 feet for 6d10 lightning damage (Dexterity save for half)."
+    },
+    {
+      "stage": 10,
+      "name": "First-Storm Ancient",
+      "feat": "The First Tempest",
+      "text": "Once per long rest, become the first tempest for 1 minute. You fly at 120 feet, are immune to all damage from weather, and each turn deal 10d10 lightning or thunder damage to up to three creatures (Dexterity save for half)."
+    }
+  ],
+  "Wilderness Oracle": [
+    {
+      "stage": 2,
+      "name": "Mistsign Seer",
+      "feat": "Omens in the Fog",
+      "text": "When you finish a long rest, roll two d20s and record them. You can replace any attack roll, saving throw or ability check made by you or a creature you can see with one of these rolls, before the roll."
+    },
+    {
+      "stage": 3,
+      "name": "Augur of Two Thrones",
+      "feat": "Judgement of Signs",
+      "text": "As an action, read the signs around a creature within 60 feet. You learn its intentions and weaknesses, and attacks against it have advantage for 1 minute. It takes 3d8 psychic damage when first hit. Once per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Wildomen Shaper",
+      "feat": "Shifting Prophecy",
+      "text": "Once per turn, after you or an ally within 30 feet makes a roll, you can roll a d6 and add or subtract it from the result. Uses equal to your Wisdom modifier per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Deepsign Elder",
+      "feat": "Omens from Below",
+      "text": "You sense creatures within 120 feet that intend harm toward you or your allies. As a reaction when such a creature attacks, you can force it to reroll with disadvantage and take 5d8 psychic damage. Three times per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Heartsign Archdruid",
+      "feat": "Reading the Living Law",
+      "text": "You know the intended action of every creature within 60 feet before it acts. You cannot be surprised, and once per round, you can use your reaction to let an ally move 30 feet or make one attack before an enemy acts."
+    },
+    {
+      "stage": 7,
+      "name": "Horizon Oracle",
+      "feat": "Prophecy Across the Stars",
+      "text": "Once per long rest, gaze into the future for 1 minute. You learn the outcome of a course of action up to 1 week ahead, and you gain three additional d20s for your Omens in the Fog feature."
+    },
+    {
+      "stage": 8,
+      "name": "Silent-Sign Hermit",
+      "feat": "No Future",
+      "text": "Once per long rest, rewind time by 1 round. All creatures within 300 feet return to their positions and states at the start of the previous round. Only you and your allies remember what happened."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten-Sign Seed",
+      "feat": "Prophecy Unremembered",
+      "text": "Once per long rest, rewind time by 1 round. All creatures within 300 feet return to their positions and states at the start of the previous round, and only you and your allies remember what happened."
+    },
+    {
+      "stage": 10,
+      "name": "First-Sign Ancient",
+      "feat": "The First Prophecy",
+      "text": "Once per long rest, see the first law of fate. For 1 minute, you choose the result of every die rolled by any creature within 300 feet, once per round per creature, before it is rolled."
+    }
+  ]
+}

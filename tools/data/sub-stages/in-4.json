@@ -1,0 +1,368 @@
+[
+ {
+  "class": "Paladin",
+  "ladder": [
+   {
+    "stage": 2,
+    "level": 11,
+    "realm": "Mysterious",
+    "classChange": "Veilsworn Knight",
+    "classBlurb": "The Paladin swears an oath that reaches past the veil, guarding the lost and hidden from what lurks in fog."
+   },
+   {
+    "stage": 3,
+    "level": 21,
+    "realm": "Hell and Heaven",
+    "classChange": "Templar of Twin Verdicts",
+    "classBlurb": "The Paladin carries Heaven's mercy and Hell's justice, judging foes and protecting the innocent."
+   },
+   {
+    "stage": 4,
+    "level": 31,
+    "realm": "Chaos",
+    "classChange": "Riot-Oath Crusader",
+    "classBlurb": "The Paladin holds their oath even as the world falls apart, an unbreaking will in a shifting world."
+   },
+   {
+    "stage": 5,
+    "level": 41,
+    "realm": "Abyss",
+    "classChange": "Deepward Bulwark",
+    "classBlurb": "The Paladin becomes a light in the deep, their aura a wall the darkness cannot cross."
+   },
+   {
+    "stage": 6,
+    "level": 51,
+    "realm": "Inner Realm",
+    "classChange": "Heartvow Justiciar",
+    "classBlurb": "The Paladin's oath becomes part of their heart, a living vow that grows stronger with every life saved."
+   },
+   {
+    "stage": 7,
+    "level": 61,
+    "realm": "Outer Realm",
+    "classChange": "Starbanner Lord-Commander",
+    "classBlurb": "The Paladin's banner rises across worlds, rallying knights from many planes to a single cause."
+   },
+   {
+    "stage": 8,
+    "level": 71,
+    "realm": "Void",
+    "classChange": "Hollow-Vow Exemplar",
+    "classBlurb": "The Paladin keeps their oath even in nothingness, a vow that exists without witness or reward."
+   },
+   {
+    "stage": 9,
+    "level": 81,
+    "realm": "Inner Void",
+    "classChange": "Oathkeeper of the Unspoken",
+    "classBlurb": "The Paladin swears oaths so deep they need no words, guarding things the world has forgotten."
+   },
+   {
+    "stage": 10,
+    "level": 91,
+    "realm": "Primordial",
+    "classChange": "First Oath Incarnate",
+    "classBlurb": "The Paladin embodies the first promise of the world, the vow that came before any god's contract."
+   }
+  ],
+  "subclasses": [
+   {
+    "n": "Oath of Ash",
+    "ds": "A paladin sworn to scorched earth rather than mercy, smiting with fire that lingers as cinders."
+   },
+   {
+    "n": "Oath of Conquest",
+    "ds": "Paladins who seek to crush chaos with fear and iron will. (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "Oath of Devotion",
+    "ds": "The classic paladin ideal — honesty, courage, and protecting the weak, backed by radiant power that scales into a genuine holy champion."
+   },
+   {
+    "n": "Oath of Eternity",
+    "ds": "A paladin sworn to outlast rather than to strike first, refusing to fall even at 0 hit points."
+   },
+   {
+    "n": "Oath of Glory",
+    "ds": "Paladins who pursue heroic deeds and legend. (Tasha's Cauldron of Everything)"
+   },
+   {
+    "n": "Oath of Redemption",
+    "ds": "Paladins who seek peace and redemption before violence. (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "Oath of Silence",
+    "ds": "A paladin sworn to a quiet, unseen justice, striking without sound or opportunity attack."
+   },
+   {
+    "n": "Oath of Vengeance",
+    "ds": "Paladins sworn to punish those who have committed grievous sins. (Player's Handbook)"
+   },
+   {
+    "n": "Oath of the Ancients",
+    "ds": "Paladins sworn to preserve life, light, and joy in the world. (Player's Handbook)"
+   },
+   {
+    "n": "Oath of the Crown",
+    "ds": "Paladins sworn to law, society, and sovereign. (Sword Coast Adventurer's Guide)"
+   },
+   {
+    "n": "Oath of the Watchers",
+    "ds": "Guardians against extraplanar threats. (Tasha's Cauldron of Everything)"
+   },
+   {
+    "n": "Oathbreaker",
+    "ds": "Paladins who broke their oath and turned to darker ambitions. The DMG presents it as a villain option; DM approval recommended. (Dungeon Master's Guide)"
+   },
+   {
+    "n": "Oathbreaker Knight",
+    "ds": "A paladin who has broken their sacred oath and found power in that very act of betrayal."
+   }
+  ]
+ },
+ {
+  "class": "Ranger",
+  "ladder": [
+   {
+    "stage": 2,
+    "level": 11,
+    "realm": "Mysterious",
+    "classChange": "Fogtrail Tracker",
+    "classBlurb": "The Ranger learns to follow trails through the mist and veil, hunting prey that leaves no physical sign."
+   },
+   {
+    "stage": 3,
+    "level": 21,
+    "realm": "Hell and Heaven",
+    "classChange": "Brimstone Hunt-Warden",
+    "classBlurb": "The Ranger hunts demons and fallen angels alike, wardens of the borders between Heaven and Hell."
+   },
+   {
+    "stage": 4,
+    "level": 31,
+    "realm": "Chaos",
+    "classChange": "Shiftwind Wayfinder",
+    "classBlurb": "The Ranger reads the shifting paths of chaos, finding the way through mazes that rewrite themselves."
+   },
+   {
+    "stage": 5,
+    "level": 41,
+    "realm": "Abyss",
+    "classChange": "Abyss-Diver Trapper",
+    "classBlurb": "The Ranger hunts the deep places of the world, laying snares for monsters that never see light."
+   },
+   {
+    "stage": 6,
+    "level": 51,
+    "realm": "Inner Realm",
+    "classChange": "Elderbark Huntmaster",
+    "classBlurb": "The Ranger becomes master of the oldest forests, commanding beasts that remember every hunter before them."
+   },
+   {
+    "stage": 7,
+    "level": 61,
+    "realm": "Outer Realm",
+    "classChange": "Starfield Outrider",
+    "classBlurb": "The Ranger rides across horizons, scouting worlds and hunting creatures from beyond the stars."
+   },
+   {
+    "stage": 8,
+    "level": 71,
+    "realm": "Void",
+    "classChange": "Hollow-Track Strider",
+    "classBlurb": "The Ranger learns to walk and hunt through nothing, leaving no trace and making no sound."
+   },
+   {
+    "stage": 9,
+    "level": 81,
+    "realm": "Inner Void",
+    "classChange": "Trackless One",
+    "classBlurb": "The Ranger becomes a hunter the world forgets, stalking prey that does not know it is hunted."
+   },
+   {
+    "stage": 10,
+    "level": 91,
+    "realm": "Primordial",
+    "classChange": "Huntsman of the First Beast",
+    "classBlurb": "The Ranger hunts the oldest beasts of the world, those born before the Laws of nature were written."
+   }
+  ],
+  "subclasses": [
+   {
+    "n": "Beast Lord",
+    "ds": "A ranger who leads a pack rather than a single companion, coordinating strikes between two bonded beasts at once."
+   },
+   {
+    "n": "Beast Master",
+    "ds": "Rangers who bond with a beast companion. (Player's Handbook)"
+   },
+   {
+    "n": "Drakewarden",
+    "ds": "Rangers bonded to a young drake companion. (Fizban's Treasury of Dragons)"
+   },
+   {
+    "n": "Fey Wanderer",
+    "ds": "Rangers marked by the Feywild — charming, mobile, and unsettling. (Tasha's Cauldron of Everything)"
+   },
+   {
+    "n": "Gloom Stalker",
+    "ds": "Rangers who hunt in darkness and strike first. (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "Horizon Walker",
+    "ds": "Rangers who guard the boundaries between planes. (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "Hunter",
+    "ds": "The straightforward combat ranger — a menu of tactical options against different threats (single strong enemies, groups of weak enemies, and everything between)."
+   },
+   {
+    "n": "Monster Slayer",
+    "ds": "Hunters of supernatural threats. (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "Moon Hunter",
+    "ds": "A ranger who tracks best under moonlight, close kin to old werewolf-hunter lore, striking hardest at shapechangers."
+   },
+   {
+    "n": "Swarmkeeper",
+    "ds": "Rangers bonded to a swarm of nature spirits. (Tasha's Cauldron of Everything)"
+   },
+   {
+    "n": "Thornwalker",
+    "ds": "A ranger who has merged with the thorned and dangerous aspects of nature, becoming one with the defensive violence of the wild."
+   },
+   {
+    "n": "Void Stalker",
+    "ds": "A ranger who hunts things that came from the Void rather than the Mortal Realm, seeing what shouldn't be visible."
+   }
+  ]
+ },
+ {
+  "class": "Rogue",
+  "ladder": [
+   {
+    "stage": 2,
+    "level": 11,
+    "realm": "Mysterious",
+    "classChange": "Fogcloak Cutpurse",
+    "classBlurb": "The Rogue slips through fog and mirror alike, a thief who vanishes like mist."
+   },
+   {
+    "stage": 3,
+    "level": 21,
+    "realm": "Hell and Heaven",
+    "classChange": "Brimstone Smuggler",
+    "classBlurb": "The Rogue moves contraband between Heaven and Hell, slipping past angels and devils alike."
+   },
+   {
+    "stage": 4,
+    "level": 31,
+    "realm": "Chaos",
+    "classChange": "Loaded-Dice Grifter",
+    "classBlurb": "The Rogue cheats fate itself, slipping extra luck into every roll."
+   },
+   {
+    "stage": 5,
+    "level": 41,
+    "realm": "Abyss",
+    "classChange": "Pitch-Deep Infiltrator",
+    "classBlurb": "The Rogue learns to move through the absolute dark of the deep, unseen by eyes that have never seen light."
+   },
+   {
+    "stage": 6,
+    "level": 51,
+    "realm": "Inner Realm",
+    "classChange": "Heartlock Burglar",
+    "classBlurb": "The Rogue learns to steal from within, picking locks on memory, heart and soul."
+   },
+   {
+    "stage": 7,
+    "level": 61,
+    "realm": "Outer Realm",
+    "classChange": "Skyroad Swindler",
+    "classBlurb": "The Rogue cons whole worlds, slipping across horizons and leaving chaos behind."
+   },
+   {
+    "stage": 8,
+    "level": 71,
+    "realm": "Void",
+    "classChange": "Nothing-Hand",
+    "classBlurb": "The Rogue steals with hands made of nothing, taking what no lock or ward can hold."
+   },
+   {
+    "stage": 9,
+    "level": 81,
+    "realm": "Inner Void",
+    "classChange": "The Never-Was",
+    "classBlurb": "The Rogue becomes so forgettable they may never have existed, slipping out of the world's memory."
+   },
+   {
+    "stage": 10,
+    "level": 91,
+    "realm": "Primordial",
+    "classChange": "Thief of First Things",
+    "classBlurb": "The Rogue steals from the beginning of the world, taking powers that should belong to no mortal."
+   }
+  ],
+  "subclasses": [
+   {
+    "n": "Arcane Trickster",
+    "ds": "Rogues who add illusion and enchantment magic to their tricks. (Player's Handbook)"
+   },
+   {
+    "n": "Assassin",
+    "ds": "Rogues who specialize in killing quickly and quietly. (Player's Handbook)"
+   },
+   {
+    "n": "Blood Dancer",
+    "ds": "A rogue who uses their own blood as a weapon, painting battlefields red with calculated sacrifice."
+   },
+   {
+    "n": "Inquisitive",
+    "ds": "Rogues who root out secrets and lies. (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "Mastermind",
+    "ds": "Rogues who play the game of intrigue and command from the back line. (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "Nightblade",
+    "ds": "A rogue who moves through shadow rather than crowds, teleporting between patches of darkness to strike unseen."
+   },
+   {
+    "n": "Phantom",
+    "ds": "Rogues who walk alongside death and its spirits. (Tasha's Cauldron of Everything)"
+   },
+   {
+    "n": "Scout",
+    "ds": "Skirmishers and outdoor experts. (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "Shade Walker",
+    "ds": "A rogue who treats shadow as a second set of streets, moving between dim patches unseen and untracked."
+   },
+   {
+    "n": "Soul Thief",
+    "ds": "A rogue trained in the arts of spiritual theft — stealing not just gold but memories, skills, and life force."
+   },
+   {
+    "n": "Soul Thief",
+    "ds": "Soul Thief expands the fantasy and gameplay style of the Rogue class.\n This subclass focuses on a unique identity, combat role, and spell progression."
+   },
+   {
+    "n": "Soulknife",
+    "ds": "Rogues who manifest psychic blades. (Tasha's Cauldron of Everything)"
+   },
+   {
+    "n": "Swashbuckler",
+    "ds": "Dashing duelists who rely on charm and speed. (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "Thief",
+    "ds": "The generalist rogue — better at using items, moving through the world, and staying hidden than any other rogue archetype."
+   }
+  ]
+ }
+]
