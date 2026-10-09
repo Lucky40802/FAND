@@ -560,7 +560,7 @@ var metaLine = 'const META=' + JSON.stringify(META) + ';';
 var VENDOR = fs.readFileSync(path.join(__dirname, '..', 'app', 'vendor', 'anthropic.js'), 'utf8');
 var single = '<script>\n' + VENDOR.replace(/<\/(script)/gi, '<\\/$1') + '\n</script>\n<script>\nconst SITE=null;\n' + ['BPS', 'SPELLS', 'VAULT', 'VAULT_DETAILS'].concat(CORE.slice(1)).map(lit).join('\n') + '\n' + metaLine + '\n</script>';
 var out = tpl.split('<!--__DATA__-->').join(single);
-var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'classes', 'subclasses', 'demons', 'patrons', 'forge', 'craft', 'party', 'sheet', 'encounter', 'prep', 'hooks', 'journal', 'hidden', 'towers', 'combat', 'rules', 'tools', 'about'];
+var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'magic', 'classes', 'subclasses', 'demons', 'patrons', 'forge', 'craft', 'party', 'sheet', 'encounter', 'prep', 'hooks', 'journal', 'hidden', 'towers', 'combat', 'rules', 'tools', 'about'];
 var site = {};
 var PAGE_INFO = {
   home: ['Home', 'FAND (Fantasy and Numerous Disasters) campaign compendium: Blueprints, materials, monsters, realms, gods, spells, rules, and table tools for the world of Vestige.'],
@@ -571,6 +571,7 @@ var PAGE_INFO = {
   gods: ['Gods', D.GODS.length + ' gods with their Runes, home realms, signature materials, Hands, and rivals.'],
   professions: ['Professions', 'The ten professions of FAND, their specialties, and example Blueprints by level.'],
   spells: ['Spells', D.SPELLS.length.toLocaleString('en-US') + ' spells across twenty schools, filterable by class, level, and casting time.'],
+  magic: ['Magic Towers', 'One Magic Tower for each school of magic, where its spells are taught and sold: learn a spell for good or buy a scroll, by rank.'],
   classes: ['Classes', 'Every class and its ladder of class changes: a new, named version of the class every 10 levels from 11 to 91, each with a trial and new features.'],
   subclasses: ['Subclasses', D.SUBS.length + ' official and homebrew subclasses for every class.'],
   demons: ['Demons', 'Archdevils, demon princes, Great Old Ones, and the named corruptions of FAND.'],
@@ -601,7 +602,7 @@ site['data/vault-details.js'] = lit('VAULT_DETAILS') + '\n';
 // a version stamp of this build's data: pages ask for data/*.js?v=<stamp>, so a new page never runs on a cached old data file
 var DATA_V = require('crypto').createHash('sha1').update(Object.keys(site).filter(function (k) { return /^data\//.test(k); }).sort().map(function (k) { return site[k]; }).join('')).digest('hex').slice(0, 10);
 PAGES.forEach(function (pg) {
-  var tags = '<script>const SITE={page:' + JSON.stringify(pg) + ',v:' + JSON.stringify(DATA_V) + '};</script>\n<script src="data/core.js?v=' + DATA_V + '"></script>\n<script src="data/vault.js?v=' + DATA_V + '"></script>' + (pg === 'spells' || pg === 'sheet' || pg === 'tools' ? '\n<script src="data/spells.js?v=' + DATA_V + '"></script>' : '');
+  var tags = '<script>const SITE={page:' + JSON.stringify(pg) + ',v:' + JSON.stringify(DATA_V) + '};</script>\n<script src="data/core.js?v=' + DATA_V + '"></script>\n<script src="data/vault.js?v=' + DATA_V + '"></script>' + (pg === 'spells' || pg === 'sheet' || pg === 'tools' || pg === 'magic' ? '\n<script src="data/spells.js?v=' + DATA_V + '"></script>' : '');
   var html = tpl.split('<!--__DATA__-->').join(tags);
   var info = PAGE_INFO[pg];
   html = html.replace('<title>FAND · Fantasy and Numerous Disasters</title>', '<title>' + (pg === 'home' ? 'FAND · Fantasy and Numerous Disasters' : info[0] + ' · FAND') + '</title>')
