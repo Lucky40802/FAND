@@ -1534,7 +1534,7 @@ const MODAL={
     const grades=Object.keys(byG).sort((a,b)=>a-b).map(g=>`<div style="display:flex;gap:10px;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--line)"><b style="width:64px;flex-shrink:0;font-size:.8rem;color:var(--muted)">Grade ${g}</b><div class="chips">${byG[g].sort(byName).slice(0,14).map(m=>refChip(m)).join('')}${byG[g].length>14?`<button class="chip" data-go="materials" data-setup='${esc(JSON.stringify({side:r.n,f:{g:g}}))}'>+${byG[g].length-14} more</button>`:''}</div></div>`).join('');
     return {title:esc(r.n),strip:r.color,kind:'Realm · Tier '+r.tier,
       badges:`<span class="b" style="color:${r.color}">Tier ${r.tier}</span><span class="b ghost">Pressure ${r.pressure}</span><span class="b ghost">${r.base?'Base price '+gp(r.base):'Not sold'}</span>`,
-      body:`<div class="prose">${esc(REALM_BLURB[r.n]||'')}</div>`
+      body:`<div class="prose">${esc(REALM_BLURB[r.n]||'')}</div>`+realmMapPhotoHTML(r.n)
         +(()=>{const v=[r.page,r.n+' Realm',r.n].filter(Boolean).map(noteByName).find(Boolean);return v?`<details class="fold" open style="border-top:1px solid var(--line);padding-top:10px"><summary>From the vault <span style="color:var(--muted)">· ${esc(v.f)}/${esc(v.n)}</span></summary><div class="prose vault" style="font-family:var(--sans);font-size:.9rem">${mdVault(v.md)}</div></details>`:''})()
         +kv([['Tier',r.tier],['Material ranks',`${(r.tier-1)*10+1}–${r.tier*10}`],['Item levels',`${Math.ceil(((r.tier-1)*10+1)/2)}–${r.tier*5}`],['Pressure',r.pressure],['Materials',fmt(mats.length)],['Monsters',fmt(mons.length)],['Gods at home',gods.length]])
         +blk('Money',(()=>{const c=CURRENCY[r.n];if(!c)return '';return c.coin?`<div class="callout"><b>${esc(c.coin)}</b> = ${gp(c.gp)}${c.gp>1?' each':''} · ${esc(c.sub)}<div style="margin-top:4px">${esc(c.what)} ${esc(c.note)}</div></div>`:`<div class="callout">${esc(c.note)}</div>`})())
@@ -1698,10 +1698,25 @@ function realmMapHTML(){
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px"><b>Route</b> from <select class="sel" id="rm-a">${opt(st.a)}</select> to <select class="sel" id="rm-b">${opt(st.b)}</select></div>
     ${route?`<ol style="margin:8px 0 0 18px;line-height:1.7">${route.map(([x,y,t])=>`<li><b>${esc(RMAP_NODES[x][1])}</b> → <b>${esc(RMAP_NODES[y][1])}</b>: ${esc(t)}</li>`).join('')}</ol><div class="note">${route.length} step${route.length>1?'s':''}; the hardest stop has Pressure ${maxP}, so a traveler needs Attunement ${maxP} to avoid strain. Every route also works in reverse, but leaving is often harder than arriving.</div>`:st.a===st.b?'<div class="note">Pick two different places.</div>':'<div class="note">No known route.</div>'}</div></section>`;
 }
+// Hand-drawn realm maps from the campaign owner, with the places named on them (names and legend confirmed by the owner).
+const REALM_MAPS={Human:{img:'img/maps/human.jpg',title:'Map of the Human Realm',
+  legend:[['—','Border (red line)','var(--red)'],['★','Dungeon','var(--red)'],['•','Small city',''],['○','Big city',''],['ō','Capital',''],['~','Waterways (blue)','#3a9fd8'],['▢','Forests (yellow)','#c9b300'],['▲','Mountains (purple)','#9b6bc4'],['▢','Undiscovered lands (green)','var(--green)']],
+  places:[
+    ['Capital','The Empire',''],['Capital','Blossom Shire',''],['Capital','Riverend','ringed by a red border'],['Capital','Ironblood','ringed by a red border'],['Capital','The Mound',''],
+    ['Big city','Maldis',''],['Big city','Cathedral City',''],['Big city','Forest Keep',''],['Big city','Forest Edge',''],['Big city','Forest Helm',''],['Big city','Fate\'s Web','beside the Dungeon of Fate'],['Big city','Thoughtless','beside the Dungeon of Thought'],['Big city','Greece',''],['Big city','Rome',''],['Big city','River Grove','on the river'],['Big city','Iron Forge','near Ironblood'],['Big city','Grandia',''],['Big city','The Arena','on the border'],
+    ['Small city','Lumos',''],['Small city','Necropolis',''],['Small city','Sarua',''],['Small city','Mill Island','off the coast near Forest Helm'],['Small city','Dawn Land','on the north-west coast'],
+    ['Dungeon','Dungeon of Fate','on the river, by Fate\'s Web'],['Dungeon','Dungeon of Will','near Forest Helm'],['Dungeon','Dungeon of Calm','beside Rome'],['Dungeon','Dungeon of Thought','by Thoughtless'],['Dungeon','Dungeon of Lies','between Forest Edge and Riverend']]}};
+function realmMapPhotoHTML(rn){const M=REALM_MAPS[rn];if(!M||!SITE)return '';const groups=['Capital','Big city','Small city','Dungeon'];
+  return `<section class="sec" id="map-${pid(rn)}"><div class="sec-h"><h3>${esc(M.title)}</h3><p>Drawn by the campaign owner · <a href="${M.img}" target="_blank" rel="noopener">open full size</a></p></div>
+    <a href="${M.img}" target="_blank" rel="noopener"><img src="${M.img}" alt="${esc(M.title)}" loading="lazy" style="width:100%;height:auto;border-radius:10px;border:1px solid var(--line);display:block"></a>
+    <div class="chips" style="margin-top:8px">${M.legend.map(([sym,l,col])=>`<span class="chip" style="cursor:default"><b style="color:${col||'inherit'}">${sym}</b> ${esc(l)}</span>`).join('')}</div>
+    <div class="cols" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:10px">${groups.map(g=>{const L=M.places.filter(x=>x[0]===g);return L.length?`<div class="panel"><b>${({Capital:'Capitals',Dungeon:'Dungeons','Big city':'Big cities','Small city':'Small cities'})[g]}</b> <small style="color:var(--muted)">${L.length}</small><ul style="margin:6px 0 0;padding-left:18px;line-height:1.6">${L.map(([,n,note])=>`<li>${esc(n)}${note?` <small style="color:var(--muted)">${esc(note)}</small>`:''}</li>`).join('')}</ul></div>`:''}).join('')}</div>
+    </section>`}
 function renderRealms(){
   $('content').innerHTML=`<div class="page">
     <div style="margin-bottom:16px">${cosmologyHTML()}</div>
     <div id="rm-wrap">${realmMapHTML()}</div>
+    ${realmMapPhotoHTML('Human')}
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Realms</h3><p>Ordered by tier. Higher tiers mean stronger materials, higher prices, and more Pressure on travelers.</p></div>
     <div class="ladder" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr))">${REALMS.map(r=>{
       const mats=MATS.filter(m=>m.realm===r.n),mons=MONSTERS.filter(m=>m.realm===r.n),gods=GODS.filter(g=>g.home===r.n);
@@ -1797,6 +1812,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-09','Map of the Human Realm','The campaign owner\'s hand-drawn map of the Human Realm is on the Realms page and in the Human Realm\'s window, with its legend and a list of every named capital, city, and dungeon.','realms'],
   ['2026-10-09','Dice: rig option','The dice roller on the Tools page has a discreet DM option to rig the next roll (or every roll): natural 20 or 1, maximum, minimum, high, low, or an exact total. Rigged rolls look like fair ones.','tools'],
   ['2026-10-09','Magic Towers','A Magic Tower for every school of magic sells its spells: learn one for good or buy a scroll, with Visitor, Member, and Archmage ranks; pick a character to see what they can learn and add it to their sheet.','magic'],
   ['2026-10-09','Hidden classes scale','Hidden class dice grow every 10 levels like spells, and at each class change the hidden class turns II to V with its holder, its limited-use features gaining a use per stage. The Hidden classes page can show every card at any level.','hidden'],
