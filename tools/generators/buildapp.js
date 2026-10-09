@@ -620,5 +620,8 @@ if (MODE === 'go') {
   fs.writeFileSync(OUT, out);
   [SITE_DIR, path.join(SITE_DIR, 'data'), path.join(SITE_DIR, 'vendor')].forEach(function (d) { if (!fs.existsSync(d)) fs.mkdirSync(d); });
   Object.keys(site).forEach(function (f) { fs.writeFileSync(path.join(SITE_DIR, f), site[f]); });
+  // hand-drawn realm maps (data/maps/*.jpg, from the campaign owner) are served as images
+  var mapDir = path.join(__dirname, '..', 'data', 'maps');
+  if (fs.existsSync(mapDir)) { fs.mkdirSync(path.join(SITE_DIR, 'img', 'maps'), { recursive: true }); fs.readdirSync(mapDir).filter(function (f) { return /\.(jpe?g|png|webp)$/i.test(f); }).forEach(function (f) { fs.copyFileSync(path.join(mapDir, f), path.join(SITE_DIR, 'img', 'maps', f)); }); }
   console.log('written');
 }
