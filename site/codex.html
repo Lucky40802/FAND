@@ -495,9 +495,9 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   <div class="set" id="setBox"></div>
 </div>
 
-<script>const SITE={page:"codex"};</script>
-<script src="data/core.js"></script>
-<script src="data/vault.js"></script>
+<script>const SITE={page:"codex",v:"b619027ec4"};</script>
+<script src="data/core.js?v=b619027ec4"></script>
+<script src="data/vault.js?v=b619027ec4"></script>
 <script>
 'use strict';
 // ════════════════════════════════════════════════════════════════
@@ -1313,7 +1313,7 @@ const SUPERSEDED={
 let VDETAILS=typeof VAULT_DETAILS!=='undefined'?VAULT_DETAILS:null,VD_LOADING=false;
 function loadDetails(){
   if(VDETAILS||VD_LOADING||!SITE)return;VD_LOADING=true;
-  const s=document.createElement('script');s.src='data/vault-details.js';
+  const s=document.createElement('script');s.src='data/vault-details.js'+(SITE&&SITE.v?'?v='+SITE.v:'');
   s.onload=()=>{VDETAILS=typeof VAULT_DETAILS!=='undefined'?VAULT_DETAILS:{};if(CUR&&$('mbg').classList.contains('open'))showModal(CUR)};
   s.onerror=()=>{VDETAILS={}};document.head.appendChild(s);
 }
@@ -1749,6 +1749,8 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-09','Hidden classes: stronger lock and access log','The hidden class list now opens with a long passphrase instead of a 4-digit code, every guess is slow, 5 wrong tries in a row bring a growing wait, and an access log on the Hidden classes page records every attempt on this device. The list is no longer kept in plain text anywhere in the repository.','hidden'],
+  ['2026-10-09','Always-fresh data','Pages now ask for the data files of their own build, so a browser can no longer show a new page with old, cached data (the reason the Classes page briefly showed the old class names).','classes'],
   ['2026-10-09','Complete audit','20 duplicate Blueprint names made unique (e.g. Copper Dagger (Lv 3)), a duplicate Rogue subclass (Soul Thief) merged, and a spell with no classes given its school\'s casters; site-wide checks of data, pages, phone layout, and scaling.','blueprints'],
   ['2026-10-09','Class changes every 20 levels','Every class turns II at 21, III at 41, IV at 61, and V at 81 (Ranger, Ranger II … Ranger V). Each stage opens a band of realms: I Human and Mysterious; II Hell, Heaven, Chaos; III Abyss, Inner Realm; IV Outer Realm, Void; V Inner Void, Primordial. Professions follow the same stages.','classes'],
   ['2026-10-09','Subclass changes','Every subclass turns II to V with its class (Gloom Stalker II, …), with two features of its own at each change: 182 subclasses, over 1,400 new features.','classes'],
@@ -2829,7 +2831,7 @@ function renderJournal(){
 // ════════════════════════════════════════════════════════════════
 //  Hidden classes and Towers (campaign owner's rules; details in data/hidden.js)
 // ════════════════════════════════════════════════════════════════
-const HC_TIERS=[['Unique','One of a kind: only one person in the world can hold it at a time. When the holder dies or gives it up, it can be claimed again.','var(--gold)'],['Epic','A specialisation of a basic class: the class\'s own skills honed into something sharper (a Rogue can become a Poison Master).','var(--acc)'],['Legendary','Follows one of the Rune progenitors, the original holders of the Laws, and carries a share of that progenitor\'s way.','var(--red)']];
+const HC_TIERS=[['Unique','One of a kind: only one person in the world can hold it at a time. When the holder dies or gives it up, it can be claimed again.','var(--gold)'],['Epic','A specialisation of a basic class: the class\'s own skills honed into something sharper (a Rogue\'s poisons, for example, can become a class of their own).','var(--acc)'],['Legendary','Follows one of the Rune progenitors, the original holders of the Laws, and carries a share of that progenitor\'s way.','var(--red)']];
 const HC_FLOOR={Epic:.5,Unique:.75,Legendary:1};
 // The class list is encrypted; HC holds it once the code is entered (remembered for this browser session).
 let HC=null;
@@ -2837,15 +2839,27 @@ let HC=null;
 // Spire"). Now that a realm has up to five, rewrite each class's text to name the Tower it actually waits in.
 function hcRetower(list){list.forEach(c=>{const t=towerOf(hcTower(c)),first=towersIn(c.tower)[0];if(!first||t.id===first.id)return;
   const from=first.name.replace(/^The /,''),to=t.name.replace(/^The /,'');Object.keys(c).forEach(k=>{if(typeof c[k]==='string')c[k]=c[k].split(from).join(to);else if(Array.isArray(c[k]))c[k]=JSON.parse(JSON.stringify(c[k]).split(from).join(to))})});return list}
-async function hcUnlock(code){
+// Unlocking: the passphrase derives the key in the browser (PBKDF2-SHA256, 1,000,000 rounds; about a second), so every
+// guess is slow. After 5 wrong tries in a row each try waits 30 seconds, doubling up to an hour. Every attempt on this
+// device is written to an access log (shown on the Hidden classes page once unlocked). A static site has no server, so the
+// log only covers this browser.
+const HC_LOG_MAX=200;
+function hcLog(ok,how){try{const L=store.get('hclog',[]);L.push({t:new Date().toISOString(),ok,how});store.set('hclog',L.slice(-HC_LOG_MAX))}catch(e){}}
+function hcWait(){const g=store.get('hcguard',{fails:0,until:0});return Math.max(0,(g.until||0)-Date.now())}
+function hcFail(){const g=store.get('hcguard',{fails:0,until:0});g.fails=(g.fails||0)+1;if(g.fails>=5)g.until=Date.now()+Math.min(3600e3,30e3*Math.pow(2,g.fails-5));store.set('hcguard',g);return g}
+async function hcUnlock(code,how){
   const L=HIDDEN.lock;if(!L)return HC=hcRetower(HIDDEN.classes||[]);if(!(window.crypto&&crypto.subtle))throw new Error('This browser cannot unlock the list.');
+  const w=hcWait();if(w){hcLog(false,'blocked (locked out)');throw new Error('Too many wrong tries. Wait '+Math.ceil(w/1000)+' seconds.')}
   const b=x=>Uint8Array.from(atob(x),c=>c.charCodeAt(0)),base=await crypto.subtle.importKey('raw',new TextEncoder().encode(code),'PBKDF2',false,['deriveKey']);
   const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b(L.salt),iterations:L.it,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt']);
-  const out=await crypto.subtle.decrypt({name:'AES-GCM',iv:b(L.iv)},key,b(L.data));HC=hcRetower(JSON.parse(new TextDecoder().decode(out)));try{sessionStorage.setItem('fand.hc',code)}catch(e){}return HC;
+  let out;try{out=await crypto.subtle.decrypt({name:'AES-GCM',iv:b(L.iv)},key,b(L.data))}catch(e){const g=hcFail();hcLog(false,how||'wrong passphrase');throw new Error(g.until>Date.now()?'Wrong passphrase. Too many wrong tries: wait '+Math.ceil(hcWait()/1000)+' seconds.':'That passphrase is not right.'+(g.fails>=3?' '+(5-g.fails)+(5-g.fails===1?' try':' tries')+' left before a wait.':''))}
+  HC=hcRetower(JSON.parse(new TextDecoder().decode(out)));store.set('hcguard',{fails:0,until:0});if(how!=='remembered')hcLog(true,how||'unlocked');
+  try{sessionStorage.setItem('fand.hc',code)}catch(e){}return HC;
 }
-async function hcAuto(){if(HC||!HIDDEN.lock)return;let c=null;try{c=sessionStorage.getItem('fand.hc')}catch(e){}if(c)try{await hcUnlock(c)}catch(e){}}
-function hcLockHTML(){return `<div class="panel" style="max-width:440px;margin:20px auto;text-align:center;border-top:3px solid var(--gold)"><div style="font-size:2rem">🔒</div><b style="font-family:var(--serif);font-size:1.2rem">The list is sealed</b><p class="note">Enter the code to see every hidden class.</p><form id="hc-form" style="display:flex;gap:8px;justify-content:center"><input class="sel" id="hc-code" type="password" inputmode="numeric" autocomplete="off" placeholder="Code" style="max-width:140px;text-align:center;letter-spacing:.3em"><button class="btn primary">Unlock</button></form><div id="hc-err" class="note" style="color:var(--red);min-height:1.2em"></div></div>`}
-function hcBindLock(after){const f=$('hc-form');if(!f)return;f.onsubmit=async e=>{e.preventDefault();try{await hcUnlock($('hc-code').value.trim());after()}catch(err){$('hc-err').textContent=err&&err.message&&/browser/.test(err.message)?err.message:'That code is not right.';$('hc-code').select()}};$('hc-code').focus()}
+async function hcAuto(){if(HC||!HIDDEN.lock)return;let c=null;try{c=sessionStorage.getItem('fand.hc')}catch(e){}if(c)try{await hcUnlock(c,'remembered')}catch(e){try{sessionStorage.removeItem('fand.hc')}catch(x){}}}
+function hcLockHTML(){return `<div class="panel" style="max-width:460px;margin:20px auto;text-align:center;border-top:3px solid var(--gold)"><div style="font-size:2rem">🔒</div><b style="font-family:var(--serif);font-size:1.2rem">The list is sealed</b><p class="note">Enter the passphrase to see every hidden class.</p><form id="hc-form" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><input class="sel" id="hc-code" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Passphrase" style="max-width:280px;flex:1;text-align:center"><button class="btn primary" id="hc-go">Unlock</button></form><div id="hc-err" class="note" style="color:var(--red);min-height:1.2em"></div></div>`}
+function hcBindLock(after){const f=$('hc-form');if(!f)return;f.onsubmit=async e=>{e.preventDefault();const btn=$('hc-go');btn.disabled=true;btn.textContent='Unlocking…';$('hc-err').textContent='';try{await hcUnlock($('hc-code').value.trim());after()}catch(err){$('hc-err').textContent=err&&err.message||'That passphrase is not right.';$('hc-code').select()}finally{if($('hc-go')){$('hc-go').disabled=false;$('hc-go').textContent='Unlock'}}};$('hc-code').focus()}
+function hcLogHTML(){const L=store.get('hclog',[]).slice().reverse();return `<details class="fold" style="margin-top:14px"><summary>Access log on this device (${L.length})</summary><div class="note" style="margin:6px 0">Every attempt to open the hidden class list in this browser: successful unlocks and wrong passphrases. The site has no server, so tries on other devices are not seen here.${L.length?` <a href="#" onclick="if(confirm('Clear the access log on this device?')){store.set('hclog',[]);renderHidden()}return false">Clear</a>`:''}</div>${L.length?`<div class="tablewrap"><table class="t"><thead><tr><th>When</th><th>Result</th></tr></thead><tbody>${L.slice(0,100).map(x=>`<tr><td style="white-space:nowrap">${esc(new Date(x.t).toLocaleString())}</td><td style="color:${x.ok?'var(--green)':'var(--red)'}">${x.ok?'Unlocked':'Failed'} <small style="color:var(--muted)">${esc(x.how||'')}</small></td></tr>`).join('')}</tbody></table></div>`:'<div class="note">No attempts yet.</div>'}</details>`}
 // Each unclaimed Rune's excess energy pools into one realm's Tower (fixed by the Rune's name).
 const TOWER_RUNES=(()=>{const m=new Map(REALMS.map(r=>[r.n,[]]));RUNES.filter(r=>!r.gods.length).forEach(r=>{let h=0;for(const c of r.n)h=(h*31+c.charCodeAt(0))>>>0;m.get(REALMS[h%REALMS.length].n).push(r)});return m})();
 // Up to five Towers per realm (campaign owner's rule). A realm's unclaimed Runes are grouped by lineage (the Rune they derive
@@ -2889,6 +2903,7 @@ async function renderHidden(){
     ${!HC?hcLockHTML():`<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px"><input class="sel" id="hc-q" placeholder="Find a hidden class, a subclass, a Rune, a progenitor…" value="${esc(st.q||'')}" style="max-width:300px;flex:1">
       ${(()=>{const sel=(k,label,vals)=>`<select class="sel" data-hcf="${k}"><option value="">${label}</option>${vals.map(v=>`<option${v===st[k]?' selected':''}>${esc(v)}</option>`).join('')}</select>`,u=f=>[...new Set(ALL.map(f).filter(Boolean))].sort();return sel('base','Any class',u(c=>c.base).filter(x=>x!=='Any'))+(st.base?sel('sub','Any '+st.base+' subclass',u(c=>c.base===st.base?c.sub:'')):'')+sel('tower','Any Tower',REALMS.map(r=>r.n).filter(r=>ALL.some(c=>c.tower===r)))+sel('prog','Any progenitor',u(c=>c.prog))})()}${st.tier?`<button class="btn" data-hct="">Show all tiers</button>`:''}<span class="note" style="margin:0">${C.length} shown</span></div>
     ${ALL.length?`<div style="display:flex;flex-direction:column;gap:10px">${C.slice(0,st.shown).map(c=>hcCard(c,false)).join('')}</div>${C.length>st.shown?`<div style="text-align:center;margin-top:12px"><button class="btn" id="hc-more">Show more (${fmt(C.length-st.shown)} left)</button></div>`:''}${!C.length?'<div class="empty">No hidden classes match.</div>':''}`:'<div class="empty">No hidden classes yet.</div>'}`}
+    ${HC?hcLogHTML():''}
   </div>`;
   if(!HC){hcBindLock(renderHidden);$('content').querySelectorAll('[data-hct]').forEach(b=>b.onclick=()=>{});return}
   $('content').querySelectorAll('[data-hct]').forEach(b=>b.onclick=()=>{const s2=store.get('hc',{});s2.tier=s2.tier===b.dataset.hct?'':b.dataset.hct;s2.shown=30;store.set('hc',s2);renderHidden()});
@@ -3725,7 +3740,7 @@ FAND rules summary:
 - Schools of magic (campaign owner's rule): a caster starts with one school and learns spells only from schools they hold. Each level gives one school point: progress a held school (+1 mastery) or open a new one (mastery 1). Highest spell level from a school = ceil(mastery/2), within the class's own limit. Each school beyond the first costs 1 slot at every spell level (minimum 1); Warlocks lose 1 pact slot per extra school. Cantrips from any held school.
 - Temple passages (campaign owner's rule): an offering related to a god (its Minor signature material, an item made from its signature materials, or a deed serving its wants) given at its temple or shrine opens a passage to the god's own domain in its home realm, where its signature materials, temple stock, and general goods are sold (contract discount applies; Void-grade goods cost Favor). Passage time depends on the offering (base 1 hour): Minor signature material 1 h, Normal 2 h, Major 4 h, Senior 8 h, Apostle 1 day, Finger 3 days; an item made from a signature material doubles it; deeds: small 1 h, contract task 4 h, major task 1 day; more of the same adds again. No realm Pressure inside the domain. Major+ contractors open it for an hour without an offering.
 - Contracts (campaign owner's rule, replaces the vault's exclusivity): a character can hold contracts with several gods at any rank; when there is a conflict of interest they must choose a side and break the other contract, suffering its consequences. Natural AC from contracts does not stack (highest rank counts).
-- Hidden classes and Towers (campaign owner's rules): besides the basic classes there are hidden classes, unlocked only through quests and Towers. Up to five Towers stand in every realm, each grown from the excess energy of a group of related unclaimed Runes (Runes no god holds; about six Runes per Tower, at most five Towers); every Tower in a realm has that realm's floors, by realm: Human 10 up to Primordial 100. Tiers: Unique (one of a kind; only one holder in the world at a time), Epic (a specialisation of one basic class, e.g. Rogue to Poison Master, assassin skills honed into poison), Legendary (classes that follow the progenitors of the Runes). Epic classes are found halfway up a Tower, Unique three quarters up, Legendary at the top. The site's Hidden classes and Towers pages list them.
+- Hidden classes and Towers (campaign owner's rules): besides the basic classes there are hidden classes, unlocked only through quests and Towers. Up to five Towers stand in every realm, each grown from the excess energy of a group of related unclaimed Runes (Runes no god holds; about six Runes per Tower, at most five Towers); every Tower in a realm has that realm's floors, by realm: Human 10 up to Primordial 100. Tiers: Unique (one of a kind; only one holder in the world at a time), Epic (a specialisation of one basic class, e.g. a Rogue whose assassin skills are honed into poison), Legendary (classes that follow the progenitors of the Runes). Epic classes are found halfway up a Tower, Unique three quarters up, Legendary at the top. The site's Hidden classes and Towers pages list them.
 - The Forge: every Blueprint is a version of a general design (every standard weapon such as Battleaxe, Greataxe, Longsword, Rapier, Longbow, Heavy Crossbow, Whip; armor pieces Helm, Cuirass, Gauntlets, Boots, Pauldrons, Cloak, Barding; Buckler, Shield, Tower Shield; focuses Staff, Wand, Orb, Amulet, Ring) built from parts. Each part accepts some material categories well, some poorly, and the rest are wrong (an axe head takes metal, stone, or hard bone/horn/fang; a gem is a poor, brittle head; a dragon eye is soft tissue and useless). The main part sets the damage dice (one more set of dice every 5 Item Levels; each die steps up a size at Item Level 20 and 35) and a damage bonus of Item Level / 5, or the AC; the structure (haft, hilt, string, lining) sets the attack bonus of Item Level / 10, or +1 AC at Item Level 20+. Main and structure parts give their property at full Potency, extras at half, and every part's unique trait applies. A wrong main part makes the item useless (1d2 damage, -5 to hit, breaks on 1-5); a wrong structure gives -3 to hit and breaks on 1-3; a poor fit loses that part's bonus and breaks on a natural 1; a structure more than 10 Item Levels weaker than the main part breaks on 1-2.
 - Armor drawbacks by total armor AC worn: 10+ = lose Acrobatics, Athletics, and Dexterity (campaign rule); 4-6 and 7-9 rows are proposed (Stealth; Stealth and Acrobatics at disadvantage).
 
