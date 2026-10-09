@@ -376,6 +376,26 @@ D.GODS.forEach(function (g) {
   log.push('god materials: +' + added + ' (rank materials for Minor, Major, and Finger, and a six-material temple stock per god)');
 })();
 
+// ---- Audit fixes: duplicate names make the second entry unreachable (links and search find the first)
+(function () {
+  var seen = {}, dropped = 0, renamed = 0;
+  D.BPS = D.BPS.filter(function (b) {
+    var k = b.n.toLowerCase();
+    if (!seen[k]) { seen[k] = b; return true; }
+    var a = seen[k], same = JSON.stringify(Object.assign({}, a, { ds: 0 })) === JSON.stringify(Object.assign({}, b, { ds: 0 }));
+    if (same) { dropped++; return false; }
+    var tag = a.pr !== b.pr ? b.pr : 'Lv ' + b.lv, n = b.n + ' (' + tag + ')', i = 2; while (seen[n.toLowerCase()]) n = b.n + ' (' + tag + ' ' + (i++) + ')';
+    b.n = n; seen[n.toLowerCase()] = b; renamed++; return true;
+  });
+  var subs = {}; D.SUBS = D.SUBS.filter(function (x) {
+    var k = (x.par + '/' + x.n).toLowerCase(); if (!subs[k]) { subs[k] = x; return true; }
+    // keep the entry with the real description, not the generic placeholder
+    if (/expands the fantasy and gameplay style/i.test(subs[k].ds || '') && !/expands the fantasy and gameplay style/i.test(x.ds || '')) Object.assign(subs[k], x);
+    dropped++; return false;
+  });
+  log.push('audit: duplicate Blueprints renamed ' + renamed + ', duplicates dropped ' + dropped);
+})();
+
 // ---- write
 // Two outputs from one template:
 //   app/FAND.html  one self-contained file with every data array inline (works offline, and the other scripts patch it)
@@ -439,6 +459,9 @@ D.VAULT.notes = D.VAULT.notes.filter(function (n) { return !/^-+$/.test(n.n); })
     });
     D.SPELLS.sort(function (a, b) { return a.n < b.n ? -1 : 1; });
     log.push('School of Resonance spells added: ' + added);
+    // a spell with no classes gets the classes that cast most of its school (50+ spells there)
+    var bySchool = {}; D.SPELLS.forEach(function (x) { (x.cls || []).forEach(function (c) { var k = x.sc + '|' + c; bySchool[k] = (bySchool[k] || 0) + 1; }); });
+    D.SPELLS.forEach(function (x) { if ((x.cls || []).length) return; x.cls = ['Artificer', 'Bard', 'Cleric', 'Druid', 'Paladin', 'Ranger', 'Sorcerer', 'Warlock', 'Wizard'].filter(function (c) { return (bySchool[x.sc + '|' + c] || 0) >= 50; }); });
   })();
   // healing spells that state their dice only in the text (e.g. Cure Wounds) get a Healing value, so stage scaling applies
   var healed = 0; D.SPELLS.forEach(function (x) { if (x.dmg && x.dmg !== 'None') return; var m = /(?:regains?|heals?|restores?)[^.]{0,60}?(\d+d\d+)/i.exec(x.desc || ''); if (m) { x.dmg = m[1] + ' Healing'; healed++; } });
