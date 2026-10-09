@@ -986,11 +986,11 @@ function randomItem(arr){arr=arr||LIST;if(!arr.length)return;const x=arr[Math.fl
 const TABS=[
   ['home','Home'],['lore','Lore'],['codex','Codex',NOTES.length],['blueprints','Blueprints',BPS.length],['materials','Materials',MATS.length],['bestiary','Bestiary',MONSTERS.length],
   ['realms','Realms',REALMS.length],['gods','Gods',GODS.length],['runes','Runes',RUNES.length],['professions','Professions',Object.keys(PROFS).length],
-  ['spells','Spells',META.counts.spells],['subclasses','Subclasses',SUBS.length],['demons','Demons',DEMONS.length],['patrons','Patrons',PATRONS.length],
+  ['spells','Spells',META.counts.spells],['classes','Classes',Object.keys(typeof STAGES!=='undefined'?STAGES:{}).length],['subclasses','Subclasses',SUBS.length],['demons','Demons',DEMONS.length],['patrons','Patrons',PATRONS.length],
   ['forge','Forge'],['craft','Craft'],['party','Party'],['sheet','Character sheet'],['encounter','Encounters'],['hooks','Hooks'],['prep','Session prep'],['journal','Journal'],['hidden','Hidden classes'],['towers','Towers'],['combat','Combat'],
   ['rules','Rules'],['tools','Tools'],['about','About'],
 ];
-const PAGES={home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,about:renderAbout,lore:()=>renderLore(),forge:()=>renderForge(),craft:()=>renderCraft(),party:()=>renderParty(),sheet:()=>renderSheet(),encounter:()=>renderEncounter(),hooks:()=>renderHooks(),prep:()=>renderPrep(),journal:()=>renderJournal(),hidden:()=>renderHidden(),towers:()=>renderTowers(),combat:()=>renderCombat()};
+const PAGES={home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,about:renderAbout,lore:()=>renderLore(),forge:()=>renderForge(),craft:()=>renderCraft(),party:()=>renderParty(),sheet:()=>renderSheet(),encounter:()=>renderEncounter(),hooks:()=>renderHooks(),classes:()=>renderClasses(),prep:()=>renderPrep(),journal:()=>renderJournal(),hidden:()=>renderHidden(),towers:()=>renderTowers(),combat:()=>renderCombat()};
 
 // ════════════════════════════════════════════════════════════════
 //  State & routing
@@ -1034,11 +1034,11 @@ const NAV_GROUPS=[
   ['World',['lore','realms','towers','gods','runes','demons','patrons','codex']],
   ['Creatures & Materials',['bestiary','materials']],
   ['Items & Crafting',['blueprints','forge','craft','professions']],
-  ['Magic & Classes',['subclasses','hidden','spells']],
+  ['Magic & Classes',['classes','subclasses','hidden','spells']],
   ['Play',['prep','sheet','party','journal','encounter','hooks','combat','tools']],
   ['Reference',['rules','about']],
 ];
-const NAV_BLURB={sheet:'Create a character on a full sheet worked out with FAND\'s rules',hidden:'Unique, Epic, and Legendary classes unlocked through quests and Towers',towers:'Up to five Towers in every realm, grown from unclaimed Runes',journal:'Session notes that link to the world',hooks:'Story starters from the gods, Runes, and monsters',lore:'Infinatas, the gods, and the history of Vestige',realms:'The eleven realms and their coin',gods:'Pantheons, Runes, Hands, and rivals',runes:'Every Law, its lineage, and its progenitor',demons:'Archdevils, demon princes, and corruptions',patrons:'Warlock patrons',codex:'Every note from the Obsidian vault',bestiary:'Monsters with stat blocks, lore, and drops',materials:'Graded materials, traits, and prices',blueprints:'Ready-made designs for every profession',forge:'General Blueprints: pick a material for every part',craft:'Plan what to gather and buy',professions:'The ten professions and their specialties',spells:'Spells by school, tier, and class',subclasses:'Official and homebrew subclasses',party:'Characters, gear, contracts, and money',encounter:'Balanced fights by realm and level',combat:'Initiative, HP, and flat AC',tools:'Calculators and converters',rules:'Rules summaries',about:'What FAND has, version by version'};
+const NAV_BLURB={classes:'Every class and its ten-stage ladder of class changes, levels 1 to 100',sheet:'Create a character on a full sheet worked out with FAND\'s rules',hidden:'Unique, Epic, and Legendary classes unlocked through quests and Towers',towers:'Up to five Towers in every realm, grown from unclaimed Runes',journal:'Session notes that link to the world',hooks:'Story starters from the gods, Runes, and monsters',lore:'Infinatas, the gods, and the history of Vestige',realms:'The eleven realms and their coin',gods:'Pantheons, Runes, Hands, and rivals',runes:'Every Law, its lineage, and its progenitor',demons:'Archdevils, demon princes, and corruptions',patrons:'Warlock patrons',codex:'Every note from the Obsidian vault',bestiary:'Monsters with stat blocks, lore, and drops',materials:'Graded materials, traits, and prices',blueprints:'Ready-made designs for every profession',forge:'General Blueprints: pick a material for every part',craft:'Plan what to gather and buy',professions:'The ten professions and their specialties',spells:'Spells by school, tier, and class',subclasses:'Official and homebrew subclasses',party:'Characters, gear, contracts, and money',encounter:'Balanced fights by realm and level',combat:'Initiative, HP, and flat AC',tools:'Calculators and converters',rules:'Rules summaries',about:'What FAND has, version by version'};
 function navGroupOf(t){const g=NAV_GROUPS.find(([,ids])=>ids.includes(t));return g?g[0]:null}
 function openNav(g,btn){
   const pop=$('navpop'),grp=NAV_GROUPS.find(x=>x[0]===g);if(!grp)return;
@@ -1452,7 +1452,7 @@ const MODAL={
     return {title:esc(s.n),kind:esc(s.par)+' subclass',
       badges:`<span class="b acc">${esc(s.par)}</span><span class="b ${src==='Homebrew'?'gold':'ghost'}">${esc(src)}</span>`,
       body:`<div class="prose">${esc(String(s.ds||'').replace(/\s*\([^()]*\)\s*$/,''))}</div>`
-        +(src!=='Homebrew'?`<div class="note" style="margin:0">Official subclass, summarised in the campaign's own words. Every class picks its subclass at level 3.</div>`:'')
+        +(src!=='Homebrew'?`<div class="note" style="margin:0">Official subclass, summarised in the campaign's own words. Every class picks its subclass at level 3.</div>`:'')+(typeof STAGES!=='undefined'&&STAGES[s.par]?`<div><a class="btn" href="${pageUrl('classes')}" onclick="store.set('clsfocus','cl-${pid(s.par)}')">${esc(s.par)} class changes: ${esc(STAGES[s.par].slice(0,3).map(x=>x.name).join(', '))}, … →</a></div>`:'')
         +blk('Other '+esc(s.par)+' subclasses',`<div class="chips">${sibs.map(x=>refChip(x)).join('')}</div>`)};
   },
   demon(e){return entityModal(e,PATRONS,'Also a patron')},
@@ -1543,6 +1543,8 @@ function paletteSearch(){
       h+=`<div class="pal-g">${label}</div>`;
       hits.slice(0,t==='spell'?4:6).forEach(([,x])=>{PRES.push({x});h+=palRow(x,hl(x.n,q),PRES.length-1)});
     });
+    if(typeof STAGES!=='undefined'){const ch=[];Object.entries(STAGES).forEach(([cls,list])=>{if(lc(cls).includes(q))ch.push([cls,1,cls]);list.forEach(x=>{if(lc(x.name).includes(q))ch.push([cls,x.stage,x.name])})});
+      if(ch.length){h+=`<div class="pal-g">Classes and class changes</div>`;ch.slice(0,6).forEach(([cls,k,n])=>{PRES.push({tab:'classes',focus:'cl-'+pid(cls)+(k>1?'-'+k:'')});h+=`<button class="pal-i" data-pi="${PRES.length-1}"><span>${hl(n,q)}</span><span class="r">${k>1?esc(cls)+' · '+ORDN(k)+' change, level '+stageStart(k):'class'}</span></button>`})}}
     if(!SP.length&&META.counts.spells){PRES.push({tab:'spells',setup:{q:$('pq').value.trim()}});h+=`<div class="pal-g">Spells</div><button class="pal-i" data-pi="${PRES.length-1}">Search ${fmt(META.counts.spells)} spells for “${esc($('pq').value.trim())}”<span class="r">Spells page →</span></button>`}
     const tabs=TABS.filter(([,l])=>lc(l).includes(q));
     if(tabs.length){h+=`<div class="pal-g">Sections</div>`;tabs.forEach(([id,l])=>{PRES.push({tab:id});h+=`<button class="pal-i" data-pi="${PRES.length-1}">${l}<span class="r">section</span></button>`})}
@@ -1556,7 +1558,7 @@ function palRow(x,label,i){
   return `<button class="pal-i" data-pi="${i}">${col?`<span class="sw" style="width:8px;height:8px;border-radius:50%;background:${col};flex-shrink:0"></span>`:''}<span>${label}</span><span class="r">${esc(sub)}</span></button>`;
 }
 function palMark(){$('pres').querySelectorAll('.pal-i').forEach(b=>b.classList.toggle('sel',+b.dataset.pi===PSEL));const s=$('pres').querySelector('.sel');if(s)s.scrollIntoView({block:'nearest'})}
-function palPick(i){const r=PRES[i];if(!r)return;closePalette();if(r.tab){go(r.tab,r.setup);return}const x=r.x;const tab=TYPES[x._t].tab;if(!SITE&&TAB!==tab){history.pushState(null,'',hashFor(tab));TAB=tab;renderTab()}LIST=VIEWS[TAB]?filtered():[];openItem(x)}
+function palPick(i){const r=PRES[i];if(!r)return;closePalette();if(r.focus)store.set('clsfocus',r.focus);if(r.tab){go(r.tab,r.setup);if(r.focus&&TAB==='classes')renderClasses();return}const x=r.x;const tab=TYPES[x._t].tab;if(!SITE&&TAB!==tab){history.pushState(null,'',hashFor(tab));TAB=tab;renderTab()}LIST=VIEWS[TAB]?filtered():[];openItem(x)}
 let pTimer;$('pq').addEventListener('input',()=>{clearTimeout(pTimer);pTimer=setTimeout(paletteSearch,60)});
 $('pq').addEventListener('keydown',e=>{
   if(e.key==='ArrowDown'){PSEL=Math.min(PRES.length-1,PSEL+1);palMark();e.preventDefault()}
@@ -2980,6 +2982,31 @@ async function renderTowers(){
   </div>`;
   trialBind();
   const h=location.hash.match(/#tw-([\w-]+)/);if(h&&$('tw-'+h[1]))$('tw-'+h[1]).scrollIntoView();
+}
+// ── Classes: every class with its ladder of class changes (campaign owner's rules: a change every 10 levels, up to 100) ──
+function renderClasses(){
+  const S=typeof STAGES!=='undefined'?STAGES:{},classes=Object.keys(CLASS_DIE).sort();
+  const casterNote=c=>({full:'Full caster',half:'Half caster',arti:'Half caster (Artificer)',pact:'Pact magic'})[CASTER[c]]||'No spellcasting';
+  $('content').innerHTML=`<div class="page">
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Classes and class changes</h3><p>Every class changes every 10 levels into a stronger version of itself: the original class for levels 1–10, the <b>2nd change at level 11</b>, the <b>3rd at 21</b>, and so on to the <b>10th at 91</b> (level 100 is the cap). Each change has its own name, a trial to earn it, and new features, and unlocks the magic of the next realm tier: the 2nd change Mysterious Realm spells, the 3rd Hell and Heaven, up to the Primordial.</p></div>
+    <div class="chips" style="margin-bottom:12px">${classes.map(c=>`<a class="chip" href="#cl-${pid(c)}" data-cl="cl-${pid(c)}">${esc(c)}</a>`).join('')}</div>
+    ${classes.map(c=>{const ladder=S[c]||[],subs=SUBS.filter(x=>x.par===c);
+      return `<section class="sec" id="cl-${pid(c)}"><div class="panel">
+        <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="margin:0;font-size:1.35rem;font-family:var(--serif)">${esc(c)}</h4><span class="note" style="margin:0">Hit die d${CLASS_DIE[c]} · saves ${(CLASS_SAVES[c]||[]).map(x=>x.toUpperCase()).join(', ')} · ${casterNote(c)}${CAST_ABIL[c]?' ('+CAST_ABIL[c].toUpperCase()+')':''}</span></div>
+        <div class="tablewrap" style="margin-top:10px"><table class="t"><thead><tr><th class="num">Stage</th><th>Levels</th><th>Class</th><th>Unlocks</th></tr></thead><tbody>
+          <tr><td class="num">1</td><td>1–10</td><td><b>${esc(c)}</b> <small style="color:var(--muted)">original class</small></td><td>Human Realm: magic and materials</td></tr>
+          ${ladder.map(x=>`<tr><td class="num">${x.stage}</td><td>${esc(x.levels||(stageStart(x.stage)+'–'+stageEnd(x.stage)))}</td><td><a href="#cl-${pid(c)}-${x.stage}" data-cl="cl-${pid(c)}-${x.stage}"><b>${esc(x.name)}</b></a></td><td>${esc((TIER_NAMES(x.stage)||x.realm||'').split(' and ').map(realmLabel).join(' and '))}: magic and materials</td></tr>`).join('')}
+        </tbody></table></div>
+        ${subs.length?`<div class="blk" style="margin-top:10px"><h4>Subclasses <em>chosen at level 3; every class change keeps the subclass</em></h4></div><div class="chips">${subs.slice(0,40).map(x=>refChip(x)).join('')}${subs.length>40?`<span class="note">+${subs.length-40} more</span>`:''}</div>`:''}
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">${ladder.map(x=>`<details class="fold" id="cl-${pid(c)}-${x.stage}"><summary><b>${ORDN(x.stage)} change · ${esc(x.name)}</b> <small style="color:var(--muted)">level ${stageStart(x.stage)} · ${esc(TIER_NAMES(x.stage)||x.realm||'')}</small></summary>
+          <div style="line-height:1.6;margin:6px 0 4px">${esc(x.blurb||'')}</div>
+          ${x.trial?`<div class="callout" style="margin:6px 0"><b>Class change trial:</b> ${esc(x.trial)}</div>`:''}
+          ${(x.features||[]).length?`<div class="mlist">${x.features.map(f=>`<div class="sh-feat" style="padding:6px 0"><b>Level ${f[0]}: ${esc(f[1])}</b><div>${esc(f[2])}</div></div>`).join('')}</div>`:''}</details>`).join('')}</div>
+      </div></section>`}).join('')}
+  </div>`;
+  const focus=id=>{const el=document.getElementById(id);if(!el)return;if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView({block:'start'})};
+  $('content').querySelectorAll('[data-cl]').forEach(a=>a.onclick=e=>{e.preventDefault();focus(a.dataset.cl)});
+  const f=store.get('clsfocus',null);if(f){store.set('clsfocus',null);setTimeout(()=>focus(f),50)}
 }
 // ── Session prep: one page that rolls everything a session needs for a party, from the site's own generators ──
 function renderPrep(){

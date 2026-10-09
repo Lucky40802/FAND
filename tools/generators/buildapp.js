@@ -484,7 +484,7 @@ var metaLine = 'const META=' + JSON.stringify(META) + ';';
 var VENDOR = fs.readFileSync(path.join(__dirname, '..', 'app', 'vendor', 'anthropic.js'), 'utf8');
 var single = '<script>\n' + VENDOR.replace(/<\/(script)/gi, '<\\/$1') + '\n</script>\n<script>\nconst SITE=null;\n' + ['BPS', 'SPELLS', 'VAULT', 'VAULT_DETAILS'].concat(CORE.slice(1)).map(lit).join('\n') + '\n' + metaLine + '\n</script>';
 var out = tpl.split('<!--__DATA__-->').join(single);
-var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'subclasses', 'demons', 'patrons', 'forge', 'craft', 'party', 'sheet', 'encounter', 'prep', 'hooks', 'journal', 'hidden', 'towers', 'combat', 'rules', 'tools', 'about'];
+var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'classes', 'subclasses', 'demons', 'patrons', 'forge', 'craft', 'party', 'sheet', 'encounter', 'prep', 'hooks', 'journal', 'hidden', 'towers', 'combat', 'rules', 'tools', 'about'];
 var site = {};
 var PAGE_INFO = {
   home: ['Home', 'FAND (Fantasy and Numerous Disasters) campaign compendium: Blueprints, materials, monsters, realms, gods, spells, rules, and table tools for the world of Vestige.'],
@@ -495,6 +495,7 @@ var PAGE_INFO = {
   gods: ['Gods', D.GODS.length + ' gods with their Runes, home realms, signature materials, Hands, and rivals.'],
   professions: ['Professions', 'The ten professions of FAND, their specialties, and example Blueprints by level.'],
   spells: ['Spells', D.SPELLS.length.toLocaleString('en-US') + ' spells across twenty schools, filterable by class, level, and casting time.'],
+  classes: ['Classes', 'Every class and its ladder of class changes: a new, named version of the class every 10 levels from 11 to 91, each with a trial and new features.'],
   subclasses: ['Subclasses', D.SUBS.length + ' official and homebrew subclasses for every class.'],
   demons: ['Demons', 'Archdevils, demon princes, Great Old Ones, and the named corruptions of FAND.'],
   patrons: ['Patrons', 'Warlock patrons of FAND: fiends, archfey, Great Old Ones, the undying, celestials, genies, and homebrew.'],
