@@ -427,6 +427,11 @@ details.fold>div{margin-top:10px}
 table.t.list tbody tr{cursor:pointer}
 table.t.list td{max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 table.t.list td:first-child{font-weight:600;color:var(--text)}
+/* realm map pins */
+.rmap-pin{position:absolute;transform:translate(-50%,-50%);width:16px;height:16px;border-radius:50%;border:2px solid #fff;background:var(--pc,var(--acc));box-shadow:0 0 0 2px rgba(0,0,0,.25);padding:0;cursor:pointer;opacity:.85}
+.rmap-pin span{display:none;position:absolute;left:50%;bottom:150%;transform:translateX(-50%);white-space:nowrap;background:var(--surf);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:2px 8px;font-size:.78rem;box-shadow:var(--shadow)}
+.rmap-pin:hover span,.rmap-pin:focus span,.rmap-pin.on span{display:block}
+.rmap-pin.on{opacity:1;width:22px;height:22px;box-shadow:0 0 0 4px rgba(255,200,0,.6);z-index:2}
 @media print{
   body{overflow:visible;height:auto;background:#fff;color:#000}
   .top,.tabs,.sb,.ctrl,.mact,.mnav,.scrim,.more,.toast,#pbg{display:none!important}
@@ -1552,6 +1557,7 @@ function paletteSearch(){
     });
     if(typeof STAGES!=='undefined'){const ch=[];Object.entries(STAGES).forEach(([cls,list])=>{if(lc(cls).includes(q))ch.push([cls,1,cls]);list.forEach(x=>{if(lc(x.name).includes(q))ch.push([cls,x.stage,x.name])})});
       if(ch.length){h+=`<div class="pal-g">Classes and class changes</div>`;ch.slice(0,6).forEach(([cls,k,n])=>{PRES.push({tab:'classes',focus:'cl-'+pid(cls)+(k>1?'-'+k:'')});h+=`<button class="pal-i" data-pi="${PRES.length-1}"><span>${hl(n,q)}</span><span class="r">${k>1?'level '+stageStart(k):'class'}</span></button>`})}}
+    {const pl=[];Object.entries(REALM_MAPS).forEach(([rn,M])=>M.places.forEach(([g,n])=>{if(lc(n).includes(q))pl.push([rn,g,n])}));if(pl.length){h+=`<div class="pal-g">Places</div>`;pl.slice(0,6).forEach(([rn,g,n])=>{PRES.push({tab:'realms',place:n});h+=`<button class="pal-i" data-pi="${PRES.length-1}"><span>${hl(n,q)}</span><span class="r">${esc(g)} · ${esc(rn)} Realm</span></button>`})}}
     if(!SP.length&&META.counts.spells){PRES.push({tab:'spells',setup:{q:$('pq').value.trim()}});h+=`<div class="pal-g">Spells</div><button class="pal-i" data-pi="${PRES.length-1}">Search ${fmt(META.counts.spells)} spells for “${esc($('pq').value.trim())}”<span class="r">Spells page →</span></button>`}
     const tabs=TABS.filter(([,l])=>lc(l).includes(q));
     if(tabs.length){h+=`<div class="pal-g">Sections</div>`;tabs.forEach(([id,l])=>{PRES.push({tab:id});h+=`<button class="pal-i" data-pi="${PRES.length-1}">${l}<span class="r">section</span></button>`})}
@@ -1565,7 +1571,7 @@ function palRow(x,label,i){
   return `<button class="pal-i" data-pi="${i}">${col?`<span class="sw" style="width:8px;height:8px;border-radius:50%;background:${col};flex-shrink:0"></span>`:''}<span>${label}</span><span class="r">${esc(sub)}</span></button>`;
 }
 function palMark(){$('pres').querySelectorAll('.pal-i').forEach(b=>b.classList.toggle('sel',+b.dataset.pi===PSEL));const s=$('pres').querySelector('.sel');if(s)s.scrollIntoView({block:'nearest'})}
-function palPick(i){const r=PRES[i];if(!r)return;closePalette();if(r.focus)store.set('clsfocus',r.focus);if(r.tab){go(r.tab,r.setup);if(r.focus&&TAB==='classes')renderClasses();return}const x=r.x;const tab=TYPES[x._t].tab;if(!SITE&&TAB!==tab){history.pushState(null,'',hashFor(tab));TAB=tab;renderTab()}LIST=VIEWS[TAB]?filtered():[];openItem(x)}
+function palPick(i){const r=PRES[i];if(!r)return;closePalette();if(r.focus)store.set('clsfocus',r.focus);if(r.place)store.set('placefocus',r.place);if(r.tab){go(r.tab,r.setup);if(r.focus&&TAB==='classes')renderClasses();return}const x=r.x;const tab=TYPES[x._t].tab;if(!SITE&&TAB!==tab){history.pushState(null,'',hashFor(tab));TAB=tab;renderTab()}LIST=VIEWS[TAB]?filtered():[];openItem(x)}
 let pTimer;$('pq').addEventListener('input',()=>{clearTimeout(pTimer);pTimer=setTimeout(paletteSearch,60)});
 $('pq').addEventListener('keydown',e=>{
   if(e.key==='ArrowDown'){PSEL=Math.min(PRES.length-1,PSEL+1);palMark();e.preventDefault()}
@@ -1663,21 +1669,22 @@ function realmMapHTML(){
 const REALM_MAPS={Human:{img:'img/maps/human.jpg',title:'Map of the Human Realm',
   legend:[['—','Border (red line)','var(--red)'],['★','Dungeon','var(--red)'],['•','Small city',''],['○','Big city',''],['ō','Capital',''],['~','Waterways (blue)','#3a9fd8'],['▢','Forests (yellow)','#c9b300'],['▲','Mountains (purple)','#9b6bc4'],['▢','Undiscovered lands (green)','var(--green)']],
   places:[
-    ['Capital','The Empire',''],['Capital','Blossom Shire',''],['Capital','Riverend','ringed by a red border'],['Capital','Ironblood','ringed by a red border'],['Capital','The Mound',''],
-    ['Big city','Maldis',''],['Big city','Cathedral City',''],['Big city','Forest Keep',''],['Big city','Forest Edge',''],['Big city','Forest Helm',''],['Big city','Fate\'s Web','beside the Dungeon of Fate'],['Big city','Thoughtless','beside the Dungeon of Thought'],['Big city','Greece',''],['Big city','Rome',''],['Big city','River Grove','on the river'],['Big city','Iron Forge','near Ironblood'],['Big city','Grandia',''],['Big city','The Arena','on the border'],
-    ['Small city','Lumos',''],['Small city','Necropolis',''],['Small city','Sarua',''],['Small city','Mill Island','off the coast near Forest Helm'],['Small city','Dawn Land','on the north-west coast'],
-    ['Dungeon','Dungeon of Fate','on the river, by Fate\'s Web'],['Dungeon','Dungeon of Will','near Forest Helm'],['Dungeon','Dungeon of Calm','beside Rome'],['Dungeon','Dungeon of Thought','by Thoughtless'],['Dungeon','Dungeon of Lies','between Forest Edge and Riverend']]}};
+    ['Capital','The Empire','',29.5,67.3],['Capital','Blossom Shire','',28.2,29.3],['Capital','Riverend','ringed by a red border',64.2,57.0],['Capital','Ironblood','ringed by a red border',70.5,36.5],['Capital','The Mound','',90.5,75.0],
+    ['Big city','Maldis','',32.0,62.7],['Big city','Cathedral City','',33.0,53.3],['Big city','Forest Keep','',44.2,47.7],['Big city','Forest Edge','',51.2,48.7],['Big city','Forest Helm','',48.0,77.7],['Big city','Fate\'s Web','beside the Dungeon of Fate',39.2,23.0],['Big city','Thoughtless','beside the Dungeon of Thought',57.0,37.7],['Big city','Greece','',58.0,65.0],['Big city','Rome','',64.5,72.0],['Big city','River Grove','on the river',70.0,54.0],['Big city','Iron Forge','near Ironblood',78.2,33.3],['Big city','Grandia','',80.8,85.0],['Big city','The Arena','on the border',90.8,72.0],
+    ['Small city','Lumos','',18.5,73.3],['Small city','Necropolis','',25.8,58.0],['Small city','Sarua','',28.2,50.3],['Small city','Mill Island','off the coast near Forest Helm',51.0,81.3],['Small city','Dawn Land','on the north-west coast',28.8,20.0],
+    ['Dungeon','Dungeon of Fate','on the river, by Fate\'s Web',34.0,26.7],['Dungeon','Dungeon of Will','near Forest Helm',45.0,74.0],['Dungeon','Dungeon of Calm','beside Rome',59.0,72.0],['Dungeon','Dungeon of Thought','by Thoughtless',58.2,36.3],['Dungeon','Dungeon of Lies','between Forest Edge and Riverend',61.8,49.0]]}};
 function realmMapPhotoHTML(rn){const M=REALM_MAPS[rn];if(!M||!SITE)return '';const groups=['Capital','Big city','Small city','Dungeon'];
   return `<section class="sec" id="map-${pid(rn)}"><div class="sec-h"><h3>${esc(M.title)}</h3><p>Drawn by the campaign owner · <a href="${M.img}" target="_blank" rel="noopener">open full size</a></p></div>
-    <a href="${M.img}" target="_blank" rel="noopener"><img src="${M.img}" alt="${esc(M.title)}" loading="lazy" style="width:100%;height:auto;border-radius:10px;border:1px solid var(--line);display:block"></a>
+    <div class="rmap" style="position:relative"><img src="${M.img}" alt="${esc(M.title)}" loading="lazy" style="width:100%;height:auto;border-radius:10px;border:1px solid var(--line);display:block">${M.places.filter(x=>x[3]!=null).map(([g,n,note,x,y])=>`<button class="rmap-pin" data-pin="${esc(n)}" title="${esc(n+(note?' · '+note:''))}" style="left:${x}%;top:${y}%;--pc:${g==='Dungeon'?'var(--red)':g==='Capital'?'var(--gold2)':'var(--acc)'}"><span>${esc(n)}</span></button>`).join('')}</div>
     <div class="chips" style="margin-top:8px">${M.legend.map(([sym,l,col])=>`<span class="chip" style="cursor:default"><b style="color:${col||'inherit'}">${sym}</b> ${esc(l)}</span>`).join('')}</div>
-    <div class="cols" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:10px">${groups.map(g=>{const L=M.places.filter(x=>x[0]===g);return L.length?`<div class="panel"><b>${({Capital:'Capitals',Dungeon:'Dungeons','Big city':'Big cities','Small city':'Small cities'})[g]}</b> <small style="color:var(--muted)">${L.length}</small><ul style="margin:6px 0 0;padding-left:18px;line-height:1.6">${L.map(([,n,note])=>`<li>${esc(n)}${note?` <small style="color:var(--muted)">${esc(note)}</small>`:''}</li>`).join('')}</ul></div>`:''}).join('')}</div>
+    <div class="cols" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:10px">${groups.map(g=>{const L=M.places.filter(x=>x[0]===g);return L.length?`<div class="panel"><b>${({Capital:'Capitals',Dungeon:'Dungeons','Big city':'Big cities','Small city':'Small cities'})[g]}</b> <small style="color:var(--muted)">${L.length}</small><ul style="margin:6px 0 0;padding-left:18px;line-height:1.6">${L.map(([,n,note])=>`<li><a href="#" data-pinfind="${esc(n)}">${esc(n)}</a>${note?` <small style="color:var(--muted)">${esc(note)}</small>`:''}</li>`).join('')}</ul></div>`:''}).join('')}</div>
     </section>`}
+document.addEventListener('click',e=>{const f=e.target.closest('[data-pinfind]');const p=e.target.closest('.rmap-pin');if(!f&&!p)return;e.preventDefault();const n=f?f.dataset.pinfind:p.dataset.pin;const root=(f||p).closest('section')||document;root.querySelectorAll('.rmap-pin').forEach(x=>x.classList.toggle('on',x.dataset.pin===n));if(f){const pin=[...root.querySelectorAll('.rmap-pin')].find(x=>x.dataset.pin===n);if(pin)pin.scrollIntoView({block:'center',behavior:'smooth'})}});
 function renderRealms(){
   $('content').innerHTML=`<div class="page">
     <div style="margin-bottom:16px">${cosmologyHTML()}</div>
     <div id="rm-wrap">${realmMapHTML()}</div>
-    ${realmMapPhotoHTML('Human')}
+    ${realmMapPhotoHTML('Human')}${(()=>{const f=store.get('placefocus',null);if(f){store.set('placefocus',null);setTimeout(()=>{const pin=[...document.querySelectorAll('.rmap-pin')].find(x=>x.dataset.pin===f);if(pin){pin.classList.add('on');pin.scrollIntoView({block:'center'})}},300)}return ''})()}
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Realms</h3><p>Ordered by tier. Higher tiers mean stronger materials, higher prices, and more Pressure on travelers.</p></div>
     <div class="ladder" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr))">${REALMS.map(r=>{
       const mats=MATS.filter(m=>m.realm===r.n),mons=MONSTERS.filter(m=>m.realm===r.n),gods=GODS.filter(g=>g.home===r.n);
@@ -1773,7 +1780,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
-  ['2026-10-09','Map of the Human Realm','The campaign owner\'s hand-drawn map of the Human Realm is on the Realms page and in the Human Realm\'s window, with its legend and a list of every named capital, city, and dungeon.','realms'],
+  ['2026-10-09','Map of the Human Realm','The campaign owner\'s hand-drawn map of the Human Realm is on the Realms page and in the Human Realm\'s window, with its legend, a pin for every named capital, city, and dungeon (click a name to find it on the map), and the places in the site search.','realms'],
   ['2026-10-09','Dice: rig option','The dice roller on the Tools page has a discreet DM option to rig the next roll (or every roll): natural 20 or 1, maximum, minimum, high, low, or an exact total. Rigged rolls look like fair ones.','tools'],
   ['2026-10-09','Magic Towers','A Magic Tower for every school of magic sells its spells: learn one for good or buy a scroll, with Visitor, Member, and Archmage ranks; pick a character to see what they can learn and add it to their sheet.','magic'],
   ['2026-10-09','Hidden classes scale','Hidden class dice grow every 10 levels like spells, and at each class change the hidden class turns II to V with its holder, its limited-use features gaining a use per stage. The Hidden classes page can show every card at any level.','hidden'],
