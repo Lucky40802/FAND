@@ -501,21 +501,22 @@ try { D.HIDDEN = require(path.join(__dirname, '..', 'data', 'hidden.js')); } cat
   });
 })();
 log.push('hidden classes: ' + D.HIDDEN.classes.length + ', towers: ' + Object.keys(D.HIDDEN.towers).length);
-// The hidden class list is locked behind a code (asked for by the campaign owner): the classes are encrypted with
-// AES-256-GCM under a key derived from the code (PBKDF2-SHA256), and the page decrypts them when the code is entered.
-// This keeps the list from casual reading; it is not strong security (the code is short and lives here).
-var HIDDEN_CODE = '4321';
+// The hidden class list is locked behind a passphrase (campaign owner's rule). The repository never holds the list in
+// plain text: it keeps only data/hidden-lock.json, the list encrypted with AES-256-GCM under a key derived from the
+// passphrase (PBKDF2-SHA256, 1,000,000 rounds), which the page decrypts when the passphrase is entered. The passphrase
+// is not stored anywhere in the repository. To change the list: `node generators/hidden-tool.js export <file>` (with
+// FAND_HIDDEN_CODE set) gives an editable copy outside the repo; `import <file>` locks it again (see that script).
+var LOCK_FILE = path.join(__dirname, '..', 'data', 'hidden-lock.json');
+var HIDDEN_LOCK = require(path.join(__dirname, 'hidden-lock.js'));
 (function () {
-  var crypto = require('crypto'), cls = D.HIDDEN.classes || [];
-  if (!cls.length) return;
-  var plain = Buffer.from(JSON.stringify(cls), 'utf8');
-  var salt = crypto.createHash('sha256').update('fand-hidden-classes').digest().slice(0, 16);
-  var iv = crypto.createHash('sha256').update(plain).digest().slice(0, 12);
-  var key = crypto.pbkdf2Sync(HIDDEN_CODE, salt, 150000, 32, 'sha256');
-  var c = crypto.createCipheriv('aes-256-gcm', key, iv), enc = Buffer.concat([c.update(plain), c.final(), c.getAuthTag()]);
-  var counts = {}, byTower = {};
-  cls.forEach(function (x) { counts[x.tier] = (counts[x.tier] || 0) + 1; byTower[x.tower] = (byTower[x.tower] || 0) + 1; });
-  D.HIDDEN = { towers: D.HIDDEN.towers, counts: counts, byTower: byTower, lock: { salt: salt.toString('base64'), iv: iv.toString('base64'), data: enc.toString('base64'), it: 150000 } };
+  var cls = D.HIDDEN.classes || [];
+  if (cls.length) {  // plain classes in the sources (only while migrating or importing): lock them, never ship them
+    var code = process.env.FAND_HIDDEN_CODE; if (!code) throw new Error('Plain hidden classes found in the sources: set FAND_HIDDEN_CODE to lock them');
+    fs.writeFileSync(LOCK_FILE, JSON.stringify(HIDDEN_LOCK.lock(cls, code), null, 1) + '\n');
+    log.push('hidden classes locked into data/hidden-lock.json: ' + cls.length);
+  }
+  var L = fs.existsSync(LOCK_FILE) ? JSON.parse(fs.readFileSync(LOCK_FILE, 'utf8')) : null;
+  D.HIDDEN = { towers: D.HIDDEN.towers, counts: L ? L.counts : {}, byTower: L ? L.byTower : {}, lock: L ? L.lock : null };
 })();
 // Class changes past level 20 (data/stages.js)
 try { D.STAGES = require(path.join(__dirname, '..', 'data', 'stages.js')); } catch (e) { if (e.code !== 'MODULE_NOT_FOUND') throw e; D.STAGES = {}; }
@@ -597,8 +598,10 @@ site['data/spells.js'] = lit('SPELLS') + '\n';
 site['vendor/anthropic.js'] = VENDOR;
 site['data/vault.js'] = lit('VAULT') + '\n';
 site['data/vault-details.js'] = lit('VAULT_DETAILS') + '\n';
+// a version stamp of this build's data: pages ask for data/*.js?v=<stamp>, so a new page never runs on a cached old data file
+var DATA_V = require('crypto').createHash('sha1').update(Object.keys(site).filter(function (k) { return /^data\//.test(k); }).sort().map(function (k) { return site[k]; }).join('')).digest('hex').slice(0, 10);
 PAGES.forEach(function (pg) {
-  var tags = '<script>const SITE={page:' + JSON.stringify(pg) + '};</script>\n<script src="data/core.js"></script>\n<script src="data/vault.js"></script>' + (pg === 'spells' || pg === 'sheet' || pg === 'tools' ? '\n<script src="data/spells.js"></script>' : '');
+  var tags = '<script>const SITE={page:' + JSON.stringify(pg) + ',v:' + JSON.stringify(DATA_V) + '};</script>\n<script src="data/core.js?v=' + DATA_V + '"></script>\n<script src="data/vault.js?v=' + DATA_V + '"></script>' + (pg === 'spells' || pg === 'sheet' || pg === 'tools' ? '\n<script src="data/spells.js?v=' + DATA_V + '"></script>' : '');
   var html = tpl.split('<!--__DATA__-->').join(tags);
   var info = PAGE_INFO[pg];
   html = html.replace('<title>FAND · Fantasy and Numerous Disasters</title>', '<title>' + (pg === 'home' ? 'FAND · Fantasy and Numerous Disasters' : info[0] + ' · FAND') + '</title>')

@@ -7,7 +7,7 @@ Besides the basic classes there are **hidden classes**. No one picks one at char
 
 ## Tiers
 - **Unique**: one of a kind. Only one person in the world can hold a given Unique class at a time; when they die or give it up, it can be claimed again.
-- **Epic**: a specialisation of a basic class. A Rogue can advance to a **Poison Master**, where their assassin's skills are honed into poison.
+- **Epic**: a specialisation of a basic class or subclass. A Rogue's assassin skills, for example, can be honed into a class built around poison.
 - **Legendary**: classes that follow the **progenitors** of the Runes, the original holders of the Laws.
 
 ## Where they are found
