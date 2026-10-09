@@ -524,7 +524,20 @@ const ICON={
 };
 // Dice: any "2d6 + 3" on the site can be clicked to roll it; results also go to the Tools page's dice log.
 const DICE_RX=/\b(\d{0,2})d(4|6|8|10|12|20|100)\b(?:\s*([+\-−])\s*(\d{1,3})\b)?/g;
-function rollExpr(e){const m=/^\s*(\d{0,2})d(\d+)(?:\s*([+\-−])\s*(\d+))?\s*$/i.exec(e);if(!m)return null;const n=Math.min(50,+m[1]||1),x=+m[2],mod=m[3]?(m[3]==='+'?1:-1)*+m[4]:0;const r=Array.from({length:n},()=>1+Math.floor(Math.random()*x));return {e:e.trim(),r,mod,t:r.reduce((a,b)=>a+b,0)+mod}}
+// Rigging (the DM's secret option on the Tools page): the next roll, or every roll until switched off, comes out as set.
+// Rigged rolls look exactly like normal ones; only the DM's panel shows that the rig is armed.
+const DIE=x=>1+Math.floor(Math.random()*x);
+function rigDice(n,x,mod){const g=store.get('dicerig',null);if(!g||!g.mode)return null;
+  let r;const half=Math.ceil(x/2);
+  if(g.mode==='max')r=Array(n).fill(x);else if(g.mode==='min')r=Array(n).fill(1);
+  else if(g.mode==='nat20')r=x===20?Array(n).fill(20):null;else if(g.mode==='nat1')r=x===20?Array(n).fill(1):null;
+  else if(g.mode==='high')r=Array.from({length:n},()=>x-Math.floor(Math.random()*(x-half+1)));else if(g.mode==='low')r=Array.from({length:n},()=>1+Math.floor(Math.random()*half));
+  else if(g.mode==='total'){let need=Math.max(n,Math.min(n*x,(+g.value||0)-mod));r=Array(n).fill(1);need-=n;const idx=[...r.keys()].sort(()=>Math.random()-.5);while(need>0){for(const i of idx){if(need<=0)break;const add=Math.min(x-r[i],Math.max(1,Math.ceil(Math.random()*Math.min(need,x-r[i]))));if(add>0){r[i]+=add;need-=add}}if(r.every(v=>v===x))break}}
+  if(!r)return null;if(g.once)store.set('dicerig',null);if($('dr-rig-state'))rigState();return r}
+function rollExpr(e){const m=/^\s*(\d{0,2})d(\d+)(?:\s*([+\-−])\s*(\d+))?\s*$/i.exec(e);if(!m)return null;const n=Math.min(50,+m[1]||1),x=+m[2],mod=m[3]?(m[3]==='+'?1:-1)*+m[4]:0;const r=rigDice(n,x,mod)||Array.from({length:n},()=>DIE(x));return {e:e.trim(),r,mod,t:r.reduce((a,b)=>a+b,0)+mod}}
+const RIG_MODES=[['','Off (fair dice)'],['nat20','Natural 20 (d20 rolls)'],['nat1','Natural 1 (d20 rolls)'],['max','Maximum on every die'],['min','Minimum on every die'],['high','High (each die in its top half)'],['low','Low (each die in its bottom half)'],['total','Exact total…']];
+function rigState(){const g=store.get('dicerig',null),el=$('dr-rig-state');if(!el)return;el.innerHTML=g&&g.mode?`<b style="color:var(--red)">Armed:</b> ${esc((RIG_MODES.find(x=>x[0]===g.mode)||[])[1]||'')}${g.mode==='total'?' '+(+g.value||0):''} · ${g.once?'next roll only':'until switched off'} <a href="#" onclick="store.set('dicerig',null);rigState();return false">disarm</a>`:'Fair dice.'}
+function rigSet(){const mode=$('dr-rig').value,once=$('dr-rig-once').checked,value=+$('dr-rig-v').value||0;$('dr-rig-v').style.display=mode==='total'?'':'none';store.set('dicerig',mode?{mode,once,value}:null);rigState()}
 // Dice overlay: the dice tumble across the screen, their faces flicker, and they land on the rolled numbers.
 const DIE_SHAPE={4:'50,6 94,88 6,88',6:'12,12 88,12 88,88 12,88',8:'50,4 94,50 50,96 6,50',10:'50,4 92,42 50,96 8,42',12:'50,4 95,36 78,92 22,92 5,36',20:'50,3 92,26 92,74 50,97 8,74 8,26',100:'50,4 92,42 50,96 8,42'};
 function diceOverlay(R,sides){
@@ -1751,6 +1764,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-09','Dice: rig option','The dice roller on the Tools page has a discreet DM option to rig the next roll (or every roll): natural 20 or 1, maximum, minimum, high, low, or an exact total. Rigged rolls look like fair ones.','tools'],
   ['2026-10-09','Magic Towers','A Magic Tower for every school of magic sells its spells: learn one for good or buy a scroll, with Visitor, Member, and Archmage ranks; pick a character to see what they can learn and add it to their sheet.','magic'],
   ['2026-10-09','Hidden classes scale','Hidden class dice grow every 10 levels like spells, and at each class change the hidden class turns II to V with its holder, its limited-use features gaining a use per stage. The Hidden classes page can show every card at any level.','hidden'],
   ['2026-10-09','Hidden classes: stronger lock and access log','The hidden class list now opens with a long passphrase instead of a 4-digit code, every guess is slow, 5 wrong tries in a row bring a growing wait, and an access log on the Hidden classes page records every attempt on this device. The list is no longer kept in plain text anywhere in the repository.','hidden'],
@@ -2229,6 +2243,11 @@ function renderTools(){
         <div class="form" style="grid-template-columns:2fr 1fr"><label>Roll<input id="dr-e" value="1d20" placeholder="2d6+3"></label><label style="align-self:end"><button class="btn primary" id="dr-go" type="button" style="width:100%">🎲 Roll</button></label></div>
         <div class="chips" style="margin:8px 0">${['d4','d6','d8','d10','d12','d20','d100','2d6','4d6'].map(d=>`<button class="chip" type="button" onclick="rollShow('${d}')">${d}</button>`).join('')}<button class="chip" type="button" onclick="(()=>{const a=rollExpr('2d20');a.e='d20 advantage / disadvantage';a.t=Math.max(...a.r);store.get('diceanim',true)?diceOverlay(a,20):0;toast('🎲 Advantage: '+Math.max(...a.r)+' · disadvantage: '+Math.min(...a.r)+' ('+a.r.join(', ')+')')})()">d20 adv/dis</button></div>
         <label class="note" style="display:flex;gap:6px;align-items:center;margin:0 0 6px"><input type="checkbox" id="dr-anim" ${store.get('diceanim',true)?'checked':''} onchange="store.set('diceanim',this.checked)"> Show rolling dice</label>
+        <details class="fold" style="margin:0 0 8px"><summary style="font-size:.8rem;color:var(--muted)">DM: rig</summary><div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:6px">
+          <select class="sel" id="dr-rig" onchange="rigSet()" style="max-width:none;flex:1">${(()=>{const g=store.get('dicerig',null)||{};return RIG_MODES.map(([v,l])=>`<option value="${v}"${(g.mode||'')===v?' selected':''}>${l}</option>`).join('')})()}</select>
+          <input class="sel" id="dr-rig-v" type="number" placeholder="Total" value="${(store.get('dicerig',null)||{}).value||''}" onchange="rigSet()" style="width:90px;${(store.get('dicerig',null)||{}).mode==='total'?'':'display:none'}">
+          <label class="note" style="margin:0;display:flex;gap:4px;align-items:center"><input type="checkbox" id="dr-rig-once" ${(store.get('dicerig',null)||{once:true}).once!==false?'checked':''} onchange="rigSet()"> next roll only</label></div>
+          <div class="note" id="dr-rig-state" style="margin:6px 0 0"></div><div class="note" style="margin:4px 0 0">Applies to every roll on the site (this tool, clickable dice, the combat and encounter pages). Rigged rolls look exactly like fair ones.</div></details>
         <div id="dl-log" style="display:flex;flex-direction:column;gap:3px;max-height:180px;overflow:auto"></div></div>
 
       <div class="tool" id="t-slots"><h3>Spell slots</h3><div class="sub">From the vault's Spell Slots rules: full casters start with 3 first-level slots; half casters get none until level 2; Warlock slots return on a short rest.</div>
@@ -2248,7 +2267,7 @@ function renderTools(){
   const clampG=g=>Math.min(10,Math.max(1,Math.round(g||1)));
   sbToolBind();
   // dice and spell slots
-  diceLog();$('dr-go').onclick=()=>rollShow($('dr-e').value);$('dr-e').onkeydown=e=>{if(e.key==='Enter')rollShow($('dr-e').value)};
+  diceLog();rigState();$('dr-go').onclick=()=>rollShow($('dr-e').value);$('dr-e').onkeydown=e=>{if(e.key==='Enter')rollShow($('dr-e').value)};
   const slotsOut=()=>{const r=schoolSlots(slotsFor(v('ss-c'),n('ss-l')),n('ss-s')||1);$('ss-out').innerHTML=!r?'<div class="note">The vault\'s Spell Slots note isn\'t loaded.</div>':r.pact?`<div class="big">${r.n} × ${esc(r.lvl)}-level</div><div class="note">Pact Magic: always cast at this level; all slots return on a short rest.${r.pen?` −${r.pen} for extra schools.`:''}</div>`:r.slots.every(x=>!x)?'<div class="big">No slots yet</div><div class="note">Half casters gain their first slots at level 2.</div>':`<div class="kv">${r.slots.map((k,i)=>k?`<span>${['1st','2nd','3rd','4th','5th','6th','7th','8th','9th'][i]}</span><span><b>${k}</b> ${'●'.repeat(k)}</span>`:'').join('')}</div>${r.pen?`<div class="note">−${r.pen} slot${r.pen>1?'s':''} at each level for holding ${r.pen+1} schools (never below 1).</div>`:''}`};
   on(['ss-c','ss-l','ss-s'],slotsOut);
   // merchant shop
