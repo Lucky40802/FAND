@@ -350,10 +350,10 @@ D.GODS.forEach(function (g) {
     var kw = {}; words((g.runes || []).join(' ') + ' ' + (g.runes || []).join(' ') + ' ' + title + ' ' + title + ' ' + (g.wants || '') + ' ' + sig.map(function (m) { return m.n; }).join(' ')).forEach(function (w) { kw[w] = (kw[w] || 0) + 1; });
     var kws = Object.keys(kw), mine = {}; sig.forEach(function (m) { mine[m.n] = 1; });
     var homeTier = (D.MATS.find(function (m) { return m.realm === g.home; }) || {}).tier || 3;
-    var pick = function (lo, hi, want) {
+    var pick = function (lo, hi, want, noCreature) {
       var best = null, bs = -1e9;
       pool.forEach(function (m, i) {
-        if (mine[m.n] || m.rank < lo || m.rank > hi) return;
+        if (mine[m.n] || m.rank < lo || m.rank > hi || (noCreature && m.org === 'Creature')) return;
         var sc = 0; kws.forEach(function (w) { if (hay[i].indexOf(' ' + w) >= 0) sc += 3 * kw[w]; });
         if (m.realm === g.home) sc += 2; if (sig.some(function (x) { return x.realm === m.realm; })) sc += 1;
         sc -= Math.abs(m.rank - want) / 4 + (used[m.n] || 0) * 2 + (m.org === 'Creature' ? 3 : 0);
@@ -363,7 +363,7 @@ D.GODS.forEach(function (g) {
       return best;
     };
     var r0 = sig[0].rank, r1 = sig[1].rank, r2 = sig[2].rank;
-    var minor = pick(1, Math.max(3, r0), Math.max(1, Math.min(r0 - 3, 8)));
+    var minor = pick(1, Math.max(12, r0), Math.max(1, Math.min(r0 - 3, 8)), true);  // the Minor material is also the passage offering: something a pilgrim can gather
     var major = pick(Math.min(r0, r1), Math.max(r0, r1), Math.round((r0 + r1) / 2));
     var finger = pick(Math.min(100, Math.max(r2 + 1, 20)), 100, Math.min(100, Math.max(r2 + 8, homeTier * 10)));
     g.rk = {};
