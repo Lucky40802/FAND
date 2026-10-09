@@ -1,0 +1,140 @@
+[
+ {
+  "class": "Wizard",
+  "ladder": [
+   {
+    "stage": 2,
+    "level": 11,
+    "realm": "Mysterious",
+    "classChange": "Mirrormist Magister",
+    "classBlurb": "The Wizard studies magic of the veil and mirror, spells that reveal and conceal."
+   },
+   {
+    "stage": 3,
+    "level": 21,
+    "realm": "Hell and Heaven",
+    "classChange": "Infernal Notary",
+    "classBlurb": "The Wizard writes contracts in Heaven and Hell, wielding the power of the written word and the sealed agreement."
+   },
+   {
+    "stage": 4,
+    "level": 31,
+    "realm": "Chaos",
+    "classChange": "Unruled Archmage",
+    "classBlurb": "The Wizard learns that magic need not follow rules, bending spells into impossible shapes."
+   },
+   {
+    "stage": 5,
+    "level": 41,
+    "realm": "Abyss",
+    "classChange": "Fathom-Script Magus",
+    "classBlurb": "The Wizard learns spells written in the deep, words that press down with crushing weight."
+   },
+   {
+    "stage": 6,
+    "level": 51,
+    "realm": "Inner Realm",
+    "classChange": "Librarian of the Living Rings",
+    "classBlurb": "The Wizard learns the living history of magic, reading spells written in the rings of time."
+   },
+   {
+    "stage": 7,
+    "level": 61,
+    "realm": "Outer Realm",
+    "classChange": "Star-Atlas Scholar",
+    "classBlurb": "The Wizard maps the stars, learning magic from distant worlds and horizons."
+   },
+   {
+    "stage": 8,
+    "level": 71,
+    "realm": "Void",
+    "classChange": "Nullscript Sage",
+    "classBlurb": "The Wizard writes spells with nothing, magic that erases and unmakes."
+   },
+   {
+    "stage": 9,
+    "level": 81,
+    "realm": "Inner Void",
+    "classChange": "Archivist of Erased Words",
+    "classBlurb": "The Wizard collects spells the world has forgotten, magic that should not exist."
+   },
+   {
+    "stage": 10,
+    "level": 91,
+    "realm": "Primordial",
+    "classChange": "First Author of Law",
+    "classBlurb": "The Wizard writes the first Laws of magic, a mortal hand that can rewrite reality."
+   }
+  ],
+  "subclasses": [
+   {
+    "n": "Astromancer",
+    "ds": "A wizard who draws power from the stars and the vast emptiness of space, wielding cosmic forces."
+   },
+   {
+    "n": "Bladesinging",
+    "ds": "Elven-style wizards who fuse swordplay with spellcasting. (Tasha's Cauldron of Everything)"
+   },
+   {
+    "n": "Chronomancer",
+    "ds": "A wizard who nudges moments rather than commanding time outright, borrowing reactions and recasting spent spells."
+   },
+   {
+    "n": "Chronurgy Magic",
+    "ds": "Wizards who manipulate time. (Explorer's Guide to Wildemount)"
+   },
+   {
+    "n": "Graviturgy Magic",
+    "ds": "Wizards who manipulate gravity. (Explorer's Guide to Wildemount)"
+   },
+   {
+    "n": "Order of Scribes",
+    "ds": "Wizards whose spellbook is awakened and alive. (Tasha's Cauldron of Everything)"
+   },
+   {
+    "n": "Rune Sage",
+    "ds": "A wizard who studies runes as a second, slower spellbook, inscribing wards and recalling spent spell slots."
+   },
+   {
+    "n": "School of Abjuration (Wizard)",
+    "ds": "Wizards of protective and warding magic. (Player's Handbook)"
+   },
+   {
+    "n": "School of Conjuration (Wizard)",
+    "ds": "Wizards who summon creatures and objects. (Player's Handbook)"
+   },
+   {
+    "n": "School of Divination (Wizard)",
+    "ds": "Wizards who read the future. (Player's Handbook)"
+   },
+   {
+    "n": "School of Enchantment (Wizard)",
+    "ds": "Wizards who charm and bewilder. (Player's Handbook)"
+   },
+   {
+    "n": "School of Evocation",
+    "ds": "A wizard specialized in raw destructive magic, with the rare ability to protect allies from their own area spells."
+   },
+   {
+    "n": "School of Illusion (Wizard)",
+    "ds": "Wizards of deception and phantasm. (Player's Handbook)"
+   },
+   {
+    "n": "School of Necromancy (Wizard)",
+    "ds": "Wizards who study the magic of death and undeath. (File is named to avoid clashing with this vault's Necromancy Rune and spell school.) (Player's Handbook)"
+   },
+   {
+    "n": "School of Transmutation (Wizard)",
+    "ds": "Wizards who change matter and form. (Player's Handbook)"
+   },
+   {
+    "n": "Void Scholar",
+    "ds": "A wizard who studies the Void as an academic subject rather than a power to wield lightly, folding space and unraveling magic."
+   },
+   {
+    "n": "War Magic",
+    "ds": "Wizards who blend spells and defense on the battlefield. (Xanathar's Guide to Everything)"
+   }
+  ]
+ }
+]

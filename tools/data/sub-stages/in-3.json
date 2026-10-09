@@ -1,0 +1,270 @@
+[
+ {
+  "class": "Fighter",
+  "ladder": [
+   {
+    "stage": 2,
+    "level": 11,
+    "realm": "Mysterious",
+    "classChange": "Fogline Captain",
+    "classBlurb": "The Fighter learns to fight in fog and illusion, leading soldiers who strike from mists the enemy cannot read."
+   },
+   {
+    "stage": 3,
+    "level": 21,
+    "realm": "Hell and Heaven",
+    "classChange": "Brimstone Marshal",
+    "classBlurb": "The Fighter commands like a general of Heaven and Hell, leading armies with the authority of contract and creed."
+   },
+   {
+    "stage": 4,
+    "level": 31,
+    "realm": "Chaos",
+    "classChange": "Riot-Banner General",
+    "classBlurb": "The Fighter thrives in chaos, adapting tactics as the battlefield shifts beneath them."
+   },
+   {
+    "stage": 5,
+    "level": 41,
+    "realm": "Abyss",
+    "classChange": "Deepwater Warlord",
+    "classBlurb": "The Fighter learns the brutal fighting style of the deep, every blow heavy as the bottom of the sea."
+   },
+   {
+    "stage": 6,
+    "level": 51,
+    "realm": "Inner Realm",
+    "classChange": "Heartwood Sentinel-King",
+    "classBlurb": "The Fighter becomes a ruler of battle, their body strengthened with ages of memory and endurance."
+   },
+   {
+    "stage": 7,
+    "level": 61,
+    "realm": "Outer Realm",
+    "classChange": "Horizon Conqueror",
+    "classBlurb": "The Fighter's reach stretches to the horizon, every charge a march across worlds."
+   },
+   {
+    "stage": 8,
+    "level": 71,
+    "realm": "Void",
+    "classChange": "Hollowsteel Paragon",
+    "classBlurb": "The Fighter learns to fight with nothing: no fear, no wasted motion, no openings."
+   },
+   {
+    "stage": 9,
+    "level": 81,
+    "realm": "Inner Void",
+    "classChange": "Unremembered Blade-Saint",
+    "classBlurb": "The Fighter becomes a legend the world has forgotten, a sword-master enemies cannot predict."
+   },
+   {
+    "stage": 10,
+    "level": 91,
+    "realm": "Primordial",
+    "classChange": "First Sword of the World",
+    "classBlurb": "The Fighter becomes the first weapon of the world, a mortal blade honed against the raw Law itself."
+   }
+  ],
+  "subclasses": [
+   {
+    "n": "Abyssal Knight",
+    "ds": "A warrior who has sworn fealty to demonic powers, their armour and weapons corrupted by abyssal energy."
+   },
+   {
+    "n": "Arcane Archer",
+    "ds": "Elite archers who weave magic into their arrows. (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "Ashen Commander",
+    "ds": "A battlefield leader wreathed in ash and embers, whose banner and burnt ground punish anyone who gets close."
+   },
+   {
+    "n": "Banneret",
+    "ds": "Knights who inspire and rally allies. (Printed in SCAG under a setting-specific name; later reprinted as Banneret.) (Sword Coast Adventurer's Guide)"
+   },
+   {
+    "n": "Battle Master",
+    "ds": "A martial tactician with a pool of combat maneuvers. (Player's Handbook)"
+   },
+   {
+    "n": "Cavalier",
+    "ds": "A fighter who protects allies and controls the battlefield, often on horseback. (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "Champion",
+    "ds": "The simplest and most consistent Fighter subclass — raw physical excellence rather than a trick or a resource to manage."
+   },
+   {
+    "n": "Deathblade",
+    "ds": "A fighter who has studied the art of killing to its absolute limit, understanding exactly how to end life most efficiently."
+   },
+   {
+    "n": "Echo Knight",
+    "ds": "Fighters who summon echoes of themselves from other timelines. (Explorer's Guide to Wildemount)"
+   },
+   {
+    "n": "Eldritch Knight",
+    "ds": "A fighter who supplements martial skill with wizard spells. (Player's Handbook)"
+   },
+   {
+    "n": "Hex Knight",
+    "ds": "A fighter who has sworn an oath to a dark power, combining martial prowess with hexes and curses."
+   },
+   {
+    "n": "Iron Vanguard",
+    "ds": "A heavy-armor fighter built to hold a line rather than break one, intercepting blows meant for allies."
+   },
+   {
+    "n": "Psi Warrior",
+    "ds": "Fighters who augment strikes with psionic power. (Tasha's Cauldron of Everything)"
+   },
+   {
+    "n": "Rune Knight",
+    "ds": "Fighters who carve giant runes into their gear. (Tasha's Cauldron of Everything)"
+   },
+   {
+    "n": "Samurai",
+    "ds": "Warriors of unbreakable resolve. (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "Void Knight",
+    "ds": "A fighter touched by the Void rather than trained by any order, striking through resistance and folding space to close distance."
+   }
+  ]
+ },
+ {
+  "class": "Monk",
+  "ladder": [
+   {
+    "stage": 2,
+    "level": 11,
+    "realm": "Mysterious",
+    "classChange": "Mirrorstep Adept",
+    "classBlurb": "The Monk learns to move like a reflection, stepping through mirror and mist without a sound."
+   },
+   {
+    "stage": 3,
+    "level": 21,
+    "realm": "Hell and Heaven",
+    "classChange": "Twin-Gate Ascetic",
+    "classBlurb": "The Monk masters the balance between Heaven and Hell, blows that burn and blows that cleanse."
+   },
+   {
+    "stage": 4,
+    "level": 31,
+    "realm": "Chaos",
+    "classChange": "Tumbling-Storm Master",
+    "classBlurb": "The Monk moves like chaos itself, every motion unpredictable and impossible to follow."
+   },
+   {
+    "stage": 5,
+    "level": 41,
+    "realm": "Abyss",
+    "classChange": "Deep-Breath Abbot",
+    "classBlurb": "The Monk masters breath and pressure, drawing power from the deep and the crushing dark."
+   },
+   {
+    "stage": 6,
+    "level": 51,
+    "realm": "Inner Realm",
+    "classChange": "Ringheart Sage",
+    "classBlurb": "The Monk turns inward, finding the living heart of their own body and healing every wound from within."
+   },
+   {
+    "stage": 7,
+    "level": 61,
+    "realm": "Outer Realm",
+    "classChange": "Horizon Pilgrim",
+    "classBlurb": "The Monk walks to the edge of every horizon, covering vast distances in a single breath."
+   },
+   {
+    "stage": 8,
+    "level": 71,
+    "realm": "Void",
+    "classChange": "Formless Stillness",
+    "classBlurb": "The Monk learns the stillness of nothing, moving without intent and striking without being seen."
+   },
+   {
+    "stage": 9,
+    "level": 81,
+    "realm": "Inner Void",
+    "classChange": "Forgotten Fist",
+    "classBlurb": "The Monk's strikes leave no memory, foes forgetting each blow even as it breaks them."
+   },
+   {
+    "stage": 10,
+    "level": 91,
+    "realm": "Primordial",
+    "classChange": "Grandmaster of the First Breath",
+    "classBlurb": "The Monk masters the first breath the world took, perfect harmony of body, spirit and Law."
+   }
+  ],
+  "subclasses": [
+   {
+    "n": "Elemental Fist",
+    "ds": "A monk who channels elemental energy through their body, each strike carrying the force of the elements."
+   },
+   {
+    "n": "Iron Fist",
+    "ds": "A monk who has trained their body beyond its natural limits, turning flesh and bone into weapons harder than iron."
+   },
+   {
+    "n": "Sand Dancer",
+    "ds": "A monk trained in desert combat traditions, using dust, wind, and disorientation as weapons."
+   },
+   {
+    "n": "Way of Echoes",
+    "ds": "A monk who leaves an afterimage of every motion, doubling strikes and briefly fighting alongside their own echo."
+   },
+   {
+    "n": "Way of Mercy",
+    "ds": "Monks who wear masks and act as both healers and executioners. (Tasha's Cauldron of Everything)"
+   },
+   {
+    "n": "Way of Ruin",
+    "ds": "A monk who breaks things rather than redirects them, fracturing armor and shattering already-wounded foes."
+   },
+   {
+    "n": "Way of Shadow",
+    "ds": "Monks trained in stealth, darkness, and infiltration. (Player's Handbook)"
+   },
+   {
+    "n": "Way of the Ascendant Dragon",
+    "ds": "Monks who emulate dragons. (Fizban's Treasury of Dragons)"
+   },
+   {
+    "n": "Way of the Astral Self",
+    "ds": "Monks who manifest an astral form of their own body. (Tasha's Cauldron of Everything)"
+   },
+   {
+    "n": "Way of the Drunken Master",
+    "ds": "Monks with an unpredictable, swaying style. (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "Way of the Empty Palm",
+    "ds": "A monk who trains around having nothing left to hold onto, immune to being grappled, restrained, or disarmed."
+   },
+   {
+    "n": "Way of the Four Elements",
+    "ds": "Monks who bend elemental forces through ki. (Player's Handbook)"
+   },
+   {
+    "n": "Way of the Kensei",
+    "ds": "Monks who master specific weapons. (Xanathar's Guide to Everything)"
+   },
+   {
+    "n": "Way of the Long Death",
+    "ds": "Monks who study death itself. (Sword Coast Adventurer's Guide)"
+   },
+   {
+    "n": "Way of the Open Hand",
+    "ds": "The archetypal martial artist monk — every Flurry of Blows hit can knock an opponent down, push them back, or shut off their reactions."
+   },
+   {
+    "n": "Way of the Sun Soul",
+    "ds": "Monks who channel radiant energy. (Xanathar's Guide to Everything)"
+   }
+  ]
+ }
+]

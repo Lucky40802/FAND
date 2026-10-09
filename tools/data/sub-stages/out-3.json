@@ -1,0 +1,1794 @@
+{
+  "Abyssal Knight": [
+    {
+      "stage": 2,
+      "name": "Fogbound Abyssal Knight",
+      "feat": "Shrouded Corruption",
+      "text": "When you hit a creature, you can wrap it in tainted fog. It must succeed on a Wisdom saving throw or treat you as invisible until the end of its next turn. Uses equal to your Constitution modifier per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Hellpact Knight",
+      "feat": "Infernal Fealty",
+      "text": "When a creature within 30 feet damages you, you can use your reaction to bind it in a demonic debt. Your next hit against it before the end of your next turn deals an extra 3d10 fire damage. Three uses per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Chaos-Tainted Knight",
+      "feat": "Warping Taint",
+      "text": "Your weapon attacks against a creature you hit roll a d6 of corruption: on 1-2 it is poisoned, 3-4 it is frightened, 5-6 its speed is halved, until the end of its next turn. A Constitution save negates."
+    },
+    {
+      "stage": 5,
+      "name": "Drowned Abyssal Lord",
+      "feat": "Pressure of the Pit",
+      "text": "As a bonus action, you exhale the drowned dark in a 20-foot radius for 1 minute. Hostile creatures inside have disadvantage on saving throws against your features and take 2d8 necrotic damage at the start of their turns. Once per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Rotheart Knight",
+      "feat": "Corrupted Heart",
+      "text": "Your demonic patron feeds your body. When you reduce a creature to 0 hit points, you regain hit points equal to 4d10 plus your Constitution modifier and gain advantage on your next attack roll. This happens at most once per turn."
+    },
+    {
+      "stage": 7,
+      "name": "Starfall Abyss Knight",
+      "feat": "Fallen Star Charge",
+      "text": "As an action, you move up to 120 feet in a straight line and attack every creature you pass. Each creature hit takes an extra 4d10 necrotic damage and must succeed on a Strength save or be knocked prone. Recharge 5-6."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow Pit Knight",
+      "feat": "Abyss Without Bottom",
+      "text": "When you hit, you can open a pit of nothing beneath the target. It makes a Dexterity save or is restrained and takes 6d10 necrotic damage each turn for 1 minute, repeating the save at the end of its turns. Twice per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Unremembered Abyss Lord",
+      "feat": "Forgotten Fealty",
+      "text": "Your demonic master's name is lost, and its power is yours alone. Once per long rest, for 1 minute, your attacks ignore damage resistance, and any creature you hit cannot regain hit points until the start of your next turn."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Abyss Sovereign",
+      "feat": "First Corruption",
+      "text": "Once per long rest, as an action, you corrupt the raw Law around a creature within 60 feet. It makes a Charisma save. It takes 10d12 necrotic damage and is charmed by you for 1 minute on a failure, or half damage on a success."
+    }
+  ],
+  "Arcane Archer": [
+    {
+      "stage": 2,
+      "name": "Mistshot Archer",
+      "feat": "Fogpiercing Arrow",
+      "text": "Your Arcane Shot options ignore half and three-quarters cover and can target creatures you know are within an obscured area. Once per turn, when you hit with an Arcane Shot, the target is blinded until the end of its next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Seraph-Fletch Archer",
+      "feat": "Judgement Arrow",
+      "text": "You learn a new Arcane Shot. On a hit the target takes an extra 3d8 radiant or fire damage and the next attack against it before your next turn has advantage. You gain one extra use of Arcane Shot per short rest."
+    },
+    {
+      "stage": 4,
+      "name": "Wildfletch Archer",
+      "feat": "Chaos Quiver",
+      "text": "When you use an Arcane Shot, roll a d4. On a 4 you can apply a second Arcane Shot option to the same arrow at no cost. Your Arcane Shot save DC increases by 1."
+    },
+    {
+      "stage": 5,
+      "name": "Deepcurrent Archer",
+      "feat": "Undertow Arrow",
+      "text": "Once per turn, an arrow you hit with drags the target 30 feet toward a point you choose. The target makes a Strength save or is restrained by crushing pressure until the end of its next turn and takes an extra 3d8 force damage."
+    },
+    {
+      "stage": 6,
+      "name": "Rootstring Archer",
+      "feat": "Living Bow",
+      "text": "Your bow grows from living wood that knows your heart. It returns to your hand if lost, your range with it triples, and once per turn you can add your Intelligence modifier to the damage roll of one arrow you hit with."
+    },
+    {
+      "stage": 7,
+      "name": "Starbolt Archer",
+      "feat": "Horizon Volley",
+      "text": "As an action, you loose an arrow at a point you can see within 1 mile. It bursts into starlight in a 30-foot radius: each creature there makes a Dexterity save, taking 6d8 radiant damage, or half on a success. Twice per long rest."
+    },
+    {
+      "stage": 8,
+      "name": "Silent String Archer",
+      "feat": "Arrow of Nothing",
+      "text": "Once per turn, when you hit a creature, you can erase the sound and sight of the arrow. The target cannot take reactions until the start of your next turn, and your position is not revealed by the attack."
+    },
+    {
+      "stage": 9,
+      "name": "Lost Arrow Archer",
+      "feat": "Arrow Through Memory",
+      "text": "Once per short rest, you fire an arrow that strikes a creature you have seen within the last day, wherever it is on the same plane. It makes a Wisdom save or takes 8d10 force damage and forgets the last hour."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Bow Archer",
+      "feat": "Arrow of First Law",
+      "text": "Once per long rest, you loose an arrow of raw creation at a creature within 600 feet. It makes a Constitution save, taking 12d10 force damage and losing one resistance or immunity for 1 minute on a failure, or half damage on a success."
+    }
+  ],
+  "Ashen Commander": [
+    {
+      "stage": 2,
+      "name": "Smokeveil Commander",
+      "feat": "Ashen Fog",
+      "text": "As a bonus action, you exhale smoke and ash in a 15-foot radius around you for 1 minute. The area is heavily obscured to enemies but not to your allies. Hostile creatures that start their turn there take 2d6 fire damage. Once per short rest."
+    },
+    {
+      "stage": 3,
+      "name": "Brimstone Banneret",
+      "feat": "Ember Standard",
+      "text": "You plant a burning banner within 30 feet for 1 minute. Allies within 20 feet of it add 1d6 fire damage to weapon hits, and hostile creatures entering or starting there make a Dexterity save or take 3d8 fire damage. Once per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Wildfire Commander",
+      "feat": "Shifting Embers",
+      "text": "When an enemy ends its turn within 10 feet of you, roll a d6. On 4-6 the ground beneath it erupts for 2d10 fire damage. Your burnt ground can now spread 10 feet in a random direction each round."
+    },
+    {
+      "stage": 5,
+      "name": "Cinderdeep Commander",
+      "feat": "Smothering Ash",
+      "text": "Creatures of your choice in your ash cloud must succeed on a Constitution save at the start of their turns or be unable to speak or breathe until the start of their next turn, taking 2d8 fire damage as the heat presses in."
+    },
+    {
+      "stage": 6,
+      "name": "Hearthfire Commander",
+      "feat": "Living Embers",
+      "text": "Your banner holds the heart of a fire that never dies. Allies within 30 feet of you regain 2d8 hit points at the start of each of their turns while below half their hit point maximum, for 1 minute. Once per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Skyfire Marshal",
+      "feat": "Burning Horizon",
+      "text": "As an action, you sweep a 300-foot line, 20 feet wide, with falling embers. Each creature in it makes a Dexterity save, taking 6d10 fire damage on a failure or half as much on a success. The ground burns for 1 minute. Recharge 5-6."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow Ash Commander",
+      "feat": "Ash of Nothing",
+      "text": "Your ash now burns away absence itself. Creatures in your burnt ground cannot become invisible, cannot teleport, and lose resistance to fire damage. You and your allies there take no damage from your fires."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Pyre Commander",
+      "feat": "Pyre of Forgetting",
+      "text": "When a creature dies within 30 feet of you, its ashes rise as a burning echo that fights at your command for 1 minute. It uses your attack bonus and deals 4d10 fire damage per hit. Up to three echoes at once."
+    },
+    {
+      "stage": 10,
+      "name": "First Flame Commander",
+      "feat": "Banner of First Fire",
+      "text": "Once per long rest, your banner becomes the first fire of creation for 1 minute. Allies within 60 feet are immune to fire, and every enemy there takes 8d10 fire damage at the start of its turn, Constitution save for half."
+    }
+  ],
+  "Banneret": [
+    {
+      "stage": 2,
+      "name": "Mistbanner Knight",
+      "feat": "Rallying Through Fog",
+      "text": "Your Rallying Cry reaches allies who can hear you even if they cannot see you. Each ally who regains hit points from it can also become invisible until the end of its next turn or until it attacks."
+    },
+    {
+      "stage": 3,
+      "name": "Oathbanner Paladin-Knight",
+      "feat": "Sworn Standard",
+      "text": "When you use Rallying Cry, each ally affected gains a sworn vow: until the end of your next turn, its weapon hits deal an extra 2d8 radiant damage and it has advantage on saving throws against being frightened or charmed."
+    },
+    {
+      "stage": 4,
+      "name": "Stormbanner Knight",
+      "feat": "Shifting Line",
+      "text": "As a bonus action, you swap places with any number of willing allies within 30 feet, each moving to a space you choose within that range. This movement provokes no opportunity attacks. Three uses per long rest."
+    },
+    {
+      "stage": 5,
+      "name": "Undertow Banneret",
+      "feat": "Unbreakable Formation",
+      "text": "Allies within 15 feet of you cannot be pushed, pulled or knocked prone against their will, and they gain a +1 bonus to AC while you are conscious and not incapacitated."
+    },
+    {
+      "stage": 6,
+      "name": "Heartbanner Lord",
+      "feat": "Heart of the Company",
+      "text": "When an ally you can see within 60 feet drops to 0 hit points, you can use your reaction to let it drop to 1 hit point instead and regain 4d10 hit points. Uses equal to your Charisma modifier per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Farbanner Conqueror",
+      "feat": "Banner Across Worlds",
+      "text": "Once per long rest, as an action, you call up to eight allies you have fought beside. Each willing ally on the same plane is teleported to an unoccupied space within 60 feet of you."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Banner Knight",
+      "feat": "Fearless Void",
+      "text": "You and allies within 30 feet are immune to the frightened condition, and once per turn when an ally there misses an attack, it can reroll the attack. You must use the new roll."
+    },
+    {
+      "stage": 9,
+      "name": "Remembered Banner Knight",
+      "feat": "Banner of the Forgotten",
+      "text": "Once per long rest, when an ally dies within 60 feet, you can raise your banner so the world forgets its death. It returns to life at half its hit point maximum at the start of your next turn."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Banneret",
+      "feat": "Standard of Creation",
+      "text": "Once per long rest, for 1 minute, allies within 120 feet gain advantage on attack rolls and saving throws, add 2d10 to weapon damage, and cannot be reduced below 1 hit point more than once each."
+    }
+  ],
+  "Battle Master": [
+    {
+      "stage": 2,
+      "name": "Fogline Tactician",
+      "feat": "Veiled Maneuver",
+      "text": "When you use a maneuver against a creature that cannot see you, the target has disadvantage on any saving throw it makes against it, and you roll the superiority die twice and use the higher result."
+    },
+    {
+      "stage": 3,
+      "name": "Contract Tactician",
+      "feat": "Binding Gambit",
+      "text": "When a creature fails a save against one of your maneuvers, you can bind it by contract. Until the end of your next turn, it takes 3d8 fire damage whenever it moves or attacks a creature other than you."
+    },
+    {
+      "stage": 4,
+      "name": "Chaos Strategist",
+      "feat": "Improvised Doctrine",
+      "text": "Whenever you roll initiative, roll two d8 and gain both results as extra superiority dice for that combat. Once per turn, you can use two different maneuvers on the same attack."
+    },
+    {
+      "stage": 5,
+      "name": "Deep Pressure Tactician",
+      "feat": "Crushing Maneuver",
+      "text": "Your superiority dice become d12s. When you use a maneuver that deals damage, the target makes a Strength save or is knocked prone and cannot stand up until the end of its next turn."
+    },
+    {
+      "stage": 6,
+      "name": "Heartwood Strategist",
+      "feat": "Enduring Doctrine",
+      "text": "When you finish a short rest, you regain all expended superiority dice and choose one maneuver you know to empower: until your next rest, it costs no die once per turn, rolling a d6 in place of the die."
+    },
+    {
+      "stage": 7,
+      "name": "Far-Field Tactician",
+      "feat": "Battle Across Horizons",
+      "text": "Your Commander's Strike and similar maneuvers can direct any ally within 1 mile who can hear or see a signal you send. The ally makes the attack using its reaction and adds your superiority die to damage."
+    },
+    {
+      "stage": 8,
+      "name": "Empty Mind Tactician",
+      "feat": "Perfect Reading",
+      "text": "Once per round, when a creature you can see makes an attack roll or casts a spell, you can expend a superiority die as a reaction to impose disadvantage or force the spell's save at advantage for its targets."
+    },
+    {
+      "stage": 9,
+      "name": "Unpredictable Strategist",
+      "feat": "Forgotten Feint",
+      "text": "Creatures cannot benefit from reactions against you. Once per turn, when you use a maneuver, you can expend a second superiority die to force the target to repeat its save, taking the worse result."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Tactician",
+      "feat": "Doctrine of First Law",
+      "text": "Once per long rest, for 1 minute, you regain one superiority die at the start of each of your turns, and every maneuver you use deals an extra 6d10 force damage to its target."
+    }
+  ],
+  "Cavalier": [
+    {
+      "stage": 2,
+      "name": "Mistrider Cavalier",
+      "feat": "Phantom Mount",
+      "text": "Your mount can become partially insubstantial as a bonus action, letting it move through creatures and difficult terrain for 1 minute. While mounted you have half cover against ranged attacks. Once per short rest."
+    },
+    {
+      "stage": 3,
+      "name": "Judgement Rider",
+      "feat": "Holy Lance Charge",
+      "text": "If you move at least 30 feet toward a creature and hit it, the hit deals an extra 3d10 radiant damage and the creature must succeed on a Strength save or be knocked prone."
+    },
+    {
+      "stage": 4,
+      "name": "Wildgallop Cavalier",
+      "feat": "Shifting Guard",
+      "text": "When a creature within 15 feet of you attacks a target other than you, you can use your reaction to move up to your speed to the target's side and impose disadvantage on the attack."
+    },
+    {
+      "stage": 5,
+      "name": "Deepwater Rider",
+      "feat": "Tidal Mount",
+      "text": "You and your mount ignore difficult terrain and can move on water and through liquid as if it were solid ground. Creatures you hit with a charge make a Strength save or are pushed 20 feet and restrained until the end of their next turn."
+    },
+    {
+      "stage": 6,
+      "name": "Heartguard Cavalier",
+      "feat": "Living Bulwark",
+      "text": "When an ally within 10 feet of you takes damage, you can use your reaction to take that damage instead and reduce it by 3d10. Number of uses equal to your Constitution modifier per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Skyroad Cavalier",
+      "feat": "Horizon Charge",
+      "text": "Your speed and your mount's speed increase by 30 feet. Once per long rest, your mount can gallop through the air for 1 hour, carrying you and one ally at a flying speed of 120 feet."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow Ward Cavalier",
+      "feat": "Unbroken Vigil",
+      "text": "Creatures marked by you cannot teleport, turn invisible or become ethereal to escape you. When a marked creature attacks someone other than you, your special attack against it deals an extra 4d10 force damage."
+    },
+    {
+      "stage": 9,
+      "name": "Unremembered Guardian",
+      "feat": "Ward Beyond Memory",
+      "text": "Once per long rest, when an ally within 60 feet would be reduced to 0 hit points, you teleport beside it and take the attack, and the attacker forgets the ally until the end of its next turn."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Cavalier",
+      "feat": "Primordial Charge",
+      "text": "Once per long rest, you charge up to 300 feet. Every creature in your path makes a Strength save, taking 10d10 force damage and being knocked prone on a failure, or half damage on a success."
+    }
+  ],
+  "Champion": [
+    {
+      "stage": 2,
+      "name": "Mistborn Champion",
+      "feat": "Misted Critical",
+      "text": "Your critical hits now occur on a roll of 17-20. When you score a critical hit, you can become lightly obscured in mist until the start of your next turn, granting disadvantage on attacks against you."
+    },
+    {
+      "stage": 3,
+      "name": "Exalted Champion",
+      "feat": "Glory of Two Courts",
+      "text": "When you score a critical hit, you regain hit points equal to 3d8 plus your Constitution modifier, and you have advantage on your next attack roll before the end of your next turn."
+    },
+    {
+      "stage": 4,
+      "name": "Unbound Champion",
+      "feat": "Wild Excellence",
+      "text": "When you roll a 1 on an attack roll, ability check or saving throw, you can reroll it and must use the new roll. Your speed increases by 10 feet."
+    },
+    {
+      "stage": 5,
+      "name": "Abyss-Forged Champion",
+      "feat": "Crushing Might",
+      "text": "Your Strength and Constitution scores each increase by 2, and their maximum becomes 26. Your critical hits deal an extra 3d10 bludgeoning, piercing or slashing damage, matching the weapon's type."
+    },
+    {
+      "stage": 6,
+      "name": "Heartwood Champion",
+      "feat": "Ageless Body",
+      "text": "You regain 2d10 hit points at the start of each of your turns while you have at least 1 hit point and are below half your hit point maximum. You no longer age and cannot be magically aged."
+    },
+    {
+      "stage": 7,
+      "name": "Horizon Champion",
+      "feat": "Legend of Many Worlds",
+      "text": "Your critical hits now occur on a roll of 16-20. Once per turn when you score a critical hit, you can make one additional weapon attack as part of the same action."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow Champion",
+      "feat": "No Wasted Motion",
+      "text": "Once per round, when you miss with an attack, you can immediately make another attack against the same target. You cannot be surprised, and attacks against you never gain advantage from unseen attackers."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Champion",
+      "feat": "Unrecorded Prowess",
+      "text": "When you roll for initiative, you gain a pool of 3d10. Once per turn, you can add any dice from the pool to an attack roll, damage roll, or saving throw after seeing the roll."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Champion",
+      "feat": "Perfect Form",
+      "text": "Once per long rest, for 1 minute, every hit you score is a critical hit, you cannot be reduced below 1 hit point, and you have advantage on all Strength and Constitution saving throws."
+    }
+  ],
+  "Deathblade": [
+    {
+      "stage": 2,
+      "name": "Mistveil Deathblade",
+      "feat": "Unseen Killing Stroke",
+      "text": "When you hit a creature that cannot see you, you deal an extra 3d8 damage of the weapon's type. If the hit reduces it below half its hit point maximum, it is frightened of you until the end of its next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Reaper of Debts",
+      "feat": "Final Contract",
+      "text": "As a bonus action, you mark a creature within 60 feet as owed to death for 1 minute. Your attacks against it score a critical hit on a 18-20 and deal an extra 3d10 necrotic damage. Once per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Chaotic Deathblade",
+      "feat": "Unpredictable Kill",
+      "text": "Once per turn, after you hit, roll a d6. On a 6 the target makes a Constitution save or is reduced to 0 hit points if it has 60 hit points or fewer, otherwise it takes an extra 4d10 damage."
+    },
+    {
+      "stage": 5,
+      "name": "Drowned Deathblade",
+      "feat": "Pressure Point",
+      "text": "Your weapon attacks ignore resistance to their damage. When you hit a creature, its maximum hit points are reduced by the necrotic damage you deal on the hit until it finishes a long rest. Add 2d8 necrotic damage to one hit per turn."
+    },
+    {
+      "stage": 6,
+      "name": "Heartstop Deathblade",
+      "feat": "Strike to the Heart",
+      "text": "Once per short rest, you strike at the heart of a creature. It makes a Constitution save or takes 8d10 necrotic damage and is stunned until the end of your next turn. On a success it takes half and is not stunned."
+    },
+    {
+      "stage": 7,
+      "name": "Far Reaper",
+      "feat": "Death at Distance",
+      "text": "Your killing intent reaches across the battlefield. Once per turn, you can make one melee weapon attack against a creature you can see within 120 feet as if you were adjacent to it."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Deathblade",
+      "feat": "Death Without Sound",
+      "text": "Creatures you kill make no sound and leave no trace of the blow. When you reduce a creature to 0 hit points, you can become invisible until the end of your next turn and move up to your speed."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Reaper",
+      "feat": "Erased Life",
+      "text": "Once per long rest, when you reduce a creature to 0 hit points, it cannot be returned to life by any means short of a wish-level effect, and all but you forget it ever lived."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Deathblade",
+      "feat": "Primordial Ending",
+      "text": "Once per long rest, you strike a creature with the first death. It makes a Constitution save. On a failure it drops to 0 hit points if it has 300 or fewer; otherwise it takes 12d12 necrotic damage."
+    }
+  ],
+  "Echo Knight": [
+    {
+      "stage": 2,
+      "name": "Fog Echo Knight",
+      "feat": "Mirage Echoes",
+      "text": "You can maintain two echoes at once. As a bonus action, you can wrap your echoes in illusion so that creatures must succeed on an Intelligence save to tell which of you is real until the end of your next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Twin-Court Echo Knight",
+      "feat": "Echo of Judgement",
+      "text": "When an echo is destroyed, it bursts in light and fire. Each creature of your choice within 10 feet of it makes a Dexterity save, taking 3d8 radiant or fire damage (your choice) on a failure, half on a success."
+    },
+    {
+      "stage": 4,
+      "name": "Shuffled Echo Knight",
+      "feat": "Scrambled Timelines",
+      "text": "Once per turn, you can swap places with any of your echoes without using movement. When you do, one creature within 5 feet of your new space makes a Wisdom save or is incapacitated until the start of its next turn."
+    },
+    {
+      "stage": 5,
+      "name": "Deep Echo Knight",
+      "feat": "Drowned Timeline",
+      "text": "Your echoes can grapple and use your Strength. A creature grappled by an echo is restrained and takes 3d8 bludgeoning damage at the start of each of its turns from the pressure of a drowned possible future."
+    },
+    {
+      "stage": 6,
+      "name": "Rooted Echo Knight",
+      "feat": "Living Echo",
+      "text": "Your echoes have hit points equal to half your level and an AC equal to yours. When one of your echoes takes damage that would destroy it, you can spend a hit die to keep it at 1 hit point instead."
+    },
+    {
+      "stage": 7,
+      "name": "Starlit Echo Knight",
+      "feat": "Echoes Across Worlds",
+      "text": "Your echoes can appear anywhere within 1 mile that you can see, and you can see and hear through them. Once per turn, an echo can make an opportunity attack without using your reaction."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow Echo Knight",
+      "feat": "Empty Timeline",
+      "text": "When you would be hit by an attack, you can use your reaction to swap places with an echo, which takes the attack instead. Three uses per long rest. Your echoes are immune to all conditions."
+    },
+    {
+      "stage": 9,
+      "name": "Unremembered Echo Knight",
+      "feat": "Futures Unwritten",
+      "text": "Once per long rest, for 1 minute, you can maintain four echoes, and each one can make one weapon attack as part of your Attack action. Creatures hit by an echo forget which of you is real."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Echo Knight",
+      "feat": "Echo of the First Self",
+      "text": "Once per long rest, you call the echo of your first self. For 1 minute it acts on your turn with your statistics and hit points, uses your full Attack action, and cannot be targeted by spells."
+    }
+  ],
+  "Eldritch Knight": [
+    {
+      "stage": 2,
+      "name": "Mistspell Knight",
+      "feat": "Veiled Casting",
+      "text": "When you cast a spell, you can make the casting unseen and unheard. As part of War Magic you can cast an illusion spell of 2nd level or lower without expending a slot once per short rest."
+    },
+    {
+      "stage": 3,
+      "name": "Sigil-Bound Knight",
+      "feat": "Contract Strike",
+      "text": "When you hit with a weapon attack, you can expend a spell slot to deal an extra 3d8 radiant or fire damage per slot level, and the target has disadvantage on saves against your next spell before the end of your turn."
+    },
+    {
+      "stage": 4,
+      "name": "Wild Arcana Knight",
+      "feat": "Spell Surge Blade",
+      "text": "When you cast a spell using War Magic, roll a d6. On a 5 or 6 you regain the expended spell slot. You can now make two weapon attacks, not one, as part of War Magic."
+    },
+    {
+      "stage": 5,
+      "name": "Deepward Knight",
+      "feat": "Abyssal Ward",
+      "text": "As a reaction when you take damage, you can expend a spell slot to reduce the damage by 3d10 per slot level. If this reduces the damage to 0, the attacker takes the excess as force damage."
+    },
+    {
+      "stage": 6,
+      "name": "Heartspell Knight",
+      "feat": "Weapon Soul",
+      "text": "Your bonded weapon gains a heart of living magic. Once per turn, you can cast a cantrip through it after you hit, and spells of 3rd level or lower you cast with it as a focus deal an extra 2d8 damage."
+    },
+    {
+      "stage": 7,
+      "name": "Starbound Knight",
+      "feat": "Arcane Leap",
+      "text": "As a bonus action, you can teleport up to 120 feet to a space you can see and make one weapon attack. When you hit, you can choose for the attack to deal force damage. Uses equal to your Intelligence modifier per long rest."
+    },
+    {
+      "stage": 8,
+      "name": "Null Blade Knight",
+      "feat": "Spellsever Edge",
+      "text": "When you hit a creature that is concentrating on a spell or maintaining a magical effect, you can end one such spell or effect of 6th level or lower. Twice per short rest."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Arcanist Knight",
+      "feat": "Unremembered Formula",
+      "text": "Once per long rest, you can cast any wizard spell of 8th level or lower without expending a slot or components. Creatures that save against it forget they saved and suffer half its effect."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Spellblade",
+      "feat": "First Word Blade",
+      "text": "Once per long rest, you speak a word of first Law into your weapon for 1 minute. Your weapon hits deal an extra 4d10 force damage and you can cast one spell of 5th level or lower as a bonus action each turn."
+    }
+  ],
+  "Hex Knight": [
+    {
+      "stage": 2,
+      "name": "Mistcurse Knight",
+      "feat": "Fog Hex",
+      "text": "When you curse a creature with your hex, it is lightly obscured to its allies and cannot benefit from the Help action. You can move your hex to a new creature within 60 feet as a bonus action."
+    },
+    {
+      "stage": 3,
+      "name": "Hellsworn Hex Knight",
+      "feat": "Infernal Bargain",
+      "text": "When a creature you have hexed fails a saving throw, it takes an extra 3d8 fire damage, and you gain temporary hit points equal to the damage dealt. Once per turn."
+    },
+    {
+      "stage": 4,
+      "name": "Chaos Hex Knight",
+      "feat": "Rolling Curse",
+      "text": "At the start of each of your turns, a hexed creature rolls a d4: 1 blinded, 2 deafened, 3 poisoned, 4 frightened until the end of its next turn. A Wisdom save negates."
+    },
+    {
+      "stage": 5,
+      "name": "Abyssal Hex Knight",
+      "feat": "Drowning Curse",
+      "text": "Once per long rest, you hex a creature with the weight of the deep for 1 minute. It makes a Constitution save each turn or takes 4d8 necrotic damage, its speed is halved, and it cannot breathe."
+    },
+    {
+      "stage": 6,
+      "name": "Heartrot Hex Knight",
+      "feat": "Curse of the Heart",
+      "text": "A creature you hex cannot regain hit points. When it would, you regain that many hit points instead, up to 4d10 per turn. The hex lasts 1 hour and can be removed only by 6th-level magic."
+    },
+    {
+      "stage": 7,
+      "name": "Starhex Knight",
+      "feat": "Hex Across Worlds",
+      "text": "Your hexes last until you dismiss them and work at any distance on the same plane. Once per long rest, you can hex every creature of your choice within 120 feet."
+    },
+    {
+      "stage": 8,
+      "name": "Void Hex Knight",
+      "feat": "Curse of Absence",
+      "text": "When you hit a hexed creature, you can strip one damage resistance from it until the end of your next turn. If it has no resistances, the hit deals an extra 4d10 necrotic damage."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Hex Knight",
+      "feat": "Hex of Forgetting",
+      "text": "Once per long rest, you hex a creature with oblivion for 1 minute. It makes an Intelligence save each turn or forgets one of its spells, features or actions of your choice until the hex ends."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Hex Lord",
+      "feat": "First Curse",
+      "text": "Once per long rest, you lay the first curse on a creature within 120 feet. It makes a Charisma save. On a failure, for 1 minute it has disadvantage on everything and takes 10d10 necrotic damage each turn. On a success, it takes half once."
+    }
+  ],
+  "Iron Vanguard": [
+    {
+      "stage": 2,
+      "name": "Fogwall Vanguard",
+      "feat": "Unseen Bulwark",
+      "text": "Allies within 10 feet of you are lightly obscured by mist to enemies more than 30 feet away. When you intercept a blow for an ally, you reduce its damage by an extra 2d8."
+    },
+    {
+      "stage": 3,
+      "name": "Oathiron Vanguard",
+      "feat": "Holy Interception",
+      "text": "When you take damage meant for an ally, the attacker makes a Wisdom save or is bound by your oath: it cannot attack anyone but you until the end of its next turn and takes 3d8 radiant damage."
+    },
+    {
+      "stage": 4,
+      "name": "Shifting Wall Vanguard",
+      "feat": "Reforming Line",
+      "text": "At the start of each of your turns, you can move up to half your speed without provoking opportunity attacks. Enemies treat the space within 10 feet of you as difficult terrain."
+    },
+    {
+      "stage": 5,
+      "name": "Deep Iron Vanguard",
+      "feat": "Pressure Plate",
+      "text": "While you wear heavy armor, you cannot be moved against your will. When a creature hits you in melee, it makes a Strength save or is pushed 15 feet and knocked prone by the weight of the deep."
+    },
+    {
+      "stage": 6,
+      "name": "Heartiron Vanguard",
+      "feat": "Living Fortress",
+      "text": "Your hit point maximum increases by your level. When you use your reaction to protect an ally, that ally also regains 3d10 hit points. Uses equal to your Constitution modifier per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Horizon Wall",
+      "feat": "Wall Across the Plain",
+      "text": "As a reaction, you can teleport up to 120 feet to an ally's side when it is targeted by an attack, and the attack targets you instead. Three uses per long rest."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow Iron Vanguard",
+      "feat": "Immovable Absence",
+      "text": "You have resistance to all damage while you wear heavy armor and do not move on your turn. Allies within 15 feet of you cannot be frightened, charmed or stunned."
+    },
+    {
+      "stage": 9,
+      "name": "Unbroken Vanguard",
+      "feat": "Line Beyond Memory",
+      "text": "Once per long rest, for 1 minute, every attack made against an ally within 30 feet of you targets you instead, and you reduce each such hit's damage by 4d10."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Vanguard",
+      "feat": "Primordial Bulwark",
+      "text": "Once per long rest, for 1 minute, you and allies within 60 feet cannot be reduced below 1 hit point, and every enemy that hits one of them takes 6d10 force damage."
+    }
+  ],
+  "Psi Warrior": [
+    {
+      "stage": 2,
+      "name": "Mistmind Warrior",
+      "feat": "Clouded Thoughts",
+      "text": "When you use Psionic Strike, the target makes a Wisdom save or can see only illusory doubles of you, granting it disadvantage on attacks against you until the end of its next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Choir-Mind Warrior",
+      "feat": "Psychic Sentence",
+      "text": "Your Psionic Strike deals an extra 3d8 psychic damage, and on a failed Intelligence save the target is frightened of you until the end of its next turn. You regain one psionic energy die when you roll initiative."
+    },
+    {
+      "stage": 4,
+      "name": "Stormmind Warrior",
+      "feat": "Scattered Telekinesis",
+      "text": "As a bonus action, you can expend a psionic die to hurl up to three creatures or objects within 30 feet up to 20 feet each in random directions. Strength save negates."
+    },
+    {
+      "stage": 5,
+      "name": "Pressure-Mind Warrior",
+      "feat": "Crushing Thought",
+      "text": "Once per turn, you can expend a psionic die to grip a creature within 60 feet in a telekinetic vice. It makes a Strength save or is restrained and takes 4d8 force damage at the start of its turns for 1 minute."
+    },
+    {
+      "stage": 6,
+      "name": "Heartmind Warrior",
+      "feat": "Inner Bastion",
+      "text": "When you fail an Intelligence, Wisdom or Charisma save, you can expend a psionic die to succeed instead. Your psionic energy dice become d12s, and you regain one expended psionic die whenever you succeed on a saving throw this way."
+    },
+    {
+      "stage": 7,
+      "name": "Starmind Warrior",
+      "feat": "Mind Across Horizons",
+      "text": "You can speak telepathically to any creature you know on the same plane. As an action, you can expend two psionic dice to teleport yourself and up to six willing creatures up to 1 mile."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Mind Warrior",
+      "feat": "Empty Mind",
+      "text": "You are immune to psychic damage and to the charmed condition. When you use Psionic Strike, the target cannot take reactions or cast spells with verbal components until the start of your next turn."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Mind Warrior",
+      "feat": "Mindwipe Strike",
+      "text": "Once per short rest, when you hit, the target makes an Intelligence save. On a failure it takes 8d10 psychic damage and forgets you exist until the end of its next turn, unable to target you."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Mind Warrior",
+      "feat": "First Thought",
+      "text": "Once per long rest, for 1 minute, you regain a psionic die at the start of each of your turns, and you can lift and hurl a creature of any size within 120 feet for 6d10 force damage, Strength save for half."
+    }
+  ],
+  "Rune Knight": [
+    {
+      "stage": 2,
+      "name": "Fogrune Knight",
+      "feat": "Mist Rune",
+      "text": "You learn the Mist Rune. When invoked as a bonus action, you and allies within 15 feet become invisible until the end of your next turn or until one attacks. Once per short rest."
+    },
+    {
+      "stage": 3,
+      "name": "Judgement Rune Knight",
+      "feat": "Rune of Two Courts",
+      "text": "You learn a rune that burns and blesses. When invoked, enemies within 20 feet make a Constitution save, taking 3d8 fire damage on a failure, and allies there regain the same amount of hit points."
+    },
+    {
+      "stage": 4,
+      "name": "Shifting Rune Knight",
+      "feat": "Rune of Change",
+      "text": "When you use Giant's Might, roll a d4 to grow in a random way: reach +5 feet, +2d6 damage, advantage on Strength saves, or +1 AC until it ends. You can invoke two runes in one turn."
+    },
+    {
+      "stage": 5,
+      "name": "Deeprune Knight",
+      "feat": "Tide Rune",
+      "text": "You learn the Tide Rune. When invoked, a 30-foot cone of crushing water forces Strength saves, dealing 4d8 bludgeoning damage and pushing creatures 30 feet on a failure, or half damage on a success."
+    },
+    {
+      "stage": 6,
+      "name": "Heartrune Knight",
+      "feat": "Living Runes",
+      "text": "Your runes grow into your skin. You regain one use of every rune at the start of each of your turns if you have none left, once per long rest, and Giant's Might lets you grow to Huge size."
+    },
+    {
+      "stage": 7,
+      "name": "Starrune Knight",
+      "feat": "Rune of Far Horizons",
+      "text": "While under Giant's Might, your reach increases by 15 feet and you can grow to Gargantuan size. Once per long rest, you can step 1 mile through a rune gate as an action."
+    },
+    {
+      "stage": 8,
+      "name": "Hollow Rune Knight",
+      "feat": "Null Rune",
+      "text": "You learn the Null Rune. When invoked, magic within 30 feet of you is suppressed as by an antimagic field until the end of your next turn, except your own runes and Giant's Might."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Rune Knight",
+      "feat": "Lost Glyph",
+      "text": "You carve a rune the world forgot. Once per long rest, a creature you hit makes a Wisdom save or loses all memory of its own name and purpose for 1 minute, becoming charmed by you."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Rune Lord",
+      "feat": "Rune of First Making",
+      "text": "Once per long rest, you carve the first rune of creation. For 1 minute you are Gargantuan, your weapon hits deal an extra 6d10 force damage, and you have advantage on all saving throws."
+    }
+  ],
+  "Samurai": [
+    {
+      "stage": 2,
+      "name": "Mistblade Samurai",
+      "feat": "Fog Resolve",
+      "text": "When you use Fighting Spirit, you also become heavily obscured in mist until the end of your next turn. Creatures that attack you while you are obscured make a Wisdom save or are frightened of you."
+    },
+    {
+      "stage": 3,
+      "name": "Oathfire Samurai",
+      "feat": "Honor Sworn in Fire",
+      "text": "Your Fighting Spirit grants an extra 3d8 fire or radiant damage on your first hit each turn while it lasts. You gain one extra use of Fighting Spirit per long rest."
+    },
+    {
+      "stage": 4,
+      "name": "Stormblade Samurai",
+      "feat": "Unshaken in Chaos",
+      "text": "You have advantage on saving throws against being moved, frightened or charmed. When you succeed on such a save, you can make one weapon attack as a reaction."
+    },
+    {
+      "stage": 5,
+      "name": "Deepresolve Samurai",
+      "feat": "Weight of Resolve",
+      "text": "When you are reduced to 0 hit points, you can keep fighting for up to 2 rounds. You drop only if you are not healed by the end of the second round. Once per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Heartblade Samurai",
+      "feat": "Living Discipline",
+      "text": "When you use Fighting Spirit, you regain 4d10 hit points and end one condition affecting you. Your Wisdom score increases by 2, and its maximum becomes 24."
+    },
+    {
+      "stage": 7,
+      "name": "Horizon Samurai",
+      "feat": "Thousand-Mile Draw",
+      "text": "As an action, you draw and strike in a single motion, moving up to 120 feet in a straight line and attacking each creature you pass once. Recharge 5-6."
+    },
+    {
+      "stage": 8,
+      "name": "Empty Blade Samurai",
+      "feat": "No-Mind Strike",
+      "text": "While you are not frightened, charmed or incapacitated, your weapon attacks score a critical hit on a roll of 18-20 and attackers cannot gain advantage against you."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Samurai",
+      "feat": "Unremembered Duel",
+      "text": "Once per long rest, you challenge a creature to a duel the world cannot witness. For 1 minute, no other creature can affect either of you, and your hits against it deal an extra 4d10 damage."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Samurai",
+      "feat": "Primordial Resolve",
+      "text": "Once per long rest, for 1 minute, you cannot be reduced below 1 hit point, you have advantage on all attacks, and each of your hits deals an extra 6d10 slashing damage."
+    }
+  ],
+  "Void Knight": [
+    {
+      "stage": 2,
+      "name": "Mistvoid Knight",
+      "feat": "Fogfold Step",
+      "text": "As a bonus action, you fold through the mist to an unoccupied space within 30 feet that you can see. Your next attack before the end of your turn has advantage. Uses equal to your Constitution modifier per long rest."
+    },
+    {
+      "stage": 3,
+      "name": "Ashgate Void Knight",
+      "feat": "Severing Strike",
+      "text": "Your weapon attacks ignore resistance to slashing, piercing and bludgeoning damage. Once per turn, a hit deals an extra 3d8 force damage to fiends and celestials."
+    },
+    {
+      "stage": 4,
+      "name": "Riftfold Knight",
+      "feat": "Folding Charge",
+      "text": "When you take the Attack action, you can teleport up to 20 feet before each attack. A creature you teleport next to and hit makes a Strength save or is moved 10 feet in a random direction."
+    },
+    {
+      "stage": 5,
+      "name": "Hollow Depth Knight",
+      "feat": "Pressure of Nothing",
+      "text": "When you hit a creature, you can pull it into a pocket of void. It makes a Constitution save or takes an extra 4d8 force damage and is restrained until the end of its next turn. Twice per short rest."
+    },
+    {
+      "stage": 6,
+      "name": "Coreless Knight",
+      "feat": "Empty Heart",
+      "text": "Damage of any type that would reduce you to 0 hit points is reduced by 4d10 first. Your weapon attacks ignore damage immunities, treating them as resistance instead."
+    },
+    {
+      "stage": 7,
+      "name": "Starfold Knight",
+      "feat": "Fold the Horizon",
+      "text": "As an action, you fold space to bring up to four creatures you can see within 1 mile into unoccupied spaces within 10 feet of you. Unwilling creatures make a Charisma save. Twice per long rest."
+    },
+    {
+      "stage": 8,
+      "name": "Absolute Void Knight",
+      "feat": "True Null Strike",
+      "text": "Once per turn, your hit can erase a creature's protections. It loses temporary hit points, AC bonuses from spells and all resistances until the end of your next turn."
+    },
+    {
+      "stage": 9,
+      "name": "Inward Fold Knight",
+      "feat": "Collapse Point",
+      "text": "Once per long rest, you collapse space around a point within 60 feet. Each creature within 20 feet of it makes a Strength save, taking 8d10 force damage and being pulled to the center on a failure, or half on a success."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Void Knight",
+      "feat": "Unmade Edge",
+      "text": "Once per long rest, you strike with the edge of what came before creation. The target makes a Constitution save, taking 12d10 force damage on a failure or half on a success, and it cannot teleport or be teleported for 1 minute."
+    }
+  ],
+  "Elemental Fist": [
+    {
+      "stage": 2,
+      "name": "Mistfist Adept",
+      "feat": "Fog-Laden Blows",
+      "text": "When you hit with an unarmed strike, you can spend 1 ki point to wrap the target in elemental mist. It makes a Constitution save or is blinded until the end of its next turn and takes an extra 2d8 cold damage."
+    },
+    {
+      "stage": 3,
+      "name": "Brimstone Fist",
+      "feat": "Fire and Light Fist",
+      "text": "Your unarmed strikes can deal fire or radiant damage. Once per turn, when you hit, you can spend 2 ki points to deal an extra 3d8 damage of that type to the target and each creature within 5 feet of it."
+    },
+    {
+      "stage": 4,
+      "name": "Storm-Shift Fist",
+      "feat": "Turning Elements",
+      "text": "At the start of each of your turns, roll a d4 to set your element: fire, cold, lightning or thunder. Your unarmed strikes deal that type, and you gain resistance to it until your next turn."
+    },
+    {
+      "stage": 5,
+      "name": "Deepcurrent Fist",
+      "feat": "Crushing Tide",
+      "text": "As an action, you spend 3 ki points to strike the ground, sending a 30-foot wave around you. Each creature there makes a Strength save, taking 4d8 bludgeoning damage and falling prone on a failure, half on a success."
+    },
+    {
+      "stage": 6,
+      "name": "Living Element Fist",
+      "feat": "Elemental Core",
+      "text": "You gain resistance to fire, cold, lightning and thunder damage. When you take damage of one of those types, you regain 1 ki point, once per turn."
+    },
+    {
+      "stage": 7,
+      "name": "Skystorm Fist",
+      "feat": "Horizon Storm",
+      "text": "Once per long rest, for 1 minute, you become a storm of every element. Your speed doubles, you can fly, and each creature you pass within 5 feet takes 4d10 damage of your chosen element."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Element Fist",
+      "feat": "Element of Absence",
+      "text": "Your unarmed strikes ignore resistance to their element. When you hit, you can spend 2 ki points to make the target vulnerable to that element until the end of your next turn."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Element Fist",
+      "feat": "Lost Fifth Element",
+      "text": "Once per short rest, your strike carries an element the world forgot. The target makes a Wisdom save, taking 8d10 force damage on a failure or half on a success, and it cannot resist or ignore this damage."
+    },
+    {
+      "stage": 10,
+      "name": "First Element Fist",
+      "feat": "Hand of Creation",
+      "text": "Once per long rest, you strike with all elements at their birth. Every creature of your choice within 60 feet makes a Dexterity save, taking 10d10 damage of each element type you choose on a failure, half on a success."
+    }
+  ],
+  "Iron Fist": [
+    {
+      "stage": 2,
+      "name": "Fogsteel Fist",
+      "feat": "Mistiron Skin",
+      "text": "Your skin hardens like iron in the fog. You gain a +1 bonus to AC, and when you are hit by a ranged attack you cannot see coming, you can use your reaction to reduce its damage by 3d8."
+    },
+    {
+      "stage": 3,
+      "name": "Hellforged Fist",
+      "feat": "Forged in Two Fires",
+      "text": "You are resistant to fire and radiant damage. Once per turn, your unarmed strike deals an extra 3d8 fire damage, and a creature that hits you with a melee attack takes 2d8 fire damage."
+    },
+    {
+      "stage": 4,
+      "name": "Shatterbone Fist",
+      "feat": "Unpredictable Iron",
+      "text": "When you hit with Flurry of Blows, roll a d6 for each hit. On a 5 or 6, the hit is a critical hit. Your unarmed strike damage die increases by one size."
+    },
+    {
+      "stage": 5,
+      "name": "Deepiron Fist",
+      "feat": "Weight of the Deep",
+      "text": "Your unarmed strikes count as adamantine and deal double damage to objects and structures. Once per turn, a hit forces a Strength save or the target is knocked prone and pushed 15 feet."
+    },
+    {
+      "stage": 6,
+      "name": "Heartiron Fist",
+      "feat": "Ageless Iron Body",
+      "text": "You no longer need food, water or air, and you regain 2d10 hit points at the start of each of your turns while below half your hit point maximum. You are immune to poison and disease."
+    },
+    {
+      "stage": 7,
+      "name": "Starsteel Fist",
+      "feat": "Meteor Fist",
+      "text": "Once per long rest, you leap up to 300 feet and land in a crushing blow. Each creature within 20 feet of where you land makes a Dexterity save, taking 6d10 bludgeoning damage on a failure, or half."
+    },
+    {
+      "stage": 8,
+      "name": "Hollowsteel Fist",
+      "feat": "Body of Nothing Bent",
+      "text": "You have resistance to bludgeoning, piercing and slashing damage from any source. When a creature misses you with a melee attack, you can make one unarmed strike against it as a reaction."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Iron Fist",
+      "feat": "Unbreakable Memory",
+      "text": "Once per long rest, when you would be reduced to 0 hit points, you instead drop to 1 hit point, regain 6d10 hit points, and your next unarmed strike deals an extra 6d10 damage."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Iron Fist",
+      "feat": "Body of First Metal",
+      "text": "Once per long rest, for 1 minute, your body becomes the first metal. You are immune to bludgeoning, piercing and slashing damage, and each unarmed strike deals an extra 4d10 force damage."
+    }
+  ],
+  "Sand Dancer": [
+    {
+      "stage": 2,
+      "name": "Mistsand Dancer",
+      "feat": "Dust and Fog",
+      "text": "As a bonus action, you spend 1 ki point to raise a 15-foot-radius cloud of sand and fog around you until the start of your next turn. Creatures inside other than you are blinded."
+    },
+    {
+      "stage": 3,
+      "name": "Ashsand Dancer",
+      "feat": "Scouring Wind",
+      "text": "When you use Flurry of Blows, each hit can blast burning sand into the target, dealing an extra 2d8 fire damage. A creature hit twice in one turn makes a Constitution save or is blinded until the end of its next turn."
+    },
+    {
+      "stage": 4,
+      "name": "Sandstorm Dancer",
+      "feat": "Shifting Dunes",
+      "text": "Difficult terrain does not slow you, and you can make the ground within 20 feet of you difficult terrain for others as a bonus action for 1 minute. Creatures that fall prone there sink and are restrained."
+    },
+    {
+      "stage": 5,
+      "name": "Quicksand Dancer",
+      "feat": "Drowning Sands",
+      "text": "As an action, you spend 3 ki points to turn the ground in a 20-foot radius within 60 feet to quicksand. Each creature there makes a Strength save or is restrained and takes 4d8 bludgeoning damage each turn."
+    },
+    {
+      "stage": 6,
+      "name": "Heartwind Dancer",
+      "feat": "Breath of the Desert",
+      "text": "You cannot be blinded, deafened or slowed. When you take the Dodge action, you also regain 3d10 hit points and 1 ki point. Twice per short rest."
+    },
+    {
+      "stage": 7,
+      "name": "Horizon Dune Dancer",
+      "feat": "Endless Desert",
+      "text": "Once per long rest, you call a sandstorm 1 mile wide for 1 hour. You choose who is blinded inside it, and you and your allies move at double speed through it."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Sand Dancer",
+      "feat": "Soundless Drift",
+      "text": "You become dust while you move. When you move at least 20 feet on your turn, attacks against you have disadvantage and you can pass through creatures' spaces until the start of your next turn."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Sands Dancer",
+      "feat": "Buried Memory",
+      "text": "Once per short rest, a creature you hit makes a Wisdom save or is buried in sand and memory, stunned until the end of your next turn and forgetting where you are."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Sand Dancer",
+      "feat": "First Desert",
+      "text": "Once per long rest, you unleash the first wind of creation. Every creature of your choice within 120 feet makes a Constitution save, taking 10d10 slashing damage and being blinded for 1 minute on a failure, or half on a success."
+    }
+  ],
+  "Way of Echoes": [
+    {
+      "stage": 2,
+      "name": "Fog Echo Adept",
+      "feat": "Mist Afterimage",
+      "text": "Your afterimage lingers in fog. When an attack misses you, your afterimage strikes the attacker as a reaction, dealing your martial arts die plus 2d8 force damage."
+    },
+    {
+      "stage": 3,
+      "name": "Twin-Court Echo Adept",
+      "feat": "Echo of Two Judgements",
+      "text": "When you use Flurry of Blows, your echo makes one additional unarmed strike. If both you and your echo hit the same target, it takes an extra 3d8 radiant damage."
+    },
+    {
+      "stage": 4,
+      "name": "Scattered Echo Adept",
+      "feat": "Shuffled Afterimages",
+      "text": "You can create up to three afterimages. Attacks against you roll a d4: on a 1-3 the attack hits an afterimage instead, destroying it. Afterimages return when you finish a short rest."
+    },
+    {
+      "stage": 5,
+      "name": "Deep Echo Adept",
+      "feat": "Echo of the Deep",
+      "text": "Your echo can grapple. When your echo grapples a creature, it is pulled into the echo's motion and takes 4d8 bludgeoning damage at the start of its turn while grappled."
+    },
+    {
+      "stage": 6,
+      "name": "Heart Echo Adept",
+      "feat": "Echo of the Heart",
+      "text": "Your echo shares your vitality. When you would take damage, you can spend 2 ki points to have your echo take half of it instead. Your echo has hit points equal to your level."
+    },
+    {
+      "stage": 7,
+      "name": "Far Echo Adept",
+      "feat": "Echo Across the Horizon",
+      "text": "Your echo can appear anywhere within 1 mile that you can see. As a bonus action, you can swap places with it, and when you do, it makes one unarmed strike."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Echo Adept",
+      "feat": "Echo Without Sound",
+      "text": "Your echo is invisible and inaudible to creatures other than you. Once per turn, a creature hit by your echo cannot take reactions until the start of your next turn."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Echo Adept",
+      "feat": "Echoes of Lost Moments",
+      "text": "Once per long rest, for 1 minute, you have three echoes, each acting on your turn with its own Flurry of Blows that costs no ki. Creatures hit forget which of you is real."
+    },
+    {
+      "stage": 10,
+      "name": "First Echo Adept",
+      "feat": "Echo of First Motion",
+      "text": "Once per long rest, every motion you make for 1 minute is repeated by an echo. Each of your hits is dealt twice, and the second hit deals an extra 4d10 force damage."
+    }
+  ],
+  "Way of Mercy": [
+    {
+      "stage": 2,
+      "name": "Fogmask Healer",
+      "feat": "Masked Mercy",
+      "text": "When you use Hand of Healing, the target also becomes invisible until the end of its next turn. When you use Hand of Harm, the target makes a Wisdom save or is blinded by mist until the end of its next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Judgement Mercy Adept",
+      "feat": "Mercy and Sentence",
+      "text": "Your Hand of Harm deals an extra 3d8 necrotic or radiant damage. Your Hand of Healing restores an extra 3d8 hit points and ends one disease or curse of 5th level or lower."
+    },
+    {
+      "stage": 4,
+      "name": "Chaos Mercy Adept",
+      "feat": "Random Remedy",
+      "text": "When you use Hand of Healing, roll a d6. On a 4-6 you also grant the target 2d10 temporary hit points and advantage on its next saving throw. Hand of Harm uses no ki once per turn."
+    },
+    {
+      "stage": 5,
+      "name": "Deep Mercy Adept",
+      "feat": "Pressure Release",
+      "text": "As an action, you touch a creature and release the pressure of the deep from it, ending all conditions affecting it and restoring 6d8 hit points. Twice per long rest."
+    },
+    {
+      "stage": 6,
+      "name": "Heart Mercy Adept",
+      "feat": "Hand of Life",
+      "text": "Once per long rest, you touch a creature that died within the last minute. It returns to life with hit points equal to 6d10 plus your Wisdom modifier, as long as its body is intact."
+    },
+    {
+      "stage": 7,
+      "name": "Far Mercy Adept",
+      "feat": "Mercy at a Distance",
+      "text": "Your Hand of Healing and Hand of Harm can target creatures within 120 feet that you can see. Once per turn, Hand of Healing also heals one other creature within 30 feet of the target."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Mercy Adept",
+      "feat": "Painless End",
+      "text": "When you reduce a creature to 0 hit points with Hand of Harm, you can choose to make it die silently and painlessly, and you regain 4 ki points. Hand of Harm ignores resistance."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Mercy Adept",
+      "feat": "Forgotten Wounds",
+      "text": "Once per long rest, as an action, you erase the memory of pain from up to six creatures within 60 feet. Each regains all hit points and the effects of exhaustion end."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Mercy Adept",
+      "feat": "First Mercy and Ending",
+      "text": "Once per long rest, choose a creature within 120 feet. If an ally, it regains all hit points and every condition ends; if an enemy, it makes a Constitution save or takes 12d10 necrotic damage, half on a success."
+    }
+  ],
+  "Way of Ruin": [
+    {
+      "stage": 2,
+      "name": "Fogbreaker Adept",
+      "feat": "Hidden Fracture",
+      "text": "When you hit a creature, you can spend 1 ki point to plant a hidden fracture. The next time it takes damage before the end of your next turn, it takes an extra 3d8 bludgeoning damage."
+    },
+    {
+      "stage": 3,
+      "name": "Hellbreaker Adept",
+      "feat": "Shattering Judgement",
+      "text": "Once per turn, when you hit a creature below half its hit points, it takes an extra 3d8 force damage and makes a Constitution save or is stunned until the end of its next turn."
+    },
+    {
+      "stage": 4,
+      "name": "Chaosbreaker Adept",
+      "feat": "Random Shatter",
+      "text": "When you hit, roll a d6. On a 6, the target's AC is reduced by 2 until the end of its next turn and it drops one held object. Nonmagical armor you hit twice in one turn cracks, giving -1 AC until repaired."
+    },
+    {
+      "stage": 5,
+      "name": "Deepbreaker Adept",
+      "feat": "Crushing Collapse",
+      "text": "Your unarmed strikes deal double damage to objects and structures. Once per turn, if you hit a creature that is prone, restrained or grappled, it takes an extra 4d8 bludgeoning damage."
+    },
+    {
+      "stage": 6,
+      "name": "Heartbreaker Adept",
+      "feat": "Break the Core",
+      "text": "Once per short rest, you strike at a creature's core. It makes a Constitution save or its hit point maximum is reduced by 6d10 until it finishes a long rest, and it takes that much damage."
+    },
+    {
+      "stage": 7,
+      "name": "Skybreaker Adept",
+      "feat": "Shatter the Horizon",
+      "text": "As an action, you spend 4 ki points to strike the ground. A 120-foot line splits open: creatures in it make a Dexterity save, taking 6d10 bludgeoning damage and falling prone on a failure, or half on a success."
+    },
+    {
+      "stage": 8,
+      "name": "Hollowbreaker Adept",
+      "feat": "Break Nothing",
+      "text": "Your strikes can break magical effects. When you hit a creature, you can end one spell of 6th level or lower affecting it, or destroy one magical barrier you touch, once per turn."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Ruin Adept",
+      "feat": "Ruin Unremembered",
+      "text": "Once per long rest, when you hit a creature below half its hit points, it makes a Constitution save. On a failure it drops to 0 hit points if it has 200 or fewer; otherwise it takes 10d10 force damage."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Ruin Adept",
+      "feat": "Primordial Breaking",
+      "text": "Once per long rest, for 1 minute, your strikes ignore resistance and immunity, and every creature you hit has its AC reduced by 2 until the end of your next turn and takes an extra 4d10 force damage."
+    }
+  ],
+  "Way of Shadow": [
+    {
+      "stage": 2,
+      "name": "Fogshade Adept",
+      "feat": "Shadows in the Mist",
+      "text": "You can use Shadow Step to move into or out of lightly obscured areas such as mist, not only dim light or darkness, and your range increases to 120 feet."
+    },
+    {
+      "stage": 3,
+      "name": "Twin-Shadow Adept",
+      "feat": "Shadow of Two Courts",
+      "text": "When you Shadow Step, you can leave a shade behind. It explodes in hellfire or holy light at the start of your next turn, dealing 3d8 fire or radiant damage to creatures within 10 feet that fail a Dexterity save."
+    },
+    {
+      "stage": 4,
+      "name": "Chaos Shadow Adept",
+      "feat": "Shifting Darkness",
+      "text": "While in dim light or darkness, attacks against you have disadvantage, and when a creature misses you, you can use your reaction to teleport 30 feet to another shadow."
+    },
+    {
+      "stage": 5,
+      "name": "Deep Shadow Adept",
+      "feat": "Drowned Darkness",
+      "text": "As an action, you spend 3 ki points to flood a 30-foot-radius sphere with crushing darkness for 1 minute. Creatures you choose inside are blinded and take 4d8 necrotic damage at the start of their turns."
+    },
+    {
+      "stage": 6,
+      "name": "Heartshade Adept",
+      "feat": "Living Shadow",
+      "text": "Your shadow gains a will of its own. As a bonus action, it can make an unarmed strike against a creature within 30 feet. It shares your attack bonus and deals your martial arts damage plus 2d8 necrotic."
+    },
+    {
+      "stage": 7,
+      "name": "Starshade Adept",
+      "feat": "Shadow Between Stars",
+      "text": "You can Shadow Step to any dim light or darkness you have seen within 10 miles on the same plane. Once per long rest, you can take up to six willing creatures with you."
+    },
+    {
+      "stage": 8,
+      "name": "Void Shade Adept",
+      "feat": "Nothing Seen",
+      "text": "You are invisible while in dim light or darkness and leave no tracks, scent or sound. Divination magic cannot locate you unless you allow it."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Shade Adept",
+      "feat": "Shadow of Forgetting",
+      "text": "When you hit a creature from hiding, it makes a Wisdom save or forgets you entirely, and you remain hidden from it. On a failure it also takes an extra 6d10 necrotic damage."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Shade Adept",
+      "feat": "Darkness Before Light",
+      "text": "Once per long rest, for 1 minute, you call the darkness before creation within 120 feet. Only you and allies you choose can see. Enemies inside take 6d10 necrotic damage each turn, Constitution save for half."
+    }
+  ],
+  "Way of the Ascendant Dragon": [
+    {
+      "stage": 2,
+      "name": "Mistscale Adept",
+      "feat": "Fog Breath",
+      "text": "When you use your draconic breath, you can make it a mist breath. The area becomes heavily obscured until the start of your next turn and creatures in it take an extra 2d8 cold damage."
+    },
+    {
+      "stage": 3,
+      "name": "Twin-Flame Drake Adept",
+      "feat": "Breath of Hell and Heaven",
+      "text": "Your draconic breath can deal fire or radiant damage, adding an extra 3d8 damage. Creatures that fail their save against it are frightened of you until the end of their next turn."
+    },
+    {
+      "stage": 4,
+      "name": "Chaos Drake Adept",
+      "feat": "Wild Breath",
+      "text": "When you use your draconic breath, roll a d6 to add a second damage type from acid, cold, fire, lightning, poison or thunder. The breath deals both types and ignores resistance to one."
+    },
+    {
+      "stage": 5,
+      "name": "Deep Drake Adept",
+      "feat": "Abyssal Wings",
+      "text": "You gain a flying and swimming speed equal to your walking speed. Your draconic breath can be a crushing wave that also pushes creatures 20 feet and knocks them prone on a failed save."
+    },
+    {
+      "stage": 6,
+      "name": "Heartwyrm Adept",
+      "feat": "Draconic Heart",
+      "text": "Your Strength or Dexterity, and your Wisdom, each increase by 2. Once per long rest, when you fall below half your hit points, you regain 6d10 hit points and use your breath as a reaction."
+    },
+    {
+      "stage": 7,
+      "name": "Skywyrm Adept",
+      "feat": "Wings Across the Horizon",
+      "text": "Your flying speed doubles. Once per long rest, your draconic breath can be a 300-foot line, 10 feet wide, dealing 8d10 damage of your chosen type, Dexterity save for half."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Wyrm Adept",
+      "feat": "Breath of Nothing",
+      "text": "Your draconic breath can deal force damage. Creatures that fail their save against it cannot speak or cast spells with verbal components until the end of their next turn."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Wyrm Adept",
+      "feat": "Ancestral Forgetting",
+      "text": "Once per long rest, you roar with the voice of a dragon the world forgot. Each enemy within 120 feet makes a Wisdom save or is stunned until the end of your next turn and frightened for 1 minute."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Wyrm Adept",
+      "feat": "First Dragon's Form",
+      "text": "Once per long rest, you take the form of the first dragon for 1 minute. You become Huge, gain +2 AC, and can use your breath each turn as a bonus action for 8d10 damage."
+    }
+  ],
+  "Way of the Astral Self": [
+    {
+      "stage": 2,
+      "name": "Mistform Astral Adept",
+      "feat": "Veiled Astral Arms",
+      "text": "Your astral arms can be invisible. When you hit with them while they are invisible, the target cannot see where the blow came from and has disadvantage on its next attack against you."
+    },
+    {
+      "stage": 3,
+      "name": "Choir-Form Astral Adept",
+      "feat": "Haloed Self",
+      "text": "While your astral self is summoned, you shed bright light in a 20-foot radius. Enemies in it have disadvantage on saves against your features, and your astral arms deal an extra 3d8 radiant damage once per turn."
+    },
+    {
+      "stage": 4,
+      "name": "Shifting Astral Adept",
+      "feat": "Many-Armed Self",
+      "text": "When you summon your astral arms, roll a d4 to add that many additional arms. Each extra arm can make one unarmed strike as part of Flurry of Blows without costing ki."
+    },
+    {
+      "stage": 5,
+      "name": "Deep Astral Adept",
+      "feat": "Astral Pressure",
+      "text": "Your astral arms can grip a creature within 30 feet. It makes a Strength save or is restrained and takes 4d8 force damage at the start of each of its turns, for 1 minute."
+    },
+    {
+      "stage": 6,
+      "name": "Heart Astral Adept",
+      "feat": "Astral Heart",
+      "text": "While your astral self is summoned, you regain 3d10 hit points at the start of each of your turns and are immune to the charmed and frightened conditions."
+    },
+    {
+      "stage": 7,
+      "name": "Starform Astral Adept",
+      "feat": "Astral Giant",
+      "text": "Once per long rest, your astral self grows to Gargantuan size for 1 minute. Your reach increases to 30 feet and each unarmed strike deals an extra 4d10 force damage."
+    },
+    {
+      "stage": 8,
+      "name": "Empty Astral Adept",
+      "feat": "Self Without Body",
+      "text": "As a reaction when you take damage, your body can step into your astral self, taking no damage. You remain incorporeal until the start of your next turn. Twice per long rest."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Astral Adept",
+      "feat": "Lost Self",
+      "text": "Once per long rest, your astral self acts on its own for 1 minute, taking a full turn after yours with your statistics. Creatures hit by it forget which of you is real."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Astral Adept",
+      "feat": "First Self",
+      "text": "Once per long rest, for 1 minute, your astral self becomes your first self. You can take two turns each round, one at your initiative and one at initiative count 0."
+    }
+  ],
+  "Way of the Drunken Master": [
+    {
+      "stage": 2,
+      "name": "Mist-Sway Master",
+      "feat": "Foggy Stagger",
+      "text": "When a creature misses you with a melee attack, you can sway into mist, becoming invisible until the end of your next turn. Your Drunkard's Luck costs 1 ki point less."
+    },
+    {
+      "stage": 3,
+      "name": "Twin-Spirit Master",
+      "feat": "Burning Spirit",
+      "text": "When you use Flurry of Blows, you can spit flaming spirit at a creature within 15 feet. It makes a Dexterity save, taking 3d8 fire damage on a failure or half on a success."
+    },
+    {
+      "stage": 4,
+      "name": "Stumbling-Storm Master",
+      "feat": "Random Sway",
+      "text": "At the start of each of your turns, roll a d4. On 1-2 you gain advantage on your first attack; on 3-4 attacks against you have disadvantage until your next turn."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Drink Master",
+      "feat": "Bottomless Gourd",
+      "text": "You are immune to poison and to being frightened. As a bonus action, you drink deep and regain 4d8 hit points and 2 ki points. Twice per short rest."
+    },
+    {
+      "stage": 6,
+      "name": "Heart-Warm Master",
+      "feat": "Sharing Cup",
+      "text": "As an action, you share a drink with up to six allies within 30 feet. Each regains 4d10 hit points and gains advantage on its next saving throw. Once per long rest."
+    },
+    {
+      "stage": 7,
+      "name": "Far-Wander Master",
+      "feat": "Wandering Stagger",
+      "text": "Your movement cannot be reduced, and you can stagger up to 300 feet as a dash without provoking opportunity attacks, ending each step with advantage on your next attack. Once per short rest."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Drunk Master",
+      "feat": "Unseen Stumble",
+      "text": "Creatures cannot take opportunity attacks against you. When you use Redirect Attack, the redirected attack deals an extra 4d10 damage to its new target, and you regain 1 ki point."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Drunk Master",
+      "feat": "Blackout Fist",
+      "text": "Once per short rest, when you hit, the target makes a Constitution save or is stunned until the end of your next turn and forgets the last minute."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Drunken Master",
+      "feat": "First Revel",
+      "text": "Once per long rest, for 1 minute, every attack against you has disadvantage, and each time a creature misses you, you can make an unarmed strike against it that deals an extra 4d10 damage."
+    }
+  ],
+  "Way of the Empty Palm": [
+    {
+      "stage": 2,
+      "name": "Mistpalm Adept",
+      "feat": "Grasping Fog",
+      "text": "You cannot be grappled, restrained or disarmed. When a creature attempts to grapple you, it makes a Wisdom save or grasps only mist and is blinded until the end of its next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Twin-Gate Palm Adept",
+      "feat": "Empty Hand Judgement",
+      "text": "When you hit a creature with no weapon in your hands, you can spend 2 ki points to deal an extra 3d8 radiant damage and push it 15 feet."
+    },
+    {
+      "stage": 4,
+      "name": "Shifting Palm Adept",
+      "feat": "Slip Free",
+      "text": "When you are targeted by a spell or effect that would paralyze, petrify or stun you, you can spend 2 ki points to make it fail against you. You can stand from prone for no movement."
+    },
+    {
+      "stage": 5,
+      "name": "Deep Palm Adept",
+      "feat": "Unbound Pressure",
+      "text": "You are immune to being moved against your will. When a creature tries to grapple or shove you, it takes 4d8 force damage as its grip slips through nothing."
+    },
+    {
+      "stage": 6,
+      "name": "Heartpalm Adept",
+      "feat": "Open Heart",
+      "text": "You have advantage on all saving throws against being charmed or frightened. As a bonus action, you can end any one condition affecting you, regaining 3d10 hit points."
+    },
+    {
+      "stage": 7,
+      "name": "Far Palm Adept",
+      "feat": "Empty Distance",
+      "text": "You cannot be held by any barrier you can see past. Once per long rest, you can walk through a wall of force or similar barrier as if it were not there."
+    },
+    {
+      "stage": 8,
+      "name": "True Empty Palm",
+      "feat": "Nothing to Hold",
+      "text": "You are immune to the grappled, restrained, paralyzed and petrified conditions, and you cannot be banished or imprisoned by magic of 7th level or lower."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Palm Adept",
+      "feat": "Hold Nothing, Forget All",
+      "text": "Once per long rest, when you hit, the target makes an Intelligence save. On a failure it drops everything it holds, loses concentration, and forgets all its prepared spells for 1 minute."
+    },
+    {
+      "stage": 10,
+      "name": "First Empty Palm",
+      "feat": "Hand Before Holding",
+      "text": "Once per long rest, for 1 minute, no effect can hold, move or bind you, and each unarmed strike you make deals an extra 6d10 force damage and ends one spell on the target."
+    }
+  ],
+  "Way of the Four Elements": [
+    {
+      "stage": 2,
+      "name": "Mist-Bender Adept",
+      "feat": "Fog Discipline",
+      "text": "You learn a discipline that conjures a 20-foot-radius sphere of mist within 120 feet for 1 minute. Enemies in it are blinded, and allies in it gain half cover. Costs 2 ki points."
+    },
+    {
+      "stage": 3,
+      "name": "Twin-Element Adept",
+      "feat": "Hellfire and Holy Wind",
+      "text": "Your elemental disciplines that deal damage add an extra 3d8 fire or radiant damage. You can spend 1 extra ki point on a discipline to cast it at its next higher level."
+    },
+    {
+      "stage": 4,
+      "name": "Wild Element Adept",
+      "feat": "Chaotic Discipline",
+      "text": "When you use an elemental discipline, roll a d6. On a 5 or 6 the discipline costs no ki. Your discipline save DC increases by 1."
+    },
+    {
+      "stage": 5,
+      "name": "Deeptide Element Adept",
+      "feat": "Discipline of the Deep",
+      "text": "You learn a discipline that drowns a 30-foot cube within 120 feet in pressing water. Creatures there make a Strength save, taking 6d8 bludgeoning damage and being restrained on a failure. Costs 4 ki points."
+    },
+    {
+      "stage": 6,
+      "name": "Heart of Elements Adept",
+      "feat": "Living Elements",
+      "text": "You gain resistance to acid, cold, fire, lightning and thunder damage. When you use an elemental discipline, you regain 2d10 hit points and can move 10 feet without provoking opportunity attacks."
+    },
+    {
+      "stage": 7,
+      "name": "Skybender Adept",
+      "feat": "Horizon Discipline",
+      "text": "Your elemental disciplines can target points up to 1 mile away that you can see. Once per long rest, you can call a storm of all four elements in a 60-foot radius for 8d10 damage, Dexterity save for half."
+    },
+    {
+      "stage": 8,
+      "name": "Null Element Adept",
+      "feat": "Silent Elements",
+      "text": "Your elemental disciplines ignore resistance and cannot be countered or dispelled by magic of 7th level or lower. Creatures that fail a save against one cannot take reactions until the start of your next turn."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Element Adept",
+      "feat": "Fifth Discipline",
+      "text": "Once per long rest, you use a discipline of an element the world forgot. Every creature in a 60-foot cone makes a Wisdom save, taking 10d10 force damage on a failure, or half."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Element Adept",
+      "feat": "First Bending",
+      "text": "Once per long rest, for 1 minute, your elemental disciplines cost no ki and you can use one as a bonus action each turn in addition to your action."
+    }
+  ],
+  "Way of the Kensei": [
+    {
+      "stage": 2,
+      "name": "Mistblade Kensei",
+      "feat": "Fog-Edge Stroke",
+      "text": "When you hit with a kensei weapon, you can spend 1 ki point to vanish into mist, becoming invisible until the start of your next turn or until you attack."
+    },
+    {
+      "stage": 3,
+      "name": "Oathblade Kensei",
+      "feat": "Consecrated Weapon",
+      "text": "Your kensei weapons deal an extra 3d8 fire or radiant damage once per turn. You can choose one additional kensei weapon, including any martial weapon."
+    },
+    {
+      "stage": 4,
+      "name": "Wildblade Kensei",
+      "feat": "Shifting Stance",
+      "text": "At the start of each of your turns, choose a stance: +1 AC, +2d6 weapon damage, or +20 feet speed. If you roll a natural 20, you may switch stances immediately."
+    },
+    {
+      "stage": 5,
+      "name": "Deepblade Kensei",
+      "feat": "Weighted Stroke",
+      "text": "Once per turn, when you hit with a kensei weapon, you can spend 2 ki points to make the target make a Strength save. On a failure it takes an extra 4d8 damage and is knocked prone."
+    },
+    {
+      "stage": 6,
+      "name": "Heartblade Kensei",
+      "feat": "Weapon and Self as One",
+      "text": "Your kensei weapons cannot be taken from you against your will. You add your Wisdom modifier to their damage rolls, and your critical hits with them occur on 19-20."
+    },
+    {
+      "stage": 7,
+      "name": "Horizon Kensei",
+      "feat": "Distance Cut",
+      "text": "As an action, you cut a 120-foot line. Each creature in it makes a Dexterity save, taking your weapon's damage plus 6d10 slashing on a failure or half on a success. Recharge 5-6."
+    },
+    {
+      "stage": 8,
+      "name": "Empty Blade Kensei",
+      "feat": "Blade of No-Mind",
+      "text": "When you miss with a kensei weapon, you can spend 1 ki point to reroll the attack. Attacks you make with kensei weapons ignore resistance."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Kensei",
+      "feat": "Unremembered Edge",
+      "text": "Once per long rest, you make a strike with a kensei weapon that cannot miss. The target takes the weapon's maximum damage plus 8d10 slashing damage and forgets the blow happened."
+    },
+    {
+      "stage": 10,
+      "name": "First Blade Kensei",
+      "feat": "Sword of First Law",
+      "text": "Once per long rest, for 1 minute, you can make one additional attack with each Attack action, each hit with a kensei weapon deals an extra 4d10 force damage, and you have +2 AC."
+    }
+  ],
+  "Way of the Long Death": [
+    {
+      "stage": 2,
+      "name": "Mist-Death Adept",
+      "feat": "Fog of Dying",
+      "text": "When you reduce a creature to 0 hit points, a fog of death spreads 20 feet from it. Enemies inside make a Wisdom save or are frightened of you until the end of their next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Judgement Death Adept",
+      "feat": "Sentence of the Grave",
+      "text": "You can spend 2 ki points to mark a creature within 60 feet. Its next failed death save or saving throw against your features deals an extra 3d8 necrotic damage to it."
+    },
+    {
+      "stage": 4,
+      "name": "Chaos Death Adept",
+      "feat": "Unpredictable End",
+      "text": "When you would be reduced to 0 hit points, roll a d6. On a 4-6 you drop to 1 hit point instead. Your Hour of Reaping range increases to 60 feet."
+    },
+    {
+      "stage": 5,
+      "name": "Deep Death Adept",
+      "feat": "Crushing Mortality",
+      "text": "As an action, you spend 3 ki points to press the weight of mortality on creatures within 30 feet. Each makes a Constitution save, taking 4d8 necrotic damage and being unable to regain hit points until your next turn on a failure."
+    },
+    {
+      "stage": 6,
+      "name": "Heart-Death Adept",
+      "feat": "Stilled Heart",
+      "text": "You no longer need to breathe, eat or sleep, and you have advantage on death saving throws. When you reduce a creature to 0 hit points, you regain 3d10 hit points."
+    },
+    {
+      "stage": 7,
+      "name": "Far Death Adept",
+      "feat": "Death Across Worlds",
+      "text": "You can sense any creature within 1 mile that is below half its hit points. Once per long rest, you step to the side of one such creature, teleporting into a space within 5 feet of it."
+    },
+    {
+      "stage": 8,
+      "name": "Silent Death Adept",
+      "feat": "Hush of the End",
+      "text": "Creatures within 30 feet of you cannot regain hit points from magic of 7th level or lower. Creatures you kill cannot be raised for 1 day."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Death Adept",
+      "feat": "Unremembered Grave",
+      "text": "Once per long rest, when you hit, the target makes a Constitution save. On a failure it drops to 0 hit points if it has 150 or fewer; otherwise it takes 10d10 necrotic damage."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Death Adept",
+      "feat": "First Death",
+      "text": "Once per long rest, for 1 minute, you cannot die, enemies within 60 feet cannot regain hit points, and each of your hits deals an extra 6d10 necrotic damage."
+    }
+  ],
+  "Way of the Open Hand": [
+    {
+      "stage": 2,
+      "name": "Mist-Palm Master",
+      "feat": "Fog Technique",
+      "text": "Your Open Hand Technique gains a new option: the target makes a Wisdom save or is blinded until the end of its next turn as mist fills its eyes."
+    },
+    {
+      "stage": 3,
+      "name": "Twin-Gate Open Hand",
+      "feat": "Palm of Two Courts",
+      "text": "When you use Open Hand Technique, the target also takes an extra 3d8 radiant or fire damage, and you can apply two different options to it if it fails its save."
+    },
+    {
+      "stage": 4,
+      "name": "Storm-Palm Master",
+      "feat": "Open Chaos",
+      "text": "When you knock a creature prone with Open Hand Technique, it makes a Strength save or is pushed 15 feet in a direction you choose and stunned until the start of your next turn."
+    },
+    {
+      "stage": 5,
+      "name": "Deep-Palm Master",
+      "feat": "Quivering Depths",
+      "text": "Your Quivering Palm can be used twice per long rest, and on a successful save the target still takes 6d10 necrotic damage rather than 10d10."
+    },
+    {
+      "stage": 6,
+      "name": "Heart-Palm Master",
+      "feat": "Wholeness of the Heart",
+      "text": "You can use Wholeness of Body twice per long rest. Each use also ends one condition affecting you and grants 3d10 temporary hit points, and your next unarmed strike that turn has advantage."
+    },
+    {
+      "stage": 7,
+      "name": "Horizon-Palm Master",
+      "feat": "Palm Across the Plain",
+      "text": "Your Open Hand Technique can push a creature up to 120 feet. A creature that hits a solid surface takes 1d10 bludgeoning damage for every 10 feet it was pushed."
+    },
+    {
+      "stage": 8,
+      "name": "Empty-Palm Master",
+      "feat": "Hand Without Intent",
+      "text": "Creatures cannot take reactions against you, and your Flurry of Blows hits ignore resistance. Once per turn, you can apply Open Hand Technique without the target being allowed a save."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Palm Master",
+      "feat": "Palm of Forgetting",
+      "text": "Once per long rest, when a creature fails a save against Open Hand Technique, it forgets how to fight for 1 minute. It cannot attack or cast spells, repeating the save each turn."
+    },
+    {
+      "stage": 10,
+      "name": "Primordial Palm Master",
+      "feat": "Open Hand of Creation",
+      "text": "Once per long rest, you use Quivering Palm on up to five creatures. Each makes a Constitution save, dropping to 0 hit points on a failure or taking 10d10 necrotic damage on a success."
+    }
+  ],
+  "Way of the Sun Soul": [
+    {
+      "stage": 2,
+      "name": "Dawnmist Adept",
+      "feat": "Sun Through Fog",
+      "text": "Your Radiant Sun Bolt ignores obscurement and cover less than total. Creatures it hits make a Constitution save or are blinded until the end of their next turn."
+    },
+    {
+      "stage": 3,
+      "name": "Choir-Sun Adept",
+      "feat": "Choir of Light",
+      "text": "Your Searing Arc Strike deals an extra 3d8 radiant damage. Allies within 10 feet of you when you use it regain hit points equal to your Wisdom modifier plus 2d8."
+    },
+    {
+      "stage": 4,
+      "name": "Flare-Storm Adept",
+      "feat": "Solar Flare",
+      "text": "When you use Radiant Sun Bolt, roll a d6. On a 6 the bolt bursts in a 10-foot radius, dealing its damage to every creature there. Your Searing Sunburst costs 1 less ki."
+    },
+    {
+      "stage": 5,
+      "name": "Deep Sun Adept",
+      "feat": "Sun in the Dark",
+      "text": "You can shed bright light in a 60-foot radius at will. Undead and fiends in it have disadvantage on attack rolls, and you deal an extra 4d8 radiant damage to them once per turn."
+    },
+    {
+      "stage": 6,
+      "name": "Heart-Sun Adept",
+      "feat": "Inner Sun",
+      "text": "You gain resistance to radiant and necrotic damage. Once per long rest, as an action, you blaze, ending all conditions on yourself and regaining 6d10 hit points."
+    },
+    {
+      "stage": 7,
+      "name": "Horizon Sun Adept",
+      "feat": "Rising Sun Beam",
+      "text": "As an action, you fire a beam of sunlight 600 feet long and 10 feet wide. Each creature in it makes a Dexterity save, taking 6d10 radiant damage or half on a success. Recharge 5-6."
+    },
+    {
+      "stage": 8,
+      "name": "Black Sun Adept",
+      "feat": "Eclipse",
+      "text": "Your radiant damage ignores resistance and immunity. When you deal radiant damage to a creature, it cannot become invisible or hidden until the end of your next turn."
+    },
+    {
+      "stage": 9,
+      "name": "Forgotten Sun Adept",
+      "feat": "Sun the World Forgot",
+      "text": "Once per long rest, you call a sun that set before memory. Every creature you choose within 120 feet makes a Constitution save, taking 10d10 radiant damage on a failure or half."
+    },
+    {
+      "stage": 10,
+      "name": "First Sun Adept",
+      "feat": "First Dawn",
+      "text": "Once per long rest, for 1 minute, you become the first light of creation. You fly at 120 feet, your unarmed strikes deal an extra 4d10 radiant damage, and allies within 60 feet regain 2d10 hit points each turn."
+    }
+  ]
+}
