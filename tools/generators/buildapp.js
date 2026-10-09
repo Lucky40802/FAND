@@ -332,6 +332,50 @@ D.GODS.forEach(function (g) {
   }
 });
 
+// ---- More materials for every god (website addition). The vault gives each god three signature materials (Normal, Senior,
+// Apostle). The site adds one for each other rank that names a material (Minor, Major, and a Finger material above the
+// Apostle one, for the Fingers' relics) and a temple stock of six more the god's temples sell. Each is picked from the
+// materials list by theme (the god's Runes, title, wants, and existing materials) and by Material Rank around the rank's step.
+(function () {
+  var STOP = { the: 1, of: 1, and: 1, god: 1, goddess: 1, a: 1, an: 1, to: 1, in: 1, for: 1, with: 1, its: 1, their: 1, from: 1, all: 1, every: 1, be: 1, kept: 1, no: 1, never: 1, who: 1, are: 1, is: 1, on: 1, or: 1, that: 1, those: 1, each: 1, by: 1, at: 1 };
+  var words = function (t) { return String(t || '').toLowerCase().split(/[^a-z]+/).filter(function (w) { return w.length > 2 && !STOP[w]; }); };
+  var pool = D.MATS.filter(function (m) { return !m.gen && m.rank; });
+  var idx = {}; D.MATS.forEach(function (m) { idx[m.n.toLowerCase()] = m; });
+  var used = {}, hay = pool.map(function (m) { return ' ' + words(m.n + ' ' + (m.pn || '') + ' ' + (m.tr ? m.tr.n + ' ' + m.tr.t : '') + ' ' + String(m.ds || '').slice(0, 240)).join(' ') + ' '; });
+  var added = 0;
+  D.GODS.forEach(function (g) {
+    var sig = (g.sig || []).map(function (n) { return idx[n.toLowerCase()]; });
+    if (sig.length < 3 || sig.some(function (x) { return !x; })) return;
+    var title = (g.n.split(' - ')[1] || '');
+    var kw = {}; words((g.runes || []).join(' ') + ' ' + (g.runes || []).join(' ') + ' ' + title + ' ' + title + ' ' + (g.wants || '') + ' ' + sig.map(function (m) { return m.n; }).join(' ')).forEach(function (w) { kw[w] = (kw[w] || 0) + 1; });
+    var kws = Object.keys(kw), mine = {}; sig.forEach(function (m) { mine[m.n] = 1; });
+    var homeTier = (D.MATS.find(function (m) { return m.realm === g.home; }) || {}).tier || 3;
+    var pick = function (lo, hi, want) {
+      var best = null, bs = -1e9;
+      pool.forEach(function (m, i) {
+        if (mine[m.n] || m.rank < lo || m.rank > hi) return;
+        var sc = 0; kws.forEach(function (w) { if (hay[i].indexOf(' ' + w) >= 0) sc += 3 * kw[w]; });
+        if (m.realm === g.home) sc += 2; if (sig.some(function (x) { return x.realm === m.realm; })) sc += 1;
+        sc -= Math.abs(m.rank - want) / 4 + (used[m.n] || 0) * 2 + (m.org === 'Creature' ? 3 : 0);
+        if (sc > bs) { bs = sc; best = m; }
+      });
+      if (best) { mine[best.n] = 1; used[best.n] = (used[best.n] || 0) + 1; }
+      return best;
+    };
+    var r0 = sig[0].rank, r1 = sig[1].rank, r2 = sig[2].rank;
+    var minor = pick(1, Math.max(3, r0), Math.max(1, Math.min(r0 - 3, 8)));
+    var major = pick(Math.min(r0, r1), Math.max(r0, r1), Math.round((r0 + r1) / 2));
+    var finger = pick(Math.min(100, Math.max(r2 + 1, 20)), 100, Math.min(100, Math.max(r2 + 8, homeTier * 10)));
+    g.rk = {};
+    if (minor) g.rk.Minor = minor.n; g.rk.Normal = sig[0].n; if (major) g.rk.Major = major.n; g.rk.Senior = sig[1].n; g.rk.Apostle = sig[2].n; if (finger) g.rk.Finger = finger.n;
+    var lo = Math.max(1, Math.min(r0, r1) - 10), hi = Math.max(r1, Math.min(100, homeTier * 10));
+    g.stock = [];
+    for (var k = 0; k < 6; k++) { var m = pick(lo, hi, lo + Math.round((hi - lo) * k / 5)); if (m) g.stock.push(m.n); }
+    added += Object.keys(g.rk).length - 3 + g.stock.length;
+  });
+  log.push('god materials: +' + added + ' (rank materials for Minor, Major, and Finger, and a six-material temple stock per god)');
+})();
+
 // ---- write
 // Two outputs from one template:
 //   app/FAND.html  one self-contained file with every data array inline (works offline, and the other scripts patch it)
