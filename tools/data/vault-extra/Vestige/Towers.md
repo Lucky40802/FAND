@@ -3,7 +3,7 @@ tags: [rules]
 ---
 # Towers
 
-A **Tower** stands in every realm. No one built them: they grew out of the **excess energy of unclaimed Runes**, Laws no god holds, whose power has nowhere else to go.
+**Up to five Towers** stand in every realm, each fed by a group of related unclaimed Runes (about six Runes per Tower). No one built them: they grew out of the **excess energy of unclaimed Runes**, Laws no god holds, whose power has nowhere else to go.
 
 - The deeper the realm, the taller its Tower: Human 10 floors, Mysterious 20, Hell and Heaven 30, Chaos 40, Abyss 50, Inner Realm 60, Outer Realm 70, Void 80, Inner Void 90, Primordial 100.
 - Each floor is guarded by creatures of the Tower's realm, stronger the higher you climb.
