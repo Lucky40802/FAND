@@ -1785,6 +1785,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-09','Floor missions, and DM content behind the lock','Every Tower floor now gives the party a mission when they arrive: kill every enemy, navigate the maze, escort an NPC to a destination, hold ground, retrieve an item, cross unseen, race the collapse, protect a shrine, answer a riddle, or endure the Law (boss floors: defeat the guardian). Secret rooms, Legendary trials and the dice rig now appear only after the DM passphrase is entered.','towers'],
   ['2026-10-09','Legendary secret rooms in every Tower','Any floor of any Tower may hold a secret room with a Legendary class\'s trial (3% a floor, 8% on boss floors). The floor\'s mission is unchanged; the DM gets the room, how to find it, and the unlock condition, and whoever passes it earns the class.','towers'],
   ['2026-10-09','Encounters: deeds instead of XP','The encounter builder no longer suggests XP to award (levels come from accomplishments): a hard, deadly, or named-monster fight suggests the deed it would be, with a button that logs it on every party member\'s sheet.','encounter'],
   ['2026-10-09','Map of the Human Realm','The campaign owner\'s hand-drawn map of the Human Realm is on the Realms page and in the Human Realm\'s window, with its legend, a pin for every named capital, city, and dungeon (click a name to find it on the map), and the places in the site search.','realms'],
@@ -2267,7 +2268,7 @@ function renderTools(){
         <div class="form" style="grid-template-columns:2fr 1fr"><label>Roll<input id="dr-e" value="1d20" placeholder="2d6+3"></label><label style="align-self:end"><button class="btn primary" id="dr-go" type="button" style="width:100%">🎲 Roll</button></label></div>
         <div class="chips" style="margin:8px 0">${['d4','d6','d8','d10','d12','d20','d100','2d6','4d6'].map(d=>`<button class="chip" type="button" onclick="rollShow('${d}')">${d}</button>`).join('')}<button class="chip" type="button" onclick="(()=>{const a=rollExpr('2d20');a.e='d20 advantage / disadvantage';a.t=Math.max(...a.r);store.get('diceanim',true)?diceOverlay(a,20):0;toast('🎲 Advantage: '+Math.max(...a.r)+' · disadvantage: '+Math.min(...a.r)+' ('+a.r.join(', ')+')')})()">d20 adv/dis</button></div>
         <label class="note" style="display:flex;gap:6px;align-items:center;margin:0 0 6px"><input type="checkbox" id="dr-anim" ${store.get('diceanim',true)?'checked':''} onchange="store.set('diceanim',this.checked)"> Show rolling dice</label>
-        <details class="fold" style="margin:0 0 8px"><summary style="font-size:.8rem;color:var(--muted)">DM: rig</summary><div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:6px">
+        <details class="fold" id="dr-rig-box" ${HC?'':'hidden'} style="margin:0 0 8px"><summary style="font-size:.8rem;color:var(--muted)">DM: rig</summary><div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:6px">
           <select class="sel" id="dr-rig" onchange="rigSet()" style="max-width:none;flex:1">${(()=>{const g=store.get('dicerig',null)||{};return RIG_MODES.map(([v,l])=>`<option value="${v}"${(g.mode||'')===v?' selected':''}>${l}</option>`).join('')})()}</select>
           <input class="sel" id="dr-rig-v" type="number" placeholder="Total" value="${(store.get('dicerig',null)||{}).value||''}" onchange="rigSet()" style="width:90px;${(store.get('dicerig',null)||{}).mode==='total'?'':'display:none'}">
           <label class="note" style="margin:0;display:flex;gap:4px;align-items:center"><input type="checkbox" id="dr-rig-once" ${(store.get('dicerig',null)||{once:true}).once!==false?'checked':''} onchange="rigSet()"> next roll only</label></div>
@@ -2291,7 +2292,7 @@ function renderTools(){
   const clampG=g=>Math.min(10,Math.max(1,Math.round(g||1)));
   sbToolBind();
   // dice and spell slots
-  diceLog();rigState();$('dr-go').onclick=()=>rollShow($('dr-e').value);$('dr-e').onkeydown=e=>{if(e.key==='Enter')rollShow($('dr-e').value)};
+  diceLog();rigState();hcAuto().then(()=>{if(HC&&$('dr-rig-box'))$('dr-rig-box').hidden=false});$('dr-go').onclick=()=>rollShow($('dr-e').value);$('dr-e').onkeydown=e=>{if(e.key==='Enter')rollShow($('dr-e').value)};
   const slotsOut=()=>{const r=schoolSlots(slotsFor(v('ss-c'),n('ss-l')),n('ss-s')||1);$('ss-out').innerHTML=!r?'<div class="note">The vault\'s Spell Slots note isn\'t loaded.</div>':r.pact?`<div class="big">${r.n} × ${esc(r.lvl)}-level</div><div class="note">Pact Magic: always cast at this level; all slots return on a short rest.${r.pen?` −${r.pen} for extra schools.`:''}</div>`:r.slots.every(x=>!x)?'<div class="big">No slots yet</div><div class="note">Half casters gain their first slots at level 2.</div>':`<div class="kv">${r.slots.map((k,i)=>k?`<span>${['1st','2nd','3rd','4th','5th','6th','7th','8th','9th'][i]}</span><span><b>${k}</b> ${'●'.repeat(k)}</span>`:'').join('')}</div>${r.pen?`<div class="note">−${r.pen} slot${r.pen>1?'s':''} at each level for holding ${r.pen+1} schools (never below 1).</div>`:''}`};
   on(['ss-c','ss-l','ss-s'],slotsOut);
   // merchant shop
@@ -2975,14 +2976,21 @@ async function renderHidden(){
 // Tower trials (campaign owner's rules): every 10 floors is one level band (floors 1-10 for level 1, 11-20 for
 // level 2, ...), every 10th floor has a boss, a conquered boss floor lets the party teleport to it, and a party above
 // a floor's level gets no loot. Rewards are gold, an item, or a Class Change Book for a hidden class.
+// Floor missions: every floor gives the party one clear mission. Placeholders: {R} the floor's Rune, {L} its Law, {T} a
+// number of rounds, {N} an NPC, {D} a destination, {I} an item, {S} a maze size, {DC} a check DC.
 const TRIAL_KINDS=[
-  ['Combat','The floor\'s guardians attack as soon as the doors seal.'],
-  ['Gauntlet','A corridor of traps and ambushes; the floor ends when everyone reaches the far door.'],
-  ['Riddle of the Law','A voice speaks a riddle about the {R} Law. A wrong answer releases the guardians; a right one halves them.'],
-  ['Endurance','Hold the floor\'s centre for {T} rounds against waves of guardians.'],
-  ['Trial of the Law','The floor bends to the {R} Law: {L}'],
-  ['Escort','A lost climber (an NPC from an earlier party) must be brought alive to the stairs.'],
+  ['Slay','Kill every enemy on the floor.','The doors seal as the party enters and open only when the last guardian falls.'],
+  ['Maze','Navigate the maze to the stairs.','The floor is a {S} by {S} labyrinth whose walls shift each round. Each leg takes a DC {DC} Wisdom (Survival) or Intelligence check; every failure wakes a guardian, and three failures in a row bring them all.'],
+  ['Escort','Escort {N} to {D}.','{N}, a climber left behind by an earlier party, must reach {D} alive. The guardians go for them first, and they cannot fight.'],
+  ['Hold','Hold the centre of the floor for {T} rounds.','Waves of guardians come from every side; the stairs open when the last round ends with someone still standing on the centre stone.'],
+  ['Retrieve','Retrieve {I} and carry it to the stairs.','{I} lies at the far end of the floor. Whoever carries it moves at half speed and is the guardians\' first target.'],
+  ['Stealth','Cross the floor unseen.','Guardians patrol in loops. Each character makes a DC {DC} Dexterity (Stealth) check per stretch; every failure raises the alarm and adds a guardian to the fight at the stairs.'],
+  ['Race','Reach the stairs before the floor falls away ({T} rounds).','The floor crumbles behind the party, one stretch a round. Guardians block the way; anyone left behind falls to the floor below.'],
+  ['Protect','Protect the floor\'s shrine for {T} rounds.','A shrine of the {R} Law stands in the centre (AC 0, 10 hit points per party level). If it breaks, the guardians double; if it stands, the stairs open.'],
+  ['Riddle','Answer the riddle of the {R} Law.','A voice speaks a riddle about the {R} Law. A right answer halves the guardians; a wrong one releases them all at once.'],
+  ['Law','Endure the {R} Law.','The floor bends to the {R} Law: {L} Cross it to the stairs while the Law works on you.'],
 ];
+const TRIAL_PLACES=['the stairs','the far gate of the floor','the shrine at the floor\'s centre','an old campfire by the east wall','a rope bridge over the floor\'s chasm'],TRIAL_ITEMS=['the {R} Rune-shard','a sealed reliquary','the floor guardian\'s key','a progenitor\'s tooth','a cracked Class Change Book'];
 const ORD=n=>n+(['th','st','nd','rd'][(n%100-20)%10]||['th','st','nd','rd'][n%100]||'th');
 // A Tower's first floors match its realm's stage: Human level 1, Mysterious 11, Hell and Heaven 21, ...
 // Towers keep the realms' 10-level difficulty ladder: the Human Towers start at level 1, the Mysterious at 11, Hell's at 21
@@ -3007,8 +3015,9 @@ function makeTrial(o){
   const R=rng32((o.seed||0)+floor*7919+o.tower.length*31+(o.rune||'').length*131);
   const runes=T.runes,rune=RUNE_IDX.get(lc(o.rune||''))||runes[Math.floor(R()*runes.length)]||RUNES[0];
   const law=rune.note?plainMd(rune.note.md).split(/(?<=\.)\s/)[0].slice(0,200):`${rune.n} is in the air of every room.`;
-  const kind=boss?['Boss','The floor guardian waits at the top of the stairs. The {R} Law hums in its weapon; defeat it to conquer the floor.']:TRIAL_KINDS[Math.floor(R()*TRIAL_KINDS.length)];
-  const text=kind[1].replace(/\{R\}/g,rune.n).replace('{T}',3+Math.floor(R()*4)).replace('{L}',law);
+  const kind=boss?['Boss','Defeat the floor guardian.','The floor guardian waits at the top of the stairs. The {R} Law hums in its weapon; defeat it to conquer the floor.']:TRIAL_KINDS[Math.floor(R()*TRIAL_KINDS.length)];
+  const fill=x=>x.replace(/\{R\}/g,rune.n).replace(/\{T\}/g,String(3+Math.floor(R()*4))).replace('{L}',law).replace(/\{DC\}/g,String(10+Math.ceil(L/4))).replace(/\{S\}/g,String(5+Math.floor(L/10)*2)).replace(/\{N\}/g,fill.npc||(fill.npc=NPC_FIRST[Math.floor(R()*NPC_FIRST.length)]+' '+NPC_LAST[Math.floor(R()*NPC_LAST.length)])).replace(/\{D\}/g,fill.dest||(fill.dest=TRIAL_PLACES[Math.floor(R()*TRIAL_PLACES.length)])).replace(/\{I\}/g,fill.item||(fill.item=TRIAL_ITEMS[Math.floor(R()*TRIAL_ITEMS.length)].replace('{R}',rune.n)));
+  const mission=fill(kind[1]),text=fill(kind[2]);
   const mons=trialMonsters(o.realm,L,boss,R),over=(o.level|0)>L;
   const rw=[];
   // over-level parties get no gold, materials, or items; a Class Change Book can still drop, at a reduced chance that
@@ -3038,18 +3047,19 @@ function makeTrial(o){
   const R2=rng32((o.seed||0)*7+floor*31337+o.tower.length*101);let legend=null;
   if(R2()<(boss?LEG_TRIAL[1]:LEG_TRIAL[0])){
     if(HC){const pool=HC.filter(c=>c.tier==='Legendary'&&hcReqLevel(c)<=L);if(pool.length)legend=pool[Math.floor(R2()*pool.length)]}
-    else if((HIDDEN.counts||{}).Legendary)legend='sealed';}
-  return {T,floor,L,boss,rune,kind:kind[0],text,mons,over,rw,bookCh,legend};
+  }
+  return {T,floor,L,boss,rune,kind:kind[0],mission,text,mons,over,rw,bookCh,legend};
 }
 function trialHTML(t,o){
   const prog=store.get('towerprog',{})[t.T.id]||0,ports=[1];for(let f=10;f<=prog;f+=10)ports.push(f);
   return `<div class="panel" style="border-top:3px solid ${(REALM[o.realm]||{}).color||'var(--gold)'}">
     <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><b style="font-family:var(--serif);font-size:1.2rem">${esc(t.T.name)}, ${ORD(t.floor)} floor</b>${t.boss?'<span class="b red">Boss floor</span>':''}<span class="b">Floor level ${t.L}</span><span class="b ghost">${esc(t.kind)}</span><span class="note" style="margin:0">Built on ${refChip(t.rune)}</span></div>
-    <p style="line-height:1.6;margin:8px 0">${esc(t.text)}</p>
+    <div style="margin:10px 0 4px;font-size:1.05rem"><b>Mission:</b> ${esc(t.mission)}</div>
+    <p style="line-height:1.6;margin:4px 0 8px">${esc(t.text)}</p>
     ${t.mons.length?`<div class="blk"><h4>${t.boss?'Floor guardian':'Guardians'}</h4></div><div class="chips">${t.mons.map(m=>refChip(m,esc(m.n),'CR '+(m.sb?m.sb.cr:m.cr))).join('')}</div>`:''}
     <div class="blk" style="margin-top:10px"><h4>Reward <em>scaled to floor ${t.floor} (level ${t.L}) of a tier-${(REALM[o.realm]||{}).tier||1} Tower</em></h4></div>
     ${t.over?`<div class="callout" style="border-color:var(--red)"><b>No loot.</b> The party (level ${o.level}) is above this floor's level (${t.L}). The Tower gives nothing to those who climb beneath themselves, except perhaps a Class Change Book: ${Math.round(t.bookCh*100)}% chance here (it halves for every 5 levels above the floor).</div>`:''}${!t.rw.length?(t.over?'<div class="note">No Class Change Book this time.</div>':''):`<div class="mlist">${t.rw.map(r=>r.k==='gold'?`<button disabled style="opacity:1;cursor:default">💰 <b>${r.t}</b><span class="x">${localPrice(r.v,o.realm)||''}</span></button>`:r.k==='mat'?`<button data-ref="${ref(r.x)}">⛏ <b>${r.q}× ${esc(r.x.n)}</b><span class="x">${esc(r.x.gr)}${r.x.pn?' · '+esc(r.x.pn):''}</span></button>`:r.k==='item'?`<button data-ref="${ref(r.x)}">🎁 <b>${esc(r.x.n)}</b><span class="x">${esc(r.x.cat)} · Lv ${r.x.lv}${r.x.r?' · '+esc(r.x.r):''}</span></button>`:r.k==='forged'?`<button data-ref="${ref(r.x)}">🎁 <b>${esc(r.x.n)} ${esc(r.base)}</b><span class="x">Forge design · Item Level ${r.x.il||1} · ${esc(r.x.gr)}</span></button>`:r.k==='book'?`<a class="chip" href="${pageUrl('hidden')}#hc-${pid(r.c.n)}" data-go="hidden" style="text-decoration:none;padding:8px 12px">📕 <b>Class Change Book: ${esc(r.c.n)}</b> <small>${esc(r.c.tier)}${r.c.base&&r.c.base!=='Any'?' · for '+esc(r.c.base):''}</small></a>`:`<a class="chip" href="${pageUrl('hidden')}" data-go="hidden" style="padding:8px 12px">📕 <b>A sealed Class Change Book</b> <small>unlock the hidden class list to see which</small></a>`).join('')}</div>`}
-    ${t.legend?(()=>{const dc=10+Math.ceil(t.L/4);if(t.legend==='sealed')return `<details class="fold" style="margin-top:10px"><summary>DM: secret room on this floor</summary><div class="note" style="margin:6px 0 0">A secret room on this floor holds a Legendary class's trial. Unlock the hidden class list to see which.</div></details>`;
+    ${t.legend&&HC?(()=>{const dc=10+Math.ceil(t.L/4);if(t.legend==='sealed')return `<details class="fold" style="margin-top:10px"><summary>DM: secret room on this floor</summary><div class="note" style="margin:6px 0 0">A secret room on this floor holds a Legendary class's trial. Unlock the hidden class list to see which.</div></details>`;
       const own=towerOf(hcTower(t.legend)).name,core=own.replace(/^The /,''),trial=String(t.legend.unlock||'').replace(new RegExp('\\b(the |The )?'+core.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'g'),'this secret room').replace(/^(At|On) the top of this secret room,?\s*/i,'Inside, ').replace(/^Climb this secret room to /i,'Inside, reach ');
       return `<details class="fold" style="margin-top:10px"><summary>DM: secret room on this floor</summary><div style="line-height:1.6;margin:6px 0 0">Hidden off the main floor is a <b>secret room</b>. It does not interfere with the floor's mission, and the party can clear the floor without ever finding it.
       <ul style="margin:6px 0;padding-left:20px"><li><b>Finding it:</b> Wisdom (Perception) or Intelligence (Investigation) DC ${dc}, or a clue you plant on the floor.</li>
@@ -3086,7 +3096,7 @@ async function renderTowers(){
   $('content').innerHTML=`<div class="page">
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">The Towers</h3><p>Up to five Towers stand in every realm (${TOWERS.length} in all). No one built them: they grew out of the excess energy of unclaimed Runes, Laws no god holds, whose power has nowhere else to go; related Runes feed the same Tower. The deeper the realm, the taller its Towers. Climbing one is the only way, besides certain quests, to unlock a <a href="${pageUrl('hidden')}" data-go="hidden">hidden class</a>.</p></div>
     ${trialTool()}
-    <div class="callout" style="margin:14px 0">Every 10 floors is one level band, starting at the realm's own class-change band: the Human Tower's floors 1–10 are level 1, the Mysterious Tower's start at level 11, Hell's and Heaven's at 21, and so on, with a boss on every 10th floor. Conquer a boss floor and you can teleport to it from then on. A party whose level is above a floor's level gets no gold, materials, or items there; a Class Change Book can still drop, at a reduced chance (50%, halving every 5 levels over, never below 10%). Each floor is guarded by creatures of the Tower's realm, stronger the higher you climb. Epic classes wait halfway up, Unique classes three quarters of the way, and Legendary classes at the top, though any floor of any Tower may also hide a secret room with a Legendary class's trial (3% a floor, 8% on boss floors), apart from the floor's mission (the DM sees it in the trial). When a god claims one of a Tower's Runes, that Rune stops feeding it, so Towers can shrink, and new floors open when a Rune is lost.</div>
+    <div class="callout" style="margin:14px 0">Every 10 floors is one level band, starting at the realm's own class-change band: the Human Tower's floors 1–10 are level 1, the Mysterious Tower's start at level 11, Hell's and Heaven's at 21, and so on, with a boss on every 10th floor. Conquer a boss floor and you can teleport to it from then on. A party whose level is above a floor's level gets no gold, materials, or items there; a Class Change Book can still drop, at a reduced chance (50%, halving every 5 levels over, never below 10%). Each floor is guarded by creatures of the Tower's realm, stronger the higher you climb. Epic classes wait halfway up, Unique classes three quarters of the way, and Legendary classes at the top, ${HC?' Any floor of any Tower may also hide a secret room with a Legendary class\'s trial (3% a floor, 8% on boss floors), apart from the floor\'s mission (shown to you in the trial while the hidden class list is unlocked).':''} When a god claims one of a Tower's Runes, that Rune stops feeding it, so Towers can shrink, and new floors open when a Rune is lost.</div>
     ${TOWERS.map(t=>{const r=REALM[t.realm],rs=t.runes,cls=(HC||[]).filter(c=>hcTower(c)===t.id).sort((a,b)=>hcFloor(a)-hcFloor(b)),nLocked=sealedIn(t);
       const mons=MONSTERS.filter(m=>m.realm===r.n),bands=[0,.25,.5,.75].map((f,i)=>{const lo=Math.max(1,Math.round(t.floors*f)+1),hi=Math.round(t.floors*(f+.25)),gs=mons.filter(m=>m.g>=1+i*2.5&&m.g<=3+i*2.5).sort((a,b)=>a.g-b.g);return [lo,hi,gs.slice(0,6)]});
       return `${t.i===0?`<div class="sec-h" style="margin-top:22px" id="tw-${pid(r.n)}-realm"><h3>${esc(r.n)} Realm</h3><p>${towersIn(r.n).length} Tower${towersIn(r.n).length>1?'s':''} · ${t.floors} floors each · levels from ${towerStart(r.n)}</p></div>`:''}<section class="sec" id="tw-${pid(t.id)}" style="margin-top:8px"><div class="panel" style="border-top:3px solid ${r.color}"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="margin:0;font-size:1.25rem;font-family:var(--serif)">${esc(t.name)}</h4><span class="note" style="margin:0">${refChip(r,esc(r.n)+' Realm')} · ${t.floors} floors · fed by ${rs.length} unclaimed Runes</span></div>
