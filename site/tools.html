@@ -10,6 +10,13 @@
 <meta property="og:description" content="Table tools: damage vs. AC, material grade, refining planner, encounter and loot roller, and realm Pressure check.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2l4 10 10 4-10 4-4 10-4-10-10-4 10-4z' fill='%23c9a54a'/%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="img/icons/icon-180.png">
+<meta name="theme-color" content="#0b0a12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="FAND">
 <style>
 /* ── Tokens ─────────────────────────────────────────────────── */
 :root{
@@ -339,6 +346,8 @@ details.fold>div{margin-top:10px}
 .pal-foot{display:flex;gap:14px;padding:8px 16px;border-top:1px solid var(--line);font-size:.72rem;color:var(--muted)}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--surf3);border:1px solid var(--line3);color:var(--text);padding:8px 14px;border-radius:8px;font-size:.84rem;opacity:0;transition:all .2s;z-index:80;pointer-events:none}
 .toast.show{opacity:1;transform:translateX(-50%)}
+.upd{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--surf3);border:1px solid var(--gold,#c9a54a);color:var(--text);padding:10px 16px;border-radius:10px;font:inherit;font-size:.86rem;z-index:81;cursor:pointer;max-width:calc(100% - 32px)}
+.upd[hidden]{display:none}
 
 /* ── Responsive ─────────────────────────────────────────────── */
 @media (max-width:900px){
@@ -488,6 +497,7 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   </div>
 </div>
 <div class="toast" id="toast"></div>
+<button class="upd" id="upd" hidden onclick="location.reload()">A new version of FAND is ready. Tap to load it.</button>
 <button class="ai-fab" id="aiFab" onclick="toggleAI(true)" aria-label="Ask the FAND assistant">✦ <span>Ask FAND</span></button>
 <aside class="ai" id="ai" aria-label="FAND assistant">
   <div class="ai-h"><h3>FAND Assistant<small>Answers from this compendium · Claude Opus 5.5</small></h3>
@@ -1786,6 +1796,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-09','FAND as an app','Add FAND to the Home Screen of an iPhone or iPad (Safari: Share, Add to Home Screen) or to the Dock of a Mac, and it opens full-screen with its own icon. The whole site is saved on the device, so every page works offline at the table; new versions arrive by themselves. Steps are on the About page.','about'],
   ['2026-10-09','Floor missions, and DM content behind the lock','Every Tower floor now gives the party a mission when they arrive: kill every enemy, navigate the maze, escort an NPC to a destination, hold ground, retrieve an item, cross unseen, race the collapse, protect a shrine, answer a riddle, or endure the Law (boss floors: defeat the guardian). Secret rooms, Legendary trials and the dice rig now appear only after the DM passphrase is entered.','towers'],
   ['2026-10-09','Legendary secret rooms in every Tower','Any floor of any Tower may hold a secret room with a Legendary class\'s trial (3% a floor, 8% on boss floors). The floor\'s mission is unchanged; the DM gets the room, how to find it, and the unlock condition, and whoever passes it earns the class.','towers'],
   ['2026-10-09','Encounters: deeds instead of XP','The encounter builder no longer suggests XP to award (levels come from accomplishments): a hard, deadly, or named-monster fight suggests the deed it would be, with a button that logs it on every party member\'s sheet.','encounter'],
@@ -1812,6 +1823,15 @@ const SITE_CHANGES=[
   ['2026-10-04','Pantheons completed','171 gods added so every pantheon is complete (Hades, Ares, Loki, Anubis, Kali, …); 23 Hand members renamed where they clashed with gods.','gods'],
   ['Earlier','Website foundations','Hidden classes and Towers, the Forge with general Blueprints and potion brewing, the character sheet, the stat block creator, Tower trials, contracts with conflicts of interest, animated dice, harvesting, and the first scaling pass.','home'],
 ];
+// how to put the site on a phone, tablet, or Mac as an app, and whether this device already holds the offline copy
+function appHTML(){
+  const app=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+  const off=!SITE?'This single-file version (FAND.html) already works offline.':!('serviceWorker'in navigator)?'This browser cannot keep an offline copy.':navigator.serviceWorker.controller?'This device has the whole site saved: it works with no signal.':'The offline copy is downloading in the background (about 35 MB); it is ready after the next page you open.';
+  return `<div class="sec-h"><h3>FAND as an app</h3><p>${app?'You are using FAND as an app.':'Put FAND on your Home Screen and it opens full-screen with its own icon, like any app.'} ${esc(off)}</p></div>
+  <div class="cols"><div class="panel"><h4>iPhone and iPad</h4><ol><li>Open this site in <b>Safari</b>.</li><li>Tap the <b>Share</b> button (the square with an arrow).</li><li>Tap <b>Add to Home Screen</b>, then <b>Add</b>.</li></ol></div>
+  <div class="panel"><h4>Mac</h4><ol><li>Open this site in <b>Safari</b>.</li><li>Choose <b>File &gt; Add to Dock</b>.</li></ol><p class="note">Chrome and Edge: the install button at the right of the address bar.</p></div>
+  <div class="panel"><h4>Good to know</h4><ul><li>Updates arrive by themselves: when a new version is ready, a button at the bottom offers to load it.</li><li>Party sheets, journals and pins live on the device. Use <b>Backup</b> in Tools now and then, because Apple may clear an app's saved data if it goes unopened for weeks.</li></ul></div></div>`;
+}
 function renderAbout(){
   const V=[
     ['1.03','58 official subclasses added as paraphrased summaries, labeled with their source book.'],
@@ -1850,6 +1870,7 @@ function renderAbout(){
   ];
   $('content').innerHTML=`<div class="page">
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">About FAND</h3><p>Everything built in the FAND vault since the Patch Notes began. Current version: <b>${esc(META.version)}</b>.</p></div>
+    <section class="sec">${appHTML()}</section>
     <section class="sec">${cosmologyHTML()}</section>
     <section class="sec"><div class="sec-h"><h3>At a glance</h3></div><div class="tablewrap"><table class="t"><thead><tr><th>Area</th><th>Now</th></tr></thead><tbody>${G.map(([a,t,l])=>`<tr><td style="white-space:nowrap;font-weight:600">${l?`<a href="${pageUrl(l)}" data-go="${l}" style="text-decoration:none">${a}</a>`:a}</td><td>${t}</td></tr>`).join('')}</tbody></table></div></section>
     <section class="sec"><div class="sec-h"><h3>Website changes</h3><p>What changed on this site, newest first.</p></div><div class="tablewrap"><table class="t"><thead><tr><th>Date</th><th>Change</th></tr></thead><tbody>${SITE_CHANGES.map(([d,t,x,pg])=>`<tr><td style="white-space:nowrap">${esc(d)}</td><td><b>${pg?`<a href="${pageUrl(pg)}" data-go="${pg}">${esc(t)}</a>`:esc(t)}</b><br><span style="color:var(--text2)">${esc(x)}</span></td></tr>`).join('')}</tbody></table></div></section>
@@ -2231,10 +2252,29 @@ function sbToolBind(){
   $('sbt-combat').onclick=()=>{const x=sbToolBind.cur;const C=store.get('combat',{round:1,turn:0,list:[]});C.list.push({id:uid(),name:x.m.n,init:1+Math.floor(Math.random()*20)+Math.floor((x.m.sb.ab[1]-10)/2),dex:Math.floor((x.m.sb.ab[1]-10)/2),hp:x.m.sb.hp,max:x.m.sb.hp,ac:x.m.sb.ac,cond:[]});store.set('combat',C);toast(x.m.n+' added to the combat tracker')};
   draw();
 }
+// whole-device backup: every fand.* setting except the DM lock, its log, the dice rig, and the assistant key
+const backupSkip=k=>/^fand\.(hc|dicerig|anthropicKey)/.test(k);
+function backupSave(){
+  const o={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('fand.')&&!backupSkip(k))o[k]=localStorage.getItem(k)}
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({fand:'backup',saved:new Date().toISOString(),data:o},null,1)],{type:'application/json'}));
+  a.download='FAND backup '+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();toast('Backup downloaded');
+}
+function backupLoad(inp){
+  const f=inp.files&&inp.files[0];if(!f)return;
+  f.text().then(t=>{const j=JSON.parse(t);if(!j||j.fand!=='backup'||typeof j.data!=='object')throw 0;
+    const ks=Object.keys(j.data).filter(k=>k.startsWith('fand.')&&!backupSkip(k)&&typeof j.data[k]==='string');
+    if(!confirm('Restore '+ks.length+' saved items from '+(j.saved||'this file').slice(0,10)+'? Items in the file replace the ones on this device.'))return;
+    ks.forEach(k=>{try{localStorage.setItem(k,j.data[k])}catch(e){}});toast('Backup restored');setTimeout(()=>location.reload(),600);
+  }).catch(()=>toast('That file is not a FAND backup')).finally(()=>{inp.value=''});
+}
 function renderTools(){
   $('content').innerHTML=`<div class="page">
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Table tools</h3><p>Quick calculators built on the rules in the vault.</p></div>
     <div class="tools">
+      <div class="tool" id="t-backup"><h3>Backup</h3><div class="sub">Everything this device has saved (party, sheets, journal, encounters, Tower progress, pins, settings) in one file. Keep a copy before switching devices or if you use FAND as a Home Screen app.</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><button class="btn primary" onclick="backupSave()">Download backup</button><label class="btn">Restore from file<input type="file" accept=".json,application/json" hidden onchange="backupLoad(this)"></label></div>
+        <div class="note" style="margin-top:8px">The DM lock, its log, and the assistant key are never included.</div></div>
+
       <div class="tool" id="t-dmg"><h3>Damage vs. Armor Class</h3><div class="sub">AC is subtracted flat from each hit's damage; at least a quarter always gets through.</div>
         <div class="form"><label>Incoming damage<input type="number" id="d-dmg" value="24" min="0"></label><label>Target AC<input type="number" id="d-ac" value="10" min="0"></label></div>
         <div class="out"><div class="big" id="d-out"></div><div class="kv" id="d-kv"></div><div class="bar"><i id="d-bar"></i></div></div></div>
@@ -4000,6 +4040,12 @@ async function ask(){
 // ════════════════════════════════════════════════════════════════
 if(!location.hash)history.replaceState(null,'',hashFor(SITE?SITE.page:'home'));
 route();
+// Home Screen app: the offline worker (sw.js) keeps every page and its data on the device. Site pages only, not FAND.html.
+if(SITE&&'serviceWorker'in navigator&&/^https?:$/.test(location.protocol)){
+  const had=!!navigator.serviceWorker.controller;
+  navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{});
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{if(had)$('upd').hidden=false});
+}
 </script>
 </body>
 </html>

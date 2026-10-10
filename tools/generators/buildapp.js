@@ -610,9 +610,39 @@ PAGES.forEach(function (pg) {
       var d = info[1].replace(/"/g, '&quot;');
       return '<meta name="description" content="' + d + '">\n<meta property="og:title" content="' + (pg === 'home' ? 'FAND Compendium' : info[0] + ' · FAND Compendium') + '">\n<meta property="og:description" content="' + d + '">\n<meta property="og:type" content="website">';
     });
+  // Home Screen app (iPhone, iPad, Mac): manifest, icons, and the offline worker (see sw.js below)
+  html = html.replace(/<link rel="icon"[^>]*>/, function (m) {
+    return m + '\n<link rel="manifest" href="manifest.webmanifest">\n<link rel="apple-touch-icon" href="img/icons/icon-180.png">\n<meta name="theme-color" content="#0b0a12">\n<meta name="apple-mobile-web-app-capable" content="yes">\n<meta name="mobile-web-app-capable" content="yes">\n<meta name="apple-mobile-web-app-status-bar-style" content="black">\n<meta name="apple-mobile-web-app-title" content="FAND">';
+  });
   if (pg === 'spells') html = html.replace('Loading the compendium…', 'Loading ' + D.SPELLS.length.toLocaleString('en-US') + ' spells…');
   site[pg === 'home' ? 'index.html' : pg + '.html'] = html;
 });
+// the Home Screen app: a manifest and a service worker that keeps the whole site for offline play.
+// The worker's cache is named after this build's stamp, so each deploy replaces the old copy in one step.
+var PAGE_FILES = PAGES.map(function (pg) { return pg === 'home' ? 'index.html' : pg + '.html'; });
+site['manifest.webmanifest'] = JSON.stringify({
+  name: 'FAND Compendium', short_name: 'FAND', description: 'The FAND campaign compendium and table tools for the world of Vestige.',
+  start_url: './index.html', scope: './', display: 'standalone', background_color: '#0b0a12', theme_color: '#0b0a12',
+  icons: [
+    { src: 'img/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+    { src: 'img/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
+    { src: 'img/icons/icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
+  ]
+}, null, 2) + '\n';
+var mapFiles = (function () { var d = path.join(__dirname, '..', 'data', 'maps'); return fs.existsSync(d) ? fs.readdirSync(d).filter(function (f) { return /\.(jpe?g|png|webp)$/i.test(f); }).map(function (f) { return 'img/maps/' + f; }) : []; })();
+var PRECACHE = PAGE_FILES.concat(['data/core.js', 'data/vault.js', 'data/spells.js', 'data/vault-details.js'].map(function (f) { return f + '?v=' + DATA_V; }),
+  ['vendor/anthropic.js', 'manifest.webmanifest', 'img/icons/icon-180.png', 'img/icons/icon-192.png', 'img/icons/icon-512.png'], mapFiles);
+site['sw.js'] = [
+  '// FAND offline worker, written by tools/generators/buildapp.js. Build ' + DATA_V + '.',
+  'const CACHE="fand-' + DATA_V + '";',
+  'const FILES=' + JSON.stringify(PRECACHE) + ';',
+  'self.addEventListener("install",e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES.map(f=>new Request(f,{cache:"reload"})))).then(()=>self.skipWaiting()))});',
+  'self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith("fand-")&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});',
+  'self.addEventListener("fetch",e=>{const r=e.request;if(r.method!=="GET")return;const u=new URL(r.url);if(u.origin!==location.origin)return;',
+  '  const page=r.mode==="navigate";',
+  '  e.respondWith(caches.open(CACHE).then(c=>c.match(r,{ignoreSearch:page}).then(hit=>hit||fetch(r).then(res=>{if(res.ok&&!page)c.put(r,res.clone());return res}).catch(()=>page?c.match("index.html"):Response.error()))))});',
+  ''
+].join('\n');
 console.log(log.join('\n'));
 console.log(MODE, IN, '->', OUT, (t.length / 1e6).toFixed(2) + ' MB ->', (out.length / 1e6).toFixed(2) + ' MB');
 console.log('site', SITE_DIR + ':', Object.keys(site).map(function (f) { return f + ' ' + (site[f].length / 1e6).toFixed(2) + ' MB'; }).join(', '));
@@ -623,5 +653,8 @@ if (MODE === 'go') {
   // hand-drawn realm maps (data/maps/*.jpg, from the campaign owner) are served as images
   var mapDir = path.join(__dirname, '..', 'data', 'maps');
   if (fs.existsSync(mapDir)) { fs.mkdirSync(path.join(SITE_DIR, 'img', 'maps'), { recursive: true }); fs.readdirSync(mapDir).filter(function (f) { return /\.(jpe?g|png|webp)$/i.test(f); }).forEach(function (f) { fs.copyFileSync(path.join(mapDir, f), path.join(SITE_DIR, 'img', 'maps', f)); }); }
+  var iconDir = path.join(__dirname, '..', 'app', 'icons');
+  fs.mkdirSync(path.join(SITE_DIR, 'img', 'icons'), { recursive: true });
+  fs.readdirSync(iconDir).filter(function (f) { return /\.png$/.test(f); }).forEach(function (f) { fs.copyFileSync(path.join(iconDir, f), path.join(SITE_DIR, 'img', 'icons', f)); });
   console.log('written');
 }
