@@ -16,4 +16,13 @@ function unlock(file, code) {
   d.setAuthTag(data.slice(data.length - 16));
   return JSON.parse(Buffer.concat([d.update(data.slice(0, data.length - 16)), d.final()]).toString('utf8'));
 }
-module.exports = { lock: lock, unlock: unlock, ROUNDS: ROUNDS };
+// The DM's site-wide PIN (campaign owner's request): the passphrase itself, encrypted under a key made from the PIN's key
+// presses ('D' for the delete key, e.g. "DD1357"), so the PIN pad opens the list on any device. The PIN is never stored;
+// a PIN is far weaker than the passphrase, so its key takes many more rounds to slow guessing.
+var PIN_ROUNDS = 2000000;
+function wrapPin(code, seq) {
+  var salt = crypto.randomBytes(16), iv = crypto.randomBytes(12), key = crypto.pbkdf2Sync('fand-pin:' + seq, salt, PIN_ROUNDS, 32, 'sha256');
+  var c = crypto.createCipheriv('aes-256-gcm', key, iv), enc = Buffer.concat([c.update(Buffer.from(code, 'utf8')), c.final(), c.getAuthTag()]);
+  return { salt: salt.toString('base64'), iv: iv.toString('base64'), ct: enc.toString('base64'), it: PIN_ROUNDS };
+}
+module.exports = { lock: lock, unlock: unlock, wrapPin: wrapPin, ROUNDS: ROUNDS };

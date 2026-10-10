@@ -557,9 +557,9 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   <div class="set" id="setBox"></div>
 </div>
 
-<script>const SITE={page:"lore",v:"bf5f134bbe"};</script>
-<script src="data/core.js?v=bf5f134bbe"></script>
-<script src="data/vault.js?v=bf5f134bbe"></script>
+<script>const SITE={page:"lore",v:"252033c740"};</script>
+<script src="data/core.js?v=252033c740"></script>
+<script src="data/vault.js?v=252033c740"></script>
 <script>
 'use strict';
 // ════════════════════════════════════════════════════════════════
@@ -1846,7 +1846,8 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
-  ['2026-10-10','The delete key is part of the PIN','Every key press on the PIN pad counts, the ⌫ key too, so a PIN can be a sequence like ⌫ ⌫ 4 0 8 0 2. Deletes on an empty pad show nothing, so someone watching sees only the digits. A Clear link starts over without counting as a wrong try.','hidden'],
+  ['2026-10-10','DM PIN on every device','The DM PIN now opens the hidden list on any device straight away, with no passphrase setup first. Wrong PINs count toward the usual wait (30 seconds, doubling), and the passphrase still works.','hidden'],
+  ['2026-10-10','The delete key is part of the PIN','Every key press on the PIN pad counts, the ⌫ key too, so a PIN can be a sequence like ⌫ ⌫ 1 3 5 7. Deletes on an empty pad show nothing, so someone watching sees only the digits. A Clear link starts over without counting as a wrong try.','hidden'],
   ['2026-10-10','PIN unlock for the DM lock','Besides a pattern, the DM can now save a 4 to 8 digit PIN on a device (Hidden page, Quick unlock) and unlock with a number pad. Like the pattern, it only unlocks the passphrase saved on that device, and five wrong tries erase it.','hidden'],
   ['2026-10-10','Pattern unlock for the DM lock','On a device where the DM passphrase has been entered, the DM can save a 9-dot pattern (Hidden page, below the list) and unlock with it from then on, as on a phone. The pattern only unlocks the passphrase saved on that device; five wrong patterns erase it.','hidden'],
   ['2026-10-10','Spells that need DM approval','Game-breaking spells (Wish, Time Stop, resurrections, mind control, Gate and Teleport, Simulacrum, every Primary spell, …) are locked: a 🔒 marks them, Magic Towers will not teach them, and the character sheet shows them as needing approval until the DM approves them with the passphrase.','spells'],
@@ -3114,11 +3115,19 @@ let PAT_SKIP=false;
 const PAT_IT=300000,PAT_TRIES=5;
 const patB64=u=>btoa(String.fromCharCode(...new Uint8Array(u))),patBin=x=>Uint8Array.from(atob(x),c=>c.charCodeAt(0));
 const QK={pattern:'hcpat',PIN:'hcpin'};
-async function patKey(seq,salt,kind){const base=await crypto.subtle.importKey('raw',new TextEncoder().encode((kind==='PIN'?'fand-pin:':'fand-pattern:')+seq),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:PAT_IT,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])}
+async function patKey(seq,salt,kind,it){const base=await crypto.subtle.importKey('raw',new TextEncoder().encode((kind==='PIN'?'fand-pin:':'fand-pattern:')+seq),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:it||PAT_IT,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])}
 async function patSave(seq,kind){kind=kind||'pattern';let code=null;try{code=sessionStorage.getItem('fand.hc')}catch(e){}if(!code)throw new Error('Unlock with the passphrase first.');
   const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12)),key=await patKey(seq,salt,kind);
   const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},key,new TextEncoder().encode(code));store.set(QK[kind],{salt:patB64(salt),iv:patB64(iv),ct:patB64(ct),fails:0});hcLog(true,kind+' set on this device')}
-async function patUnlock(seq,kind){kind=kind||'pattern';const K=QK[kind],P=store.get(K,null);if(!P)throw new Error('No '+kind+' is saved on this device.');
+// the site-wide PIN (set by the DM with hidden-tool.js pin): the passphrase wrapped under the PIN, published with the
+// site so the PIN pad works on any device. Wrong tries count toward the usual lockout (30 s, doubling, up to an hour).
+async function sitePinUnlock(seq){const S=HIDDEN.pin;const w=hcWait();if(w){hcLog(false,'blocked (locked out)');throw new Error('Too many wrong tries. Wait '+Math.ceil(w/1000)+' seconds.')}
+  let code;try{const key=await patKey(seq,patBin(S.salt),'PIN',S.it);code=new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:patBin(S.iv)},key,patBin(S.ct)))}
+  catch(e){const g=hcFail();hcLog(false,'wrong PIN');throw new Error(g.until>Date.now()?'Wrong PIN. Too many wrong tries: wait '+Math.ceil(hcWait()/1000)+' seconds.':'Wrong PIN.'+(g.fails>=3?' '+(5-g.fails)+(5-g.fails===1?' try':' tries')+' left before a wait.':''))}
+  return hcUnlock(code,'PIN');}
+async function patUnlock(seq,kind){kind=kind||'pattern';const K=QK[kind],P=store.get(K,null);
+  if(kind==='PIN'&&HIDDEN.pin){if(P){try{const key=await patKey(seq,patBin(P.salt),kind);const code=new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:patBin(P.iv)},key,patBin(P.ct)));P.fails=0;store.set(K,P);return hcUnlock(code,kind)}catch(e){}}return sitePinUnlock(seq)}
+  if(!P)throw new Error('No '+kind+' is saved on this device.');
   const w=hcWait();if(w){hcLog(false,'blocked (locked out)');throw new Error('Too many wrong tries. Wait '+Math.ceil(w/1000)+' seconds.')}
   let code;try{const key=await patKey(seq,patBin(P.salt),kind);code=new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:patBin(P.iv)},key,patBin(P.ct)))}
   catch(e){P.fails=(P.fails||0)+1;hcLog(false,'wrong '+kind);if(P.fails>=PAT_TRIES){store.set(K,null);hcLog(false,kind+' erased after '+PAT_TRIES+' wrong tries');throw new Error('Wrong '+kind+' '+PAT_TRIES+' times: the saved '+kind+' is erased. Use the passphrase.')}store.set(K,P);throw new Error('Wrong '+kind+'. '+(PAT_TRIES-P.fails)+(PAT_TRIES-P.fails===1?' try':' tries')+' left before it is erased.')}
@@ -3137,7 +3146,7 @@ function patPadBind(id,done){const el=$(id);if(!el)return;const svg=el.querySele
   svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
   el.reset=(cls)=>{seq=[];draw(null);el.classList.remove('bad','good');if(cls)el.classList.add(cls)}}
 // the number pad: 4 to 8 digits, typed with the keys or a keyboard
-// Every key press is part of the PIN, the delete key too (a PIN can be "⌫ ⌫ 4 0 8 0 2"): a delete takes a dot off the
+// Every key press is part of the PIN, the delete key too (a PIN can be "⌫ ⌫ 1 3 5 7"): a delete takes a dot off the
 // screen, or does nothing visible on an empty pad, but is still recorded. To fix a mistake, Clear and start again.
 function pinPadHTML(id){return `<div class="pinpad" id="${id}"><div class="pin-dots"></div><div class="pin-keys">${[1,2,3,4,5,6,7,8,9].map(d=>`<button type="button" data-k="${d}">${d}</button>`).join('')}<button type="button" data-k="del" aria-label="Delete">⌫</button><button type="button" data-k="0">0</button><button type="button" data-k="ok" class="ok" aria-label="Enter">✓</button></div><a href="#" class="note pin-clear" data-k="clear" style="display:block;text-align:center;margin-top:8px">Clear</a></div>`}
 function pinPadBind(id,done){const el=$(id);if(!el)return;let v='',vis=0;const dots=el.querySelector('.pin-dots');
@@ -3150,20 +3159,20 @@ function pinPadBind(id,done){const el=$(id);if(!el)return;let v='',vis=0;const d
   el.reset=cls=>{v='';vis=0;show();el.classList.remove('bad','good');if(cls)el.classList.add(cls)};show()}
 // the lock screen: the pattern or the PIN saved on this device (either, when both are), or the passphrase
 let QUICK_MODE=null;
-const quickModes=()=>Object.keys(QK).filter(k=>store.get(QK[k],null));
+const quickModes=()=>Object.keys(QK).filter(k=>store.get(QK[k],null)||(k==='PIN'&&HIDDEN.pin));
 function patLockHTML(){const av=quickModes(),pref=QUICK_MODE||store.get('hcqm',null),m=av.includes(pref)?pref:av[0],other=av.find(x=>x!==m);
-  return `<div class="panel" style="max-width:360px;margin:20px auto;text-align:center;border-top:3px solid var(--gold)"><div style="font-size:2rem">🔒</div><b style="font-family:var(--serif);font-size:1.2rem">${m==='PIN'?'Enter your PIN':'Draw your pattern'}</b><p class="note" style="margin:4px 0 8px">This device keeps the passphrase behind your ${m}.</p>${m==='PIN'?pinPadHTML('hc-pin'):patPadHTML('hc-pat')}<div id="hc-err" class="note" style="color:var(--red);min-height:1.2em"></div>
+  return `<div class="panel" style="max-width:360px;margin:20px auto;text-align:center;border-top:3px solid var(--gold)"><div style="font-size:2rem">🔒</div><b style="font-family:var(--serif);font-size:1.2rem">${m==='PIN'?'Enter your PIN':'Draw your pattern'}</b><p class="note" style="margin:4px 0 8px">${m==='PIN'&&HIDDEN.pin&&!store.get('hcpin',null)?'The DM PIN opens the hidden list on any device.':'This device keeps the passphrase behind your '+m+'.'}</p>${m==='PIN'?pinPadHTML('hc-pin'):patPadHTML('hc-pat')}<div id="hc-err" class="note" style="color:var(--red);min-height:1.2em"></div>
     <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">${other?`<a href="#" class="note" onclick="QUICK_MODE='${other}';renderHidden();return false">Use the ${other} instead</a>`:''}<a href="#" class="note" onclick="PAT_SKIP=true;renderHidden();return false">Use the passphrase instead</a></div></div>`}
 function patLockBind(after){const kind=$('hc-pin')?'PIN':'pattern',id=kind==='PIN'?'hc-pin':'hc-pat';
   (kind==='PIN'?pinPadBind:patPadBind)(id,async(seq,n)=>{const pad=$(id);if(n<4){$('hc-err').textContent=kind==='PIN'?'A PIN has at least 4 digits.':'Join at least 4 dots.';pad.reset('bad');return}$('hc-err').style.color='var(--muted)';$('hc-err').textContent='Unlocking…';
     try{await patUnlock(seq,kind);store.set('hcqm',kind);pad.reset('good');after()}catch(err){$('hc-err').style.color='var(--red)';$('hc-err').textContent=err&&err.message||'Wrong '+kind+'.';pad.reset('bad');if(!store.get(QK[kind],null))setTimeout(after,1500)}})}
 // set, change, or remove this device's pattern and PIN (shown once the list is open)
 function patSetHTML(){const hp=!!store.get('hcpat',null),hn=!!store.get('hcpin',null),b=on=>on?'<span class="b green">on</span>':'<span class="b ghost">off</span>';
-  return `<details class="fold" style="margin-top:14px" id="hc-patset"><summary>Quick unlock on this device: pattern ${b(hp)} PIN ${b(hn)}</summary>
+  return `<details class="fold" style="margin-top:14px" id="hc-patset"><summary>Quick unlock: pattern ${b(hp)} PIN ${b(hn)}${HIDDEN.pin?' · site PIN <span class="b green">on</span>':''}</summary>${HIDDEN.pin?'<p class="note" style="margin:8px 0 0">The DM PIN works on every device with no setup. The pattern and PIN below are extra, for this device only.</p>':''}
   <p class="note" style="margin:8px 0">A pattern or a PIN has far fewer combinations than the passphrase, so it only works on a device where the passphrase was entered first, and 5 wrong tries erase it. Keep the passphrase written down.</p>
   <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
     <div style="width:240px"><b>Pattern</b><p class="note" id="hc-patmsg" style="margin:4px 0 8px">${hp?'Draw a new pattern to replace the saved one.':'Draw a pattern of at least 4 dots, then again to confirm.'}</p>${patPadHTML('hc-patnew')}${hp?'<button class="btn" type="button" id="hc-patrm" style="margin-top:6px">Remove the pattern</button>':''}</div>
-    <div style="width:240px"><b>PIN</b><p class="note" id="hc-pinmsg" style="margin:4px 0 8px">${hn?'Enter a new PIN to replace the saved one.':'Enter at least 4 digits and press ✓, then again to confirm. The ⌫ key counts as part of the PIN (⌫ ⌫ 4 0 8 0 2 is a PIN), so press Clear to fix a mistake.'}</p>${pinPadHTML('hc-pinnew')}${hn?'<button class="btn" type="button" id="hc-pinrm" style="margin-top:6px">Remove the PIN</button>':''}</div>
+    <div style="width:240px"><b>PIN</b><p class="note" id="hc-pinmsg" style="margin:4px 0 8px">${hn?'Enter a new PIN to replace the saved one.':'Enter at least 4 digits and press ✓, then again to confirm. The ⌫ key counts as part of the PIN (⌫ ⌫ 1 3 5 7 is a PIN), so press Clear to fix a mistake.'}</p>${pinPadHTML('hc-pinnew')}${hn?'<button class="btn" type="button" id="hc-pinrm" style="margin-top:6px">Remove the PIN</button>':''}</div>
   </div></details>`}
 function patSetBind(){
   const setup=(kind,id,msgId,rmId,bind,short,again,nomatch)=>{let first=null;const msg=t=>{$(msgId).textContent=t};
