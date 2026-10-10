@@ -1846,6 +1846,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-10','The delete key is part of the PIN','Every key press on the PIN pad counts, the ⌫ key too, so a PIN can be a sequence like ⌫ ⌫ 4 0 8 0 2. Deletes on an empty pad show nothing, so someone watching sees only the digits. A Clear link starts over without counting as a wrong try.','hidden'],
   ['2026-10-10','PIN unlock for the DM lock','Besides a pattern, the DM can now save a 4 to 8 digit PIN on a device (Hidden page, Quick unlock) and unlock with a number pad. Like the pattern, it only unlocks the passphrase saved on that device, and five wrong tries erase it.','hidden'],
   ['2026-10-10','Pattern unlock for the DM lock','On a device where the DM passphrase has been entered, the DM can save a 9-dot pattern (Hidden page, below the list) and unlock with it from then on, as on a phone. The pattern only unlocks the passphrase saved on that device; five wrong patterns erase it.','hidden'],
   ['2026-10-10','Spells that need DM approval','Game-breaking spells (Wish, Time Stop, resurrections, mind control, Gate and Teleport, Simulacrum, every Primary spell, …) are locked: a 🔒 marks them, Magic Towers will not teach them, and the character sheet shows them as needing approval until the DM approves them with the passphrase.','spells'],
@@ -3136,15 +3137,17 @@ function patPadBind(id,done){const el=$(id);if(!el)return;const svg=el.querySele
   svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
   el.reset=(cls)=>{seq=[];draw(null);el.classList.remove('bad','good');if(cls)el.classList.add(cls)}}
 // the number pad: 4 to 8 digits, typed with the keys or a keyboard
-function pinPadHTML(id){return `<div class="pinpad" id="${id}"><div class="pin-dots"></div><div class="pin-keys">${[1,2,3,4,5,6,7,8,9].map(d=>`<button type="button" data-k="${d}">${d}</button>`).join('')}<button type="button" data-k="del" aria-label="Delete">⌫</button><button type="button" data-k="0">0</button><button type="button" data-k="ok" class="ok" aria-label="Enter">✓</button></div></div>`}
-function pinPadBind(id,done){const el=$(id);if(!el)return;let v='';const dots=el.querySelector('.pin-dots');
-  const show=()=>{dots.innerHTML=Array.from({length:Math.max(4,v.length)},(_,i)=>`<i class="${i<v.length?'on':''}"></i>`).join('')};
-  const key=k=>{el.classList.remove('bad','good');if(k==='del')v=v.slice(0,-1);else if(k==='ok'){if(v)done(v,v.length);return}else if(/^\d$/.test(k)&&v.length<8){v+=k;if(navigator.vibrate)try{navigator.vibrate(6)}catch(e){}}show()};
-  el.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>key(b.dataset.k));
+// Every key press is part of the PIN, the delete key too (a PIN can be "⌫ ⌫ 4 0 8 0 2"): a delete takes a dot off the
+// screen, or does nothing visible on an empty pad, but is still recorded. To fix a mistake, Clear and start again.
+function pinPadHTML(id){return `<div class="pinpad" id="${id}"><div class="pin-dots"></div><div class="pin-keys">${[1,2,3,4,5,6,7,8,9].map(d=>`<button type="button" data-k="${d}">${d}</button>`).join('')}<button type="button" data-k="del" aria-label="Delete">⌫</button><button type="button" data-k="0">0</button><button type="button" data-k="ok" class="ok" aria-label="Enter">✓</button></div><a href="#" class="note pin-clear" data-k="clear" style="display:block;text-align:center;margin-top:8px">Clear</a></div>`}
+function pinPadBind(id,done){const el=$(id);if(!el)return;let v='',vis=0;const dots=el.querySelector('.pin-dots');
+  const show=()=>{dots.innerHTML=Array.from({length:Math.max(4,vis)},(_,i)=>`<i class="${i<vis?'on':''}"></i>`).join('')};
+  const key=k=>{el.classList.remove('bad','good');if(k==='clear'){v='';vis=0}else if(k==='del'){if(v.length<24)v+='D';vis=Math.max(0,vis-1)}else if(k==='ok'){if(v)done(v,v.replace(/D/g,'').length);return}else if(/^\d$/.test(k)&&v.length<24&&vis<8){v+=k;vis++}else return;if(navigator.vibrate)try{navigator.vibrate(6)}catch(e){}show()};
+  el.querySelectorAll('[data-k]').forEach(b=>b.onclick=e=>{e.preventDefault();key(b.dataset.k)});
   if(pinPadBind.kb)document.removeEventListener('keydown',pinPadBind.kb);
   pinPadBind.kb=e=>{const live=$(id);if(!live||e.target.closest('input,textarea,select'))return;if(/^\d$/.test(e.key))key(e.key);else if(e.key==='Backspace')key('del');else if(e.key==='Enter')key('ok');else return;e.preventDefault()};
   document.addEventListener('keydown',pinPadBind.kb);
-  el.reset=cls=>{v='';show();el.classList.remove('bad','good');if(cls)el.classList.add(cls)};show()}
+  el.reset=cls=>{v='';vis=0;show();el.classList.remove('bad','good');if(cls)el.classList.add(cls)};show()}
 // the lock screen: the pattern or the PIN saved on this device (either, when both are), or the passphrase
 let QUICK_MODE=null;
 const quickModes=()=>Object.keys(QK).filter(k=>store.get(QK[k],null));
@@ -3160,7 +3163,7 @@ function patSetHTML(){const hp=!!store.get('hcpat',null),hn=!!store.get('hcpin',
   <p class="note" style="margin:8px 0">A pattern or a PIN has far fewer combinations than the passphrase, so it only works on a device where the passphrase was entered first, and 5 wrong tries erase it. Keep the passphrase written down.</p>
   <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
     <div style="width:240px"><b>Pattern</b><p class="note" id="hc-patmsg" style="margin:4px 0 8px">${hp?'Draw a new pattern to replace the saved one.':'Draw a pattern of at least 4 dots, then again to confirm.'}</p>${patPadHTML('hc-patnew')}${hp?'<button class="btn" type="button" id="hc-patrm" style="margin-top:6px">Remove the pattern</button>':''}</div>
-    <div style="width:240px"><b>PIN</b><p class="note" id="hc-pinmsg" style="margin:4px 0 8px">${hn?'Enter a new PIN to replace the saved one.':'Enter 4 to 8 digits and press ✓, then again to confirm. 6 or more is safer.'}</p>${pinPadHTML('hc-pinnew')}${hn?'<button class="btn" type="button" id="hc-pinrm" style="margin-top:6px">Remove the PIN</button>':''}</div>
+    <div style="width:240px"><b>PIN</b><p class="note" id="hc-pinmsg" style="margin:4px 0 8px">${hn?'Enter a new PIN to replace the saved one.':'Enter at least 4 digits and press ✓, then again to confirm. The ⌫ key counts as part of the PIN (⌫ ⌫ 4 0 8 0 2 is a PIN), so press Clear to fix a mistake.'}</p>${pinPadHTML('hc-pinnew')}${hn?'<button class="btn" type="button" id="hc-pinrm" style="margin-top:6px">Remove the PIN</button>':''}</div>
   </div></details>`}
 function patSetBind(){
   const setup=(kind,id,msgId,rmId,bind,short,again,nomatch)=>{let first=null;const msg=t=>{$(msgId).textContent=t};
