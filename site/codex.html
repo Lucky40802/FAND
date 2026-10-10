@@ -67,6 +67,9 @@ h1,h2,h3,h4{font-family:var(--serif);font-weight:700;letter-spacing:.01em}
 .search-btn:hover{border-color:var(--acc)}
 .search-btn span{flex:1}
 kbd{font-family:var(--mono);font-size:.7rem;border:1px solid var(--line3);border-bottom-width:2px;border-radius:4px;padding:0 5px;color:var(--muted);background:var(--surf2)}
+.top .backbtn{display:none}
+@media (display-mode: standalone){.top .backbtn{display:grid}}
+html.standalone .top .backbtn{display:grid}
 .icon-btn{background:var(--surf);border:1px solid var(--line);border-radius:8px;width:36px;height:36px;display:grid;place-items:center;color:var(--text2);flex-shrink:0}
 .icon-btn:hover{border-color:var(--acc);color:var(--text)}
 .icon-btn svg{width:18px;height:18px}
@@ -458,6 +461,7 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
 <body>
 
 <header class="top">
+  <button class="icon-btn backbtn" onclick="appBack()" aria-label="Back" title="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
   <button class="brand" onclick="go('home')" aria-label="FAND home">
     <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c4b5fd"/><stop offset="1" stop-color="#d9b25a"/></linearGradient></defs><path d="M16 1.5l4.2 10.3L30.5 16l-10.3 4.2L16 30.5l-4.2-10.3L1.5 16l10.3-4.2z" fill="none" stroke="url(#bg1)" stroke-width="1.6"/><path d="M16 9l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="url(#bg1)"/></svg>
     <div><h1>FAND</h1><small>Fantasy and Numerous Disasters</small></div>
@@ -510,9 +514,9 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   <div class="set" id="setBox"></div>
 </div>
 
-<script>const SITE={page:"codex",v:"b619027ec4"};</script>
-<script src="data/core.js?v=b619027ec4"></script>
-<script src="data/vault.js?v=b619027ec4"></script>
+<script>const SITE={page:"codex",v:"50b08a196f"};</script>
+<script src="data/core.js?v=50b08a196f"></script>
+<script src="data/vault.js?v=50b08a196f"></script>
 <script>
 'use strict';
 // ════════════════════════════════════════════════════════════════
@@ -1795,6 +1799,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-10','App touches: Back button and Keep screen on','When FAND runs as a Home Screen app, a Back button sits at the left of the header (it closes an open window first, like the browser\'s Back). The Combat tracker has a Keep screen on switch so the phone or tablet does not lock during a fight.','combat'],
   ['2026-10-09','FAND as an app','Add FAND to the Home Screen of an iPhone or iPad (Safari: Share, Add to Home Screen) or to the Dock of a Mac, and it opens full-screen with its own icon. The whole site is saved on the device, so every page works offline at the table; new versions arrive by themselves. Steps are on the About page.','about'],
   ['2026-10-09','Floor missions, and DM content behind the lock','Every Tower floor now gives the party a mission when they arrive: kill every enemy, navigate the maze, escort an NPC to a destination, hold ground, retrieve an item, cross unseen, race the collapse, protect a shrine, answer a riddle, or endure the Law (boss floors: defeat the guardian). Secret rooms, Legendary trials and the dice rig now appear only after the DM passphrase is entered.','towers'],
   ['2026-10-09','Legendary secret rooms in every Tower','Any floor of any Tower may hold a secret room with a Legendary class\'s trial (3% a floor, 8% on boss floors). The floor\'s mission is unchanged; the DM gets the room, how to find it, and the unlock condition, and whoever passes it earns the class.','towers'],
@@ -3360,7 +3365,19 @@ function harvestTake(){
   c.inv=c.inv||[];got.forEach(([n,q])=>{const r=c.inv.find(z=>lc(z[0])===lc(n));if(r)r[1]=(+r[1]||0)+q;else c.inv.push([n,q])});saveParty();
   const x=CB.list.find(y=>y.id===CB.harvest);if(x)x.harvested=true;CB.list=CB.list.filter(y=>y.id!==CB.harvest);CB.harvest=null;CB.hv=null;saveCB();toast(got.length+' parts added to '+(c.name||'character'));renderCombat();
 }
+// the installed app has no browser Back button: this one steps back (closing an open window first), or goes Home
+function appBack(){if(history.length>1)history.back();else go('home')}
+if(navigator.standalone)document.documentElement.classList.add('standalone');
+// Keep screen on (Combat): a screen wake lock while the combat page is open and visible
+const WAKE={lock:null};
+function wakeSync(){
+  const want=TAB==='combat'&&store.get('wakelock',false)&&document.visibilityState==='visible'&&'wakeLock'in navigator;
+  if(want&&!WAKE.lock)navigator.wakeLock.request('screen').then(l=>{WAKE.lock=l;l.addEventListener('release',()=>{WAKE.lock=null})}).catch(()=>{});
+  else if(!want&&WAKE.lock){WAKE.lock.release().catch(()=>{});WAKE.lock=null}
+}
+document.addEventListener('visibilitychange',wakeSync);
 function renderCombat(){
+  setTimeout(wakeSync,0);
   CB=store.get('combat',{round:1,turn:0,list:[]});
   const cur=CB.list[CB.turn];
   $('content').innerHTML=`<div class="page">${datalists()}
@@ -3375,6 +3392,7 @@ function renderCombat(){
       <button class="btn" onclick="cbAddParty()">+ Party</button>
       <button class="btn" onclick="cbAddCustom()">+ Custom</button>
       <label class="note" style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" id="cb-ac" ${CB.noAC?'':'checked'} onchange="CB.noAC=!this.checked;saveCB()"> Subtract AC from damage</label>
+      ${'wakeLock'in navigator?`<label class="note" style="display:flex;gap:6px;align-items:center;margin:0" title="Stops the phone or tablet from dimming and locking while this page is open"><input type="checkbox" id="cb-wake" ${store.get('wakelock',false)?'checked':''} onchange="store.set('wakelock',this.checked);wakeSync()"> Keep screen on</label>`:''}
       <button class="btn" onclick="if(confirm('Clear the combat?')){store.set('combat',{round:1,turn:0,list:[]});renderCombat()}">Clear</button>
     </div>
     <div class="tablewrap" style="margin-top:14px"><table class="t"><thead><tr><th class="num">Init</th><th>Combatant</th><th class="num">AC</th><th>HP</th><th>Damage / heal</th><th>Conditions</th><th></th></tr></thead><tbody>
