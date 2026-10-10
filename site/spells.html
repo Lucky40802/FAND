@@ -85,6 +85,13 @@ kbd{font-family:var(--mono);font-size:.7rem;border:1px solid var(--line3);border
 .pv-row{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--surf);margin-bottom:10px}
 .pv-row.on{border-color:var(--gold);background:var(--goldbg);box-shadow:0 0 0 2px var(--gold) inset}
 .pv-row.down{opacity:.45}
+.patpad{width:240px;max-width:100%;margin:0 auto;touch-action:none;user-select:none;-webkit-user-select:none}
+.patpad svg{width:100%;height:auto;display:block;cursor:pointer}
+.patpad .pd{fill:var(--surf3);stroke:var(--line3);stroke-width:2;transition:fill .1s}
+.patpad .pd.on{fill:var(--gold);stroke:var(--gold2)}
+.patpad .pl polyline,.patpad .pl line{fill:none;stroke:var(--gold);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;opacity:.75}
+.patpad.bad .pd.on,.patpad.bad .pl *{fill:var(--red);stroke:var(--red)}
+.patpad.good .pd{stroke:var(--green)}
 .top .backbtn{display:none}
 @media (display-mode: standalone){.top .backbtn{display:grid}}
 html.standalone .top .backbtn{display:grid}
@@ -1831,6 +1838,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-10','Pattern unlock for the DM lock','On a device where the DM passphrase has been entered, the DM can save a 9-dot pattern (Hidden page, below the list) and unlock with it from then on, as on a phone. The pattern only unlocks the passphrase saved on that device; five wrong patterns erase it.','hidden'],
   ['2026-10-10','Spells that need DM approval','Game-breaking spells (Wish, Time Stop, resurrections, mind control, Gate and Teleport, Simulacrum, every Primary spell, …) are locked: a 🔒 marks them, Magic Towers will not teach them, and the character sheet shows them as needing approval until the DM approves them with the passphrase.','spells'],
   ['2026-10-10','Every damage spell scales with its realm','Spells whose dice are written only in their text (\u201cit takes 4d6 bludgeoning damage\u201d) now scale with their realm too, so about 750 spells grow with the realm instead of 630.','spells'],
   ['2026-10-10','Blank character sheet to print','The character sheet has a Print blank sheet button: an empty FAND sheet to fill in by hand at the table.','sheet'],
@@ -3088,6 +3096,48 @@ async function hcUnlock(code,how){
 async function hcAuto(){if(HC||!HIDDEN.lock)return;let c=null;try{c=sessionStorage.getItem('fand.hc')}catch(e){}if(c)try{await hcUnlock(c,'remembered')}catch(e){try{sessionStorage.removeItem('fand.hc')}catch(x){}}}
 function hcLockHTML(){return `<div class="panel" style="max-width:460px;margin:20px auto;text-align:center;border-top:3px solid var(--gold)"><div style="font-size:2rem">🔒</div><b style="font-family:var(--serif);font-size:1.2rem">The list is sealed</b><p class="note">Enter the passphrase to see every hidden class.</p><form id="hc-form" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><input class="sel" id="hc-code" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Passphrase" style="max-width:280px;flex:1;text-align:center"><button class="btn primary" id="hc-go">Unlock</button></form><div id="hc-err" class="note" style="color:var(--red);min-height:1.2em"></div></div>`}
 function hcBindLock(after){const f=$('hc-form');if(!f)return;f.onsubmit=async e=>{e.preventDefault();const btn=$('hc-go');btn.disabled=true;btn.textContent='Unlocking…';$('hc-err').textContent='';try{await hcUnlock($('hc-code').value.trim());after()}catch(err){$('hc-err').textContent=err&&err.message||'That passphrase is not right.';$('hc-code').select()}finally{if($('hc-go')){$('hc-go').disabled=false;$('hc-go').textContent='Unlock'}}};$('hc-code').focus()}
+let PAT_SKIP=false;
+// Pattern unlock (campaign owner's request): draw a path through 9 dots instead of typing the passphrase. A pattern has
+// too few combinations to guard the list by itself, so it only unlocks the passphrase that was saved on this device:
+// the passphrase is stored here encrypted with a key made from the pattern, and the list stays sealed by the passphrase.
+// Five wrong patterns erase the saved one, and the passphrase is needed again.
+const PAT_IT=300000,PAT_TRIES=5;
+const patB64=u=>btoa(String.fromCharCode(...new Uint8Array(u))),patBin=x=>Uint8Array.from(atob(x),c=>c.charCodeAt(0));
+async function patKey(seq,salt){const base=await crypto.subtle.importKey('raw',new TextEncoder().encode('fand-pattern:'+seq),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:PAT_IT,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])}
+async function patSave(seq){let code=null;try{code=sessionStorage.getItem('fand.hc')}catch(e){}if(!code)throw new Error('Unlock with the passphrase first.');
+  const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12)),key=await patKey(seq,salt);
+  const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},key,new TextEncoder().encode(code));store.set('hcpat',{salt:patB64(salt),iv:patB64(iv),ct:patB64(ct),fails:0});hcLog(true,'pattern set on this device')}
+async function patUnlock(seq){const P=store.get('hcpat',null);if(!P)throw new Error('No pattern is saved on this device.');
+  const w=hcWait();if(w){hcLog(false,'blocked (locked out)');throw new Error('Too many wrong tries. Wait '+Math.ceil(w/1000)+' seconds.')}
+  let code;try{const key=await patKey(seq,patBin(P.salt));code=new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:patBin(P.iv)},key,patBin(P.ct)))}
+  catch(e){P.fails=(P.fails||0)+1;hcLog(false,'wrong pattern');if(P.fails>=PAT_TRIES){store.set('hcpat',null);hcLog(false,'pattern erased after '+PAT_TRIES+' wrong tries');throw new Error('Wrong pattern '+PAT_TRIES+' times: the saved pattern is erased. Use the passphrase.')}store.set('hcpat',P);throw new Error('Wrong pattern. '+(PAT_TRIES-P.fails)+(PAT_TRIES-P.fails===1?' try':' tries')+' left before it is erased.')}
+  P.fails=0;store.set('hcpat',P);return hcUnlock(code,'pattern');}
+// the 3 by 3 pad: press and drag through the dots (a dot passed over on the way is joined too, as on a phone)
+function patPadHTML(id){return `<div class="patpad" id="${id}"><svg viewBox="0 0 300 300"><g class="pl"></g>${[0,1,2,3,4,5,6,7,8].map(i=>`<circle class="pd" data-i="${i+1}" cx="${50+(i%3)*100}" cy="${50+Math.floor(i/3)*100}" r="14"/>`).join('')}</svg></div>`}
+function patPadBind(id,done){const el=$(id);if(!el)return;const svg=el.querySelector('svg'),pl=el.querySelector('.pl'),dots=[...el.querySelectorAll('.pd')];let seq=[],on=false,tail=null;
+  const pos=e=>{const r=svg.getBoundingClientRect();return [(e.clientX-r.left)/r.width*300,(e.clientY-r.top)/r.height*300]};
+  const xy=i=>[50+((i-1)%3)*100,50+Math.floor((i-1)/3)*100];
+  const draw=p=>{pl.innerHTML=(seq.length>1?`<polyline points="${seq.map(i=>xy(i).join(',')).join(' ')}"/>`:'')+(p&&seq.length?`<line x1="${xy(seq[seq.length-1])[0]}" y1="${xy(seq[seq.length-1])[1]}" x2="${p[0]}" y2="${p[1]}"/>`:'');dots.forEach(d=>d.classList.toggle('on',seq.includes(+d.dataset.i)))};
+  const hit=p=>{const d=dots.find(d=>Math.hypot(p[0]-d.cx.baseVal.value,p[1]-d.cy.baseVal.value)<34);if(!d)return;const i=+d.dataset.i;if(seq.includes(i))return;
+    if(seq.length){const a=seq[seq.length-1],m=(a+i)/2;if(Number.isInteger(m)&&(a+i)%2===0&&Math.abs(((a-1)%3)-((i-1)%3))!==1&&Math.abs(Math.floor((a-1)/3)-Math.floor((i-1)/3))!==1&&!seq.includes(m))seq.push(m)}seq.push(i);if(navigator.vibrate)try{navigator.vibrate(8)}catch(e){}};
+  svg.addEventListener('pointerdown',e=>{e.preventDefault();on=true;seq=[];el.classList.remove('bad','good');svg.setPointerCapture(e.pointerId);const p=pos(e);hit(p);draw(p)});
+  svg.addEventListener('pointermove',e=>{if(!on)return;const p=pos(e);hit(p);draw(p)});
+  const end=()=>{if(!on)return;on=false;draw(null);const s=seq.slice();if(s.length)done(s.join('-'),s.length)};
+  svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+  el.reset=(cls)=>{seq=[];draw(null);el.classList.remove('bad','good');if(cls)el.classList.add(cls)}}
+function patLockHTML(){return `<div class="panel" style="max-width:360px;margin:20px auto;text-align:center;border-top:3px solid var(--gold)"><div style="font-size:2rem">🔒</div><b style="font-family:var(--serif);font-size:1.2rem">Draw your pattern</b><p class="note" style="margin:4px 0 8px">This device keeps the passphrase behind your pattern.</p>${patPadHTML('hc-pat')}<div id="hc-err" class="note" style="color:var(--red);min-height:1.2em"></div><a href="#" class="note" onclick="PAT_SKIP=true;renderHidden();return false">Use the passphrase instead</a></div>`}
+function patLockBind(after){patPadBind('hc-pat',async(seq,n)=>{const pad=$('hc-pat');if(n<4){$('hc-err').textContent='Join at least 4 dots.';pad.reset('bad');return}$('hc-err').style.color='var(--muted)';$('hc-err').textContent='Unlocking…';
+  try{await patUnlock(seq);pad.reset('good');after()}catch(err){$('hc-err').style.color='var(--red)';$('hc-err').textContent=err&&err.message||'Wrong pattern.';pad.reset('bad');if(!store.get('hcpat',null))setTimeout(after,1500)}})}
+// set, change, or remove this device's pattern (shown once the list is open)
+function patSetHTML(){const has=!!store.get('hcpat',null);return `<details class="fold" style="margin-top:14px" id="hc-patset"><summary>Pattern unlock on this device ${has?'<span class="b green">on</span>':'<span class="b ghost">off</span>'}</summary>
+  <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start;margin-top:8px"><div style="width:220px">${patPadHTML('hc-patnew')}</div><div style="flex:1;min-width:200px"><p class="note" id="hc-patmsg" style="margin:0 0 8px">${has?'Draw a new pattern to replace the saved one, or remove it.':'Draw a pattern of at least 4 dots, then draw it again to confirm. Next time this device asks for the pattern instead of the passphrase.'}</p>
+  <p class="note" style="margin:0 0 8px">A pattern has far fewer combinations than the passphrase, so it only works on a device where the passphrase was entered first; 5 wrong patterns erase it. Keep the passphrase written down.</p>${has?'<button class="btn" type="button" id="hc-patrm">Remove the pattern</button>':''}</div></div></details>`}
+function patSetBind(){let first=null;const msg=t=>{$('hc-patmsg').textContent=t};
+  patPadBind('hc-patnew',async(seq,n)=>{const pad=$('hc-patnew');if(n<4){msg('Join at least 4 dots.');pad.reset('bad');first=null;return}
+    if(!first){first=seq;pad.reset('good');msg('Draw it again to confirm.');return}
+    if(seq!==first){first=null;pad.reset('bad');msg('The patterns did not match. Draw a new one.');return}
+    try{await patSave(seq);PAT_SKIP=false;toast('Pattern saved on this device');renderHidden();setTimeout(()=>{const d=$('hc-patset');if(d)d.open=true},0)}catch(err){msg(err&&err.message||'Could not save the pattern.');pad.reset('bad');first=null}});
+  const rm=$('hc-patrm');if(rm)rm.onclick=()=>{if(confirm('Remove the pattern from this device? You will need the passphrase next time.')){store.set('hcpat',null);hcLog(true,'pattern removed from this device');renderHidden()}}}
 function hcLogHTML(){const L=store.get('hclog',[]).slice().reverse();return `<details class="fold" style="margin-top:14px"><summary>Access log on this device (${L.length})</summary><div class="note" style="margin:6px 0">Every attempt to open the hidden class list in this browser: successful unlocks and wrong passphrases. The site has no server, so tries on other devices are not seen here.${L.length?` <a href="#" onclick="if(confirm('Clear the access log on this device?')){store.set('hclog',[]);renderHidden()}return false">Clear</a>`:''}</div>${L.length?`<div class="tablewrap"><table class="t"><thead><tr><th>When</th><th>Result</th></tr></thead><tbody>${L.slice(0,100).map(x=>`<tr><td style="white-space:nowrap">${esc(new Date(x.t).toLocaleString())}</td><td style="color:${x.ok?'var(--green)':'var(--red)'}">${x.ok?'Unlocked':'Failed'} <small style="color:var(--muted)">${esc(x.how||'')}</small></td></tr>`).join('')}</tbody></table></div>`:'<div class="note">No attempts yet.</div>'}</details>`}
 // Each unclaimed Rune's excess energy pools into one realm's Tower (fixed by the Rune's name).
 const TOWER_RUNES=(()=>{const m=new Map(REALMS.map(r=>[r.n,[]]));RUNES.filter(r=>!r.gods.length).forEach(r=>{let h=0;for(const c of r.n)h=(h*31+c.charCodeAt(0))>>>0;m.get(REALMS[h%REALMS.length].n).push(r)});return m})();
@@ -3140,12 +3190,13 @@ async function renderHidden(){
   $('content').innerHTML=`<div class="page">
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Hidden classes</h3><p>Beyond the basic classes are hidden classes. No one picks them at character creation: they are unlocked only through quests and by climbing the <a href="${pageUrl('towers')}" data-go="towers">Towers</a> that stand in every realm.</p></div>
     <div class="cols" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-bottom:14px">${HC_TIERS.map(([t,d,col])=>`<button class="panel" style="text-align:left;cursor:pointer;border-top:3px solid ${col};${st.tier===t?'background:var(--goldbg)':''}" data-hct="${t}"><b style="font-family:var(--serif);font-size:1.15rem;color:${col}">${t}</b> <span class="b ghost">${HC?HC.filter(c=>c.tier===t).length:(HIDDEN.counts||{})[t]||0}</span><div style="margin-top:4px;font-size:.88rem;color:var(--text2)">${esc(d)}</div></button>`).join('')}</div>
-    ${!HC?hcLockHTML():`<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px"><input class="sel" id="hc-q" placeholder="Find a hidden class, a subclass, a Rune, a progenitor…" value="${esc(st.q||'')}" style="max-width:300px;flex:1"><label class="note" style="margin:0;display:flex;gap:6px;align-items:center" title="Show every class's numbers at this character level: dice grow every 10 levels, and at 21, 41, 61, and 81 the class turns II to V">At level <input class="sel" id="hc-lv" type="number" min="1" max="100" placeholder="as written" value="${store.get('hclv',0)||''}" style="width:96px"></label>
+    ${!HC?(store.get('hcpat',null)&&!PAT_SKIP&&window.crypto&&crypto.subtle?patLockHTML():hcLockHTML()):`<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px"><input class="sel" id="hc-q" placeholder="Find a hidden class, a subclass, a Rune, a progenitor…" value="${esc(st.q||'')}" style="max-width:300px;flex:1"><label class="note" style="margin:0;display:flex;gap:6px;align-items:center" title="Show every class's numbers at this character level: dice grow every 10 levels, and at 21, 41, 61, and 81 the class turns II to V">At level <input class="sel" id="hc-lv" type="number" min="1" max="100" placeholder="as written" value="${store.get('hclv',0)||''}" style="width:96px"></label>
       ${(()=>{const sel=(k,label,vals)=>`<select class="sel" data-hcf="${k}"><option value="">${label}</option>${vals.map(v=>`<option${v===st[k]?' selected':''}>${esc(v)}</option>`).join('')}</select>`,u=f=>[...new Set(ALL.map(f).filter(Boolean))].sort();return sel('base','Any class',u(c=>c.base).filter(x=>x!=='Any'))+(st.base?sel('sub','Any '+st.base+' subclass',u(c=>c.base===st.base?c.sub:'')):'')+sel('tower','Any Tower',REALMS.map(r=>r.n).filter(r=>ALL.some(c=>c.tower===r)))+sel('prog','Any progenitor',u(c=>c.prog))})()}${st.tier?`<button class="btn" data-hct="">Show all tiers</button>`:''}<span class="note" style="margin:0">${C.length} shown</span></div>
     ${ALL.length?`<div style="display:flex;flex-direction:column;gap:10px">${C.slice(0,st.shown).map(c=>hcCard(c,false)).join('')}</div>${C.length>st.shown?`<div style="text-align:center;margin-top:12px"><button class="btn" id="hc-more">Show more (${fmt(C.length-st.shown)} left)</button></div>`:''}${!C.length?'<div class="empty">No hidden classes match.</div>':''}`:'<div class="empty">No hidden classes yet.</div>'}`}
-    ${HC?hcLogHTML():''}
+    ${HC?patSetHTML()+hcLogHTML():''}
   </div>`;
-  if(!HC){hcBindLock(renderHidden);$('content').querySelectorAll('[data-hct]').forEach(b=>b.onclick=()=>{});return}
+  if(!HC){if($('hc-pat'))patLockBind(renderHidden);else hcBindLock(renderHidden);$('content').querySelectorAll('[data-hct]').forEach(b=>b.onclick=()=>{});return}
+  patSetBind();
   $('content').querySelectorAll('[data-hct]').forEach(b=>b.onclick=()=>{const s2=store.get('hc',{});s2.tier=s2.tier===b.dataset.hct?'':b.dataset.hct;s2.shown=30;store.set('hc',s2);renderHidden()});
   $('content').querySelectorAll('[data-hcf]').forEach(el=>el.onchange=()=>{const s2=store.get('hc',{});s2[el.dataset.hcf]=el.value;if(el.dataset.hcf==='base')s2.sub='';s2.shown=30;store.set('hc',s2);renderHidden()});
   if($('hc-more'))$('hc-more').onclick=()=>{const s2=store.get('hc',{});s2.shown=(s2.shown||30)+60;store.set('hc',s2);const y=$('content').scrollTop;renderHidden().then(()=>{$('content').scrollTop=y})};
