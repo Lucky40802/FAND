@@ -516,7 +516,7 @@ var HIDDEN_LOCK = require(path.join(__dirname, 'hidden-lock.js'));
     log.push('hidden classes locked into data/hidden-lock.json: ' + cls.length);
   }
   var L = fs.existsSync(LOCK_FILE) ? JSON.parse(fs.readFileSync(LOCK_FILE, 'utf8')) : null;
-  D.HIDDEN = { towers: D.HIDDEN.towers, counts: L ? L.counts : {}, byTower: L ? L.byTower : {}, lock: L ? L.lock : null };
+  D.HIDDEN = { towers: D.HIDDEN.towers, counts: L ? L.counts : {}, byTower: L ? L.byTower : {}, lock: L ? L.lock : null, pin: L && L.pin || null };
 })();
 // Class changes past level 20 (data/stages.js)
 try { D.STAGES = require(path.join(__dirname, '..', 'data', 'stages.js')); } catch (e) { if (e.code !== 'MODULE_NOT_FOUND') throw e; D.STAGES = {}; }
