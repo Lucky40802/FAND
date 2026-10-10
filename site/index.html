@@ -80,6 +80,11 @@ kbd{font-family:var(--mono);font-size:.7rem;border:1px solid var(--line3);border
   .cbt td[data-l]::before{content:attr(data-l);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
   .cbt td[data-l] input{font-size:16px}
 }
+.pv{position:fixed;inset:0;z-index:85;background:var(--bg);overflow-y:auto;padding:max(16px,env(safe-area-inset-top)) 16px 24px}
+.pv[hidden]{display:none}
+.pv-row{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--surf);margin-bottom:10px}
+.pv-row.on{border-color:var(--gold);background:var(--goldbg);box-shadow:0 0 0 2px var(--gold) inset}
+.pv-row.down{opacity:.45}
 .top .backbtn{display:none}
 @media (display-mode: standalone){.top .backbtn{display:grid}}
 html.standalone .top .backbtn{display:grid}
@@ -483,6 +488,7 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
     <span>Search everything…</span><kbd>Ctrl K</kbd>
   </button>
+  <button class="icon-btn" onclick="openQuick()" aria-label="Quick rules" title="Quick rules"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M9 8h7M9 12h5"/></svg></button>
   <button class="icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle light or dark theme" title="Toggle theme"></button>
   <button class="icon-btn" onclick="openSettings()" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
 </header>
@@ -523,6 +529,10 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   <div class="ai-msgs" id="aiMsgs"></div>
   <form class="ai-in" id="aiForm"><textarea id="aiQ" rows="1" placeholder="Ask about Blueprints, materials, monsters, gods, rules…" aria-label="Your question"></textarea><button class="btn primary" id="aiSend" type="submit">Send</button></form>
 </aside>
+<div id="pv" class="pv" hidden></div>
+<div class="mbg" id="qbg" role="dialog" aria-modal="true" aria-labelledby="qTitle">
+  <div class="set" id="qBox" style="max-width:640px"></div>
+</div>
 <div class="mbg" id="sbg" role="dialog" aria-modal="true" aria-labelledby="setTitle">
   <div class="set" id="setBox"></div>
 </div>
@@ -1812,6 +1822,11 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-10','Mission tracker and floor maps','Every Tower floor now has a map that fits its mission (a real maze for Maze floors; rooms with the stone, shrine, climber, item, patrols, or crumbling path marked for the others) and a Mission tracker: rounds held, guardians down, the climber\'s or shrine\'s hit points, legs crossed, alarms raised. It says when the stairs open, or when the mission fails.','towers'],
+  ['2026-10-10','Quick rules','The book button in the header opens the rules a table checks mid-session from any page: damage and AC, levels and class changes, realm Pressure, every condition, and Tower floors.','rules'],
+  ['2026-10-10','Player view for combat','The Combat tracker has a Player view to show the table: turn order, PCs\' hit points, and how hurt each monster looks (Unhurt, Hurt, Bloodied, Near death, Down) with no monster numbers. Open it on a second screen and it follows the tracker live.','combat'],
+  ['2026-10-10','Fuller NPCs','NPCs now have a level, looks marked by their realm, a voice, and a secret only the DM sees, and any of them can be saved to the Journal in one tap.','hooks'],
+  ['2026-10-10','Treasure roller','Tools has a Treasure roller: a pouch, chest, or hoard for any realm and party level, with gold at the realm\'s prices, the realm\'s own materials at a fitting grade, and a chance of an item.','tools'],
   ['2026-10-10','Combat tracker fits a phone','On a phone each combatant is now a card: name and remove at the top, HP bar and AC, a full-width damage box with Hit and Heal, then conditions. Nothing hides off the right edge any more, and number boxes no longer make an iPhone zoom in.','combat'],
   ['2026-10-10','App touches: Back button and Keep screen on','When FAND runs as a Home Screen app, a Back button sits at the left of the header (it closes an open window first, like the browser\'s Back). The Combat tracker has a Keep screen on switch so the phone or tablet does not lock during a fight.','combat'],
   ['2026-10-09','FAND as an app','Add FAND to the Home Screen of an iPhone or iPad (Safari: Share, Add to Home Screen) or to the Dock of a Mac, and it opens full-screen with its own icon. The whole site is saved on the device, so every page works offline at the table; new versions arrive by themselves. Steps are on the About page.','about'],
@@ -2314,6 +2329,11 @@ function renderTools(){
         <label class="chk"><input type="checkbox" id="e-hb"> Homebrew only</label><div style="display:flex;justify-content:flex-end"><button class="btn primary" id="e-go">Roll encounter</button></div></div>
         <div class="enc" id="e-out"></div></div>
 
+      <div class="tool" id="t-loot"><h3>Treasure</h3><div class="sub">A pouch, chest, or hoard for a realm and party level: gold at the realm's prices, materials of the realm at a grade that fits the level, and a chance of an item.</div>
+        <div class="form"><label>Realm<select id="l-realm">${realmOpts('Human')}</select></label><label>Party level<input type="number" id="l-lv" value="5" min="1" max="100"></label>
+        <label>Size<select id="l-size"><option value="0">Pouch (a single foe)</option><option value="1" selected>Chest (an encounter)</option><option value="2">Hoard (a boss or a lair)</option></select></label><div style="display:flex;justify-content:flex-end;align-items:end"><button class="btn primary" id="l-go">🎲 Roll treasure</button></div></div>
+        <div id="l-out" style="margin-top:10px"></div></div>
+
       <div class="tool" id="t-cur"><h3>Currency converter</h3><div class="sub">Swap coin between realms. Moneychangers take ${EXCHANGE_FEE*100}%.</div>
         <div class="form"><label>Amount<input type="number" id="x-n" value="100" min="0"></label><label>From<select id="x-a">${REALMS.filter(r=>CURRENCY[r.n]&&CURRENCY[r.n].coin).map(r=>`<option value="${esc(r.n)}">${esc(CURRENCY[r.n].coin)} (${esc(r.n)})</option>`).join('')}</select></label>
         <label>To<select id="x-b">${REALMS.filter(r=>CURRENCY[r.n]&&CURRENCY[r.n].coin).map(r=>`<option value="${esc(r.n)}"${r.n==='Hell'?' selected':''}>${esc(CURRENCY[r.n].coin)} (${esc(r.n)})</option>`).join('')}</select></label>
@@ -2409,6 +2429,18 @@ function renderTools(){
     $('e-out').innerHTML=rows.join('')+`<div class="out" style="margin-top:4px"><div class="kv"><span>Loot value</span><span><b style="color:var(--gold2)">${gp(total)}</b> (one of each drop)</span><span>Pool</span><span>${pool.length} monsters</span></div></div>`;
   };
   $('e-go').onclick=roll;roll();
+  // Treasure: gold follows the realm's prices and rises 15% a level above the realm's own band; materials are the realm's own,
+  // their grade climbing one a level inside the realm's band, as Tower rewards do; items come from Blueprints at or near the level.
+  const loot=()=>{const rn=$('l-realm').value,lv=Math.max(1,Math.min(MAX_LEVEL,+$('l-lv').value||1)),sz=+$('l-size').value,R=Math.random,pk=a=>a[Math.floor(R()*a.length)];
+    const start=towerStart(rn),over=Math.max(0,lv-start),gold=Math.max(1,Math.round(realmBase(rn)*[2,8,30][sz]*(1+0.15*Math.min(over,20))*(0.6+R()*0.8)));
+    const grade=Math.max(1,Math.min(10,1+Math.max(0,lv-start))),mats=[];
+    for(let k=0,n=[1,2+Math.floor(R()*2),4+Math.floor(R()*3)][sz];k<n;k++){const gg=Math.max(1,Math.min(10,grade+(R()<.25?1:0)-(R()<.25?1:0))),pool=MATS.filter(m=>m.realm===rn&&!m.gen&&m.g===gg);if(pool.length){const m=pk(pool),had=mats.find(x=>x.m===m);had?had.q++:mats.push({m,q:1+(sz===2?Math.floor(R()*3):0)})}}
+    const RAR=['Common','Uncommon','Rare','Very Rare','Legendary'],BL=Math.min(20,lv),rmax=RAR[Math.min(4,Math.floor((BL-1)/4)+(sz===2?1:0))];
+    const items=[];for(const ch of [[.15,.5,1][sz],sz===2?.5:0]){if(R()<ch){const bp=BPS.filter(b=>b.lv<=BL+1&&b.lv>=Math.max(1,BL-3)&&RAR.indexOf(b.r)<=RAR.indexOf(rmax)&&!['Food','Crop','Fertilizer','Livestock','Structure','Fortification'].includes(b.cat));if(bp.length)items.push(pk(bp))}}
+    const val=gold+mats.reduce((a,x)=>a+(x.m.price||0)*x.q,0);
+    $('l-out').innerHTML=`<div class="mlist"><div class="enc-row" style="padding:8px 12px"><b>${gp(gold)}</b>${localPrice(gold,rn)?` <span class="note" style="margin:0">(${localPrice(gold,rn)})</span>`:''}</div>${mats.map(x=>`<div class="enc-row" style="padding:8px 12px">${x.q>1?x.q+' × ':''}${refChip(x.m,esc(x.m.n),'G'+x.m.g)}</div>`).join('')}${items.map(b=>`<div class="enc-row" style="padding:8px 12px">${refChip(b,esc(b.n),b.r)}</div>`).join('')}</div>
+      <div class="note">About ${gp(val)} in all (materials at list price). Grade ${grade} fits level ${lv} in the ${esc(rn)} Realm${lv<start?`, which is above the party (its band starts at level ${start})`:''}.</div>`};
+  $('l-go').onclick=loot;['l-realm','l-lv','l-size'].forEach(i=>$(i).addEventListener('change',loot));loot();
   // currency
   on(['x-n','x-a','x-b','x-fee'],()=>{
     const A=CURRENCY[v('x-a')],B=CURRENCY[v('x-b')],amt=Math.max(0,n('x-n')),g=amt*A.gp,fee=$('x-fee').checked&&v('x-a')!==v('x-b')?g*EXCHANGE_FEE:0,out=(g-fee)/B.gp;
@@ -2905,16 +2937,28 @@ function makeHook(kind,R,level,realm){
 const NPC_FIRST=['Aldric','Brenna','Corvin','Dalia','Edda','Fenn','Garreth','Hesta','Ivo','Jora','Kael','Liora','Maren','Nils','Orla','Pell','Quill','Rhea','Soren','Tamsin','Ulric','Vessa','Wren','Yara','Zeph','Ansel','Bryn','Cass','Doran','Elske'];
 const NPC_LAST=['Ashdown','Brightwater','Coldbrook','Duskmantle','Emberly','Fairholt','Greystone','Hollowell','Ironwood','Kettering','Larkspur','Marrow','Nettleby','Oakhart','Pennick','Quarry','Ravensworth','Saltmarsh','Thistle','Underhill','Vane','Whitlock'];
 const NPC_TRAITS=['speak only in questions when nervous','never sit with their back to a door','collect buttons from every town','owe money to three different temples','are terrified of birds','laugh at the wrong moments','keep a ledger of every favor','were once a Finger\'s servant','claim to have seen Inane\'s work','hum hymns to a god they don\'t serve'];
+const NPC_LOOKS2=['a broken nose set crooked','ink-stained fingers','a voice too soft for their size','one grey eye and one brown','a coat patched with three other coats','burn scars up one arm','a shaved head painted with a god\'s sign','a missing front tooth they whistle through','rings on every finger, none of them gold','a limp they hide badly','hair braided with copper wire','a child\'s drawing pinned to their chest'];
+const NPC_VOICE=['talks fast and finishes your sentences','answers every question with a price','calls everyone "friend" and means none of it','whispers, as if the walls are listening','swears by gods they do not serve','repeats the last word you said','laughs before the joke lands','never says a name aloud'];
+const NPC_SECRETS=['is spying for a rival god\'s Hand','owes their life to a monster in the local Bestiary','stole the thing they are selling','is a climber who fled a Tower floor and left a friend behind','carries a Class Change Book they cannot read','has broken a god\'s contract and is hiding from its collectors','is not from this realm at all, and the Pressure is slowly killing them','knows where an unclaimed Rune\'s Tower door is'];
+// how living in each realm marks a person
+const NPC_MARK={Human:'sun-browned and ordinary',Mysterious:'blurred at the edges when you look away',Hell:'smelling faintly of smoke and old paper',Heaven:'too clean, and quiet when they walk',Chaos:'wearing clothes that never quite match twice',Abyss:'pale, with ears that pop when they talk','Inner Realm':'with skin that grows moss in the damp','Outer Realm':'with star-specks in their eyes','Void':'hard to hear, as if from far away','Inner Void':'unsure of their own birthday','Primordial':'with a shadow a moment late'};
 function makeNPC(R,realm){
   const pk=a=>a[Math.floor(R()*a.length)],rs=realm?[REALM[realm]]:REALMS.filter(r=>r.tier<=3),r=pk(rs);
   const g=R()<.7?pk(GODS):null,rank=g?pk(['Minor','Minor','Normal','Normal','Major','Senior']):'';const ct=g&&contractOf(rank);
   const prof=pk(Object.keys(PROFS)),priced=MATS.filter(m=>m.realm===r.n&&!m.gen&&m.price),realmMats=priced.length?priced:MATS.filter(m=>m.realm===r.n&&!m.gen),low=realmMats.filter(m=>m.g<=4),mats=low.length?low:realmMats.filter(m=>m.g<=Math.min(...realmMats.map(x=>x.g))+1),carry=[...new Set([pk(mats),pk(mats)])].filter(Boolean);
-  return {name:pk(NPC_FIRST)+' '+pk(NPC_LAST),realm:r,g,rank,ct,prof,trait:pk(NPC_TRAITS),want:g&&g.wants?`Serves ${godKey(g)}'s will: ${g.wants.charAt(0).toLowerCase()+g.wants.slice(1).replace(/\.$/,'')}.`:pk(['Wants to clear a family debt.','Wants passage to a higher realm.','Wants revenge on a contractor of a rival god.','Wants a rare material nobody will sell them.','Wants to be left alone.']),carry,purse:Math.round((5+R()*40)*realmBase(r.n)/5)};
+  const look=pk(NPC_LOOKS2),voice=pk(NPC_VOICE),secret=pk(NPC_SECRETS),level=towerStart(r.n)+Math.floor(R()*10);
+  return {look,voice,secret,level,name:pk(NPC_FIRST)+' '+pk(NPC_LAST),realm:r,g,rank,ct,prof,trait:pk(NPC_TRAITS),want:g&&g.wants?`Serves ${godKey(g)}'s will: ${g.wants.charAt(0).toLowerCase()+g.wants.slice(1).replace(/\.$/,'')}.`:pk(['Wants to clear a family debt.','Wants passage to a higher realm.','Wants revenge on a contractor of a rival god.','Wants a rare material nobody will sell them.','Wants to be left alone.']),carry,purse:Math.round((5+R()*40)*realmBase(r.n)/5)};
 }
+const NPC_SHOWN=[];
+function npcText(n){return `${n.name}, level ${n.level} ${n.prof} from the ${n.realm.n} Realm. Looks: ${n.look}, ${NPC_MARK[n.realm.n]||'marked by their realm'}. Voice: ${n.voice}. ${n.g?`${n.rank} contract with ${godKey(n.g)}.`:'No god holds a contract with them.'} ${n.want} They ${n.trait}. Secret: ${n.secret}.`}
+function npcSave(i){const n=NPC_SHOWN[i];if(!n)return;const J=store.get('journal',[]);J.push({t:'NPC: '+n.name,d:new Date().toISOString().slice(0,10),body:npcText(n)});store.set('journal',J);toast(n.name+' saved to the Journal')}
 function npcHTML(n){
-  return `<div class="callout" style="border-color:var(--acc)"><div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b style="font-family:var(--serif);font-size:1.1rem">${esc(n.name)}</b><span class="note" style="margin:0">${esc(n.prof)} · from the ${esc(n.realm.n)} Realm</span></div>
+  const i=NPC_SHOWN.push(n)-1;
+  return `<div class="callout" style="border-color:var(--acc)"><div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b style="font-family:var(--serif);font-size:1.1rem">${esc(n.name)}</b><span class="note" style="margin:0">Level ${n.level} ${esc(n.prof)} · from the ${esc(n.realm.n)} Realm</span><button class="btn" style="margin-left:auto;padding:3px 10px;font-size:.8rem" onclick="npcSave(${i})">Save to Journal</button></div>
+    <div style="line-height:1.6;margin-top:4px"><b>Looks:</b> ${esc(n.look)}; ${esc(NPC_MARK[n.realm.n]||'marked by their realm')}. <b>Voice:</b> ${esc(n.voice)}.</div>
     <div style="line-height:1.6;margin-top:4px">${n.g?`Holds a <b>${esc(n.rank)}</b> contract with ${refChip(n.g,esc(godKey(n.g)))}: ${esc(n.ct.power.charAt(0).toLowerCase()+n.ct.power.slice(1))}.`:'No god holds a contract with them.'} ${esc(n.want)} They ${esc(n.trait)}.
-    <br><span class="note" style="margin:0">Carries ${n.carry.length?n.carry.map(m=>refChip(m)).join(', ')+(n.carry.length>1?', and ':' and '):''}${gp(n.purse)}${localPrice(n.purse,n.realm.n)?` (${localPrice(n.purse,n.realm.n)})`:''}.</span></div></div>`;
+    <details style="margin-top:4px"><summary class="note" style="margin:0;cursor:pointer">DM: their secret</summary><div style="margin-top:4px">${esc(n.secret.charAt(0).toUpperCase()+n.secret.slice(1))}.</div></details>
+    <span class="note" style="margin:0">Carries ${n.carry.length?n.carry.map(m=>refChip(m)).join(', ')+(n.carry.length>1?', and ':' and '):''}${gp(n.purse)}${localPrice(n.purse,n.realm.n)?` (${localPrice(n.purse,n.realm.n)})`:''}.</span></div></div>`;
 }
 // Session journal: dated entries kept on this device; [[Name]] links to any entry on the site.
 function renderJournal(){
@@ -3115,6 +3159,8 @@ function trialHTML(t,o){
     <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><b style="font-family:var(--serif);font-size:1.2rem">${esc(t.T.name)}, ${ORD(t.floor)} floor</b>${t.boss?'<span class="b red">Boss floor</span>':''}<span class="b">Floor level ${t.L}</span><span class="b ghost">${esc(t.kind)}</span><span class="note" style="margin:0">Built on ${refChip(t.rune)}</span></div>
     <div style="margin:10px 0 4px;font-size:1.05rem"><b>Mission:</b> ${esc(t.mission)}</div>
     <p style="line-height:1.6;margin:4px 0 8px">${esc(t.text)}</p>
+    <details open style="margin:6px 0 10px"><summary style="cursor:pointer;font-weight:600">Floor map</summary><div style="margin-top:8px">${floorMapSVG(t,o)}</div></details>
+    ${trackHTML(t,o)}
     ${t.mons.length?`<div class="blk"><h4>${t.boss?'Floor guardian':'Guardians'}</h4></div><div class="chips">${t.mons.map(m=>refChip(m,esc(m.n),'CR '+(m.sb?m.sb.cr:m.cr))).join('')}</div>`:''}
     <div class="blk" style="margin-top:10px"><h4>Reward <em>scaled to floor ${t.floor} (level ${t.L}) of a tier-${(REALM[o.realm]||{}).tier||1} Tower</em></h4></div>
     ${t.over?`<div class="callout" style="border-color:var(--red)"><b>No loot.</b> The party (level ${o.level}) is above this floor's level (${t.L}). The Tower gives nothing to those who climb beneath themselves, except perhaps a Class Change Book: ${Math.round(t.bookCh*100)}% chance here (it halves for every 5 levels above the floor).</div>`:''}${!t.rw.length?(t.over?'<div class="note">No Class Change Book this time.</div>':''):`<div class="mlist">${t.rw.map(r=>r.k==='gold'?`<button disabled style="opacity:1;cursor:default">💰 <b>${r.t}</b><span class="x">${localPrice(r.v,o.realm)||''}</span></button>`:r.k==='mat'?`<button data-ref="${ref(r.x)}">⛏ <b>${r.q}× ${esc(r.x.n)}</b><span class="x">${esc(r.x.gr)}${r.x.pn?' · '+esc(r.x.pn):''}</span></button>`:r.k==='item'?`<button data-ref="${ref(r.x)}">🎁 <b>${esc(r.x.n)}</b><span class="x">${esc(r.x.cat)} · Lv ${r.x.lv}${r.x.r?' · '+esc(r.x.r):''}</span></button>`:r.k==='forged'?`<button data-ref="${ref(r.x)}">🎁 <b>${esc(r.x.n)} ${esc(r.base)}</b><span class="x">Forge design · Item Level ${r.x.il||1} · ${esc(r.x.gr)}</span></button>`:r.k==='book'?`<a class="chip" href="${pageUrl('hidden')}#hc-${pid(r.c.n)}" data-go="hidden" style="text-decoration:none;padding:8px 12px">📕 <b>Class Change Book: ${esc(r.c.n)}</b> <small>${esc(r.c.tier)}${r.c.base&&r.c.base!=='Any'?' · for '+esc(r.c.base):''}</small></a>`:`<a class="chip" href="${pageUrl('hidden')}" data-go="hidden" style="padding:8px 12px">📕 <b>A sealed Class Change Book</b> <small>unlock the hidden class list to see which</small></a>`).join('')}</div>`}
@@ -3126,6 +3172,111 @@ function trialHTML(t,o){
       ${t.legend.secret?`<li><b>Hidden condition:</b> ${esc(t.legend.secret)}</li>`:''}
       <li><b>Reward:</b> whoever passes it earns the Class Change Book for ${esc(t.legend.n)}${t.over?` (over-level: ${Math.round(t.bookCh*100)}% chance)`:''}.</li></ul></div></details>`})():''}
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px">${t.boss?`<button class="btn primary" id="tr-conquer">⚔ Mark floor ${t.floor} conquered</button>`:''}<span class="note" style="margin:0">Teleport to: ${ports.map(f=>`<button class="chip" data-tp="${f}">Floor ${f}</button>`).join(' ')}${prog?` · conquered up to floor ${prog}`:''}</span></div></div>`;
+}
+// Mission tracker: what the DM ticks off while the party works the floor's mission (kept per Tower, floor, and seed on this device).
+// Counters with a goal, hit points that must stay above 0, checks, and failure tallies (which never block the stairs).
+function trialTrack(t,o){
+  const n=re=>{const m=(t.mission+' '+t.text).match(re);return m?+m[1]:0},T=n(/(\d+) rounds/)||4,S=n(/(\d+) by \1/)||5,g=Math.max(1,t.mons.length);
+  const name=(t.text.match(/^(.+?), a climber/)||[])[1]||'The climber',item=(t.mission.match(/^Retrieve (.+?) and carry/)||[])[1]||'the item';
+  return {
+    Boss:[{t:'check',l:'Floor guardian defeated'}],
+    Slay:[{t:'count',l:'Guardians down',max:g}],
+    Maze:[{t:'count',l:'Legs of the maze crossed',max:Math.ceil(S/2)},{t:'fail',l:'Failed checks in a row',warn:3,note:'At 3, every guardian comes. Reset it after a success.'}],
+    Escort:[{t:'hp',l:name+"'s hit points",max:6+4*t.L},{t:'count',l:'Stretches covered',max:4}],
+    Hold:[{t:'count',l:'Rounds held on the centre stone',max:T}],
+    Retrieve:[{t:'check',l:'Found '+item},{t:'check',l:'Carried it to the stairs'}],
+    Stealth:[{t:'count',l:'Stretches crossed',max:4},{t:'fail',l:'Alarms raised',note:'Each alarm adds a guardian to the fight at the stairs.'}],
+    Race:[{t:'count',l:'Stretches crossed before the floor falls',max:T}],
+    Protect:[{t:'hp',l:'Shrine hit points',max:10*Math.max(1,o.level|0)},{t:'count',l:'Rounds survived',max:T}],
+    Riddle:[{t:'pick',l:'The riddle',opts:['Answered right (guardians halved)','Answered wrong (all guardians at once)']},{t:'count',l:'Guardians down',max:g}],
+    Law:[{t:'count',l:'Stretches crossed under the Law',max:4}],
+  }[t.kind]||[];
+}
+const trackKey=(t,o)=>[t.T.id,t.floor,o.seed||0,o.rune||''].join('|');
+function trackState(k){return (store.get('trialtrack',{})[k])||{}}
+function trackSet(k,v){const all=store.get('trialtrack',{});delete all[k];all[k]=v;const ks=Object.keys(all);ks.slice(0,Math.max(0,ks.length-40)).forEach(x=>delete all[x]);store.set('trialtrack',all)}
+function trackHTML(t,o){
+  const spec=trialTrack(t,o);if(!spec.length)return '';
+  const st=trackState(trackKey(t,o)),val=(it,i)=>st[i]!=null?st[i]:it.t==='hp'?it.max:it.t==='pick'?-1:0;
+  const done=spec.every((it,i)=>it.t==='count'?val(it,i)>=it.max:it.t==='check'?!!val(it,i):it.t==='hp'?val(it,i)>0:it.t==='pick'?val(it,i)>=0:true),lost=spec.some((it,i)=>it.t==='hp'&&val(it,i)<=0);
+  const bar=(v,m,col)=>`<div class="bar" style="margin-top:4px"><i style="width:${Math.max(0,Math.min(100,v/m*100))}%;background:${col}"></i></div>`;
+  const pm=(i,d,lab)=>`<button class="btn" data-tk="${i}" data-d="${d}" style="min-width:40px">${lab}</button>`;
+  return `<div class="tool" id="tr-track" style="margin-top:12px;border-color:${lost?'var(--red)':done?'var(--green)':'var(--line)'}"><div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap"><h3 style="margin:0">Mission tracker</h3><span class="note" style="margin:0">Tick it off as the party plays the floor.</span><button class="btn" data-tk="reset" style="margin-left:auto">Reset</button></div>
+    <div style="display:flex;flex-direction:column;gap:12px;margin-top:10px">${spec.map((it,i)=>{const v=val(it,i);
+      if(it.t==='check')return `<label style="display:flex;gap:10px;align-items:center;font-size:1rem"><input type="checkbox" data-tk="${i}" ${v?'checked':''} style="width:22px;height:22px"> ${esc(it.l)}</label>`;
+      if(it.t==='pick')return `<div><div style="margin-bottom:6px">${esc(it.l)}</div><div style="display:flex;gap:6px;flex-wrap:wrap">${it.opts.map((x,j)=>`<button class="btn${v===j?' primary':''}" data-tk="${i}" data-v="${j}">${esc(x)}</button>`).join('')}</div></div>`;
+      const ctl=it.t==='hp'?`${pm(i,-5,'−5')}${pm(i,-1,'−1')}${pm(i,1,'+1')}`:`${pm(i,-1,'−')}${pm(i,1,'+')}`;
+      const shown=it.t==='fail'?`<b style="font-size:1.15rem;color:${it.warn&&v>=it.warn?'var(--red)':'var(--text)'}">${v}</b>${it.warn?` / ${it.warn}`:''}`:`<b style="font-size:1.15rem">${v}</b> / ${it.max}`;
+      return `<div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="flex:1;min-width:150px">${esc(it.l)}</span>${shown}<span style="display:flex;gap:4px">${ctl}</span></div>${it.t==='hp'?bar(v,it.max,v/it.max>.5?'var(--green)':v/it.max>.25?'var(--gold)':'var(--red)'):it.t==='count'?bar(v,it.max,'var(--acc)'):''}${it.note?`<div class="note" style="margin:4px 0 0">${esc(it.note)}</div>`:''}</div>`}).join('')}</div>
+    ${lost?`<div class="callout" style="border-color:var(--red);margin-top:12px"><b>Mission failed.</b> ${t.kind==='Protect'?'The shrine is broken: the guardians double. The stairs stay shut until every guardian falls.':'The climber is down. The stairs stay shut until every guardian falls, and the floor remembers.'}</div>`:done?`<div class="callout" style="border-color:var(--green);margin-top:12px"><b>Mission complete.</b> The stairs to floor ${Math.min(t.T.floors,t.floor+1)} open.</div>`:''}</div>`;
+}
+function trackBind(t,o,redraw){
+  const box=$('tr-track');if(!box)return;const k=trackKey(t,o),spec=trialTrack(t,o);
+  const put=(i,v)=>{const st=trackState(k);st[i]=v;trackSet(k,st);redraw()};
+  box.querySelectorAll('[data-tk]').forEach(el=>{const i=el.dataset.tk;
+    if(i==='reset'){el.onclick=()=>{trackSet(k,{});redraw()};return}
+    const it=spec[+i],cur=()=>{const v=trackState(k)[i];return v!=null?v:it.t==='hp'?it.max:0};
+    if(el.type==='checkbox')el.onchange=()=>put(i,el.checked);
+    else if(el.dataset.v!=null)el.onclick=()=>put(i,+el.dataset.v);
+    else el.onclick=()=>put(i,Math.max(0,Math.min(it.max||999,cur()+(+el.dataset.d))));
+  });
+}
+
+// Floor map: a simple plan of the floor that fits its mission, drawn from its own seed (the same floor always gets the same map).
+// Maze floors are a true S by S labyrinth; the others are rooms joined by passages, with the mission's places marked.
+function floorMapSVG(t,o){
+  const R=rng32((o.seed||0)*13+t.floor*7919+t.T.id.length*977),pk=a=>a[Math.floor(R()*a.length)];
+  const ink='var(--text2)',wall='var(--line3)',room='var(--surf2)',hot='var(--gold)',bad='var(--red)',acc='var(--acc)';
+  const label=(x,y,s,col,size)=>`<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="central" font-size="${size||13}" fill="${col||ink}" font-family="var(--sans)">${s}</text>`;
+  const legend=items=>`<div class="note" style="display:flex;gap:12px;flex-wrap:wrap;margin:6px 0 0">${items.map(([s,l])=>`<span><b>${s}</b> ${esc(l)}</span>`).join('')}</div>`;
+  if(t.kind==='Maze'){
+    const S=Math.min(15,+((t.text.match(/(\d+) by \1/)||[])[1])||5),C=24,P=8,seen=new Set(),walls=new Set();
+    for(let y=0;y<S;y++)for(let x=0;x<S;x++){walls.add(`h${x},${y}`);walls.add(`v${x},${y}`)}
+    const stack=[[0,S-1]];seen.add(`0,${S-1}`);
+    while(stack.length){const [x,y]=stack[stack.length-1],nb=[[x+1,y,'v',x+1,y],[x-1,y,'v',x,y],[x,y+1,'h',x,y+1],[x,y-1,'h',x,y]].filter(([a,b])=>a>=0&&b>=0&&a<S&&b<S&&!seen.has(a+','+b));
+      if(!nb.length){stack.pop();continue}const [a,b,d,wx,wy]=pk(nb);walls.delete(`${d}${wx},${wy}`);seen.add(a+','+b);stack.push([a,b])}
+    const W=S*C+P*2,lines=[];
+    walls.forEach(w=>{const [x,y]=w.slice(1).split(',').map(Number);if(w[0]==='h'&&y>0)lines.push([x,y,x+1,y]);if(w[0]==='v'&&x>0)lines.push([x,y,x,y+1])});
+    lines.push([0,0,S,0],[0,S,S,S],[0,0,0,S],[S,0,S,S]);
+    return `<svg viewBox="0 0 ${W} ${W}" style="width:100%;max-width:420px;display:block;margin:0 auto" role="img" aria-label="Maze map">${lines.map(([a,b,c,d])=>`<line x1="${P+a*C}" y1="${P+b*C}" x2="${P+c*C}" y2="${P+d*C}" stroke="${wall}" stroke-width="3" stroke-linecap="round"/>`).join('')}
+      <circle cx="${P+C/2}" cy="${P+(S-.5)*C}" r="${C/3}" fill="${acc}"/>${label(P+C/2,P+(S-.5)*C,'E','#fff',11)}<rect x="${P+(S-1)*C+4}" y="${P+4}" width="${C-8}" height="${C-8}" rx="3" fill="${hot}"/>${label(P+(S-.5)*C,P+C/2,'S','#000',11)}</svg>
+      ${legend([['E','Entrance'],['S','Stairs up'],['','The walls shift each round: redraw (🎲 New trial) if the party is lost for too long.']])}`;
+  }
+  // rooms on a grid, joined by a spanning tree plus a few loops
+  const boss=t.kind==='Boss',GW=boss?3:4,GH=boss?3:4,C=80,P=10,W=GW*C+P*2,H=GH*C+P*2,id=(x,y)=>y*GW+x;
+  const rooms=[];for(let y=0;y<GH;y++)for(let x=0;x<GW;x++){const w=36+R()*30,h=32+R()*30;rooms.push({x,y,w,h,cx:P+x*C+C/2,cy:P+y*C+C/2})}
+  const edges=new Set(),seen=new Set([id(0,GH-1)]),stack=[[0,GH-1]];
+  while(stack.length){const [x,y]=stack[stack.length-1],nb=[[x+1,y],[x-1,y],[x,y+1],[x,y-1]].filter(([a,b])=>a>=0&&b>=0&&a<GW&&b<GH&&!seen.has(id(a,b)));if(!nb.length){stack.pop();continue}
+    const [a,b]=pk(nb);edges.add([id(x,y),id(a,b)].sort((p,q)=>p-q).join('-'));seen.add(id(a,b));stack.push([a,b])}
+  for(let i=0;i<3;i++){const x=Math.floor(R()*(GW-1)),y=Math.floor(R()*GH);edges.add([id(x,y),id(x+1,y)].join('-'))}
+  const adj=rooms.map(()=>[]);edges.forEach(e=>{const [a,b]=e.split('-').map(Number);adj[a].push(b);adj[b].push(a)});
+  const bfs=s=>{const d=rooms.map(()=>-1),prev=rooms.map(()=>-1),q=[s];d[s]=0;while(q.length){const u=q.shift();adj[u].forEach(v=>{if(d[v]<0){d[v]=d[u]+1;prev[v]=u;q.push(v)}})}return {d,prev}};
+  const ent=id(Math.floor(R()*GW),GH-1),fromE=bfs(ent),top=rooms.map((r,i)=>i).filter(i=>rooms[i].y===0),stairs=top.sort((a,b)=>fromE.d[b]-fromE.d[a])[0];
+  const path=[];for(let u=stairs;u>=0;u=fromE.prev[u])path.unshift(u);
+  const mid=rooms.map((r,i)=>i).sort((a,b)=>Math.hypot(rooms[a].x-(GW-1)/2,rooms[a].y-(GH-1)/2)-Math.hypot(rooms[b].x-(GW-1)/2,rooms[b].y-(GH-1)/2))[0];
+  const far=rooms.map((r,i)=>i).filter(i=>i!==stairs&&i!==ent).sort((a,b)=>fromE.d[b]-fromE.d[a])[0];
+  const others=rooms.map((r,i)=>i).filter(i=>i!==ent&&i!==stairs);
+  const marks=[],extra=[],leg=[['E','Entrance'],['S','Stairs up']];
+  const mk=(i,s,col,txt)=>marks.push({i,s,col,txt});
+  const g=Math.max(1,t.mons.length),spread=n=>{const pool=others.slice(),out=[];for(let k=0;k<n&&pool.length;k++)out.push(pool.splice(Math.floor(R()*pool.length),1)[0]);return out};
+  if(boss){mk(mid,'B',bad,'#fff');leg.push(['B','The floor guardian'])}
+  else if(t.kind==='Slay'){spread(g).forEach(i=>mk(i,'G',bad,'#fff'));leg.push(['G','Guardians (doors sealed until all fall)'])}
+  else if(t.kind==='Hold'){mk(mid,'◆',hot,'#000');leg.push(['◆','The centre stone'])}
+  else if(t.kind==='Protect'){mk(mid,'✦',hot,'#000');leg.push(['✦','The shrine'])}
+  else if(t.kind==='Escort'){mk(path[1]!=null?path[1]:ent,'N',acc,'#fff');mk(far,'D',hot,'#000');leg.push(['N','Where the climber waits'],['D','The destination'])}
+  else if(t.kind==='Retrieve'){mk(far,'★',hot,'#000');leg.push(['★','The item'])}
+  else if(t.kind==='Stealth'){spread(Math.min(4,others.length)).forEach(i=>extra.push(`<circle cx="${rooms[i].cx}" cy="${rooms[i].cy}" r="${C*.46}" fill="none" stroke="${bad}" stroke-width="2" stroke-dasharray="5 5"/>`));leg.push(['◌','Patrol loops'])}
+  else if(t.kind==='Race'){path.forEach((u,k)=>{if(u!==ent&&u!==stairs)mk(u,String(k),'var(--surf3)',ink)});leg.push(['1, 2, …','Stretches (each falls a round after the party leaves it)'])}
+  else if(t.kind==='Riddle'){mk(path[Math.floor(path.length/2)],'?',acc,'#fff');leg.push(['?','Where the voice speaks'])}
+  else if(t.kind==='Law'){spread(3).forEach(i=>mk(i,'ᚱ',acc,'#fff'));leg.push(['ᚱ','Rooms where the Law is strongest'])}
+  if(!boss&&t.kind!=='Slay')spread(Math.min(2,g)).filter(i=>!marks.some(m=>m.i===i)).forEach(i=>mk(i,'G',bad,'#fff'));
+  if(!boss&&t.kind!=='Slay')leg.push(['G','Guardians']);
+  mk(ent,'E',acc,'#fff');mk(stairs,'S',hot,'#000');
+  const corr=[...edges].map(e=>{const [a,b]=e.split('-').map(Number);return `<line x1="${rooms[a].cx}" y1="${rooms[a].cy}" x2="${rooms[b].cx}" y2="${rooms[b].cy}" stroke="${wall}" stroke-width="9" stroke-linecap="round"/>`}).join('');
+  const path2=t.kind==='Race'?`<polyline points="${path.map(u=>rooms[u].cx+','+rooms[u].cy).join(' ')}" fill="none" stroke="${hot}" stroke-width="2" stroke-dasharray="4 4"/>`:'';
+  const rs=rooms.map((r,i)=>boss&&i===mid?`<rect x="${P+r.x*C+4}" y="${P+r.y*C+4}" width="${C-8}" height="${C-8}" rx="6" fill="${room}" stroke="${bad}" stroke-width="2"/>`:`<rect x="${r.cx-r.w/2}" y="${r.cy-r.h/2}" width="${r.w}" height="${r.h}" rx="4" fill="${room}" stroke="${wall}" stroke-width="1.5"/>`).join('');
+  const ms=[],per={};marks.forEach(m=>{const k=per[m.i]=(per[m.i]||0)+1,off=(k-1)*16-(marks.filter(x=>x.i===m.i).length-1)*8,r=rooms[m.i];ms.push(`<circle cx="${r.cx+off}" cy="${r.cy}" r="9" fill="${m.col}"/>${label(r.cx+off,r.cy,m.s,m.txt,m.s.length>1?9:11)}`)});
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:420px;display:block;margin:0 auto" role="img" aria-label="Floor map">${corr}${rs}${extra.join('')}${path2}${ms.join('')}</svg>${legend(leg)}`;
 }
 function trialTool(){
   const o=Object.assign({realm:'Human',rune:'',floor:1,level:1,seed:1},store.get('trial',{}));
@@ -3141,7 +3292,8 @@ function trialTool(){
 }
 function trialBind(){
   const get=()=>Object.assign({realm:'Human',rune:'',floor:1,level:1,seed:1},store.get('trial',{}));
-  const show=()=>{const o=get();$('tr-out').innerHTML=trialHTML(makeTrial(o),o);
+  const show=()=>{const o=get(),t=makeTrial(o);$('tr-out').innerHTML=trialHTML(t,o);
+    const tk=()=>{const b=$('tr-track');if(b){b.outerHTML=trackHTML(t,o);trackBind(t,o,tk)}};trackBind(t,o,tk);
     const c=$('tr-conquer');if(c)c.onclick=()=>{const tid=towerOf(o.tower||o.realm).id,p=store.get('towerprog',{});p[tid]=Math.max(p[tid]||0,o.floor);store.set('towerprog',p);const deed=`Conquered floor ${o.floor} of ${towerOf(tid).name}`;if(PARTY.length&&confirm(deed+'. Record it as an accomplishment for the party? (The DM decides whether it is worth a level.)')){PARTY.forEach(ch=>{ch.log=(ch.log||[]).concat({d:new Date().toISOString().slice(0,10),deed})});saveParty()}toast(`Floor ${o.floor} conquered: teleport unlocked`);show()};
     $('tr-out').querySelectorAll('[data-tp]').forEach(b=>b.onclick=()=>{const s2=get();s2.floor=+b.dataset.tp+(+b.dataset.tp>1?1:0);s2.floor=Math.min(s2.floor,towerOf(s2.tower||s2.realm).floors);store.set('trial',s2);$('tr-floor').value=s2.floor;show()})};
   const save=()=>{const s2=get();const tid=$('tr-realm').value,T2=towerOf(tid);if(tid!==towerOf(s2.tower||s2.realm).id){s2.rune='';s2.tower=T2.id;s2.realm=T2.realm;store.set('trial',s2);$('trial').outerHTML=trialTool();trialBind();return}
@@ -3390,8 +3542,27 @@ function wakeSync(){
   else if(!want&&WAKE.lock){WAKE.lock.release().catch(()=>{});WAKE.lock=null}
 }
 document.addEventListener('visibilitychange',wakeSync);
+// Player view: turn order and how hurt each combatant looks, safe to show the table (monsters show a state, not numbers).
+// Open it full-screen on this device, or on a second screen (combat.html?pv=1), which follows the tracker live.
+const PV_SECOND=SITE&&new URLSearchParams(location.search).has('pv');
+function pvState(x){if(x.hp<=0)return ['Down','var(--muted)'];const f=x.max?x.hp/x.max:1;return f>=1?['Unhurt','var(--green)']:f>.5?['Hurt','var(--green)']:f>.25?['Bloodied','var(--gold)']:['Near death','var(--red)']}
+function pvRender(){
+  const C=store.get('combat',{round:1,turn:0,list:[]}),cur=C.list[C.turn];
+  $('pv').innerHTML=`<div style="max-width:720px;margin:0 auto">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px"><span style="font-family:var(--serif);font-size:1.8rem;font-weight:700">Round ${C.round}</span>${cur?`<span class="b gold" style="font-size:.95rem">${esc(cur.name)}'s turn</span>`:''}
+      <span style="margin-left:auto;display:flex;gap:6px">${PV_SECOND?'':`<button class="btn" onclick="cbNext();pvRender()">Next turn →</button><button class="btn" onclick="window.open('${pageUrl('combat')}?pv=1','fand-pv')" title="Open on a second screen; it follows this tracker">↗ Second screen</button>`}<button class="btn primary" onclick="pvClose()">${PV_SECOND?'Tracker':'Close'}</button></span></div>
+    ${C.list.length?C.list.map((x,i)=>{const [w,col]=pvState(x),pct=x.max?Math.max(0,Math.min(100,x.hp/x.max*100)):0;
+      return `<div class="pv-row${i===C.turn?' on':''}${x.hp<=0?' down':''}"><span style="font-size:1.3rem;width:1.4em">${i===C.turn?'▶':''}</span>
+        <div style="flex:1;min-width:0"><div style="font-size:1.25rem;font-weight:700">${esc(x.name)}${x.pc?' <span class="b green">PC</span>':''}</div>
+        ${x.pc?`<div style="margin-top:4px"><b>${x.hp}</b> / ${x.max} HP<div class="bar" style="margin-top:4px"><i style="width:${pct}%;background:${col}"></i></div></div>`:`<div style="margin-top:4px;font-weight:600;color:${col}">${w}</div>`}
+        ${x.cond.length?`<div class="chips" style="margin-top:6px">${x.cond.map(c=>`<span class="chip">${esc(c)}</span>`).join('')}</div>`:''}</div></div>`}).join(''):'<div class="empty">No combatants yet.</div>'}
+    <div class="note">Monsters show how hurt they look, never their numbers.</div></div>`;
+}
+function pvOpen(){pvRender();$('pv').hidden=false;document.body.style.overflow='hidden'}
+function pvClose(){if(PV_SECOND){location.href=pageUrl('combat');return}$('pv').hidden=true;document.body.style.overflow=''}
+window.addEventListener('storage',e=>{if(e.key==='fand.combat'&&!$('pv').hidden)pvRender();if(e.key==='fand.combat'&&TAB==='combat'&&$('pv').hidden)renderCombat()});
 function renderCombat(){
-  setTimeout(wakeSync,0);
+  setTimeout(wakeSync,0);if(PV_SECOND&&$('pv').hidden)setTimeout(pvOpen,0);
   CB=store.get('combat',{round:1,turn:0,list:[]});
   const cur=CB.list[CB.turn];
   $('content').innerHTML=`<div class="page">${datalists()}
@@ -3404,6 +3575,7 @@ function renderCombat(){
       <button class="btn" onclick="cbSort()">Sort by initiative</button>
       <span class="keyrow" style="flex:1;min-width:240px"><input class="sel" id="cb-n" type="number" min="1" value="1" style="width:56px;flex:0 0 56px;min-width:0"><input class="sel" id="cb-add" list="dl-mon" placeholder="Add monster…" style="max-width:none;flex:1;min-width:0"><button class="btn" onclick="cbAddMon()">Add</button></span>
       <button class="btn" onclick="cbAddParty()">+ Party</button>
+      <button class="btn" onclick="pvOpen()" title="A view to show the players: turn order and how hurt everyone looks, no monster numbers">👁 Player view</button>
       <button class="btn" onclick="cbAddCustom()">+ Custom</button>
       <label class="note" style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" id="cb-ac" ${CB.noAC?'':'checked'} onchange="CB.noAC=!this.checked;saveCB()"> Subtract AC from damage</label>
       ${'wakeLock'in navigator?`<label class="note" style="display:flex;gap:6px;align-items:center;margin:0" title="Stops the phone or tablet from dimming and locking while this page is open"><input type="checkbox" id="cb-wake" ${store.get('wakelock',false)?'checked':''} onchange="store.set('wakelock',this.checked);wakeSync()"> Keep screen on</label>`:''}
@@ -3833,6 +4005,26 @@ function openSettings(){
   $('setRemove').onclick=()=>{saveKey('',false);closeSettings();toast('API key removed');renderAI()};
   setTimeout(()=>$('setKey').focus(),20);
 }
+// Quick rules: the rules a table checks mid-session, one tap from any page (works offline like the rest of the app)
+const COND_TEXT={Blinded:'Cannot see. Attacks against it have advantage; its own attacks have disadvantage; checks that need sight fail.',Charmed:'Cannot attack the charmer or target it with harm. The charmer has advantage on social checks with it.',Deafened:'Cannot hear; checks that need hearing fail.',Frightened:'Disadvantage on checks and attacks while the source of its fear is in sight; cannot willingly move closer to it.',Grappled:'Speed 0. Ends if the grappler is incapacitated or the two are pulled apart.',Incapacitated:'No actions and no reactions.',Invisible:'Cannot be seen without magic or a special sense. Its attacks have advantage; attacks against it have disadvantage.',Paralyzed:'Incapacitated and cannot move or speak. Fails Strength and Dexterity saves. Attacks against it have advantage, and a hit from within 5 feet is a critical hit.',Petrified:'Turned to stone: incapacitated, unaware, resistant to all damage, and immune to poison and disease.',Poisoned:'Disadvantage on attack rolls and ability checks.',Prone:'Can only crawl; standing costs half its speed. Disadvantage on its attacks. Attacks from within 5 feet have advantage, from farther away disadvantage.',Restrained:'Speed 0. Disadvantage on its attacks and Dexterity saves; attacks against it have advantage.',Stunned:'Incapacitated, cannot move, speaks only haltingly. Fails Strength and Dexterity saves; attacks against it have advantage.',Unconscious:'Incapacitated, drops what it holds and falls prone. Fails Strength and Dexterity saves; attacks have advantage, and a hit from within 5 feet is a critical hit.',Exhaustion:'Levels stack. 1: disadvantage on checks. 2: speed halved. 3: disadvantage on attacks and saves. 4: hit point maximum halved. 5: speed 0. 6: death.',Concentrating:'Keeps a spell going. Taking damage calls for a Constitution save, DC 10 or half the damage, whichever is higher; failing ends the spell.'};
+function openQuick(){
+  const sec=(t,body,open)=>`<details class="blk" ${open?'open':''} style="border-top:1px solid var(--line);padding-top:10px"><summary style="cursor:pointer;font-family:var(--serif);font-size:1.08rem;font-weight:700">${t}</summary><div style="margin-top:8px;line-height:1.6">${body}</div></details>`;
+  $('qBox').innerHTML=`<div class="mh"><div class="kind">At the table</div><h2 id="qTitle">Quick rules</h2>
+      <div class="mact"><button class="icon-btn" onclick="closeQuick()" aria-label="Close">${ICON.x}</button></div></div>
+    <div class="mb">
+      ${sec('Damage and Armor Class',`<p style="margin:0">AC is <b>subtracted</b> from the damage of each hit. Armor never blocks more than 75%: at least a <b>quarter of the damage (rounded up)</b> always gets through.</p><p class="note" style="margin:6px 0 0">Example: a 12-damage hit on AC 5 deals 7; a 12-damage hit on AC 15 still deals 3.</p>`,true)}
+      ${sec('Levels, class changes and realms',`<div class="tablewrap"><table class="t"><thead><tr><th>Levels</th><th>Class</th><th>Realms of this stage</th></tr></thead><tbody>${ROMAN.map((r,i)=>`<tr><td style="white-space:nowrap">${i*20+1}–${(i+1)*20}</td><td>${i?'Class '+r+' (at '+(i*20+1)+')':'Base class'}</td><td>${esc(STAGE_REALMS(i+1).join(', '))}</td></tr>`).join('')}</tbody></table></div><p class="note" style="margin:6px 0 0">Levels come from deeds, not XP. Every 20 levels the class changes (Ranger, Ranger II, …), and so does each subclass.</p>`)}
+      ${sec('Realm Pressure',`<p style="margin:0 0 6px">Strain is a realm's Pressure minus the traveler's Attunement (from level, contract rank, or realm-material gear).</p><ul style="margin:0 0 8px;padding-left:20px"><li><b>1:</b> disadvantage on Constitution saves</li><li><b>2:</b> also 1 level of exhaustion per day</li><li><b>3:</b> also no benefit from long rests</li><li><b>4+:</b> 1 level of exhaustion every hour</li></ul><div class="chips">${REALMS.map(r=>`<span class="chip" style="border-color:${r.color}">${esc(r.n)} <b>${r.pressure}</b></span>`).join('')}</div><p class="note" style="margin:6px 0 0">Inside a god's own domain (through a temple passage) Pressure does not apply.</p>`)}
+      ${sec('Conditions',`<div style="display:flex;flex-direction:column;gap:6px">${CONDITIONS.map(c=>`<div><b>${c}.</b> ${esc(COND_TEXT[c]||'')}</div>`).join('')}</div>`)}
+      ${sec('Tower floors',`<ul style="margin:0;padding-left:20px"><li>Each Tower floor gives a <b>mission</b>; every 10th floor is a boss.</li><li>Every 10 floors is one level band, starting at the realm's stage.</li><li>A party above the floor's level gets no loot, only a reduced chance of a Class Change Book.</li><li>Boss floors you conquer become teleport points.</li></ul><p style="margin:8px 0 0"><a href="${pageUrl('towers')}" data-go="towers">Open the Tower trial →</a></p>`)}
+      <div class="note" style="margin:0">Full rules: <a href="${pageUrl('rules')}" data-go="rules">Rules page</a>.</div>
+    </div>`;
+  $('qbg').classList.add('open');
+}
+function closeQuick(){$('qbg').classList.remove('open')}
+$('qbg').addEventListener('mousedown',e=>{if(e.target===$('qbg'))closeQuick()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('qbg').classList.contains('open'))closeQuick()});
+document.addEventListener('click',e=>{if(e.target.closest('#qBox [data-go]'))closeQuick()},true);
 function closeSettings(){$('sbg').classList.remove('open')}
 $('sbg').addEventListener('mousedown',e=>{if(e.target===$('sbg'))closeSettings()});
 
