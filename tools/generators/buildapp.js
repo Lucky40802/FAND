@@ -597,6 +597,8 @@ var PAGE_INFO = {
 site['data/core.js'] = CORE.map(lit).join('\n') + '\n' + metaLine + '\n';
 site['data/spells.js'] = lit('SPELLS') + '\n';
 site['vendor/anthropic.js'] = VENDOR;
+// QR codes for sharing a character (qrcode-generator 1.4.4, MIT, by Kazuhiko Arase), loaded only when Share is opened
+site['vendor/qrcode.js'] = fs.readFileSync(path.join(__dirname, '..', 'app', 'vendor', 'qrcode.js'), 'utf8');
 site['data/vault.js'] = lit('VAULT') + '\n';
 site['data/vault-details.js'] = lit('VAULT_DETAILS') + '\n';
 // a version stamp of this build's data: pages ask for data/*.js?v=<stamp>, so a new page never runs on a cached old data file
@@ -631,7 +633,7 @@ site['manifest.webmanifest'] = JSON.stringify({
 }, null, 2) + '\n';
 var mapFiles = (function () { var d = path.join(__dirname, '..', 'data', 'maps'); return fs.existsSync(d) ? fs.readdirSync(d).filter(function (f) { return /\.(jpe?g|png|webp)$/i.test(f); }).map(function (f) { return 'img/maps/' + f; }) : []; })();
 var PRECACHE = PAGE_FILES.concat(['data/core.js', 'data/vault.js', 'data/spells.js', 'data/vault-details.js'].map(function (f) { return f + '?v=' + DATA_V; }),
-  ['vendor/anthropic.js', 'manifest.webmanifest', 'img/icons/icon-180.png', 'img/icons/icon-192.png', 'img/icons/icon-512.png'], mapFiles);
+  ['vendor/anthropic.js', 'vendor/qrcode.js', 'manifest.webmanifest', 'img/icons/icon-180.png', 'img/icons/icon-192.png', 'img/icons/icon-512.png'], mapFiles);
 site['sw.js'] = [
   '// FAND offline worker, written by tools/generators/buildapp.js. Build ' + DATA_V + '.',
   'const CACHE="fand-' + DATA_V + '";',
