@@ -1857,6 +1857,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-11','Share a character by link or QR code','The character sheet has a Share button: a QR code to scan with another phone, or a link to send. It opens FAND there and offers to add the character (or update the copy already there). The whole sheet travels inside the link; nothing is uploaded.','sheet'],
   ['2026-10-11','Monster damage scales with the realm','Monster attack dice are now multiplied by their realm\'s tier, as spells are (Hell ×3, Primordial ×10), so deep-realm armor no longer cuts most hits to the 25% minimum. CON\'s bonus to AC is capped at +5 per stage (+5 at levels 1–20, … +25 at 81–100).','bestiary'],
   ['2026-10-11','Constitution adds to Armor Class','A character\'s CON modifier now adds to their AC (a negative one lowers it, never below 0). The character sheet, Party page, and combat tracker include it, and NPCs from the stat block creator do too.','rules'],
   ['2026-10-10','Crafting planner prices fixed','The planner now prices everything the Economy rules do: materials (half price in their own realm and double in another when you pick where you buy, Void-grade ones in Favor), hired labor (10 gp × item level per day), the Blueprint, and the finished item\'s value (twice the materials plus labor). Labor and Blueprint prices scale with the item\'s deepest realm, as material prices do. Blueprint windows show the same figures.','craft'],
@@ -2790,7 +2791,28 @@ function sheetHcGrant(){if(!HC)return;const c=sheetChar(),x=HC.find(y=>lc(y.n)==
 function sheetHcRemove(){if(!HC)return;const c=sheetChar();if(!c.hcls||!confirm('Remove '+c.hcls.n+' from this character?'))return;hcLog(true,'removed '+c.hcls.n+' from '+(c.name||'a character'));delete c.hcls;saveParty();renderSheet()}
 function sheetHcGrow(){const c=sheetChar(),h=c.hcls;if(!h)return;const n=hcSteady(hcLevelAt(+c.level||1,h.lv0)),p=n-(h.ga||0);if(p<=0)return;if(h.grow){c.abil=c.abil||{};Object.entries(h.grow).forEach(([k,v])=>{c.abil[k]=(+c.abil[k]||10)+v*p})}h.ga=n;saveParty();renderSheet();toast(h.grow?'Hidden class growth added':'Points marked as spent')}
 function sheetGrow(){const c=sheetChar(),L=+c.level||1,n=steadyCount(L),p=n-(c.growApplied||0);if(p<=0||!CLASS_MAIN[c.cls])return;c.abil=c.abil||{};Object.entries(growthOf(c.cls)).forEach(([k,v])=>{c.abil[k]=(+c.abil[k]||10)+v*p});c.growApplied=n;saveParty();renderSheet();toast('Steady Growth added')}
+// Share a character: the whole sheet packed into a link (compressed, base64url) that opens this page on another device and
+// offers to add it there. Nothing is uploaded; the link itself carries the character. A QR code shows the same link.
+const b64u=u=>btoa(String.fromCharCode(...u)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''),ub64=s=>Uint8Array.from(atob(s.replace(/-/g,'+').replace(/_/g,'/')),c=>c.charCodeAt(0));
+async function packChar(c){const raw=new TextEncoder().encode(JSON.stringify(c));if(typeof CompressionStream==='undefined')return 'j'+b64u(raw);const z=new Uint8Array(await new Response(new Blob([raw]).stream().pipeThrough(new CompressionStream('deflate-raw'))).arrayBuffer());return 'z'+b64u(z)}
+async function unpackChar(s){const u=ub64(s.slice(1));const raw=s[0]==='z'?new Uint8Array(await new Response(new Blob([u]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer()):u;return JSON.parse(new TextDecoder().decode(raw))}
+function loadQR(){return window.qrcode?Promise.resolve():new Promise((res,rej)=>{const s=document.createElement('script');s.src='vendor/qrcode.js';s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
+async function shareChar(){const c=sheetChar(),url=location.href.split('#')[0]+'#/sheet?char='+(await packChar(c)),name=c.name||'this character';
+  let qr='';try{await loadQR();if(url.length<=2800){const q=qrcode(0,'L');q.addData(url);q.make();qr=q.createSvgTag({cellSize:4,margin:3,scalable:true}).replace('<svg ','<svg style="width:100%;height:auto;display:block" ')}}catch(e){}
+  $('qBox').innerHTML=`<div class="mh"><div class="kind">Share</div><h2 id="qTitle">${esc(name)}</h2><div class="mact"><button class="icon-btn" onclick="closeQuick()" aria-label="Close">${ICON.x}</button></div></div>
+    <div class="mb" style="text-align:center">${qr?`<div style="background:#fff;padding:10px;border-radius:10px;max-width:300px;margin:0 auto">${qr}</div><p class="note">Scan it with the other phone's camera. It opens FAND there and offers to add ${esc(name)}.</p>`:`<p class="note">This sheet is too big for a QR code (${fmt(url.length)} characters); send the link instead.</p>`}
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn primary" type="button" id="sh-copy">Copy link</button>${navigator.share?'<button class="btn" type="button" id="sh-send">Send…</button>':''}</div>
+    <p class="note" style="margin:0">The link carries the whole sheet (nothing is uploaded). Anyone with it can add a copy of ${esc(name)}; sending it again later updates their copy.</p></div>`;
+  $('qbg').classList.add('open');
+  $('sh-copy').onclick=()=>(navigator.clipboard?navigator.clipboard.writeText(url):Promise.reject()).then(()=>toast('Link copied'),()=>toast('Copy failed'));
+  if($('sh-send'))$('sh-send').onclick=()=>navigator.share({title:'FAND: '+name,url}).catch(()=>{});
+}
+async function importSharedChar(code){try{const c=await unpackChar(code);if(!c||typeof c!=='object'||!c.id)throw 0;const old=PARTY.find(x=>x.id===c.id);
+  if(confirm(old?`Update ${c.name||'this character'} on this device with the shared copy? The copy here is replaced.`:`Add ${c.name||'the shared character'}${c.cls?' ('+c.cls+' '+(c.level||1)+')':''} to this device?`)){if(old)Object.assign(old,c);else PARTY.push(c);saveParty();SHEET_ID=c.id;toast((c.name||'Character')+(old?' updated':' added'))}}
+  catch(e){toast('That share link is damaged or incomplete')}history.replaceState(null,'',hashFor('sheet'));renderSheet()}
+window.addEventListener('hashchange',()=>{const sc=parseHash().params.get('char');if(sc&&TAB==='sheet'&&renderSheet._imp!==sc){renderSheet._imp=sc;importSharedChar(sc)}});
 function renderSheet(){
+  {const sc=parseHash().params.get('char');if(sc&&renderSheet._imp!==sc){renderSheet._imp=sc;importSharedChar(sc)}}
   if(!HC&&!renderSheet._hc){renderSheet._hc=1;hcAuto().then(()=>{if(HC&&TAB==='sheet')renderSheet()}).catch(()=>{})}
   const c=sheetChar(),s=charStats(c),L=+c.level||1,pb=profBonus(L),A=c.abil||{},M=k=>mod(A[k]),si=c.cls?stageInfo(c.cls,L):null;
   if(c.cls&&!c.savesSet){c.saves=Object.fromEntries((CLASS_SAVES[c.cls]||[]).map(k=>[k,true]));c.savesSet=true;saveParty()}
@@ -2868,7 +2890,7 @@ function renderSheet(){
   $('content').innerHTML=`<div class="page sheet">
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Character sheet</h3><p>Fill it in like a paper sheet; bonuses, AC, slots, and attacks are worked out with FAND's rules.</p></div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px" class="sh-noprint"><select class="sel" id="sh-who">${PARTY.map(x=>`<option value="${x.id}"${x.id===c.id?' selected':''}>${esc(x.name||'Unnamed')}${x.cls?' · '+esc(x.cls)+' '+(x.level||1):''}</option>`).join('')}</select><button class="btn" id="sh-new">+ New character</button>
-      <span class="chips" style="margin-left:auto">${[['core','Core'],['details','Details'],['spells','Spells']].map(([k,l])=>`<button class="chip${SHEET_TAB===k?' on':''}" data-shtab="${k}" style="${SHEET_TAB===k?'border-color:var(--gold);background:var(--goldbg)':''}">${l}</button>`).join('')}<button class="chip" id="sh-print">🖨 Print all</button><button class="btn" id="sh-blank" type="button" title="An empty FAND character sheet to fill in by hand">🖨 Print blank sheet</button></span></div>
+      <span class="chips" style="margin-left:auto">${[['core','Core'],['details','Details'],['spells','Spells']].map(([k,l])=>`<button class="chip${SHEET_TAB===k?' on':''}" data-shtab="${k}" style="${SHEET_TAB===k?'border-color:var(--gold);background:var(--goldbg)':''}">${l}</button>`).join('')}<button class="chip" id="sh-print">🖨 Print all</button><button class="btn" id="sh-share" type="button" title="Send this character to another phone or computer: a link or a QR code that carries the whole sheet">📱 Share</button><button class="btn" id="sh-blank" type="button" title="An empty FAND character sheet to fill in by hand">🖨 Print blank sheet</button></span></div>
     ${head}
     <div class="sh-page" data-pg="core" ${SHEET_TAB!=='core'?'hidden':''}>${core}</div>
     <div class="sh-page" data-pg="details" ${SHEET_TAB!=='details'?'hidden':''}>${details}</div>
@@ -2880,6 +2902,7 @@ function renderSheet(){
   $('sh-new').onclick=()=>{const n={id:uid(),name:'',level:1,gear:[],inv:[],abil:{str:10,dex:10,con:10,int:10,wis:10,cha:10}};PARTY.push(n);saveParty();SHEET_ID=n.id;renderSheet()};
   $('sh-lvl').onclick=()=>{const d=prompt('What did they accomplish to earn this level?','');if(d===null)return;levelUp(c,d.trim()||'Accomplishment');renderSheet()};
   if($('ac-log')){$('ac-log').onclick=()=>{const d=$('ac-deed').value.trim();if(!d)return;c.log=(c.log||[]).concat({d:new Date().toISOString().slice(0,10),deed:d});saveParty();renderSheet()};$('ac-lvl').onclick=()=>{const d=$('ac-deed').value.trim();if(!d)return;levelUp(c,d);renderSheet()}}
+  $('sh-share').onclick=shareChar;
   $('sh-blank').onclick=()=>{SHEET_BLANK=true;sheetChar.blank=null;renderSheet();const C2=$('content');C2.querySelector('.sheet').classList.add('blank');
     C2.querySelectorAll('.sh-page').forEach(x=>x.hidden=false);
     C2.querySelectorAll('input:not([type=checkbox]),textarea').forEach(x=>{x.value='';x.placeholder=''});C2.querySelectorAll('input[type=checkbox]').forEach(x=>x.checked=false);
