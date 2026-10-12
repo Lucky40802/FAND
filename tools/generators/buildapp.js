@@ -279,6 +279,30 @@ D.MATS.forEach(function (m) {
 });
 log.push('material origins: ' + JSON.stringify(orgCount) + ', unique traits on ' + D.MATS.filter(function (m) { return m.tr; }).length);
 
+// ---- Rune stones (data/rune-stones.json, campaign owner's request): every Rune has an ore where its power pools in the
+// ground (Bloodstone, Firestone, ...), found in the Rune's own realm and mined like any ore. Set into gear it gives the
+// Rune's effect, kept as the material's trait (marked with the Rune). Where a material of that name already exists, it
+// becomes the Rune's stone and gains the effect (as its trait, or beside a trait it already has).
+(function () {
+  var F = path.join(__dirname, '..', 'data', 'rune-stones.json'); if (!fs.existsSync(F)) return;
+  var RS = JSON.parse(fs.readFileSync(F, 'utf8')), have = {}, added = 0, joined = 0;
+  D.MATS.forEach(function (m) { have[m.n.toLowerCase()] = m; });
+  RS.forEach(function (r) {
+    var c = CODE[r.realm]; if (!c) return;
+    var fx = { n: 'Rune of ' + r.rune, t: r.effect, a: 'the ' + r.rune + ' Rune', rune: r.rune }, old = have[r.stone.toLowerCase()];
+    if (old) { if (old.tr && !old.tr.rune) old.rfx = fx; else old.tr = fx; old.rune = r.rune; delete old.basic; joined++; return; }
+    var g = 7, pr = PR.prop(r.stone, 'G', c, g);
+    var ex = { n: r.stone, realm: r.realm, gr: r.realm + ' ' + g, prop: pr.k === 'supply' ? '' : pr.name + ' (Potency ' + pr.P + '): ' + pr.text, tc: 'G',
+      tier: R.tier(c), g: g, rank: R.rank(c, g), il: R.level(c, g), rar: rarity(c, g), price: price(c, g, 'G'), ty: R.TYPES.G, cat: 'Rune Ore',
+      ds: r.ds, where: 'veins where the ' + r.rune + ' Rune\'s power pools, in the ' + r.realm + ' Realm', by: 'Harvesting (Mining)', gath: 'ore', site: 1,
+      org: 'Mineral', tr: fx, rune: r.rune };
+    if (pr.k !== 'supply') { ex.pot = pr.P; ex.pn = pr.name; }
+    D.MATS.push(ex); have[r.stone.toLowerCase()] = ex; added++;
+  });
+  D.MATS.sort(function (a, b) { return a.n < b.n ? -1 : a.n > b.n ? 1 : 0; });
+  log.push('rune stones: +' + added + ' new ores, ' + joined + ' existing materials became Rune stones');
+})();
+
 // ---- stat blocks (data/statblock.js): generated in the Monster Manual layout, not copied from any book
 var SB = require(path.join(__dirname, '..', 'data', 'statblock.js'));
 var matByName = {}; D.MATS.forEach(function (m) { matByName[m.n.toLowerCase()] = m; });
