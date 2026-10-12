@@ -557,9 +557,9 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   <div class="set" id="setBox"></div>
 </div>
 
-<script>const SITE={page:"demons",v:"47b4956019"};</script>
-<script src="data/core.js?v=47b4956019"></script>
-<script src="data/vault.js?v=47b4956019"></script>
+<script>const SITE={page:"demons",v:"bac8dbc06a"};</script>
+<script src="data/core.js?v=bac8dbc06a"></script>
+<script src="data/vault.js?v=bac8dbc06a"></script>
 <script>
 'use strict';
 // ════════════════════════════════════════════════════════════════
@@ -1857,6 +1857,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-12','Clear all party notes','The Party page has a Clear all notes button that empties every character\'s Notes box on the device in one go.','party'],
   ['2026-10-11','Share a character by link or QR code','The character sheet has a Share button: a QR code to scan with another phone, or a link to send. It opens FAND there and offers to add the character (or update the copy already there). The whole sheet travels inside the link; nothing is uploaded.','sheet'],
   ['2026-10-11','Monster damage scales with the realm','Monster attack dice are now multiplied by their realm\'s tier, as spells are (Hell ×3, Primordial ×10), so deep-realm armor no longer cuts most hits to the 25% minimum. CON\'s bonus to AC is capped at +5 per stage (+5 at levels 1–20, … +25 at 81–100).','bestiary'],
   ['2026-10-11','Constitution adds to Armor Class','A character\'s CON modifier now adds to their AC (a negative one lowers it, never below 0). The character sheet, Party page, and combat tracker include it, and NPCs from the stat block creator do too.','rules'],
@@ -2937,12 +2938,13 @@ function renderParty(){
   const c=PARTY.find(x=>x.id===PARTY_SEL);
   $('content').innerHTML=`<div class="page">${datalists()}
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Party</h3><p>Characters, contracts, gear, materials, and money. Saved in this browser; export to share or back up.</p>
-      <span style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap"><button class="btn primary" onclick="addChar()">+ Add character</button><button class="btn" onclick="exportParty()">Export</button><label class="btn" style="cursor:pointer">Import<input type="file" accept=".json,application/json" style="display:none" onchange="importParty(this)"></label></span></div>
+      <span style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap"><button class="btn primary" onclick="addChar()">+ Add character</button><button class="btn" onclick="exportParty()">Export</button><button class="btn" onclick="clearPartyNotes()" title="Empty the Notes box of every character on this device">Clear all notes</button><label class="btn" style="cursor:pointer">Import<input type="file" accept=".json,application/json" style="display:none" onchange="importParty(this)"></label></span></div>
     ${PARTY.length?`<div class="chips" style="margin-bottom:14px">${PARTY.map(x=>{const s=charStats(x);return `<button class="chip" style="padding:6px 12px;font-size:.85rem${x.id===PARTY_SEL?';border-color:var(--gold);background:var(--goldbg)':''}" onclick="PARTY_SEL='${x.id}';renderParty()"><b>${esc(x.name||'Unnamed')}</b> <small>Lv ${x.level||1} ${esc(x.cls||'')} · AC ${s.ac}</small></button>`}).join('')}</div>`:`<div class="empty"><b>No characters yet</b>Add the party to track contracts, rivals, gear, and materials.</div>`}
     ${c?charEditor(c):''}</div>`;
   if(c)bindChar(c);
 }
 function addChar(){const c={id:uid(),name:'New character',level:1,hpMax:10,hp:10,acBonus:0,attune:0,gear:[],inv:[],purse:{Human:0},specs:[]};PARTY.push(c);PARTY_SEL=c.id;saveParty();renderParty()}
+function clearPartyNotes(){const n=PARTY.filter(c=>(c.notes||'').trim()).length;if(!n){toast('No notes to clear');return}if(!confirm('Delete the notes of '+n+' character'+(n>1?'s':'')+' on this device? This cannot be undone.'))return;PARTY.forEach(c=>{c.notes=''});saveParty();renderParty();toast('All party notes cleared')}
 function exportParty(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(PARTY,null,2)],{type:'application/json'}));a.download='fand-party.json';document.body.appendChild(a);a.click();a.remove()}
 function importParty(inp){const f=inp.files[0];if(!f)return;f.text().then(t=>{try{const d=JSON.parse(t);if(!Array.isArray(d))throw 0;PARTY=d.map(x=>Object.assign({id:uid()},x));saveParty();PARTY_SEL=null;renderParty();toast('Imported '+PARTY.length+' characters')}catch(e){toast('That file is not a FAND party export')}})}
 function charEditor(c){
