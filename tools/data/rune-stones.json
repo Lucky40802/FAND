@@ -1,0 +1,3292 @@
+[
+ {
+  "rune": "Action",
+  "stone": "Actionstone",
+  "realm": "Inner Realm",
+  "ds": "A plain grey stone that hums faintly when held, mined from Inner Realm bedrock where restless motion seems to pool, its surface never quite still to the eye.",
+  "effect": "Once per long rest, when you take the Attack, Dash, or Help action, you may immediately take one additional action. Once per short rest, take the Help action as a bonus action."
+ },
+ {
+  "rune": "Adaptation",
+  "stone": "Adaptation Stone",
+  "realm": "Human",
+  "ds": "A dull green pebble found in Human riverbeds, its color shifting slowly to match whatever soil or water surrounds it for a few days.",
+  "effect": "Once per long rest, when you take damage of a type, you gain resistance to that damage type until the end of your next turn."
+ },
+ {
+  "rune": "Add",
+  "stone": "Addstone",
+  "realm": "Inner Realm",
+  "ds": "A pale stone that grows thin extra layers over time, mined from Inner Realm veins where every seam seems slightly thicker than the last.",
+  "effect": "When you roll damage, add 1d6 to the total. Once per short rest, when you roll any d20, you may add 1d8 to the result after seeing the roll."
+ },
+ {
+  "rune": "Age",
+  "stone": "Agestone",
+  "realm": "Heaven",
+  "ds": "A brittle, grey-white stone streaked with rings like an old tree, found in Heaven's high quarries where it weathers visibly from week to week.",
+  "effect": "Once per long rest, when you hit a creature, it must make a DC 14 Constitution save or have disadvantage on Strength and Dexterity checks and saves for 1 minute, its body suddenly old."
+ },
+ {
+  "rune": "Ahead",
+  "stone": "Ahead Stone",
+  "realm": "Mysterious",
+  "ds": "A slim, arrow-shaped grey stone that always seems to point the direction its holder is already walking, gathered from Mysterious roadsides and crossroads.",
+  "effect": "Once per short rest, when you move, you may move 10 extra feet along a straight line, and your next attack roll this turn gains a +1 bonus."
+ },
+ {
+  "rune": "Air",
+  "stone": "Airstone",
+  "realm": "Heaven",
+  "ds": "A nearly weightless pale blue stone full of tiny drifting bubbles, carried down from Heaven's windswept peaks where it floats loose in the gusts.",
+  "effect": "Once per short rest, as a bonus action, you exhale a 30-foot line of wind. Creatures in it make a DC 14 Strength save or take 1d6 damage and are pushed 15 feet."
+ },
+ {
+  "rune": "Alchemy",
+  "stone": "Alchemy Stone",
+  "realm": "Human",
+  "ds": "A mottled orange and violet stone that fizzes faintly in water, dug from Human mines near salt flats and old brewers' cellars.",
+  "effect": "Once per long rest, when you drink a potion, you may roll its dice twice and take the higher result, or extend its duration by 1 minute."
+ },
+ {
+  "rune": "Always",
+  "stone": "Always Stone",
+  "realm": "Hell",
+  "ds": "A smooth black stone that never warms or cools whatever is done to it, quarried from Hell's oldest unchanging cliffs.",
+  "effect": "While equipped, you cannot be charmed into abandoning a stated goal. Once per long rest, treat a d20 roll of 9 or lower as a 10."
+ },
+ {
+  "rune": "Ambulance",
+  "stone": "Ambulance Stone",
+  "realm": "Human",
+  "ds": "A soft white stone with a faint red cross-grain, found in Human battlefields where the wounded were once dragged to safety.",
+  "effect": "While carrying a creature that has 0 hit points or is unconscious, your speed is not reduced and you have +1 AC against opportunity attacks. Once per long rest, Dash as a bonus action while carrying them."
+ },
+ {
+  "rune": "Anchor",
+  "stone": "Anchorstone",
+  "realm": "Primordial",
+  "ds": "An impossibly heavy dark iron-grey stone that cannot be lifted by anyone but its bearer, sunk deep into Primordial ground that nothing has ever moved.",
+  "effect": "While equipped, you cannot be moved, teleported, or knocked prone against your will. Once per long rest, as a reaction, you end any effect altering your time, form, or position."
+ },
+ {
+  "rune": "Anger",
+  "stone": "Angerstone",
+  "realm": "Human",
+  "ds": "A rough red stone that grows warm when its holder is insulted, chipped from Human quarries where old feuds were fought.",
+  "effect": "Once per long rest, when you take damage from a creature, your next hit against that creature before the end of your next turn deals an extra 1d6 damage."
+ },
+ {
+  "rune": "Animal",
+  "stone": "Animalstone",
+  "realm": "Heaven",
+  "ds": "A tawny stone patterned like fur or feathers, found in Heaven's wild hunting grounds where beasts gather to lick its salty surface.",
+  "effect": "You can speak simply with beasts. Once per long rest, a beast you can see must make a DC 14 Wisdom save or become friendly to you for 1 hour."
+ },
+ {
+  "rune": "Apocalypse",
+  "stone": "Apocalypse Stone",
+  "realm": "Hell",
+  "ds": "A cracked four-colored stone of white, red, black, and pale green, dug from Hell's deepest scorched pits and warm to the touch.",
+  "effect": "Once per long rest, choose a point within 60 feet. Each creature within 15 feet of it makes a DC 15 Constitution save, taking 2d6 damage and becoming poisoned until your next turn on a failure."
+ },
+ {
+  "rune": "Aptitude",
+  "stone": "Aptitude Stone",
+  "realm": "Human",
+  "ds": "A small amber stone with faint inner sparks, found in Human creek beds near old schools and training yards.",
+  "effect": "Once per long rest, when you make an ability check with a tool or skill you are not proficient in, you add your proficiency bonus to the roll."
+ },
+ {
+  "rune": "Art",
+  "stone": "Artstone",
+  "realm": "Heaven",
+  "ds": "A swirled stone of many soft colors that never repeat, found in Heaven's high galleries of natural rock where light paints it fresh each dawn.",
+  "effect": "You gain advantage on Performance checks and checks to create art. Once per long rest, a creature within 30 feet that sees your work makes a DC 14 Wisdom save or is charmed for 1 minute."
+ },
+ {
+  "rune": "Ascend",
+  "stone": "Ascendstone",
+  "realm": "Human",
+  "ds": "A light, cloudy white stone that drifts upward when dropped, gathered from Human hilltops and the tops of old towers.",
+  "effect": "Once per long rest, as a bonus action, you rise up to 15 feet into the air and float gently down, taking no falling damage until the end of your turn."
+ },
+ {
+  "rune": "Assembly",
+  "stone": "Assembly Stone",
+  "realm": "Inner Void",
+  "ds": "A stone made of countless tiny interlocking facets like gears, mined from Inner Void deposits that click softly as they reform after being split.",
+  "effect": "Once per long rest, as an action, you rebuild a destroyed object or construct up to Large size, restoring it fully. Constructs you build or repair gain 4d10 temporary hit points."
+ },
+ {
+  "rune": "Asymmetry",
+  "stone": "Asymmetry Stone",
+  "realm": "Mysterious",
+  "ds": "A lopsided stone, one half smooth white and the other rough black, found in Mysterious caves where no two walls match.",
+  "effect": "Once per short rest, when a creature attacks you, impose disadvantage on that attack roll as your shape seems to shift off-center."
+ },
+ {
+  "rune": "Avatar",
+  "stone": "Avatarstone",
+  "realm": "Primordial",
+  "ds": "A glowing golden stone shaped faintly like a human figure, found in Primordial depths where ancient beings once walked in borrowed bodies.",
+  "effect": "Once per long rest, as an action, you assume a divine form for 1 minute: you gain 50 temporary hit points, grow to Large size, and deal an extra 1d6 damage on weapon hits."
+ },
+ {
+  "rune": "Axe",
+  "stone": "Axestone",
+  "realm": "Human",
+  "ds": "A heavy grey wedge-shaped stone with a natural edge, found in Human forests where woodcutters dig it from beneath fallen trees.",
+  "effect": "When you hit with an axe, you may reroll a 1 on its damage die. Once per long rest, a hit deals an extra 1d6 damage."
+ },
+ {
+  "rune": "Balance",
+  "stone": "Balance Stone",
+  "realm": "Hell",
+  "ds": "A perfectly round stone split evenly into black and white halves, mined from Hell's still caverns where it rests without ever rolling.",
+  "effect": "Once per short rest, when a creature within 30 feet rolls with advantage or disadvantage, you cancel it so they roll normally. Once per long rest, you may cancel it for all creatures within 30 feet."
+ },
+ {
+  "rune": "Ball",
+  "stone": "Ballstone",
+  "realm": "Abyss",
+  "ds": "A perfectly round, dense stone that rolls toward targets on its own, gathered from Abyss riverbeds worn into smooth spheres.",
+  "effect": "As a bonus action, you hurl a sphere of force 60 feet, dealing 1d6 bludgeoning damage on a hit. Three times per long rest, it also knocks the target prone on a failed DC 16 Strength save."
+ },
+ {
+  "rune": "Banshee",
+  "stone": "Banshee Stone",
+  "realm": "Void",
+  "ds": "A pale translucent stone that wails faintly in the wind, found in Void hollows where grief has drained the color from everything.",
+  "effect": "Once per long rest, you release a wail. Each creature within 60 feet makes a DC 19 Wisdom save, taking 4d6 psychic damage and becoming frightened for 1 minute on a failure."
+ },
+ {
+  "rune": "Bathe",
+  "stone": "Bathstone",
+  "realm": "Primordial",
+  "ds": "A smooth, porous blue stone that always feels damp, found in Primordial springs whose waters were the first ever used for washing.",
+  "effect": "Once per long rest, as an action, you and up to six allies within 30 feet are cleansed of all curses, diseases, poisons, and conditions, and each regains 30 hit points."
+ },
+ {
+  "rune": "Battle",
+  "stone": "Battlestone",
+  "realm": "Heaven",
+  "ds": "A scarred red-brown stone covered in old nicks, dug from Heaven's sacred battlefields where great duels were fought.",
+  "effect": "When you roll initiative, you gain 1d6 temporary hit points. Once per short rest, when you hit a creature, you gain advantage on your next attack against it."
+ },
+ {
+  "rune": "Battle Axe",
+  "stone": "Battle Axe Stone",
+  "realm": "Inner Void",
+  "ds": "An immense crescent-shaped grey stone with a razor edge, mined from Inner Void cliffs that fall away in clean, axe-cut faces.",
+  "effect": "When you hit with a heavy weapon, you deal an extra 1d6 damage. Twice per long rest, a hit forces a DC 20 Constitution save or the target is stunned until the end of your next turn."
+ },
+ {
+  "rune": "Beginning",
+  "stone": "Beginning Stone",
+  "realm": "Heaven",
+  "ds": "A clear stone with a single bright point of light at its center, found in Heaven's dawn-facing slopes where first light strikes the ground.",
+  "effect": "Once per long rest, at the start of combat, you and allies within 30 feet gain advantage on initiative and on the first attack roll each makes."
+ },
+ {
+  "rune": "Belonging",
+  "stone": "Belonging Stone",
+  "realm": "Heaven",
+  "ds": "A warm, honey-colored stone that feels like a held hand, found in Heaven's hearthside caves near old shared homes.",
+  "effect": "While within 30 feet of an ally, you cannot be frightened. Once per long rest, as a reaction, you and allies within 30 feet gain 2d6 temporary hit points."
+ },
+ {
+  "rune": "Betrayal",
+  "stone": "Betrayal Stone",
+  "realm": "Abyss",
+  "ds": "A green stone with a hidden black core that only shows when cracked, found in Abyss mines where trusted tunnels collapse without warning.",
+  "effect": "When you hit a creature that has not attacked you this combat, deal an extra 1d6 damage. Once per short rest, it makes a DC 16 Wisdom save or attacks its nearest ally."
+ },
+ {
+  "rune": "Bigger",
+  "stone": "Biggerstone",
+  "realm": "Heaven",
+  "ds": "A stone that seems larger every time you look away, found in Heaven's wide quarries where boulders swell slowly over decades.",
+  "effect": "Once per long rest, as a bonus action, you or an object you touch grows one size larger for 1 minute, gaining advantage on Strength checks and dealing an extra 1d6 damage with weapons."
+ },
+ {
+  "rune": "Bind",
+  "stone": "Bindstone",
+  "realm": "Hell",
+  "ds": "A dark stone wrapped in natural cord-like ridges, found in Hell's twisted caverns where roots and chains grow together.",
+  "effect": "Once per short rest, when you hit a creature, it makes a DC 14 Strength save or is restrained until the end of its next turn."
+ },
+ {
+  "rune": "Black",
+  "stone": "Blackstone",
+  "realm": "Abyss",
+  "ds": "A stone so deeply black it seems to drink light, mined from Abyss seams where lanterns grow dim nearby.",
+  "effect": "While in dim light or darkness, you have advantage on Stealth checks. Once per short rest, you create a 15-foot sphere of magical darkness within 60 feet for 1 minute."
+ },
+ {
+  "rune": "Blacksmith",
+  "stone": "Smithstone",
+  "realm": "Heaven",
+  "ds": "A soot-dark stone shot with glowing orange flecks, found in Heaven's forge-mountains where it rings like an anvil when struck.",
+  "effect": "You can repair a damaged weapon or armor during a short rest. Once per long rest, a weapon you touch gains a +1 bonus to attack and damage rolls for 1 hour."
+ },
+ {
+  "rune": "Blade",
+  "stone": "Bladestone",
+  "realm": "Abyss",
+  "ds": "A thin, silver-grey stone with naturally sharp edges that cut careless hands, mined from Abyss iron seams.",
+  "effect": "Your weapon hits score a critical hit on a roll of 19 or 20. Once per short rest, when you hit, deal an extra 1d6 slashing damage and the target bleeds for 1d6 at the start of its next turn."
+ },
+ {
+  "rune": "Bleed",
+  "stone": "Bleedstone",
+  "realm": "Primordial",
+  "ds": "A deep crimson stone that weeps red droplets endlessly, found in Primordial wounds in the earth that have never closed.",
+  "effect": "When you hit, the target bleeds for 1d6 damage at the start of each of its turns until healed. Once per long rest, a hit forces a DC 22 Constitution save or the target cannot regain hit points for 1 minute."
+ },
+ {
+  "rune": "Blight",
+  "stone": "Blightstone",
+  "realm": "Inner Void",
+  "ds": "A sickly brown-green stone that withers any plant it touches, mined from Inner Void wastelands where nothing has grown in ages.",
+  "effect": "Twice per long rest, as an action, plants and plant creatures within 30 feet wither. Each creature there makes a DC 20 Constitution save or takes 4d6 necrotic damage, plants with disadvantage."
+ },
+ {
+  "rune": "Blood",
+  "stone": "Bloodstone",
+  "realm": "Inner Realm",
+  "ds": "A dark red stone with veins that pulse like a heartbeat, found deep in Inner Realm caverns where warm liquid seeps through the rock.",
+  "effect": "When you hit a creature, you regain hit points equal to half the damage dealt, up to 1d6. Twice per long rest, you drain blood: a creature within 30 feet takes 1d6 necrotic damage and you regain that much."
+ },
+ {
+  "rune": "Bloom",
+  "stone": "Bloomstone",
+  "realm": "Hell",
+  "ds": "A pink and gold stone shaped like an open flower, found in Hell's strange gardens where blossoms grow from burning soil.",
+  "effect": "Once per long rest, as a bonus action, you reach your peak for 1 minute: you gain advantage on one ability score's checks and saves and regain 2d6 hit points at the start of each turn."
+ },
+ {
+  "rune": "Blossom",
+  "stone": "Blossomstone",
+  "realm": "Human",
+  "ds": "A soft pink stone dusted with tiny petal-like flakes, found in Human orchards and riverbanks beneath flowering trees.",
+  "effect": "Once per long rest, as an action, petals drift around you for 1 minute, and allies who end their turn within 10 feet of you regain 1 hit point."
+ },
+ {
+  "rune": "Bones",
+  "stone": "Bonestone",
+  "realm": "Hell",
+  "ds": "A pale, porous stone that looks exactly like old bone, mined from Hell's ossuary caverns where the dead lie stacked in layers.",
+  "effect": "You have resistance to bludgeoning damage. Once per long rest, you raise a skeleton from a corpse within 30 feet that obeys you for 1 hour."
+ },
+ {
+  "rune": "Boom",
+  "stone": "Boomstone",
+  "realm": "Mysterious",
+  "ds": "A dark, crackling stone that pops when struck too hard, found in Mysterious caves prone to sudden rockfalls.",
+  "effect": "Once per short rest, when you hit, the target and each creature within 5 feet of it takes 1d6 thunder damage and is pushed 5 feet."
+ },
+ {
+  "rune": "Boost",
+  "stone": "Boost Stone",
+  "realm": "Heaven",
+  "ds": "A bright stone that glows hotter the longer it is held, found in Heaven's sunlit fields where it flares briefly at noon.",
+  "effect": "Once per short rest, as a bonus action, you gain a +2 bonus to attack rolls and +10 feet of speed until the end of your next turn."
+ },
+ {
+  "rune": "Boreas",
+  "stone": "Boreas Stone",
+  "realm": "Mysterious",
+  "ds": "An icy blue-white stone that blasts cold air when uncovered, found in Mysterious northern passes where winter winds never stop.",
+  "effect": "Once per short rest, you release a 30-foot cone of freezing wind. Each creature in it makes a DC 13 Constitution save, taking 1d6 cold damage and having its speed halved on a failure."
+ },
+ {
+  "rune": "Bow",
+  "stone": "Bowstone",
+  "realm": "Heaven",
+  "ds": "A curved, golden-brown stone with fine wood-like grain, found in Heaven's hunting forests where it rests among the roots of ancient trees.",
+  "effect": "Your ranged weapon attacks ignore half cover and gain 30 feet of normal range. Once per short rest, a ranged hit deals an extra 1d6 damage."
+ },
+ {
+  "rune": "Bows",
+  "stone": "Bowstring Stone",
+  "realm": "Hell",
+  "ds": "A cluster of thin, curved stones bound together like a sheaf of bows, mined from Hell's archery cliffs where many shapes of the same thing gather.",
+  "effect": "You are proficient with all bows. Once per short rest, when you attack with a bow, you may fire one extra arrow at a different target within range."
+ },
+ {
+  "rune": "Boy",
+  "stone": "Boystone",
+  "realm": "Inner Void",
+  "ds": "A small, bright stone that never loses its fresh color, found in Inner Void hollows where youth seems to collect and never fade.",
+  "effect": "You do not age while equipped. Twice per long rest, as a reaction, you shrug off exhaustion, regaining 3d10 hit points and removing one level of exhaustion."
+ },
+ {
+  "rune": "Brace",
+  "stone": "Bracestone",
+  "realm": "Inner Realm",
+  "ds": "A wide, flat stone rooted firmly in place, mined from Inner Realm cliffs that weather storms without shifting.",
+  "effect": "While equipped, you have +1 AC and advantage on saves against being moved or knocked prone. Twice per long rest, as a reaction, you reduce incoming damage by 3d10."
+ },
+ {
+  "rune": "Break",
+  "stone": "Breakstone",
+  "realm": "Primordial",
+  "ds": "A shattered stone that reassembles from its own fragments, found in Primordial fields where nothing stays whole for long.",
+  "effect": "Your attacks deal double damage to objects and structures. Once per long rest, a hit destroys a non-magical weapon, shield, or armor the target is using, or reduces a magical one's bonus by 1."
+ },
+ {
+  "rune": "Bronze",
+  "stone": "Bronzestone",
+  "realm": "Mysterious",
+  "ds": "A warm brown-gold stone, softer than most metals, found in Mysterious hills where ancient smelting sites still stand.",
+  "effect": "While equipped, you have +1 AC against weapon attacks made with metal weapons. Once per short rest, you may reroll a damage die of 1."
+ },
+ {
+  "rune": "Cage",
+  "stone": "Cagestone",
+  "realm": "Human",
+  "ds": "A stone with natural crisscrossed ridges like bars, found in Human mines where crystals grow in tight lattices.",
+  "effect": "Once per long rest, as an action, you trap a creature within 30 feet. It makes a DC 12 Dexterity save or is restrained until the end of its next turn."
+ },
+ {
+  "rune": "Calibration",
+  "stone": "Calibration Stone",
+  "realm": "Void",
+  "ds": "A precisely cut stone with perfectly even facets, mined from Void seams where every edge aligns to an exact angle.",
+  "effect": "After you miss with an attack, your next attack against that target gains +3 to hit. Once per long rest, you treat any one attack roll as a natural 20."
+ },
+ {
+  "rune": "Camouflage",
+  "stone": "Camouflage Stone",
+  "realm": "Hell",
+  "ds": "A stone whose surface shifts to match whatever is around it, found in Hell's shifting jungles where predators lurk unseen.",
+  "effect": "You have advantage on Stealth checks while not moving. Once per short rest, as a bonus action, you become invisible until you attack or move more than 10 feet."
+ },
+ {
+  "rune": "Causality",
+  "stone": "Causality Stone",
+  "realm": "Outer Realm",
+  "ds": "A clear stone threaded with glowing lines linking every inner crack to another, mined from Outer Realm vaults where cause and effect are carved in rock.",
+  "effect": "Once per long rest, when a creature hits you, you may redirect the effect to it instead: it takes the damage and conditions it would have dealt. Twice per long rest, reroll any one die."
+ },
+ {
+  "rune": "Chain",
+  "stone": "Chainstone",
+  "realm": "Human",
+  "ds": "A heavy grey stone made of interlocking rings, found in Human prison quarries where old shackles were forged.",
+  "effect": "Once per long rest, when you hit a creature, it makes a DC 12 Strength save or its speed becomes 0 until the end of its next turn."
+ },
+ {
+  "rune": "Change",
+  "stone": "Changestone",
+  "realm": "Heaven",
+  "ds": "A shimmering stone that never shows the same color twice, found in Heaven's rivers where currents constantly reshape the stones.",
+  "effect": "Once per long rest, as an action, you change your appearance or one object's color, shape, or texture for 1 hour. Once per short rest, swap one damage type for another."
+ },
+ {
+  "rune": "Chaos",
+  "stone": "Chaos Stone",
+  "realm": "Abyss",
+  "ds": "A jagged stone of clashing colors that never stops shifting, mined from Abyss rifts where nothing stays the same for long.",
+  "effect": "When you hit, roll 1d6: on a 6, deal an extra 1d6 damage of a random type. Once per long rest, a creature within 60 feet makes a DC 16 Wisdom save or acts randomly for 1 minute."
+ },
+ {
+  "rune": "Character Death",
+  "stone": "Character Death Stone",
+  "realm": "Heaven",
+  "ds": "A grey stone with one cracked, faded facet, found in Heaven's graveyards where heroes fell and somehow rose again.",
+  "effect": "Once per long rest, when you drop to 0 hit points, you drop to 1 hit point instead, but your highest ability score is reduced by 1 until you finish a long rest."
+ },
+ {
+  "rune": "Charm",
+  "stone": "Charmstone",
+  "realm": "Human",
+  "ds": "A small, pink stone that draws eyes, found in Human river shallows where travelers often pause to pick it up.",
+  "effect": "You gain a +1 bonus to Persuasion checks. Once per long rest, a creature you speak to makes a DC 12 Wisdom save or is charmed by you for 10 minutes."
+ },
+ {
+  "rune": "Chastity",
+  "stone": "Chastity Stone",
+  "realm": "Heaven",
+  "ds": "A flawless white stone with no veins or marks, found in Heaven's pure springs where nothing has ever been touched.",
+  "effect": "You have advantage on saves against being charmed. Once per long rest, as a reaction, you and allies within 30 feet become immune to charm for 1 minute."
+ },
+ {
+  "rune": "Chemical",
+  "stone": "Chemical Stone",
+  "realm": "Human",
+  "ds": "A layered stone in sharp yellow, green, and blue bands that smoke when wet, found in Human alchemical pits.",
+  "effect": "Once per long rest, you hurl a reactive vial up to 30 feet. Creatures within 5 feet of impact make a DC 12 Dexterity save or take 1d6 acid damage."
+ },
+ {
+  "rune": "Choice",
+  "stone": "Choicestone",
+  "realm": "Human",
+  "ds": "A stone with two distinct halves, each a different color, found in Human crossroads where paths split.",
+  "effect": "Once per long rest, when you roll a d20, you may roll a second d20 and choose which result to use."
+ },
+ {
+  "rune": "Chronicles",
+  "stone": "Chronicle Stone",
+  "realm": "Heaven",
+  "ds": "A stone etched with faint lines like writing, found in Heaven's archive caves where old records were stored in rock.",
+  "effect": "You have advantage on History checks. Once per long rest, you recall a past event perfectly, gaining advantage on all checks related to it for 1 hour."
+ },
+ {
+  "rune": "Clarity",
+  "stone": "Clarity Stone",
+  "realm": "Inner Void",
+  "ds": "A perfectly clear stone without a single flaw, mined from Inner Void caverns where light shines through every surface.",
+  "effect": "You are immune to being confused or charmed. Twice per long rest, as a reaction, you end any illusion, confusion, or charm on yourself and allies within 60 feet."
+ },
+ {
+  "rune": "Clean",
+  "stone": "Cleanstone",
+  "realm": "Human",
+  "ds": "A smooth, white stone that sheds dirt immediately, found in Human streams where water runs clear and cold.",
+  "effect": "You can clean an object or creature you touch as an action. Once per long rest, you remove one disease or poison from a creature you touch."
+ },
+ {
+  "rune": "Clone",
+  "stone": "Clonestone",
+  "realm": "Abyss",
+  "ds": "A stone that splits into perfect copies of itself when struck, mined from Abyss chambers full of identical crystals.",
+  "effect": "Once per long rest, as an action, you create a duplicate of yourself within 30 feet for 1 minute. It has 1 hit point, your AC, and can attack once per round for 1d6 damage."
+ },
+ {
+  "rune": "Cloud",
+  "stone": "Cloudstone",
+  "realm": "Outer Realm",
+  "ds": "A soft, grey-white stone that feels like mist, gathered from Outer Realm peaks where clouds rest against the rock.",
+  "effect": "You have resistance to falling damage and can walk on clouds. Twice per long rest, you create a 30-foot radius cloud that heavily obscures the area for 1 minute."
+ },
+ {
+  "rune": "Code",
+  "stone": "Codestone",
+  "realm": "Outer Realm",
+  "ds": "A stone etched with natural symbols that never wear away, found in Outer Realm temples where oaths were sworn.",
+  "effect": "While you keep a sworn oath, you have +1 AC and advantage on saves. Once per long rest, you gain 30 temporary hit points when you defend that oath."
+ },
+ {
+  "rune": "Cohesion",
+  "stone": "Cohesion Stone",
+  "realm": "Inner Realm",
+  "ds": "A stone that stays whole no matter how hard it is struck, mined from Inner Realm seams where everything holds together.",
+  "effect": "While equipped, you cannot be split, shapeshifted, or polymorphed against your will. Twice per long rest, as a reaction, you reduce damage taken by 3d10."
+ },
+ {
+  "rune": "Comet",
+  "stone": "Cometstone",
+  "realm": "Inner Realm",
+  "ds": "A blazing stone with a long trailing tail of light, found where shooting stars crashed into the Inner Realm.",
+  "effect": "Twice per long rest, you hurl a burning projectile 120 feet. Creatures within 15 feet of impact make a DC 18 Dexterity save or take 1d6 fire and 1d6 bludgeoning damage."
+ },
+ {
+  "rune": "Commerce",
+  "stone": "Commercestone",
+  "realm": "Heaven",
+  "ds": "A stone covered in small coin-like discs, found in Heaven's great market mountains where trade routes cross.",
+  "effect": "You have advantage on checks to haggle or appraise. Once per long rest, you pay half price for one purchase or sell for double value."
+ },
+ {
+  "rune": "Condense",
+  "stone": "Condensestone",
+  "realm": "Mysterious",
+  "ds": "A tiny, impossibly heavy stone, found in Mysterious caves where everything is packed tightly together.",
+  "effect": "Once per short rest, you compress a spell or effect within 30 feet, halving its area but doubling its damage dice."
+ },
+ {
+  "rune": "Conform",
+  "stone": "Conformstone",
+  "realm": "Hell",
+  "ds": "A stone that reshapes to match whatever it is pressed against, found in Hell's forge caverns.",
+  "effect": "Once per short rest, when a creature attacks you, it makes a DC 14 Wisdom save or must target a creature you choose instead."
+ },
+ {
+  "rune": "Confusion",
+  "stone": "Confusion Stone",
+  "realm": "Chaos",
+  "ds": "A hazy, swirling stone that hurts to stare at, mined from Chaos realms where the air itself twists and turns.",
+  "effect": "Once per short rest, a creature within 60 feet makes a DC 15 Wisdom save or is confused for 1 minute, attacking a random creature each turn."
+ },
+ {
+  "rune": "Constitution",
+  "stone": "Constitution Stone",
+  "realm": "Outer Realm",
+  "ds": "A dense, unbreakable grey stone, mined from Outer Realm mountains that have outlasted countless storms.",
+  "effect": "Your hit point maximum increases by 20. Twice per long rest, as a reaction, you succeed on a failed Constitution save."
+ },
+ {
+  "rune": "Converge",
+  "stone": "Converge Stone",
+  "realm": "Primordial",
+  "ds": "A stone with lines all pointing inward to its center, found in Primordial plains where every road leads to a single point.",
+  "effect": "Once per long rest, as an action, every creature within 120 feet makes a DC 22 Strength save or is pulled to a point within 30 feet of you and is restrained until your next turn."
+ },
+ {
+  "rune": "Convergence",
+  "stone": "Convergence Stone",
+  "realm": "Mysterious",
+  "ds": "A stone with spiraling lines all leading to its center, found in Mysterious valleys where rivers meet.",
+  "effect": "Once per short rest, you pull a creature within 30 feet up to 10 feet toward you unless it succeeds on a DC 13 Strength save."
+ },
+ {
+  "rune": "Corpse",
+  "stone": "Corpsestone",
+  "realm": "Outer Realm",
+  "ds": "A cold, grey stone that smells of decay, found in Outer Realm battlefields where the dead were left to rot.",
+  "effect": "You can raise a zombie from a corpse within 30 feet as an action. Twice per long rest, you raise up to three zombies that obey you for 1 hour."
+ },
+ {
+  "rune": "Corruption",
+  "stone": "Corruption Stone",
+  "realm": "Void",
+  "ds": "A dark stone with spreading black veins, found in Void cracks where Hell's touch slowly poisons the rock.",
+  "effect": "When you hit, the target makes a DC 19 Wisdom save or takes 1d6 necrotic damage at the start of each of its turns for 1 minute. Once per long rest, a failed save also leaves it charmed by you for that minute."
+ },
+ {
+  "rune": "Cosmic",
+  "stone": "Cosmicstone",
+  "realm": "Outer Realm",
+  "ds": "A dark stone flecked with tiny stars that move slowly across its surface, mined from Outer Realm skies where the universe is closest.",
+  "effect": "Once per long rest, you call down cosmic force on a 30-foot area within 300 feet. Creatures there make a DC 20 Constitution save or take 1d6 force damage and are stunned for 1 round."
+ },
+ {
+  "rune": "Courage",
+  "stone": "Couragestone",
+  "realm": "Heaven",
+  "ds": "A warm gold stone with a steady inner glow that brightens when its holder is afraid, found in sunlit cliffs of Heaven where the brave once stood.",
+  "effect": "While equipped, you have advantage on saves against being frightened. Once per long rest, when you are frightened, you can end the effect and gain 2d6 temporary hit points."
+ },
+ {
+  "rune": "Cowardice",
+  "stone": "Cravenstone",
+  "realm": "Abyss",
+  "ds": "A pale, trembling gray crystal that seems to lean away from anyone who looks at it, mined from crumbling ledges deep in the Abyss.",
+  "effect": "Once per short rest, when a creature you can see targets you with an attack, you can force it to make a DC 17 Wisdom save or be frightened of you until the end of your next turn."
+ },
+ {
+  "rune": "Crash",
+  "stone": "Crashstone",
+  "realm": "Chaos",
+  "ds": "A cracked, dense red-brown stone that rings like a struck bell, found where shattered walls and impact craters litter the plains of Chaos.",
+  "effect": "When you hit with a ranged or thrown attack, or shove a creature into a solid surface, it takes an extra 1d6 bludgeoning damage. Once per short rest, it is also knocked prone."
+ },
+ {
+  "rune": "Crawling Hand",
+  "stone": "Crawling Hand Stone",
+  "realm": "Human",
+  "ds": "A knuckled, fleshy-pink pebble shaped faintly like a curled finger, dug from old graveyards and battlefields of the Human realm.",
+  "effect": "Once per long rest, you can gain proficiency in one tool or skill that uses the hands for 1 hour, as if guided by a long-dead craftsman's memory."
+ },
+ {
+  "rune": "Creation",
+  "stone": "Creationstone",
+  "realm": "Heaven",
+  "ds": "A milky white stone flecked with tiny points of light that seem to appear from nowhere, found in the bright quarries of Heaven.",
+  "effect": "Once per long rest, you can create a nonmagical object of up to 10 pounds worth no more than 50 gp. It lasts for 8 hours before fading back into nothing."
+ },
+ {
+  "rune": "Creep",
+  "stone": "Creepstone",
+  "realm": "Mysterious",
+  "ds": "A dull green-black stone whose stain slowly spreads to whatever it touches, found in damp, overgrown caves of the Mysterious realm.",
+  "effect": "When you hit a creature, it takes 1d4 necrotic damage at the start of each of its turns for 1 minute, stacking up to three times. Once per long rest."
+ },
+ {
+  "rune": "Cross",
+  "stone": "Cross Stone",
+  "realm": "Abyss",
+  "ds": "A gray stone with two pale veins meeting at right angles through its heart, found in ruined shrines sunk deep in the Abyss.",
+  "effect": "While equipped, you have advantage on saves against being charmed or possessed. Once per short rest, you can deal an extra 1d6 radiant damage to a fiend or undead you hit."
+ },
+ {
+  "rune": "Culture",
+  "stone": "Culturestone",
+  "realm": "Mysterious",
+  "ds": "A banded stone of many soft colors laid in neat layers like old tradition, found under ancient settlements in the Mysterious realm.",
+  "effect": "While equipped, you can speak and read one extra language of your choice, chosen at dawn, and have advantage on checks to recall the customs of any people."
+ },
+ {
+  "rune": "Curse",
+  "stone": "Cursestone",
+  "realm": "Abyss",
+  "ds": "A blackened violet stone wrapped in faint thread-like scars that tighten when touched, found in the cursed pits of the Abyss.",
+  "effect": "Once per short rest, when you hit a creature, it must succeed on a DC 17 Wisdom save or have disadvantage on attacks and saves against you for 1 minute."
+ },
+ {
+  "rune": "Cycle of Life",
+  "stone": "Cyclestone",
+  "realm": "Inner Realm",
+  "ds": "A ring-shaped stone, half bright green and half bone white, that slowly turns in the hand, found among the roots of the Inner Realm.",
+  "effect": "When you reduce a creature to 0 hit points, you or an ally within 30 feet regains 2d6 hit points. Once per long rest, you can return a creature dead under 1 minute to 1 hit point."
+ },
+ {
+  "rune": "Dagger",
+  "stone": "Daggerstone",
+  "realm": "Inner Void",
+  "ds": "A thin, needle-sharp steel-gray shard that hums when held, broken from blade-like ridges in the Inner Void.",
+  "effect": "While equipped, you can make one extra light weapon attack as a bonus action each turn. When you hit with a light weapon, it deals an extra 1d6 piercing damage. Three times per long rest, attack as a reaction."
+ },
+ {
+  "rune": "Dark",
+  "stone": "Darkstone",
+  "realm": "Hell",
+  "ds": "A deep black stone that swallows nearby light, cold and smooth as still water, found in the lightless trenches of Hell.",
+  "effect": "Once per short rest, you can fill a 20-foot radius around you with magical darkness for 1 minute. You can see through it, and you deal an extra 1d6 necrotic damage to creatures inside."
+ },
+ {
+  "rune": "Dark Vision",
+  "stone": "Darksight Stone",
+  "realm": "Void",
+  "ds": "A smoky black stone with a faint pupil-shaped glint at its center, found in the endless dark of the Void.",
+  "effect": "While equipped, you see in darkness, including magical darkness, out to 300 feet, and you can see invisible creatures. Once per long rest, see through walls for 1 minute."
+ },
+ {
+  "rune": "Dart",
+  "stone": "Dartstone",
+  "realm": "Outer Realm",
+  "ds": "A slim, arrowhead-shaped blue stone that seems to quiver toward the nearest target, found scattered across the plains of the Outer Realm.",
+  "effect": "When you make a thrown or ranged attack, its range doubles and it deals an extra 1d6 piercing damage. Once per short rest, make three extra thrown attacks as a bonus action."
+ },
+ {
+  "rune": "Dawn",
+  "stone": "Dawnstone",
+  "realm": "Heaven",
+  "ds": "A rosy orange stone that brightens slowly as if waking, found on the eastern slopes of Heaven where light first breaks.",
+  "effect": "Once per long rest, at the start of your turn, you can shed bright light in a 30-foot radius for 1 minute. Allies starting their turn in it regain 1d6 hit points."
+ },
+ {
+  "rune": "Day",
+  "stone": "Daystone",
+  "realm": "Heaven",
+  "ds": "A clear yellow stone that holds warm daylight even at midnight, found in the open, sun-drenched fields of Heaven.",
+  "effect": "While equipped, you shed bright light in a 15-foot radius at will. Once per short rest, you can flare it to blind creatures within 30 feet for 1 round on a failed DC 15 Constitution save."
+ },
+ {
+  "rune": "Death",
+  "stone": "Deathstone",
+  "realm": "Heaven",
+  "ds": "A cold gray-black stone that feels like still flesh, quiet and heavy, found in the silent tombs of Heaven.",
+  "effect": "When you hit a creature, it takes an extra 1d6 necrotic damage. Once per long rest, a creature you hit with 30 or fewer hit points must make a DC 15 Constitution save or drop to 0."
+ },
+ {
+  "rune": "Death knight",
+  "stone": "Death Knight Stone",
+  "realm": "Inner Realm",
+  "ds": "A dark iron-colored stone traced with pale bone lines like old armor, found in the grave fields of the Inner Realm.",
+  "effect": "Once per long rest, you can raise a corpse within 30 feet as an undead warrior for 1 hour. It keeps half its hit points and its weapon skills, and obeys your commands."
+ },
+ {
+  "rune": "Decay",
+  "stone": "Decaystone",
+  "realm": "Hell",
+  "ds": "A soft brown stone that flakes and crumbles at its edges yet never wears away, found in rotting bogs of Hell.",
+  "effect": "When you hit a creature, it cannot regain hit points until the start of your next turn. Once per short rest, the hit deals an extra 2d6 necrotic damage."
+ },
+ {
+  "rune": "Dedication",
+  "stone": "Dedicationstone",
+  "realm": "Heaven",
+  "ds": "A plain, polished white stone worn smooth as if held for years, found in quiet mountain shrines of Heaven.",
+  "effect": "Choose one damage type at dawn. While equipped, spells and attacks of that type deal an extra 1d6 damage. Once per long rest, reroll one failed attack using that type."
+ },
+ {
+  "rune": "Deletion",
+  "stone": "Deletionstone",
+  "realm": "Inner Realm",
+  "ds": "A stone so blank it seems cut out of the world, a flat white gap in the rock of the Inner Realm.",
+  "effect": "Once per long rest, when you hit a creature or object, you can erase one magical effect on it, or erase a nonmagical object up to 5 feet across entirely."
+ },
+ {
+  "rune": "Demon",
+  "stone": "Demonstone",
+  "realm": "Primordial",
+  "ds": "A crawling red-black stone that whispers in many small voices, found in vast swarming beds within the Primordial realm.",
+  "effect": "Once per long rest, you can summon six lesser demons for 1 hour. Each has 50 hit points, attacks for 1d6 slashing damage, and obeys you. They vanish if you lose concentration."
+ },
+ {
+  "rune": "Depression",
+  "stone": "Depressionstone",
+  "realm": "Chaos",
+  "ds": "A heavy, dull blue-gray stone that seems to sink into any hand that holds it, found in the gloomy hollows of Chaos.",
+  "effect": "Once per short rest, when you hit a creature, it must make a DC 18 Wisdom save or be unable to take reactions and have its speed halved for 1 minute."
+ },
+ {
+  "rune": "Descend",
+  "stone": "Descendstone",
+  "realm": "Heaven",
+  "ds": "A dark blue stone that always feels heavier than its size and tugs downward, found at the lowest steps of Heaven.",
+  "effect": "While equipped, you take no damage from falls. Once per short rest, when you hit a flying creature, it must succeed on a DC 15 Strength save or fall 60 feet."
+ },
+ {
+  "rune": "Desire",
+  "stone": "Desirestone",
+  "realm": "Heaven",
+  "ds": "A warm rose-pink stone that seems to glow brighter for whoever wants it most, found in the gardens of Heaven.",
+  "effect": "Once per short rest, you can force a creature within 30 feet to make a DC 15 Wisdom save or be charmed by you for 1 minute, ending if you harm it."
+ },
+ {
+  "rune": "Despair",
+  "stone": "Despairstone",
+  "realm": "Mysterious",
+  "ds": "A cold, colorless stone that dims nearby light and mood alike, found in forgotten pits of the Mysterious realm.",
+  "effect": "Once per long rest, when you hit a creature, it must make a DC 13 Wisdom save or subtract 1d4 from its attacks and saves for 1 minute."
+ },
+ {
+  "rune": "Destruction",
+  "stone": "Destructionstone",
+  "realm": "Abyss",
+  "ds": "A jagged black-red stone full of cracks that glow like embers, found in ruined, shattered ground of the Abyss.",
+  "effect": "When you hit, you deal an extra 1d6 force damage, doubled against objects and structures. Once per short rest, you can make the hit explode in a 15-foot radius for the same damage."
+ },
+ {
+  "rune": "Dexterity",
+  "stone": "Dexteritystone",
+  "realm": "Inner Realm",
+  "ds": "A light, quick-glinting green stone that seems to slip between fingers, found on narrow ledges of the Inner Realm.",
+  "effect": "While equipped, your Dexterity score increases by 2, to a maximum of 22. Once per short rest, you can gain advantage on a Dexterity save or finesse attack."
+ },
+ {
+  "rune": "Diamond",
+  "stone": "Diamondstone",
+  "realm": "Chaos",
+  "ds": "A brilliant, hard clear stone that splits light into many colors, found deep in the unstable veins of Chaos.",
+  "effect": "While equipped, you gain a +1 bonus to AC. Once per long rest, you can coat your skin in diamond for 1 minute, gaining resistance to bludgeoning, piercing, and slashing damage."
+ },
+ {
+  "rune": "Difference",
+  "stone": "Differencestone",
+  "realm": "Inner Realm",
+  "ds": "A two-toned stone split cleanly into black and white halves that never blend, found in stark layers of the Inner Realm.",
+  "effect": "Once per short rest, after a creature you can see makes an attack or save, you can learn the difference from the target number and shift its roll by up to 5 either way."
+ },
+ {
+  "rune": "Dimension",
+  "stone": "Dimensionstone",
+  "realm": "Hell",
+  "ds": "A purple stone that looks deeper than its size, as if its inside goes sideways, found in folded caverns of Hell.",
+  "effect": "Once per short rest, you can teleport up to 60 feet to a space you can see. Once per long rest, you can open a pocket room that holds up to 500 pounds for 8 hours."
+ },
+ {
+  "rune": "Diplomacy",
+  "stone": "Diplomacystone",
+  "realm": "Heaven",
+  "ds": "A smooth, calm blue stone cool to the touch that quiets angry voices nearby, found in meeting halls of Heaven.",
+  "effect": "While equipped, you have advantage on Persuasion checks. Once per long rest, you can force creatures within 30 feet to make a DC 15 Charisma save or stop fighting for 1 minute to talk."
+ },
+ {
+  "rune": "Direct",
+  "stone": "Directstone",
+  "realm": "Heaven",
+  "ds": "A long, straight white stone that always points the same way when hung, found in perfectly straight seams of Heaven.",
+  "effect": "While equipped, your ranged attacks ignore half and three-quarters cover. Once per short rest, you can turn an area spell into a single-target spell that deals an extra 2d6 damage."
+ },
+ {
+  "rune": "Dirty",
+  "stone": "Dirtystone",
+  "realm": "Primordial",
+  "ds": "A grimy brown stone always coated in slime that will not wash off, found in the filthy mires of the Primordial realm.",
+  "effect": "When you hit a creature, it takes an extra 1d6 poison damage. Once per short rest, it must succeed on a DC 21 Constitution save or be poisoned and unable to heal for 1 minute."
+ },
+ {
+  "rune": "Disable",
+  "stone": "Disablestone",
+  "realm": "Human",
+  "ds": "A small gray stone with a dull, numbing chill, found in shallow riverbeds and fields of the Human realm.",
+  "effect": "Once per long rest, when you hit a creature, it must succeed on a DC 12 Constitution save or lose its reaction and have its speed reduced by 10 feet until your next turn."
+ },
+ {
+  "rune": "Disassembly",
+  "stone": "Disassemblystone",
+  "realm": "Abyss",
+  "ds": "A stone made of many small interlocking pieces that slide apart and back together, found in the broken reaches of the Abyss.",
+  "effect": "Once per short rest, you can take apart a nonmagical object or construct part within reach, up to 10 feet across. Constructs you hit take an extra 1d6 force damage."
+ },
+ {
+  "rune": "Divergence",
+  "stone": "Divergencestone",
+  "realm": "Heaven",
+  "ds": "A forked white stone with veins that always split apart, found where Heaven's rivers branch away from each other.",
+  "effect": "Once per short rest, as a reaction when a creature within 30 feet moves toward you, push it and every creature within 10 feet of you 20 feet away."
+ },
+ {
+  "rune": "Divine",
+  "stone": "Divinestone",
+  "realm": "Abyss",
+  "ds": "A gold-white stone that hums like distant prayer, formed in the Abyss where the beliefs of many mortals sank and hardened.",
+  "effect": "When you hit, you deal an extra 1d6 radiant damage. Once per long rest, you can call a pillar of holy light in a 20-foot radius, healing allies 6d6 and blinding foes on a failed DC 17 save."
+ },
+ {
+  "rune": "Divinity",
+  "stone": "Divinitystone",
+  "realm": "Heaven",
+  "ds": "A pale gold stone that glows faintly brighter in temples, found thin and scattered across the holy grounds of Heaven.",
+  "effect": "While equipped, your spell save DC increases by 1. Once per long rest, you can regain one expended spell slot of 3rd level or lower."
+ },
+ {
+  "rune": "Double",
+  "stone": "Doublestone",
+  "realm": "Hell",
+  "ds": "A twin stone of two identical halves that always come as a pair, found in mirrored caves of Hell.",
+  "effect": "Once per long rest, when you cast a spell that targets one creature, you can target a second creature in range with the same spell."
+ },
+ {
+  "rune": "Dragon",
+  "stone": "Drakestone",
+  "realm": "Abyss",
+  "ds": "A scaled stone of deep red and gold, warm like a sleeping beast, found in old dragon lairs sunk in the Abyss.",
+  "effect": "Once per short rest, you can breathe a 30-foot cone of fire, cold, acid, lightning, or poison, dealing 3d6 damage on a failed DC 17 Dexterity save, half on success."
+ },
+ {
+  "rune": "Dreams",
+  "stone": "Dreamstone",
+  "realm": "Heaven",
+  "ds": "A soft, cloudy lavender stone that shows drifting pictures when stared into, found in the sleepy meadows of Heaven.",
+  "effect": "While equipped, you need only 4 hours of sleep. Once per long rest, you can send a creature within 60 feet to sleep for 1 minute on a failed DC 15 Wisdom save."
+ },
+ {
+  "rune": "Drift",
+  "stone": "Driftstone",
+  "realm": "Hell",
+  "ds": "A light, pitted gray stone that slowly wanders across any flat surface it rests on, found on loose plains of Hell.",
+  "effect": "Once per short rest, as a reaction when hit, you drift 15 feet away without provoking attacks. Creatures you hit must make a DC 15 Strength save or be pushed 10 feet."
+ },
+ {
+  "rune": "Dry",
+  "stone": "Drystone",
+  "realm": "Heaven",
+  "ds": "A cracked, sandy tan stone that pulls all moisture from the air around it, found in the parched plateaus of Heaven.",
+  "effect": "While equipped, you resist the effects of thirst and need half as much water. Once per short rest, a creature you hit takes an extra 2d6 necrotic damage as it dries out."
+ },
+ {
+  "rune": "Dullahan",
+  "stone": "Dullahanstone",
+  "realm": "Void",
+  "ds": "A dark, headless-looking stone with a faint glow hovering just above it, found on endless black roads of the Void.",
+  "effect": "Once per long rest, you can raise a strong corpse as a headless rider and mount for 1 hour. Its gaze forces creatures within 60 feet to make a DC 21 Wisdom save or be frightened."
+ },
+ {
+  "rune": "Dusk",
+  "stone": "Duskstone",
+  "realm": "Heaven",
+  "ds": "A violet-orange stone caught between light and dark, glowing only faintly, found on Heaven's western cliffs at twilight.",
+  "effect": "While in dim light, you have advantage on Stealth checks. Once per short rest, you can become invisible until the end of your next turn."
+ },
+ {
+  "rune": "Earth",
+  "stone": "Earthstone",
+  "realm": "Heaven",
+  "ds": "A heavy brown stone layered with soil and roots that feels alive with the spirit of the land, found in Heaven's deep fields.",
+  "effect": "While on the ground, you cannot be knocked prone. Once per short rest, you can raise a stone wall 30 feet long and 10 feet high, or deal 2d6 bludgeoning damage in a 15-foot radius."
+ },
+ {
+  "rune": "Efficiency",
+  "stone": "Efficiencystone",
+  "realm": "Human",
+  "ds": "A small, neatly squared gray stone with clean edges, found in Human-realm quarries and around old workshops.",
+  "effect": "Once per long rest, you can take the Dash, Disengage, or Use an Object action as a bonus action, or finish a short task in half the time."
+ },
+ {
+  "rune": "Ego",
+  "stone": "Egostone",
+  "realm": "Abyss",
+  "ds": "A glossy, self-reflecting purple stone that shows only its holder's face, found in grand mirrored caverns of the Abyss.",
+  "effect": "While equipped, you have advantage on saves against being charmed or frightened. Once per short rest, gain a +5 bonus to one attack, check, or save made to prove yourself."
+ },
+ {
+  "rune": "Elastic",
+  "stone": "Elasticstone",
+  "realm": "Void",
+  "ds": "A rubbery, stretchy blue-gray stone that bends without breaking and snaps back into shape, found deep in the Void.",
+  "effect": "Once per short rest, when you take bludgeoning damage, you can reduce it to zero and send 1d6 of it back at the attacker. While equipped, your reach increases by 5 feet."
+ },
+ {
+  "rune": "Electric",
+  "stone": "Electricstone",
+  "realm": "Human",
+  "ds": "A small yellow stone crackling with tiny sparks that make hair stand up, found in storm-struck Human-realm hills.",
+  "effect": "When you hit a creature, it takes an extra 1d4 lightning damage. Once per long rest, it also loses its reaction until the start of its next turn."
+ },
+ {
+  "rune": "Empathy",
+  "stone": "Empathystone",
+  "realm": "Inner Realm",
+  "ds": "A gentle pink stone that warms in response to others' feelings, found in quiet groves of the Inner Realm.",
+  "effect": "While equipped, you can sense the emotions of creatures within 60 feet. Once per short rest, you can take half the damage an ally within 60 feet would take."
+ },
+ {
+  "rune": "Emptiness",
+  "stone": "Emptystone",
+  "realm": "Abyss",
+  "ds": "A hollow, weightless gray shell with nothing inside, found in vast empty spaces of the Abyss.",
+  "effect": "Once per short rest, you can create a 15-foot sphere of nothing within 60 feet for 1 minute. Creatures inside cannot breathe, hear, or cast spells with verbal parts."
+ },
+ {
+  "rune": "Enchantment",
+  "stone": "Enchantmentstone",
+  "realm": "Chaos",
+  "ds": "A shimmering stone etched with tiny glowing sigils that move slowly, found in rune-laced ruins of Chaos.",
+  "effect": "Once per long rest, touch a weapon or armor to give it a +2 bonus to attacks or AC for 1 hour. Enchanted weapons also deal an extra 1d6 force damage."
+ },
+ {
+  "rune": "End",
+  "stone": "Endstone",
+  "realm": "Hell",
+  "ds": "A blunt, dark red stone cut cleanly at one end like a closed door, found at the edges of Hell.",
+  "effect": "Once per short rest, when you hit, you can end one ongoing spell or effect on the target, or deal an extra 2d6 necrotic damage if it has 20 or fewer hit points."
+ },
+ {
+  "rune": "Ending",
+  "stone": "Endingstone",
+  "realm": "Void",
+  "ds": "A slowly fading black stone that seems to wind down like a dying fire, found in the silent stretches of the Void.",
+  "effect": "Once per long rest, choose a creature within 60 feet. It must make a DC 21 Constitution save or lose a quarter of its maximum hit points each round for 1 minute."
+ },
+ {
+  "rune": "Energy",
+  "stone": "Energystone",
+  "realm": "Inner Realm",
+  "ds": "A brilliant, buzzing white-blue stone that pulses with raw force, found in charged caves of the Inner Realm.",
+  "effect": "While equipped, you deal an extra 1d6 force damage on hits. Once per long rest, you can take one extra action on your turn."
+ },
+ {
+  "rune": "Entertainment",
+  "stone": "Revelstone",
+  "realm": "Heaven",
+  "ds": "A colorful, glittering stone that seems to dance in the light, found in the festival grounds of Heaven.",
+  "effect": "While equipped, you have advantage on Performance checks. Once per long rest, you can force creatures within 30 feet to make a DC 15 Wisdom save or be distracted, giving them disadvantage for 1 minute."
+ },
+ {
+  "rune": "Entropy",
+  "stone": "Entropystone",
+  "realm": "Inner Void",
+  "ds": "A crumbling gray stone that breaks down into dust and then reforms, found in the decaying reaches of the Inner Void.",
+  "effect": "When you hit, you deal an extra 1d6 necrotic damage. Once per long rest, choose a creature within 60 feet. It must make a DC 23 Constitution save or have its maximum hit points halved for 1 minute."
+ },
+ {
+  "rune": "Envy",
+  "stone": "Envystone",
+  "realm": "Human",
+  "ds": "A dull green stone that glows faintly brighter near valuable things, found in mines and markets of the Human realm.",
+  "effect": "Once per long rest, when a creature within 30 feet rolls a 20 or succeeds on a save, you gain advantage on your next attack or save."
+ },
+ {
+  "rune": "Erosion",
+  "stone": "Erosionstone",
+  "realm": "Hell",
+  "ds": "A smooth, worn brown stone shaped by water, found in canyons and riverbeds carved through Hell.",
+  "effect": "When you hit a creature, its AC drops by 1, to a maximum of -2, until the end of your next turn. Once per short rest, deal an extra 2d6 damage to objects."
+ },
+ {
+  "rune": "Essence",
+  "stone": "Essencestone",
+  "realm": "Abyss",
+  "ds": "A faint, ghostly stone that seems barely there, found deep in the Abyss where gods and spirits fell.",
+  "effect": "While equipped, you can sense spirits and gods within 60 feet. Once per long rest, you can absorb the remnant of a slain creature to regain 4d6 hit points."
+ },
+ {
+  "rune": "Eternal",
+  "stone": "Eternalstone",
+  "realm": "Void",
+  "ds": "A flawless silver stone that never scratches or dulls, found in the oldest and quietest layers of the Void.",
+  "effect": "While equipped, you do not age and cannot be aged by magic. Once per long rest, when you drop to 0 hit points, you instead drop to 1 hit point."
+ },
+ {
+  "rune": "Eurus",
+  "stone": "Eurus Stone",
+  "realm": "Primordial",
+  "ds": "A swirling green-blue stone that sighs with an eastern wind and pulses with life, found in the storms of the Primordial realm.",
+  "effect": "Once per long rest, you can call a 30-foot vortex for 1 minute. Foes inside take 1d6 slashing damage each turn, while allies inside regain 2d6 hit points each turn."
+ },
+ {
+  "rune": "Evolve",
+  "stone": "Evolvestone",
+  "realm": "Hell",
+  "ds": "A layered stone that seems slightly different each time it is seen, found in shifting caverns of Hell.",
+  "effect": "Once per long rest, after finishing a long rest, you can choose one ability score to increase by 1 for 24 hours, or gain a permanent resistance to one damage type you took that day."
+ },
+ {
+  "rune": "Existence",
+  "stone": "Existencestone",
+  "realm": "Mysterious",
+  "ds": "A plain gray stone with an odd heaviness that makes it impossible to ignore, found in the Mysterious realm.",
+  "effect": "While equipped, you have advantage on saves against being banished or teleported against your will. Once per long rest, reduce damage you take by 1d6."
+ },
+ {
+  "rune": "Failure",
+  "stone": "Failurestone",
+  "realm": "Inner Void",
+  "ds": "A dull, cracked black stone that always seems to slip from the grip, found in the broken lands of the Inner Void.",
+  "effect": "Once per short rest, when a creature within 60 feet succeeds on an attack or save, you can force it to fail. Once per long rest, it fails all its saves for 1 minute."
+ },
+ {
+  "rune": "Fall",
+  "stone": "Fallstone",
+  "realm": "Inner Realm",
+  "ds": "A heavy blue-gray stone that always drops faster than it should, found at the bottom of cliffs in the Inner Realm.",
+  "effect": "While equipped, you take no fall damage. Once per short rest, creatures within 30 feet must make a DC 19 Strength save or fall prone and lose flight for 1 minute."
+ },
+ {
+  "rune": "False",
+  "stone": "Falsestone",
+  "realm": "Inner Void",
+  "ds": "A stone that looks different to every viewer, never the same twice, found in the twisting realms of the Inner Void.",
+  "effect": "While equipped, you can create an illusion of yourself or an object at will. Once per short rest, a creature that sees through it must make a DC 23 Intelligence save or believe it anyway."
+ },
+ {
+  "rune": "Fame",
+  "stone": "Famestone",
+  "realm": "Void",
+  "ds": "A bright, glowing stone that seems to draw every eye, found in the vast fields of the Void.",
+  "effect": "While equipped, creatures know your name and deeds. Once per long rest, every creature within 60 feet must make a DC 21 Charisma save or be charmed or frightened by you for 1 minute."
+ },
+ {
+  "rune": "Famine",
+  "stone": "Faminestone",
+  "realm": "Heaven",
+  "ds": "A dull, empty-looking brown stone that makes the stomach ache when held, found in barren fields of Heaven.",
+  "effect": "Once per short rest, a creature you hit must make a DC 15 Constitution save or gain one level of exhaustion and be unable to heal until the end of your next turn."
+ },
+ {
+  "rune": "Fate",
+  "stone": "Fatestone",
+  "realm": "Human",
+  "ds": "A small stone with fine threads running through it like woven lines, found in Human-realm caves and old temples.",
+  "effect": "Once per long rest, after you see a roll made by a creature within 30 feet, you can replace it with a d20 roll of your own."
+ },
+ {
+  "rune": "Fatigue",
+  "stone": "Fatiguestone",
+  "realm": "Human",
+  "ds": "A heavy, sleepy gray stone that makes arms feel weak, found in the worn hills of the Human realm.",
+  "effect": "Once per long rest, a creature you hit must succeed on a DC 12 Constitution save or have its speed halved and disadvantage on its next attack."
+ },
+ {
+  "rune": "Fear",
+  "stone": "Fearstone",
+  "realm": "Abyss",
+  "ds": "A dark, trembling stone that shows nightmares in its depths, found in the dread pits of the Abyss.",
+  "effect": "Once per short rest, you can force creatures within 30 feet to make a DC 17 Wisdom save or be frightened for 1 minute. Frightened foes take an extra 1d6 psychic damage from your hits."
+ },
+ {
+  "rune": "Fext",
+  "stone": "Fextstone",
+  "realm": "Inner Realm",
+  "ds": "A blotchy, uneven stone with patches of living and dead colors that shift without warning, found in Inner Realm graves.",
+  "effect": "Once per long rest, raise a corpse for 1 hour. Roll a d6: on 1-2 it is weak, on 3-5 it has half its life power, and on a 6 it has nearly full power."
+ },
+ {
+  "rune": "Fill",
+  "stone": "Fillstone",
+  "realm": "Abyss",
+  "ds": "A dense, packed stone that seems full to bursting, found in tightly packed seams of the Abyss.",
+  "effect": "Once per short rest, you can fill a 20-foot cube within 60 feet with sand, water, or stone for 1 minute. Creatures inside are restrained on a failed DC 17 Strength save."
+ },
+ {
+  "rune": "Finite",
+  "stone": "Finitestone",
+  "realm": "Chaos",
+  "ds": "A sharp-edged, perfectly bounded stone that never chips beyond its edges, found in the measured layers of Chaos.",
+  "effect": "Once per short rest, when a creature within 60 feet would regain hit points or gain temporary hit points, you can cap the amount at 1d6."
+ },
+ {
+  "rune": "Fire",
+  "stone": "Firestone",
+  "realm": "Heaven",
+  "ds": "A glowing orange-red stone that burns warmly in the hand, found in the fiery peaks of Heaven where spirit flame still dwells.",
+  "effect": "When you hit, you deal an extra 1d6 fire damage. Once per short rest, you can throw fire in a 15-foot cone for 2d6 fire damage on a failed DC 15 Dexterity save."
+ },
+ {
+  "rune": "First",
+  "stone": "First Stone",
+  "realm": "Inner Realm",
+  "ds": "A sharp-pointed stone that always faces forward, glowing at its tip, found in leading ridges of the Inner Realm.",
+  "effect": "While equipped, you gain a +5 bonus to initiative. Once per short rest, on the first round of combat, your first hit deals an extra 2d6 damage."
+ },
+ {
+  "rune": "Fix",
+  "stone": "Fixstone",
+  "realm": "Heaven",
+  "ds": "A pale gold stone laced with fine silver seams, as if it had once cracked and mended itself. Found in Heaven along the edges of old repaired temple floors.",
+  "effect": "Once per short rest, as an action, you mend a broken object up to 10 feet across, or touch a creature to restore 2d6 hit points and end one bleeding effect on it."
+ },
+ {
+  "rune": "Flesh",
+  "stone": "Fleshstone",
+  "realm": "Inner Realm",
+  "ds": "A soft-looking rose and ivory stone that feels faintly warm and gives a little under the thumb. Mined from Inner Realm barrows where the dead were laid unburned.",
+  "effect": "When you hit with a melee attack, the target takes an extra 1d6 necrotic damage as its flesh withers, and you regain hit points equal to half that damage. Three times per long rest."
+ },
+ {
+  "rune": "Flight",
+  "stone": "Flightstone",
+  "realm": "Abyss",
+  "ds": "A feather-light white stone streaked with pale blue, which drifts slowly upward if dropped. Found on wind-scoured Abyss peaks where nothing else holds still.",
+  "effect": "While equipped, you have a flying speed of 30 feet for up to 10 minutes per long rest, spent in 1-minute increments. Falling, you may use your reaction to land without damage."
+ },
+ {
+  "rune": "Flip",
+  "stone": "Flipstone",
+  "realm": "Abyss",
+  "ds": "A two-faced stone, black on one side and white on the other, the colors trading places whenever no one is watching. Found in quiet Abyss hollows.",
+  "effect": "Once per short rest, as a bonus action, reverse one state on a creature within 60 feet: advantage becomes disadvantage, a condition ends or is swapped for its opposite, or a fall becomes a rise. DC 17 Wisdom save negates."
+ },
+ {
+  "rune": "Flower",
+  "stone": "Flowerstone",
+  "realm": "Human",
+  "ds": "A small pink and cream stone patterned like pressed petals, smelling faintly sweet. Picked from meadow soil and garden beds in the Human realm.",
+  "effect": "Once per long rest, as an action, you produce a blossom that grants a creature you give it +1 to Charisma checks for 1 hour, or that serves as one alchemy ingredient."
+ },
+ {
+  "rune": "Foe",
+  "stone": "Foestone",
+  "realm": "Abyss",
+  "ds": "A jagged rust-red stone with dark veins that seem to point toward whoever is nearest. Found on Abyss battlefields soaked in old feuds.",
+  "effect": "As a bonus action, mark a creature within 60 feet as your foe for 1 minute. Your attacks against it deal an extra 1d6 damage and it has disadvantage on attacks against anyone else. Twice per long rest."
+ },
+ {
+  "rune": "Foresee",
+  "stone": "Foresight Stone",
+  "realm": "Heaven",
+  "ds": "A clear violet stone in which faint images move a heartbeat ahead of the world around it. Found in Heaven on high watchtower ledges.",
+  "effect": "Once per long rest, roll a d20 and record the result. Before a creature you can see makes an attack, check or save, you can replace its roll with that number."
+ },
+ {
+  "rune": "Forest",
+  "stone": "Foreststone",
+  "realm": "Human",
+  "ds": "A mossy green stone with root-like brown streaks, cool and damp to the touch. Dug from under old trees in Human-realm woodland.",
+  "effect": "While equipped, difficult terrain from plants costs you no extra movement. Once per long rest, you can make vines hold a creature within 30 feet; DC 11 Strength save or restrained for 1 round."
+ },
+ {
+  "rune": "Forging",
+  "stone": "Forgestone",
+  "realm": "Heaven",
+  "ds": "A heavy dark grey stone that glows orange along its cracks and rings like an anvil when struck. Found in Heaven near divine smithies.",
+  "effect": "Once per long rest, during a short rest, you reshape one metal weapon or armor piece; it gains +1 to attack and damage or +1 AC until your next long rest. Your weapon attacks deal +1d6 fire damage once per turn."
+ },
+ {
+  "rune": "Formations",
+  "stone": "Formation Stone",
+  "realm": "Inner Realm",
+  "ds": "A geometric stone of interlocking colored facets that shift into new patterns as it turns. Found in Inner Realm caverns where several veins meet.",
+  "effect": "Once per long rest, mark a 30-foot square for 1 minute. Allies inside who use a Rune effect or spell gain +2 to its save DC or attack rolls, and add 1d6 to its damage."
+ },
+ {
+  "rune": "Fresh",
+  "stone": "Freshstone",
+  "realm": "Hell",
+  "ds": "A dewy green-white stone that always feels newly washed and smells of morning grass. Found in rare cool springs within Hell.",
+  "effect": "While equipped, food and potions you carry never spoil. Once per short rest, as a bonus action, you end the poisoned condition on yourself or an ally you touch and grant 2d6 temporary hit points."
+ },
+ {
+  "rune": "Friend",
+  "stone": "Friendstone",
+  "realm": "Outer Realm",
+  "ds": "A warm amber stone that glows softly when held by two hands at once. Found in Outer Realm groves where travelers once swore oaths of kinship.",
+  "effect": "As a bonus action, link with up to four willing allies within 60 feet for 1 minute; each can take your hits, share your advantage, or move 10 feet as a reaction when another is attacked. Once per long rest."
+ },
+ {
+  "rune": "Frost",
+  "stone": "Frost Stone",
+  "realm": "Heaven",
+  "ds": "A milky blue stone rimed with feathery white crystals that regrow overnight. Found in Heaven on still, high slopes where water freezes slowly.",
+  "effect": "When you hit with an attack, the target takes an extra 1d6 cold damage and its speed is reduced by 15 feet until your next turn. Once per short rest, the hit instead restrains it until then."
+ },
+ {
+  "rune": "Fruit",
+  "stone": "Fruitstone",
+  "realm": "Heaven",
+  "ds": "A round, glossy stone in deep red and gold, sweet-smelling like ripe orchard fruit. Found under Heaven's ancient orchards among fallen seeds.",
+  "effect": "Once per long rest, you grow three fruits. A creature that eats one as a bonus action regains 2d6 hit points and gains advantage on its next saving throw. Fruits wither after 24 hours."
+ },
+ {
+  "rune": "Fusion",
+  "stone": "Fusionstone",
+  "realm": "Primordial",
+  "ds": "A swirling stone where two or more colors melt into one another without ever settling. Found only in the deepest Primordial seams where Laws first merged.",
+  "effect": "Once per long rest, when you use two Rune effects or spells in the same turn, merge them: the combined effect uses the higher save DC +3, its damage is summed, and targets have disadvantage on the save."
+ },
+ {
+  "rune": "Future",
+  "stone": "Futurestone",
+  "realm": "Hell",
+  "ds": "A pale smoky stone in which faint shapes seem to form and dissolve before they finish. Found in quiet Hell caverns that echo before sounds are made.",
+  "effect": "Once per short rest, when you are targeted by an attack, you can use your reaction to see it coming: the attack has disadvantage, and you may move 15 feet without provoking."
+ },
+ {
+  "rune": "Gambit",
+  "stone": "Gambitstone",
+  "realm": "Heaven",
+  "ds": "A checkered black and ivory stone with sharp, deliberate edges like a game piece. Found in Heaven beneath ruined strategy halls.",
+  "effect": "Once per short rest, at the start of combat, choose a risk: take -2 AC until your next turn to gain advantage on all attacks and +2d6 damage on your first hit that round."
+ },
+ {
+  "rune": "Gamble",
+  "stone": "Gamblestone",
+  "realm": "Human",
+  "ds": "A small speckled stone dotted with pips like a die, warm from being turned in nervous fingers. Found in Human-realm river gravel near old trading towns.",
+  "effect": "Once per long rest, before rolling a d20, declare a gamble: roll 1d4. On a 3 or 4 add it to the roll; on a 1 or 2 subtract it."
+ },
+ {
+  "rune": "Ghast",
+  "stone": "Ghaststone",
+  "realm": "Inner Realm",
+  "ds": "A sickly green-black stone with a faint rotten smell that never washes off. Found in Inner Realm graveyards built on tainted, poisoned ground.",
+  "effect": "Once per short rest, as a bonus action, release a 20-foot stench aura for 1 minute. Creatures starting their turn in it make a DC 16 Constitution save or are poisoned and take 1d6 poison damage."
+ },
+ {
+  "rune": "Ghoul",
+  "stone": "Ghoulstone",
+  "realm": "Inner Realm",
+  "ds": "A grey, mottled stone with dark patches like half-rotted skin and tiny bone-white flecks. Found in Inner Realm crypts where bodies lay uneaten.",
+  "effect": "When you hit a creature with a melee attack, it must make a DC 16 Constitution save or be paralyzed until the end of its next turn. Three times per long rest."
+ },
+ {
+  "rune": "Gift",
+  "stone": "Giftstone",
+  "realm": "Human",
+  "ds": "A smooth rosy stone with a soft golden glow, pleasant to hold and hard to keep. Found in Human-realm shrines among offerings left by strangers.",
+  "effect": "Once per long rest, as a bonus action, you give up to 1d4 of your hit points or one Rune effect use to an ally you touch; they gain it immediately."
+ },
+ {
+  "rune": "Girl",
+  "stone": "Girlstone",
+  "realm": "Outer Realm",
+  "ds": "A bright pearl-pink stone streaked with sunny yellow that feels light and lively in the hand. Found in Outer Realm meadows where young spirits play.",
+  "effect": "While equipped, you have advantage on saves against aging and exhaustion. Once per long rest, you regain youthful vigor: remove two levels of exhaustion and gain +20 feet of speed for 1 hour."
+ },
+ {
+  "rune": "Glaive",
+  "stone": "Glaivestone",
+  "realm": "Primordial",
+  "ds": "A long, curved silver-grey stone shaped like a blade on a staff and edged sharp along one side. Found in Primordial cliffs of ancient metal.",
+  "effect": "While equipped, your melee reach increases by 10 feet. Once per short rest, you sweep in a 30-foot arc; every creature in it takes 1d6 slashing damage and must pass a DC 21 Dexterity save or fall prone."
+ },
+ {
+  "rune": "Gluttony",
+  "stone": "Gluttonystone",
+  "realm": "Abyss",
+  "ds": "A greasy, swollen-looking crimson stone that seems to grow heavier the longer it is carried. Found in Abyss feasting pits that were never emptied.",
+  "effect": "When you reduce a creature to 0 hit points, you devour its strength and gain 2d6 temporary hit points. Once per long rest, you can consume a magic item's charge to regain one use of a Rune effect."
+ },
+ {
+  "rune": "Gnome",
+  "stone": "Gnomestone",
+  "realm": "Human",
+  "ds": "A rough brown stone with root fibers running through it like veins, smelling of fresh earth. Dug from deep, old soil in the Human realm.",
+  "effect": "While equipped, you know the direction to the nearest ore vein within 1 mile. Once per long rest, you can sink into earth and emerge up to 30 feet away as a bonus action."
+ },
+ {
+  "rune": "Governance",
+  "stone": "Governancestone",
+  "realm": "Heaven",
+  "ds": "A polished slate-blue stone with straight gold lines dividing it like borders on a map. Found in Heaven under the foundations of old council halls.",
+  "effect": "Once per long rest, issue an edict to up to 6 creatures within 60 feet. Allies gain +2 to saves for 1 minute; hostile creatures must make a DC 15 Wisdom save or cannot attack you on their next turn."
+ },
+ {
+  "rune": "Grade",
+  "stone": "Gradestone",
+  "realm": "Outer Realm",
+  "ds": "A layered stone of stacked bands, each a deeper shade than the one below, like a ladder of ranks. Found in Outer Realm testing grounds.",
+  "effect": "As a bonus action, appraise a creature within 60 feet and learn its level, Aptitude, and highest stat. Once per long rest, you gain advantage on all attacks against a creature graded below you for 1 minute."
+ },
+ {
+  "rune": "Gravity",
+  "stone": "Gravitystone",
+  "realm": "Outer Realm",
+  "ds": "A small, dense black stone far heavier than it looks, with dust spiraling slowly toward it. Found in Outer Realm craters where the ground bends inward.",
+  "effect": "Twice per long rest, crush a 20-foot radius within 90 feet; creatures make a DC 19 Strength save or take 1d6 force damage, fall prone, and have speed 0 until the end of your next turn."
+ },
+ {
+  "rune": "Greed",
+  "stone": "Greedstone",
+  "realm": "Abyss",
+  "ds": "A glittering gold-green stone that reflects coins and gems far brighter than it should. Found in Abyss hoards where treasure-hoarders died clutching their wealth.",
+  "effect": "When you hit a creature, you can steal one item it holds or 1d6 temporary hit points. Once per short rest, take a buff or Rune benefit active on a creature within 60 feet for yourself; DC 17 Charisma save negates."
+ },
+ {
+  "rune": "Grief",
+  "stone": "Griefstone",
+  "realm": "Hell",
+  "ds": "An ashen grey stone, cool and dull, with faint tear-like streaks running down its face. Found in Hell among the burned-out remains of old pyres.",
+  "effect": "Once per short rest, as an action, a creature within 30 feet makes a DC 14 Wisdom save or is weighed down by sorrow for 1 minute: speed halved and -2 to attack rolls."
+ },
+ {
+  "rune": "Grim Reaper",
+  "stone": "Grim Reaper Stone",
+  "realm": "Hell",
+  "ds": "A black stone shaped like a curved blade, cold and silent, with faint pale marks counting the dead. Found in Hell where countless deaths gathered.",
+  "effect": "When a creature within 60 feet dies, gain a soul charge (max 5). As a bonus action, spend charges to add 1d6 necrotic damage each to your next hit. Once per long rest, a creature at 0 hit points dies outright."
+ },
+ {
+  "rune": "Grow",
+  "stone": "Growstone",
+  "realm": "Heaven",
+  "ds": "A soft green stone with tiny sprouts of crystal pushing out from it, growing slightly larger each month. Found in Heaven's sunlit gardens.",
+  "effect": "Once per long rest, touch a willing creature to make it grow; for 1 minute it is one size larger, deals +1d6 damage on weapon hits, and has advantage on Strength checks and saves."
+ },
+ {
+  "rune": "Guarantee",
+  "stone": "Guaranteestone",
+  "realm": "Inner Void",
+  "ds": "A perfectly clear, flawless stone with no inclusions at all, still and certain as glass. Found only in the deepest calm pockets of the Inner Void.",
+  "effect": "Once per long rest, declare one attack, check, or save you are about to make; it automatically succeeds, and if it is an attack it is a critical hit. Twice per long rest if you know every enemy's stats."
+ },
+ {
+  "rune": "Habit",
+  "stone": "Habitstone",
+  "realm": "Heaven",
+  "ds": "A smooth grey stone worn into a groove from countless handlings, warming as it is used again. Found in Heaven along heavily trodden pilgrim paths.",
+  "effect": "Each time you take the same action as your previous turn, gain +1 to its attack or save DC, up to +3. If you take a different action, the bonus resets and you have -1 on it."
+ },
+ {
+  "rune": "Hail",
+  "stone": "Hailstone",
+  "realm": "Outer Realm",
+  "ds": "A round, frosty white stone with layered rings like a cross-cut hailstone, never melting. Found in Outer Realm cloudbanks and the mountains beneath them.",
+  "effect": "Three times per long rest, call hail in a 30-foot radius within 120 feet. Creatures in it take 1d6 bludgeoning and 1d6 cold damage, and the area becomes difficult terrain for 1 minute."
+ },
+ {
+  "rune": "Halo",
+  "stone": "Halostone",
+  "realm": "Chaos",
+  "ds": "A ring-shaped stone of pale gold light that floats a hair above any surface it rests on. Found in Chaos where fallen divine beings once stood.",
+  "effect": "While equipped, a faint halo marks you as divine; you have advantage on Persuasion with worshippers and undead have disadvantage to hit you. Once per long rest, shed bright light for 1 minute that blinds fiends (DC 18 Con)."
+ },
+ {
+  "rune": "Hammer",
+  "stone": "Hammerstone",
+  "realm": "Heaven",
+  "ds": "A blunt, heavy iron-black stone with a flat striking face and a faint ring when knocked. Found in Heaven's thunder-struck mountain quarries.",
+  "effect": "When you hit with a bludgeoning weapon, deal an extra 1d6 damage. Once per short rest, your hit shatters armor or an object: the target loses 1 AC until repaired or is pushed 15 feet."
+ },
+ {
+  "rune": "Happiness",
+  "stone": "Joystone",
+  "realm": "Heaven",
+  "ds": "A bright sunny-yellow stone threaded with white light that makes anyone holding it smile. Found in Heaven where pure Light pools in quiet fields.",
+  "effect": "Once per short rest, as an action, you and allies within 30 feet are filled with joy: end the frightened condition, gain 2d6 temporary hit points, and advantage on the next save against charm or fear."
+ },
+ {
+  "rune": "Haste",
+  "stone": "Hastestone",
+  "realm": "Mysterious",
+  "ds": "A thin, streaky orange stone that seems blurred at the edges, vibrating faintly in the hand. Found in Mysterious-realm canyons scoured by fast winds.",
+  "effect": "Once per long rest, as a bonus action, gain an extra action this turn (Attack, Dash, or Disengage only). At the end of your next turn, you lose your bonus action."
+ },
+ {
+  "rune": "Hate",
+  "stone": "Hatestone",
+  "realm": "Human",
+  "ds": "A dull black-red stone that is cold rather than hot, with a hard, settled weight. Found in Human-realm ruins where old feuds burned out.",
+  "effect": "Once per long rest, choose a creature that has harmed you. Until your next long rest, you deal +1 damage to it with every hit."
+ },
+ {
+  "rune": "Heal",
+  "stone": "Healstone",
+  "realm": "Heaven",
+  "ds": "A soft white stone glowing with a faint warm light that brightens near wounds. Found in Heaven beneath temple altars and holy springs.",
+  "effect": "Three times per long rest, as a bonus action, touch a creature to restore 2d6 + your Wisdom modifier hit points and end one disease or the poisoned condition."
+ },
+ {
+  "rune": "Health",
+  "stone": "Healthstone",
+  "realm": "Heaven",
+  "ds": "A red-pink stone that pulses faintly in time with the holder's heartbeat. Found in Heaven deep under springs said to cure the sick.",
+  "effect": "While equipped, your hit point maximum increases by your level. Once per long rest, when you drop below half hit points, regain 2d6 hit points as a reaction."
+ },
+ {
+  "rune": "Hearing",
+  "stone": "Hearingstone",
+  "realm": "Heaven",
+  "ds": "A spiraled shell-like stone of pale blue that hums faintly when held to the ear. Found in Heaven along cliffs where the wind echoes.",
+  "effect": "While equipped, you have blindsight 15 feet and advantage on Perception checks that rely on hearing. Once per long rest, listen through up to 300 feet of stone or walls for 10 minutes."
+ },
+ {
+  "rune": "Heart",
+  "stone": "Heartstone",
+  "realm": "Chaos",
+  "ds": "A deep crimson stone shaped roughly like a heart, beating once every few seconds with a faint glow. Found in Chaos within the remains of great beasts.",
+  "effect": "While equipped, you have +2 to death saving throws. Once per long rest, when you would drop to 0 hit points, you instead drop to 1 and regain 3d6 hit points."
+ },
+ {
+  "rune": "Heartbreak",
+  "stone": "Heartbreakstone",
+  "realm": "Human",
+  "ds": "A rose-colored stone split cleanly in two halves that never quite fit back together. Found in Human-realm streams near abandoned homes.",
+  "effect": "Once per long rest, as an action, a creature within 30 feet makes a DC 11 Wisdom save or is overcome with sorrow, taking 1d4 psychic damage and -1 on its attacks for 1 minute."
+ },
+ {
+  "rune": "Heat",
+  "stone": "Heatstone",
+  "realm": "Heaven",
+  "ds": "A warm, smooth red-orange stone that never cools and softly shimmers the air above it. Found in Heaven near sunbaked rocks and quiet hot springs.",
+  "effect": "While equipped, you ignore extreme heat and resist fire damage. Twice per long rest, heat a metal object within 30 feet; its holder takes 1d6 fire damage each turn for 1 minute (DC 14 Con to drop it)."
+ },
+ {
+  "rune": "Herb",
+  "stone": "Herbstone",
+  "realm": "Heaven",
+  "ds": "A soft green, leafy-patterned stone that smells of crushed herbs and sharp sap. Found in Heaven's wild meadows and alchemists' hillside gardens.",
+  "effect": "While equipped, you have advantage on Herbalism and alchemy checks. Once per short rest, brew a quick remedy as an action that heals 2d6 hit points or ends one poison."
+ },
+ {
+  "rune": "Hollow",
+  "stone": "Hollowstone",
+  "realm": "Chaos",
+  "ds": "A thin-walled grey stone shell, empty inside and echoing faintly when tapped. Found in Chaos caverns where something once lived and was drained.",
+  "effect": "When you hit, drain the target's essence: it takes 1d6 necrotic damage and cannot regain hit points until your next turn. Once per long rest, empty a creature of one active buff or Rune effect (DC 18 Con)."
+ },
+ {
+  "rune": "Hope",
+  "stone": "Hopestone",
+  "realm": "Inner Void",
+  "ds": "A pale gold stone with a single bright point of light rising toward its top, glowing even in total darkness. Found deep in the Inner Void.",
+  "effect": "Once per long rest, as a reaction when an ally within 120 feet fails a save or drops to 0 hit points, they succeed instead or regain 6d6 hit points. Allies within 60 feet have advantage on death saves."
+ },
+ {
+  "rune": "Horn",
+  "stone": "Hornstone",
+  "realm": "Heaven",
+  "ds": "A curved, ridged stone of bone-white and dark brown, sharp at one end like a horn. Found in Heaven where horned beasts once shed their crowns.",
+  "effect": "While equipped, you can grow horns as a bonus action for a 1d6 piercing natural attack. Once per short rest, charge 20 feet and gore; the target takes 2d6 extra damage and makes a DC 14 Strength save or falls prone."
+ },
+ {
+  "rune": "Hupia",
+  "stone": "Hupiastone",
+  "realm": "Mysterious",
+  "ds": "A dark crimson stone with a faint shine that looks almost wet, smelling faintly of blood. Found in Mysterious-realm caves where blood-drinkers roost.",
+  "effect": "When you hit with a melee attack, drink blood: regain hit points equal to the extra 1d4 necrotic damage dealt. Once per long rest, you cannot be reduced below 1 hit point for 1 round."
+ },
+ {
+  "rune": "Hurt",
+  "stone": "Hurtstone",
+  "realm": "Human",
+  "ds": "A plain, rough grey stone with no pattern at all, faintly painful to grip too hard. Found in Human-realm fields where many fights broke out.",
+  "effect": "Once per long rest, when you hit a creature, deal an extra 1d4 damage of the same type as the attack."
+ },
+ {
+  "rune": "Ice",
+  "stone": "Icestone",
+  "realm": "Void",
+  "ds": "A bright, clear blue stone hard and cold enough to frost the air, holding faint shapes of old water. Found in the Void where Undine's remains froze.",
+  "effect": "When you hit, deal an extra 1d6 cold damage. Twice per long rest, freeze a 30-foot cube within 120 feet; creatures make a DC 21 Constitution save or are restrained in ice for 1 minute (repeat save each turn)."
+ },
+ {
+  "rune": "Ideals",
+  "stone": "Idealstone",
+  "realm": "Void",
+  "ds": "A crystal-clear stone that shows a perfect, untouched image of whatever virtue or sin the holder values most. Found in the quiet expanses of the Void.",
+  "effect": "Once per long rest, declare an ideal for 1 minute. While you act in line with it, you have advantage on attacks and saves; acting against it ends the effect and stuns you for 1 round."
+ },
+ {
+  "rune": "Identify",
+  "stone": "Identifystone",
+  "realm": "Chaos",
+  "ds": "A flat, polished silver stone that shows the true face and Runes of any creature reflected in it. Found in Chaos within shattered mirrors.",
+  "effect": "As a bonus action, you learn whether a creature within 60 feet is friendly or hostile, its type, and any Runes it holds. Once per long rest, reveal disguises and stolen Laws within 60 feet (no save)."
+ },
+ {
+  "rune": "Ignis",
+  "stone": "Ignis Stone",
+  "realm": "Outer Realm",
+  "ds": "A fiery red-gold stone that flickers like a living flame and slowly blackens anything left touching it. Found in Outer Realm volcanic chasms.",
+  "effect": "When you hit, deal an extra 1d6 fire damage. Twice per long rest, release a 30-foot cone of hungry flame; creatures take 2d6 fire damage (DC 19 Dexterity half) and their fire resistance is ignored."
+ },
+ {
+  "rune": "Illusion",
+  "stone": "Illusionstone",
+  "realm": "Human",
+  "ds": "A shimmering stone that seems a different color from each angle and never casts a real shadow. Found in Human-realm caves full of false echoes.",
+  "effect": "Once per long rest, as an action, create an illusion of a creature or object up to 10 feet across for 1 minute. A creature that studies it can see through with a DC 11 Investigation check."
+ },
+ {
+  "rune": "Image",
+  "stone": "Imagestone",
+  "realm": "Human",
+  "ds": "A flat, glossy black stone that holds a faint picture of the last thing it saw. Found in Human-realm still pools and river shallows.",
+  "effect": "Once per long rest, change your appearance to look like another creature you have seen for 1 hour. Only sight is fooled; touch and sound reveal you."
+ },
+ {
+  "rune": "Immunity",
+  "stone": "Immunitystone",
+  "realm": "Void",
+  "ds": "A seamless grey-white stone that nothing scratches, burns, or stains. Found in the Void, untouched by anything around it.",
+  "effect": "When you finish a long rest, choose one damage type or condition; you are immune to it until your next long rest. Once per long rest, as a reaction, become immune to a second one for 1 minute."
+ },
+ {
+  "rune": "Imprison",
+  "stone": "Imprisonstone",
+  "realm": "Hell",
+  "ds": "A dark iron-grey stone wrapped in raised ridges like chains and bars. Found in Hell beneath old prisons and sealed vaults.",
+  "effect": "Once per long rest, bind a creature within 60 feet in chains of force; DC 15 Strength save or restrained for 1 minute (repeat at end of turns). While bound, it cannot teleport or use Rune effects."
+ },
+ {
+  "rune": "Improvement",
+  "stone": "Improvementstone",
+  "realm": "Outer Realm",
+  "ds": "A layered green-gold stone whose bands grow a little thicker each year. Found in Outer Realm training grounds where warriors drilled for generations.",
+  "effect": "When you finish a long rest, choose an ally: they gain +2 to one ability check, attack, or saving throw type until their next long rest. Once per long rest, add 2d6 to any roll you make."
+ },
+ {
+  "rune": "Inane",
+  "stone": "Inanestone",
+  "realm": "Outer Realm",
+  "ds": "A cracked, dull black stone with an empty sheen, crumbling at its edges to fine dust. Found in Outer Realm ruins where something once existed and was undone.",
+  "effect": "Twice per long rest, unmake: a creature within 60 feet takes 2d6 force damage (DC 19 Con half). A non-magical object up to 10 feet across is destroyed outright."
+ },
+ {
+  "rune": "Indirect",
+  "stone": "Indirectstone",
+  "realm": "Hell",
+  "ds": "A crooked grey stone that curves in strange angles, refracting light away from where it should go. Found in Hell's winding caverns.",
+  "effect": "While equipped, ranged attacks you make ignore half and three-quarters cover. Once per short rest, make an attack spread: hit up to three targets within 10 feet of each other, each taking half damage."
+ },
+ {
+  "rune": "Infinatas",
+  "stone": "Infinatas Stone",
+  "realm": "Mysterious",
+  "ds": "A pearly white stone that holds shifting shapes of things being made, glowing faintly with endless detail. Found in Mysterious-realm shrines of the old god.",
+  "effect": "Once per long rest, as an action, create a simple object worth up to 25 gp that lasts 1 hour, or restore 1d6 hit points to every ally within 30 feet."
+ },
+ {
+  "rune": "Infinite",
+  "stone": "Infinitestone",
+  "realm": "Heaven",
+  "ds": "A deep blue stone with stars inside that recede without end the closer you look. Found in Heaven at the very edges of the sky.",
+  "effect": "Once per long rest, for 1 round, one Rune effect you use has unlimited range and does not expend its use. Holding it longer than 1 minute deals 1d6 psychic damage per minute."
+ },
+ {
+  "rune": "Inheritance",
+  "stone": "Inheritancestone",
+  "realm": "Heaven",
+  "ds": "A dark amber stone with faint layers like generations of rings, holding tiny marks of past owners. Found in Heaven within old royal tombs.",
+  "effect": "Once per long rest, call on an ancestor: gain proficiency in one skill or weapon for 1 hour, or reroll a failed save with +2. A bloodline heir may also gain 2d6 temporary hit points."
+ },
+ {
+  "rune": "Innovation",
+  "stone": "Innovationstone",
+  "realm": "Mysterious",
+  "ds": "A bright, oddly shaped stone in shifting colors that never fits neatly in any setting. Found in Mysterious-realm workshops and abandoned laboratories.",
+  "effect": "Once per long rest, you can use an action you are not trained in with proficiency, or apply a Rune effect in a new way (DM's call), adding 1d6 to its roll."
+ },
+ {
+  "rune": "Instigate",
+  "stone": "Instigatestone",
+  "realm": "Human",
+  "ds": "A spiky, irritable red-orange stone that feels scratchy and gets warmer when people argue nearby. Found in Human-realm markets and taverns.",
+  "effect": "Once per long rest, as a bonus action, provoke a creature within 30 feet; DC 11 Wisdom save or it must target you with its next attack, which has disadvantage."
+ },
+ {
+  "rune": "Int",
+  "stone": "Intellect Stone",
+  "realm": "Mysterious",
+  "ds": "A dense, deep blue stone filled with faint, branching silver lines like thought. Found in Mysterious-realm libraries buried by time.",
+  "effect": "While equipped, gain +1 to Intelligence checks. Once per long rest, gain advantage on an Intelligence check or save and recall one fact the DM supplies."
+ },
+ {
+  "rune": "Iron",
+  "stone": "Ironstone",
+  "realm": "Hell",
+  "ds": "A heavy, rusty-dark stone that clangs when struck and holds a strong magnetic pull. Found in Hell's deep mines, Earth's favored seam.",
+  "effect": "While equipped, gain +1 AC. Once per short rest, as a reaction to being hit, harden your skin to reduce the damage by 2d6."
+ },
+ {
+  "rune": "Isolation",
+  "stone": "Isolationstone",
+  "realm": "Abyss",
+  "ds": "A smooth, cold dark stone that seems far away even when held, muffling sound around it. Found in empty corners of the Abyss.",
+  "effect": "Twice per long rest, isolate a creature within 60 feet for 1 minute; DC 17 Wisdom save or it cannot be helped, healed, or buffed by allies and has disadvantage on attacks."
+ },
+ {
+  "rune": "Jiangshi",
+  "stone": "Jiangshistone",
+  "realm": "Inner Void",
+  "ds": "A pale, stiff grey stone with a faint yellow sheen and talisman-like red markings. Found in the Inner Void in frozen graveyards.",
+  "effect": "When you hit, drain blood: regain hit points equal to 1d6 necrotic damage dealt. Once per long rest, become stiff and unyielding: immune to being moved or knocked prone, resistance to all damage for 1 minute."
+ },
+ {
+  "rune": "Jump",
+  "stone": "Jumpstone",
+  "realm": "Heaven",
+  "ds": "A springy, bouncing pale green stone that hops out of any open hand. Found in Heaven on mountaintops and windy cliffs.",
+  "effect": "While equipped, your jump distance triples. Once per short rest, leap up to 60 feet as a bonus action; landing next to a creature deals 2d6 bludgeoning damage to it."
+ },
+ {
+  "rune": "Justice",
+  "stone": "Justicestone",
+  "realm": "Heaven",
+  "ds": "A balanced stone, half silver and half gold, perfectly level when set on any surface. Found in Heaven under the steps of ancient courts.",
+  "effect": "When a creature hits an ally within 30 feet, you can use your reaction to mark it; your next hit against it deals +2d6 radiant damage. Twice per long rest."
+ },
+ {
+  "rune": "Katana",
+  "stone": "Katanastone",
+  "realm": "Heaven",
+  "ds": "A thin, curved silver-steel stone with a faint wave pattern along its edge like a tempered blade. Found in Heaven's hard steel veins.",
+  "effect": "When you hit with a slashing weapon, deal +1d6 slashing damage. Once per short rest, draw-strike: make an attack with advantage as a bonus action that scores a critical hit on 18-20."
+ },
+ {
+  "rune": "Ki",
+  "stone": "Kistone",
+  "realm": "Primordial",
+  "ds": "A clear stone with a slowly breathing inner glow, pulsing gold and white like a living spirit. Found in the deepest Primordial mountains of power.",
+  "effect": "When you hit with an unarmed strike or melee attack, deal +1d6 force damage. Three times per long rest, release a ki blast in a 60-foot line (DC 23 Dex half) dealing 3d6 force damage."
+ },
+ {
+  "rune": "Knocking",
+  "stone": "Knockstone",
+  "realm": "Hell",
+  "ds": "A rough, blunt grey stone with a flat face that thuds loudly when tapped. Found in Hell's battered caves and smashed gates.",
+  "effect": "When you hit, push the target 10 feet or knock it prone (DC 14 Strength save). Once per short rest, a knock opens any lock or door within reach."
+ },
+ {
+  "rune": "Knowledge",
+  "stone": "Knowledgestone",
+  "realm": "Heaven",
+  "ds": "A dense blue-violet stone covered in faint, tiny script that changes when read. Found in Heaven beneath ancient libraries and sages' tombs.",
+  "effect": "While equipped, gain proficiency in History and Arcana. Twice per long rest, ask the DM one factual question about a creature, place, or item you can see and receive a true answer."
+ },
+ {
+  "rune": "Land",
+  "stone": "Landstone",
+  "realm": "Heaven",
+  "ds": "A plain, calm brown stone, smooth and steady, that never shakes or shifts. Found in Heaven across peaceful plains and level ground.",
+  "effect": "While on the ground, you cannot be knocked prone or pushed. Once per short rest, as a bonus action, gain resistance to bludgeoning damage and +1 AC for 1 minute."
+ },
+ {
+  "rune": "Last",
+  "stone": "Laststone",
+  "realm": "Heaven",
+  "ds": "A dusky gold stone found in the final seam of Heaven's mines, its grain fading toward one dim edge like a sunset that never quite ends.",
+  "effect": "Once per long rest, when you are the last creature to act in a round, you may take one additional action. While below half hit points, you gain +1 to attack rolls."
+ },
+ {
+  "rune": "Lava",
+  "stone": "Lavastone",
+  "realm": "Human",
+  "ds": "A heavy black rock veined with glowing orange cracks, found near Human-realm volcanoes. It stays warm in the hand and slowly oozes heat along its seams.",
+  "effect": "Once per long rest, when you hit with a melee attack, the target takes an extra 1d6 fire damage and the ground in a 5-foot square around it becomes difficult terrain until your next turn."
+ },
+ {
+  "rune": "Learning",
+  "stone": "Studystone",
+  "realm": "Heaven",
+  "ds": "A pale blue stone layered in thin translucent sheets like pages, mined from Heaven's quiet ridges. Each layer grows faintly brighter the more often it is handled.",
+  "effect": "When you fail an ability check, you gain a +1d4 bonus to your next check using the same skill. Once per long rest, you gain proficiency in one skill or tool for 1 hour."
+ },
+ {
+  "rune": "Legacy",
+  "stone": "Legacystone",
+  "realm": "Hell",
+  "ds": "A dull bronze stone pulled from Hell's old tomb-veins, etched with faint marks that look like names nobody remembers carving.",
+  "effect": "Once per long rest, you may reroll a failed Charisma check or saving throw. Creatures that have heard of you have disadvantage on their first save against your fear or charm effects."
+ },
+ {
+  "rune": "Legend",
+  "stone": "Legendstone",
+  "realm": "Void",
+  "ds": "A shimmering silver stone from the Void, its surface showing shifting scenes of heroic deeds that grow grander each time someone looks away and back.",
+  "effect": "Once per long rest, when you would fail an attack, check, or save, you succeed instead. For 1 minute after, allies within 60 feet gain +2 to attack rolls and are immune to fear."
+ },
+ {
+  "rune": "Lich",
+  "stone": "Lichstone",
+  "realm": "Chaos",
+  "ds": "A cold, grey-green stone mined from Chaos crypt-rock, with a single bright pinpoint at its core that pulses like a heartbeat that refuses to stop.",
+  "effect": "Once per long rest, when you drop to 0 hit points, you drop to 1 hit point instead and gain resistance to necrotic damage for 1 minute. Your spells deal an extra 1d6 necrotic damage once per turn."
+ },
+ {
+  "rune": "Lies",
+  "stone": "Liestone",
+  "realm": "Human",
+  "ds": "A small stone that looks different to everyone who sees it, found in Human-realm marketplaces and back alleys, usually passed off as something more valuable.",
+  "effect": "You gain +1 to Deception checks. Once per long rest, you can tell one lie that any magic or ability meant to detect falsehood reads as true."
+ },
+ {
+  "rune": "Life",
+  "stone": "Lifestone",
+  "realm": "Heaven",
+  "ds": "A warm green stone flecked with gold, mined from Heaven's fertile hillsides. Small sprouts sometimes push up from the soil wherever a raw chunk is set down.",
+  "effect": "Once per short rest, as a bonus action, you or a creature you touch regains 2d8 hit points. When you would make a death saving throw, you roll it with advantage."
+ },
+ {
+  "rune": "Lifesteal",
+  "stone": "Leechstone",
+  "realm": "Human",
+  "ds": "A dark red stone with a hungry, pitted texture, found in Human-realm battlefield soil. It feels faintly warmer after being near someone wounded.",
+  "effect": "Once per long rest, when you hit a creature with a melee attack, it takes an extra 1d6 necrotic damage and you regain hit points equal to the necrotic damage dealt."
+ },
+ {
+  "rune": "Light",
+  "stone": "Lightstone",
+  "realm": "Heaven",
+  "ds": "A clear stone that glows with soft white radiance, mined from Heaven's sunlit peaks. Its glow brightens when people nearby laugh or cheer.",
+  "effect": "While equipped, you shed bright light in a 20-foot radius at will. Once per short rest, you can flash it: creatures within 30 feet make a DC 14 Constitution save or are blinded until your next turn."
+ },
+ {
+  "rune": "Lightning",
+  "stone": "Lightningstone",
+  "realm": "Heaven",
+  "ds": "A jagged pale-yellow crystal from Heaven's storm-struck peaks. Tiny sparks crawl across its surface and it makes the hair on your arm stand up.",
+  "effect": "When you hit with an attack, you can deal an extra 1d6 lightning damage. Once per short rest, a bolt leaps from the target to a second creature within 30 feet, dealing 2d6 lightning damage."
+ },
+ {
+  "rune": "Line",
+  "stone": "Linestone",
+  "realm": "Mysterious",
+  "ds": "A long, thin stone with perfectly straight parallel grooves, found in Mysterious-realm cliffs. It always points in the same direction when laid flat.",
+  "effect": "When you cast a spell or use an ability that affects a line, its length increases by 30 feet. Once per long rest, a ranged attack you make ignores half cover."
+ },
+ {
+  "rune": "Lock",
+  "stone": "Lockstone",
+  "realm": "Inner Void",
+  "ds": "A dense, slate-grey stone shaped like interlocking tumblers, mined from the Inner Void. Once two pieces touch they cannot be pried apart without its holder's will.",
+  "effect": "Once per long rest, you seal a door, container, or creature's mouth or hands within 60 feet. A creature must succeed on a DC 20 Strength save or be unable to open, speak, or use its hands for 1 minute, repeating the save each turn."
+ },
+ {
+  "rune": "Longer",
+  "stone": "Lengthstone",
+  "realm": "Inner Void",
+  "ds": "A stretched, rod-like stone from the Inner Void that seems longer each time you measure it, its grain running in one unbroken line end to end.",
+  "effect": "Your melee reach increases by 10 feet. Once per long rest, the range, length, or duration of one spell or ability you use is tripled."
+ },
+ {
+  "rune": "Love",
+  "stone": "Lovestone",
+  "realm": "Heaven",
+  "ds": "A rose-pink stone with a warm inner glow, mined from Heaven's gardens. It glows brighter when held near someone the holder cares about.",
+  "effect": "Once per short rest, when an ally within 30 feet takes damage, you can use your reaction to reduce it by 2d6. A creature charmed by you has disadvantage on saves to end it."
+ },
+ {
+  "rune": "Loyalty",
+  "stone": "Loyaltystone",
+  "realm": "Heaven",
+  "ds": "A deep blue stone with a steady, unwavering shine, found in Heaven's keep-foundations. It grows cold if carried away from its first bearer's side.",
+  "effect": "Choose one ally after a long rest. While within 30 feet of them, you gain +1 AC, and once per long rest you can take a hit meant for them, taking it yourself with resistance."
+ },
+ {
+  "rune": "Lust",
+  "stone": "Luststone",
+  "realm": "Human",
+  "ds": "A smooth crimson stone, warm and almost soft to the touch, found in Human-realm riverbeds. Those who hold it often find it hard to put down.",
+  "effect": "You gain +1 to Persuasion checks. Once per long rest, a creature within 30 feet must succeed on a DC 12 Wisdom save or be charmed by you for 1 minute."
+ },
+ {
+  "rune": "Magnetic",
+  "stone": "Magnetstone",
+  "realm": "Inner Void",
+  "ds": "A heavy iron-black stone from the Inner Void that pulls metal toward it with a hum. Filings stand up in neat lines along its surface.",
+  "effect": "Once per short rest, you pull or push every creature wearing metal within 60 feet up to 30 feet, DC 19 Strength save negates. Metal weapons attacking you have disadvantage once per long rest for 1 minute."
+ },
+ {
+  "rune": "Malfunction",
+  "stone": "Faultstone",
+  "realm": "Mysterious",
+  "ds": "A cracked, rust-colored stone from Mysterious-realm scrap heaps, its seams misaligned as if it were assembled wrong. It occasionally clicks for no reason.",
+  "effect": "Once per long rest, you touch a construct or mechanical device; it must succeed on a DC 13 Constitution save or stop working for 1 minute. Constructs take an extra 1d6 damage from your attacks."
+ },
+ {
+  "rune": "Man-Made",
+  "stone": "Craftstone",
+  "realm": "Hell",
+  "ds": "A smooth, oddly regular stone with tool-like marks, found in Hell's abandoned forges. It looks hammered and cut even when pulled straight from the ground.",
+  "effect": "You have advantage on checks with artisan's tools. Once per long rest, weapons and armor you touch gain +1 to attack or AC for 1 hour."
+ },
+ {
+  "rune": "Manipulate",
+  "stone": "Tweakstone",
+  "realm": "Heaven",
+  "ds": "A shifting violet stone from Heaven's mines whose facets slowly rearrange themselves when no one is looking. It feels slightly different each time you hold it.",
+  "effect": "Once per short rest, you can change one small property of an object within 30 feet: its color, weight, temperature, or texture, for 1 hour. Or reroll one damage die after seeing the result."
+ },
+ {
+  "rune": "Martial",
+  "stone": "Martialstone",
+  "realm": "Heaven",
+  "ds": "A dense, sand-colored stone from Heaven's training grounds, worn smooth in the shape of a gripping hand. It hardens further when struck.",
+  "effect": "Your unarmed strikes deal 1d6 bludgeoning damage. Once per short rest, after you hit with a melee attack, you can make one additional melee attack as a bonus action."
+ },
+ {
+  "rune": "Mask",
+  "stone": "Maskstone",
+  "realm": "Mysterious",
+  "ds": "A pale, featureless stone from Mysterious-realm caves that reflects the face of whoever looks at it, but never quite their own.",
+  "effect": "Once per long rest, you can change your face and voice to look like any humanoid you have seen for 1 hour. Checks to see through the disguise have disadvantage."
+ },
+ {
+  "rune": "Mechanical",
+  "stone": "Gearstone",
+  "realm": "Heaven",
+  "ds": "A brass-colored stone from Heaven's foundries, naturally formed in small cogs and ridges that turn slowly in its sockets.",
+  "effect": "You gain +1 to checks made to build or repair devices. Once per short rest, you can make one mechanical trap, lock, or device within 30 feet activate or stop for 1 minute."
+ },
+ {
+  "rune": "Mend",
+  "stone": "Mendstone",
+  "realm": "Heaven",
+  "ds": "A soft white stone streaked with pale green, found in Heaven's healing springs. Cracks in it slowly seal themselves overnight.",
+  "effect": "Once per short rest, you touch a creature or object to restore 2d6 hit points or repair a broken item. Wounds you treat cannot reopen for 1 hour."
+ },
+ {
+  "rune": "Mental",
+  "stone": "Thoughtstone",
+  "realm": "Heaven",
+  "ds": "A violet stone with a cloudy inner swirl, mined from Heaven's high plateaus. Thoughts seem to drift slower and clearer while holding it.",
+  "effect": "You gain +1 to Intelligence and Wisdom saving throws. Once per short rest, you gain advantage on one Intelligence or Wisdom check or saving throw."
+ },
+ {
+  "rune": "Mental State",
+  "stone": "Moodstone",
+  "realm": "Inner Void",
+  "ds": "A grey stone from the Inner Void whose color shifts to match its holder's feelings: blue for sorrow, red for fear, yellow for confusion.",
+  "effect": "Once per long rest, you end the frightened, charmed, or confused condition on every creature within 60 feet, or impose one on a creature within 60 feet that fails a DC 19 Wisdom save for 1 minute."
+ },
+ {
+  "rune": "Mercy",
+  "stone": "Mercystone",
+  "realm": "Heaven",
+  "ds": "A smooth, milk-white stone found in Heaven's chapels, cool and calming to the touch. It dims slightly whenever blood is spilled near it.",
+  "effect": "When you reduce a creature to 0 hit points, you can leave it stable and unconscious instead. Once per long rest, a creature that surrenders to you regains 2d8 hit points."
+ },
+ {
+  "rune": "Metabolism",
+  "stone": "Burnstone",
+  "realm": "Outer Realm",
+  "ds": "A pulsing red-orange stone from the Outer Realm that grows warmer as its holder exerts themselves, like a racing heartbeat trapped in rock.",
+  "effect": "You need only half as much food and water. Once per short rest, you can spend a Hit Die as a bonus action, regaining twice the rolled hit points. You recover all Hit Dice on a long rest."
+ },
+ {
+  "rune": "Metal",
+  "stone": "Metalstone",
+  "realm": "Primordial",
+  "ds": "A raw, molten-silver stone from the Primordial depths that never fully settles into a solid shape. It ripples when touched and rings like a bell.",
+  "effect": "Your weapons count as magical and ignore resistance to slashing, piercing, and bludgeoning damage. Once per long rest, you reshape any metal object within 120 feet as you wish, or shatter it."
+ },
+ {
+  "rune": "Micro",
+  "stone": "Microstone",
+  "realm": "Human",
+  "ds": "A tiny stone, no bigger than a grain of sand, found in Human-realm silt. Under a lens it shows endless delicate patterns.",
+  "effect": "Once per long rest, you can shrink yourself to Tiny size for 10 minutes, gaining +1 to Stealth checks and the ability to fit through any gap one inch wide."
+ },
+ {
+  "rune": "Migration",
+  "stone": "Migrationstone",
+  "realm": "Heaven",
+  "ds": "A banded brown and white stone found along Heaven's great trails, its stripes always pointing toward a distant warm place.",
+  "effect": "Your speed increases by 5 feet. Once per long rest, you and up to six allies can travel twice as far as normal for 8 hours without gaining exhaustion."
+ },
+ {
+  "rune": "Miracle",
+  "stone": "Miraclestone",
+  "realm": "Inner Realm",
+  "ds": "A radiant golden stone from the Inner Realm that glows brightest in moments of despair. Holy symbols placed near it seem to shine on their own.",
+  "effect": "Once per long rest, when you or an ally within 60 feet would die, they instead regain 6d8 hit points and end all conditions. Your healing spells restore an extra 1d6 hit points."
+ },
+ {
+  "rune": "Mold",
+  "stone": "Moldstone",
+  "realm": "Heaven",
+  "ds": "A soft, clay-brown stone from Heaven's riverbanks that holds any shape pressed into it, slowly returning to a smooth curve if left alone.",
+  "effect": "You can reshape clay, stone, or soft metal by hand as if it were wet clay. Once per short rest, you can shape a 10-foot cube of earth into a wall, ramp, or stair."
+ },
+ {
+  "rune": "Moon",
+  "stone": "Moonstone",
+  "realm": "Heaven",
+  "ds": "A pale silvery stone with a soft blue sheen, mined from Heaven's tide-pools. Its glow waxes and wanes with the moon above.",
+  "effect": "You see in dim light as if it were bright light out to 60 feet. Once per short rest, you can push or pull a creature within 30 feet 15 feet, DC 14 Strength save negates."
+ },
+ {
+  "rune": "Move",
+  "stone": "Movestone",
+  "realm": "Mysterious",
+  "ds": "A small rounded stone from Mysterious-realm streambeds that never stays where it is placed, slowly rolling a few inches when no one watches.",
+  "effect": "Your speed increases by 10 feet. Once per short rest, you can move up to your speed as a bonus action without provoking opportunity attacks."
+ },
+ {
+  "rune": "Mud",
+  "stone": "Mudstone",
+  "realm": "Inner Void",
+  "ds": "A damp, earthy brown stone from the Inner Void that never fully dries. It squishes slightly under pressure, then firms again.",
+  "effect": "Once per long rest, you turn the ground in a 60-foot radius into deep mud for 1 minute. Creatures there are restrained unless they succeed on a DC 20 Strength save each turn."
+ },
+ {
+  "rune": "Multiply",
+  "stone": "Multiplystone",
+  "realm": "Human",
+  "ds": "A small stone that always seems to have a twin beside it, found in Human-realm caves. Count a pile of them twice and you get two different numbers.",
+  "effect": "Once per long rest, when you roll damage, you can double the result of one damage die."
+ },
+ {
+  "rune": "Mummies",
+  "stone": "Mummystone",
+  "realm": "Chaos",
+  "ds": "A dry, linen-colored stone from Chaos tombs, wrapped in natural fibrous layers and smelling faintly of resin and old spices.",
+  "effect": "You have resistance to necrotic damage and cannot be aged. Once per long rest, a creature you hit is cursed: it cannot regain hit points for 1 minute, DC 16 Constitution save negates."
+ },
+ {
+  "rune": "Music",
+  "stone": "Musicstone",
+  "realm": "Heaven",
+  "ds": "A slender, ringing stone from Heaven's high echoing halls, it hums a different note depending on how it is struck.",
+  "effect": "You gain +1 to Performance checks. Once per short rest, as a bonus action, allies within 30 feet who can hear you gain +1d6 to their next attack roll or saving throw."
+ },
+ {
+  "rune": "Nano",
+  "stone": "Nanostone",
+  "realm": "Outer Realm",
+  "ds": "A dark, shimmering dust that clings together like a solid stone, found in the Outer Realm. It flows slowly through cracks and fingers.",
+  "effect": "Once per long rest, you shrink to the size of a mote for 1 hour, becoming invisible to normal sight and immune to weapon attacks, though you cannot attack."
+ },
+ {
+  "rune": "Nature",
+  "stone": "Naturestone",
+  "realm": "Human",
+  "ds": "A mossy green stone streaked with brown and blue, found in Human-realm forests. Small plants grow around it wherever it lies.",
+  "effect": "You gain +1 to Nature and Survival checks. Once per long rest, you can speak with plants or animals for 10 minutes."
+ },
+ {
+  "rune": "Necromancy",
+  "stone": "Necrostone",
+  "realm": "Inner Realm",
+  "ds": "A sickly grey-violet stone from the Inner Realm's graveyards. It feels cold and lifeless, and small bones sometimes shift near it.",
+  "effect": "Once per long rest, you raise up to four corpses within 60 feet as undead servants for 1 hour. Your necrotic damage ignores resistance and deals an extra 1d6 once per turn."
+ },
+ {
+  "rune": "Negation",
+  "stone": "Negationstone",
+  "realm": "Outer Realm",
+  "ds": "A matte black stone from the Outer Realm that absorbs light and sound alike. Magic seems to fizzle out against its dull surface.",
+  "effect": "Once per short rest, as a reaction, you cancel a spell or magical effect targeting you or an ally within 60 feet. You have advantage on saves against magic."
+ },
+ {
+  "rune": "Nick",
+  "stone": "Nickstone",
+  "realm": "Hell",
+  "ds": "A thin, razor-edged stone from Hell, scored with countless tiny cuts that never quite close. It always draws a little blood when handled.",
+  "effect": "When you hit with a melee attack, the target bleeds, taking 1d4 slashing damage at the start of each of its turns until healed. A creature can bear up to three such bleeds at once."
+ },
+ {
+  "rune": "Night",
+  "stone": "Nightstone",
+  "realm": "Hell",
+  "ds": "A deep indigo stone flecked with faint silver, mined from Hell's lightless caverns. It is always cold and seems to swallow nearby light.",
+  "effect": "You have darkvision out to 60 feet. Once per long rest, you can cover a 30-foot radius in magical darkness for 1 minute that only you can see through."
+ },
+ {
+  "rune": "Nightmare",
+  "stone": "Nightmarestone",
+  "realm": "Outer Realm",
+  "ds": "A swirling, sickly purple stone from the Outer Realm that shows twisted dream-shapes in its depths. Sleeping near it brings terrible visions.",
+  "effect": "Once per long rest, a creature within 60 feet must succeed on a DC 18 Wisdom save or be frightened and take 4d6 psychic damage each turn for 1 minute."
+ },
+ {
+  "rune": "Nightwalker",
+  "stone": "Nightwalker Stone",
+  "realm": "Inner Void",
+  "ds": "A dark grey stone from the Inner Void that is lifeless and dull by day but stirs with a pale glow once the sun sets.",
+  "effect": "At night, you gain +10 feet of speed and +2 to attack rolls. Once per long rest, you raise a corpse within 30 feet as an undead servant until sunrise."
+ },
+ {
+  "rune": "Notus",
+  "stone": "Notus Stone",
+  "realm": "Mysterious",
+  "ds": "A damp, grey-green stone from the Mysterious realm, cool and always faintly wet, as if a soft autumn wind passed over it.",
+  "effect": "Once per short rest, you summon a damp wind in a 15-foot cone. Creatures there are pushed 10 feet and their flames are extinguished, DC 13 Strength save negates the push."
+ },
+ {
+  "rune": "Numbness",
+  "stone": "Numbstone",
+  "realm": "Heaven",
+  "ds": "A pale blue stone from Heaven that drains feeling from fingers that hold it too long, cold enough to make the skin tingle.",
+  "effect": "Once per short rest, you ignore one source of pain, gaining 2d6 temporary hit points. A creature you hit must succeed on a DC 14 Constitution save or have disadvantage on its next attack."
+ },
+ {
+  "rune": "Nurture",
+  "stone": "Nurturestone",
+  "realm": "Heaven",
+  "ds": "A soft, warm brown stone from Heaven's gardens. Flowers and young animals are drawn to it, and plants grow fuller nearby.",
+  "effect": "Your healing restores an extra 1d6 hit points. Once per long rest, you bond with a beast within 30 feet; it becomes friendly to you for 24 hours."
+ },
+ {
+  "rune": "Obsession",
+  "stone": "Obsessionstone",
+  "realm": "Outer Realm",
+  "ds": "A dark red stone from the Outer Realm whose glow fixes on a single point and refuses to shift, no matter how it is turned.",
+  "effect": "Choose one creature after a long rest. You gain +2 to attack rolls against it and always know its direction and distance within 1 mile."
+ },
+ {
+  "rune": "Obsidian",
+  "stone": "Obsidian Stone",
+  "realm": "Heaven",
+  "ds": "A glossy black stone with razor-sharp edges, found in Heaven's volcanic scars. It reflects light like dark water.",
+  "effect": "Your melee attacks deal an extra 1d6 slashing damage. Once per short rest, a hit scores a critical on a roll of 19 or 20."
+ },
+ {
+  "rune": "Ointment",
+  "stone": "Salvestone",
+  "realm": "Chaos",
+  "ds": "A creamy, waxy stone from Chaos that leaves a soothing film on the skin. It smells of herbs and slowly sweats a thin oil.",
+  "effect": "Once per short rest, you can apply its oil to a creature to restore 3d8 hit points and end one poison or disease. Creatures you heal gain resistance to poison for 1 hour."
+ },
+ {
+  "rune": "Old",
+  "stone": "Oldstone",
+  "realm": "Hell",
+  "ds": "A crumbling grey stone from Hell, worn smooth by ages. It feels brittle and dry, and dust drifts off it constantly.",
+  "effect": "Once per long rest, a creature you hit must succeed on a DC 14 Constitution save or have its speed halved and disadvantage on Strength checks for 1 minute."
+ },
+ {
+  "rune": "Omen",
+  "stone": "Omenstone",
+  "realm": "Human",
+  "ds": "A small black-and-white stone from Human-realm crossroads, its pattern seeming to shift into warning shapes before danger comes.",
+  "effect": "You cannot be surprised. Once per long rest, you gain +1d4 to one roll after seeing a sign of what is about to happen."
+ },
+ {
+  "rune": "Order",
+  "stone": "Orderstone",
+  "realm": "Heaven",
+  "ds": "A perfectly cubic white stone with clean, straight edges, mined from Heaven's halls. It always lands flat and square when dropped.",
+  "effect": "Once per short rest, you can turn a d20 roll made within 30 feet into a 10. You have advantage on saves against confusion and madness."
+ },
+ {
+  "rune": "Organic",
+  "stone": "Organicstone",
+  "realm": "Human",
+  "ds": "A living, slightly spongy green stone from the Human realm that grows tiny roots and slowly reaches toward water.",
+  "effect": "You gain +1 to Constitution saves against poison and disease. Once per long rest, you regain 1d6 hit points as a bonus action."
+ },
+ {
+  "rune": "Origin",
+  "stone": "Originstone",
+  "realm": "Heaven",
+  "ds": "A smooth, swirling stone of every color, mined from Heaven's oldest bedrock. Each layer seems to point back to a single source.",
+  "effect": "Once per long rest, you learn the true origin, creator, and history of one creature, object, or spell you touch. You also gain +2 to saves against magic from that source for 24 hours."
+ },
+ {
+  "rune": "Overdrive",
+  "stone": "Overdrive Stone",
+  "realm": "Outer Realm",
+  "ds": "A cracked, glowing red stone from the Outer Realm that pulses faster and faster when held, as if burning up its own life.",
+  "effect": "Once per long rest, you gain one additional action on each of your next 3 turns. When it ends, you gain two levels of exhaustion."
+ },
+ {
+  "rune": "Pacts",
+  "stone": "Pactstone",
+  "realm": "Hell",
+  "ds": "A red-black stone from Hell carved with faint signatures that change whenever someone makes a promise near it.",
+  "effect": "Once per long rest, you can make a bargain with a willing creature: both must keep it or take 4d6 psychic damage when breaking it. You gain +1 to all rolls while honoring a pact."
+ },
+ {
+  "rune": "Pain",
+  "stone": "Painstone",
+  "realm": "Hell",
+  "ds": "A raw, flayed-looking stone from Hell that stings when touched. Its surface burns with a dull red warmth.",
+  "effect": "When you hit, the target takes an extra 1d6 psychic damage. Once per short rest, a creature you hit must succeed on a DC 14 Constitution save or be stunned until your next turn."
+ },
+ {
+  "rune": "Paradox",
+  "stone": "Paradoxstone",
+  "realm": "Abyss",
+  "ds": "A stone from the Abyss that is both hot and cold, light and heavy, depending on who holds it. Its shape refuses to settle.",
+  "effect": "Once per long rest, you can make an attack or save both succeed and fail; you choose the result after seeing it. You take 2d6 psychic damage each time you use it."
+ },
+ {
+  "rune": "Parasitism",
+  "stone": "Parasite Stone",
+  "realm": "Human",
+  "ds": "A pale, clinging stone from the Human realm that sticks to skin and slowly drains warmth from whoever holds it.",
+  "effect": "Once per long rest, when you hit a creature, you drain 1d6 hit points from it and gain them as temporary hit points for 1 hour."
+ },
+ {
+  "rune": "Past",
+  "stone": "Paststone",
+  "realm": "Inner Realm",
+  "ds": "A faded, sepia-toned stone from the Inner Realm that shows dim images of what once happened where it rests.",
+  "effect": "Once per long rest, you rewind time 1 round: every creature within 60 feet returns to where it was and the hit points it had. You also learn what happened in a place in the last 24 hours."
+ },
+ {
+  "rune": "Pet",
+  "stone": "Petstone",
+  "realm": "Heaven",
+  "ds": "A small, soft-colored stone from Heaven that small animals love to nuzzle. It is always warm, like a sleeping creature.",
+  "effect": "You gain a Tiny companion that obeys you. Once per short rest, it can grant you advantage on one Perception check or help an ally within 5 feet."
+ },
+ {
+  "rune": "Physic",
+  "stone": "Physicstone",
+  "realm": "Heaven",
+  "ds": "A worn brown stone from Heaven, crusted with dried herbs and remedies, used by old healers before the church's methods.",
+  "effect": "You gain +1 to Medicine checks. Once per short rest, you can heal a creature for 2d6 hit points with no magic."
+ },
+ {
+  "rune": "Physical",
+  "stone": "Physicalstone",
+  "realm": "Mysterious",
+  "ds": "A dense, muscular-looking stone from the Mysterious realm, heavy and warm, flexing slightly when gripped hard.",
+  "effect": "You gain +1 to Strength and Constitution checks. Once per short rest, you gain advantage on one Strength, Dexterity, or Constitution check."
+ },
+ {
+  "rune": "Pickaxe",
+  "stone": "Pickstone",
+  "realm": "Outer Realm",
+  "ds": "A hard, wedge-shaped stone from the Outer Realm, its point never dulling no matter how many rocks it breaks.",
+  "effect": "Your attacks deal double damage to objects and structures. Once per long rest, you tunnel through 30 feet of stone in one turn. Your weapon attacks ignore AC from armor once per short rest."
+ },
+ {
+  "rune": "Plague",
+  "stone": "Plaguestone",
+  "realm": "Heaven",
+  "ds": "A sickly green-black stone from Heaven, with spots of rot spreading across its surface. It makes anyone near it feel feverish.",
+  "effect": "When you hit, the target must succeed on a DC 14 Constitution save or become poisoned for 1 minute. Once per long rest, you spread sickness in a 30-foot radius."
+ },
+ {
+  "rune": "Plane",
+  "stone": "Planestone",
+  "realm": "Heaven",
+  "ds": "A flat, layered stone from Heaven, each layer a different shade, like slices of distant worlds pressed together.",
+  "effect": "Once per long rest, you and up to six allies can shift to another plane for 1 minute. You gain resistance to damage from creatures not native to your plane."
+ },
+ {
+  "rune": "Planets",
+  "stone": "Planetstone",
+  "realm": "Heaven",
+  "ds": "A cluster of round stones from Heaven that slowly orbit one another without touching, held by some invisible pull.",
+  "effect": "Once per long rest, you summon three orbiting stones for 1 minute. Each round, they strike a creature within 30 feet for 2d6 bludgeoning damage."
+ },
+ {
+  "rune": "Plasma",
+  "stone": "Plasmastone",
+  "realm": "Outer Realm",
+  "ds": "A glowing, violet-white stone from the Outer Realm, so hot it never stops crackling and burning faintly.",
+  "effect": "When you hit, you deal an extra 1d6 radiant damage. Once per short rest, you fire a plasma beam 120 feet long, 10 feet wide; creatures take 6d6 damage, DC 18 Dexterity save halves."
+ },
+ {
+  "rune": "Poison",
+  "stone": "Poisonstone",
+  "realm": "Heaven",
+  "ds": "A dark green stone from Heaven, slick and sweating a thin bitter liquid. Plants wilt where it is set down.",
+  "effect": "When you hit, you deal an extra 1d6 poison damage. Once per short rest, a creature you hit must succeed on a DC 14 Constitution save or be poisoned for 1 minute."
+ },
+ {
+  "rune": "Pollination",
+  "stone": "Pollenstone",
+  "realm": "Inner Realm",
+  "ds": "A soft yellow stone from the Inner Realm dusted with golden pollen. Flowers bloom wherever its dust falls.",
+  "effect": "Once per long rest, you release a pollen cloud in a 30-foot radius. Allies regain 4d8 hit points and enemies must succeed on a DC 18 Constitution save or be poisoned for 1 minute."
+ },
+ {
+  "rune": "Potential",
+  "stone": "Potentialstone",
+  "realm": "Primordial",
+  "ds": "A plain, smooth stone from the Primordial realm that hums with endless untapped energy, though it never shows its full shape.",
+  "effect": "Once per long rest, you gain proficiency in all skills and saves for 1 hour. You may also gain one feat or ability of your choice for that time."
+ },
+ {
+  "rune": "Precision",
+  "stone": "Precisionstone",
+  "realm": "Inner Void",
+  "ds": "A perfectly cut crystal from the Inner Void, its edges so exact they slice light into neat beams.",
+  "effect": "Your critical hits occur on a roll of 18 to 20. Once per short rest, you can turn a missed attack into a hit."
+ },
+ {
+  "rune": "Present",
+  "stone": "Presentstone",
+  "realm": "Hell",
+  "ds": "A clear, glass-like stone from Hell that shows only the exact moment it is looked at, never before or after.",
+  "effect": "Once per long rest, you take an extra action on your turn. Creatures cannot have advantage on attack rolls against you."
+ },
+ {
+  "rune": "Preserve",
+  "stone": "Preservestone",
+  "realm": "Heaven",
+  "ds": "A smooth, pale stone from Heaven that never ages or weathers. Anything wrapped with it stays fresh for years.",
+  "effect": "Your weapons and armor cannot be damaged or destroyed. Once per long rest, you stop a dying creature from decaying or losing hit points for 24 hours."
+ },
+ {
+  "rune": "Pride",
+  "stone": "Pridestone",
+  "realm": "Outer Realm",
+  "ds": "A tall, regal violet crystal that stands upright on its own, found in Outer Realm palace ruins where it glows brighter whenever anyone nearby boasts aloud.",
+  "effect": "Once per long rest, you and up to six allies within 60 feet gain advantage on saves against fear and charm for 1 minute and deal an extra 1d6 damage on hits."
+ },
+ {
+  "rune": "Probability",
+  "stone": "Probability Stone",
+  "realm": "Human",
+  "ds": "A pale grey pebble speckled with dots that shift count each time you look, found loose in Human-realm riverbeds near gambling towns and crossroads.",
+  "effect": "Once per long rest, after you see the result of a d20 roll you make, you may add or subtract 1 from it, possibly turning a failure into a success."
+ },
+ {
+  "rune": "Projectile",
+  "stone": "Projectile Stone",
+  "realm": "Hell",
+  "ds": "A smooth, dense iron-grey stone with streaks pointing one way, found in Hell's launching fields where it hums and tugs forward when held in a throwing hand.",
+  "effect": "While equipped, your thrown weapons and ranged spell attacks gain 30 feet of range, and once per short rest a thrown or fired hit deals an extra 1d6 force damage."
+ },
+ {
+  "rune": "Protect",
+  "stone": "Protectstone",
+  "realm": "Heaven",
+  "ds": "A layered, armor-plate gray stone with a faint gold sheen, mined in Heaven's fortress hills where it hardens into overlapping scales as it cools.",
+  "effect": "Set into armor, it grants +1 AC. Once per short rest, when you take damage, reduce it by 2d6 as the plates flare around the struck spot."
+ },
+ {
+  "rune": "Protection",
+  "stone": "Protection Stone",
+  "realm": "Heaven",
+  "ds": "A broad, milky white stone whose inner glow forms a soft dome, gathered from Heaven's temple foundations where it lies beneath every older ward.",
+  "effect": "Once per long rest, as a reaction when a creature within 30 feet is hit, grant it a barrier that reduces that damage and all damage until your next turn by 2d6."
+ },
+ {
+  "rune": "Pulse",
+  "stone": "Pulsestone",
+  "realm": "Inner Void",
+  "ds": "A deep crimson heart-shaped crystal that beats with a slow, audible throb, found only in the Inner Void where its rhythm shakes loose dust around it.",
+  "effect": "While equipped, you sense the heartbeat of every living creature within 120 feet. Once per long rest, stop a creature's pulse: DC 20 Constitution save or drop to 0 hit points."
+ },
+ {
+  "rune": "Punish",
+  "stone": "Punishstone",
+  "realm": "Heaven",
+  "ds": "A heavy bronze stone etched with chain-like veins that tighten when touched, found in Heaven's courts of judgment beneath the seats where oaths are sworn.",
+  "effect": "When you hit a creature bound by a pact, curse, or chain, deal an extra 1d6 radiant damage. Once per long rest, it also must succeed on a DC 15 Wisdom save or be stunned until your next turn."
+ },
+ {
+  "rune": "Purity",
+  "stone": "Puritystone",
+  "realm": "Heaven",
+  "ds": "A flawless white stone that repels dirt and blood alike, found in clear Heaven springs where nothing else grows and no stain ever settles on it.",
+  "effect": "While equipped, you have advantage on saves against poison, disease, and curses. Once per long rest, end one curse or poison affecting a creature you touch."
+ },
+ {
+  "rune": "Race",
+  "stone": "Lineagestone",
+  "realm": "Inner Void",
+  "ds": "A shifting stone that shows a different face to every viewer, mirroring their own bloodline in its grain, found deep in the Inner Void among forgotten first ancestors.",
+  "effect": "Once per long rest, for 1 hour you gain one innate racial trait of a lineage you have seen, such as darkvision, a breath weapon, or natural flight at 30 feet."
+ },
+ {
+  "rune": "Rage",
+  "stone": "Ragestone",
+  "realm": "Heaven",
+  "ds": "A blood-red stone veined with black cracks that run hot to the touch, found in Heaven's war grounds where its glow surges whenever a fight breaks out.",
+  "effect": "Once per long rest, enter a fury for 1 minute: gain resistance to bludgeoning, piercing, and slashing damage and deal an extra 1d6 damage with melee hits, but you cannot cast spells."
+ },
+ {
+  "rune": "Rain",
+  "stone": "Rainstone",
+  "realm": "Heaven",
+  "ds": "A translucent blue-grey stone always beaded with water, gathered from Heaven's cloud-fed lakes where it drips steadily and steams when set near any flame.",
+  "effect": "Once per long rest, call rain in a 30-foot radius for 1 minute: fires are doused, the area is lightly obscured, and enemies inside have disadvantage on ranged attacks. Also hits deal 1d6 cold."
+ },
+ {
+  "rune": "Ransom",
+  "stone": "Ransomstone",
+  "realm": "Hell",
+  "ds": "A dull gold stone with a hollow center that seems to grip whatever is placed inside, found in Hell's vaults and tollhouses buried under sealed debts.",
+  "effect": "Once per long rest, when you hit a creature, seize one item it holds or wears unless it succeeds on a DC 15 Strength save; it stays held until the creature meets a price you name."
+ },
+ {
+  "rune": "Reality",
+  "stone": "Realstone",
+  "realm": "Void",
+  "ds": "A stone so plain it is hard to notice, yet everything near it looks sharper and more solid, found only in the Void where all other laws thin out.",
+  "effect": "Once per long rest, declare one illusion, transformation, or spell effect within 120 feet false; it ends unless its creator succeeds on a DC 22 save of their casting ability."
+ },
+ {
+  "rune": "Rebellion",
+  "stone": "Rebel Stone",
+  "realm": "Outer Realm",
+  "ds": "A cracked black stone shot through with red sparks that flare when commands are given nearby, found in the Outer Realm under the rubble of fallen thrones.",
+  "effect": "While equipped, you are immune to being charmed or commanded. Once per long rest, end every control effect on allies within 60 feet, and each may make one weapon attack as a reaction."
+ },
+ {
+  "rune": "Rebirth",
+  "stone": "Rebirthstone",
+  "realm": "Hell",
+  "ds": "A green and grey stone that slowly sheds an outer skin to reveal fresh color beneath, found in Hell's underground gardens among seeds that sprout in darkness.",
+  "effect": "Once per long rest, when you would drop to 0 hit points, you instead drop to 1 hit point, regain 2d6 hit points, and lose one level of exhaustion."
+ },
+ {
+  "rune": "Rebound",
+  "stone": "Reboundstone",
+  "realm": "Inner Realm",
+  "ds": "A rubbery, deep blue stone that springs back from any blow, found in the Inner Realm wedged in canyon walls that echo every sound three times.",
+  "effect": "Once per short rest, when you take bludgeoning, piercing, or slashing damage, halve it and deal the other half back to the attacker if it is within 60 feet."
+ },
+ {
+  "rune": "Recast",
+  "stone": "Recaststone",
+  "realm": "Heaven",
+  "ds": "A silver stone etched with faint circles that refill like ink after fading, found on Heaven's study towers where spent magic drifts down like dust.",
+  "effect": "Once per long rest, after you cast a spell of 3rd level or lower, regain the spell slot used, letting you cast it again without spending a new slot."
+ },
+ {
+  "rune": "Recipe",
+  "stone": "Recipestone",
+  "realm": "Chaos",
+  "ds": "A flat, layered stone covered in tiny script that rearranges into instructions, found in the Chaos realm inside ruined alchemist halls and boiling mineral pools.",
+  "effect": "While equipped, you have advantage on alchemy and herbalism checks. Once per long rest, brew a potion you have tasted in 10 minutes without spending any materials."
+ },
+ {
+  "rune": "Redundancy",
+  "stone": "Redundancy Stone",
+  "realm": "Heaven",
+  "ds": "A paired stone, two identical halves fused along a seam, found in Heaven's foundries where every gear and beam is built with a hidden spare.",
+  "effect": "Once per long rest, when you fail a saving throw or a spell or item you use would fail, you may roll the save again or have the effect work anyway."
+ },
+ {
+  "rune": "Reflection",
+  "stone": "Mirrorstone",
+  "realm": "Human",
+  "ds": "A thin, glassy silver stone with a perfect mirror face, found in still Human-realm ponds and on polished cliff faces that catch the morning sun.",
+  "effect": "Once per long rest, as a reaction when a ranged spell attack misses you, redirect it at a creature within 30 feet, using the same attack roll."
+ },
+ {
+  "rune": "Regeneration",
+  "stone": "Regeneration Stone",
+  "realm": "Hell",
+  "ds": "A soft green stone that slowly regrows any chip broken from it, found in Hell's fungus caverns where severed roots knit back together overnight.",
+  "effect": "While equipped, at the start of each of your turns you regain 1d4 hit points if you have at least 1 hit point and are below half your maximum."
+ },
+ {
+  "rune": "Release",
+  "stone": "Releasestone",
+  "realm": "Void",
+  "ds": "A stone that never stays in one place, slipping free of any setting not shaped by a master, found loose in the Void where bindings have broken.",
+  "effect": "While equipped, you cannot be restrained or grappled. Once per long rest, shatter every binding, chain, prison, or sealing effect within 60 feet, freeing whatever it held, friend or foe."
+ },
+ {
+  "rune": "Remain",
+  "stone": "Remainstone",
+  "realm": "Hell",
+  "ds": "A heavy, dark grey stone that refuses to be moved once set down, found in Hell's quiet catacombs holding doors and coffins exactly shut.",
+  "effect": "While equipped, you cannot be pushed, pulled, knocked prone, or teleported against your will. Once per long rest, become immune to all damage until your next turn but cannot move."
+ },
+ {
+  "rune": "Repeat",
+  "stone": "Repeatstone",
+  "realm": "Inner Realm",
+  "ds": "A banded orange stone whose patterns loop endlessly, found in the Inner Realm in caves where every echo and footstep repeats itself a heartbeat later.",
+  "effect": "Once per short rest, after you take the Attack action or cast a spell of 3rd level or lower, repeat that exact action as a bonus action at no extra cost."
+ },
+ {
+  "rune": "Reroll",
+  "stone": "Rerollstone",
+  "realm": "Human",
+  "ds": "A cube-shaped grey stone with faint pips on each face, found in Human-realm creek gravel near gaming houses and roadside dice tables.",
+  "effect": "Once per long rest, after you roll any die, you may reroll it and use either result."
+ },
+ {
+  "rune": "Resistance",
+  "stone": "Resistance Stone",
+  "realm": "Human",
+  "ds": "A dull brown stone that dents but never cracks, found in Human-realm quarries where it absorbs hammer blows that would split ordinary rock.",
+  "effect": "While equipped, choose one damage type after each long rest; you reduce damage of that type you take by 2."
+ },
+ {
+  "rune": "Resurrection",
+  "stone": "Resurrection Stone",
+  "realm": "Hell",
+  "ds": "A pale gold stone with a dark core, warm and cold at once, found in Hell's deepest tombs where the line between life and death runs thin.",
+  "effect": "Once per long rest, touch a creature that died within the last minute; it returns with 1 hit point, but you take 2d6 necrotic damage that cannot be reduced."
+ },
+ {
+  "rune": "Revenants",
+  "stone": "Revenant Stone",
+  "realm": "Hell",
+  "ds": "A blackened stone with one bright red fleck that always points toward a single person, found in Hell's battlefields where the betrayed were buried.",
+  "effect": "Once per long rest, name a creature that harmed you or an ally; for 1 hour your hits against it deal an extra 1d6 necrotic damage and you always know its direction."
+ },
+ {
+  "rune": "Reverse",
+  "stone": "Reversestone",
+  "realm": "Human",
+  "ds": "A spiral stone that turns the opposite way from any spin it is given, found in Human-realm caves where dripping water seems to climb back upward.",
+  "effect": "Once per long rest, touch a small object or a wound; undo the last minute of change to it, repairing a broken item or restoring 1d6 hit points just lost."
+ },
+ {
+  "rune": "Riding",
+  "stone": "Ridingstone",
+  "realm": "Human",
+  "ds": "A grey and white stone streaked as if blown by wind, found in Human-realm horse plains and along old caravan roads worn deep by hooves.",
+  "effect": "While equipped, your mount gains +10 feet of speed and you have advantage on checks to stay mounted. Once per long rest, up to four allies move with you as you move."
+ },
+ {
+  "rune": "Ring",
+  "stone": "Ringstone",
+  "realm": "Primordial",
+  "ds": "A perfect circle of pale stone with no visible seam or start, found in Primordial depths where it orbits other laws like a planet's halo.",
+  "effect": "While equipped, you may attune to one extra magic item. Once per long rest, store a spell of up to 5th level in the ring and cast it later as a bonus action."
+ },
+ {
+  "rune": "Root",
+  "stone": "Rootstone",
+  "realm": "Abyss",
+  "ds": "A knotted brown stone threaded with fine living tendrils, found in the Abyss beneath world-sized trees where it anchors the oldest growth.",
+  "effect": "Once per short rest, roots burst from the ground in a 20-foot radius; creatures of your choice there must succeed on a DC 17 Strength save or be restrained for 1 minute."
+ },
+ {
+  "rune": "Rot",
+  "stone": "Rotstone",
+  "realm": "Hell",
+  "ds": "A mottled green and black stone, soft and damp to the touch, found in Hell's swamps where every plant around it has withered into slime.",
+  "effect": "When you hit a plant creature or wooden object, deal an extra 1d6 necrotic damage. Once per long rest, wither all ordinary plants in a 30-foot radius into rot."
+ },
+ {
+  "rune": "Rub",
+  "stone": "Rubstone",
+  "realm": "Abyss",
+  "ds": "A slick, oily amber stone that leaves a warm sheen on skin, found in the Abyss near healing pools and old ointment makers' cellars.",
+  "effect": "As an action, rub the stone on a touched creature: it regains 1d6 hit points and ends one poison or burn. Uses equal your proficiency bonus per long rest."
+ },
+ {
+  "rune": "Rules",
+  "stone": "Rulestone",
+  "realm": "Inner Realm",
+  "ds": "A square, slate-grey stone carved by nature into ruled lines, found in the Inner Realm in the halls of ancient councils and guild houses.",
+  "effect": "Once per long rest, declare a rule within 60 feet for 1 minute, such as no flying; any creature that breaks it takes 1d6 psychic damage each time (DC 18 Wisdom save negates)."
+ },
+ {
+  "rune": "Saber",
+  "stone": "Saberstone",
+  "realm": "Inner Void",
+  "ds": "A curved, steel-blue crystal shaped like a crescent, found in the Inner Void where old sword strikes left cuts in empty space.",
+  "effect": "While equipped, you always act first in initiative order on the first round. Once per short rest, your first melee hit in a fight deals an extra 1d6 slashing damage and is a critical hit."
+ },
+ {
+  "rune": "Sadness",
+  "stone": "Sorrowstone",
+  "realm": "Heaven",
+  "ds": "A deep blue tear-shaped stone, cold and always slightly wet, found in Heaven's mourning gardens where it weeps faintly when grief is near.",
+  "effect": "Once per long rest, a creature within 60 feet must succeed on a DC 15 Wisdom save or be overcome with grief for 1 minute, unable to take reactions and moving at half speed."
+ },
+ {
+  "rune": "Scan",
+  "stone": "Scanstone",
+  "realm": "Human",
+  "ds": "A clear stone with a faint ring of light that sweeps around its edge, found in Human-realm watchtower foundations and guard posts along borders.",
+  "effect": "Once per short rest, as an action, learn whether any hidden or invisible creatures are within 30 feet, though not where or what they are."
+ },
+ {
+  "rune": "Scar",
+  "stone": "Scarstone",
+  "realm": "Chaos",
+  "ds": "A rough, raised stone in pale pink ridges like healed flesh, found in the Chaos realm where old wounds in the land have closed over.",
+  "effect": "While equipped, after you take damage from a creature, you reduce further damage of that type from it by 2 for 1 minute. Once per long rest, regain 2d6 hit points."
+ },
+ {
+  "rune": "Scent",
+  "stone": "Scentstone",
+  "realm": "Human",
+  "ds": "A porous tan stone that holds smells for days, found in Human-realm forests along game trails and inside hunting lodges.",
+  "effect": "While equipped, you have advantage on Wisdom (Perception) and Survival checks using smell, and can track a creature by scent for up to 1 day after it passed."
+ },
+ {
+  "rune": "Scorn",
+  "stone": "Scornstone",
+  "realm": "Chaos",
+  "ds": "A cold, glossy black stone with a faint sneer-shaped crack, found in the Chaos realm in ruined halls of exiles and outcasts.",
+  "effect": "Once per short rest, as a bonus action, scorn a creature within 60 feet; it takes 1d6 psychic damage and has disadvantage on its next attack roll against anyone but you."
+ },
+ {
+  "rune": "Screw",
+  "stone": "Screwstone",
+  "realm": "Outer Realm",
+  "ds": "A spiral-grooved metallic stone that turns itself slowly when set down, found in Outer Realm machine ruins jammed into giant broken engines.",
+  "effect": "Once per long rest, bind a creature you hit: DC 21 Strength save or it is pinned in place, restrained for 1 minute, repeating the save at the end of each turn."
+ },
+ {
+  "rune": "Scythe",
+  "stone": "Scythestone",
+  "realm": "Human",
+  "ds": "A crescent-shaped grey stone with a sharp inner edge, found in Human-realm farm fields after harvest and in smithies making reaping tools.",
+  "effect": "When you hit with a slashing weapon, deal 1 extra damage. Once per long rest, make one melee attack against every creature within 5 feet of you."
+ },
+ {
+  "rune": "Season",
+  "stone": "Seasonstone",
+  "realm": "Heaven",
+  "ds": "A stone whose color drifts through green, gold, brown, and white over a year, found in Heaven's high meadows where four winds meet.",
+  "effect": "Once per long rest, impose a season in a 30-foot radius for 1 minute, such as winter (difficult terrain and 1d6 cold per turn) or summer (fire resistance for allies)."
+ },
+ {
+  "rune": "Seduction",
+  "stone": "Seduction Stone",
+  "realm": "Heaven",
+  "ds": "A rose-pink stone with a soft, warm glow that seems to lean toward whoever looks at it, found in Heaven's garden pavilions near lovers' fountains.",
+  "effect": "While equipped, you have advantage on Persuasion checks. Once per long rest, a creature within 30 feet must succeed on a DC 15 Wisdom save or be charmed by you for 1 hour."
+ },
+ {
+  "rune": "Sentience",
+  "stone": "Sentience Stone",
+  "realm": "Inner Realm",
+  "ds": "A milky stone with a faint shape moving inside like a thought, found in the Inner Realm where old tools and statues began to think.",
+  "effect": "Once per long rest, awaken an object or weapon for 1 hour; it can speak, sense within 60 feet, and grants you advantage on initiative and on Perception checks."
+ },
+ {
+  "rune": "Separation",
+  "stone": "Separation Stone",
+  "realm": "Heaven",
+  "ds": "A stone split cleanly through the middle yet never falling apart, found in Heaven's sky canyons where land and air were first pulled apart.",
+  "effect": "Once per long rest, touch a creature or object to sunder a fusion, transformation, or possession; it ends, and the target takes 2d6 force damage."
+ },
+ {
+  "rune": "Serenity",
+  "stone": "Serenitystone",
+  "realm": "Mysterious",
+  "ds": "A pale lavender stone that is always perfectly still and calm to hold, found in Mysterious-realm mountain shrines and silent lakeshores.",
+  "effect": "While equipped, you have advantage on saves against fear. Once per long rest, as an action, end the frightened condition on yourself and allies within 15 feet."
+ },
+ {
+  "rune": "Servitude",
+  "stone": "Servitude Stone",
+  "realm": "Inner Void",
+  "ds": "A grey stone collared by a dark band, heavy with the weight of obedience, found in the Inner Void in abandoned workhouses of the first empires.",
+  "effect": "Once per long rest, a creature within 60 feet must succeed on a DC 21 Wisdom save or obey your commands for 1 hour; it repeats the save when harmed."
+ },
+ {
+  "rune": "Shade",
+  "stone": "Shadestone",
+  "realm": "Hell",
+  "ds": "A dark, nearly weightless stone that throws no shadow of its own, found in Hell's twilight forests where light never fully reaches the ground.",
+  "effect": "While equipped, you have advantage on Stealth checks in dim light or darkness. Once per short rest, become heavily obscured to others until the end of your next turn."
+ },
+ {
+  "rune": "Shadow",
+  "stone": "Shadowstone",
+  "realm": "Heaven",
+  "ds": "A smoky black stone that seems to be only a shape rather than a solid thing, found in Heaven's grave hills where corpse shadows linger.",
+  "effect": "Once per long rest, become a living shadow for 1 minute: attacks against you have disadvantage and you can move through spaces as narrow as 1 inch."
+ },
+ {
+  "rune": "Shaman",
+  "stone": "Shamanstone",
+  "realm": "Heaven",
+  "ds": "A green stone crossed with feather-like patterns that rustle faintly, found in Heaven's spirit groves where ancestral voices whisper among old trees.",
+  "effect": "While equipped, you can see and speak with spirits within 60 feet. Once per long rest, call an ancestor spirit to grant you or an ally a 1d6 bonus on every save for 1 minute."
+ },
+ {
+  "rune": "Shape-shifter",
+  "stone": "Shifterstone",
+  "realm": "Human",
+  "ds": "A stone that changes color and texture to match whatever it touches, found in Human-realm marshes where nothing looks quite the same twice.",
+  "effect": "Once per long rest, take the shape of a beast or humanoid you have seen for 1 hour; you keep your own mind and hit points but gain its movement modes."
+ },
+ {
+  "rune": "Shield",
+  "stone": "Shieldstone",
+  "realm": "Outer Realm",
+  "ds": "A thick, round iron-grey stone with a raised rim, found in Outer Realm forge mountains alongside veins of iron and steel.",
+  "effect": "Set into a shield or armor, it grants +2 AC. Once per short rest, as a reaction, block one attack that would hit you, taking no damage."
+ },
+ {
+  "rune": "Shock",
+  "stone": "Shockstone",
+  "realm": "Hell",
+  "ds": "A jagged yellow-white stone that snaps with tiny sparks when touched, found in Hell's storm caverns where static builds in the stale air.",
+  "effect": "When you hit a creature, deal an extra 1d6 lightning damage. Once per short rest, it must also succeed on a DC 15 Constitution save or lose its reaction until its next turn."
+ },
+ {
+  "rune": "Shorter",
+  "stone": "Shorterstone",
+  "realm": "Primordial",
+  "ds": "A tiny, dense stone that looks smaller each time it is measured, found in Primordial depths where distance and length shrink to nothing.",
+  "effect": "Once per long rest, shorten any distance or duration you choose: teleport up to 1 mile you can see, or cut the remaining duration of one effect to 1 round."
+ },
+ {
+  "rune": "Signal",
+  "stone": "Signalstone",
+  "realm": "Heaven",
+  "ds": "A bright orange stone that pulses with flashes of light, found on Heaven's beacon peaks and messenger towers where it blinks in pairs.",
+  "effect": "While equipped, you can send a one-sentence message to an ally within 1 mile. Once per long rest, emit a flare that blinds creatures within 30 feet that fail a DC 14 Constitution save for 1 round."
+ },
+ {
+  "rune": "Singularity",
+  "stone": "Singularity Stone",
+  "realm": "Inner Realm",
+  "ds": "A tiny black stone that drags light, dust, and sound into itself, found in the Inner Realm at the bottom of collapsed starfall craters.",
+  "effect": "Once per long rest, create a point of collapse within 120 feet; creatures within 30 feet must succeed on a DC 20 Strength save or be pulled to it and take 1d6 force damage."
+ },
+ {
+  "rune": "Siphon",
+  "stone": "Siphonstone",
+  "realm": "Abyss",
+  "ds": "A hollow, tube-shaped dark green stone that feels faintly cold, found in the Abyss inside old thieves' tunnels and drained wells.",
+  "effect": "When you hit a creature, you regain hit points equal to half the extra 1d6 necrotic damage you deal. Once per long rest, steal one spell slot of 4th level or lower from a creature you hit."
+ },
+ {
+  "rune": "Skeleton",
+  "stone": "Skeletonstone",
+  "realm": "Mysterious",
+  "ds": "A pale bone-white stone porous like old marrow, found in Mysterious-realm ossuaries and graveyards where bones lie close to the surface.",
+  "effect": "Once per long rest, raise a corpse within 30 feet as a skeleton servant for 1 hour; it obeys you, fights with simple weapons, and cannot use magic or skills."
+ },
+ {
+  "rune": "Skip",
+  "stone": "Skipstone",
+  "realm": "Outer Realm",
+  "ds": "A flat, smooth grey stone that never quite touches whatever it rests on, found in the Outer Realm skipping across still lakes of silver mist.",
+  "effect": "Once per short rest, skip a moment and teleport up to 60 feet to a spot you can see. Once per long rest, skip one failed save, treating it as a success."
+ },
+ {
+  "rune": "Skull",
+  "stone": "Skullstone",
+  "realm": "Outer Realm",
+  "ds": "A white stone naturally shaped like a small skull, with dark pits for eyes, found in Outer Realm battle grounds and summoners' trophy halls.",
+  "effect": "While equipped, undead and summoned creatures have disadvantage on attacks against you. Once per long rest, a creature you kill rises as your servant for 1 hour."
+ },
+ {
+  "rune": "Sky",
+  "stone": "Skystone",
+  "realm": "Heaven",
+  "ds": "A pale blue stone that shows drifting clouds within it, found on Heaven's highest peaks above the weather line where only wind can reach.",
+  "effect": "While equipped, you take no falling damage. Once per long rest, gain a flying speed of 60 feet for 10 minutes and call a gust that pushes creatures 20 feet away."
+ },
+ {
+  "rune": "Sloth",
+  "stone": "Slothstone",
+  "realm": "Primordial",
+  "ds": "A heavy, dull grey stone that drains the will to lift it, found in Primordial hollows where nothing has moved since the first age.",
+  "effect": "Once per long rest, creatures you choose within 60 feet must succeed on a DC 22 Wisdom save or lose their will to act, taking only one action per turn and no reactions for 1 minute."
+ },
+ {
+  "rune": "Slowness",
+  "stone": "Slowstone",
+  "realm": "Outer Realm",
+  "ds": "A thick amber stone in which trapped bubbles drift very slowly, found in Outer Realm tar pits and ancient resin swamps.",
+  "effect": "When you hit a creature, its speed is halved until your next turn. Once per long rest, slow every enemy within 30 feet for 1 minute (DC 18 Constitution save negates)."
+ },
+ {
+  "rune": "Smaller",
+  "stone": "Smallerstone",
+  "realm": "Abyss",
+  "ds": "A tiny, perfectly formed stone that keeps getting smaller in the eye, found in the Abyss in narrow cracks no larger than a finger.",
+  "effect": "Once per short rest, shrink yourself or a willing creature to Tiny size for 1 minute, gaining advantage on Stealth and the ability to slip through 1-inch gaps."
+ },
+ {
+  "rune": "Smell",
+  "stone": "Smellstone",
+  "realm": "Chaos",
+  "ds": "A rough brown stone with a strong earthy odor, found in the Chaos realm near beast lairs and hunting grounds thick with old trails.",
+  "effect": "While equipped, you can smell creatures within 60 feet, including invisible ones, and know their direction. You have advantage on checks to track by smell."
+ },
+ {
+  "rune": "Snow",
+  "stone": "Snowstone",
+  "realm": "Heaven",
+  "ds": "A soft white stone that crumbles into flakes and reforms in silence, found in Heaven's high valleys where snow falls without wind.",
+  "effect": "While equipped, you leave no tracks and ignore snow and ice terrain. Once per long rest, snow falls in a 30-foot radius for 1 minute, muffling sound and slowing enemies by 10 feet."
+ },
+ {
+  "rune": "Sometime",
+  "stone": "Sometime Stone",
+  "realm": "Hell",
+  "ds": "A flickering stone that is sometimes visible and sometimes not, found in Hell's unstable caverns that appear only on certain nights.",
+  "effect": "Once per long rest, roll a d6 at the start of your turn for 1 minute; on a 4 or higher, your next attack deals an extra 1d6 damage or your next spell's DC rises by 2."
+ },
+ {
+  "rune": "Sovereignty",
+  "stone": "Sovereign Stone",
+  "realm": "Heaven",
+  "ds": "A deep purple stone crowned with gold veins, found in Heaven's throne halls where its presence makes all others bow their heads.",
+  "effect": "While equipped, you have advantage on Persuasion and Intimidation checks. Once per long rest, command creatures within 30 feet to kneel; DC 15 Wisdom save or be knocked prone."
+ },
+ {
+  "rune": "Spatial",
+  "stone": "Spatialstone",
+  "realm": "Human",
+  "ds": "A clear stone in which space appears folded, with edges that seem too close and too far at once, found in Human-realm caves with odd echoes.",
+  "effect": "Once per long rest, as a bonus action, teleport up to 15 feet to an unoccupied space you can see."
+ },
+ {
+  "rune": "Spear",
+  "stone": "Spearstone",
+  "realm": "Heaven",
+  "ds": "A long, thin grey stone ending in a sharp natural point, found in Heaven's training grounds and buried along the paths of ancient phalanxes.",
+  "effect": "While equipped, your reach with spears increases by 5 feet. Once per short rest, a thrown spear deals an extra 1d6 piercing damage and returns to your hand."
+ },
+ {
+  "rune": "Specter",
+  "stone": "Specterstone",
+  "realm": "Human",
+  "ds": "A translucent pale blue stone that feels faintly cold and hollow, found in Human-realm haunted ruins and old battlefields after midnight.",
+  "effect": "Once per long rest, for 1 minute you can move through creatures and objects as difficult terrain, taking 1d6 force damage if you end your turn inside one."
+ },
+ {
+  "rune": "Speech",
+  "stone": "Speechstone",
+  "realm": "Heaven",
+  "ds": "A smooth golden stone that hums with the faint sound of a voice, found in Heaven's lecture halls and the amphitheaters of poets.",
+  "effect": "While equipped, you can understand any spoken language. Once per long rest, your words command attention: creatures within 30 feet must succeed on a DC 15 Wisdom save or be stunned for 1 round."
+ },
+ {
+  "rune": "Speed",
+  "stone": "Speedstone",
+  "realm": "Heaven",
+  "ds": "A sleek silver stone streaked as if in motion, found in Heaven's racetracks and along mountain paths worn smooth by runners.",
+  "effect": "While equipped, your walking speed increases by 10 feet. Once per long rest, take an extra action on your turn, limited to a single attack, Dash, or Disengage."
+ },
+ {
+  "rune": "Spin",
+  "stone": "Spinstone",
+  "realm": "Heaven",
+  "ds": "A round stone with spiral bands that turns slowly on its own, found in Heaven's windswept towers and the eye of small whirlwinds.",
+  "effect": "When you hit with a weapon, deal an extra 1d6 damage as it spins. Once per long rest, spin a creature or object within 30 feet: DC 15 Strength save or be knocked prone and dizzy."
+ },
+ {
+  "rune": "Spirit (Martial Spirit)",
+  "stone": "Martial Spirit Stone",
+  "realm": "Human",
+  "ds": "A warm, ivory stone that glows faintly when held by someone who trains, found in Human-realm monasteries and old martial dojos.",
+  "effect": "Once per long rest, focus your inner spirit to gain +1 to attack rolls and add 1d4 to damage rolls for 1 minute."
+ },
+ {
+  "rune": "Split",
+  "stone": "Splitstone",
+  "realm": "Human",
+  "ds": "A stone naturally cracked into two matching halves, found in Human-realm dagger smithies and on cliffs split by lightning.",
+  "effect": "Once per long rest, when you hit with a dagger or light weapon, split the strike to also hit a second creature within 5 feet for the same damage."
+ },
+ {
+  "rune": "Stabilise",
+  "stone": "Steadystone",
+  "realm": "Inner Void",
+  "ds": "A perfectly balanced grey stone that never rolls or tips, found in the Inner Void where it holds broken laws together like a keystone.",
+  "effect": "Once per long rest, touch a creature or object to stabilise it: end one curse, failing fusion, or pact effect, or bring a dying creature to full hit points."
+ },
+ {
+  "rune": "Star",
+  "stone": "Starstone",
+  "realm": "Outer Realm",
+  "ds": "A dense white-gold crystal that glows from within and stays hot to the touch, mined from scorched craters in the Outer Realm where fallen stars burned out.",
+  "effect": "Once per short rest, you release a burst of starfire in a 30-foot radius. Creatures of your choice take 2d6 radiant and 2d6 fire damage and are blinded until your next turn, DC 19 Constitution save halves and negates blindness."
+ },
+ {
+  "rune": "Starlight",
+  "stone": "Starlight Stone",
+  "realm": "Abyss",
+  "ds": "Pale blue glassy shards that hold a faint shimmer even in total darkness, found in cold Abyssal caverns open to a sky of distant stars.",
+  "effect": "While equipped, you shed dim light 20 feet and see through magical darkness. Once per short rest, a beam of starlight deals 2d6 radiant damage to a creature within 120 feet and reveals invisible creatures near it."
+ },
+ {
+  "rune": "Static",
+  "stone": "Staticstone",
+  "realm": "Inner Void",
+  "ds": "A grey, grainy stone that crackles and hisses when held, its surface crawling with flickering specks, found in silent fields of the Inner Void.",
+  "effect": "Once per short rest, fill a 60-foot sphere with static for 1 minute. Creatures inside cannot communicate by speech or telepathy and must pass a DC 22 Constitution save to cast spells, taking 2d6 thunder on a failure."
+ },
+ {
+  "rune": "Steel",
+  "stone": "Steelstone",
+  "realm": "Inner Realm",
+  "ds": "A polished blue-grey ore streaked with silver bands, harder than any forged blade, dug from iron-choked veins deep in the Inner Realm.",
+  "effect": "While equipped, you gain +1 AC and resistance to slashing damage from nonmagical weapons. Once per long rest, when hit by a weapon attack, reduce the damage by 4d6 and the attacker's weapon cracks."
+ },
+ {
+  "rune": "Storm",
+  "stone": "Stormstone",
+  "realm": "Heaven",
+  "ds": "A dark grey stone laced with crackling white veins that smells of rain, gathered from the windswept peaks of Heaven during thunderstorms.",
+  "effect": "Once per short rest, call down lightning on a point within 60 feet. Creatures in a 10-foot radius take 2d6 lightning and 1d6 thunder damage and are pushed 10 feet, DC 15 Dexterity save halves and negates the push."
+ },
+ {
+  "rune": "Strength",
+  "stone": "Strengthstone",
+  "realm": "Heaven",
+  "ds": "A heavy, rust-red ore with thick ridged grain that feels warm under the hand, quarried from the training grounds of heroic gods in Heaven.",
+  "effect": "While equipped, your carrying capacity doubles and you have advantage on Strength checks. Once per short rest, add 1d6 to a melee damage roll and shove the target 10 feet if it is Large or smaller."
+ },
+ {
+  "rune": "Stress",
+  "stone": "Stress Stone",
+  "realm": "Outer Realm",
+  "ds": "A cracked, ash-colored stone that hums with a tight, uneasy tension and tends to fracture under pressure, found in the crushing depths of the Outer Realm.",
+  "effect": "Once per short rest, you load a creature within 60 feet with crushing strain. It takes 2d6 psychic damage and gains 2 levels of exhaustion for 1 minute, DC 21 Constitution save halves and negates exhaustion."
+ },
+ {
+  "rune": "Subtract",
+  "stone": "Subtract Stone",
+  "realm": "Heaven",
+  "ds": "A smooth black stone that looks slightly smaller each time you glance away, found in hollow, half-empty chambers in the vaults of Heaven.",
+  "effect": "Once per short rest, when a creature within 60 feet makes an attack roll, save, or check, you subtract 1d6 from the roll. Once per long rest, subtract 2d6 instead."
+ },
+ {
+  "rune": "Success",
+  "stone": "Success Stone",
+  "realm": "Heaven",
+  "ds": "A bright golden stone with a laurel-like grain that catches the light at every angle, found atop victory altars and finish lines in Heaven.",
+  "effect": "Once per long rest, when you fail an attack roll, ability check, or saving throw, you can treat it as a success instead. Recharges early whenever you reduce a hostile creature to 0 hit points."
+ },
+ {
+  "rune": "Sun",
+  "stone": "Sunstone",
+  "realm": "Heaven",
+  "ds": "A blazing orange-gold crystal that radiates steady warmth and light, quarried from the sun-facing cliffs of Heaven where shadows never fall.",
+  "effect": "While equipped, you shed bright light 20 feet. Once per short rest, flare it as an action: creatures within 20 feet take 2d6 radiant damage and are blinded until your next turn, DC 15 Constitution save halves and negates."
+ },
+ {
+  "rune": "Swamp",
+  "stone": "Swampstone",
+  "realm": "Heaven",
+  "ds": "A soft, mottled green-brown stone slick with moss and smelling of rot, dredged from the drowned groves of Heaven's marshlands.",
+  "effect": "Once per short rest, turn a 20-foot square of ground within 60 feet into sucking mire for 1 minute. It is difficult terrain, and creatures entering must pass a DC 15 Strength save or be restrained."
+ },
+ {
+  "rune": "Sylph",
+  "stone": "Sylphstone",
+  "realm": "Mysterious",
+  "ds": "A nearly weightless, pale translucent stone that drifts slightly when dropped, found blown into high crags and cliffside nests in the Mysterious realm.",
+  "effect": "While equipped, you take no falling damage from 30 feet or less. Once per long rest, gain a flying speed of 30 feet for 1 minute and disengage as a bonus action."
+ },
+ {
+  "rune": "Symbiosis",
+  "stone": "Symbiosis Stone",
+  "realm": "Heaven",
+  "ds": "A green stone grown through with living roots and moss that never wither, found where vines and trees knot together in Heaven's gardens.",
+  "effect": "Once per short rest, bind yourself to a willing creature within 30 feet for 1 minute. Whenever either of you regains hit points, the other regains 1d6, and you share advantage on concentration saves."
+ },
+ {
+  "rune": "Symmetry",
+  "stone": "Symmetrystone",
+  "realm": "Mysterious",
+  "ds": "A perfectly mirrored crystal whose halves are identical down to every flaw, found split cleanly in two in the strange caves of the Mysterious realm.",
+  "effect": "Once per long rest, when a creature within 30 feet deals damage to you, it takes 1d6 force damage plus half the damage it dealt, DC 13 Constitution save for half."
+ },
+ {
+  "rune": "Take",
+  "stone": "Takestone",
+  "realm": "Primordial",
+  "ds": "A hungry dark violet stone with hooked ridges that seems to pull at nearby objects, found in the oldest grasping deeps of the Primordial realm.",
+  "effect": "Once per short rest, seize from a creature within 120 feet: steal one object it holds, or take 2d6 necrotic damage worth of life as temporary hit points, DC 27 Constitution save negates. Once per long rest, take one spell slot."
+ },
+ {
+  "rune": "Tame",
+  "stone": "Tamestone",
+  "realm": "Human",
+  "ds": "A smooth, warm brown pebble with a soft leather sheen, often found worn smooth along herding trails and stockyards in the Human realm.",
+  "effect": "Once per long rest, you can charm a Beast within 30 feet for 1 hour, DC 12 Wisdom save negates. While charmed, it obeys your simple commands."
+ },
+ {
+  "rune": "Taste",
+  "stone": "Tastestone",
+  "realm": "Inner Realm",
+  "ds": "A salt-white crystal with a faint tang on the tongue that changes with what is near it, mined from mineral springs in the Inner Realm.",
+  "effect": "While equipped, you automatically detect poisons, diseases, and potions by taste without harm. Once per short rest, you can sample a creature's blood to learn its type, resistances, and current hit points, and gain advantage on your next attack against it."
+ },
+ {
+  "rune": "Technology",
+  "stone": "Techstone",
+  "realm": "Human",
+  "ds": "A dull metallic grey stone etched with regular grooves like gears or circuitry, found in old mine workings and forges of the Human realm.",
+  "effect": "While equipped, you are proficient with tinker's tools and can repair a broken mundane device in 1 minute. Once per long rest, add 1d4 to a check to build, operate, or disable a mechanism."
+ },
+ {
+  "rune": "Telepathy",
+  "stone": "Telepathy Stone",
+  "realm": "Void",
+  "ds": "A soft lavender stone that whispers faint thoughts when held near the temple, found in the silent, thought-filled drift of the Void.",
+  "effect": "While equipped, you can speak telepathically with any creature within 1 mile. Once per short rest, read a creature's surface thoughts and deal 2d6 psychic damage, DC 23 Wisdom save negates both."
+ },
+ {
+  "rune": "Tempo",
+  "stone": "Tempostone",
+  "realm": "Mysterious",
+  "ds": "A banded stone whose faint pulse beats like a slow drum, found in caverns that echo with rhythm in the Mysterious realm.",
+  "effect": "Once per short rest, you set a tempo for 1 minute: your speed increases by 10 feet and you gain +1 to initiative and Dexterity saves while you keep moving each turn."
+ },
+ {
+  "rune": "Terraformation",
+  "stone": "Terraform Stone",
+  "realm": "Abyss",
+  "ds": "A layered stone banded with soil, sand, clay, and rock in shifting strata, found where whole Abyssal landscapes have been reshaped overnight.",
+  "effect": "Once per long rest, reshape terrain in a 100-foot square within 300 feet over 1 minute: raise or lower ground up to 30 feet, drain water, or create cover. Creatures caught take 1d6 bludgeoning, DC 18 Dexterity save negates."
+ },
+ {
+  "rune": "Theft",
+  "stone": "Theftstone",
+  "realm": "Heaven",
+  "ds": "A black stone with a sly silver glint that is never quite where you left it, found in hidden robbers' caches across Heaven.",
+  "effect": "Once per long rest, when you hit a creature, you can steal one magical effect on it or one known spell. You may use it once within 1 hour, DC 15 Wisdom save negates."
+ },
+ {
+  "rune": "Thinner",
+  "stone": "Thinstone",
+  "realm": "Chaos",
+  "ds": "A long, blade-thin sliver of grey stone that can slip through the narrowest cracks, found splintered in tight seams of the Chaos realm.",
+  "effect": "While equipped, you can squeeze through any gap 1 inch wide. Once per short rest, your weapon attack ignores armor and shields, reducing the target's AC by 4 for that attack and dealing an extra 1d6 piercing."
+ },
+ {
+  "rune": "Tide",
+  "stone": "Tidestone",
+  "realm": "Heaven",
+  "ds": "A sea-blue stone with silver crescent markings that rises and falls in weight with the moon, found on Heaven's tidal flats.",
+  "effect": "Once per short rest, send a tidal surge in a 30-foot line. Creatures take 2d6 bludgeoning damage and are pulled up to 15 feet toward or away from you, DC 15 Strength save halves and negates."
+ },
+ {
+  "rune": "Time",
+  "stone": "Hourstone",
+  "realm": "Abyss",
+  "ds": "A clear crystal holding tiny grains that drift upward then down, frozen and moving at once, found in still, silent pockets of the Abyss.",
+  "effect": "Once per long rest, take an extra action on your turn. Once per long rest, when a creature within 60 feet acts, you can act first with a single action, DC 18 Wisdom save or it loses that action."
+ },
+ {
+  "rune": "Time Duration",
+  "stone": "Time Duration Stone",
+  "realm": "Human",
+  "ds": "A smooth hourglass-shaped stone whose inner sand drifts slowly, found among old sundials and clock towers in the Human realm.",
+  "effect": "Once per long rest, extend one ongoing spell or effect on you by 1 minute, or shorten a harmful condition on you by 1 round."
+ },
+ {
+  "rune": "Touch",
+  "stone": "Touchstone",
+  "realm": "Abyss",
+  "ds": "A smooth, numbing black stone that feels like nothing at all when gripped, found in the dark, feeling-starved tunnels of the Abyss.",
+  "effect": "While equipped, you sense vibrations to 30 feet. Once per short rest, numb yourself for 1 minute: gain resistance to all damage and ignore pain-based conditions, but you have disadvantage on Dexterity checks."
+ },
+ {
+  "rune": "Trade",
+  "stone": "Tradestone",
+  "realm": "Hell",
+  "ds": "A copper and brass flecked stone stamped with faint scale-like marks, found in markets and trading posts built along the trade roads of Hell.",
+  "effect": "While equipped, you know the fair value of any item you hold. Once per short rest, strike a trade with a willing creature within 30 feet: swap one held item or 2d6 hit points, both receiving equal value."
+ },
+ {
+  "rune": "Tradition",
+  "stone": "Traditionstone",
+  "realm": "Heaven",
+  "ds": "A worn, ancestral grey stone carved with faded family marks, found buried beneath old hearths and shrines in Heaven.",
+  "effect": "While equipped, you have advantage on History checks about your culture. Once per long rest, call on ancestral practice to add 2d4 to an ability check or saving throw you are proficient in."
+ },
+ {
+  "rune": "Training",
+  "stone": "Trainingstone",
+  "realm": "Inner Realm",
+  "ds": "A scarred, chipped ore that toughens a little each time it is struck, found in the practice yards and dueling grounds of the Inner Realm.",
+  "effect": "While equipped, you gain proficiency in one weapon or skill of your choice after a long rest. Once per short rest, reroll a failed attack and add 1d6 to the new roll."
+ },
+ {
+  "rune": "Transformation",
+  "stone": "Transform Stone",
+  "realm": "Human",
+  "ds": "A shifting stone whose color and shape change slowly when unwatched, found in the restless soil of the Human realm.",
+  "effect": "Once per long rest, you can change your appearance or shift into a Small or Medium Beast for 1 minute, keeping your own hit points."
+ },
+ {
+  "rune": "Transmission",
+  "stone": "Transmission Stone",
+  "realm": "Heaven",
+  "ds": "A rainbow-banded crystal that flickers when another one nearby is touched, found at the edge of rainbows and signal towers in Heaven.",
+  "effect": "Once per short rest, when you cast a spell or use a Rune effect, you can transmit it to originate from a willing creature or object you can see within 120 feet."
+ },
+ {
+  "rune": "Transmutation",
+  "stone": "Transmute Stone",
+  "realm": "Inner Realm",
+  "ds": "A quicksilver-sheened stone that seems half metal and half crystal, found in the alchemists' deep labs of the Inner Realm.",
+  "effect": "Once per short rest, transmute a nonmagical object up to 10 cubic feet into another material for 1 hour. Once per long rest, turn a creature's flesh to stone, taking 4d6 damage, DC 18 Constitution save negates."
+ },
+ {
+  "rune": "Treasure",
+  "stone": "Treasurestone",
+  "realm": "Heaven",
+  "ds": "A glittering stone studded with tiny gold flecks and gem shards, found piled in hoards and dragon-sized vaults across Heaven.",
+  "effect": "While equipped, you sense precious metals and gems within 60 feet. Once per long rest, find a hidden cache or item worth 2d6 x 10 gold in your surroundings."
+ },
+ {
+  "rune": "Trial",
+  "stone": "Trialstone",
+  "realm": "Heaven",
+  "ds": "A dark grey stone marked with two crossed grooves like dueling blades, found in arenas and judgment halls of Heaven.",
+  "effect": "Once per long rest, challenge a creature within 60 feet to a trial for 1 minute. You deal an extra 1d6 damage to it, and it has disadvantage attacking anyone but you, DC 15 Wisdom save negates."
+ },
+ {
+  "rune": "Trust",
+  "stone": "Truststone",
+  "realm": "Human",
+  "ds": "A soft, clear white stone that glows faintly when two people hold it, often found in places where vows were spoken in the Human realm.",
+  "effect": "Once per long rest, bond with a willing creature for 1 hour. While within 30 feet, each of you gains +1 to saving throws."
+ },
+ {
+  "rune": "Truth",
+  "stone": "Truthstone",
+  "realm": "Heaven",
+  "ds": "A clear white crystal that dims when lies are spoken near it, mined from the judgment halls and sacred springs of Heaven.",
+  "effect": "While equipped, you know when a creature within 30 feet speaks a deliberate lie. Once per short rest, compel a creature to answer one question truthfully, DC 15 Wisdom save negates."
+ },
+ {
+  "rune": "Turn",
+  "stone": "Turnstone",
+  "realm": "Void",
+  "ds": "A round stone that slowly rotates on its own when set down, found spinning in place within the drifting fields of the Void.",
+  "effect": "Once per short rest, rotate a creature or object within 60 feet in place, turning it to face any direction and losing reactions until your next turn, DC 23 Strength save negates. Once per long rest, rotate a 30-foot area."
+ },
+ {
+  "rune": "Twist",
+  "stone": "Twiststone",
+  "realm": "Human",
+  "ds": "A corkscrewed, spiral stone with sharp edges that seems wrung like cloth, found in rocky ravines of the Human realm.",
+  "effect": "Once per long rest, when you hit a creature with a melee attack, twist your strike to deal an extra 1d4 bludgeoning damage, and the target drops one held item, DC 12 Strength save negates."
+ },
+ {
+  "rune": "Typhoon",
+  "stone": "Typhoonstone",
+  "realm": "Human",
+  "ds": "A grey-blue spiral stone constantly misted with sea spray, found on Human-realm coasts after the strongest storms.",
+  "effect": "Once per long rest, summon a 10-foot whirlwind of wind and water within 30 feet for 1 round. Creatures in it take 1d6 bludgeoning damage and are pushed 10 feet, DC 12 Strength save halves."
+ },
+ {
+  "rune": "Uncertain",
+  "stone": "Uncertain Stone",
+  "realm": "Inner Realm",
+  "ds": "A hazy, smoke-grey stone whose edges blur when looked at directly, found in shifting Inner Realm caves no map agrees on.",
+  "effect": "Once per short rest, when a roll is made within 60 feet whose result is not yet known, you force it to be rolled twice and choose either result."
+ },
+ {
+  "rune": "Undead Summoning",
+  "stone": "Undead Summoning Stone",
+  "realm": "Inner Void",
+  "ds": "A bone-white stone veined with dark green, cold and smelling of grave soil, found in the deepest crypt fields of the Inner Void.",
+  "effect": "Once per long rest, raise up to six corpses within 60 feet as undead servants for 1 hour, each keeping its former hit points. Once per short rest, raise one corpse for 10 minutes."
+ },
+ {
+  "rune": "Undine",
+  "stone": "Undinestone",
+  "realm": "Chaos",
+  "ds": "A clear blue stone that is always slightly damp and ripples like water, found in shifting springs and sea caves in the Chaos realm.",
+  "effect": "While equipped, you can breathe underwater and swim at your walking speed. Once per short rest, become liquid for 1 minute: resistance to nonmagical damage, slip through any gap, and pass through enemies."
+ },
+ {
+  "rune": "Unknown",
+  "stone": "Unknownstone",
+  "realm": "Human",
+  "ds": "A dark stone that shows nothing beneath its surface, found in places on the Human realm that defy any map or record.",
+  "effect": "Once per long rest, roll 1d4 when you would take damage. On a 4, you take none of it."
+ },
+ {
+  "rune": "Unlock",
+  "stone": "Unlockstone",
+  "realm": "Heaven",
+  "ds": "A brass-colored stone with small keyhole shaped hollows, found near opened vaults and broken gates in Heaven.",
+  "effect": "While equipped, you have advantage on checks to open locks. Once per short rest, unlock any nonmagical lock within 30 feet. Once per long rest, end a magical seal or binding effect."
+ },
+ {
+  "rune": "Unravel",
+  "stone": "Unravelstone",
+  "realm": "Outer Realm",
+  "ds": "A frayed, fibrous stone whose threads loosen when touched, found unwound and tangled in the far Outer Realm.",
+  "effect": "Once per short rest, unravel a spell or magical effect within 120 feet, ending it, DC 21 Wisdom save negates. Once per long rest, unravel a creature's combined spell, dealing 2d6 force damage."
+ },
+ {
+  "rune": "Vampire",
+  "stone": "Vampirestone",
+  "realm": "Chaos",
+  "ds": "A blood-red stone with a dark core that drinks light, found deep in the blood-soaked caverns of the Chaos realm.",
+  "effect": "When you hit with a melee attack, you can drain 1d6 necrotic damage and regain hit points equal to the damage. Once per short rest, the drain deals 3d6 instead."
+ },
+ {
+  "rune": "Verbal",
+  "stone": "Verbalstone",
+  "realm": "Outer Realm",
+  "ds": "A smooth grey stone that echoes faintly when spoken to, found in speaking halls and oracle caves of the Outer Realm.",
+  "effect": "While equipped, spells you cast with only verbal components cost no material components and cannot be counterspelled. Once per short rest, cast a spell of up to 3rd level as a bonus action."
+ },
+ {
+  "rune": "Vision",
+  "stone": "Visionstone",
+  "realm": "Heaven",
+  "ds": "A bright eye-shaped stone with a dark pupil-like center, found on high watchtowers and lookout peaks in Heaven.",
+  "effect": "While equipped, you see clearly to 300 feet and gain darkvision to 60 feet. Once per short rest, see through invisibility and illusions within 60 feet for 1 minute."
+ },
+ {
+  "rune": "Vortex",
+  "stone": "Vortexstone",
+  "realm": "Mysterious",
+  "ds": "A spiral-patterned grey stone that hums softly and stirs the air around it, found in the swirling winds of the Mysterious realm.",
+  "effect": "Once per short rest, create a 10-foot vortex within 60 feet for 1 round. Creatures in it take 1d6 bludgeoning damage and are pulled 10 feet toward its center, DC 13 Strength save halves."
+ },
+ {
+  "rune": "Voyage",
+  "stone": "Voyagestone",
+  "realm": "Heaven",
+  "ds": "A weathered, compass-veined stone that always tips slightly toward home, found along long roads and sea routes in Heaven.",
+  "effect": "While equipped, you never become lost and ignore exhaustion from travel. Once per long rest, you and up to six allies travel twice as far in a day without tiring."
+ },
+ {
+  "rune": "Wall",
+  "stone": "Wallstone",
+  "realm": "Hell",
+  "ds": "A heavy, square-cut grey stone with layered courses like a built wall, quarried from ancient ramparts in Hell.",
+  "effect": "Once per short rest, raise a wall of stone up to 30 feet long, 10 feet high, and 1 foot thick within 60 feet for 1 minute. It has AC 15 and 50 hit points."
+ },
+ {
+  "rune": "War",
+  "stone": "Warstone",
+  "realm": "Heaven",
+  "ds": "A battle-scarred stone the color of rust and dried blood, warm with the echo of clashing steel, found in ancient battlefields of Heaven.",
+  "effect": "While equipped, you gain +1 to initiative and attack rolls. Once per short rest, when you hit a creature, deal an extra 2d6 damage and grant allies within 30 feet advantage on their next attack."
+ },
+ {
+  "rune": "Waste",
+  "stone": "Wastestone",
+  "realm": "Primordial",
+  "ds": "A brittle, ashen stone that crumbles to dust when gripped, found in the dead, barren stretches of the Primordial realm.",
+  "effect": "Once per short rest, wither a 30-foot radius: creatures take 2d6 necrotic damage and cannot regain hit points until your next turn, DC 27 Constitution save halves. Once per long rest, the area stays barren for 1 hour."
+ },
+ {
+  "rune": "Water",
+  "stone": "Waterstone",
+  "realm": "Heaven",
+  "ds": "A clear blue stone that feels cool and slightly wet, found in springs, wells, and river sources in Heaven.",
+  "effect": "While equipped, you can breathe underwater and swim at your walking speed. Once per short rest, unleash a wave in a 30-foot cone, dealing 2d6 bludgeoning damage and knocking creatures prone, DC 15 Strength save halves."
+ },
+ {
+  "rune": "Wave",
+  "stone": "Wavestone",
+  "realm": "Heaven",
+  "ds": "A sea-green stone with rippled bands that ebb and flow in color, found along Heaven's shores and reefs.",
+  "effect": "Once per short rest, send a wave in a 30-foot line. Creatures take 2d6 bludgeoning damage and are pushed 10 feet, DC 15 Strength save halves and negates the push."
+ },
+ {
+  "rune": "Wealth",
+  "stone": "Wealthstone",
+  "realm": "Heaven",
+  "ds": "A heavy, gleaming gold-veined stone that feels rich in the hand, found in the treasuries and merchant halls of Heaven.",
+  "effect": "While equipped, merchants offer you 10 percent better prices. Once per long rest, spend gold to add +1 to an ability check or saving throw for every 50 gold spent, up to +5."
+ },
+ {
+  "rune": "Weave",
+  "stone": "Weavestone",
+  "realm": "Heaven",
+  "ds": "A fine, thread-veined stone woven through with colorful strands, found in sacred looms and spell halls of Heaven.",
+  "effect": "Once per long rest, when you cast a spell, you can weave a second spell of 2nd level or lower into it, casting both with one action."
+ },
+ {
+  "rune": "Wendigo",
+  "stone": "Wendigostone",
+  "realm": "Outer Realm",
+  "ds": "A pale, frostbitten stone with hollow pits that draws warmth from your hand, found in the starving frozen wastes of the Outer Realm.",
+  "effect": "When you reduce a creature to 0 hit points, regain 2d6 hit points and gain +1 to damage rolls for 1 hour, stacking up to +5. Once per long rest, devour a corpse to regain all hit points."
+ },
+ {
+  "rune": "Wet",
+  "stone": "Wetstone",
+  "realm": "Heaven",
+  "ds": "A dark blue stone always beaded with moisture, found in damp meadows and dew-covered fields of Heaven.",
+  "effect": "Once per short rest, soak a 20-foot area within 60 feet. Fires are extinguished, and creatures there have vulnerability to cold and lightning damage until your next turn, DC 15 Dexterity save negates."
+ },
+ {
+  "rune": "White",
+  "stone": "Whitestone",
+  "realm": "Hell",
+  "ds": "A pure white stone that stays clean of any stain and reflects every light, found in pale, bleached caverns of Hell.",
+  "effect": "While equipped, you have advantage on saves against being blinded. Once per short rest, flash white light in a 30-foot cone; creatures are blinded until your next turn, DC 15 Constitution save negates."
+ },
+ {
+  "rune": "Wider",
+  "stone": "Widestone",
+  "realm": "Inner Realm",
+  "ds": "A broad, flat slab of stone that seems to spread out when placed down, found across the wide plains of the Inner Realm.",
+  "effect": "Once per short rest, widen the area of one spell or Rune effect you use by 15 feet, or make one melee attack hit every creature within reach."
+ },
+ {
+  "rune": "Wisdom",
+  "stone": "Wisdomstone",
+  "realm": "Heaven",
+  "ds": "A deep blue stone with owl-eye flecks that calms the mind when held, found in temples and quiet libraries in Heaven.",
+  "effect": "While equipped, you gain +1 to Wisdom saving throws. Once per short rest, add 1d6 to an Insight, Perception, or Arcana check to read a Law or spell."
+ },
+ {
+  "rune": "Wish",
+  "stone": "Wishstone",
+  "realm": "Abyss",
+  "ds": "A shimmering, prismatic stone that never looks the same twice, found only by chance and never twice in the same place in the Abyss.",
+  "effect": "Once per long rest, make a small wish: reroll any one die rolled within 60 feet, or cast a spell of 3rd level or lower that you know without a slot. Roll 1d6; on a 1, the stone goes dormant for 1d4 days."
+ },
+ {
+  "rune": "Word",
+  "stone": "Wordstone",
+  "realm": "Heaven",
+  "ds": "A smooth grey stone with faint letters drifting under its surface, found in scriptoriums and poets' graves in Heaven.",
+  "effect": "Once per short rest, speak a word of power to a creature within 30 feet: it is frightened, charmed, or deafened until your next turn, DC 15 Wisdom save negates."
+ },
+ {
+  "rune": "World",
+  "stone": "Worldstone",
+  "realm": "Void",
+  "ds": "A heavy, layered stone holding tiny mountains, seas, and forests inside it, found in the deep foundations of the Void.",
+  "effect": "While equipped, you always know your location and direction. Once per long rest, reshape the land within 1 mile for 1 hour: raise mountains, form rivers, or level ground. Creatures caught take 4d6 bludgeoning, DC 25 Dexterity save halves."
+ },
+ {
+  "rune": "Worship",
+  "stone": "Worshipstone",
+  "realm": "Inner Void",
+  "ds": "A warm golden stone covered in faint prayer marks that glows brighter with devotion, found in ancient Inner Void temples.",
+  "effect": "Once per short rest, call on devotion: you and allies within 60 feet regain 3d6 hit points and gain advantage on saving throws for 1 minute. Once per long rest, restore a god's or ally's expended spell slots."
+ },
+ {
+  "rune": "Wraith",
+  "stone": "Wraithstone",
+  "realm": "Void",
+  "ds": "A translucent, smoke-grey stone that feels cold and partly intangible when held, found in empty Void chambers where spirits linger.",
+  "effect": "Once per short rest, become incorporeal for 1 minute: pass through objects, gain resistance to all nonmagical damage, and drain 2d6 necrotic damage with a touch, DC 23 Constitution save negates."
+ },
+ {
+  "rune": "Yang",
+  "stone": "Yangstone",
+  "realm": "Heaven",
+  "ds": "A bright white stone with a small dark dot near its center, warm and lively in the hand, found in sunlit Heaven fields.",
+  "effect": "Once per short rest, gain a surge of yang: add 1d6 radiant damage to your attacks and gain +10 feet speed for 1 minute. Doubled if a creature holding Yinstone is within 30 feet."
+ },
+ {
+  "rune": "Yin",
+  "stone": "Yinstone",
+  "realm": "Heaven",
+  "ds": "A dark black stone with a small white dot near its center, cool and still in the hand, found in shadowed Heaven groves.",
+  "effect": "Once per short rest, gain a wave of yin: regain 2d6 hit points and gain resistance to necrotic damage for 1 minute. Doubled if a creature holding Yangstone is within 30 feet."
+ },
+ {
+  "rune": "Youth",
+  "stone": "Youthstone",
+  "realm": "Heaven",
+  "ds": "A fresh green stone that seems newer each day, found growing among the orchards and springs of Heaven.",
+  "effect": "While equipped, you age at half the normal rate. Once per long rest, restore youth to a creature within 30 feet, removing 2 levels of exhaustion and restoring 2d6 hit points."
+ },
+ {
+  "rune": "Zephyrus",
+  "stone": "Zephyr Stone",
+  "realm": "Human",
+  "ds": "A warm, pale green stone that carries a soft summer breeze, found on gentle hills and meadows of the Human realm.",
+  "effect": "Once per long rest, call a warm west wind for 1 minute: your speed increases by 10 feet and ranged attacks against you have disadvantage."
+ },
+ {
+  "rune": "Zero",
+  "stone": "Zerostone",
+  "realm": "Outer Realm",
+  "ds": "A perfectly round, hollow black ring of stone with nothing at its center, found in empty spaces in the Outer Realm.",
+  "effect": "Once per short rest, reduce one number to zero: a creature's next damage roll, its speed until its next turn, or one bonus it applies, DC 21 Wisdom save negates."
+ },
+ {
+  "rune": "Zombie",
+  "stone": "Zombiestone",
+  "realm": "Mysterious",
+  "ds": "A greyish-green stone with rotting flesh-like texture and a faint smell of decay, found in shallow graves of the Mysterious realm.",
+  "effect": "Once per long rest, raise a corpse within 30 feet as a zombie servant for 1 hour. It obeys simple commands and has half its former hit points."
+ },
+ {
+  "rune": "knight",
+  "stone": "Knightstone",
+  "realm": "Abyss",
+  "ds": "A polished steel-grey stone marked with a crest-like pattern that gleams in battle, found in Abyssal fortresses where oaths were sworn.",
+  "effect": "While equipped, you gain +1 AC. Once per short rest, when an ally within 30 feet is hit, you can teleport to it and take the hit, reducing the damage by 3d6."
+ }
+]
