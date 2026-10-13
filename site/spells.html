@@ -557,10 +557,10 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   <div class="set" id="setBox"></div>
 </div>
 
-<script>const SITE={page:"spells",v:"96bce3d030"};</script>
-<script src="data/core.js?v=96bce3d030"></script>
-<script src="data/vault.js?v=96bce3d030"></script>
-<script src="data/spells.js?v=96bce3d030"></script>
+<script>const SITE={page:"spells",v:"c04b6c16a9"};</script>
+<script src="data/core.js?v=c04b6c16a9"></script>
+<script src="data/vault.js?v=c04b6c16a9"></script>
+<script src="data/spells.js?v=c04b6c16a9"></script>
 <script>
 'use strict';
 // ════════════════════════════════════════════════════════════════
@@ -2787,10 +2787,22 @@ function sheetHere(rn){const c=sheetChar();c.here=rn;saveParty();renderSheet()}
 // the character's hidden classes, copied onto the sheet when the DM grants them (so the player can read them without the
 // lock). A character can hold several; DM-only actions appear only with the list unlocked.
 const hcList=c=>Array.isArray(c.hcls)?c.hcls:c.hcls?[c.hcls]:[];
-function hcOneHTML(h,i,L){const hl=hcLevelAt(L,h.lv0),n=hcSteady(hl),p=n-(h.ga||0),pts=h.tier==='Epic'?4:h.tier==='Legendary'?5:0,hk=stageOf(hl),hname=h.n+(hk>1?' '+ROMAN[hk-1]:'');
+function hcOneHTML(h,i,L){const hl=hcLevelAt(L,h.lv0),n=hcSteady(hl),p=n-(h.ga||0),pts=h.tier==='Epic'?4:h.tier==='Legendary'?5:0,hk=stageOf(hl),hname=h.n+(hk>1?' '+ROMAN[hk-1]:'')+(h.ba?' · '+h.ba.n+(h.bb?' / '+h.bb.n:''):'');
   return `<div style="${i?'border-top:1px solid var(--line);margin-top:10px;padding-top:10px':''}"><div class="sh-row" style="gap:10px;flex-wrap:wrap;align-items:baseline"><b style="font-family:var(--serif);font-size:1.15rem">${esc(hname)}</b><span class="b">${esc(h.tier)}</span><span><b>Class level ${hl}</b> of ${HC_MAX}${hl<HC_MAX?` <small style="color:var(--muted)">(unlocked at level ${h.lv0}; one level each time you level up)</small>`:' <small style="color:var(--gold2)">(maxed)</small>'}</span>${HC?`<span style="margin-left:auto;cursor:pointer;color:var(--muted);font-size:.8rem" onclick="sheetHcRemove(${i})">remove (DM)</span>`:''}</div>
-    <div class="mlist" style="margin-top:6px">${h.track.map(([lv,nm,t])=>{const got=hl>=lv;return `<div class="sh-feat" style="padding:5px 0;${got?'':'opacity:.5'}"><b>Class level ${lv}: ${esc(nm)}</b>${got?'':' <small>(not yet)</small>'}<div>${esc(got&&!/^Class change/.test(nm)?hcScale(t,L,hl):t)}</div></div>`}).join('')}</div>
+    ${(()=>{const br=hcBranchRows(h,i,hl,L);return br.pick+`<div class="mlist" style="margin-top:6px">${h.track.map(([lv,nm,t])=>[lv,nm,t,'']).concat(br.rows).sort((x,y)=>x[0]-y[0]).map(([lv,nm,t,tag])=>{const got=hl>=lv;return `<div class="sh-feat" style="padding:5px 0;${got?'':'opacity:.5'}"><b>Class level ${lv}: ${esc(nm)}</b>${tag?` <span class="b ghost">${esc(tag)}</span>`:''}${got?'':' <small>(not yet)</small>'}<div>${esc(got&&!/^Class change/.test(nm)?hcScale(t,L,hl):t)}</div></div>`}).join('')}</div>`})()}
     <div class="note" style="margin:6px 0 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span><b>Steady Growth</b> ${h.grow?esc(growthText(h.grow)):pts+' points to spend'} at class levels 2, 4, 6–9, 11–14, 16–19 of every 20 · ${n} reached${p>0?` · <b style="color:var(--gold2)">${p} not yet ${h.grow?'added':'spent'}</b>`:''}</span>${p>0?`<button class="btn" type="button" onclick="sheetHcGrow(${i})">${h.grow?'Add '+esc(growthText(Object.fromEntries(Object.entries(h.grow).map(([k,v])=>[k,v*p])))):'Mark '+(pts*p)+' points spent'}</button>`:''}</div></div>`}
+// subclasses of a hidden class: pick 1 of 3 at class level 5, then 1 of its 3 at class level 15; the end path gains a
+// feature every 10 levels after. The pick is copied onto the character, so a shared sheet shows it without the list.
+const HC_BR=[5,15];
+const hcBranchesOf=h=>{const x=HC&&HC.find(y=>y.n===h.n);return x&&x.branches||null};
+function hcBranchRows(h,i,hl,L){const rows=[];if(h.ba)rows.push([HC_BR[0],h.ba.f[0],h.ba.f[1],h.ba.n]);if(h.bb){rows.push([HC_BR[1],h.bb.f[0],h.bb.f[1],h.bb.n]);(h.bb.later||[]).forEach(([lv,nm,t])=>rows.push([lv,nm,t,h.bb.n]))}
+  const B=hcBranchesOf(h),pick=(opts,lv)=>`<div class="callout" style="margin:6px 0;border-color:var(--gold)"><b>Class level ${lv}: choose a subclass</b>${opts?`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">${opts.map((o,k)=>`<button class="btn" type="button" title="${esc(o.d)}" onclick="sheetHcBranch(${i},${k})"><b>${esc(o.n)}</b></button>`).join('')}</div><div class="note" style="margin:4px 0 0">${opts.map(o=>`<b>${esc(o.n)}:</b> ${esc(o.d)}`).join('<br>')}</div>`:'<div class="note" style="margin:4px 0 0">Unlock the hidden class list on this device to see the choices.</div>'}</div>`;
+  let p='';if(hl>=HC_BR[0]&&!h.ba&&(B||!HC))p=pick(B,HC_BR[0]);
+  else if(hl>=HC_BR[1]&&h.ba&&!h.bb){const b=B&&B.find(b=>b.n===h.ba.n);if(b||!HC)p=pick(b&&b.kids,HC_BR[1])}
+  return {rows,pick:p}}
+function sheetHcBranch(i,k){if(!HC)return;const c=sheetChar(),list=hcList(c),h=list[i],B=h&&hcBranchesOf(h);if(!B)return;
+  const opts=!h.ba?B:(B.find(b=>b.n===h.ba.n)||{}).kids;const o=opts&&opts[k];if(!o||!confirm('Choose '+o.n+' for '+h.n+'? This cannot be changed.'))return;
+  if(!h.ba)h.ba={n:o.n,f:o.f};else h.bb={n:o.n,f:o.f,later:o.later};c.hcls=list;saveParty();hcLog(true,'chose '+o.n+' for '+h.n+' on '+(c.name||'a character'));renderSheet()}
 // a renamed class keeps its first name in 'was': a character who holds it under the old name gets the new one
 function hcRename(c){if(!HC)return;let ch=false;hcList(c).forEach(h=>{if(HC.some(x=>x.n===h.n))return;const x=HC.find(x=>x.was===h.n);if(x){h.n=x.n;ch=true}});if(ch){if(!Array.isArray(c.hcls))c.hcls=hcList(c);saveParty()}}
 function hcSheetHTML(c,L){hcRename(c);const list=hcList(c),names=list.map(h=>h.n);
@@ -3331,6 +3343,7 @@ function hcCard(c,open){
     <div class="note" style="margin:8px 0 0">A <b>bonus class</b>: held alongside the holder's own class and subclass. It starts at class level 1 when unlocked and gains a level each time its holder levels up, up to ${HC_MAX}, turning into II, III, IV and V every 20 class levels like every class.</div>
     ${(()=>{const L=store.get('hclv',0),k=stageOf(L);return L&&(bandOf(L)>1||k>1)?`<div class="note" style="margin:8px 0 0">For a level ${L} holder: dice ×${bandOf(L)}${k>1?`; limited-use features +${k-1} use${k>2?'s':''}`:''}.</div>`:''})()}
     <div class="tablewrap" style="margin-top:8px"><table class="t"><tbody>${hcTrack(c).map(([lv,n,t])=>{const L=store.get('hclv',0),sc=L?hcScale(t,L):t;return `<tr><td class="num" style="white-space:nowrap">Class Lv ${lv}</td><td><b>${esc(n)}</b>${lv===20?' <span class="b gold">evolution</span>':''}<br><span style="color:var(--text2)"${sc!==t?` title="${esc('As written: '+t)}"`:''}>${esc(sc)}</span>${sc!==t?` <small style="color:var(--gold2)">(holder level ${L})</small>`:''}</td></tr>`}).join('')}</tbody></table></div>
+    ${c.branches?`<details class="fold" style="margin-top:8px"><summary>Subclasses: choose 1 of ${c.branches.length} at class level ${HC_BR[0]}, then 1 of 3 at class level ${HC_BR[1]} (${c.branches.reduce((a,b)=>a+b.kids.length,0)} paths)</summary>${c.branches.map(b=>`<div style="margin-top:8px;padding-left:10px;border-left:2px solid var(--gold)"><b style="font-family:var(--serif)">${esc(b.n)}</b> <span class="note" style="margin:0">${esc(b.d)}</span><div style="margin:2px 0"><small><b>Class Lv ${HC_BR[0]}: ${esc(b.f[0])}</b></small> ${esc(b.f[1])}</div>${b.kids.map(k=>`<details class="fold" style="margin:4px 0 0 10px"><summary><b>${esc(k.n)}</b> <span class="note" style="margin:0">${esc(k.d)}</span></summary><div class="mlist">${[[HC_BR[1],k.f[0],k.f[1]],...k.later].map(([lv,nm,t])=>`<div style="padding:3px 0"><small><b>Class Lv ${lv}: ${esc(nm)}</b></small> ${esc(t)}</div>`).join('')}</div></details>`).join('')}</div>`).join('')}</details>`:''}
     ${(()=>{const ru=c.rune&&RUNE_IDX.get(lc(c.rune));return ru&&ru.gods.length?`<div class="callout" style="margin-top:8px;border-color:var(--gold)"><b>The ${esc(c.rune)} Rune has since been claimed</b> by ${ru.gods.map(g=>refChip(g,esc(godKey(g)))).join(' ')}. Whoever takes this class becomes ${ru.gods.length>1?'their':'that god\'s'} rival, and the Tower's top floor is now watched.</div>`:''})()}
     ${hcPartOf(c).length?`<div class="callout" style="margin-top:8px;border-color:${(HC_TIERS.find(t=>t[0]==='Legendary')||[])[2]||'var(--red)'}">✦ <b>Part of a Legendary class:</b> ${hcPartOf(c).map(x=>`<a href="#hc-${pid(x.n)}">${esc(x.n)}</a> (with ${x.combo.filter(n=>n!==c.n).map(esc).join(' and ')})`).join('; ')}.</div>`:''}
     ${c.tier==='Legendary'&&!c.combo?`<div class="note" style="margin:8px 0 0">✦ Besides its own Tower, this class's trial can wait in a secret room on any floor of any Tower whose level is ${hcReqLevel(c)} or more (${Math.round(LEG_TRIAL[0]*100)}% a floor, ${Math.round(LEG_TRIAL[1]*100)}% on boss floors), apart from the floor's mission; whoever finds the room and passes it earns the class.</div>`:''}
