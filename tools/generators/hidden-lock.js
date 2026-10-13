@@ -7,7 +7,7 @@ function lock(classes, code) {
   var key = crypto.pbkdf2Sync(code, salt, ROUNDS, 32, 'sha256');
   var c = crypto.createCipheriv('aes-256-gcm', key, iv), enc = Buffer.concat([c.update(plain), c.final(), c.getAuthTag()]);
   var counts = {}, byTower = {};
-  classes.forEach(function (x) { counts[x.tier] = (counts[x.tier] || 0) + 1; byTower[x.tower] = (byTower[x.tower] || 0) + 1; });
+  classes.forEach(function (x) { counts[x.tier] = (counts[x.tier] || 0) + 1; if (!x.corpse && !x.combo) byTower[x.tower] = (byTower[x.tower] || 0) + 1; }); // corpse and fusion classes wait in no Tower
   return { counts: counts, byTower: byTower, lock: { salt: salt.toString('base64'), iv: iv.toString('base64'), data: enc.toString('base64'), it: ROUNDS } };
 }
 function unlock(file, code) {
