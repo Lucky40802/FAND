@@ -557,9 +557,9 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   <div class="set" id="setBox"></div>
 </div>
 
-<script>const SITE={page:"bestiary",v:"96bce3d030"};</script>
-<script src="data/core.js?v=96bce3d030"></script>
-<script src="data/vault.js?v=96bce3d030"></script>
+<script>const SITE={page:"bestiary",v:"c04b6c16a9"};</script>
+<script src="data/core.js?v=c04b6c16a9"></script>
+<script src="data/vault.js?v=c04b6c16a9"></script>
 <script>
 'use strict';
 // ════════════════════════════════════════════════════════════════
@@ -2788,18 +2788,17 @@ function sheetHere(rn){const c=sheetChar();c.here=rn;saveParty();renderSheet()}
 const hcList=c=>Array.isArray(c.hcls)?c.hcls:c.hcls?[c.hcls]:[];
 function hcOneHTML(h,i,L){const hl=hcLevelAt(L,h.lv0),n=hcSteady(hl),p=n-(h.ga||0),pts=h.tier==='Epic'?4:h.tier==='Legendary'?5:0,hk=stageOf(hl),hname=h.n+(hk>1?' '+ROMAN[hk-1]:'')+(h.ba?' · '+h.ba.n+(h.bb?' / '+h.bb.n:''):'');
   return `<div style="${i?'border-top:1px solid var(--line);margin-top:10px;padding-top:10px':''}"><div class="sh-row" style="gap:10px;flex-wrap:wrap;align-items:baseline"><b style="font-family:var(--serif);font-size:1.15rem">${esc(hname)}</b><span class="b">${esc(h.tier)}</span><span><b>Class level ${hl}</b> of ${HC_MAX}${hl<HC_MAX?` <small style="color:var(--muted)">(unlocked at level ${h.lv0}; one level each time you level up)</small>`:' <small style="color:var(--gold2)">(maxed)</small>'}</span>${HC?`<span style="margin-left:auto;cursor:pointer;color:var(--muted);font-size:.8rem" onclick="sheetHcRemove(${i})">remove (DM)</span>`:''}</div>
-    <div class="mlist" style="margin-top:6px">${h.track.map(([lv,nm,t])=>{const got=hl>=lv;return `<div class="sh-feat" style="padding:5px 0;${got?'':'opacity:.5'}"><b>Class level ${lv}: ${esc(nm)}</b>${got?'':' <small>(not yet)</small>'}<div>${esc(got&&!/^Class change/.test(nm)?hcScale(t,L,hl):t)}</div></div>`}).join('')}${hcBranchRows(h,i,hl,L)}</div>
+    ${(()=>{const br=hcBranchRows(h,i,hl,L);return br.pick+`<div class="mlist" style="margin-top:6px">${h.track.map(([lv,nm,t])=>[lv,nm,t,'']).concat(br.rows).sort((x,y)=>x[0]-y[0]).map(([lv,nm,t,tag])=>{const got=hl>=lv;return `<div class="sh-feat" style="padding:5px 0;${got?'':'opacity:.5'}"><b>Class level ${lv}: ${esc(nm)}</b>${tag?` <span class="b ghost">${esc(tag)}</span>`:''}${got?'':' <small>(not yet)</small>'}<div>${esc(got&&!/^Class change/.test(nm)?hcScale(t,L,hl):t)}</div></div>`}).join('')}</div>`})()}
     <div class="note" style="margin:6px 0 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span><b>Steady Growth</b> ${h.grow?esc(growthText(h.grow)):pts+' points to spend'} at class levels 2, 4, 6–9, 11–14, 16–19 of every 20 · ${n} reached${p>0?` · <b style="color:var(--gold2)">${p} not yet ${h.grow?'added':'spent'}</b>`:''}</span>${p>0?`<button class="btn" type="button" onclick="sheetHcGrow(${i})">${h.grow?'Add '+esc(growthText(Object.fromEntries(Object.entries(h.grow).map(([k,v])=>[k,v*p])))):'Mark '+(pts*p)+' points spent'}</button>`:''}</div></div>`}
 // subclasses of a hidden class: pick 1 of 3 at class level 5, then 1 of its 3 at class level 15; the end path gains a
 // feature every 10 levels after. The pick is copied onto the character, so a shared sheet shows it without the list.
 const HC_BR=[5,15];
 const hcBranchesOf=h=>{const x=HC&&HC.find(y=>y.n===h.n);return x&&x.branches||null};
-function hcBranchRows(h,i,hl,L){const row=(lv,nm,t,tag)=>{const got=hl>=lv;return `<div class="sh-feat" style="padding:5px 0;${got?'':'opacity:.5'}"><b>Class level ${lv}: ${esc(nm)}</b> <span class="b ghost">${esc(tag)}</span>${got?'':' <small>(not yet)</small>'}<div>${esc(got?hcScale(t,L,hl):t)}</div></div>`};
-  let out='';if(h.ba)out+=row(HC_BR[0],h.ba.f[0],h.ba.f[1],h.ba.n);if(h.bb){out+=row(HC_BR[1],h.bb.f[0],h.bb.f[1],h.bb.n);out+=(h.bb.later||[]).map(([lv,nm,t])=>row(lv,nm,t,h.bb.n)).join('')}
+function hcBranchRows(h,i,hl,L){const rows=[];if(h.ba)rows.push([HC_BR[0],h.ba.f[0],h.ba.f[1],h.ba.n]);if(h.bb){rows.push([HC_BR[1],h.bb.f[0],h.bb.f[1],h.bb.n]);(h.bb.later||[]).forEach(([lv,nm,t])=>rows.push([lv,nm,t,h.bb.n]))}
   const B=hcBranchesOf(h),pick=(opts,lv)=>`<div class="callout" style="margin:6px 0;border-color:var(--gold)"><b>Class level ${lv}: choose a subclass</b>${opts?`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">${opts.map((o,k)=>`<button class="btn" type="button" title="${esc(o.d)}" onclick="sheetHcBranch(${i},${k})"><b>${esc(o.n)}</b></button>`).join('')}</div><div class="note" style="margin:4px 0 0">${opts.map(o=>`<b>${esc(o.n)}:</b> ${esc(o.d)}`).join('<br>')}</div>`:'<div class="note" style="margin:4px 0 0">Unlock the hidden class list on this device to see the choices.</div>'}</div>`;
-  if(hl>=HC_BR[0]&&!h.ba&&(B||!HC))out+=pick(B,HC_BR[0]);
-  else if(hl>=HC_BR[1]&&h.ba&&!h.bb){const b=B&&B.find(b=>b.n===h.ba.n);if(b||!HC)out+=pick(b&&b.kids,HC_BR[1])}
-  return out}
+  let p='';if(hl>=HC_BR[0]&&!h.ba&&(B||!HC))p=pick(B,HC_BR[0]);
+  else if(hl>=HC_BR[1]&&h.ba&&!h.bb){const b=B&&B.find(b=>b.n===h.ba.n);if(b||!HC)p=pick(b&&b.kids,HC_BR[1])}
+  return {rows,pick:p}}
 function sheetHcBranch(i,k){if(!HC)return;const c=sheetChar(),list=hcList(c),h=list[i],B=h&&hcBranchesOf(h);if(!B)return;
   const opts=!h.ba?B:(B.find(b=>b.n===h.ba.n)||{}).kids;const o=opts&&opts[k];if(!o||!confirm('Choose '+o.n+' for '+h.n+'? This cannot be changed.'))return;
   if(!h.ba)h.ba={n:o.n,f:o.f};else h.bb={n:o.n,f:o.f,later:o.later};c.hcls=list;saveParty();hcLog(true,'chose '+o.n+' for '+h.n+' on '+(c.name||'a character'));renderSheet()}
