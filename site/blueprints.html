@@ -557,9 +557,9 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   <div class="set" id="setBox"></div>
 </div>
 
-<script>const SITE={page:"blueprints",v:"c2b8fb6c92"};</script>
-<script src="data/core.js?v=c2b8fb6c92"></script>
-<script src="data/vault.js?v=c2b8fb6c92"></script>
+<script>const SITE={page:"blueprints",v:"96bce3d030"};</script>
+<script src="data/core.js?v=96bce3d030"></script>
+<script src="data/vault.js?v=96bce3d030"></script>
 <script>
 'use strict';
 // ════════════════════════════════════════════════════════════════
@@ -2790,7 +2790,9 @@ function hcOneHTML(h,i,L){const hl=hcLevelAt(L,h.lv0),n=hcSteady(hl),p=n-(h.ga||
   return `<div style="${i?'border-top:1px solid var(--line);margin-top:10px;padding-top:10px':''}"><div class="sh-row" style="gap:10px;flex-wrap:wrap;align-items:baseline"><b style="font-family:var(--serif);font-size:1.15rem">${esc(hname)}</b><span class="b">${esc(h.tier)}</span><span><b>Class level ${hl}</b> of ${HC_MAX}${hl<HC_MAX?` <small style="color:var(--muted)">(unlocked at level ${h.lv0}; one level each time you level up)</small>`:' <small style="color:var(--gold2)">(maxed)</small>'}</span>${HC?`<span style="margin-left:auto;cursor:pointer;color:var(--muted);font-size:.8rem" onclick="sheetHcRemove(${i})">remove (DM)</span>`:''}</div>
     <div class="mlist" style="margin-top:6px">${h.track.map(([lv,nm,t])=>{const got=hl>=lv;return `<div class="sh-feat" style="padding:5px 0;${got?'':'opacity:.5'}"><b>Class level ${lv}: ${esc(nm)}</b>${got?'':' <small>(not yet)</small>'}<div>${esc(got&&!/^Class change/.test(nm)?hcScale(t,L,hl):t)}</div></div>`}).join('')}</div>
     <div class="note" style="margin:6px 0 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span><b>Steady Growth</b> ${h.grow?esc(growthText(h.grow)):pts+' points to spend'} at class levels 2, 4, 6–9, 11–14, 16–19 of every 20 · ${n} reached${p>0?` · <b style="color:var(--gold2)">${p} not yet ${h.grow?'added':'spent'}</b>`:''}</span>${p>0?`<button class="btn" type="button" onclick="sheetHcGrow(${i})">${h.grow?'Add '+esc(growthText(Object.fromEntries(Object.entries(h.grow).map(([k,v])=>[k,v*p])))):'Mark '+(pts*p)+' points spent'}</button>`:''}</div></div>`}
-function hcSheetHTML(c,L){const list=hcList(c),names=list.map(h=>h.n);
+// a renamed class keeps its first name in 'was': a character who holds it under the old name gets the new one
+function hcRename(c){if(!HC)return;let ch=false;hcList(c).forEach(h=>{if(HC.some(x=>x.n===h.n))return;const x=HC.find(x=>x.was===h.n);if(x){h.n=x.n;ch=true}});if(ch){if(!Array.isArray(c.hcls))c.hcls=hcList(c);saveParty()}}
+function hcSheetHTML(c,L){hcRename(c);const list=hcList(c),names=list.map(h=>h.n);
   const fusable=HC?HC.filter(x=>x.combo&&x.combo.every(n=>names.includes(n))&&!names.includes(x.n)):[];
   return `${list.length?list.map((h,i)=>hcOneHTML(h,i,L)).join(''):'<div class="note" style="margin:0">None yet. Hidden classes are earned in the Towers; the DM grants them here.</div>'}
     ${fusable.map(x=>`<div class="callout" style="margin-top:10px;border-color:var(--red)">✦ <b>${esc(x.n)}</b> can be formed from ${x.combo.map(esc).join(' + ')}. <button class="btn primary" type="button" onclick="sheetHcFuse(${HC.indexOf(x)})">Fuse (DM)</button></div>`).join('')}
@@ -3294,12 +3296,12 @@ const hcInTower=c=>!c.corpse&&!c.combo;
 const hcPartOf=c=>(HC||[]).filter(x=>(x.combo||[]).includes(c.n));
 function hcTower(c){if(c._tw)return c._tw;const ts=towersIn(c.tower);if(!ts.length)return c._tw=c.tower;
   if(c.rune){const t=ts.find(t=>t.runes.some(r=>lc(r.n)===lc(c.rune)));if(t)return c._tw=t.id}
-  let h=0;for(const ch of c.n)h=(h*31+ch.charCodeAt(0))>>>0;return c._tw=ts[h%ts.length].id}
+  let h=0;for(const ch of (c.was||c.n))h=(h*31+ch.charCodeAt(0))>>>0;return c._tw=ts[h%ts.length].id}
 // sealed (still locked) hidden classes are counted per realm by the build; spread them evenly for a Tower's estimate
 const sealedIn=t=>{const n=(HIDDEN.byTower||{})[t.realm]||0,k=towersIn(t.realm).length;return Math.floor(n/k)+(t.i<n%k?1:0)}
 // Floors spread within each tier's band (Epic 40-60%, Unique 70-85%, Legendary 90-100% of the way up), fixed by the name
 const HC_BAND={Epic:[.4,.6],Unique:[.7,.85],Legendary:[.9,1]};
-function hcFloor(c){const t=towerOf(hcTower(c)),[a,b]=HC_BAND[c.tier]||[.5,.5];let h=0;for(const ch of c.n)h=(h*31+ch.charCodeAt(0))>>>0;return Math.max(1,Math.min(t.floors,Math.round(t.floors*(a+(b-a)*(h%1000)/999))))}
+function hcFloor(c){const t=towerOf(hcTower(c)),[a,b]=HC_BAND[c.tier]||[.5,.5];let h=0;for(const ch of (c.was||c.n))h=(h*31+ch.charCodeAt(0))>>>0;return Math.max(1,Math.min(t.floors,Math.round(t.floors*(a+(b-a)*(h%1000)/999))))}
 // Hidden classes scale like everything else (campaign owner's rule): their damage and healing dice multiply every 10
 // levels (×2 at 11 … ×10 at 91, as spells do), and at each class change (II at 21 … V at 81) the hidden class turns with
 // the character, its limited-use features gaining one more use per stage. The Hidden classes page shows every card at a
@@ -3337,7 +3339,7 @@ function hcCard(c,open){
 }
 async function renderHidden(){
   await hcAuto();
-  const st=Object.assign({tier:'',q:'',base:'',sub:'',tower:'',prog:'',shown:30},store.get('hc',{})),q=lc(st.q||''),ALL=HC||[],C=ALL.filter(c=>(!st.tier||c.tier===st.tier)&&(!st.base||c.base===st.base)&&(!st.sub||c.sub===st.sub)&&(!st.tower||c.tower===st.tower)&&(!st.prog||c.prog===st.prog)&&(!q||lc([c.n,c.base,c.sub,c.prog,c.rune,c.blurb,c.tower].join(' ')).includes(q)));
+  const st=Object.assign({tier:'',q:'',base:'',sub:'',tower:'',prog:'',shown:30},store.get('hc',{})),q=lc(st.q||''),ALL=HC||[],C=ALL.filter(c=>(!st.tier||c.tier===st.tier)&&(!st.base||c.base===st.base)&&(!st.sub||c.sub===st.sub)&&(!st.tower||c.tower===st.tower)&&(!st.prog||c.prog===st.prog)&&(!q||lc([c.n,c.was,c.base,c.sub,c.prog,c.rune,c.blurb,c.tower].join(' ')).includes(q)));
   $('content').innerHTML=`<div class="page">
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Hidden classes</h3><p>Beyond the basic classes are hidden classes. No one picks them at character creation: they are unlocked only through quests and by climbing the <a href="${pageUrl('towers')}" data-go="towers">Towers</a> that stand in every realm.</p></div>
     <div class="cols" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-bottom:14px">${HC_TIERS.map(([t,d,col])=>`<button class="panel" style="text-align:left;cursor:pointer;border-top:3px solid ${col};${st.tier===t?'background:var(--goldbg)':''}" data-hct="${t}"><b style="font-family:var(--serif);font-size:1.15rem;color:${col}">${t}</b> <span class="b ghost">${HC?HC.filter(c=>c.tier===t).length:(HIDDEN.counts||{})[t]||0}</span><div style="margin-top:4px;font-size:.88rem;color:var(--text2)">${esc(d)}</div></button>`).join('')}</div>
