@@ -1488,7 +1488,7 @@ const MODAL={
         +`<div class="prose">${esc(m.txt||m.ds)}</div>`
         +sbHTML(m)
         +`<div class="lore">${monsterLore(m).map(([h,t])=>`<h5>${esc(h)}</h5><p>${linkNames(esc(t),m)}</p>`).join('')}</div>`
-        +blk('Drops',drops+`<div class="note">×N is how many one corpse holds (${esc(m.sb&&m.sb.sz||'Medium')} body). Scavenging DC ${scavBase(m)}: meet it to take 1 part, +1 part for every 2 points above it; each new try on the same corpse adds ${SCAV_STEP} to the DC.</div>`,(m.drops||[]).length+' parts · '+(m.drops||[]).reduce((a,d)=>a+(d[2]||1),0)+' pieces per corpse')
+        +blk('Drops',drops+`<div class="note">×N is how many one corpse holds (${esc(m.sb&&m.sb.sz||'Medium')} body). Scavenging DC ${scavBase(m)}: meet it to take 1 part, +1 part for every 2 points above it; each new try on the same corpse adds ${SCAV_STEP} to the DC. These counts are for a whole corpse: the killing blow's damage type can ruin some parts (bludgeoning crushes bone, fire burns hide, poison taints organs).</div>`,(m.drops||[]).length+' parts · '+(m.drops||[]).reduce((a,d)=>a+(d[2]||1),0)+' pieces per corpse')
         +(sugg.length?blk('Suggested drops',`<div class="chips">${sugg.map(x=>matChip(x.n,x.gr)).join('')}</div><div class="note">This official monster's drops are listed on the ${esc(m.realm)} Bestiary page in the vault. These are same-realm materials near its grade, as a starting point.</div>`):'')
         +(realm?`<div><button class="btn" data-ref="${ref(realm)}">Open the ${esc(m.realm)} realm →</button></div>`:'')};
   },
@@ -1848,6 +1848,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-14','The killing blow shapes the corpse','How a creature dies now decides what can be scavenged from it. Bludgeoning crushes bone, shell, and eyes; slashing cuts up the hide and spills blood; piercing loses only some blood; fire burns the hide and melts the fat; acid eats the hide and eyes; lightning cooks the organs; thunder shatters bone; poison taints the organs, blood, and meat; necrotic rots the soft tissue; radiant burns essences; force tears a little of everything; psychic destroys only the brain; cold freezes the corpse so nothing is lost. The combat tracker remembers the damage type of the blow that dropped each monster.','combat'],
   ['2026-10-14','Mine shafts, habitats, and full corpses','The Tools page has a Mine shaft tool: dig up to 10 levels in any realm, search each level for hidden veins, mine them, and face the realm\'s own hazards and creatures. Every ore, gem, stone, plant, and essence now says where it forms or grows and how to collect it, with a Find DC that rises with its grade and realm. Every creature now lists every part of its body and how many one corpse holds. Scavenging: meet the DC for 1 part, 1 more for every 2 points above it, and each new try on the same corpse adds 5 to the DC (a Scavenge a corpse tool is on the Tools page too).','tools'],
   ['2026-10-12','Rune stones','Every Rune now has an ore where its power pools in the ground: Bloodstone, Firestone, Timestone and 467 more, found in the Rune\'s own realm and mined like any ore. Set into gear, each gives its Rune\'s effect. Each Rune\'s window names its ore, and the Materials page can filter them (category Rune Ore).','materials'],
   ['2026-10-12','Clear all party notes','The Party page has a Clear all notes button that empties every character\'s Notes box on the device in one go.','party'],
@@ -3670,7 +3671,32 @@ const SCAV_STEP=5;
 const gatherDC=m=>10+(m.g||1)+realmDC((REALM[m.realm]||{}).tier);
 const gatherHours=m=>{const h=(m.g||1)*((REALM[m.realm]||{}).tier||1);return h<24?h+' hour'+(h>1?'s':''):Math.round(h/8)+' days'};
 const scavMon=S=>S&&MON_IDX.get(lc(S.mon));
-const scavNew=m=>({mon:m.n,left:Object.fromEntries((m.drops||[]).map(d=>[d[0],d[2]||1])),tries:0,who:'',picks:0,basket:{},res:''});
+// The killing blow's damage type decides what is left of a corpse: each type keeps only a share of some kinds of part
+// (rounded at random, so a half share of 1 heart is a coin flip). Cold freezes the corpse: nothing is lost and the
+// soft parts no longer spoil on a natural 1.
+const PART_KIND=n=>{const w=n.split(' ').slice(-2).join(' '),x=findMat(n),c=x?matCode(x):'';
+  if(/Brain/.test(w))return 'brain';if(/Eye/.test(w))return 'eye';if(/Venom|Silk Gland|Ink Sac|Breath Gland|Brimstone Gland|Spore Sac/.test(w))return 'gland';
+  if(/Meat/.test(w))return 'meat';if(/\bFat|\bOil/.test(w))return 'fat';if(/Blood|Ichor|\bSap\b/.test(w))return 'blood';
+  if(/Hide|Pelt|Skin|Scale$|Feather|Down$|Hair|Membrane|Wing$|\bFin\b|Shroud|Bark|Leaf|Petal/.test(w))return 'cover';
+  if(/Bone|Skull|Shell|Carapace|Horn|Beak|Tooth|Fang|Tusk|Chitin|Plat|Shard|Gizzard|Heartscale|Claw|Talon|Hoof|Mandible|Stinger|Gear|Joint/.test(w))return 'hard';
+  return c==='E'?'essence':c==='L'?'organ':'other'};
+const KILL_FX={
+  Bludgeoning:['crushes bone, shell, and eyes',{hard:.5,eye:.5,organ:.75}],
+  Slashing:['cuts up the hide and spills the blood',{cover:.5,blood:.5}],
+  Piercing:['the cleanest weapon kill: only some blood is lost',{blood:.75}],
+  Fire:['burns the hide, melts the fat, and boils the blood (the meat comes out cooked)',{cover:.25,fat:0,blood:.5}],
+  Cold:['freezes the corpse: nothing is lost, and soft parts do not spoil on a natural 1',{}],
+  Acid:['eats the hide and the eyes and taints the blood',{cover:.5,eye:0,blood:.5}],
+  Lightning:['cooks the organs from inside and bursts the eyes',{organ:.5,brain:0,eye:.5}],
+  Thunder:['shatters bone and shell and bursts the eyes',{hard:.5,eye:0,organ:.75}],
+  Poison:['taints every organ, the blood, and the meat (venom glands survive)',{organ:0,blood:0,meat:0,brain:0,eye:.5}],
+  Necrotic:['rots the soft tissue',{organ:.5,blood:.5,meat:0,cover:.5,fat:.5}],
+  Radiant:['burns away essences and scorches the hide',{essence:.5,cover:.75}],
+  Force:['tears through everything a little',{hard:.75,cover:.75,organ:.75}],
+  Psychic:['leaves the body untouched but destroys the brain',{brain:0}]};
+const killShare=(n,kt)=>{const fx=KILL_FX[kt];if(!fx)return 1;const k=PART_KIND(n);return k in fx[1]?fx[1][k]:1};
+const scavNew=(m,kt)=>{const left={},lost={};(m.drops||[]).forEach(d=>{const q=d[2]||1,f=q*killShare(d[0],kt),keep=Math.min(q,Math.floor(f)+(Math.random()<f%1?1:0));left[d[0]]=keep;if(keep<q)lost[d[0]]=q-keep});
+  return {mon:m.n,kt:kt||'',left,lost,tries:0,who:'',picks:0,basket:{},res:''}};
 const scavBase=m=>10+(m.g||1)+realmDC((REALM[m.realm]||{}).tier);
 const scavDC=(m,S)=>scavBase(m)+SCAV_STEP*(S.tries||0);
 const scavTrained=(who,m)=>!!who&&lc(who.prof||'')==='scavenging'&&stageOf(+who.profLv||0)>=tierStage((REALM[m.realm]||{}).tier||1);
@@ -3684,16 +3710,19 @@ function scavHTML(k,title){const C=SCAV[k],S=C.get(),m=scavMon(S);if(!m)return '
   return `<div class="panel" style="border-color:var(--gold)"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="margin:0;font-size:1.15rem">🔪 ${title}</h4><span class="note" style="margin:0">Scavenging DC <b>${dc}</b> (10 + grade ${m.g}${realmDC(tier)?' + '+realmDC(tier)+' for the '+esc(m.realm):''}${S.tries?` + ${SCAV_STEP*S.tries} for ${S.tries} earlier ${S.tries>1?'tries':'try'}`:''}) · ${remain} part${remain===1?'':'s'} left</span><button class="btn" style="margin-left:auto" onclick="SCAV.${k}.close()">Close</button></div>
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0"><label class="note" style="margin:0">Scavenger <select class="sel" onchange="scavSet('${k}','who',this.value)"><option value="">Someone with no training (+0)</option>${PARTY.map(c=>`<option value="${c.id}"${c.id===S.who?' selected':''}>${esc(c.name||'Unnamed')}${lc(c.prof||'')==='scavenging'?` (Scavenging ${+c.profLv||0}, +${scavBonus(c)})`:' (+0, no Scavenging)'}</option>`).join('')}</select></label>
     <button class="btn primary" onclick="scavRoll('${k}')"${S.picks||!remain?' disabled':''}>🎲 Roll Scavenging</button>${!ok?`<span class="b gold">At disadvantage: no Scavenging profession, or below stage ${tierStage(tier)} (level ${stageStart(tierStage(tier))}+) for ${esc(m.realm)} corpses</span>`:''}</div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 8px"><label class="note" style="margin:0">Killed by <select class="sel" onchange="scavKill('${k}',this.value)"${S.tries?' disabled title="Set before the first roll"':''}><option value="">Unknown or none (whole corpse)</option>${Object.keys(KILL_FX).map(t=>`<option${t===S.kt?' selected':''}>${t}</option>`).join('')}</select></label>${S.kt&&KILL_FX[S.kt]?`<span class="note" style="margin:0">${esc(S.kt)} ${esc(KILL_FX[S.kt][0])}.</span>`:''}</div>
     ${S.res?`<div style="margin:6px 0">${S.res}</div>`:''}
     ${S.picks?`<div class="callout" style="border-color:var(--green)"><b>Choose ${S.picks} part${S.picks>1?'s':''}</b> (${inB} of ${S.picks} chosen)<div class="chips" style="margin-top:6px">${parts.filter(([n,q])=>q-(S.basket[n]||0)>0).map(([n,q])=>`<button class="chip" onclick="scavPick('${k}',${esc(JSON.stringify(n))},1)"${inB>=S.picks?' disabled':''}>+ ${esc(n)} <small>${q-(S.basket[n]||0)} left</small></button>`).join('')}</div>
       ${inB?`<div class="chips" style="margin-top:6px">${Object.entries(S.basket).filter(([,q])=>q).map(([n,q])=>`<button class="chip" style="border-color:var(--green)" onclick="scavPick('${k}',${esc(JSON.stringify(n))},-1)" title="Put back">${q}× ${esc(n)} ✕</button>`).join('')}</div>`:''}
       <div style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">${PARTY.length?`<select class="sel" id="scav-to-${k}">${PARTY.map(c=>`<option value="${c.id}"${c.id===S.who?' selected':''}>${esc(c.name||'Unnamed')}</option>`).join('')}</select>`:''}<button class="btn primary" onclick="scavTake('${k}')"${inB?'':' disabled'}>${PARTY.length?'Add to their materials':'Take them'}</button><button class="btn" onclick="scavSet('${k}','picks',0)">Leave the rest</button></div></div>`:''}
-    <div class="tablewrap" style="margin-top:8px"><table class="t"><thead><tr><th>Part</th><th>Kind</th><th class="num">Left</th><th class="num">Per corpse</th></tr></thead><tbody>${(m.drops||[]).map(d=>{const x=findMat(d[0]);return `<tr${S.left[d[0]]?'':' style="opacity:.45"'}><td>${x?`<a href="#" data-ref="${ref(x)}">${esc(d[0])}</a>`:esc(d[0])} <small style="color:var(--muted)">${esc(d[1])}</small></td><td>${scavSoft(d[0])?'soft':'hard'}</td><td class="num">${S.left[d[0]]||0}</td><td class="num">${d[2]||1}</td></tr>`}).join('')}</tbody></table></div>
-    <div class="note">Meet the DC to take 1 part; every 2 points above the DC takes 1 more. Each new try on this corpse adds ${SCAV_STEP} to the DC. A natural 1 spoils the soft parts (blood, organs, essences). Parts must be taken within a day of death.</div></div>`}
+    <div class="tablewrap" style="margin-top:8px"><table class="t"><thead><tr><th>Part</th><th>Kind</th><th class="num">Left</th><th class="num">Lost${S.kt?' to '+esc(S.kt):''}</th><th class="num">Per corpse</th></tr></thead><tbody>${(m.drops||[]).map(d=>{const x=findMat(d[0]),lo=(S.lost||{})[d[0]]||0;return `<tr${S.left[d[0]]?'':' style="opacity:.45"'}><td>${x?`<a href="#" data-ref="${ref(x)}">${esc(d[0])}</a>`:esc(d[0])} <small style="color:var(--muted)">${esc(d[1])}</small></td><td>${scavSoft(d[0])?'soft':'hard'}</td><td class="num">${S.left[d[0]]||0}</td><td class="num"${lo?' style="color:var(--red)"':''}>${lo?'−'+lo:''}</td><td class="num">${d[2]||1}</td></tr>`}).join('')}</tbody></table></div>
+    <div class="note">Meet the DC to take 1 part; every 2 points above the DC takes 1 more. Each new try on this corpse adds ${SCAV_STEP} to the DC. A natural 1 spoils the soft parts (blood, organs, essences). The killing blow's damage type decides what is left (bludgeoning crushes bone, slashing cuts the hide, fire burns it, poison taints the organs, cold keeps everything). Parts must be taken within a day of death.</div></div>`}
+function scavKill(k,kt){const C=SCAV[k],S=C.get(),m=scavMon(S);if(!m||S.tries)return;const N=scavNew(m,kt);N.who=S.who;C.set(N);C.render()}
 function scavSet(k,f,v){const C=SCAV[k],S=C.get();if(!S)return;S[f]=v;if(f==='picks'&&!v)S.basket={};C.set(S);C.render()}
 function scavRoll(k){const C=SCAV[k],S=C.get(),m=scavMon(S);if(!m||S.picks)return;const who=PARTY.find(c=>c.id===S.who),ok=scavTrained(who,m),b=scavBonus(who),dc=scavDC(m,S);
   const r1=1+Math.floor(Math.random()*20),r2=1+Math.floor(Math.random()*20),d=ok?r1:Math.min(r1,r2),tot=d+b,remain=Object.values(S.left).reduce((a,q)=>a+q,0);S.tries=(S.tries||0)+1;S.basket={};
-  let msg;if(d===1){Object.keys(S.left).forEach(n=>{if(scavSoft(n))S.left[n]=0});S.picks=0;msg='<span style="color:var(--red)">Natural 1: the soft parts (blood, organs, essences) spoil.</span>'}
+  let msg;if(d===1&&S.kt!=='Cold'){Object.keys(S.left).forEach(n=>{if(scavSoft(n))S.left[n]=0});S.picks=0;msg='<span style="color:var(--red)">Natural 1: the soft parts (blood, organs, essences) spoil.</span>'}
+  else if(d===1){S.picks=0;msg='<span style="color:var(--gold2)">Natural 1: nothing this time, but the frozen soft parts keep.</span>'}
   else{S.picks=Math.min(remain,scavPicks(tot,dc));msg=S.picks?`<span style="color:var(--green)">Success: ${S.picks} part${S.picks>1?'s':''}${tot>dc+1?` (${tot-dc} over the DC)`:''}.</span>`:'<span style="color:var(--gold2)">Failure: nothing comes away cleanly.</span>'}
   S.res=`<b>${d}${!ok?` <small>(${r1}, ${r2}, disadvantage)</small>`:''} + ${b} = ${tot}</b> vs DC ${dc}: ${msg} The next try is DC ${dc+SCAV_STEP}.`;C.set(S);C.render()}
 function scavPick(k,n,dq){const C=SCAV[k],S=C.get();if(!S||!S.picks)return;S.basket=S.basket||{};const inB=Object.values(S.basket).reduce((a,b)=>a+b,0),cur=S.basket[n]||0;
@@ -3703,7 +3732,7 @@ function scavTake(k){const C=SCAV[k],S=C.get();if(!S)return;const got=Object.ent
   got.forEach(([n,q])=>{S.left[n]=Math.max(0,(S.left[n]||0)-q)});S.picks=0;S.basket={};S.res+=`<div class="note" style="margin:4px 0 0">Taken: ${got.map(([n,q])=>q+'× '+esc(n)).join(', ')}${c?' → '+esc(c.name||'character'):''}.</div>`;C.set(S);toast(got.reduce((a,[,q])=>a+q,0)+' parts taken');C.render()}
 // combat tracker: the downed monster's corpse
 function harvestHTML(){const x=CB.harvest&&CB.list.find(y=>y.id===CB.harvest),m=x&&MON_IDX.get(lc(x.mon));if(!m)return '';CB.corpses=CB.corpses||{};
-  if(!CB.corpses[x.id]||CB.corpses[x.id].mon!==m.n){CB.corpses[x.id]=scavNew(m);saveCB()}return `<section class="sec">${scavHTML('cb','Scavenge the '+esc(x.name))}</section>`}
+  if(!CB.corpses[x.id]||CB.corpses[x.id].mon!==m.n){CB.corpses[x.id]=scavNew(m,x.kt);saveCB()}return `<section class="sec">${scavHTML('cb','Scavenge the '+esc(x.name))}</section>`}
 // Tools page: scavenge any monster's corpse
 function renderScavTool(){const el=$('sc-box');if(!el)return;const S=store.get('scav',null);
   el.innerHTML=S&&scavMon(S)?scavHTML('tool','Scavenge a '+esc(S.mon)+' corpse'):`<div class="form"><label class="full">Monster<input class="sel" id="sc-mon" list="sc-mons" placeholder="Type a monster's name…"></label><datalist id="sc-mons">${MONSTERS.map(m=>`<option value="${esc(m.n)}">${esc(m.realm+' '+m.g)}</option>`).join('')}</datalist><div style="display:flex;justify-content:flex-end"><button class="btn primary" id="sc-go">Lay out the corpse</button></div></div>`;
@@ -3816,7 +3845,7 @@ function renderCombat(){
       <button class="btn" onclick="cbAddParty()">+ Party</button>
       <button class="btn" onclick="pvOpen()" title="A view to show the players: turn order and how hurt everyone looks, no monster numbers">👁 Player view</button>
       <button class="btn" onclick="cbAddCustom()">+ Custom</button>
-      <label class="note" style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" id="cb-ac" ${CB.noAC?'':'checked'} onchange="CB.noAC=!this.checked;saveCB()"> Subtract AC from damage</label>
+      <label class="note" style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" id="cb-ac" ${CB.noAC?'':'checked'} onchange="CB.noAC=!this.checked;saveCB()"> Subtract AC from damage</label><label class="note" style="display:flex;gap:6px;align-items:center;margin:0">Damage type <select class="sel" style="padding:2px 6px" onchange="CB.dt=this.value;saveCB()"><option value="">—</option>${Object.keys(KILL_FX).map(t=>`<option${t===CB.dt?' selected':''}>${t}</option>`).join('')}</select></label>
       ${'wakeLock'in navigator?`<label class="note" style="display:flex;gap:6px;align-items:center;margin:0" title="Stops the phone or tablet from dimming and locking while this page is open"><input type="checkbox" id="cb-wake" ${store.get('wakelock',false)?'checked':''} onchange="store.set('wakelock',this.checked);wakeSync()"> Keep screen on</label>`:''}
       <button class="btn" onclick="if(confirm('Clear the combat?')){store.set('combat',{round:1,turn:0,list:[]});renderCombat()}">Clear</button>
     </div>
@@ -3835,7 +3864,7 @@ function renderCombat(){
   $('content').querySelectorAll('[data-cb]').forEach(el=>el.addEventListener('change',()=>{const x=CB.list.find(y=>y.id===el.dataset.cb);x[el.dataset.f]=+el.value||0;saveCB()}));
 }
 const cbFind=id=>CB.list.find(x=>x.id===id);
-function cbHit(id){const x=cbFind(id),d=Math.max(0,+$('dmg-'+id).value||0),taken=CB.noAC?d:acTaken(d,+x.ac||0);x.hp=Math.max(0,x.hp-taken);saveCB();toast(x.name+' takes '+taken+(CB.noAC||!x.ac?'':' ('+d+' − AC '+x.ac+')'));renderCombat()}
+function cbHit(id){const x=cbFind(id),d=Math.max(0,+$('dmg-'+id).value||0),taken=CB.noAC?d:acTaken(d,+x.ac||0);const was=x.hp;x.hp=Math.max(0,x.hp-taken);if(was>0&&!x.hp)x.kt=CB.dt||'';saveCB();toast(x.name+' takes '+taken+(CB.noAC||!x.ac?'':' ('+d+' − AC '+x.ac+')'));renderCombat()}
 function cbHeal(id){const x=cbFind(id),d=Math.max(0,+$('dmg-'+id).value||0);x.hp=Math.min(x.max,x.hp+d);saveCB();renderCombat()}
 function cbCond(id,c){if(!c)return;const x=cbFind(id);x.cond=x.cond.includes(c)?x.cond.filter(y=>y!==c):x.cond.concat(c);saveCB();renderCombat()}
 function cbRemove(id){const i=CB.list.findIndex(x=>x.id===id);CB.list.splice(i,1);if(CB.turn>=CB.list.length)CB.turn=0;saveCB();renderCombat()}
