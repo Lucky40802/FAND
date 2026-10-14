@@ -557,9 +557,9 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   <div class="set" id="setBox"></div>
 </div>
 
-<script>const SITE={page:"patrons",v:"c04b6c16a9"};</script>
-<script src="data/core.js?v=c04b6c16a9"></script>
-<script src="data/vault.js?v=c04b6c16a9"></script>
+<script>const SITE={page:"patrons",v:"7b46574c55"};</script>
+<script src="data/core.js?v=7b46574c55"></script>
+<script src="data/vault.js?v=7b46574c55"></script>
 <script>
 'use strict';
 // ════════════════════════════════════════════════════════════════
@@ -1481,17 +1481,18 @@ const MODAL={
         +(m.prop?`<div class="callout">✧ <b>Property: ${esc(m.pn)}</b>${m.pot?` · Potency ${m.pot}`:''}<div style="margin-top:4px">${esc(m.prop.replace(/^[^:]+:\s*/,''))}</div></div>`:m.supply?`<div class="callout">Supply: used up in crafting and gives no property.</div>`:'')
         +(alchOf(m)?`<div class="callout" style="border-color:var(--green)">🧪 <b>In alchemy:</b> ${esc(alchOf(m))}${m.alch?'':' <small style="color:var(--muted)">(from its trait)</small>'}</div>`:'')
         +(m.ds?`<div class="prose">${esc(m.ds)}</div>`:'')
-        +(m.gen?`<div class="note" style="margin:0">Harvest part generated in this app so every monster yields 6–10 materials. It isn't in the vault yet.</div>`:'')
+        +((m.hab||m.how)?blk('Gathering',`${kv([m.hab?['Habitat',esc(m.hab)]:null,m.how?['How to collect',esc(m.how)]:null,['Find it',`DC <b>${gatherDC(m)}</b> Harvesting check, about ${gatherHours(m)} of searching${m.shaft?'; also turns up in a '+esc(m.realm)+' mine shaft':''}`],['Collect',`Meet the DC to take 1, and 1 more for every 2 points above it; each new try at the same spot adds ${SCAV_STEP} to the DC`]].filter(Boolean))}<div class="note">The higher its grade and realm, the harder it is to find: DC 10 + grade ${m.g}${realmDC((REALM[m.realm]||{}).tier)?' + '+realmDC((REALM[m.realm]||{}).tier)+' for the '+esc(m.realm):''}. Without the Harvesting profession, or below the stage the realm needs, roll at disadvantage.</div>`):'')
+        +(m.gen?`<div class="note" style="margin:0">Harvest part generated in this app so every monster lists every part of its body. It isn't in the vault yet.</div>`:'')
         +(fx?blk('Weapon effect',`<div class="vcard mine"><span class="bn">${esc(fx.bonus)} · ${esc(fx.dt)} damage</span><div>${esc(fx.fx)}</div></div>${m.bonus&&m.bonus!=='+0'?`<div class="note">Listed bonus: ${esc(m.bonus)}</div>`:''}`):(m.bonus&&m.bonus!=='+0'?blk('Bonus',`<div class="prose" style="font-size:.9rem">${esc(m.bonus)}</div>`):''))
         +blk('Source',src?`<div style="font-size:.88rem;color:var(--text2)">${src}</div>`:'')
-        +blk('Dropped by',mons.length?`<div class="chips">${mons.map(x=>refChip(x,esc(x.n),x.realm+' '+x.g)).join('')}</div>`:'')
+        +blk('Dropped by',mons.length?`<div class="chips">${mons.map(x=>{const d=(x.drops||[]).find(d=>lc(d[0])===lc(m.n));return refChip(x,esc(x.n)+(d&&d[2]?' ×'+d[2]:''),x.realm+' '+x.g)}).join('')}</div>${mons.some(x=>(x.drops||[]).some(d=>lc(d[0])===lc(m.n)&&d[2]))?'<div class="note">×N: how many one corpse holds.</div>':''}`:'')
         +blk('Signature material of',gods.length?`<div class="chips">${gods.map(g=>refChip(g,esc(godKey(g)))).join('')}</div>`:'')
         +blk('Used in Blueprints',users.length?`<div class="chips">${users.slice(0,24).map(b=>refChip(b,esc(b.n),'Lv '+b.lv)).join('')}</div>${users.length>24?`<div style="margin-top:8px"><button class="btn" data-go="blueprints" data-setup='${esc(JSON.stringify({f:{mat:m.n}}))}'>See all ${fmt(users.length)} in Blueprints →</button></div>`:''}`:'',users.length?fmt(users.length):'')};
   },
   mon(m){
     const realm=REALM[m.realm];
     let drops='';
-    if(m.drops&&m.drops.length)drops=`<div class="mlist">${m.drops.map(([n,gr])=>{const x=findMat(n);return x?`<button data-ref="${ref(x)}"><span class="sw" style="width:9px;height:9px;border-radius:50%;background:${rcol(x.realm)}"></span>${esc(n)} <span class="x">${esc(gr)}${x.tr?' · ◆ '+esc(x.tr.n):x.pn?' · '+esc(x.pn):''}</span><span class="r">${x.price?gp(x.price):'not sold'}</span></button>`:`<button disabled>${esc(n)} <span class="x">${esc(gr)}</span></button>`}).join('')}</div>`;
+    if(m.drops&&m.drops.length)drops=`<div class="mlist">${m.drops.map(([n,gr,q])=>{const x=findMat(n);return x?`<button data-ref="${ref(x)}"><span class="sw" style="width:9px;height:9px;border-radius:50%;background:${rcol(x.realm)}"></span>${esc(n)} <b>×${q||1}</b> <span class="x">${esc(gr)}${x.tr?' · ◆ '+esc(x.tr.n):x.pn?' · '+esc(x.pn):''}</span><span class="r">${x.price?gp(x.price):'not sold'}</span></button>`:`<button disabled>${esc(n)} <span class="x">${esc(gr)}</span></button>`}).join('')}</div>`;
     const sugg=!drops?suggestDrops(m,4):[];
     return {title:esc(m.n),strip:rcol(m.realm),kind:(m.hb?'Homebrew monster':m.myth?m.myth+' mythology':'Official monster')+' · '+esc(m.realm)+' Bestiary',
       badges:`${realmB(m.realm+' '+m.g)}${m.cr?`<span class="b">CR ${esc(m.cr)}</span><span class="b ${m.myth?'blue':'ghost'}">${esc(m.myth?m.myth+' mythology':BOOKS[m.book]||m.book)}</span>`:'<span class="b gold">Homebrew</span>'}`,
@@ -1499,7 +1500,7 @@ const MODAL={
         +`<div class="prose">${esc(m.txt||m.ds)}</div>`
         +sbHTML(m)
         +`<div class="lore">${monsterLore(m).map(([h,t])=>`<h5>${esc(h)}</h5><p>${linkNames(esc(t),m)}</p>`).join('')}</div>`
-        +blk('Drops',drops,(m.drops||[]).length+' harvestable parts')
+        +blk('Drops',drops+`<div class="note">×N is how many one corpse holds (${esc(m.sb&&m.sb.sz||'Medium')} body). Scavenging DC ${scavBase(m)}: meet it to take 1 part, +1 part for every 2 points above it; each new try on the same corpse adds ${SCAV_STEP} to the DC.</div>`,(m.drops||[]).length+' parts · '+(m.drops||[]).reduce((a,d)=>a+(d[2]||1),0)+' pieces per corpse')
         +(sugg.length?blk('Suggested drops',`<div class="chips">${sugg.map(x=>matChip(x.n,x.gr)).join('')}</div><div class="note">This official monster's drops are listed on the ${esc(m.realm)} Bestiary page in the vault. These are same-realm materials near its grade, as a starting point.</div>`):'')
         +(realm?`<div><button class="btn" data-ref="${ref(realm)}">Open the ${esc(m.realm)} realm →</button></div>`:'')};
   },
@@ -1859,6 +1860,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-14','Mine shafts, habitats, and full corpses','The Tools page has a Mine shaft tool: dig up to 10 levels in any realm, search each level for hidden veins, mine them, and face the realm\'s own hazards and creatures. Every ore, gem, stone, plant, and essence now says where it forms or grows and how to collect it, with a Find DC that rises with its grade and realm. Every creature now lists every part of its body and how many one corpse holds. Scavenging: meet the DC for 1 part, 1 more for every 2 points above it, and each new try on the same corpse adds 5 to the DC (a Scavenge a corpse tool is on the Tools page too).','tools'],
   ['2026-10-12','Rune stones','Every Rune now has an ore where its power pools in the ground: Bloodstone, Firestone, Timestone and 467 more, found in the Rune\'s own realm and mined like any ore. Set into gear, each gives its Rune\'s effect. Each Rune\'s window names its ore, and the Materials page can filter them (category Rune Ore).','materials'],
   ['2026-10-12','Clear all party notes','The Party page has a Clear all notes button that empties every character\'s Notes box on the device in one go.','party'],
   ['2026-10-11','Share a character by link or QR code','The character sheet has a Share button: a QR code to scan with another phone, or a link to send. It opens FAND there and offers to add the character (or update the copy already there). The whole sheet travels inside the link; nothing is uploaded.','sheet'],
@@ -1948,7 +1950,7 @@ function renderAbout(){
     ['Professions','10 broad professions, absorbing the 31 old crafts as specialties.','professions'],
     ['Blueprints',`6,503 in the vault; ${fmt(BPS.length)} in this app.`,'blueprints'],
     ['Spells',`About 2,330 in the vault, all with classes; 73 converted to healing and support. ${META.counts.spells<10000?fmt(META.counts.spells)+' on this site, from the vault.':fmt(META.counts.spells)+' in this app\'s older list.'}`,'spells'],
-    ['Materials',`${fmt(MATS.filter(m=>!m.gen).length)} graded materials in the vault, each with a property, price, and its own note. This app adds ${fmt(MATS.filter(m=>m.gen).length)} harvest parts so every monster yields 6–10 materials (${fmt(MATS.length)} in all).`,'materials'],
+    ['Materials',`${fmt(MATS.filter(m=>!m.gen).length)} graded materials in the vault, each with a property, price, and its own note. This app adds ${fmt(MATS.filter(m=>m.gen).length)} harvest parts so every monster lists every part of its body, with how many one corpse holds (${fmt(MATS.length)} in all).`,'materials'],
     ['Monsters',`${MONSTERS.length-official} homebrew with full stats, plus ${official} official D&D monsters.`,'bestiary'],
     ['Realms',`${REALMS.length} realms in 10 tiers, each with lore, a Bestiary, and a Gathering page.`,'realms'],
     ['Gods',`${GODS.length} gods with Runes, realms, signature materials, and ${GODS.reduce((a,g)=>a+(g.hand||[]).length,0)} named Fingers.`,'gods'],
@@ -2389,6 +2391,10 @@ function renderTools(){
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><button class="btn primary" onclick="backupSave()">Download backup</button><label class="btn">Restore from file<input type="file" accept=".json,application/json" hidden onchange="backupLoad(this)"></label></div>
         <div class="note" style="margin-top:8px">The DM lock, its log, and the assistant key are never included.</div></div>
 
+      <div class="tool" id="t-mine"><h3>Mine shaft</h3><div class="sub">Dig a shaft in any realm. Each level is ${MINE_LEVEL_FT} ft deeper and rarer; search for veins, mine them, and mind the realm's hazards.</div><div id="mn-box"></div></div>
+
+      <div class="tool" id="t-scav"><h3>Scavenge a corpse</h3><div class="sub">Every part one corpse holds, and the Scavenging rolls to take them.</div><div id="sc-box"></div></div>
+
       <div class="tool" id="t-dmg"><h3>Damage vs. Armor Class</h3><div class="sub">AC is subtracted flat from each hit's damage; at least a quarter always gets through.</div>
         <div class="form"><label>Incoming damage<input type="number" id="d-dmg" value="24" min="0"></label><label>Target AC<input type="number" id="d-ac" value="10" min="0"></label></div>
         <div class="out"><div class="big" id="d-out"></div><div class="kv" id="d-kv"></div><div class="bar"><i id="d-bar"></i></div></div></div>
@@ -2448,6 +2454,7 @@ function renderTools(){
         <label style="align-self:end"><button class="btn" id="s-roll" type="button" style="width:100%">🎲 Restock</button></label></div>
         <div id="s-out" style="margin-top:10px"></div></div>
     </div></div>`;
+  renderMineTool();renderScavTool();
   const v=id=>$(id).value,n=id=>+$(id).value||0,on=(ids,f)=>{ids.forEach(i=>{$(i).addEventListener('input',f);$(i).addEventListener('change',f)});f()};
   const clampG=g=>Math.min(10,Math.max(1,Math.round(g||1)));
   sbToolBind();
@@ -3801,36 +3808,116 @@ function godWarsHTML(){
   <div class="tablewrap" style="margin-top:10px"><table class="t"><thead><tr><th>Front (Rune)</th><th>Claimants</th><th>Kind</th></tr></thead><tbody>${fronts.map(f=>{const ru=RUNE_IDX.get(lc(f.rn));return `<tr><td style="white-space:nowrap">${ru?`<a href="#" data-ref="${ref(ru)}">${esc(f.rn)}</a>`:esc(f.rn)}</td><td>${f.gs.map(g=>`<a href="#" data-ref="${ref(g)}">${esc(godKey(g))}</a> <small style="color:var(--muted)">${esc(g.grp.replace(' Pantheon',''))}</small>`).join(', ')}</td><td>${f.pans.length>1?'Between pantheons':'Inside the '+esc(f.pans[0].replace(' Pantheon',''))+' pantheon'}</td></tr>`}).join('')}</tbody></table></div>
   <p class="note">The vault lists the god wars as still to be written. This section only arranges what the vault already says (who holds which Rune); the battles themselves are yours to tell. <a href="${pageUrl('hooks')}" data-go="hooks">Roll a Rune-feud adventure hook →</a></p>`;
 }
-// Harvesting a downed monster with Scavenging (proposed rules: DC 10 + the monster's grade; hard parts survive a
-// failed check, soft parts and essences spoil; a natural 1 ruins everything). Parts go into a character's materials.
-function harvestHTML(){
-  const x=CB.harvest&&CB.list.find(y=>y.id===CB.harvest),m=x&&MON_IDX.get(lc(x.mon));if(!m)return '';
-  const hv=CB.hv||{},who=PARTY.find(c=>c.id===hv.who),dc=10+(m.g||1)+realmDC((REALM[m.realm]||{}).tier),lv=who?+who.profLv||0:0,scav=who&&lc(who.prof||'')==='scavenging'&&stageOf(lv)>=tierStage((REALM[m.realm]||{}).tier||1),bonus=scav?Math.floor(lv/2):0;
-  const parts=(m.drops||[]).map(d=>findMat(d[0])).filter(Boolean);
-  return `<section class="sec"><div class="panel" style="border-color:var(--gold)"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="margin:0;font-size:1.15rem">🔪 Harvest the ${esc(x.name)}</h4><span class="note" style="margin:0">Scavenging check DC ${dc} (10 + grade ${m.g}${realmDC((REALM[m.realm]||{}).tier)?' + '+realmDC((REALM[m.realm]||{}).tier)+' for the '+esc(m.realm):''}) · within a day of death</span><button class="btn" style="margin-left:auto" onclick="CB.harvest=null;CB.hv=null;saveCB();renderCombat()">Close</button></div>
-    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0"><label class="note" style="margin:0">Scavenger <select class="sel" id="hv-who"><option value="">Someone with no training (+0)</option>${PARTY.map(c=>`<option value="${c.id}"${c.id===hv.who?' selected':''}>${esc(c.name||'Unnamed')}${lc(c.prof||'')==='scavenging'?` (Scavenging ${+c.profLv||0}, +${Math.floor((+c.profLv||0)/2)})`:' (+0, no Scavenging)'}</option>`).join('')}</select></label>
-    <button class="btn primary" id="hv-roll">🎲 Roll Scavenging</button>${!scav?`<span class="b gold">At disadvantage without the Scavenging profession, or below its stage ${(REALM[m.realm]||{}).tier||1} (level ${stageStart((REALM[m.realm]||{}).tier||1)}+) for ${esc(m.realm)} parts</span>`:''}</div>
-    <div class="chips">${parts.map(p=>`<button class="chip" data-ref="${ref(p)}">${esc(p.n)} <small>${esc(p.gr)} · ${['B','F'].includes(matCode(p))?'hard':'soft'}</small></button>`).join('')}</div>
-    <div id="hv-res" style="margin-top:10px">${hv.res||''}</div>
-    <div class="note">Proposed rules: success takes every part; beat the DC by 10 or more and you get two of each hard part. A failure keeps only the hard parts (hide, bone, fang, scale); blood, organs, and essences spoil. A natural 1 ruins the corpse. Adjust as you like.</div></div></section>`;
-}
-function harvestRoll(){
-  const x=CB.list.find(y=>y.id===CB.harvest),m=x&&MON_IDX.get(lc(x.mon));if(!m)return;
-  const who=PARTY.find(c=>c.id===$('hv-who').value),scav=who&&lc(who.prof||'')==='scavenging'&&stageOf(+who.profLv||0)>=tierStage((REALM[m.realm]||{}).tier||1),bonus=who&&lc(who.prof||'')==='scavenging'?Math.floor((+who.profLv||0)/2):0,dc=10+(m.g||1)+realmDC((REALM[m.realm]||{}).tier);
-  const r1=1+Math.floor(Math.random()*20),r2=1+Math.floor(Math.random()*20),d=scav?r1:Math.min(r1,r2),tot=d+bonus;
-  const parts=(m.drops||[]).map(z=>findMat(z[0])).filter(Boolean),hard=p=>['B','F'].includes(matCode(p));
-  let got=[],msg;
-  if(d===1){msg='<span style="color:var(--red)">Natural 1: the corpse is ruined. Nothing can be taken.</span>'}
-  else if(tot>=dc){got=parts.map(p=>[p.n,tot>=dc+10&&hard(p)?2:1]);msg=`<span style="color:var(--green)">Success${tot>=dc+10?', with room to spare':''}.</span>`}
-  else{got=parts.filter(hard).map(p=>[p.n,1]);msg='<span style="color:var(--gold2)">Failure: the soft parts spoil; only the hard parts are kept.</span>'}
-  CB.hv={who:who?who.id:'',got,res:`<b>${d}${!scav?` <small>(${r1}, ${r2})</small>`:''} + ${bonus} = ${tot}</b> vs DC ${dc}: ${msg}${got.length?`<div class="chips" style="margin-top:6px">${got.map(([n,q])=>`<span class="chip">${q}× ${esc(n)}</span>`).join('')}</div>`:''}${got.length&&PARTY.length?`<div style="margin-top:8px;display:flex;gap:8px;align-items:center"><select class="sel" id="hv-to">${PARTY.map(c=>`<option value="${c.id}"${who&&c.id===who.id?' selected':''}>${esc(c.name||'Unnamed')}</option>`).join('')}</select><button class="btn primary" onclick="harvestTake()">Add to their materials</button></div>`:''}`};
-  saveCB();renderCombat();
-}
-function harvestTake(){
-  const c=PARTY.find(z=>z.id===$('hv-to').value),got=(CB.hv||{}).got||[];if(!c)return;
-  c.inv=c.inv||[];got.forEach(([n,q])=>{const r=c.inv.find(z=>lc(z[0])===lc(n));if(r)r[1]=(+r[1]||0)+q;else c.inv.push([n,q])});saveParty();
-  const x=CB.list.find(y=>y.id===CB.harvest);if(x)x.harvested=true;CB.list=CB.list.filter(y=>y.id!==CB.harvest);CB.harvest=null;CB.hv=null;saveCB();toast(got.length+' parts added to '+(c.name||'character'));renderCombat();
-}
+// Scavenging a corpse (campaign rules). DC = 10 + the monster's grade + 5 for each realm tier above Human. Meeting the DC
+// takes 1 part, and every 2 points above it takes 1 more. Each new try on a corpse that has already been scavenged adds
+// 5 to the DC. A corpse holds a set number of each part (by body plan and size), and what is taken is gone. A natural 1
+// spoils the soft parts (blood, organs, essences). Without the Scavenging profession, or below the stage the realm
+// needs, the roll is at disadvantage. The same panel serves the combat tracker and the Tools page.
+const SCAV_STEP=5;
+// gathering (ores, gems, stone, plants, essences): the same DC as a corpse of that grade and realm; search time grows with the grade
+const gatherDC=m=>10+(m.g||1)+realmDC((REALM[m.realm]||{}).tier);
+const gatherHours=m=>{const h=(m.g||1)*((REALM[m.realm]||{}).tier||1);return h<24?h+' hour'+(h>1?'s':''):Math.round(h/8)+' days'};
+const scavMon=S=>S&&MON_IDX.get(lc(S.mon));
+const scavNew=m=>({mon:m.n,left:Object.fromEntries((m.drops||[]).map(d=>[d[0],d[2]||1])),tries:0,who:'',picks:0,basket:{},res:''});
+const scavBase=m=>10+(m.g||1)+realmDC((REALM[m.realm]||{}).tier);
+const scavDC=(m,S)=>scavBase(m)+SCAV_STEP*(S.tries||0);
+const scavTrained=(who,m)=>!!who&&lc(who.prof||'')==='scavenging'&&stageOf(+who.profLv||0)>=tierStage((REALM[m.realm]||{}).tier||1);
+const scavBonus=who=>who&&lc(who.prof||'')==='scavenging'?Math.floor((+who.profLv||0)/2):0;
+const scavPicks=(tot,dc)=>tot<dc?0:1+Math.floor((tot-dc)/2);
+const scavSoft=n=>{const x=findMat(n);return !!x&&['L','E'].includes(matCode(x))};
+const SCAV={cb:{get:()=>CB.corpses&&CB.corpses[CB.harvest],set:S=>{CB.corpses=CB.corpses||{};CB.corpses[CB.harvest]=S;saveCB()},render:()=>renderCombat(),close:()=>{CB.harvest=null;saveCB();renderCombat()}},
+  tool:{get:()=>store.get('scav',null),set:S=>store.set('scav',S),render:()=>renderScavTool(),close:()=>{store.set('scav',null);renderScavTool()}}};
+function scavHTML(k,title){const C=SCAV[k],S=C.get(),m=scavMon(S);if(!m)return '';
+  const who=PARTY.find(c=>c.id===S.who),ok=scavTrained(who,m),dc=scavDC(m,S),parts=Object.entries(S.left),remain=parts.reduce((a,[,q])=>a+q,0),inB=Object.values(S.basket||{}).reduce((a,b)=>a+b,0),tier=(REALM[m.realm]||{}).tier||1;
+  return `<div class="panel" style="border-color:var(--gold)"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="margin:0;font-size:1.15rem">🔪 ${title}</h4><span class="note" style="margin:0">Scavenging DC <b>${dc}</b> (10 + grade ${m.g}${realmDC(tier)?' + '+realmDC(tier)+' for the '+esc(m.realm):''}${S.tries?` + ${SCAV_STEP*S.tries} for ${S.tries} earlier ${S.tries>1?'tries':'try'}`:''}) · ${remain} part${remain===1?'':'s'} left</span><button class="btn" style="margin-left:auto" onclick="SCAV.${k}.close()">Close</button></div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0"><label class="note" style="margin:0">Scavenger <select class="sel" onchange="scavSet('${k}','who',this.value)"><option value="">Someone with no training (+0)</option>${PARTY.map(c=>`<option value="${c.id}"${c.id===S.who?' selected':''}>${esc(c.name||'Unnamed')}${lc(c.prof||'')==='scavenging'?` (Scavenging ${+c.profLv||0}, +${scavBonus(c)})`:' (+0, no Scavenging)'}</option>`).join('')}</select></label>
+    <button class="btn primary" onclick="scavRoll('${k}')"${S.picks||!remain?' disabled':''}>🎲 Roll Scavenging</button>${!ok?`<span class="b gold">At disadvantage: no Scavenging profession, or below stage ${tierStage(tier)} (level ${stageStart(tierStage(tier))}+) for ${esc(m.realm)} corpses</span>`:''}</div>
+    ${S.res?`<div style="margin:6px 0">${S.res}</div>`:''}
+    ${S.picks?`<div class="callout" style="border-color:var(--green)"><b>Choose ${S.picks} part${S.picks>1?'s':''}</b> (${inB} of ${S.picks} chosen)<div class="chips" style="margin-top:6px">${parts.filter(([n,q])=>q-(S.basket[n]||0)>0).map(([n,q])=>`<button class="chip" onclick="scavPick('${k}',${esc(JSON.stringify(n))},1)"${inB>=S.picks?' disabled':''}>+ ${esc(n)} <small>${q-(S.basket[n]||0)} left</small></button>`).join('')}</div>
+      ${inB?`<div class="chips" style="margin-top:6px">${Object.entries(S.basket).filter(([,q])=>q).map(([n,q])=>`<button class="chip" style="border-color:var(--green)" onclick="scavPick('${k}',${esc(JSON.stringify(n))},-1)" title="Put back">${q}× ${esc(n)} ✕</button>`).join('')}</div>`:''}
+      <div style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">${PARTY.length?`<select class="sel" id="scav-to-${k}">${PARTY.map(c=>`<option value="${c.id}"${c.id===S.who?' selected':''}>${esc(c.name||'Unnamed')}</option>`).join('')}</select>`:''}<button class="btn primary" onclick="scavTake('${k}')"${inB?'':' disabled'}>${PARTY.length?'Add to their materials':'Take them'}</button><button class="btn" onclick="scavSet('${k}','picks',0)">Leave the rest</button></div></div>`:''}
+    <div class="tablewrap" style="margin-top:8px"><table class="t"><thead><tr><th>Part</th><th>Kind</th><th class="num">Left</th><th class="num">Per corpse</th></tr></thead><tbody>${(m.drops||[]).map(d=>{const x=findMat(d[0]);return `<tr${S.left[d[0]]?'':' style="opacity:.45"'}><td>${x?`<a href="#" data-ref="${ref(x)}">${esc(d[0])}</a>`:esc(d[0])} <small style="color:var(--muted)">${esc(d[1])}</small></td><td>${scavSoft(d[0])?'soft':'hard'}</td><td class="num">${S.left[d[0]]||0}</td><td class="num">${d[2]||1}</td></tr>`}).join('')}</tbody></table></div>
+    <div class="note">Meet the DC to take 1 part; every 2 points above the DC takes 1 more. Each new try on this corpse adds ${SCAV_STEP} to the DC. A natural 1 spoils the soft parts (blood, organs, essences). Parts must be taken within a day of death.</div></div>`}
+function scavSet(k,f,v){const C=SCAV[k],S=C.get();if(!S)return;S[f]=v;if(f==='picks'&&!v)S.basket={};C.set(S);C.render()}
+function scavRoll(k){const C=SCAV[k],S=C.get(),m=scavMon(S);if(!m||S.picks)return;const who=PARTY.find(c=>c.id===S.who),ok=scavTrained(who,m),b=scavBonus(who),dc=scavDC(m,S);
+  const r1=1+Math.floor(Math.random()*20),r2=1+Math.floor(Math.random()*20),d=ok?r1:Math.min(r1,r2),tot=d+b,remain=Object.values(S.left).reduce((a,q)=>a+q,0);S.tries=(S.tries||0)+1;S.basket={};
+  let msg;if(d===1){Object.keys(S.left).forEach(n=>{if(scavSoft(n))S.left[n]=0});S.picks=0;msg='<span style="color:var(--red)">Natural 1: the soft parts (blood, organs, essences) spoil.</span>'}
+  else{S.picks=Math.min(remain,scavPicks(tot,dc));msg=S.picks?`<span style="color:var(--green)">Success: ${S.picks} part${S.picks>1?'s':''}${tot>dc+1?` (${tot-dc} over the DC)`:''}.</span>`:'<span style="color:var(--gold2)">Failure: nothing comes away cleanly.</span>'}
+  S.res=`<b>${d}${!ok?` <small>(${r1}, ${r2}, disadvantage)</small>`:''} + ${b} = ${tot}</b> vs DC ${dc}: ${msg} The next try is DC ${dc+SCAV_STEP}.`;C.set(S);C.render()}
+function scavPick(k,n,dq){const C=SCAV[k],S=C.get();if(!S||!S.picks)return;S.basket=S.basket||{};const inB=Object.values(S.basket).reduce((a,b)=>a+b,0),cur=S.basket[n]||0;
+  if(dq>0&&(inB>=S.picks||cur>=(S.left[n]||0)))return;S.basket[n]=Math.max(0,cur+dq);C.set(S);C.render()}
+function scavTake(k){const C=SCAV[k],S=C.get();if(!S)return;const got=Object.entries(S.basket||{}).filter(([,q])=>q>0);if(!got.length)return;const to=$('scav-to-'+k),c=to&&PARTY.find(z=>z.id===to.value);
+  if(c){c.inv=c.inv||[];got.forEach(([n,q])=>{const r=c.inv.find(z=>lc(z[0])===lc(n));if(r)r[1]=(+r[1]||0)+q;else c.inv.push([n,q])});saveParty()}
+  got.forEach(([n,q])=>{S.left[n]=Math.max(0,(S.left[n]||0)-q)});S.picks=0;S.basket={};S.res+=`<div class="note" style="margin:4px 0 0">Taken: ${got.map(([n,q])=>q+'× '+esc(n)).join(', ')}${c?' → '+esc(c.name||'character'):''}.</div>`;C.set(S);toast(got.reduce((a,[,q])=>a+q,0)+' parts taken');C.render()}
+// combat tracker: the downed monster's corpse
+function harvestHTML(){const x=CB.harvest&&CB.list.find(y=>y.id===CB.harvest),m=x&&MON_IDX.get(lc(x.mon));if(!m)return '';CB.corpses=CB.corpses||{};
+  if(!CB.corpses[x.id]||CB.corpses[x.id].mon!==m.n){CB.corpses[x.id]=scavNew(m);saveCB()}return `<section class="sec">${scavHTML('cb','Scavenge the '+esc(x.name))}</section>`}
+// Tools page: scavenge any monster's corpse
+function renderScavTool(){const el=$('sc-box');if(!el)return;const S=store.get('scav',null);
+  el.innerHTML=S&&scavMon(S)?scavHTML('tool','Scavenge a '+esc(S.mon)+' corpse'):`<div class="form"><label class="full">Monster<input class="sel" id="sc-mon" list="sc-mons" placeholder="Type a monster's name…"></label><datalist id="sc-mons">${MONSTERS.map(m=>`<option value="${esc(m.n)}">${esc(m.realm+' '+m.g)}</option>`).join('')}</datalist><div style="display:flex;justify-content:flex-end"><button class="btn primary" id="sc-go">Lay out the corpse</button></div></div>`;
+  const go=$('sc-go');if(go)go.onclick=()=>{const m=MON_IDX.get(lc($('sc-mon').value.trim()));if(!m){toast('Pick a monster from the list');return}store.set('scav',scavNew(m));renderScavTool()}}
+// Mine shafts (Tools page): dig a shaft in a realm. Each level is 60 ft deeper and holds rarer ground: level L brings
+// up the realm's minerals of grade L-1 to L+1. Veins start hidden: a Harvesting search of the level finds every vein
+// whose Find DC (10 + grade + the realm's step) it meets, and each new search of the same level adds 5. Mining a
+// vein uses the same DC: meet it for 1 unit, 1 more for every 2 points above, until it is worked out. Deeper
+// levels bring more hazards and more of the realm's creatures.
+const MINE_REALM={
+  Human:{rock:'timbered tunnels through granite, shale and clay',air:'Lamps and candles; the air thins below 400 ft.',hz:[['Cave-in','Timbers groan and the roof comes down','Dexterity','4d10 bludgeoning, and buried until dug out'],['Bad air','A pocket of choking damp','Constitution','1 level of exhaustion'],['Flooding','An underground stream breaks through','Strength','swept 30 ft and the level floods for 1d4 days']]},
+  Mysterious:{rock:'glittering rock that rearranges its seams overnight',air:'Faint light from the stone itself; sounds echo wrongly.',hz:[['Shifting gallery','The tunnel quietly moves while you sleep','Wisdom','lost for 1d6 hours'],['Glamour seam','A vein that is not really there','Intelligence','a day of work wasted'],['Whisper pocket','Voices in the rock call names','Wisdom','frightened for 1 minute']]},
+  Hell:{rock:'black basalt veined with cooling brimstone',air:'Red heat from below; every breath tastes of sulphur.',hz:[['Brimstone vent','A seam splits and spits fire','Dexterity','6d6 fire'],['Chain-rock','The walls grow hooks and grip','Strength','restrained until freed (DC to escape as the save)'],['Sulphur cloud','Yellow smoke rolls down the shaft','Constitution','poisoned for 1 hour']]},
+  Heaven:{rock:'white marble and veins of solid light',air:'Never dark; the deeper you go, the brighter it shines.',hz:[['Blinding seam','A vein of pure light opens','Constitution','blinded for 1 hour'],['Choir echo','The stone sings a hymn that stops the heart','Wisdom','stunned for 1 round'],['Sacred ground','The rock refuses to be broken','Charisma','tools break; the level is closed for a day']]},
+  Chaos:{rock:'rock that changes colour, hardness and direction',air:'Gravity drifts; down is not always down.',hz:[['Gravity flip','Down becomes up for a minute','Dexterity','fall 4d6 bludgeoning'],['Wild seam','Raw chaos leaks out','Charisma','a random effect from the wild-magic table'],['Fold','The tunnel loops back into itself','Intelligence','lose 1d4 hours']]},
+  Abyss:{rock:'drowned stone under black water and pressure',air:'No light at all; the water presses harder every level.',hz:[['Pressure surge','The deep leans on you','Constitution','5d8 bludgeoning'],['Blackwater flood','The level fills from below','Strength','swept away and half-drowned'],['Lure light','A glow in the dark that is a mouth','Wisdom','charmed and walking towards it']]},
+  'Inner Realm':{rock:'bedrock of raw law, every stratum a rule',air:'The rules of the deep apply: speak only truth below 300 ft.',hz:[['Law seam','A layer that enforces a rule','Wisdom','bound by the rule for a day'],['Collapse of order','Laws contradict and the stone splits','Dexterity','8d6 force'],['Silence stratum','Sound is not allowed here','Constitution','deafened and unable to cast verbal spells for 1 hour']]},
+  'Outer Realm':{rock:'pale stone at the edge of everything, thin as paper in places',air:'Distances stretch; a ten-foot gallery can take an hour to cross.',hz:[['Thin rock','The wall opens onto the outside','Dexterity','fall into the space between (DM decides where)'],['Far echo','Something far away hears the digging','Wisdom','a creature of the realm arrives in 1d4 hours'],['Stretch','The tunnel grows longer behind you','Intelligence','a day lost']]},
+  Void:{rock:'stone that is mostly absence, mined by what is missing',air:'No air worth the name below 120 ft; bring your own.',hz:[['Null pocket','A space where nothing exists','Constitution','10d6 necrotic and lose one carried item'],['Unmaking','The rock stops existing around you','Dexterity','fall to the next level'],['Hush','Even thought goes quiet','Intelligence','stunned for 1 minute']]},
+  'Inner Void':{rock:'the hollow under the Void, where even absence wears thin',air:'Time slips; the shaft remembers you before you arrive.',hz:[['Echo of nothing','Your shadow mines against you','Wisdom','12d6 psychic'],['Time slip','You lose or gain a day','Charisma','1d4 days pass outside'],['Hollow fall','The floor was never there','Dexterity','fall two levels']]},
+  Primordial:{rock:'the first matter of creation, still soft and still deciding what to be',air:'The rock is alive with possibility; every swing changes it.',hz:[['Unformed surge','The stone tries to become something else','Constitution','14d6 force and one random condition'],['First flame','The fire that came before fire','Dexterity','14d6 fire, ignoring resistance'],['Waking deep','The rock notices you','Charisma','a primordial creature of the realm arrives']]}};
+const MINE_LEVEL_FT=60;
+const mineRng=seed=>{let h=2166136261;for(const ch of String(seed))h=Math.imul(h^ch.charCodeAt(0),16777619);return()=>{h=Math.imul(h^(h>>>15),2246822507);h=Math.imul(h^(h>>>13),3266489909);h^=h>>>16;return (h>>>0)/4294967296}};
+const mineMats=realm=>{const all=MATS.filter(m=>m.realm===realm&&!m.gen&&m.org==='Mineral');const sh=all.filter(m=>m.shaft);return sh.length?sh:all.filter(m=>/Ore|Gem|Stone|Metal/.test(m.ty||''))};
+function mineNew(realm,levels,seed){const R=mineRng(realm+'|'+levels+'|'+seed),pool=mineMats(realm),tier=(REALM[realm]||{}).tier||1,hz=(MINE_REALM[realm]||MINE_REALM.Human).hz;
+  const under=/insect|ooze|elemental|aberration|undead|construct/,mons=MONSTERS.filter(m=>m.realm===realm);
+  const L=[];for(let l=1;l<=levels;l++){const band=pool.filter(m=>Math.abs((m.g||1)-l)<=1),src=band.length?band:pool,nv=1+Math.floor(R()*3),veins=[];
+    for(let i=0;i<nv&&src.length;i++){const m=src[Math.floor(R()*src.length)];veins.push({n:m.n,units:Math.max(1,Math.round((2+R()*6)*(1-(m.g||1)/15))),found:false,tries:0})}
+    const hazard=R()<.15+.05*l?hz[Math.floor(R()*hz.length)][0]:null;
+    const mb=mons.filter(m=>Math.abs((m.g||1)-l)<=1),mu=mb.filter(m=>under.test(m.body||'')),mp=mu.length?mu:mb;
+    const mon=R()<.1+.04*l&&mp.length?mp[Math.floor(R()*mp.length)].n:null;
+    L.push({l,veins,hazard,mon,searches:0})}
+  return {realm,levels,seed,tier,L,who:'',log:[]}}
+const mineDC=(n)=>{const m=findMat(n);return m?gatherDC(m):10};
+const mineTrained=(who,realm)=>!!who&&lc(who.prof||'')==='harvesting'&&stageOf(+who.profLv||0)>=tierStage((REALM[realm]||{}).tier||1);
+const mineBonus=who=>who&&lc(who.prof||'')==='harvesting'?Math.floor((+who.profLv||0)/2):0;
+function mineRoll(S){const who=PARTY.find(c=>c.id===S.who),ok=mineTrained(who,S.realm),b=mineBonus(who),r1=1+Math.floor(Math.random()*20),r2=1+Math.floor(Math.random()*20),d=ok?r1:Math.min(r1,r2);return {d,tot:d+b,b,txt:`${d}${ok?'':` <small>(${r1}, ${r2}, disadvantage)</small>`} + ${b} = ${d+b}`}}
+function mineSearch(l){const S=store.get('mine',null);if(!S)return;const lv=S.L[l-1];if(!lv)return;const r=mineRoll(S),extra=SCAV_STEP*lv.searches;lv.searches++;
+  const hit=lv.veins.filter(v=>!v.found&&r.tot>=mineDC(v.n)+extra);hit.forEach(v=>v.found=true);
+  S.log.unshift(`Level ${l} search: <b>${r.txt}</b>${extra?` (veins need +${extra} for earlier searches)`:''}: ${hit.length?'found '+hit.map(v=>esc(v.n)).join(', '):'nothing new'}.`);store.set('mine',S);renderMineTool()}
+function mineDig(l,i){const S=store.get('mine',null);if(!S)return;const v=S.L[l-1]&&S.L[l-1].veins[i];if(!v||!v.found||!v.units)return;const r=mineRoll(S),dc=mineDC(v.n);v.tries++;
+  const n=Math.min(v.units,scavPicks(r.tot,dc)),who=PARTY.find(c=>c.id===S.who);v.units-=n;
+  if(n&&who){who.inv=who.inv||[];const row=who.inv.find(z=>lc(z[0])===lc(v.n));if(row)row[1]=(+row[1]||0)+n;else who.inv.push([v.n,n]);saveParty()}
+  S.log.unshift(`Level ${l}, ${esc(v.n)}: <b>${r.txt}</b> vs DC ${dc}: ${n?`<span style="color:var(--green)">${n} unit${n>1?'s':''}${who?' → '+esc(who.name||'character'):''}</span>`:'<span style="color:var(--gold2)">nothing</span>'}${v.units?'':' · the vein is worked out'}.`);store.set('mine',S);renderMineTool()}
+function mineSVG(S){const W=320,H=40+S.levels*44,hz=new Set();return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:420px;display:block;margin:6px auto" role="img" aria-label="Cross-section of the shaft">
+  <rect x="0" y="0" width="${W}" height="18" fill="${rcol(S.realm)}" opacity=".35"/><rect x="0" y="18" width="${W}" height="${H-18}" fill="var(--surf2)"/>
+  <rect x="24" y="10" width="14" height="${H-24}" fill="var(--bg)" stroke="var(--line)"/>
+  ${S.L.map(lv=>{const y=18+lv.l*44-14;return `<rect x="38" y="${y-6}" width="${W-60}" height="12" fill="var(--bg)" stroke="var(--line)"/><text x="4" y="${y+4}" font-size="10" fill="var(--muted)">${lv.l*MINE_LEVEL_FT}′</text>
+    ${lv.veins.map((v,i)=>`<circle cx="${70+i*70}" cy="${y}" r="7" fill="${v.found?(v.units?rcol((findMat(v.n)||{}).realm||S.realm):'var(--muted)'):'none'}" stroke="${v.found?'var(--text)':'var(--muted)'}" stroke-dasharray="${v.found?'':'2 2'}"><title>${v.found?esc(v.n)+' ('+v.units+' left)':'unfound vein'}</title></circle>`).join('')}
+    ${lv.hazard?`<text x="${W-30}" y="${y+4}" font-size="12">⚠</text>`:''}${lv.mon?`<text x="${W-16}" y="${y+4}" font-size="12">👁</text>`:''}`}).join('')}</svg>`}
+function renderMineTool(){const el=$('mn-box');if(!el)return;const S=store.get('mine',null);
+  const form=`<div class="form"><label>Realm<select id="mn-realm">${realmOpts(S?S.realm:'Human')}</select></label><label>Levels<input type="number" id="mn-lv" value="${S?S.levels:5}" min="1" max="10"></label><div style="display:flex;justify-content:flex-end;align-items:end"><button class="btn primary" id="mn-go">${S?'Dig a new shaft':'Dig a shaft'}</button></div></div>`;
+  if(!S){el.innerHTML=form;mineBind();return}const MR=MINE_REALM[S.realm]||MINE_REALM.Human,who=PARTY.find(c=>c.id===S.who),ok=mineTrained(who,S.realm);
+  el.innerHTML=form+`<div style="margin-top:10px"><b>${esc(S.realm)} shaft, ${S.levels} level${S.levels>1?'s':''} (${S.levels*MINE_LEVEL_FT} ft)</b><div class="note" style="margin:2px 0">${esc(MR.rock[0].toUpperCase()+MR.rock.slice(1))}. ${esc(MR.air)} Digging each level takes a crew of four ${2+S.tier} days.</div>
+    ${mineSVG(S)}
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0"><label class="note" style="margin:0">Miner <select class="sel" id="mn-who"><option value="">Someone with no training (+0)</option>${PARTY.map(c=>`<option value="${c.id}"${c.id===S.who?' selected':''}>${esc(c.name||'Unnamed')}${lc(c.prof||'')==='harvesting'?` (Harvesting ${+c.profLv||0}, +${mineBonus(c)})`:' (+0, no Harvesting)'}</option>`).join('')}</select></label>${!ok?`<span class="b gold">At disadvantage: no Harvesting profession, or below stage ${tierStage(S.tier)} for the ${esc(S.realm)}</span>`:''}</div>
+    ${S.L.map(lv=>{const g0=Math.max(1,lv.l-1),g1=Math.min(10,lv.l+1),hz=lv.hazard&&MR.hz.find(h=>h[0]===lv.hazard),m=lv.mon&&MON_IDX.get(lc(lv.mon)),hid=lv.veins.filter(v=>!v.found).length;
+      return `<div class="panel" style="margin-top:8px;padding:10px 12px"><div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b>Level ${lv.l}</b><span class="note" style="margin:0">${lv.l*MINE_LEVEL_FT} ft · grades ${g0}–${g1}${hid?` · ${hid} vein${hid>1?'s':''} not found yet`:''}</span><button class="btn" style="margin-left:auto" onclick="mineSearch(${lv.l})">🔍 Search${lv.searches?` (+${SCAV_STEP*lv.searches} DC)`:''}</button></div>
+        ${hz?`<div class="callout" style="border-color:var(--red);margin:6px 0">⚠ <b>${esc(hz[0])}</b>: ${esc(hz[1])}. ${esc(hz[2])} save DC ${10+realmDC(S.tier)+lv.l} or ${esc(hz[3])}.</div>`:''}
+        ${m?`<div class="note" style="margin:4px 0">👁 Something lives down here: ${refChip(m,esc(m.n),m.realm+' '+m.g)}</div>`:''}
+        ${lv.veins.some(v=>v.found)?`<div class="mlist" style="margin-top:4px">${lv.veins.map((v,i)=>{if(!v.found)return '';const x=findMat(v.n);return `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:3px 0">${x?refChip(x,esc(v.n),x.gr):esc(v.n)}<span class="note" style="margin:0">${v.units} unit${v.units===1?'':'s'} left · DC ${mineDC(v.n)} · about an hour a try</span><button class="btn" style="margin-left:auto" onclick="mineDig(${lv.l},${i})"${v.units?'':' disabled'}>⛏ Mine</button></div>`}).join('')}</div>`:''}</div>`}).join('')}
+    ${S.log.length?`<details class="fold" style="margin-top:8px" open><summary>Log</summary><div class="note" style="margin:4px 0">${S.log.slice(0,30).join('<br>')}</div></details>`:''}
+    <div class="note">Search a level to find its veins: each vein's Find DC is 10 + its grade + the realm's step, and each new search of the same level adds ${SCAV_STEP}. Mining a vein (about an hour a try): meet its DC for 1 unit, 1 more for every 2 points above, until the vein is worked out. With a miner picked, units go straight into their materials.</div></div>`;
+  mineBind()}
+function mineBind(){const go=$('mn-go');if(go)go.onclick=()=>{const S=store.get('mine',null);if(S&&S.log.length&&!confirm('Fill in this shaft and dig a new one?'))return;const lv=Math.max(1,Math.min(10,+$('mn-lv').value||5));store.set('mine',mineNew($('mn-realm').value,lv,Date.now()));renderMineTool()};
+  const w=$('mn-who');if(w)w.onchange=()=>{const S=store.get('mine',null);if(!S)return;S.who=w.value;store.set('mine',S);renderMineTool()}}
 // the installed app has no browser Back button: this one steps back (closing an open window first), or goes Home
 function appBack(){if(history.length>1)history.back();else go('home')}
 if(navigator.standalone)document.documentElement.classList.add('standalone');
@@ -3890,11 +3977,10 @@ function renderCombat(){
         <td style="min-width:130px"><b>${x.hp}</b> / ${x.max}<div class="bar" style="margin-top:4px"><i style="width:${pct}%;background:${pct>50?'var(--green)':pct>25?'var(--gold)':'var(--red)'}"></i></div></td>
         <td style="white-space:nowrap"><input type="number" min="0" id="dmg-${x.id}" placeholder="0" style="width:64px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px;color:var(--text)"> <button class="btn" onclick="cbHit('${x.id}')">Hit</button> <button class="btn" onclick="cbHeal('${x.id}')">Heal</button></td>
         <td><div class="chips">${x.cond.map(c=>`<button class="chip" onclick="cbCond('${x.id}','${c}')" title="Remove">${c} ✕</button>`).join('')}<select class="sel" style="padding:2px 6px;font-size:.75rem" onchange="cbCond('${x.id}',this.value)"><option value="">+ condition</option>${CONDITIONS.filter(c=>!x.cond.includes(c)).map(c=>`<option>${c}</option>`).join('')}</select></div></td>
-        <td style="white-space:nowrap">${down&&m&&(m.drops||[]).length?`<button class="btn" onclick="CB.harvest='${x.id}';saveCB();renderCombat()" title="Scavenge its parts">🔪 Harvest</button> `:''}<button class="btn" onclick="cbRemove('${x.id}')" title="Remove">✕</button></td></tr>`}).join(''):`<tr class="cb-empty"><td colspan="7"><div class="empty" style="padding:30px"><b>No combatants</b>Add monsters, the party, or send an encounter from the Encounter builder.</div></td></tr>`}
+        <td style="white-space:nowrap">${down&&m&&(m.drops||[]).length?`<button class="btn" onclick="CB.harvest='${x.id}';saveCB();renderCombat()" title="Scavenge its corpse">🔪 Scavenge</button> `:''}<button class="btn" onclick="cbRemove('${x.id}')" title="Remove">✕</button></td></tr>`}).join(''):`<tr class="cb-empty"><td colspan="7"><div class="empty" style="padding:30px"><b>No combatants</b>Add monsters, the party, or send an encounter from the Encounter builder.</div></td></tr>`}
     </tbody></table></div>
     <div class="note">Hit subtracts the target's AC from the damage, but at least a quarter of the damage (rounded up) always gets through. Untick “Subtract AC” for damage that ignores armor.</div>${harvestHTML()}</div>`;
   $('content').querySelectorAll('[data-cb]').forEach(el=>el.addEventListener('change',()=>{const x=CB.list.find(y=>y.id===el.dataset.cb);x[el.dataset.f]=+el.value||0;saveCB()}));
-  if($('hv-roll')){$('hv-roll').onclick=harvestRoll;$('hv-who').onchange=e=>{CB.hv=Object.assign(CB.hv||{},{who:e.target.value,res:'',got:[]});saveCB();renderCombat()}}
 }
 const cbFind=id=>CB.list.find(x=>x.id===id);
 function cbHit(id){const x=cbFind(id),d=Math.max(0,+$('dmg-'+id).value||0),taken=CB.noAC?d:acTaken(d,+x.ac||0);x.hp=Math.max(0,x.hp-taken);saveCB();toast(x.name+' takes '+taken+(CB.noAC||!x.ac?'':' ('+d+' − AC '+x.ac+')'));renderCombat()}

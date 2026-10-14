@@ -101,29 +101,55 @@ var P = {
   wingdust: ['Wing Dust', 'E', 0, 'Glamours, dreams, and illusions'],
   petal: ['Petal', 'W', -1, 'Perfumes and charms'],
   tusk: ['Tusk', 'B', 0, 'Daggers and spear tips'],
-  hoof: ['Hoof', 'B', -1, 'Glue, charms, and hammer heads']
+  hoof: ['Hoof', 'B', -1, 'Glue, charms, and hammer heads'],
+  meat: ['Meat', 'U', -2, 'Rations, stews, and feasts (Cooking)'],
+  liver: ['Liver', 'L', 0, 'Tonics, antidotes, and fortune rites'],
+  tongue: ['Tongue', 'L', 0, 'Charms of speech and truth-telling'],
+  wing: ['Wing', 'F', 0, 'Gliders, fans, and charms of flight']
 };
 
 var BODY = {
-  beast: ['hide', 'fang', 'claw', 'bone', 'heart', 'blood', 'eye', 'sinew', 'fat', 'marrow', 'skull'],
-  bird: ['feather', 'talon', 'beak', 'eye', 'heart', 'down', 'wingbone', 'blood', 'gizzard', 'sinew'],
-  reptile: ['scale', 'fang', 'claw', 'eye', 'heart', 'skin', 'bone', 'blood', 'venom', 'tail'],
-  dragon: ['scale', 'fang', 'claw', 'horn', 'wingm', 'heart', 'blood', 'eye', 'bone', 'breath', 'heartscale'],
-  insect: ['carapace', 'mandible', 'venom', 'silk', 'leg', 'ceye', 'chitin', 'stinger', 'ichor', 'heart'],
-  aquatic: ['scale', 'fin', 'fang', 'eye', 'bone', 'gill', 'oil', 'heart', 'ink', 'shell'],
-  aberration: ['eye', 'tentacle', 'brain', 'ichor', 'hide', 'membrane', 'ink', 'heart', 'fang', 'bone'],
-  undead: ['bone', 'dust', 'ecto', 'skull', 'marrow', 'soul', 'shroud', 'eye', 'tooth', 'heart'],
+  beast: ['hide', 'fang', 'claw', 'bone', 'heart', 'blood', 'eye', 'sinew', 'fat', 'marrow', 'skull', 'tooth', 'meat', 'liver', 'tongue'],
+  bird: ['feather', 'talon', 'beak', 'eye', 'heart', 'down', 'wingbone', 'blood', 'gizzard', 'sinew', 'bone', 'skull', 'meat', 'liver', 'fat'],
+  reptile: ['scale', 'fang', 'claw', 'eye', 'heart', 'skin', 'bone', 'blood', 'venom', 'tail', 'skull', 'sinew', 'meat', 'liver', 'fat', 'tongue'],
+  dragon: ['scale', 'fang', 'claw', 'horn', 'wingm', 'heart', 'blood', 'eye', 'bone', 'breath', 'heartscale', 'skull', 'tooth', 'sinew', 'marrow', 'fat', 'meat', 'tail', 'tongue'],
+  insect: ['carapace', 'mandible', 'venom', 'silk', 'leg', 'ceye', 'chitin', 'stinger', 'ichor', 'heart', 'wing', 'meat'],
+  aquatic: ['scale', 'fin', 'fang', 'eye', 'bone', 'gill', 'oil', 'heart', 'ink', 'shell', 'skin', 'meat', 'liver', 'tooth', 'fat'],
+  aberration: ['eye', 'tentacle', 'brain', 'ichor', 'hide', 'membrane', 'ink', 'heart', 'fang', 'bone', 'skull', 'tongue'],
+  undead: ['bone', 'dust', 'ecto', 'skull', 'marrow', 'soul', 'shroud', 'eye', 'tooth', 'heart', 'hair', 'sinew', 'skin'],
   construct: ['core', 'plate', 'gear', 'rune', 'joint', 'wire', 'shard', 'eye', 'heart', 'dust'],
   ooze: ['residue', 'nucleus', 'acid', 'membrane', 'slime', 'core', 'ichor', 'shard', 'mote', 'oil'],
   elemental: ['essence', 'core', 'heart', 'shard', 'mote', 'ash', 'eye', 'dust', 'rune', 'tear'],
-  fiend: ['horn', 'fiendhide', 'ichor', 'heart', 'claw', 'fang', 'eye', 'brim', 'bone', 'tail', 'soul'],
-  celestial: ['feather', 'ichor', 'halo', 'heart', 'eye', 'down', 'tear', 'bone', 'essence', 'hair'],
+  fiend: ['horn', 'fiendhide', 'ichor', 'heart', 'claw', 'fang', 'eye', 'brim', 'bone', 'tail', 'soul', 'blood', 'skull', 'sinew', 'marrow', 'tongue'],
+  celestial: ['feather', 'ichor', 'halo', 'heart', 'eye', 'down', 'tear', 'bone', 'essence', 'hair', 'skull', 'sinew', 'marrow', 'wingbone'],
   plant: ['bark', 'sap', 'seed', 'root', 'leaf', 'heartwood', 'spore', 'petal', 'core', 'ichor'],
-  giant: ['hide', 'bone', 'heart', 'blood', 'tooth', 'hair', 'eye', 'sinew', 'skull', 'marrow', 'fat'],
-  fey: ['wingdust', 'hair', 'eye', 'blood', 'heart', 'petal', 'tear', 'bone', 'essence', 'skin'],
-  humanoid: ['bone', 'blood', 'heart', 'hair', 'tooth', 'sinew', 'skull', 'eye', 'marrow', 'skin']
+  giant: ['hide', 'bone', 'heart', 'blood', 'tooth', 'hair', 'eye', 'sinew', 'skull', 'marrow', 'fat', 'liver', 'tongue'],
+  fey: ['wingdust', 'hair', 'eye', 'blood', 'heart', 'petal', 'tear', 'bone', 'essence', 'skin', 'sinew', 'wing'],
+  humanoid: ['bone', 'blood', 'heart', 'hair', 'tooth', 'sinew', 'skull', 'eye', 'marrow', 'skin', 'fat', 'liver']
 };
 
+// How many of each part one corpse gives, for a Medium body. Parts marked * are bulk: they scale with size
+// (Tiny x1/4, Small x1/2, Medium x1, Large x2, Huge x4, Gargantuan x8); the rest follow the body's anatomy.
+var YIELD = {
+  Hide: '1*', Pelt: '1*', Skin: '1*', Fang: 4, Claw: 4, Bone: '10*', Sinew: '4*', Heart: 1, Blood: '4*', Eye: 2, Fat: '3*', Marrow: '2*',
+  Skull: 1, Tooth: 12, Hair: '3*', Scale: '20*', Horn: 2, 'Wing Membrane': 2, 'Breath Gland': 1, Heartscale: 1, Feather: '12*', Talon: 4,
+  Beak: 1, Down: '4*', 'Gizzard Stone': 1, 'Wing Bone': 2, 'Venom Gland': 2, Tail: 1, Carapace: 1, Mandible: 2, Stinger: 1, 'Silk Gland': 1,
+  Leg: 6, 'Compound Eye': 2, 'Chitin Plate': '8*', Fin: 4, Gill: 2, 'Ink Sac': 1, Oil: '3*', Shell: 1, Tentacle: 4, Brain: 1, Ichor: '4*',
+  Membrane: '2*', 'Grave Dust': '3*', Ectoplasm: '2*', 'Soul Shard': 1, Shroud: 1, Core: 1, Plating: '6*', Gear: '8*', 'Rune Shard': 2, Joint: 4,
+  'Binding Wire': '4*', Residue: '4*', Nucleus: 1, Acid: '3*', Slime: '4*', Essence: '2*', Shard: '3*', Mote: '4*', Ash: '4*',
+  'Brimstone Gland': 1, 'Halo Shard': 1, Tear: 2, Bark: '4*', Sap: '3*', Seed: 2, Root: '4*', Leaf: '10*', Heartwood: 1, 'Spore Sac': '3*',
+  'Wing Dust': '2*', Petal: '8*', Tusk: 2, Hoof: 4, Meat: '4*', Liver: 1, Tongue: 1, Wing: 2
+};
+var SIZE = { Tiny: 0.25, Small: 0.5, Medium: 1, Large: 2, Huge: 4, Gargantuan: 8 };
+// qty(dropName, monsterName, size): the part is the drop's name after the monster's (or its last word)
+function qty(drop, mon, size) {
+  var part = drop.toLowerCase().indexOf(mon.toLowerCase() + ' ') === 0 ? drop.slice(mon.length + 1) : drop.split(' ').pop();
+  var key = Object.keys(YIELD).find(function (k) { return k.toLowerCase() === part.toLowerCase(); })
+    || Object.keys(YIELD).find(function (k) { return part.toLowerCase().split(' ').pop() === k.toLowerCase().split(' ').pop(); });
+  var y = key ? YIELD[key] : 1, bulk = typeof y === 'string';
+  var n = parseInt(y, 10) || 1;
+  return bulk ? Math.max(1, Math.round(n * (SIZE[size] || 1))) : n;
+}
 function hash(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
 // body plans for the mythological creatures in data/myth.js
 var NAMED = {
@@ -157,4 +183,4 @@ function parts(m) {
   var count = 6 + hash(m.n) % 5;
   return { kind: kind, count: count, parts: list.map(function (k) { return P[k]; }) };
 }
-module.exports = { parts: parts, plan: plan };
+module.exports = { parts: parts, plan: plan, qty: qty, YIELD: YIELD, SIZE: SIZE };

@@ -136,7 +136,7 @@ require(path.join(__dirname, '..', 'data', 'myth.js')).trim().split('\n').forEac
 D.MONSTERS.sort(function (a, b) { return a.n < b.n ? -1 : a.n > b.n ? 1 : 0; });
 log.push('mythological creatures: +' + mythAdded + ' (Bestiary now ' + D.MONSTERS.length + ')');
 
-// ---- harvest parts: every monster yields 6-10 materials (data/harvest.js). Generated parts are marked gen:1;
+// ---- harvest parts: every monster yields every part of its body plan (data/harvest.js). Generated parts are marked gen:1;
 // they exist only in this app, not in the vault. Rebuilt from scratch on every run.
 var HV = require(path.join(__dirname, '..', 'data', 'harvest.js')), PR = require(path.join(__dirname, '..', 'data', 'properties.js'));
 D.MATS = D.MATS.filter(function (m) { return !m.gen; });
@@ -147,7 +147,6 @@ D.MONSTERS.forEach(function (mon) {
   var have = (mon.drops || []).slice(), hp = HV.parts(mon);
   mon.body = hp.kind; kinds[hp.kind] = (kinds[hp.kind] || 0) + 1;
   hp.parts.forEach(function (p) {
-    if (have.length >= hp.count) return;
     var word = p[0].toLowerCase().split(' ').pop();
     if (have.some(function (d) { return d[0].toLowerCase().split(' ').pop() === word; })) return;
     var name = mon.n + ' ' + p[0], g = Math.max(1, Math.min(10, mon.g + p[2]));
@@ -303,6 +302,15 @@ log.push('material origins: ' + JSON.stringify(orgCount) + ', unique traits on '
   log.push('rune stones: +' + added + ' new ores, ' + joined + ' existing materials became Rune stones');
 })();
 
+// ---- habitats (data/habitat.json): where each gathered material forms or grows, how to collect it, and whether a
+// mine shaft can reach it. Written for every ore, gem, stone, plant, and essence that is not taken from a corpse.
+(function () {
+  var f = path.join(__dirname, '..', 'data', 'habitat.json'); if (!fs.existsSync(f)) return;
+  var H = JSON.parse(fs.readFileSync(f, 'utf8')), n = 0, sh = 0;
+  D.MATS.forEach(function (m) { var h = H[m.n]; if (!h) return; m.hab = h.hab; m.how = h.how; if (h.shaft) { m.shaft = 1; sh++; } n++; });
+  log.push('habitats: ' + n + ' materials (' + sh + ' found in mine shafts)');
+})();
+
 // ---- stat blocks (data/statblock.js): generated in the Monster Manual layout, not copied from any book
 var SB = require(path.join(__dirname, '..', 'data', 'statblock.js'));
 var matByName = {}; D.MATS.forEach(function (m) { matByName[m.n.toLowerCase()] = m; });
@@ -312,6 +320,9 @@ D.MONSTERS.forEach(function (mon) {
   mon.sb = SB.statblock(mon, mon.body, best);
 });
 log.push('stat blocks: ' + D.MONSTERS.filter(function (m) { return m.sb; }).length);
+// how many of each part one corpse gives (data/harvest.js YIELD, scaled by the stat block's size)
+D.MONSTERS.forEach(function (mon) { var sz = mon.sb && mon.sb.sz || 'Medium'; (mon.drops || []).forEach(function (d) { d[2] = HV.qty(d[0], mon.n, sz); }); });
+log.push('corpse yields: ' + D.MONSTERS.reduce(function (a, m) { return a + (m.drops || []).length; }, 0) + ' parts across ' + D.MONSTERS.length + ' monsters');
 
 
 // ---- gods: split the roster details into fields; drop vault index pages that slipped into the lists
