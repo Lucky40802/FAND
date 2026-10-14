@@ -1,0 +1,422 @@
+{
+  "Blacksmithing": [
+    {
+      "stage": 2,
+      "name": "Hellforger",
+      "blurb": "The smith learns to hold metal that burns, sings, or shifts on the anvil. Hell iron, Heaven silver, and Chaos alloys now answer the hammer.",
+      "trial": "Forge one blade that a devil and an angel both judge worthy, using metal from at least one of Hell, Heaven, or Chaos.",
+      "features": [
+        [21, "Brimstone Quench", "When you forge a weapon from Hell, Heaven, or Chaos metal, it deals an extra 1d6 fire, radiant, or force damage, matching its realm. Infernal Forging and Celestial Metallurgy rolls gain advantage."],
+        [31, "Twin Anvil", "You can work two weapon or armor projects at once, each taking three quarters of the normal time. Once per long rest, reroll a failed smithing check and keep the better result."]
+      ]
+    },
+    {
+      "stage": 3,
+      "name": "Deep Smith",
+      "blurb": "The smith works metal pulled from the Abyss and the Inner Realm, ores heavy with pressure and old hunger. Their armor bends blows that would split lesser steel.",
+      "trial": "Smelt a bar of Abyss ore in a furnace fed only by Inner Realm fuel, then forge it into armor that survives a full day in the Abyss.",
+      "features": [
+        [41, "Pressure Temper", "Armor you forge from Abyss or Inner Realm metal grants resistance to one damage type chosen at forging. Weapons you forge ignore resistance to their damage type once per short rest."],
+        [51, "Living Edge", "Once per long rest, spend 1 hour to repair any weapon or armor you made, even if destroyed, as long as half the pieces remain. Smithing time for Abyss metal is halved."]
+      ]
+    },
+    {
+      "stage": 4,
+      "name": "Void Smith",
+      "blurb": "The smith hammers metal from the Outer Realm and the Void, stuff that half exists until struck. Void Smithing becomes their daily trade rather than a risk.",
+      "trial": "Forge a weapon in the Void itself, with no light and no air, and bring it back with its edge intact.",
+      "features": [
+        [61, "Unbound Steel", "Weapons you forge from Void metal can strike creatures on the Ethereal Plane and ignore cover from walls up to 1 foot thick. Armor you forge from Outer Realm metal gives +1 AC."],
+        [71, "Hollow Forge", "You carry a portable forge folded into Void space and can smith anywhere, even underwater or in vacuum. Crafting time for any metal item is halved, and you add your profession bonus twice to Void Smithing checks."]
+      ]
+    },
+    {
+      "stage": 5,
+      "name": "World Smith",
+      "blurb": "The smith forges with metal from the Inner Void and the Primordial, the raw stuff the realms were cast from. Their best pieces are legends before they cool.",
+      "trial": "Gather metal from the Primordial and forge a single item that the elder smiths of three realms agree has no equal.",
+      "features": [
+        [81, "Primal Alloy", "Items you forge from Primordial metal gain one extra property slot and cannot be broken by nonmagical means. Weapons deal an extra 2d8 damage of a type you choose when forging."],
+        [91, "Maker's Mark", "Once per long rest, a creature wielding or wearing your work can turn a failed attack, save, or ability check into a success. Your forged armor can grant up to +2 AC from material."]
+      ]
+    }
+  ],
+  "Carving": [
+    {
+      "stage": 2,
+      "name": "Hellcarver",
+      "blurb": "The carver shapes horn, bone, and stone taken from Hell, Heaven, and Chaos. Their charms hum with the realm that made the raw piece.",
+      "trial": "Carve a ward from the bone or horn of a creature native to Hell, Heaven, or Chaos, and have it turn aside one hostile spell.",
+      "features": [
+        [21, "Realm Grain", "Charms you carve from Hell, Heaven, or Chaos materials grant their bearer resistance to fire, radiant, or psychic damage for 1 hour once per day. Bone Carving checks gain a +2 bonus."],
+        [31, "Quick Chisel", "Woodworking and Stonecutting projects take half the usual time. Once per long rest, carve a simple tool, totem, or charm in 10 minutes instead of hours."]
+      ]
+    },
+    {
+      "stage": 3,
+      "name": "Abyss Carver",
+      "blurb": "The carver works dragon parts, crystal, and stone hauled from the Abyss and the Inner Realm. Their figures seem to watch the room.",
+      "trial": "Shape an Inner Realm crystal into a lens that shows one hidden thing the party has been seeking.",
+      "features": [
+        [41, "Crystal Focus", "Crystal Shaping can make spellcasting focuses that add +1 to spell attack rolls and spell save DCs. Dragon Carving items from Abyss or Inner Realm dragons deal an extra 1d8 damage of the dragon's type."],
+        [51, "Tidebound Figure", "Using Tide Craft, carve a figurehead or totem that grants a vessel or camp advantage on saves against weather and water for 7 days. You may keep two such totems active."]
+      ]
+    },
+    {
+      "stage": 4,
+      "name": "Starcarver",
+      "blurb": "The carver cuts materials from the Outer Realm and the Void, bone that weighs nothing and stone that hums. Their tools leave edges sharper than any blade.",
+      "trial": "Carve a statue from Void stone that still stands one week after being left alone in the Void.",
+      "features": [
+        [61, "Weightless Bone", "Weapons and tools you carve from Outer Realm or Void bone weigh nothing and gain the finesse property. Bone Carving and Dragon Carving checks add your full profession level instead of half."],
+        [71, "Guardian Totem", "Once per long rest, spend 1 hour carving a totem that animates for 1 hour as a guardian with your profession level in hit points and AC 16, obeying simple commands."]
+      ]
+    },
+    {
+      "stage": 5,
+      "name": "Primal Carver",
+      "blurb": "The carver shapes Primordial crystal and Inner Void dragon remains, matter older than names. What they carve keeps the memory of what it once was.",
+      "trial": "Carve a relic from the remains of a Primordial beast and show it to a living kin of that beast without provoking its anger.",
+      "features": [
+        [81, "Echo of the Beast", "Items you carve from Primordial creature parts let the bearer use one of that creature's traits, such as darkvision, a swim speed, or a damage resistance, chosen when carved."],
+        [91, "Unending Craft", "Any item you carve from Inner Void or Primordial material repairs itself fully after a long rest. Once per long rest, one charm you made can reroll any one die roll for its bearer."]
+      ]
+    }
+  ],
+  "Tailoring": [
+    {
+      "stage": 2,
+      "name": "Hellweaver",
+      "blurb": "The tailor weaves thread spun in Hell, Heaven, and Chaos, and tans hides from their beasts. Their garments shrug off flame and judgment alike.",
+      "trial": "Stitch a cloak from Heaven silk and Hell leather in one seam, and wear it through a storm of fire without a scorch mark.",
+      "features": [
+        [21, "Ashproof Lining", "Garments and light armor you make from Hell or Heaven cloth grant resistance to fire or radiant damage. Arcane Tailoring checks gain a +2 bonus."],
+        [31, "Swift Needle", "Clothing and leather armor take half the usual time to make. Once per long rest, mend any garment or leather armor you made to full in 10 minutes."]
+      ]
+    },
+    {
+      "stage": 3,
+      "name": "Deep Weaver",
+      "blurb": "The tailor works Abyss shadow silk and Inner Realm hides, cloth that drinks light and leather that remembers its owner. Shadow Weaving becomes second nature.",
+      "trial": "Weave a cloak from Abyss shadow thread that hides its wearer from a creature of the Abyss for one full night.",
+      "features": [
+        [41, "Shadowcloth", "Cloaks you weave with Shadow Weaving give advantage on Stealth checks in dim light or darkness, and once per short rest let the wearer become invisible until the end of their next turn."],
+        [51, "Fitted Armor", "Leather and hide armor you make from Inner Realm hide gives +1 AC and imposes no disadvantage on Stealth. Arcane Tailoring can now hold two enchantments on one garment."]
+      ]
+    },
+    {
+      "stage": 4,
+      "name": "Void Tailor",
+      "blurb": "The tailor stitches cloth from the Outer Realm and the Void, fabric with more inside than out. Their pockets and packs hold far more than they should.",
+      "trial": "Sew a bag from Void cloth that holds a fully grown horse and still fits on a belt.",
+      "features": [
+        [61, "Deep Pockets", "Bags and packs you make from Void cloth hold ten times their normal capacity at one tenth the weight. Garments you make from Outer Realm cloth let the wearer breathe in any air or none for 1 hour per day."],
+        [71, "Wardrobe Shift", "Once per short rest, a garment you made can change its look, color, and style as a bonus action. Shadow Weaving and Arcane Tailoring checks add your full profession level."]
+      ]
+    },
+    {
+      "stage": 5,
+      "name": "World Weaver",
+      "blurb": "The tailor weaves thread from the Inner Void and the Primordial, the fibers that hold the realms together. Their best work fits any body and any fate.",
+      "trial": "Weave a mantle from Primordial thread for a ruler or champion who then wears it through a battle that decides a realm.",
+      "features": [
+        [81, "Primal Mantle", "Garments you make from Primordial cloth grant +2 AC when no other armor is worn and resistance to two damage types chosen at crafting."],
+        [91, "Thread of Fate", "Once per long rest, the wearer of a garment you made can turn a failed saving throw into a success. You can make cloth and leather items in one quarter of the usual time."]
+      ]
+    }
+  ],
+  "Alchemy": [
+    {
+      "stage": 2,
+      "name": "Hell Alchemist",
+      "blurb": "The alchemist brews with Hell sulfur, Heaven dew, and Chaos salts. Their potions burn, shine, or surprise, and sometimes all three.",
+      "trial": "Brew a potion from one Hell, one Heaven, and one Chaos reagent without it exploding, and drink it yourself.",
+      "features": [
+        [21, "Realm Distillation", "Healing potions you brew with Heaven reagents restore an extra 2d4 hit points. Poisons brewed with Hell reagents deal an extra 1d6 fire damage. Potionmaking checks gain a +2 bonus."],
+        [31, "Double Batch", "When you brew a potion or poison, make two doses instead of one using the same materials. Once per long rest, brew a common potion in 10 minutes."]
+      ]
+    },
+    {
+      "stage": 3,
+      "name": "Abyss Alchemist",
+      "blurb": "The alchemist draws reagents from the Abyss and the Inner Realm, and Blood Alchemy grows bold. Their concoctions rewrite a body for an hour at a time.",
+      "trial": "Brew a draught from the blood of an Abyss creature that grants its drinker one of that creature's traits for an hour.",
+      "features": [
+        [41, "Blood Draught", "Using Blood Alchemy, brew a potion from a creature's blood that grants darkvision, a climb speed, or resistance to one of its damage types for 1 hour. Save DC for your poisons rises by 2."],
+        [51, "Stable Mixture", "Potions you brew last until used instead of spoiling, and the drinker may choose to double the duration of any potion you made once per long rest."]
+      ]
+    },
+    {
+      "stage": 4,
+      "name": "Void Alchemist",
+      "blurb": "The alchemist brews with Outer Realm vapors and Void residue, liquids that pour upward or not at all. Their elixirs reach parts of a creature others cannot touch.",
+      "trial": "Distill a drop of pure Void residue and use it to cure a curse or affliction that no healer has broken.",
+      "features": [
+        [61, "Null Elixir", "Brew an elixir that ends one curse, disease, or poison on the drinker, or grants advantage on saves against a chosen condition for 8 hours. You can brew two per long rest."],
+        [71, "Volatile Flask", "Thrown flasks you make burst in a 15 foot radius and deal 6d6 damage of a type chosen when brewed, DC 10 plus your profession bonus Dexterity save for half."]
+      ]
+    },
+    {
+      "stage": 5,
+      "name": "Prime Alchemist",
+      "blurb": "The alchemist works Inner Void essence and Primordial blood, the first fluids of creation. Their greatest brews change a drinker for good.",
+      "trial": "Brew an elixir from Primordial blood that permanently changes a willing drinker, and keep them alive through the change.",
+      "features": [
+        [81, "First Blood Elixir", "Once per month, brew an elixir that permanently raises one ability score of the drinker by 1, to a maximum of 22. A creature can benefit from this only once."],
+        [91, "Perfect Measure", "Any potion you brew has its numeric effects maximized instead of rolled, and its duration doubled. Blood Alchemy and Potionmaking checks add your full profession level."]
+      ]
+    }
+  ],
+  "Cooking": [
+    {
+      "stage": 2,
+      "name": "Hellfire Cook",
+      "blurb": "The cook roasts over Hell coals, bakes with Heaven grain, and seasons with Chaos spice. Their meals give heat, hope, or surprise.",
+      "trial": "Cook a feast with one dish from each of Hell, Heaven, and Chaos, and serve it to guests from at least two of those realms.",
+      "features": [
+        [21, "Realm Seasoning", "Meals made with Hell, Heaven, or Chaos ingredients grant resistance to fire, radiant, or psychic damage for 4 hours. Spirit Cooking checks gain a +2 bonus."],
+        [31, "Banquet Table", "A single meal you cook feeds up to twelve creatures, and its buff lasts 8 hours instead of 4. Rations you make never spoil."]
+      ]
+    },
+    {
+      "stage": 3,
+      "name": "Deep Cook",
+      "blurb": "The cook prepares beasts and roots from the Abyss and the Inner Realm, food that would poison anyone less skilled. Their spirit feasts wake old strength in diners.",
+      "trial": "Cook the flesh of an Abyss beast so that it is safe to eat, and serve it to a party that then wins a battle that day.",
+      "features": [
+        [41, "Spirit Feast", "Using Spirit Cooking, a meal you serve grants each diner temporary hit points equal to your profession level and advantage on saves against fear for 8 hours."],
+        [51, "Safe Plate", "You can cook any edible monster part without risk of poison or disease. Diners of your meals gain the benefit of a short rest after eating for 1 hour, once per day."]
+      ]
+    },
+    {
+      "stage": 4,
+      "name": "Void Cook",
+      "blurb": "The cook works Outer Realm herbs and Void ingredients that taste of nothing until they hit the tongue. One meal from them can carry a party for days.",
+      "trial": "Prepare a meal from Void ingredients that sustains a party for a week with no other food or water.",
+      "features": [
+        [61, "Week Ration", "Each ration you make sustains a creature for 7 days. Meals you cook also end one level of exhaustion on each diner once per day."],
+        [71, "Battle Broth", "Once per long rest, brew a broth for up to six allies that grants +1 to attack rolls and saving throws and a 10 foot speed bonus for 1 hour."]
+      ]
+    },
+    {
+      "stage": 5,
+      "name": "Primal Cook",
+      "blurb": "The cook prepares food from the Inner Void and the Primordial, the first flavors. A feast from them is remembered as a turning point.",
+      "trial": "Host a feast for rulers or champions of three realms using only Primordial ingredients, and keep peace at the table until the meal ends.",
+      "features": [
+        [81, "Hero's Feast", "Once per long rest, spend 1 hour cooking a feast for up to twelve creatures; each gains 2d10 temporary hit points, immunity to poison and fear, and advantage on Wisdom saves for 24 hours."],
+        [91, "Lasting Flavor", "Buffs from your meals last 24 hours and diners can benefit from two of your meals at once. Spirit Cooking checks add your full profession level."]
+      ]
+    }
+  ],
+  "Enchanting": [
+    {
+      "stage": 2,
+      "name": "Hellscribe",
+      "blurb": "The enchanter inscribes with Hell ink, Heaven gold leaf, and Chaos glass. Their sigils carry the bargains and blessings of those realms.",
+      "trial": "Inscribe a sigil that binds a minor spirit of Hell, Heaven, or Chaos into an item and keep it bound for a full month.",
+      "features": [
+        [21, "Realm Sigil", "Sigils you make with Hell, Heaven, or Chaos materials add an extra 1d6 fire, radiant, or psychic damage to a weapon, or resistance to that type on armor. Sigilcraft checks gain a +2 bonus."],
+        [31, "Quick Glyph", "Glyph Inscription takes half the usual time, and once per long rest you can inscribe a protective glyph in 1 minute that lasts 24 hours."]
+      ]
+    },
+    {
+      "stage": 3,
+      "name": "Soulbinder",
+      "blurb": "The enchanter binds souls and elements drawn from the Abyss and the Inner Realm into blades and stones. Their items have wills of their own.",
+      "trial": "Bind a willing soul or an elemental spirit of the Inner Realm into an item, and earn its loyalty to the wielder.",
+      "features": [
+        [41, "Bound Spirit", "Using Soul Binding or Elemental Binding, put a spirit into an item; once per long rest it can cast one spell of 3rd level or lower stored in it, using your profession bonus as its modifier."],
+        [51, "Second Seal", "Items you enchant can carry one more enchantment than normal. Relic Restoration lets you repair a broken magic item in half the time."]
+      ]
+    },
+    {
+      "stage": 4,
+      "name": "Void Enchanter",
+      "blurb": "The enchanter inscribes with Outer Realm light and Void silence, runes that hold more than they show. Old relics wake under their hands.",
+      "trial": "Restore a relic broken in the Void and return its lost power to it.",
+      "features": [
+        [61, "Silent Rune", "Inscribe a Void rune on an item that suppresses magic within 10 feet for 1 minute once per long rest, as if by antimagic, without affecting your own items."],
+        [71, "Relic Waking", "Relic Restoration can restore a dormant relic's lost charges or properties. Items you enchant with Outer Realm materials gain one extra charge per day."]
+      ]
+    },
+    {
+      "stage": 5,
+      "name": "World Enchanter",
+      "blurb": "The enchanter inscribes with the Inner Void and the Primordial, the first marks ever made. Their enchantments outlast the hands that hold them.",
+      "trial": "Inscribe a glyph from the Primordial on a structure or relic that the realms' oldest powers agree should stand forever.",
+      "features": [
+        [81, "Primal Glyph", "Items you enchant with Primordial materials cannot be dispelled or suppressed except by a deity-level power. Weapons gain +2 to attack and damage rolls from your enchantment."],
+        [91, "Living Rune", "Once per long rest, change an enchantment on an item you made to another you know in 1 minute. Soul Binding and Elemental Binding can hold spirits of up to 6th level spells."]
+      ]
+    }
+  ],
+  "Engineering": [
+    {
+      "stage": 2,
+      "name": "Hell Engineer",
+      "blurb": "The engineer builds with Hell brass, Heaven marble, and Chaos gears. Their machines run on brimstone and hymns.",
+      "trial": "Build a clockwork device that runs for a week on fuel from Hell, Heaven, or Chaos without a single repair.",
+      "features": [
+        [21, "Realm Engine", "Clockwork and golems you build with Hell, Heaven, or Chaos materials gain resistance to fire, radiant, or psychic damage and 10 extra hit points. Clockwork Engineering checks gain a +2 bonus."],
+        [31, "Rapid Raise", "Building and Masonry projects take half the usual time. Once per long rest, raise a simple wall, bridge, or shelter of stone up to 30 feet long in 1 hour."]
+      ]
+    },
+    {
+      "stage": 3,
+      "name": "Deep Engineer",
+      "blurb": "The engineer builds golems and siege engines from Abyss stone and Inner Realm metal. Their creations can walk where nothing living survives.",
+      "trial": "Build a golem from Abyss stone that walks through the Abyss for a day and returns under its own power.",
+      "features": [
+        [41, "Deep Golem", "Using Golemancy, build a golem with hit points equal to five times your profession level and AC 17. It obeys you and can carry, fight, or guard; you can keep one at a time."],
+        [51, "Siege Craft", "Siege engines you build deal double damage to objects and structures, and need one fewer crew. Siege Engineering checks gain advantage."]
+      ]
+    },
+    {
+      "stage": 4,
+      "name": "Void Engineer",
+      "blurb": "The engineer builds with Outer Realm crystal and Void frames, machines that fold and unfold. Their workshops fit in a pack.",
+      "trial": "Build a machine that works in the Void and brings a party safely through it.",
+      "features": [
+        [61, "Folding Frame", "Constructs and engines you build can fold into a cube one foot across and unfold as an action. Your golems gain a fly speed of 30 feet."],
+        [71, "Twin Works", "You can control two golems at once. Clockwork, Golemancy, and Siege Engineering checks add your full profession level."]
+      ]
+    },
+    {
+      "stage": 5,
+      "name": "World Engineer",
+      "blurb": "The engineer builds with Inner Void cores and Primordial stone, materials that hold up worlds. Their great works become landmarks.",
+      "trial": "Raise a structure of Primordial stone that serves as a gate, fortress, or bridge recognized by three realms.",
+      "features": [
+        [81, "Titan Frame", "Using Golemancy, build a Huge golem with hit points equal to ten times your profession level and AC 19. Once per long rest it can make a single attack dealing 6d10 damage."],
+        [91, "Lasting Works", "Structures you build with Masonry and Building from Primordial stone cannot be destroyed by nonmagical means and repair 10 percent of damage each day."]
+      ]
+    }
+  ],
+  "Harvesting": [
+    {
+      "stage": 2,
+      "name": "Hell Harvester",
+      "blurb": "The harvester mines Hell ore, picks Heaven herbs, and tames beasts born of Chaos. They can find and work veins in all three realms.",
+      "trial": "Mine a vein in Hell, pick a herb in Heaven, and tame a beast of Chaos, and return with all three.",
+      "features": [
+        [21, "Realm Eye", "Find DCs for veins and plants in Hell, Heaven, and Chaos are reduced by 5. Mining and Foraging yield one extra unit when you meet the DC."],
+        [31, "Hardy Herd", "Using Beast Taming, you can tame a beast of challenge rating up to half your profession level. Farming in any realm yields double crops."]
+      ]
+    },
+    {
+      "stage": 3,
+      "name": "Deep Harvester",
+      "blurb": "The harvester gathers from the Abyss and the Inner Realm, mining veins under crushing weight and picking roots that bite back.",
+      "trial": "Find and mine a vein in the Abyss deep enough that no one has reached it before.",
+      "features": [
+        [41, "Deep Delve", "You can mine and forage in the Abyss without needing light or protection from its pressure. Every vein you mine yields one extra unit."],
+        [51, "Living Harvest", "Plants you forage stay fresh for a month, and you can transplant one rare plant from a realm you have reached to a farm, where it grows."]
+      ]
+    },
+    {
+      "stage": 4,
+      "name": "Void Harvester",
+      "blurb": "The harvester gathers from the Outer Realm and the Void, mining stones that drift and plants that bloom in empty space.",
+      "trial": "Mine a vein in the Void and return with every unit you found.",
+      "features": [
+        [61, "Void Sight", "You can sense veins and rare plants within 1 mile in any realm you have reached. Find DC for Outer Realm and Void veins drops by 5."],
+        [71, "Bonded Beast", "One beast you tamed becomes your bonded companion, gaining hit points equal to your profession level and advantage on saves while within 30 feet of you."]
+      ]
+    },
+    {
+      "stage": 5,
+      "name": "Primal Harvester",
+      "blurb": "The harvester gathers from the Inner Void and the Primordial, where the oldest ore and the first seeds lie.",
+      "trial": "Plant a seed from the Primordial and grow it to harvest in any realm.",
+      "features": [
+        [81, "First Vein", "Each vein you mine in the Inner Void or Primordial yields twice the normal units. You can mine without tools for 1 hour per long rest."],
+        [91, "Eternal Field", "Crops you plant grow to harvest in one day. Farming, Mining, and Foraging checks add your full profession level."]
+      ]
+    }
+  ],
+  "Scavenging": [
+    {
+      "stage": 2,
+      "name": "Hell Scavenger",
+      "blurb": "The scavenger strips hide, horn, and blood from devils, angels, and Chaos beasts, knowing which organs hold power and which rot within the hour.",
+      "trial": "Strip three intact parts from one creature of Hell, Heaven, or Chaos without ruining any, and sell or craft each of them.",
+      "features": [
+        [21, "Clean Cut", "Scavenging checks on Hell, Heaven, and Chaos creatures gain a +2 bonus, and each new try on the same corpse raises the DC by 3 instead of 5."],
+        [31, "Spare Parts", "When you meet the scavenging DC, gain one extra part of the same kind. Parts you strip, including blood and organs, stay fresh for 30 days without salt or ice."]
+      ]
+    },
+    {
+      "stage": 3,
+      "name": "Deep Scavenger",
+      "blurb": "The scavenger takes essences and organs from Abyss and Inner Realm creatures, saving parts that lesser hands would burn, freeze, or spill.",
+      "trial": "Recover a whole essence from an Abyss creature that was slain by the very damage type that should have ruined it.",
+      "features": [
+        [41, "Saved Essence", "If you beat the scavenging DC by 5 or more, the killing blow damage type ruins nothing. You can bottle the essence of an Abyss or Inner Realm creature as a crafting reagent."],
+        [51, "Quick Strip", "Stripping a corpse takes half the usual time, and you can work two corpses at once. You learn a creature's most valuable part on sight, without a check."]
+      ]
+    },
+    {
+      "stage": 4,
+      "name": "Void Scavenger",
+      "blurb": "The scavenger harvests Outer Realm and Void creatures, whose bodies thin into nothing soon after death. Speed and steady hands keep the prize solid.",
+      "trial": "Strip a Void creature before its body fades, and bring every part you took back to a realm of solid ground.",
+      "features": [
+        [61, "Hold Form", "As an action, pin a fading Outer Realm or Void corpse so it stays solid for 1 hour. Scavenging checks on creatures of those realms gain a +5 bonus."],
+        [71, "Rich Haul", "Each successful strip yields one extra part, and every 2 points above the DC now grants 2 more parts instead of 1, to a maximum of ten parts per corpse."]
+      ]
+    },
+    {
+      "stage": 5,
+      "name": "Primal Scavenger",
+      "blurb": "The scavenger strips Inner Void and Primordial beasts, creatures older than the realms, and nothing of the body goes to waste.",
+      "trial": "Take the heart of a Primordial beast and keep it beating long enough to deliver it to a crafter of stage V.",
+      "features": [
+        [81, "Living Part", "Parts you strip from Inner Void or Primordial creatures stay alive and keep one trait of the beast, such as a resistance or sense, for any item crafted from them. Scavenging checks add your full profession level."],
+        [91, "Perfect Harvest", "Once per long rest, strip every usable part from one corpse in 10 minutes. No part is ruined by damage type, failed tries, or time since death up to 7 days."]
+      ]
+    }
+  ],
+  "Navigation": [
+    {
+      "stage": 2,
+      "name": "Planar Navigator",
+      "blurb": "The navigator charts roads through Hell, Heaven, and Chaos, where paths move with the tides of law, grace, and whim. Their maps update themselves as the land shifts.",
+      "trial": "Chart a safe route across Hell, Heaven, or Chaos, and guide a party along it to its end without losing a member.",
+      "features": [
+        [21, "Shifting Chart", "Maps you draw of Hell, Heaven, and Chaos redraw themselves as the terrain changes and cut travel time there by one quarter. Astral Navigation checks gain a +2 bonus."],
+        [31, "Homing Compass", "Craft a compass keyed to one place you have stood; it always points there, even across realms. You may keep three keyed compasses at once, and rekeying one takes 1 hour."]
+      ]
+    },
+    {
+      "stage": 3,
+      "name": "Deep Navigator",
+      "blurb": "The navigator charts the Abyss and the Inner Realm, where depth and direction blur. Their instruments read pressure, echoes, and the pull of old powers.",
+      "trial": "Map a passage from the floor of the Abyss into the Inner Realm and lead a party through it and back.",
+      "features": [
+        [41, "Depth Sounder", "Build an instrument that warns of hazards, ambushes, and dead ends within 1 mile along your route. Travel through the Abyss and Inner Realm with your charts takes half the time."],
+        [51, "Never Lost", "Your party cannot become lost while following your map or lead, and magic that misdirects travel must beat a DC of 10 plus your profession bonus to affect you."]
+      ]
+    },
+    {
+      "stage": 4,
+      "name": "Void Navigator",
+      "blurb": "The navigator charts the Outer Realm and the Void, plotting by stars that are not there. They find doors between realms that others take for blank space.",
+      "trial": "Cross the Void from one realm gate to another with no guide but your own instruments, and record the route.",
+      "features": [
+        [61, "Gate Finder", "Sense any realm gate or planar rift within 5 miles and learn where it leads. Astral Navigation lets you plot a Void crossing that takes one day instead of the usual weeks."],
+        [71, "Star Anchor", "Once per long rest, set an anchor charm; within 7 days, you and up to eight allies can return to it as an action from anywhere in the same realm."]
+      ]
+    },
+    {
+      "stage": 5,
+      "name": "World Navigator",
+      "blurb": "The navigator charts the Inner Void and the Primordial, the old roads the realms were laid upon. Their atlas can take a party anywhere that has ever existed.",
+      "trial": "Chart a route into the Primordial to a place no living traveler has reached, and bring the party home along it.",
+      "features": [
+        [81, "Old Road", "Once per long rest, spend 10 minutes reading your atlas to open a path for up to twelve creatures to any realm you have charted, arriving within 1 mile of a place you have seen."],
+        [91, "Living Atlas", "Your maps of any realm you have reached reveal traps, hidden doors, and gates within their bounds. Astral Navigation checks add your full profession level, and travel with your charts takes one quarter the time."]
+      ]
+    }
+  ]
+}
