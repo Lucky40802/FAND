@@ -573,6 +573,22 @@ try { D.STAGES = require(path.join(__dirname, '..', 'data', 'stages.js')); } cat
 log.push('class stages: ' + Object.keys(D.STAGES).length + ' classes, changes II-V every 20 levels');
 // Subclass changes (data/sub-stages/out-*.json, written per subclass for every 10-level step): each subclass's II-V take
 // its two features inside the stage (II = level 21 and 31, ...), named "<Subclass> II" and so on.
+// Subclass features for levels 3-20 (the original subclass): the vault page's "Level Unlocks" table, or for subclasses
+// whose page has none, data/sub-unlocks.json (written for the site). Stored on each subclass as lv: [[level, name, text]].
+(function () {
+  var extra = {}, f = path.join(__dirname, '..', 'data', 'sub-unlocks.json'); if (fs.existsSync(f)) extra = JSON.parse(fs.readFileSync(f, 'utf8'));
+  var nv = 0, ne = 0;
+  D.SUBS.forEach(function (s) {
+    var v = D.VAULT_DETAILS && D.VAULT_DETAILS.sub[s.n], rows = [];
+    if (v && v.md) v.md.split('\n').forEach(function (l) { var m = /^\|\s*(\d+)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|/.exec(l); if (m && +m[1] <= 20) rows.push([+m[1], m[2], m[3]]); });
+    if (rows.length) { s.lv = rows; nv++; } else if (extra[s.n]) { s.lv = extra[s.n]; s.lvSite = 1; ne++; }
+  });
+  log.push('subclass levels 3-20: ' + nv + ' from the vault, ' + ne + ' written for the site, ' + D.SUBS.filter(function (s) { return !s.lv; }).length + ' missing');
+})();
+// Profession stages II-V (data/prof-stages.json): like class changes, every 20 profession levels, past the vault's 1-20.
+D.PROF_STAGES = {};
+(function () { var f = path.join(__dirname, '..', 'data', 'prof-stages.json'); if (fs.existsSync(f)) D.PROF_STAGES = JSON.parse(fs.readFileSync(f, 'utf8'));
+  log.push('profession stages: ' + Object.keys(D.PROF_STAGES).length + ' professions'); })();
 D.SUBSTAGES = {};
 (function () {
   var dir = path.join(__dirname, '..', 'data', 'sub-stages'); if (!fs.existsSync(dir)) return;
@@ -590,7 +606,7 @@ D.SUBSTAGES = {};
   });
   log.push('subclass changes: ' + n + ' subclasses, II-V each');
 })();
-var CORE = ['BPS', 'MATS', 'MONSTERS', 'SUBS', 'GODS', 'DEMONS', 'PATRONS', 'MAT_FX', 'HIDDEN', 'STAGES', 'SUBSTAGES'];
+var CORE = ['BPS', 'MATS', 'MONSTERS', 'SUBS', 'GODS', 'DEMONS', 'PATRONS', 'MAT_FX', 'HIDDEN', 'STAGES', 'SUBSTAGES', 'PROF_STAGES'];
 var metaLine = 'const META=' + JSON.stringify(META) + ';';
 var VENDOR = fs.readFileSync(path.join(__dirname, '..', 'app', 'vendor', 'anthropic.js'), 'utf8');
 var single = '<script>\n' + VENDOR.replace(/<\/(script)/gi, '<\\/$1') + '\n</script>\n<script>\nconst SITE=null;\n' + ['BPS', 'SPELLS', 'VAULT', 'VAULT_DETAILS'].concat(CORE.slice(1)).map(lit).join('\n') + '\n' + metaLine + '\n</script>';
