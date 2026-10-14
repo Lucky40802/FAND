@@ -1,0 +1,574 @@
+{
+ "Plague Doctor": [
+  [
+   3,
+   "Infectious Concoction",
+   "As a bonus action, coat a weapon in plague for 1 minute. A creature you hit makes a Constitution save or becomes infected, taking 1d6 poison damage at the start of its turns, repeating the save each turn. Proficiency bonus uses per long rest."
+  ],
+  [
+   5,
+   "Miasma Mask",
+   "You gain resistance to poison damage and advantage on saves against disease. Once per turn, when you hit an infected creature with a weapon or spell, it takes an extra 1d8 poison damage."
+  ],
+  [
+   9,
+   "Contagion Leap",
+   "Once per turn, when an infected creature ends its turn or drops to 0 hit points, you can spread the infection to another creature within 10 feet of it, which makes the Constitution save to resist."
+  ],
+  [
+   15,
+   "Pestilent Cloud",
+   "As an action, release a 20-foot-radius cloud of sickness within 60 feet for 1 minute. Creatures of your choice starting their turn inside make a Constitution save or become infected and take 4d6 poison damage. Once per long rest."
+  ]
+ ],
+ "Warchanter": [
+  [
+   3,
+   "Battle Hymn",
+   "As a bonus action, expend a use of Bardic Inspiration to begin a war chant for 1 minute. Allies within 30 feet who can hear you add 1d4 to weapon damage rolls and have advantage on saves against being frightened."
+  ],
+  [
+   6,
+   "War Drums",
+   "You can attack twice when you take the Attack action. While you chant, an ally within 30 feet who reduces a creature to 0 hit points can use its reaction to move half its speed without provoking opportunity attacks."
+  ],
+  [
+   14,
+   "Anthem of the Charge",
+   "While you chant, allies within 30 feet deal an extra 1d6 thunder damage on their first weapon hit each turn. As a reaction when one is hit, grant it 2d8 temporary hit points, Charisma modifier times per long rest."
+  ]
+ ],
+ "Gravecaller": [
+  [
+   3,
+   "Soul Guide",
+   "You learn spare the dying. When a creature you can see within 60 feet drops to 0 hit points, use your reaction to let an ally within 30 feet of it regain 1d8 plus your Wisdom modifier hit points. Wisdom modifier uses per long rest."
+  ],
+  [
+   6,
+   "Channel Divinity: Path Both Ways",
+   "As an action, choose a creature within 30 feet. A dying ally stabilizes and regains 2d8 hit points, or a hostile creature makes a Charisma save or takes 2d8 necrotic damage and has its speed halved until your next turn."
+  ],
+  [
+   17,
+   "Keeper of the Threshold",
+   "You and allies within 30 feet have advantage on death saving throws. Once per long rest, as a reaction when an ally within 60 feet dies, you return it to life with 4d8 hit points before its soul departs."
+  ]
+ ],
+ "Rune Priest": [
+  [
+   3,
+   "Sacred Inscription",
+   "As a bonus action, inscribe a rune on an ally within 30 feet for 1 minute. A ward rune grants 1d6 temporary hit points each turn; a smite rune adds 1d6 radiant damage to weapon hits. Wisdom modifier uses per long rest."
+  ],
+  [
+   6,
+   "Channel Divinity: Glyph Snare",
+   "As an action, carve a trigger rune on a surface within 30 feet. The first hostile creature to enter its square makes a Dexterity save, taking 3d8 radiant damage and being restrained until its next turn on a failure, or half on a success."
+  ],
+  [
+   17,
+   "Scripture of Battle",
+   "You can maintain up to three runes at once, and your Sacred Inscription runes last 1 hour. When one of your runes triggers or ends, each ally within 10 feet of it regains 2d8 hit points."
+  ]
+ ],
+ "Storm Caller": [
+  [
+   3,
+   "Tempest Mantle",
+   "You learn shocking grasp and always have thunderwave prepared. As a bonus action, expend a use of Wild Shape to wreathe yourself in storm for 1 minute; creatures that hit you with melee attacks take 1d8 lightning damage."
+  ],
+  [
+   6,
+   "Gale Step",
+   "While your Tempest Mantle is active, you have a flying speed of 30 feet. When you deal lightning or thunder damage with a spell, you can push one target up to 10 feet away from you."
+  ],
+  [
+   10,
+   "Thunderhead",
+   "You gain resistance to lightning and thunder damage. Once per turn, when you deal lightning damage with a spell, one other creature within 10 feet of the target takes 1d8 thunder damage."
+  ],
+  [
+   14,
+   "Eye of the Storm",
+   "As an action, call a storm in a 30-foot radius within 120 feet for 1 minute. As a bonus action on each of your turns, strike one creature inside for 3d10 lightning damage, Dexterity save for half. Once per long rest."
+  ]
+ ],
+ "Wilderness Oracle": [
+  [
+   3,
+   "Omens in the Fog",
+   "After a long rest, roll two d20s and record them as omens. Once per turn, you can replace an attack roll, saving throw or ability check made by you or a creature you can see with an omen, before the roll."
+  ],
+  [
+   6,
+   "Voice of the Wild",
+   "You can cast speak with animals and speak with plants without spell slots. Beasts and plants nearby warn you of danger: you cannot be surprised, and you add your Wisdom modifier to initiative rolls."
+  ],
+  [
+   10,
+   "Reading the Signs",
+   "As a reaction when you or an ally within 30 feet makes an attack roll or saving throw, you can add or subtract 1d6 from the result after seeing it. Uses equal to your Wisdom modifier per long rest."
+  ],
+  [
+   14,
+   "Third Omen",
+   "You roll three d20s for Omens in the Fog instead of two. Once per long rest, you can cast foresight on a creature without expending a spell slot, lasting 1 hour."
+  ]
+ ],
+ "Abyssal Knight": [
+  [
+   3,
+   "Abyssal Brand",
+   "As a bonus action, ignite your weapon with abyssal flame for 1 minute. Your weapon hits deal an extra 1d6 fire damage, and once per turn a hit grants you temporary hit points equal to your Constitution modifier. Proficiency bonus uses per long rest."
+  ],
+  [
+   7,
+   "Demonic Pact",
+   "You gain resistance to fire damage and advantage on saves against being frightened. You can speak, read and write Abyssal, and you add your Constitution modifier to Charisma (Intimidation) checks."
+  ],
+  [
+   10,
+   "Debt of Pain",
+   "When a creature within 30 feet damages you, you can use your reaction to mark it. Your next hit against it before the end of your next turn deals an extra 2d6 fire damage. Three uses per long rest."
+  ],
+  [
+   15,
+   "Corrupting Strike",
+   "Once per turn when you hit, the target makes a Constitution save (DC 8 plus your proficiency bonus and Constitution modifier) or is poisoned until the end of its next turn. Celestials have disadvantage on this save."
+  ],
+  [
+   18,
+   "Unholy Vigor",
+   "Once per turn, when you reduce a creature to 0 hit points, you regain 2d8 plus your Constitution modifier hit points. While your Abyssal Brand burns, you have resistance to necrotic damage."
+  ]
+ ],
+ "Deathblade": [
+  [
+   3,
+   "Killing Eye",
+   "As a bonus action, study a creature within 60 feet for 1 minute. You learn its damage vulnerabilities, resistances and immunities, and your first weapon hit against it each turn deals an extra 1d8 damage. Proficiency bonus uses per long rest."
+  ],
+  [
+   7,
+   "Anatomist",
+   "You gain proficiency in Medicine, or expertise if already proficient. When you score a critical hit, the target makes a Constitution save or its speed is halved until the end of its next turn."
+  ],
+  [
+   10,
+   "Improved Lethality",
+   "Your weapon attacks score a critical hit on a roll of 19 or 20 against a creature you are studying with Killing Eye, and the critical hit adds one extra weapon damage die."
+  ],
+  [
+   15,
+   "Death Blow",
+   "Once per short rest, when you hit a creature, declare a death blow. It makes a Constitution save, taking an extra 6d8 necrotic damage and being unable to regain hit points until your next turn on a failure, or half damage on a success."
+  ],
+  [
+   18,
+   "Executioner's Mark",
+   "Killing Eye lasts until you dismiss it and its extra damage becomes 2d8. Once per turn, you can apply Killing Eye to a creature below half its hit points without expending a use."
+  ]
+ ],
+ "Hex Knight": [
+  [
+   3,
+   "Martial Hex",
+   "As a bonus action, hex a creature within 30 feet for 1 minute. Your weapon hits against it deal an extra 1d6 necrotic damage, and it has disadvantage on checks with one ability you choose. Proficiency bonus uses per long rest."
+  ],
+  [
+   7,
+   "Curse Ward",
+   "You have advantage on saves against curses. When a hexed creature within 30 feet attacks you, you can use your reaction to impose disadvantage on the roll. Constitution modifier uses per long rest."
+  ],
+  [
+   10,
+   "Feeding Hex",
+   "Once per turn, when you hit a hexed creature, you gain 1d6 temporary hit points. If a hexed creature drops to 0 hit points, you can move the hex to another creature within 30 feet without an action."
+  ],
+  [
+   15,
+   "Withering Curse",
+   "A hexed creature takes 1d8 necrotic damage at the start of each of its turns and cannot take reactions against you. It makes a Wisdom save at the end of each turn, ending these extra effects on a success."
+  ],
+  [
+   18,
+   "Doom Knight",
+   "You can keep your hex on two creatures at once. Once per long rest, as an action, you can hex every creature of your choice within 30 feet; each makes a Wisdom save to resist."
+  ]
+ ],
+ "Elemental Fist": [
+  [
+   3,
+   "Elemental Strikes",
+   "Your unarmed strikes can deal fire, cold, lightning or thunder damage. Once per turn, you can spend 1 ki point to add 1d6 damage of that type to a hit and give the strike 10 feet of extra reach."
+  ],
+  [
+   6,
+   "Elemental Ward",
+   "As a reaction when you take fire, cold, lightning or thunder damage, you can spend 1 ki point to gain resistance to that damage type until the end of your next turn, including against the triggering damage."
+  ],
+  [
+   11,
+   "Burst of Elements",
+   "When you hit with an unarmed strike, you can spend 2 ki points to burst: the target and each creature within 5 feet of it take 2d8 damage of your chosen element, Dexterity save for half."
+  ],
+  [
+   17,
+   "Elemental Avatar",
+   "As a bonus action, spend 4 ki points to wreathe yourself in an element for 1 minute. Your speed increases by 20 feet, your unarmed strikes deal an extra 1d8 damage of that element, and you resist it."
+  ]
+ ],
+ "Iron Fist": [
+  [
+   3,
+   "Iron Body",
+   "Your unarmed strikes count as magical. As a reaction when you take bludgeoning, piercing or slashing damage, you can spend 1 ki point to reduce it by 1d10 plus your Wisdom modifier."
+  ],
+  [
+   6,
+   "Tempered Knuckles",
+   "Your unarmed strike damage die increases by one size. Once per turn when you hit, you can spend 1 ki point to push the target 10 feet or knock it prone, Strength save negates."
+  ],
+  [
+   11,
+   "Forge Heart",
+   "You gain resistance to fire damage. When you use Patient Defense, you also regain hit points equal to one roll of your Martial Arts die plus your Wisdom modifier."
+  ],
+  [
+   17,
+   "Unyielding Iron",
+   "You have resistance to nonmagical bludgeoning, piercing and slashing damage. Once per long rest, when you would drop to 0 hit points, you drop to 1 hit point instead."
+  ]
+ ],
+ "Sand Dancer": [
+  [
+   3,
+   "Dust Veil",
+   "When you use Flurry of Blows, you can kick up sand: one creature you hit makes a Constitution save or is blinded until the start of your next turn. Sand, dust and loose earth do not slow you."
+  ],
+  [
+   6,
+   "Mirage Step",
+   "When you use Step of the Wind, attacks against you have disadvantage until the start of your next turn, and the spaces you passed through are lightly obscured by drifting dust until then."
+  ],
+  [
+   11,
+   "Shifting Ground",
+   "As a bonus action, spend 2 ki points to turn the ground in a 15-foot radius around you into loose sand for 1 minute. It is difficult terrain for others, who make a Strength save or fall prone when entering."
+  ],
+  [
+   17,
+   "Sandstorm Dance",
+   "As an action, spend 5 ki points to become a whirling storm for 1 minute. Creatures within 10 feet of you at the start of your turn take 2d8 slashing damage and make a Constitution save or are blinded until their next turn."
+  ]
+ ],
+ "Oathbreaker Knight": [
+  [
+   3,
+   "Channel Divinity: Betrayer's Edge",
+   "As a bonus action, choose a creature within 30 feet that has not seen you attack. For 1 minute, your first hit against it each turn deals an extra 2d6 necrotic damage, and you have advantage on Deception checks against it."
+  ],
+  [
+   7,
+   "Aura of Faithlessness",
+   "Hostile creatures within 10 feet of you subtract 1d4 from saves against being charmed or frightened, and you and allies in the aura cannot be charmed. The aura grows to 30 feet at 18th level."
+  ],
+  [
+   15,
+   "Shard of the Vow",
+   "When you take damage, you can use your reaction to break a piece of your old vow: gain resistance to that damage type until the end of your next turn and deal 2d8 necrotic damage to the attacker. Twice per long rest."
+  ],
+  [
+   20,
+   "Avatar of Betrayal",
+   "Once per long rest, as an action, gain these benefits for 1 minute: you score critical hits on a 19 or 20, your hits deal an extra 2d8 necrotic damage, and creatures within 30 feet make a Wisdom save or are frightened."
+  ]
+ ],
+ "Thornwalker": [
+  [
+   3,
+   "Briar Skin",
+   "As a bonus action, sprout thorns for 1 minute. A creature that hits you with a melee attack takes 1d6 piercing damage, and once per turn your weapon hits deal an extra 1d6 piercing damage. Wisdom modifier uses per long rest."
+  ],
+  [
+   7,
+   "Thorn Bind",
+   "When you hit a creature with a weapon attack, thorny vines grasp it: it makes a Strength save against your spell save DC or is restrained until the end of its next turn. Proficiency bonus uses per long rest."
+  ],
+  [
+   11,
+   "Bramble Ground",
+   "You can cast spike growth without a spell slot once per short rest, and you and your allies ignore its damage and difficult terrain. Creatures restrained by your thorns take 1d8 piercing damage at the start of their turns."
+  ],
+  [
+   15,
+   "Thorned Retribution",
+   "You gain +1 AC while Briar Skin is active. When you take damage, you can use your reaction to lash a creature within 15 feet with thorns, dealing 2d8 piercing damage."
+  ]
+ ],
+ "Blood Dancer": [
+  [
+   3,
+   "Sanguine Edge",
+   "Once per turn when you deal Sneak Attack damage, you can lose 5 hit points to add 2d6 necrotic damage. As a bonus action, you can lose 5 hit points to move 15 feet without provoking opportunity attacks."
+  ],
+  [
+   9,
+   "Crimson Lash",
+   "As an action, lose 5 hit points to lash blood at a creature within 30 feet. It makes a Dexterity save, taking 3d6 necrotic damage and being restrained until the end of its next turn on a failure, or half on a success."
+  ],
+  [
+   13,
+   "Bleeding Spatter",
+   "When a creature within 15 feet damages you, you can use your reaction to spray it with blood, dealing 2d8 necrotic damage and giving it disadvantage on its next attack roll. Proficiency bonus uses per long rest."
+  ],
+  [
+   17,
+   "Blood Reclaimed",
+   "You have resistance to necrotic damage. When you reduce a creature to 0 hit points with Sneak Attack, you regain the hit points you lost to your features this turn plus 2d8."
+  ]
+ ],
+ "Chaos Shaper": [
+  [
+   3,
+   "Guided Chaos",
+   "When you cast a sorcerer spell of 1st level or higher, you can spend 1 sorcery point and roll a d4: 1 push a target 10 feet, 2 gain 1d8 temporary hit points, 3 add 1d6 force damage, 4 teleport 15 feet."
+  ],
+  [
+   6,
+   "Tilt the Odds",
+   "As a reaction when a creature within 60 feet makes a d20 roll, you can spend 2 sorcery points to force a reroll, and it must use the new result. Proficiency bonus uses per long rest."
+  ],
+  [
+   14,
+   "Wager of Power",
+   "Once per turn, when you roll damage for a spell, you can roll a d20. On 11 or higher, reroll the damage and keep the higher total; on 10 or lower, you take 1d8 force damage."
+  ],
+  [
+   18,
+   "Surge of Chance",
+   "Once per long rest, as a bonus action, enter a chaos surge for 1 minute. At the start of each of your turns, roll a d4: +2 spell save DC, +20 feet speed, 2d8 temporary hit points, or regain 2 sorcery points."
+  ]
+ ],
+ "Dragonblood": [
+  [
+   3,
+   "Draconic Resilience",
+   "Choose a dragon ancestor and its damage type. Your hit point maximum increases by 1 per sorcerer level, while unarmored your AC increases by 1 as scales spread over your skin, and you can speak, read and write Draconic."
+  ],
+  [
+   6,
+   "Elemental Affinity",
+   "When you cast a spell that deals your ancestry's damage type, add your Charisma modifier to one damage roll. You can also spend 1 sorcery point to gain resistance to that type for 1 hour."
+  ],
+  [
+   14,
+   "Dragon Wings",
+   "As a bonus action, sprout dragon wings from your back and gain a flying speed equal to your walking speed until you dismiss them. You cannot use them while wearing armor not made for them."
+  ],
+  [
+   18,
+   "Draconic Presence",
+   "As an action, spend 5 sorcery points to radiate dread or awe in a 60-foot radius for 1 minute while you concentrate. Hostile creatures starting their turn there make a Wisdom save or are charmed or frightened, your choice, until it ends."
+  ]
+ ],
+ "Gnome Bloodline": [
+  [
+   3,
+   "Earthsense",
+   "The ground reports to you: you gain tremorsense out to 30 feet. You learn mold earth, and once per turn you can spend 1 sorcery point to add 1d8 bludgeoning damage to a spell that deals damage."
+  ],
+  [
+   6,
+   "Stoneskin Heritage",
+   "Your skin hardens toward iron or diamond. While unarmored your AC increases by 1, and as a reaction you can reduce bludgeoning, piercing or slashing damage by 1d10 plus your Charisma modifier. Proficiency bonus uses per long rest."
+  ],
+  [
+   14,
+   "Rooted Stone",
+   "Your tremorsense extends to 60 feet. While touching the ground, you cannot be knocked prone or moved against your will, and you can spend 3 sorcery points as an action to turn a 20-foot radius within 60 feet into difficult terrain."
+  ],
+  [
+   18,
+   "Gnome's Heir",
+   "You gain resistance to bludgeoning damage. As a reaction when hit by an attack, raise a slab of stone to gain +2 AC against it, possibly causing a miss. Proficiency bonus uses per long rest."
+  ]
+ ],
+ "Ignis Bloodline": [
+  [
+   3,
+   "Ignis Spark",
+   "You learn fire bolt. When you cast a spell that deals fire damage, add your Charisma modifier to one damage roll. You have resistance to fire damage from any source other than your own spells, which cannot harm you."
+  ],
+  [
+   6,
+   "Hearth Aura",
+   "A constant warmth surrounds you within 10 feet: nonmagical ice and frost melt, allies have advantage on saves against extreme cold, and a creature that starts its turn grappling you takes 1d8 fire damage."
+  ],
+  [
+   14,
+   "Burning Hotter",
+   "Your fire spells ignore resistance to fire damage. When a creature fails a save against your fire spell, it ignites, taking 1d8 fire damage at the start of its turns until it uses an action to put out the flames."
+  ],
+  [
+   18,
+   "Heart of Ignis",
+   "You gain immunity to fire damage. Once per turn, when you reduce a creature to 0 hit points with a fire spell, flames leap to another creature within 20 feet, dealing 2d8 fire damage, Dexterity save for half."
+  ]
+ ],
+ "Mirror Mage": [
+  [
+   3,
+   "Reflective Ward",
+   "When a creature you can see targets you with an attack or spell, you can use your reaction and spend 1 sorcery point to gain +2 AC and advantage on saves against that attack or spell."
+  ],
+  [
+   6,
+   "Twin Reflection",
+   "When you cast a spell that targets only one creature, you can spend sorcery points equal to the spell's level (1 for a cantrip) to have a reflection of it target a second creature within 30 feet of the first."
+  ],
+  [
+   14,
+   "Spell Reflection",
+   "When you succeed on a saving throw against a spell, you can use your reaction to reflect it: its caster makes the same save against your spell save DC or suffers the spell's effect. Once per short rest."
+  ],
+  [
+   18,
+   "Captured Image",
+   "When you see a creature cast a spell of 3rd level or lower, you can use your reaction to copy it, storing it for 1 hour. You can cast it once without a slot, using your spellcasting ability. Once per long rest."
+  ]
+ ],
+ "Sylph Bloodline": [
+  [
+   3,
+   "Featherfall Blood",
+   "You can fall as slowly as you wish and take no damage from falling. You learn gust, and once per turn when you cast a spell that deals damage, you can push one target 10 feet."
+  ],
+  [
+   6,
+   "Child of the Winds",
+   "After a long rest, choose a wind child: north grants cold resistance, south fire resistance, east lightning resistance, west +10 feet speed. You can spend 1 sorcery point to add 1d8 thunder damage to a spell."
+  ],
+  [
+   14,
+   "Riding Wind",
+   "You gain a flying speed of 30 feet. As a reaction when a creature within 60 feet moves, you can spend 2 sorcery points to force a Strength save; on a failure you move it up to 15 feet in a direction you choose."
+  ],
+  [
+   18,
+   "Breathless Gale",
+   "As an action, spend 5 sorcery points to blow a 60-foot cone of storm wind. Creatures in it make a Strength save, taking 4d8 thunder damage and being pushed 20 feet on a failure, or half damage on a success."
+  ]
+ ],
+ "Undine Bloodline": [
+  [
+   3,
+   "Undine's Gift",
+   "You can breathe water, see clearly underwater, and gain a swimming speed equal to your walking speed. When you cast a spell of 1st level or higher, you or an ally within 30 feet regains 1d4 plus your Charisma modifier hit points."
+  ],
+  [
+   6,
+   "Frost Rime",
+   "A thin layer of ice covers your skin. While unarmored your AC increases by 1, and when a creature hits you with a melee attack, you can use your reaction to deal 1d8 cold damage to it. Proficiency bonus uses per long rest."
+  ],
+  [
+   14,
+   "Tidal Spells",
+   "When you cast a spell that deals damage, you can spend 1 sorcery point to add a current to one target: push or pull it 15 feet or knock it prone, Strength save negates."
+  ],
+  [
+   18,
+   "Healing Tide",
+   "As an action, spend 4 sorcery points to release a wave in a 20-foot radius within 60 feet. Allies there regain 3d8 hit points; hostile creatures make a Strength save or take 3d8 bludgeoning damage and fall prone."
+  ]
+ ],
+ "Diamond's Patron": [
+  [
+   3,
+   "Diamond Skin",
+   "Your patron's shard lets you harden to true diamond for an instant. As a reaction when you are hit by an attack, you take no damage from it. Once per short rest."
+  ],
+  [
+   6,
+   "Refracted Glare",
+   "As a bonus action, flash light off your skin. Creatures of your choice within 10 feet make a Constitution save or are blinded until the end of your next turn. Uses equal to your Charisma modifier per long rest."
+  ],
+  [
+   10,
+   "Shard Shield",
+   "You gain resistance to radiant damage. When you are hit by an attack, roll a d6; on a 6, a shard breaks from your skin and the attack's damage is halved."
+  ],
+  [
+   14,
+   "Prismatic Pact",
+   "Once per turn, when you hit with eldritch blast or deal damage with a warlock spell, light refracts through you and one other creature within 15 feet of the target takes 2d8 radiant damage."
+  ]
+ ],
+ "Iron's Patron": [
+  [
+   3,
+   "Steel Edge",
+   "As a bonus action, reshape your weapon's edge. Tough form grants you +1 AC while you wield it. Sharp form adds 1d6 damage to its hits, but a natural 1 on an attack dulls it until you reshape it."
+  ],
+  [
+   6,
+   "Sealed Endurance",
+   "You do not need to eat or drink and have advantage on saves against disease and poison. Once per long rest, when you would drop to 0 hit points, you drop to 1 hit point instead."
+  ],
+  [
+   10,
+   "Spectral Chains",
+   "As an action, bind a creature within 60 feet in iron chains. It makes a Strength save or is restrained for 1 minute, taking 1d8 force damage at the start of its turns and repeating the save each turn. Once per short rest."
+  ],
+  [
+   14,
+   "Iron Will",
+   "Your hit point maximum increases by your warlock level. Once per turn when you hit with eldritch blast, you can push the target 10 feet or deal an extra 1d8 fire damage."
+  ]
+ ],
+ "Void Caller": [
+  [
+   3,
+   "Hollow Grasp",
+   "As a bonus action, open a pocket of void on a creature within 60 feet for 1 minute. Your spells deal it an extra 1d6 force damage, and it cannot regain hit points above half its maximum. Proficiency bonus uses per long rest."
+  ],
+  [
+   6,
+   "Void Step",
+   "You gain resistance to force damage. As a bonus action, you can step through nothing and teleport up to 30 feet to a space you can see. Uses equal to your Charisma modifier per long rest."
+  ],
+  [
+   10,
+   "Null Ward",
+   "As a reaction when a creature you can see within 60 feet casts a spell of 2nd level or lower, you can unmake it, and the spell fails. Once per short rest."
+  ],
+  [
+   14,
+   "Swallowed by the Void",
+   "As an action, a creature within 60 feet makes a Charisma save or vanishes into the void until the end of your next turn, then returns taking 6d8 force damage. Once per long rest."
+  ]
+ ],
+ "Astromancer": [
+  [
+   3,
+   "Star Chart",
+   "When you cast a spell of 1st level or higher, choose a star: Comet adds 1d6 radiant damage to one target, Moon heals a creature within 30 feet for 1d6, or Pole Star adds 2 to a concentration save. Intelligence modifier uses per long rest."
+  ],
+  [
+   6,
+   "Falling Star",
+   "Once per short rest, when you cast a spell of 1st level or higher, call a falling star on a point within 120 feet. Creatures in a 10-foot radius make a Dexterity save, taking 2d10 radiant damage or half on a success."
+  ],
+  [
+   10,
+   "Orbiting Star",
+   "A tiny star orbits you. As a reaction when you or an ally within 30 feet is hit, reduce the damage by 2d10 plus your Intelligence modifier. Once per short rest."
+  ],
+  [
+   14,
+   "Gravity Well",
+   "As an action, crush a 15-foot radius within 120 feet with stellar gravity. Creatures there make a Strength save, taking 5d10 force damage and falling prone on a failure, or half on a success. Once per long rest."
+  ]
+ ]
+}
