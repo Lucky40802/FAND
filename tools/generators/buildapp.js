@@ -311,6 +311,14 @@ log.push('material origins: ' + JSON.stringify(orgCount) + ', unique traits on '
   log.push('habitats: ' + n + ' materials (' + sh + ' found in mine shafts)');
 })();
 
+// ---- contract spells (data/god-spells.json): one spell of each level 0-9 per god, chosen from the site's spells to fit
+// the god's Runes; a contract's rank decides how many of them its holder gets.
+(function () {
+  var f = path.join(__dirname, '..', 'data', 'god-spells.json'); if (!fs.existsSync(f)) return;
+  var G = JSON.parse(fs.readFileSync(f, 'utf8')), n = 0; D.GODS.forEach(function (g) { if (G[g.n]) { g.csp = G[g.n]; n++; } });
+  log.push('contract spells: ' + n + ' of ' + D.GODS.length + ' gods');
+})();
+
 // ---- stat blocks (data/statblock.js): generated in the Monster Manual layout, not copied from any book
 var SB = require(path.join(__dirname, '..', 'data', 'statblock.js'));
 var matByName = {}; D.MATS.forEach(function (m) { matByName[m.n.toLowerCase()] = m; });
