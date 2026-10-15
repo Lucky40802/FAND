@@ -127,7 +127,7 @@ function statblock(m, body, bestDrop) {
   var type = plan.type + (body === 'fiend' && /devil|hell|infernal|pit|erinyes|imp\b/i.test(m.n) ? ' (devil)' : body === 'fiend' && /demon|abyss|balor|vrock|hezrou|quasit|dretch|glabrezu|marilith/i.test(m.n) ? ' (demon)' : '');
   return {
     sz: sz[0], ty: type, al: plan.align, ac: ac, hp: hp, hd: hd + 'd' + die + (mods[2] ? ' ' + (mods[2] > 0 ? '+ ' : '− ') + Math.abs(hd * mods[2]) : ''),
-    sp: plan.speed, ab: ab, sv: saves, sk: skills, vu: (plan.vuln || []).join(', '), rs: res.join(', '), im: imm.join(', '), ci: (plan.cond || []).join(', '),
+    sp: plan.speed, ab: ab, sv: '', /* campaign rule: saves add no ability modifier or proficiency */ sk: skills, vu: (plan.vuln || []).join(', '), rs: res.join(', '), im: imm.join(', '), ci: (plan.cond || []).join(', '),
     se: plan.senses.concat(['passive Perception ' + pp]).join(', '), la: plan.lang, cr: cr, xp: XP[cr] || 0, pb: prof,
     tr: traits, ac2: actions, lg: legendary
   };
