@@ -59,14 +59,23 @@ create table if not exists public.campaign_characters (
   primary key (campaign_id, id)
 );
 create index if not exists campaign_members_user on public.campaign_members (user_id);
+create index if not exists campaigns_dm on public.campaigns (dm);
+create index if not exists campaign_characters_owner on public.campaign_characters (owner);
 
--- membership checks used by the policies (security definer, so a policy can look at campaign_members without recursion)
-create or replace function public.fand_is_member(c uuid) returns boolean language sql stable security definer set search_path = '' as $$
-  select exists (select 1 from public.campaign_members m where m.campaign_id = c and m.user_id = auth.uid())
+-- membership checks used by the policies (security definer, so a policy can look at campaign_members without recursion).
+-- They live in a schema the API doesn't expose, and only answer for the person asking.
+create schema if not exists private;
+revoke all on schema private from public, anon;
+grant usage on schema private to authenticated;
+create or replace function private.fand_is_member(c uuid) returns boolean language sql stable security definer set search_path = '' as $$
+  select exists (select 1 from public.campaign_members m where m.campaign_id = c and m.user_id = (select auth.uid()))
 $$;
-create or replace function public.fand_is_dm(c uuid) returns boolean language sql stable security definer set search_path = '' as $$
-  select exists (select 1 from public.campaigns k where k.id = c and k.dm = auth.uid())
+create or replace function private.fand_is_dm(c uuid) returns boolean language sql stable security definer set search_path = '' as $$
+  select exists (select 1 from public.campaigns k where k.id = c and k.dm = (select auth.uid()))
 $$;
+revoke execute on function private.fand_is_member(uuid), private.fand_is_dm(uuid) from public, anon;
+grant execute on function private.fand_is_member(uuid), private.fand_is_dm(uuid) to authenticated;
+-- earlier versions of this file kept them in public: the policies below are recreated to use the private ones first
 
 alter table public.campaigns enable row level security;
 alter table public.campaign_members enable row level security;
@@ -74,21 +83,21 @@ alter table public.campaign_characters enable row level security;
 
 drop policy if exists "members read" on public.campaigns;
 drop policy if exists "dm deletes" on public.campaigns;
-create policy "members read" on public.campaigns for select to authenticated using (public.fand_is_member(id));
+create policy "members read" on public.campaigns for select to authenticated using (private.fand_is_member(id));
 create policy "dm deletes" on public.campaigns for delete to authenticated using (dm = (select auth.uid()));
 
 drop policy if exists "members read" on public.campaign_members;
 drop policy if exists "leave or remove" on public.campaign_members;
-create policy "members read" on public.campaign_members for select to authenticated using (public.fand_is_member(campaign_id));
+create policy "members read" on public.campaign_members for select to authenticated using (private.fand_is_member(campaign_id));
 -- a player can leave; the DM can remove anyone but themself (a DM ends a campaign by deleting it)
 create policy "leave or remove" on public.campaign_members for delete to authenticated
-  using ((user_id = (select auth.uid()) and role <> 'dm') or (public.fand_is_dm(campaign_id) and user_id <> (select auth.uid())));
+  using ((user_id = (select auth.uid()) and role <> 'dm') or (private.fand_is_dm(campaign_id) and user_id <> (select auth.uid())));
 
 drop policy if exists "members read" on public.campaign_characters;
 drop policy if exists "owner or dm deletes" on public.campaign_characters;
-create policy "members read" on public.campaign_characters for select to authenticated using (public.fand_is_member(campaign_id));
+create policy "members read" on public.campaign_characters for select to authenticated using (private.fand_is_member(campaign_id));
 create policy "owner or dm deletes" on public.campaign_characters for delete to authenticated
-  using (owner = (select auth.uid()) or public.fand_is_dm(campaign_id));
+  using (owner = (select auth.uid()) or private.fand_is_dm(campaign_id));
 
 revoke all on public.campaigns, public.campaign_members, public.campaign_characters from anon;
 revoke insert, update on public.campaigns, public.campaign_members, public.campaign_characters from authenticated;
@@ -162,10 +171,10 @@ create or replace function public.fand_save_character(p_campaign uuid, p_id text
 language plpgsql security definer set search_path = '' as $$
 declare me uuid := public.fand_me(); t timestamptz;
 begin
-  if not public.fand_is_member(p_campaign) then raise exception 'You are not in that campaign.'; end if;
+  if not private.fand_is_member(p_campaign) then raise exception 'You are not in that campaign.'; end if;
   insert into public.campaign_characters as c (campaign_id, id, owner, data) values (p_campaign, p_id, me, p_data)
     on conflict (campaign_id, id) do update set data = excluded.data, updated_at = now()
-    where c.owner = me or public.fand_is_dm(p_campaign)
+    where c.owner = me or private.fand_is_dm(p_campaign)
     returning c.updated_at into t;
   if t is null then raise exception 'Only the character''s owner or the DM can change it.'; end if;
   return t;
@@ -176,6 +185,9 @@ revoke execute on function public.fand_create_campaign(text, text), public.fand_
 grant execute on function public.fand_create_campaign(text, text), public.fand_join_campaign(text, text), public.fand_new_invite(uuid),
   public.fand_rename_campaign(uuid, text), public.fand_set_name(text), public.fand_save_character(uuid, text, jsonb) to authenticated;
 revoke execute on function public.fand_member_gone() from public, anon, authenticated;
+
+drop function if exists public.fand_is_member(uuid);
+drop function if exists public.fand_is_dm(uuid);
 
 -- live updates: the party page hears about characters and members as they change
 do $$
