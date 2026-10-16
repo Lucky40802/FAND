@@ -1,6 +1,6 @@
 ---
 school: Necromancy
-level: Cantrip
+level: 1
 castingTime: 1 Action
 range: 90 ft
 duration: Instant
