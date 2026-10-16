@@ -650,7 +650,7 @@ var metaLine = 'const META=' + JSON.stringify(META) + ';';
 var VENDOR = fs.readFileSync(path.join(__dirname, '..', 'app', 'vendor', 'anthropic.js'), 'utf8');
 var single = '<script>\n' + VENDOR.replace(/<\/(script)/gi, '<\\/$1') + '\n</script>\n<script>\nconst SITE=null;\n' + ['BPS', 'SPELLS', 'VAULT', 'VAULT_DETAILS'].concat(CORE.slice(1)).map(lit).join('\n') + '\n' + metaLine + '\n</script>';
 var out = tpl.split('<!--__DATA__-->').join(single);
-var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'magic', 'classes', 'subclasses', 'demons', 'patrons', 'forge', 'craft', 'party', 'sheet', 'encounter', 'prep', 'hooks', 'journal', 'hidden', 'towers', 'combat', 'rules', 'tools', 'about'];
+var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'magic', 'classes', 'subclasses', 'demons', 'patrons', 'forge', 'craft', 'party', 'sheet', 'encounter', 'prep', 'hooks', 'journal', 'hidden', 'towers', 'combat', 'rules', 'dice', 'tools', 'about'];
 var site = {};
 var PAGE_INFO = {
   home: ['Home', 'FAND (Fantasy and Numerous Disasters) campaign compendium: Blueprints, materials, monsters, realms, gods, spells, rules, and table tools for the world of Vestige.'],
@@ -667,7 +667,8 @@ var PAGE_INFO = {
   demons: ['Demons', 'Archdevils, demon princes, Great Old Ones, and the named corruptions of FAND.'],
   patrons: ['Patrons', 'Warlock patrons of FAND: fiends, archfey, Great Old Ones, the undying, celestials, genies, and homebrew.'],
   rules: ['Rules', 'Rules summaries for Armor Class, material grading, properties, refining, economy, professions, realm travel, god contracts, classes, spells, and monster stats.'],
-  tools: ['Tools', 'Table tools: damage vs. AC, material grade, refining planner, encounter and loot roller, and realm Pressure check.'],
+  dice: ['Dice', 'A dice roller for the table: any roll, mixed dice pools, saved rolls, and your roll history.'],
+  tools: ['Tools', 'Table tools: mine shafts, scavenging, damage vs. AC, material grade, refining, encounters, treasure, currency, and realm Pressure.'],
   forge: ['Forge', 'General Blueprints for every weapon, armor piece, shield, and focus: choose a material for each part (head, haft, grip) and see the finished item, with heavy penalties for the wrong materials.'],
   craft: ['Crafting planner', 'Plan a Blueprint: every material, where to get it, what it costs, and what your crafter is missing.'],
   party: ['Party', 'Track each character: god contract, rivals, gear and traits, materials, money, and realm Pressure.'],
