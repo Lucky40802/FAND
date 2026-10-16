@@ -678,9 +678,9 @@ var PROF_TABLE_MAX = 100;
   D.VAULT.notes.forEach(function (n) {
     if (!/(^|\/)Professions(\/|$)/.test(n.f) || !D.PROF_STAGES[n.n.replace(/ \(Profession\)$/, '')]) return;
     var P = n.n.replace(/ \(Profession\)$/, ''), st = D.PROF_STAGES[P], what = P === 'Scavenging' ? 'crafting and scavenging bonus' : 'crafting bonus';
-    var m = /(\| 20 \|[^\n]*\|\s*\n)/.exec(n.md); if (!m) return;
+    var m = /(\| 20 \|[^\n]*\|[ \t]*\n)/.exec(n.md); if (!m) return;
     if (P === 'Scavenging') n.md = n.md.replace(/crafting bonus \|/g, 'crafting and scavenging bonus |');
-    m = /(\| 20 \|[^\n]*\|\s*\n)/.exec(n.md);
+    m = /(\| 20 \|[^\n]*\|[ \t]*\n)/.exec(n.md);
     var rows = [];
     for (var L = 21; L <= PROF_TABLE_MAX; L++) {
       var k = Math.floor((L - 1) / 20) + 1, S = st.find(function (x) { return x.stage === k; }) || {}, u = [];
@@ -778,7 +778,7 @@ var DATA_V = require('crypto').createHash('sha1').update(Object.keys(site).filte
 // where the site lives (GitHub Pages): used for canonical links, sharing previews, and the sitemap search engines read
 var SITE_URL = 'https://lucky40802.github.io/FAND/site/';
 PAGES.forEach(function (pg) {
-  var tags = '<script>const SITE={page:' + JSON.stringify(pg) + ',v:' + JSON.stringify(DATA_V) + '};' + cloudLine + '</script>\n<script src="data/core.js?v=' + DATA_V + '"></script>\n<script src="data/vault.js?v=' + DATA_V + '"></script>' + (pg === 'spells' || pg === 'sheet' || pg === 'tools' || pg === 'magic' ? '\n<script src="data/spells.js?v=' + DATA_V + '"></script>' : '');
+  var tags = '<script>const SITE={page:' + JSON.stringify(pg) + ',v:' + JSON.stringify(DATA_V) + '};' + cloudLine + '</script>\n<script src="data/core.js?v=' + DATA_V + '"></script>\n<script src="data/vault.js?v=' + DATA_V + '"></script>' + (pg === 'spells' || pg === 'sheet' || pg === 'tools' || pg === 'magic' || pg === 'journal' ? '\n<script src="data/spells.js?v=' + DATA_V + '"></script>' : '');
   var html = tpl.split('<!--__DATA__-->').join(tags);
   var info = PAGE_INFO[pg];
   html = html.replace('<title>FAND · Fantasy and Numerous Disasters</title>', '<title>' + (pg === 'home' ? 'FAND · Fantasy and Numerous Disasters' : info[0] + ' · FAND') + '</title>')
