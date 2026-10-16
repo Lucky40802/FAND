@@ -628,6 +628,34 @@ log.push('class stages: ' + Object.keys(D.STAGES).length + ' classes, changes II
 D.PROF_STAGES = {};
 (function () { var f = path.join(__dirname, '..', 'data', 'prof-stages.json'); if (fs.existsSync(f)) D.PROF_STAGES = JSON.parse(fs.readFileSync(f, 'utf8'));
   log.push('profession stages: ' + Object.keys(D.PROF_STAGES).length + ' professions'); })();
+// Each profession's Level Progression table in the vault stops at 20: carry it on to level 50 on the site, with the same
+// rule (+1 bonus every 2 levels), a free specialty every 5 levels, and the stage changes and features from PROF_STAGES.
+// Scavenging's bonus counts for both its crafting and its scavenging rolls.
+var PROF_TABLE_MAX = 50;
+(function () {
+  var R = ['I', 'II', 'III', 'IV', 'V'], done = 0;
+  D.VAULT.notes.forEach(function (n) {
+    if (!/(^|\/)Professions(\/|$)/.test(n.f) || !D.PROF_STAGES[n.n.replace(/ \(Profession\)$/, '')]) return;
+    var P = n.n.replace(/ \(Profession\)$/, ''), st = D.PROF_STAGES[P], what = P === 'Scavenging' ? 'crafting and scavenging bonus' : 'crafting bonus';
+    var m = /(\| 20 \|[^\n]*\|\s*\n)/.exec(n.md); if (!m) return;
+    if (P === 'Scavenging') n.md = n.md.replace(/crafting bonus \|/g, 'crafting and scavenging bonus |');
+    m = /(\| 20 \|[^\n]*\|\s*\n)/.exec(n.md);
+    var rows = [];
+    for (var L = 21; L <= PROF_TABLE_MAX; L++) {
+      var k = Math.floor((L - 1) / 20) + 1, S = st.find(function (x) { return x.stage === k; }) || {}, u = [];
+      if ((L - 1) % 20 === 0) u.push('Stage ' + R[k - 1] + ': ' + (S.name || P) + ' (trial)');
+      (S.features || []).forEach(function (f) { if (f[0] === L) u.push(f[1]); });
+      if (L % 5 === 0) u.push('Free specialty');
+      rows.push('| ' + L + ' | ' + (u.join(' · ') || (S.name || P) + ' work') + ' | +' + Math.floor(L / 2) + ' ' + what + ' |');
+    }
+    n.md = n.md.replace(m[1], m[1] + rows.join('\n') + '\n');
+    n.md = n.md.replace(/It runs from 1 to 20/, 'It runs from 1 to 100 on this site');
+    done++;
+  });
+  var pp = D.VAULT.notes.find(function (n) { return n.n === 'Profession Progression'; });
+  if (pp) pp.md = pp.md.replace('It runs from 1 to 20, and each profession\'s own page lists its crafting bonus at each level.', 'It runs from 1 to 100 on this site (the tables show it to level ' + PROF_TABLE_MAX + '): every 2 levels add +1 to the profession bonus, and each profession\'s own page lists it at each level. Scavenging\'s bonus counts for both crafting and scavenging.');
+  log.push('profession tables carried to level ' + PROF_TABLE_MAX + ': ' + done);
+})();
 D.SUBSTAGES = {};
 (function () {
   var dir = path.join(__dirname, '..', 'data', 'sub-stages'); if (!fs.existsSync(dir)) return;
