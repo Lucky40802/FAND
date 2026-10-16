@@ -1,5 +1,5 @@
 // FAND offline worker, written by tools/generators/buildapp.js. Build 29f4324b1f.
-const CACHE="fand-29f4324b1f-139672c0";
+const CACHE="fand-29f4324b1f-b54dfe35";
 const FILES=["index.html","lore.html","codex.html","blueprints.html","materials.html","bestiary.html","realms.html","gods.html","runes.html","professions.html","spells.html","magic.html","classes.html","subclasses.html","demons.html","patrons.html","forge.html","craft.html","party.html","sheet.html","encounter.html","prep.html","hooks.html","journal.html","hidden.html","towers.html","combat.html","rules.html","dice.html","tools.html","about.html","data/core.js?v=29f4324b1f","data/vault.js?v=29f4324b1f","data/spells.js?v=29f4324b1f","data/vault-details.js?v=29f4324b1f","vendor/anthropic.js","vendor/qrcode.js","manifest.webmanifest","img/icons/icon-180.png","img/icons/icon-192.png","img/icons/icon-512.png","vendor/supabase.js","img/maps/human.jpg"];
 // Each file is saved on its own, so one file a phone refuses to store (the data is large) cannot stop the update.
 self.addEventListener("install",e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>Promise.all(FILES.map(f=>fetch(new Request(f,{cache:"reload"})).then(res=>res.ok?c.put(f,res):null).catch(()=>null)))))});

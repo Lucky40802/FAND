@@ -189,6 +189,40 @@ revoke execute on function public.fand_member_gone() from public, anon, authenti
 drop function if exists public.fand_is_member(uuid);
 drop function if exists public.fand_is_dm(uuid);
 
+-- ── profile pictures ─────────────────────────────────────────────
+-- A small square picture (a data: URL the browser makes, about 10-30 KB). You see your own; members of a campaign
+-- see each other's. The site sets it only through fand_set_avatar, which accepts nothing but a plain image.
+create table if not exists public.profiles (
+  user_id uuid primary key references auth.users (id) on delete cascade,
+  avatar text check (avatar is null or (octet_length(avatar) < 200000 and avatar ~ '^data:image/(webp|jpeg|png);base64,[A-Za-z0-9+/]+=*$')),
+  updated_at timestamptz not null default now()
+);
+create or replace function private.fand_shares_campaign(u uuid) returns boolean language sql stable security definer set search_path = '' as $$
+  select exists (select 1 from public.campaign_members a join public.campaign_members b on a.campaign_id = b.campaign_id
+    where a.user_id = (select auth.uid()) and b.user_id = u)
+$$;
+revoke execute on function private.fand_shares_campaign(uuid) from public, anon;
+grant execute on function private.fand_shares_campaign(uuid) to authenticated;
+alter table public.profiles enable row level security;
+drop policy if exists "self or fellow members read" on public.profiles;
+create policy "self or fellow members read" on public.profiles for select to authenticated
+  using (user_id = (select auth.uid()) or private.fand_shares_campaign(user_id));
+revoke all on public.profiles from anon;
+revoke insert, update, delete on public.profiles from authenticated;
+grant select on public.profiles to authenticated;
+create or replace function public.fand_set_avatar(p_avatar text) returns void
+language plpgsql security definer set search_path = '' as $$
+declare me uuid := public.fand_me();
+begin
+  if p_avatar is not null and (octet_length(p_avatar) >= 200000 or p_avatar !~ '^data:image/(webp|jpeg|png);base64,[A-Za-z0-9+/]+=*$') then
+    raise exception 'That picture can''t be used. Try a smaller JPEG, PNG, or WebP image.';
+  end if;
+  insert into public.profiles (user_id, avatar) values (me, p_avatar)
+    on conflict (user_id) do update set avatar = excluded.avatar, updated_at = now();
+end $$;
+revoke execute on function public.fand_set_avatar(text) from public, anon;
+grant execute on function public.fand_set_avatar(text) to authenticated;
+
 -- live updates: the party page hears about characters and members as they change
 do $$
 begin

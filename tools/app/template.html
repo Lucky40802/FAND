@@ -100,6 +100,24 @@ html.standalone .top .backbtn{display:grid}
 .acct-btn{width:auto;padding:0 12px;gap:6px;display:flex;align-items:center;border-color:var(--gold,#c9a54a);color:var(--text);font:inherit;font-size:.84rem;font-weight:600}
 .acct-btn.on{width:36px;padding:0;justify-content:center;border-color:var(--line);position:relative}
 .acct-av{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--goldbg,rgba(201,165,74,.18));color:var(--gold,#c9a54a);font-weight:700;font-size:.85rem}
+.acct-av img{width:26px;height:26px;border-radius:50%;object-fit:cover;display:block}
+.av{border-radius:50%;object-fit:cover;flex-shrink:0;display:inline-grid;place-items:center;vertical-align:middle;overflow:hidden}
+.av-i{background:var(--goldbg,rgba(201,165,74,.18));color:var(--gold,#c9a54a);font-weight:700;line-height:1}
+.acctpop{width:300px;padding:6px}
+.acctpop .ap-h{display:flex;gap:12px;align-items:center;padding:10px 10px 12px;border-bottom:1px solid var(--line);margin-bottom:4px}
+.acctpop .ap-h b{display:block;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acctpop .ap-h small{display:block;font-size:.76rem;color:var(--muted);overflow-wrap:anywhere}
+.acctpop .ap-i{display:flex;width:100%;gap:10px;align-items:center;padding:8px 10px;border-radius:8px;background:none;border:0;color:var(--text2);font:inherit;font-size:.9rem;text-align:left;cursor:pointer}
+.acctpop .ap-i:hover,.acctpop .ap-i:focus-visible{background:var(--accbg);color:var(--text);outline:none}
+.acctpop .ap-i svg{width:16px;height:16px;flex-shrink:0;opacity:.8}
+.acctpop .ap-i small{margin-left:auto;font-size:.74rem;color:var(--muted)}
+.acctpop .ap-sep{height:1px;background:var(--line);margin:4px 6px}
+.pf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:10px}
+.pf-tile{position:relative;aspect-ratio:1;border-radius:50%;border:2px solid transparent;padding:0;background:var(--surf2,var(--surf));cursor:pointer;display:grid;place-items:center;overflow:hidden;color:var(--text2);font:inherit;font-size:.7rem;text-align:center;line-height:1.2}
+.pf-tile img{width:100%;height:100%;object-fit:cover;display:block}
+.pf-tile:hover{border-color:var(--line3)}
+.pf-tile.on{border-color:var(--gold,#c9a54a);box-shadow:0 0 0 3px var(--goldbg,rgba(201,165,74,.25))}
+.pf-tile.up{border:2px dashed var(--line3);background:none}
 .acct-btn.err::after{content:'';position:absolute;top:3px;right:3px;width:8px;height:8px;border-radius:50%;background:var(--red,#d55)}
 @media (max-width:900px){.acct-btn .acct-l{display:none}.acct-btn{width:36px;padding:0;justify-content:center}}
 .acct-btn[hidden]{display:none}
@@ -320,6 +338,28 @@ table.t tr:hover td{background:var(--surf2)}
 @media(max-width:640px){.cw-nav{padding-right:68px}}
 .cw-moves{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.cw-moves .sel{max-width:220px}
 .cw-next{background:var(--goldbg);border:1px solid var(--gold2);border-radius:10px;padding:10px 14px;margin-bottom:12px}.cw-next ul{margin:6px 0 0;padding-left:20px;line-height:1.6}
+.dp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px;margin:8px 0 12px}
+.dp-t{position:relative}
+.dp-add{width:100%;border:1px solid var(--line);border-radius:10px;background:var(--surf);padding:8px 4px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--text2);font:inherit;font-size:.82rem;font-weight:600;cursor:pointer}
+.dp-add:hover{border-color:var(--acc);color:var(--text)}
+.dp-add svg{width:36px;height:36px}.dp-add polygon{fill:none;stroke:currentColor;stroke-width:5;stroke-linejoin:round}
+.dp-t.on .dp-add{border-color:var(--gold,#c9a54a);background:var(--goldbg);color:var(--text)}
+.dp-c{position:absolute;top:-6px;right:-6px;min-width:22px;height:22px;padding:0 5px;border-radius:11px;background:var(--gold,#c9a54a);color:#1a1408;font-size:.78rem;display:grid;place-items:center}
+.dp-rm{position:absolute;top:-6px;left:-6px;width:22px;height:22px;border-radius:50%;border:1px solid var(--line3);background:var(--surf3,var(--surf));color:var(--text);font-weight:700;line-height:1;cursor:pointer;padding:0}
+.dp-opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px 14px;margin:0 0 10px}
+.dp-opts>label{display:flex;flex-direction:column;gap:4px;font-size:.8rem;color:var(--muted)}
+.dp-opts .sel{max-width:none}
+.dp-opts .dp-chk{flex-direction:row;align-items:flex-start;gap:8px;color:var(--text2)}.dp-opts .dp-chk small{display:block;color:var(--muted);font-size:.74rem}
+.dp-step{display:flex;gap:6px;align-items:center}.dp-step b{min-width:32px;text-align:center;color:var(--text);font-size:1rem}
+.dp-sum{margin:2px 0 10px;font-size:1.02rem}
+.dp-res{margin-top:12px;border-top:1px solid var(--line);padding-top:12px}
+.dp-total{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}.dp-total b{font-family:var(--serif);font-size:2.2rem;line-height:1}.dp-total span{color:var(--muted)}
+.dp-dice{display:flex;flex-wrap:wrap;gap:6px}
+.dp-r{position:relative;min-width:44px;height:46px;padding:0 6px 10px;border-radius:9px;border:1px solid var(--line);background:var(--surf);font:inherit;font-weight:700;font-size:1.05rem;color:var(--text);cursor:pointer;display:grid;place-items:center}
+.dp-r small{position:absolute;bottom:2px;left:0;right:0;text-align:center;font-size:.6rem;font-weight:500;color:var(--muted)}
+.dp-r:hover{border-color:var(--acc)}
+.dp-r.hi{border-color:var(--gold,#c9a54a);color:var(--gold,#c9a54a)}.dp-r.lo{border-color:var(--red,#d55);color:var(--red,#d55)}
+.dp-r.ok{background:var(--goldbg)}.dp-r.drop{opacity:.45;text-decoration:line-through}
 .tooltabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
 .tooltabs button{background:var(--surf);border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:.85rem;color:var(--muted);cursor:pointer}
 .tooltabs button:hover{color:var(--text)}
@@ -540,12 +580,13 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   <button class="icon-btn" onclick="openQuick()" aria-label="Quick rules" title="Quick rules"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M9 8h7M9 12h5"/></svg></button>
   <button class="icon-btn" id="installBtn" hidden onclick="installApp()" aria-label="Install FAND as an app" title="Install FAND as an app on this computer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></button>
   <button class="icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle light or dark theme" title="Toggle theme"></button>
-  <button class="icon-btn acct-btn" id="acctBtn" hidden onclick="openSettings()" aria-label="Sign in" title="Sign in"></button>
+  <button class="icon-btn acct-btn" id="acctBtn" hidden onclick="clAcctClick(this)" aria-haspopup="menu" aria-expanded="false" aria-label="Sign in" title="Sign in"></button>
   <button class="icon-btn" onclick="openSettings()" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
 </header>
 
 <nav class="tabs" id="tabs" aria-label="Sections"></nav>
 <div class="navpop" id="navpop" role="menu"></div>
+<div class="navpop acctpop" id="acctpop" role="menu" aria-label="Your account"></div>
 
 <div class="ws">
   <aside class="sb" id="sb" hidden aria-label="Filters"></aside>
@@ -1931,6 +1972,9 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-17','A better Dice pool','The Dice pool on the Dice page now shows each kind of die as a tile (tap to add, − to take one away) and can read the dice in more ways: add them up, keep the highest or lowest few (4d6 keep 3 for ability scores), or count successes at or above a number. d20s can roll with advantage or disadvantage, dice can explode, and a FAND critical multiplies the damage by 1.5. Every die in the result is shown (highest faces in gold, 1s in red, dropped dice struck out), and tapping one rerolls just that die. Saved rolls keep these options.','dice'],
+  ['2026-10-17','Every Tower floor is one level','A Tower\'s floors now climb one level at a time: floor 5 of the Milestone Spire is a level-5 floor for a level-5 party, with grade-5 guardians from the Human Realm (the boss on floor 10 is one of the strongest grade-10 monsters). Towers in higher realms start at the realm\'s level (Mysterious 11, Hell and Heaven 21, …), and past floor 10 the guardians stay grade 10. Session prep sends the party to the floor that matches its level.','towers'],
+  ['2026-10-17','Profile pictures','Click your picture (or initial) in the top bar for your account menu: Edit profile, Campaigns, Sync now, Settings, and Sign out. Edit profile sets your name and your picture: upload one (it is cropped to a square and made small on your device), pick one of sixteen emblems in the realms\' colours, or have none. It shows in the top bar, beside your name in your campaigns, and on characters you share. Only you and the people in your campaigns can see it.','party'],
   ['2026-10-17','Scavenging fix, and Arawn','Opening a corpse to scavenge no longer breaks the page when its saved progress is incomplete (from an older version or another device): the corpse is repaired, or cleared with a note if it cannot be. Arawn\'s Minor contract material (also his temple passage offering) is now Kingsbane Mushroom instead of Witchsilver.','gods'],
   ['2026-10-17','Scavenging in a pop-up window','The Scavenge panel now opens as its own pop-up window: from the 🔪 Scavenge button in the combat tracker, and from a new Scavenge a corpse button in every monster\'s window in the Bestiary. Close it with ✕, Escape, or a click outside.','bestiary'],
   ['2026-10-17','Professions to level 100, and 433 new Blueprints','Every profession\'s level table now runs all the way to level 100 (+1 bonus every 2 levels, so +50 at 100). Professions also have Blueprints past level 20 now: one on every other level from 21 to 99 for each of the ten professions, made from the materials of the realms its stage opens (Hell, Heaven, and Chaos at stage II, up to the Inner Void and Primordial at stage V), plus a Masterwork at levels 40, 60, 80, and 100.','blueprints'],
@@ -2371,10 +2415,62 @@ function backupLoad(inp){
   }).catch(()=>toast('That file is not a FAND backup')).finally(()=>{inp.value=''});
 }
 // The Dice page: quick rolls, a dice pool, saved rolls, and the roll history
-const DPOOL={d:{},mod:0};
-function dicePoolExpr(){const t=[4,6,8,10,12,20,100].filter(x=>DPOOL.d[x]).map(x=>DPOOL.d[x]+'d'+x);if(DPOOL.mod)t.push(String(DPOOL.mod));return t.join('+').replace('+-','-')}
-function dicePool(){const e=dicePoolExpr();$('dp-out').textContent=e||'Tap dice to add them';$('dp-roll').disabled=!e;$('dp-mod').textContent=(DPOOL.mod>0?'+':'')+DPOOL.mod}
-function diceSaved(){const L=store.get('dicesaved',[]);$('ds-list').innerHTML=L.length?L.map((x,i)=>`<div class="enc-row" style="display:flex;gap:8px;align-items:center;padding:7px 12px"><button class="btn primary" type="button" style="padding:4px 10px" onclick="rollShow(${esc(JSON.stringify(x.e))})">🎲</button><b style="flex:1">${esc(x.n)}</b><span class="mono">${esc(x.e)}</span><button class="btn" type="button" style="padding:3px 8px" title="Remove" onclick="const L=store.get('dicesaved',[]);L.splice(${i},1);store.set('dicesaved',L);diceSaved()">✕</button></div>`).join(''):'<div class="note">No saved rolls yet. Save the ones you use every session, like a weapon\'s damage or an initiative roll.</div>'}
+// The Dice pool: dice of every kind rolled together, with ways to read them (sum, keep highest or lowest, count
+// successes), advantage on d20s, exploding dice, and FAND's critical hit (x1.5). Every die can be rerolled on its own.
+const DP_SIDES=[4,6,8,10,12,20,100];
+const DPOOL=Object.assign({d:{},mod:0,mode:'sum',n:1,target:5,adv:'',explode:false,crit:false,last:null},(()=>{try{const o=JSON.parse(localStorage.getItem('fand.dpool')||'null');return o&&typeof o==='object'?{d:o.d||{},mod:+o.mod||0,mode:o.mode||'sum',n:+o.n||1,target:+o.target||5,adv:o.adv||'',explode:!!o.explode,crit:!!o.crit}:{}}catch(e){return {}}})());
+const dpSpec=()=>({d:Object.assign({},DPOOL.d),mod:DPOOL.mod,mode:DPOOL.mode,n:DPOOL.n,target:DPOOL.target,adv:DPOOL.adv,explode:DPOOL.explode,crit:DPOOL.crit});
+const dpCount=sp=>DP_SIDES.reduce((a,x)=>a+(sp.d[x]|0),0);
+function dicePoolExpr(sp){sp=sp||DPOOL;const t=DP_SIDES.filter(x=>sp.d[x]).map(x=>sp.d[x]+'d'+x);if(!t.length)return '';if(sp.mod)t.push(String(sp.mod));return t.join('+').replace('+-','-')}
+// a plain-words name for the roll, used in the history
+function dpLabel(sp){const e=dicePoolExpr(sp);if(!e)return '';const bits=[];if(sp.adv&&sp.d[20])bits.push(sp.adv==='adv'?'advantage':'disadvantage');if(sp.mode==='kh')bits.push('keep highest '+sp.n);if(sp.mode==='kl')bits.push('keep lowest '+sp.n);if(sp.mode==='succ')bits.push('successes on '+sp.target+'+');if(sp.explode)bits.push('exploding');if(sp.crit)bits.push('critical ×1.5');return e+(bits.length?' ('+bits.join(', ')+')':'')}
+// one die through the DM rig (as rollMulti does: a 'next roll only' rig covers the whole pool)
+function dpDie(x){const r=rigDice(1,x,0);return r?r[0]:DIE(x)}
+function dpEntry(x,sp){const e={x,rolls:[]};if(x===20&&sp.adv){e.rolls=[dpDie(20),dpDie(20)];e.v=sp.adv==='adv'?Math.max(...e.rolls):Math.min(...e.rolls);e.pair=true}
+  else{let v=dpDie(x);e.rolls.push(v);let k=0;while(sp.explode&&v===x&&x>1&&k<10){v=dpDie(x);e.rolls.push(v);k++}e.v=e.rolls.reduce((a,b)=>a+b,0)}return e}
+function dpScore(R){const sp=R.sp,es=R.es;es.forEach(e=>e.drop=false);
+  if((sp.mode==='kh'||sp.mode==='kl')&&es.length){const keep=Math.max(1,Math.min(es.length,sp.n|0)),ord=es.map((e,i)=>[e.v,i]).sort((a,b)=>sp.mode==='kh'?b[0]-a[0]:a[0]-b[0]);ord.slice(keep).forEach(([,i])=>es[i].drop=true)}
+  if(sp.mode==='succ'){R.succ=es.filter(e=>e.v>=sp.target).length;R.t=R.succ;return R}
+  let t=es.filter(e=>!e.drop).reduce((a,e)=>a+e.v,0)+(sp.mod|0);if(sp.crit)t=Math.floor(t*1.5);R.t=t;return R}
+function dpRoll(sp){if(!dpCount(sp))return null;const g=store.get('dicerig',null);
+  // an exact-total rig on a plain sum is spread over the dice exactly, as Quick roll does
+  if(g&&g.mode==='total'&&sp.mode==='sum'&&!sp.adv&&!sp.explode&&!sp.crit){const M=rollMulti(dicePoolExpr(sp));if(M){let i=0;const es=[];DP_SIDES.forEach(x=>{for(let k=0;k<(sp.d[x]|0);k++){const v=M.r[i++];es.push({x,rolls:[v],v})}});return dpScore({sp,es})}}
+  if(g&&g.mode)store.set('dicerig',{...g,once:false});
+  try{const es=[];DP_SIDES.forEach(x=>{for(let k=0;k<Math.min(50,sp.d[x]|0);k++)es.push(dpEntry(x,sp))});return dpScore({sp,es})}
+  finally{if(g&&g.mode)store.set('dicerig',g.once?null:g);if($('dr-rig-state'))rigState()}}
+function dpLog(R){const sp=R.sp,log=store.get('dicelog',[]);log.unshift({e:dpLabel(sp),t:R.t,r:R.es.map(e=>e.drop?'('+e.v+')':e.v),mod:sp.mode==='succ'?0:sp.mod});store.set('dicelog',log.slice(0,50));if($('dl-log'))diceLog()}
+function dpShow(R){if(!R)return;DPOOL.last=R;dpLog(R);
+  const first=DP_SIDES.find(x=>R.sp.d[x])||20;if(store.get('diceanim',true))diceOverlay({e:dpLabel(R.sp),t:R.t,r:R.es.filter(e=>!e.drop).map(e=>e.v),mod:R.sp.mode==='succ'?0:R.sp.mod},first);dicePool()}
+function dicePoolRoll(sp){dpShow(dpRoll(sp||dpSpec()))}
+// reroll one die of the last roll (Lucky, Portent, a bardic reroll...)
+function dpReroll(i){const R=DPOOL.last;if(!R||!R.es[i])return;const sp=R.sp,g=store.get('dicerig',null);if(g&&g.mode)store.set('dicerig',{...g,once:false});
+  try{const old=R.es[i].v;R.es[i]=dpEntry(R.es[i].x,sp);dpScore(R);toast('Rerolled a d'+R.es[i].x+': '+old+' → '+R.es[i].v+(sp.mode==='succ'?' · '+R.t+' successes':' · total '+R.t))}
+  finally{if(g&&g.mode)store.set('dicerig',g.once?null:g)}
+  dpLog(R);dicePool()}
+function dpSet(k,v){DPOOL[k]=v;if(k==='d'||k==='mod'||k==='mode'||k==='n'||k==='target'||k==='adv'||k==='explode'||k==='crit')DPOOL.last=DPOOL.last&&JSON.stringify(DPOOL.last.sp)===JSON.stringify(dpSpec())?DPOOL.last:null;
+  try{localStorage.setItem('fand.dpool',JSON.stringify(dpSpec()))}catch(e){}dicePool()}
+function dpAdd(x,n){const d=Object.assign({},DPOOL.d);d[x]=Math.max(0,Math.min(50,(d[x]|0)+n));if(!d[x])delete d[x];dpSet('d',d)}
+function dpPreset(k){const P={ability:{d:{6:4},mod:0,mode:'kh',n:3,adv:'',explode:false,crit:false},adv:{d:{20:1},mode:'sum',adv:'adv',explode:false,crit:false},dis:{d:{20:1},mode:'sum',adv:'dis',explode:false,crit:false},fireball:{d:{6:8},mod:0,mode:'sum',adv:'',explode:false,crit:false}}[k];if(!P)return;Object.assign(DPOOL,P);if(P.mod===undefined)DPOOL.mod=0;dpSet('last',null);dicePoolRoll()}
+function dicePool(){const box=$('dp-box');if(!box)return;const sp=DPOOL,e=dicePoolExpr(sp),R=DPOOL.last;
+  box.innerHTML=`<div class="dp-grid">${DP_SIDES.map(x=>`<div class="dp-t${sp.d[x]?' on':''}"><button type="button" class="dp-add" onclick="dpAdd(${x},1)" aria-label="Add a d${x}"><svg viewBox="0 0 100 100"><polygon points="${DIE_SHAPE[x]||DIE_SHAPE[20]}"/></svg><span>d${x}</span></button>${sp.d[x]?`<b class="dp-c">${sp.d[x]}</b><button type="button" class="dp-rm" onclick="dpAdd(${x},-1)" aria-label="Remove a d${x}">−</button>`:''}</div>`).join('')}</div>
+    <div class="dp-opts">
+      <label>Modifier <span class="dp-step"><button class="btn" type="button" onclick="dpSet('mod',DPOOL.mod-1)" aria-label="Lower the modifier">−</button><b>${sp.mod>0?'+':''}${sp.mod}</b><button class="btn" type="button" onclick="dpSet('mod',DPOOL.mod+1)" aria-label="Raise the modifier">+</button></span></label>
+      <label>Read the dice <select class="sel" onchange="dpSet('mode',this.value)">${[['sum','Add them up'],['kh','Keep the highest…'],['kl','Keep the lowest…'],['succ','Count successes…']].map(([v,l])=>`<option value="${v}"${sp.mode===v?' selected':''}>${l}</option>`).join('')}</select></label>
+      ${sp.mode==='kh'||sp.mode==='kl'?`<label>How many to keep <input class="sel" type="number" min="1" max="50" value="${sp.n}" onchange="dpSet('n',Math.max(1,Math.min(50,+this.value||1)))" style="width:80px"></label>`:''}
+      ${sp.mode==='succ'?`<label>A success is <span style="display:flex;gap:4px;align-items:center"><input class="sel" type="number" min="1" max="100" value="${sp.target}" onchange="dpSet('target',Math.max(1,Math.min(100,+this.value||1)))" style="width:80px"> or more</span></label>`:''}
+      <label>d20s <select class="sel" onchange="dpSet('adv',this.value)">${[['','Normal'],['adv','Advantage (roll 2, keep higher)'],['dis','Disadvantage (roll 2, keep lower)']].map(([v,l])=>`<option value="${v}"${sp.adv===v?' selected':''}>${l}</option>`).join('')}</select></label>
+      <label class="dp-chk"><input type="checkbox" ${sp.explode?'checked':''} onchange="dpSet('explode',this.checked)"><span>Exploding dice<small>a die that rolls its highest face rolls again and adds</small></span></label>
+      ${sp.mode!=='succ'?`<label class="dp-chk"><input type="checkbox" ${sp.crit?'checked':''} onchange="dpSet('crit',this.checked)"><span>Critical hit ×1.5<small>FAND: a headshot deals 1.5 × damage (rounded down), before AC</small></span></label>`:''}
+    </div>
+    <div class="dp-sum"><span class="mono">${esc(e?dpLabel(sp):'Tap a die to add it to the pool')}</span></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" type="button" ${e?'':'disabled'} onclick="dicePoolRoll()">🎲 ${R?'Roll again':'Roll the pool'}</button><button class="btn" type="button" onclick="DPOOL.last=null;dpSet('d',{});dpSet('mod',0)">Clear</button><button class="btn" type="button" ${e?'':'disabled'} onclick="dpSave()">Save this roll</button></div>
+    <div class="chips" style="margin:10px 0 0"><span class="note" style="margin:0 4px 0 0">Quick:</span><button class="chip" type="button" onclick="dpPreset('ability')">Ability score (4d6, keep 3)</button><button class="chip" type="button" onclick="dpPreset('adv')">d20 advantage</button><button class="chip" type="button" onclick="dpPreset('dis')">d20 disadvantage</button><button class="chip" type="button" onclick="dpPreset('fireball')">Fireball (8d6)</button></div>
+    ${R?`<div class="dp-res"><div class="dp-total"><b>${R.t}</b><span>${R.sp.mode==='succ'?(R.t===1?'success':'successes'):'total'}</span></div>
+      <div class="dp-dice">${R.es.map((d,i)=>{const hi=d.rolls.some(v=>v===d.x),lo=!d.pair&&d.rolls[0]===1||d.pair&&d.v===1,ok=R.sp.mode==='succ'&&d.v>=R.sp.target;
+        return `<button type="button" class="dp-r${d.drop?' drop':''}${hi?' hi':''}${lo?' lo':''}${ok?' ok':''}" onclick="dpReroll(${i})" title="d${d.x}${d.pair?': rolled '+d.rolls.join(' and '):d.rolls.length>1?': exploded '+d.rolls.join(' + '):''}. Tap to reroll this die">${d.v}<small>d${d.x}${d.pair?' '+d.rolls.join('/'):d.rolls.length>1?' 💥':''}</small></button>`}).join('')}</div>
+      <div class="note" style="margin:6px 0 0">${R.sp.mode==='succ'?`Dice at ${R.sp.target} or more count as successes.`:`${R.es.filter(d=>!d.drop).map(d=>d.v).join(' + ')}${R.sp.mod?(R.sp.mod>0?' + ':' − ')+Math.abs(R.sp.mod):''}${R.sp.crit?' × 1.5':''}${R.es.some(d=>d.drop)?' · struck-out dice are dropped':''}`} · tap a die to reroll just that one.</div></div>`:''}`}
+function dpSave(){const e=dicePoolExpr();if(!e)return;const sp=dpSpec(),plain=sp.mode==='sum'&&!sp.adv&&!sp.explode&&!sp.crit,n=prompt('Name this roll (for example: Greatsword damage)',dpLabel(sp));if(!n)return;const L=store.get('dicesaved',[]);L.push(plain?{n,e}:{n,e:dpLabel(sp),pool:sp});store.set('dicesaved',L);diceSaved();toast('Saved '+n)}
+function diceSaved(){const L=store.get('dicesaved',[]);$('ds-list').innerHTML=L.length?L.map((x,i)=>`<div class="enc-row" style="display:flex;gap:8px;align-items:center;padding:7px 12px"><button class="btn primary" type="button" style="padding:4px 10px" onclick="${x.pool?`dicePoolRoll(store.get('dicesaved',[])[${i}].pool)`:`rollShow(${esc(JSON.stringify(x.e))})`}">🎲</button><b style="flex:1">${esc(x.n)}</b><span class="mono">${esc(x.e)}</span><button class="btn" type="button" style="padding:3px 8px" title="Remove" onclick="const L=store.get('dicesaved',[]);L.splice(${i},1);store.set('dicesaved',L);diceSaved()">✕</button></div>`).join(''):'<div class="note">No saved rolls yet. Save the ones you use every session, like a weapon\'s damage or an initiative roll.</div>'}
 function renderDice(){
   $('content').innerHTML=`<div class="page">
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Dice</h3><p>Roll anything at the table. Your history and saved rolls stay on this device.</p></div>
@@ -2390,11 +2486,8 @@ function renderDice(){
           <div class="note" id="dr-rig-state" style="margin:6px 0 0"></div><div class="note" style="margin:4px 0 0">Applies to every roll on the site (this tool, clickable dice, the combat and encounter pages). Rigged rolls look exactly like fair ones.</div></details>
         <div style="display:flex;justify-content:space-between;align-items:center;margin:4px 0"><b style="font-size:.85rem">History</b><button class="btn" type="button" style="padding:3px 9px;font-size:.75rem" onclick="store.set('dicelog',[]);diceLog()">Clear</button></div><div id="dl-log" style="display:flex;flex-direction:column;gap:3px;max-height:none;overflow:auto"></div></div>
 
-      <div class="tool" id="t-pool"><h3>Dice pool</h3><div class="sub">Build a roll from several kinds of dice: tap a die to add one, then roll them all together.</div>
-        <div class="chips" style="margin:8px 0">${[4,6,8,10,12,20,100].map(x=>`<button class="chip" type="button" onclick="DPOOL.d[${x}]=(DPOOL.d[${x}]||0)+1;dicePool()">+ d${x}</button>`).join('')}</div>
-        <div style="display:flex;gap:6px;align-items:center;margin:0 0 8px"><span class="note" style="margin:0">Modifier</span><button class="btn" type="button" onclick="DPOOL.mod--;dicePool()">−</button><b id="dp-mod" style="min-width:28px;text-align:center">0</b><button class="btn" type="button" onclick="DPOOL.mod++;dicePool()">+</button></div>
-        <div class="big mono" id="dp-out" style="font-size:1.2rem;margin:6px 0"></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" id="dp-roll" type="button" onclick="rollShow(dicePoolExpr())">🎲 Roll the pool</button><button class="btn" type="button" onclick="DPOOL.d={};DPOOL.mod=0;dicePool()">Clear</button><button class="btn" type="button" onclick="const e=dicePoolExpr();if(!e)return;const n=prompt('Name this roll (for example: Greatsword damage)',e);if(!n)return;const L=store.get('dicesaved',[]);L.push({n,e});store.set('dicesaved',L);diceSaved();toast('Saved '+n)">Save this roll</button></div></div>
+      <div class="tool" id="t-pool"><h3>Dice pool</h3><div class="sub">Tap dice to build a roll, choose how to read them (add up, keep the best, count successes), and roll them together. Tap any die in the result to reroll just that one.</div>
+        <div id="dp-box"></div></div>
 
       <div class="tool" id="t-saved"><h3>Saved rolls</h3><div class="sub">One tap for the rolls you make every session.</div>
         <div class="form" style="grid-template-columns:1fr 1fr auto"><label>Name<input id="ds-n" placeholder="Longsword damage"></label><label>Roll<input id="ds-e" placeholder="1d8+4"></label><label style="align-self:end"><button class="btn" type="button" id="ds-add">Save</button></label></div>
@@ -3731,8 +3824,8 @@ async function renderHidden(){
   const h=location.hash.match(/#hc-([\w-]+)/);if(h&&$('hc-'+h[1])){$('hc-'+h[1]).open=true;$('hc-'+h[1]).scrollIntoView()}
   diceify($('content'));
 }
-// Tower trials (campaign owner's rules): every 10 floors is one level band (floors 1-10 for level 1, 11-20 for
-// level 2, ...), every 10th floor has a boss, a conquered boss floor lets the party teleport to it, and a party above
+// Tower trials (campaign owner's rules): every floor is one level (the Milestone Spire's floor 5 is level 5, with grade-5
+// guardians), every 10th floor has a boss, a conquered boss floor lets the party teleport to it, and a party above
 // a floor's level gets no loot. Rewards are gold, an item, or a Class Change Book for a hidden class.
 // Floor missions: every floor gives the party one clear mission. Placeholders: {R} the floor's Rune, {L} its Law, {T} a
 // number of rounds, {N} an NPC, {D} a destination, {I} an item, {S} a maze size, {DC} a check DC.
@@ -3750,18 +3843,20 @@ const TRIAL_KINDS=[
 ];
 const TRIAL_PLACES=['the stairs','the far gate of the floor','the shrine at the floor\'s centre','an old campfire by the east wall','a rope bridge over the floor\'s chasm'],TRIAL_ITEMS=['the {R} Rune-shard','a sealed reliquary','the floor guardian\'s key','a progenitor\'s tooth','a cracked Class Change Book'];
 const ORD=n=>n+(['th','st','nd','rd'][(n%100-20)%10]||['th','st','nd','rd'][n%100]||'th');
-// A Tower's first floors match its realm's stage: Human level 1, Mysterious 11, Hell and Heaven 21, ...
-// Towers keep the realms' 10-level difficulty ladder: the Human Towers start at level 1, the Mysterious at 11, Hell's at 21
+// A Tower's first floor matches its realm's stage: Human level 1, Mysterious 11, Hell and Heaven 21, ...
+// and every floor is one level (campaign owner's rule): floor 5 of the Milestone Spire is a level-5 floor with grade-5
+// guardians. A realm's monster grades run 1 to 10, so floors past the 10th keep grade-10 guardians.
 const towerStart=realm=>((REALM[realm]||{tier:1}).tier-1)*10+1;
+const floorLevel=(realm,floor)=>towerStart(realm)+Math.max(1,floor|0)-1;
+const floorGrade=floor=>Math.max(1,Math.min(10,floor|0));
 // CR for a level: the level itself up to 20, then slowly toward 30
 const crFor=L=>L<=20?L:Math.min(30,20+Math.round((L-20)/9));
-// Tower guardians: realm-relative like encounter budgets (a realm's own monsters already scale with its tier), always
-// from the Tower's own realm, the closest challenge ratings to the floor's window; a boss floor always has a boss
-function trialMonsters(realm,L,boss,R){const cr=crFor(encLevel({level:L,realm}));
-  const lo=boss?cr+2:Math.max(0,cr-3),hi=boss?cr+5:cr,c=m=>crNum(m.sb?m.sb.cr:m.cr),dist=m=>c(m)<lo?lo-c(m):c(m)>hi?c(m)-hi:0;
-  const own=MONSTERS.filter(m=>m.realm===realm);let pool=own.filter(m=>!dist(m));
-  if(pool.length<3&&own.length){const near=own.slice().sort((a,b)=>dist(a)-dist(b)),d=dist(near[Math.min(near.length-1,boss?0:2)]);pool=near.filter(m=>dist(m)<=d)}
-  if(!pool.length)pool=MONSTERS.filter(m=>!dist(m));
+// Tower guardians: monsters of the floor's grade from the Tower's own realm (the nearest grade where the realm has none);
+// a boss floor's guardian is one of the strongest of that grade
+function trialMonsters(realm,G,boss,R){const own=MONSTERS.filter(m=>m.realm===realm),c=m=>crNum(m.sb?m.sb.cr:m.cr);
+  let pool=own.filter(m=>m.g===G);for(let d=1;!pool.length&&d<10;d++)pool=own.filter(m=>Math.abs(m.g-G)===d);
+  if(!pool.length)pool=MONSTERS.filter(m=>m.g===G);
+  if(boss){pool=pool.slice().sort((a,b)=>c(b)-c(a));pool=pool.slice(0,Math.max(1,Math.ceil(pool.length/3)))}
   const pk=()=>pool[Math.floor(R()*pool.length)];
   return (boss?[pk()]:Array.from({length:2+Math.floor(R()*3)},pk)).filter(Boolean);
 }
@@ -3769,20 +3864,20 @@ const LEG_TRIAL=[.03,.08];
 const hcReqLevel=c=>{const m=/level (\d+)/i.exec(c.requires||'');return m?+m[1]:1};
 function makeTrial(o){
   {const T0=towerOf(o.tower||o.realm);o=Object.assign({},o,{realm:T0.realm,tower:T0.id})}
-  const T=towerOf(o.tower),floor=Math.max(1,Math.min(T.floors,o.floor|0)),start=towerStart(o.realm),L=start+Math.floor((floor-1)/10),boss=floor%10===0;
+  const T=towerOf(o.tower),floor=Math.max(1,Math.min(T.floors,o.floor|0)),start=towerStart(o.realm),L=floorLevel(o.realm,floor),G=floorGrade(floor),boss=floor%10===0;
   const R=rng32((o.seed||0)+floor*7919+o.tower.length*31+(o.rune||'').length*131);
   const runes=T.runes,rune=RUNE_IDX.get(lc(o.rune||''))||runes[Math.floor(R()*runes.length)]||RUNES[0];
   const law=rune.note?plainMd(rune.note.md).split(/(?<=\.)\s/)[0].slice(0,200):`${rune.n} is in the air of every room.`;
   const kind=boss?['Boss','Defeat the floor guardian.','The floor guardian waits at the top of the stairs. The {R} Law hums in its weapon; defeat it to conquer the floor.']:TRIAL_KINDS[Math.floor(R()*TRIAL_KINDS.length)];
   const fill=x=>x.replace(/\{R\}/g,rune.n).replace(/\{T\}/g,String(3+Math.floor(R()*4))).replace('{L}',law).replace(/\{DC\}/g,String(10+Math.ceil(L/4))).replace(/\{S\}/g,String(5+Math.floor(L/10)*2)).replace(/\{N\}/g,fill.npc||(fill.npc=NPC_FIRST[Math.floor(R()*NPC_FIRST.length)]+' '+NPC_LAST[Math.floor(R()*NPC_LAST.length)])).replace(/\{D\}/g,fill.dest||(fill.dest=TRIAL_PLACES[Math.floor(R()*TRIAL_PLACES.length)])).replace(/\{I\}/g,fill.item||(fill.item=TRIAL_ITEMS[Math.floor(R()*TRIAL_ITEMS.length)].replace('{R}',rune.n)));
   const mission=fill(kind[1]),text=fill(kind[2]);
-  const mons=trialMonsters(o.realm,L,boss,R),over=(o.level|0)>L;
+  const mons=trialMonsters(o.realm,G,boss,R),over=(o.level|0)>L;
   const rw=[];
   // over-level parties get no gold, materials, or items; a Class Change Book can still drop, at a reduced chance that
   // halves for every 5 levels above the floor (50%, 25%, 12.5%, never below 10%)
   const bookCh=over?Math.max(.1,Math.pow(.5,Math.ceil(((o.level|0)-L)/5))):1;
   if(!over){
-    // gold follows the realm's prices: a floor pays about one grade-5 material of its realm, a boss about three, rising 15% a level band
+    // gold follows the realm's prices: a floor pays about one grade-5 material of its realm, a boss about three, rising 15% a level
     const tier=(REALM[o.realm]||{}).tier||1,g=Math.max(5,Math.round(realmBase(o.realm)*5*(1+0.15*(L-start))*(boss?3:1)*(0.75+R()*0.5)/5)*5);rw.push({k:'gold',t:gp(g),v:g});
     // materials of the Tower's realm, their grade rising with the floor's level (a boss gives one grade more)
     const mg=Math.max(1,Math.min(10,1+(L-start)+(boss?1:0))),mp=MATS.filter(m=>m.realm===o.realm&&m.g===mg&&!m.gen);if(mp.length){const m=mp[Math.floor(R()*mp.length)];rw.push({k:'mat',x:m,q:(boss?3:1)+Math.floor(R()*2)})}
@@ -3806,18 +3901,18 @@ function makeTrial(o){
   if(R2()<(boss?LEG_TRIAL[1]:LEG_TRIAL[0])){
     if(HC){const pool=HC.filter(c=>c.tier==='Legendary'&&!c.combo&&hcReqLevel(c)<=L);if(pool.length)legend=pool[Math.floor(R2()*pool.length)]}
   }
-  return {T,floor,L,boss,rune,kind:kind[0],mission,text,mons,over,rw,bookCh,legend};
+  return {T,floor,L,G,boss,rune,kind:kind[0],mission,text,mons,over,rw,bookCh,legend};
 }
 function trialHTML(t,o){
   const prog=store.get('towerprog',{})[t.T.id]||0,ports=[1];for(let f=10;f<=prog;f+=10)ports.push(f);
   return `<div class="panel" style="border-top:3px solid ${(REALM[o.realm]||{}).color||'var(--gold)'}">
-    <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><b style="font-family:var(--serif);font-size:1.2rem">${esc(t.T.name)}, ${ORD(t.floor)} floor</b>${t.boss?'<span class="b red">Boss floor</span>':''}<span class="b">Floor level ${t.L}</span><span class="b ghost">${esc(t.kind)}</span><span class="note" style="margin:0">Built on ${refChip(t.rune)}</span></div>
+    <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><b style="font-family:var(--serif);font-size:1.2rem">${esc(t.T.name)}, ${ORD(t.floor)} floor</b>${t.boss?'<span class="b red">Boss floor</span>':''}<span class="b">Level ${t.L}</span><span class="b ghost">Grade ${t.G} guardians</span><span class="b ghost">${esc(t.kind)}</span><span class="note" style="margin:0">Built on ${refChip(t.rune)}</span></div>
     <div style="margin:10px 0 4px;font-size:1.05rem"><b>Mission:</b> ${esc(t.mission)}</div>
     <p style="line-height:1.6;margin:4px 0 8px">${esc(t.text)}</p>
     <details open style="margin:6px 0 10px"><summary style="cursor:pointer;font-weight:600">Floor map</summary><div style="margin-top:8px">${floorMapSVG(t,o)}</div></details>
     ${trackHTML(t,o)}
     ${t.mons.length?`<div class="blk"><h4>${t.boss?'Floor guardian':'Guardians'}</h4></div><div class="chips">${t.mons.map(m=>refChip(m,esc(m.n),'CR '+(m.sb?m.sb.cr:m.cr))).join('')}</div>`:''}
-    <div class="blk" style="margin-top:10px"><h4>Reward <em>scaled to floor ${t.floor} (level ${t.L}) of a tier-${(REALM[o.realm]||{}).tier||1} Tower</em></h4></div>
+    <div class="blk" style="margin-top:10px"><h4>Reward <em>scaled to floor ${t.floor} (level ${t.L}, grade ${t.G}) of a tier-${(REALM[o.realm]||{}).tier||1} Tower</em></h4></div>
     ${t.over?`<div class="callout" style="border-color:var(--red)"><b>No loot.</b> The party (level ${o.level}) is above this floor's level (${t.L}). The Tower gives nothing to those who climb beneath themselves, except perhaps a Class Change Book: ${Math.round(t.bookCh*100)}% chance here (it halves for every 5 levels above the floor).</div>`:''}${!t.rw.length?(t.over?'<div class="note">No Class Change Book this time.</div>':''):`<div class="mlist">${t.rw.map(r=>r.k==='gold'?`<button disabled style="opacity:1;cursor:default">💰 <b>${r.t}</b><span class="x">${localPrice(r.v,o.realm)||''}</span></button>`:r.k==='mat'?`<button data-ref="${ref(r.x)}">⛏ <b>${r.q}× ${esc(r.x.n)}</b><span class="x">${esc(r.x.gr)}${r.x.pn?' · '+esc(r.x.pn):''}</span></button>`:r.k==='item'?`<button data-ref="${ref(r.x)}">🎁 <b>${esc(r.x.n)}</b><span class="x">${esc(r.x.cat)} · Lv ${r.x.lv}${r.x.r?' · '+esc(r.x.r):''}</span></button>`:r.k==='forged'?`<button data-ref="${ref(r.x)}">🎁 <b>${esc(r.x.n)} ${esc(r.base)}</b><span class="x">Forge design · Item Level ${r.x.il||1} · ${esc(r.x.gr)}</span></button>`:r.k==='book'?`<a class="chip" href="${pageUrl('hidden')}#hc-${pid(r.c.n)}" data-go="hidden" style="text-decoration:none;padding:8px 12px">📕 <b>Class Change Book: ${esc(r.c.n)}</b> <small>${esc(r.c.tier)}${r.c.base&&r.c.base!=='Any'?' · for '+esc(r.c.base):''}</small></a>`:`<a class="chip" href="${pageUrl('hidden')}" data-go="hidden" style="padding:8px 12px;white-space:normal;max-width:100%">📕 <b>A sealed Class Change Book</b> <small>unlock the hidden class list to see which</small></a>`).join('')}</div>`}
     ${t.legend&&HC?(()=>{const dc=10+Math.ceil(t.L/4);if(t.legend==='sealed')return `<details class="fold" style="margin-top:10px"><summary>DM: secret room on this floor</summary><div class="note" style="margin:6px 0 0">A secret room on this floor holds a Legendary class's trial. Unlock the hidden class list to see which.</div></details>`;
       const own=towerOf(hcTower(t.legend)).name,core=own.replace(/^The /,''),trial=String(t.legend.unlock||'').replace(new RegExp('\\b(the |The )?'+core.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'g'),'this secret room').replace(/^(At|On) the top of this secret room,?\s*/i,'Inside, ').replace(/^Climb this secret room to /i,'Inside, reach ');
@@ -3936,7 +4031,7 @@ function floorMapSVG(t,o){
 function trialTool(){
   const o=Object.assign({realm:'Human',rune:'',floor:1,level:1,seed:1},store.get('trial',{}));
   const T=towerOf(o.tower||o.realm),runes=T.runes;
-  return `<section class="sec" id="trial"><div class="sec-h"><h3>Tower trial</h3><p>Pick a Tower (or the unclaimed Rune it is built on) and a floor. Every 10 floors is one level band, starting at the realm's stage (Human level 1, Mysterious 11, Hell and Heaven 21, …), with a boss on every 10th floor.</p></div>
+  return `<section class="sec" id="trial"><div class="sec-h"><h3>Tower trial</h3><p>Pick a Tower (or the unclaimed Rune it is built on) and a floor. Every floor is one level, starting at the realm's stage: floor 5 of the Milestone Spire is level 5 with grade-5 guardians (Mysterious Towers start at level 11, Hell and Heaven at 21, …; past floor 10 the guardians stay grade 10), with a boss on every 10th floor.</p></div>
     <div class="tool"><div class="form" style="grid-template-columns:repeat(5,1fr)">
       <label>Tower<select id="tr-realm">${REALMS.map(r=>`<optgroup label="${esc(r.n)} Realm">${towersIn(r.n).map(t=>`<option value="${esc(t.id)}"${t.id===T.id?' selected':''}>${esc(t.name)}</option>`).join('')}</optgroup>`).join('')}</select></label>
       <label>Built on the Rune<select id="tr-rune"><option value="">Any of its ${runes.length}</option>${runes.slice().sort(byName).map(r=>`<option${r.n===o.rune?' selected':''}>${esc(r.n)}</option>`).join('')}</select></label>
@@ -3962,10 +4057,10 @@ async function renderTowers(){
   $('content').innerHTML=`<div class="page">
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">The Towers</h3><p>Up to five Towers stand in every realm (${TOWERS.length} in all). No one built them: they grew out of the excess energy of unclaimed Runes, Laws no god holds, whose power has nowhere else to go; related Runes feed the same Tower. The deeper the realm, the taller its Towers. Climbing one is the only way, besides certain quests, to unlock a <a href="${pageUrl('hidden')}" data-go="hidden">hidden class</a>.</p></div>
     ${trialTool()}
-    <div class="callout" style="margin:14px 0">Every 10 floors is one level band, starting at the realm's own class-change band: the Human Tower's floors 1–10 are level 1, the Mysterious Tower's start at level 11, Hell's and Heaven's at 21, and so on, with a boss on every 10th floor. Conquer a boss floor and you can teleport to it from then on. A party whose level is above a floor's level gets no gold, materials, or items there; a Class Change Book can still drop, at a reduced chance (50%, halving every 5 levels over, never below 10%). Each floor is guarded by creatures of the Tower's realm, stronger the higher you climb. Epic classes wait halfway up, Unique classes three quarters of the way, and Legendary classes at the top, ${HC?' Any floor of any Tower may also hide a secret room with a Legendary class\'s trial (3% a floor, 8% on boss floors), apart from the floor\'s mission (shown to you in the trial while the hidden class list is unlocked).':''} When a god claims one of a Tower's Runes, that Rune stops feeding it, so Towers can shrink, and new floors open when a Rune is lost.</div>
+    <div class="callout" style="margin:14px 0">Every floor is one level, starting at the realm's own level: floor 5 of the Milestone Spire is a level-5 floor for a level-5 party, guarded by grade-5 monsters of the Human Realm. The Mysterious Towers start at level 11, Hell's and Heaven's at 21, and so on; past floor 10 the guardians stay grade 10. A boss waits on every 10th floor. Conquer a boss floor and you can teleport to it from then on. A party whose level is above a floor's level gets no gold, materials, or items there; a Class Change Book can still drop, at a reduced chance (50%, halving every 5 levels over, never below 10%). Each floor is guarded by creatures of the Tower's realm whose grade matches the floor. Epic classes wait halfway up, Unique classes three quarters of the way, and Legendary classes at the top, ${HC?' Any floor of any Tower may also hide a secret room with a Legendary class\'s trial (3% a floor, 8% on boss floors), apart from the floor\'s mission (shown to you in the trial while the hidden class list is unlocked).':''} When a god claims one of a Tower's Runes, that Rune stops feeding it, so Towers can shrink, and new floors open when a Rune is lost.</div>
     ${TOWERS.map(t=>{const r=REALM[t.realm],rs=t.runes,cls=(HC||[]).filter(c=>hcInTower(c)&&hcTower(c)===t.id).sort((a,b)=>hcFloor(a)-hcFloor(b)),nLocked=sealedIn(t);
       const mons=MONSTERS.filter(m=>m.realm===r.n),bands=[0,.25,.5,.75].map((f,i)=>{const lo=Math.max(1,Math.round(t.floors*f)+1),hi=Math.round(t.floors*(f+.25)),gs=mons.filter(m=>m.g>=1+i*2.5&&m.g<=3+i*2.5).sort((a,b)=>a.g-b.g);return [lo,hi,gs.slice(0,6)]});
-      return `${t.i===0?`<div class="sec-h" style="margin-top:22px" id="tw-${pid(r.n)}-realm"><h3>${esc(r.n)} Realm</h3><p>${towersIn(r.n).length} Tower${towersIn(r.n).length>1?'s':''} · ${t.floors} floors each · levels from ${towerStart(r.n)}</p></div>`:''}<section class="sec" id="tw-${pid(t.id)}" style="margin-top:8px"><div class="panel" style="border-top:3px solid ${r.color}"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="margin:0;font-size:1.25rem;font-family:var(--serif)">${esc(t.name)}</h4><span class="note" style="margin:0">${refChip(r,esc(r.n)+' Realm')} · ${t.floors} floors · fed by ${rs.length} unclaimed Runes</span></div>
+      return `${t.i===0?`<div class="sec-h" style="margin-top:22px" id="tw-${pid(r.n)}-realm"><h3>${esc(r.n)} Realm</h3><p>${towersIn(r.n).length} Tower${towersIn(r.n).length>1?'s':''} · ${t.floors} floors each · floor 1 is level ${towerStart(r.n)}, each floor one level higher</p></div>`:''}<section class="sec" id="tw-${pid(t.id)}" style="margin-top:8px"><div class="panel" style="border-top:3px solid ${r.color}"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="margin:0;font-size:1.25rem;font-family:var(--serif)">${esc(t.name)}</h4><span class="note" style="margin:0">${refChip(r,esc(r.n)+' Realm')} · ${t.floors} floors · fed by ${rs.length} unclaimed Runes</span></div>
         ${t.look?`<p style="font-style:italic;color:var(--text2);margin:6px 0">${esc(t.look)}</p>`:''}
         <div class="tablewrap" style="margin-top:6px"><table class="t"><thead><tr><th>Floors</th><th>Guardians</th></tr></thead><tbody>${bands.map(([lo,hi,gs])=>`<tr><td style="white-space:nowrap">${lo}–${hi}</td><td>${gs.length?gs.map(m=>refChip(m,esc(m.n),'G'+m.g)).join(' '):'<span class="note">the Tower\'s own constructs</span>'}</td></tr>`).join('')}</tbody></table></div>
         ${!HC&&nLocked?`<div class="blk" style="margin-top:8px"><h4>Hidden classes in this Tower</h4></div><a class="chip" href="${pageUrl('hidden')}" data-go="hidden">🔒 ${nLocked} sealed: unlock the list to see them</a>`:''}
@@ -4129,9 +4224,9 @@ function prepHTML(s){
   const est={level:L,size:s.size,realm},th=encBudget(est),fights=[0,1,2].map(d=>{const pool=MONSTERS.filter(m=>m.realm===realm&&monXP(m)>0&&monXP(m)<=th[d]);if(!pool.length)return null;const pick=encPick(pool,s.size,th[d],R),c=new Map();pick.forEach(m=>c.set(m,(c.get(m)||0)+1));return {d:DIFFS[d],list:[...c]}});
   // a named foe at the party's level, with a full profile
   const foeCR=String(Math.min(30,crFor(encLevel(est))+2)),foe=sbMake({kind:'named',level:L,realm,cr:foeCR,seed:(R()*2**31)|0}),fo={kind:'named',level:L,realm,cr:foeCR};
-  // the realm's Tower: the boss floor of the party's level band, if the party has reached that Tower
+  // the realm's Tower: the floor that matches the party's level (each floor is one level), if the party has reached that Tower
   const tws=towersIn(realm),T=tws.length?tws[Math.floor(R()*tws.length)]:towerOf(realm),start=towerStart(realm),band=L-start;let tower='';
-  if(T&&band>=0){const floor=Math.min(T.floors,(band+1)*10),o={realm,tower:T.id,floor,level:L,seed:(R()*2**31)|0};tower=trialHTML(makeTrial(o),o)}
+  if(T&&band>=0){const floor=Math.min(T.floors,band+1),o={realm,tower:T.id,floor,level:L,seed:(R()*2**31)|0};tower=trialHTML(makeTrial(o),o)}
   else if(T)tower=`<div class="note">The ${esc(realm)} Realm's Towers start at level ${start}; this party (level ${L}) can't climb them yet.</div>`;
   // loot: every fight's drops, priced
   const drops=new Map();fights.filter(Boolean).forEach(f=>f.list.forEach(([m,n])=>(m.drops||[]).forEach(d=>{const x=findMat(d[0]);if(x)drops.set(x,(drops.get(x)||0)+n)})));
@@ -4143,7 +4238,7 @@ function prepHTML(s){
     +sec('People to meet','',`<div style="display:flex;flex-direction:column;gap:10px">${npcs.map(npcHTML).join('')}</div>`)
     +sec('Fights','Easy, Medium, and Hard, from the realm\'s Bestiary.',`<div style="display:flex;flex-direction:column;gap:8px">${fights.map((f,i)=>f?`<div class="panel" style="padding:10px 12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><b style="min-width:70px">${f.d}</b>${f.list.map(([m,n])=>`<span>${n}× ${refChip(m,esc(m.n),'CR '+esc(m.sb.cr))}</span>`).join('')}</div>`:`<div class="note">No ${DIFFS[i]} fight fits in ${esc(realm)} at this level.</div>`).join('')}</div>`)
     +sec('Named foe',`A recurring enemy at CR ${foeCR} (the realm's own scaling on top), ready to drop into any of the hooks.`,sbProfileHTML(foe,fo)+sbHTML(foe.m))
-    +(tower?sec('Tower floor',T?`${esc(T.name)}, one of the ${esc(realm)} Realm's ${tws.length} Towers, at the party's level band.`:'',tower):'')
+    +(tower?sec('Tower floor',T?`${esc(T.name)}, one of the ${esc(realm)} Realm's ${tws.length} Towers, at the floor that matches the party's level.`:'',tower):'')
     +sec('Loot',drops.size?`Harvestable drops from all three fights, worth about ${gp(lootVal)}.`:'',drops.size?`<div class="chips">${[...drops].map(([m,n])=>refChip(m,n+'× '+esc(m.n),esc(m.gr))).join('')}</div>`:'<div class="note">These fights drop nothing harvestable.</div>')
     +sec('Deeds that earn a level','Levelling is by accomplishment: any of these, done this session, is worth a level at your call.',`<ul style="line-height:1.8;margin:0">${deeds.map(d=>`<li>${esc(d)}</li>`).join('')}${nextChange?`<li><b>Level ${L+1} is a class change</b>: each class turns into its ${ROMAN[stageOf(L+1)-1]} (Ranger ${ROMAN[stageOf(L+1)-1]}, and so on), a fitting moment for a class change trial.</li>`:''}</ul>`);
 }
@@ -4899,7 +4994,7 @@ function openQuick(){
       ${sec('Saving throws and initiative',`<p style="margin:0">A save is a <b>plain d20</b>: no ability modifier, no proficiency. <b>Initiative</b> works the same way, monsters included: no DEX. Only <b>class abilities</b> and <b>equipment</b> add to them. Gear made with Warding, Steadfast, Clear-Minded, Quickening, Ever-Ready, or Timebound materials raises them by the material's Potency; the highest worn bonus of each kind counts, and the sheet adds it for you. <b>Skills</b> add no ability modifier either: each skill's bonus is written in by hand.</p>`)}
       ${sec('Realm Pressure',`<p style="margin:0 0 6px">Strain is a realm's Pressure minus the traveler's Attunement (from level, contract rank, or realm-material gear).</p><ul style="margin:0 0 8px;padding-left:20px"><li><b>1:</b> disadvantage on Constitution saves</li><li><b>2:</b> also 1 level of exhaustion per day</li><li><b>3:</b> also no benefit from long rests</li><li><b>4+:</b> 1 level of exhaustion every hour</li></ul><div class="chips">${REALMS.map(r=>`<span class="chip" style="border-color:${r.color}">${esc(r.n)} <b>${r.pressure}</b></span>`).join('')}</div><p class="note" style="margin:6px 0 0">Inside a god's own domain (through a temple passage) Pressure does not apply.</p>`)}
       ${sec('Conditions',`<div style="display:flex;flex-direction:column;gap:6px">${CONDITIONS.map(c=>`<div><b>${c}.</b> ${esc(COND_TEXT[c]||'')}</div>`).join('')}</div>`)}
-      ${sec('Tower floors',`<ul style="margin:0;padding-left:20px"><li>Each Tower floor gives a <b>mission</b>; every 10th floor is a boss.</li><li>Every 10 floors is one level band, starting at the realm's stage.</li><li>A party above the floor's level gets no loot, only a reduced chance of a Class Change Book.</li><li>Boss floors you conquer become teleport points.</li></ul><p style="margin:8px 0 0"><a href="${pageUrl('towers')}" data-go="towers">Open the Tower trial →</a></p>`)}
+      ${sec('Tower floors',`<ul style="margin:0;padding-left:20px"><li>Each Tower floor gives a <b>mission</b>; every 10th floor is a boss.</li><li>Every floor is one level, starting at the realm's stage: floor 5 of the Milestone Spire is level 5, with grade-5 guardians.</li><li>A party above the floor's level gets no loot, only a reduced chance of a Class Change Book.</li><li>Boss floors you conquer become teleport points.</li></ul><p style="margin:8px 0 0"><a href="${pageUrl('towers')}" data-go="towers">Open the Tower trial →</a></p>`)}
       <div class="note" style="margin:0">Full rules: <a href="${pageUrl('rules')}" data-go="rules">Rules page</a>.</div>
     </div>`;
   $('qbg').classList.add('open');
@@ -4919,10 +5014,10 @@ $('sbg').addEventListener('mousedown',e=>{if(e.target===$('sbg'))closeSettings()
 // character instead: each character keeps its own change time (_m) and a deleted one leaves a marker (partygone), so
 // editing different characters on two devices loses nothing. A DM's campaign shares characters: every member sees the
 // shared characters live, and only a character's owner or the DM can change it (the database enforces this).
-var CL={on:typeof CLOUD!=='undefined'&&!!(CLOUD&&CLOUD.url&&CLOUD.key),sb:null,user:null,ready:null,signing:null,camps:[],members:{},
+var CL={on:typeof CLOUD!=='undefined'&&!!(CLOUD&&CLOUD.url&&CLOUD.key),sb:null,user:null,avatars:{},ready:null,signing:null,camps:[],members:{},
   dirty:new Set(),cdirty:new Set(),cgone:[],timer:0,ctimer:0,rtimer:0,pushing:false,cpushing:false,err:'',last:0,touched:false,chan:null,step:'',email:'',hc:false,later:false};
 // kept on each device only: appearance, screen state (filters, searches, recently viewed), and the hidden-class locks
-const CL_LOCAL=new Set(['theme','wakelock','tooltab','viewmode','charwiz','jedit','clsfocus','placefocus','diceanim','recent','spells','hc','hclv','jq','magic','rmap','hcpat','hcpin','hcqm','hcguard','hclog','anthropicKey']);
+const CL_LOCAL=new Set(['theme','wakelock','tooltab','viewmode','charwiz','jedit','clsfocus','placefocus','diceanim','recent','spells','hc','hclv','jq','magic','rmap','dpool','hcpat','hcpin','hcqm','hcguard','hclog','anthropicKey']);
 const clSkip=k=>!k||k.startsWith('__')||CL_LOCAL.has(k);
 function clMeta(){if(!clMeta.m){try{clMeta.m=JSON.parse(localStorage.getItem('fand.__cloud')||'null')}catch(e){}if(!clMeta.m||typeof clMeta.m!=='object')clMeta.m={};clMeta.m.ts=clMeta.m.ts||{}}return clMeta.m}
 function clMetaSave(){try{localStorage.setItem('fand.__cloud',JSON.stringify(clMeta()))}catch(e){}}
@@ -5005,7 +5100,81 @@ async function campRefresh(){if(!CL.user)return;
   const [a,b]=await Promise.all([CL.sb.from('campaigns').select('id,name,dm,invite,created_at').order('created_at'),CL.sb.from('campaign_members').select('campaign_id,user_id,name,role,joined_at').order('joined_at')]);
   if(a.error)throw a.error;if(b.error)throw b.error;
   CL.camps=a.data||[];CL.members={};(b.data||[]).forEach(m=>(CL.members[m.campaign_id]||(CL.members[m.campaign_id]=[])).push(m));
+  await clAvLoad([CL.user.id].concat((b.data||[]).map(m=>m.user_id)));
   await campPull();campSubscribe();clStatus();clRerender()}
+// ── profile pictures: a small square image per account, seen by yourself and the people in your campaigns ──
+const CL_AV=/^data:image\/(webp|jpeg|png);base64,[A-Za-z0-9+/]+=*$/;
+const clAvOk=a=>typeof a==='string'&&a.length<200000&&CL_AV.test(a);
+function clAv(u){if(!u)return '';const a=CL.avatars[u];if(clAvOk(a))return a;if(CL.user&&u===CL.user.id){let c='';try{c=localStorage.getItem('fand.__avatar')||''}catch(e){}return clAvOk(c)?c:''}return ''}
+function clAvHTML(u,name,size){const a=clAv(u),n=String(name||'?').trim();
+  return a?`<img class="av" src="${a}" alt="" style="width:${size}px;height:${size}px">`:`<span class="av av-i" style="width:${size}px;height:${size}px;font-size:${Math.round(size*.45)}px">${esc(n.charAt(0).toUpperCase()||'?')}</span>`}
+async function clAvLoad(ids){ids=[...new Set(ids.filter(Boolean))];if(!ids.length||!CL.sb)return;
+  const {data,error}=await CL.sb.from('profiles').select('user_id,avatar').in('user_id',ids);if(error)return; // no profiles table yet: initials only
+  ids.forEach(id=>{delete CL.avatars[id]});(data||[]).forEach(r=>{if(clAvOk(r.avatar))CL.avatars[r.user_id]=r.avatar});
+  if(CL.user)try{localStorage.setItem('fand.__avatar',CL.avatars[CL.user.id]||'')}catch(e){}}
+// a picture from the device: cropped to the middle square and shrunk to 192 px before it leaves the browser
+const clCanvasURL=c=>{const d=c.toDataURL('image/webp',0.85);return /^data:image\/webp/.test(d)?d:c.toDataURL('image/jpeg',0.85)};
+function clCrop(f){return new Promise((res,rej)=>{if(!f||!/^image\//.test(f.type)){rej(new Error('Choose a picture file.'));return}
+  const url=URL.createObjectURL(f),img=new Image();
+  img.onload=()=>{URL.revokeObjectURL(url);const S=192,c=document.createElement('canvas');c.width=c.height=S;const w=img.naturalWidth,h=img.naturalHeight,m=Math.min(w,h),x=c.getContext('2d');
+    x.fillStyle='#2a2633';x.fillRect(0,0,S,S);x.imageSmoothingQuality='high';x.drawImage(img,(w-m)/2,(h-m)/2,m,m,0,0,S,S);res(clCanvasURL(c))};
+  img.onerror=()=>{URL.revokeObjectURL(url);rej(new Error('That picture could not be opened.'))};img.src=url})}
+async function clSetAvatar(d,quiet){if(!CL.user)return false;if(d&&!clAvOk(d)){toast('That picture can\'t be used. Try another one.');return false}
+  const {error}=await CL.sb.rpc('fand_set_avatar',{p_avatar:d||null});
+  if(error){toast(/schema cache|could not find|does not exist/i.test(error.message||'')?'Pictures need the updated database setup: run tools/cloud/schema.sql in Supabase again.':clMsg(error));return false}
+  if(d)CL.avatars[CL.user.id]=d;else delete CL.avatars[CL.user.id];try{localStorage.setItem('fand.__avatar',d||'')}catch(e){}
+  if(!quiet)toast(d?'Picture saved':'Picture removed');clHeader();if($('sbg').classList.contains('open'))openSettings();clRerender();return true}
+// ready-made pictures: an emblem on a realm's colour, drawn here and saved like an uploaded picture
+const CL_EMBLEMS=['✦','☽','☀','✠','❖','♛','✧','☠','⚜','♆','✪','❂','☘','❄','⚔','✺'];
+function clEmblems(){if(clEmblems.list)return clEmblems.list;const cols=(typeof REALMS!=='undefined'?REALMS.map(r=>r.color):[]).concat(['#7b5cd6','#c9a54a','#3aa58a','#c2563f','#4a7fd1']);
+  clEmblems.list=CL_EMBLEMS.map((sym,i)=>{const S=192,c=document.createElement('canvas');c.width=c.height=S;const x=c.getContext('2d'),col=cols[i%cols.length]||'#888';
+    const g=x.createRadialGradient(S*.35,S*.3,S*.1,S/2,S/2,S*.75);g.addColorStop(0,col);g.addColorStop(1,'#141019');x.fillStyle=g;x.fillRect(0,0,S,S);
+    x.strokeStyle='rgba(255,255,255,.18)';x.lineWidth=6;x.beginPath();x.arc(S/2,S/2,S/2-14,0,Math.PI*2);x.stroke();
+    x.fillStyle='#fff';x.shadowColor='rgba(0,0,0,.5)';x.shadowBlur=10;x.font='bold 92px Georgia, "Times New Roman", serif';x.textAlign='center';x.textBaseline='middle';x.fillText(sym,S/2,S/2+6);
+    return clCanvasURL(c)});return clEmblems.list}
+
+// ── the account menu in the top bar ──
+function clAcctClick(btn){if(!CL.user){openSettings();return}const p=$('acctpop');if(p.classList.contains('open')){clAcctClose();return}
+  p.innerHTML=clAcctMenuHTML();const r=btn.getBoundingClientRect();p.style.top=(r.bottom+6)+'px';p.style.setProperty('--navtop',(r.bottom+6)+'px');p.style.left=Math.max(8,Math.min(r.right-300,innerWidth-308))+'px';
+  p.classList.add('open');btn.setAttribute('aria-expanded','true');const f=p.querySelector('.ap-i');if(f)f.focus()}
+function clAcctClose(){const p=$('acctpop');if(!p)return;p.classList.remove('open');const b=$('acctBtn');if(b)b.setAttribute('aria-expanded','false')}
+const AP_ICON={profile:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',camps:'<circle cx="8" cy="9" r="3"/><circle cx="17" cy="9" r="3"/><path d="M2 20c0-3 3-5 6-5s6 2 6 5M14 15c3 0 8 1 8 5"/>',sync:'<path d="M20 11a8 8 0 0 0-14-5l-2 2M4 13a8 8 0 0 0 14 5l2-2M4 4v4h4M20 20v-4h-4"/>',settings:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/>',out:'<path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/>'};
+function clAcctMenuHTML(){const u=CL.user,n=clMyName(),it=(k,l,sub)=>`<button class="ap-i" role="menuitem" data-ap="${k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${AP_ICON[k]}</svg>${l}${sub?`<small>${sub}</small>`:''}</button>`;
+  return `<div class="ap-h">${clAvHTML(u.id,n||u.email,48)}<div style="min-width:0"><b>${esc(n||'No name yet')}</b><small>${esc(u.email||'')}</small><small style="${CL.err?'color:var(--red)':''}">${clStatusText()}</small></div></div>
+    ${it('profile','Edit profile','picture and name')}${it('camps','Campaigns',CL.camps.length?String(CL.camps.length):'')}${it('sync','Sync now')}${it('settings','Settings')}<div class="ap-sep"></div>${it('out','Sign out')}`}
+document.addEventListener('click',e=>{const b=e.target.closest('#acctpop [data-ap]');if(!b)return;const k=b.dataset.ap;clAcctClose();
+  if(k==='profile')openProfile();else if(k==='camps')go('party');else if(k==='sync')clSyncNow();else if(k==='settings')openSettings();else if(k==='out')cloudSignOut()});
+document.addEventListener('mousedown',e=>{if(!e.target.closest('#acctpop')&&!e.target.closest('#acctBtn'))clAcctClose()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('acctpop')&&$('acctpop').classList.contains('open')){clAcctClose();$('acctBtn').focus()}});
+window.addEventListener('resize',clAcctClose);
+
+// ── Edit profile: a picture (upload, a ready-made emblem, or none) and a name ──
+let PROF=null;
+function openProfile(){if(!CL.user){openSettings();return}PROF={pick:clAv(CL.user.id)||null,up:null};renderProfile();$('qbg').classList.add('open');setTimeout(()=>{if($('pf-name'))$('pf-name').focus()},30)}
+function renderProfile(){const u=CL.user,em=clEmblems(),cur=PROF.pick,n=$('pf-name')?$('pf-name').value:clMyName();
+  const prev=cur?`<img class="av" src="${cur}" alt="" style="width:96px;height:96px">`:`<span class="av av-i" style="width:96px;height:96px;font-size:42px">${esc((n||u.email||'?').trim().charAt(0).toUpperCase()||'?')}</span>`;
+  const tile=(src,on,label,i)=>`<button type="button" class="pf-tile${on?' on':''}" data-pf="${i}" aria-label="${esc(label)}" aria-pressed="${on}">${src?`<img src="${src}" alt="">`:`<span>${label}</span>`}</button>`;
+  const tiles=[`<label class="pf-tile up" title="Upload a picture from this device" aria-label="Upload a picture"><span>＋<br>Upload</span><input type="file" accept="image/*" hidden id="pf-file"></label>`]
+    .concat(PROF.up?[tile(PROF.up,cur===PROF.up,'Your uploaded picture','up')]:[])
+    .concat(clAv(u.id)&&clAv(u.id)!==PROF.up&&!em.includes(clAv(u.id))?[tile(clAv(u.id),cur===clAv(u.id),'Your current picture','cur')]:[])
+    .concat(em.map((src,i)=>tile(src,cur===src,'Emblem '+CL_EMBLEMS[i],i)))
+    .concat([tile('',!cur,'No picture','none')]);
+  $('qBox').innerHTML=`<div class="mh"><div class="kind">Your account</div><h2 id="qTitle">Edit profile</h2><div class="mact"><button class="icon-btn" onclick="closeQuick()" aria-label="Close">${ICON.x}</button></div></div>
+    <div class="mb">
+      <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">${prev}<div style="flex:1;min-width:200px"><label class="note" style="display:block;margin:0 0 4px" for="pf-name">Your name at the table</label><input class="sel" id="pf-name" maxlength="60" placeholder="What the others in your campaigns see" value="${esc(n||'')}" style="max-width:none;width:100%"><div class="note" style="margin:6px 0 0">${esc(u.email||'')}</div></div></div>
+      <div class="blk" style="margin-top:16px"><h4>Picture <em>seen by you and the people in your campaigns</em></h4><div class="pf-grid">${tiles.join('')}</div></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap"><button class="btn" type="button" onclick="closeQuick()">Cancel</button><button class="btn primary" type="button" id="pf-save">Save</button></div>
+    </div>`;
+  $('qBox').querySelectorAll('[data-pf]').forEach(b=>b.onclick=()=>{const k=b.dataset.pf;PROF.pick=k==='none'?null:k==='up'?PROF.up:k==='cur'?clAv(u.id):em[+k];renderProfile()});
+  $('pf-file').onchange=async e=>{const f=e.target.files&&e.target.files[0];e.target.value='';if(!f)return;try{PROF.up=await clCrop(f);PROF.pick=PROF.up;renderProfile()}catch(err){toast(err.message)}};
+  $('pf-name').onkeydown=e=>{if(e.key==='Enter')$('pf-save').click()};
+  $('pf-save').onclick=async()=>{const b=$('pf-save');b.disabled=true;b.textContent='Saving…';
+    try{const nm=$('pf-name').value.trim().slice(0,60);let ok=true;
+      if(nm&&nm!==clMyName()){await clSetName(nm);await campRefresh().catch(()=>{})}
+      if((PROF.pick||null)!==(clAv(u.id)||null))ok=await clSetAvatar(PROF.pick,true);
+      if(ok){closeQuick();toast('Profile saved')}}
+    catch(err){toast(clMsg(err))}
+    finally{if($('pf-save')){b.disabled=false;b.textContent='Save'}}}}
 function clRefreshSoon(){clearTimeout(CL.rtimer);CL.rtimer=setTimeout(()=>{campRefresh().catch(e=>{CL.err=clMsg(e);clStatus()})},700)}
 // a character as the campaign has it; returns true when the copy here changed
 function campApply(r){if(!CL_ID.test(String(r.id)))return false;const d=Object.assign(clClean(r.data||{}),{id:r.id,camp:r.campaign_id,_cs:1});
@@ -5082,7 +5251,7 @@ function clSignedIn(user){if(CL.signing)return CL.signing;
     if(j)setTimeout(()=>campJoin(j),100);
     if($('sbg').classList.contains('open'))openSettings()})().finally(()=>{CL.signing=null});
   return CL.signing}
-function clSignedOut(){if(CL.chan&&CL.sb){CL.sb.removeChannel(CL.chan);CL.chan=null}CL.user=null;CL.camps=[];CL.members={};CL.dirty.clear();CL.cdirty.clear();CL.cgone=[];CL.hc=false;
+function clSignedOut(){if(CL.chan&&CL.sb){CL.sb.removeChannel(CL.chan);CL.chan=null}CL.user=null;CL.camps=[];CL.members={};CL.avatars={};try{localStorage.removeItem('fand.__avatar')}catch(e){}CL.dirty.clear();CL.cdirty.clear();CL.cgone=[];CL.hc=false;
   if(PARTY.some(c=>c._by)){PARTY=PARTY.filter(c=>!c._by);partyHashInit();clRaw('party',PARTY)}
   clStatus();clRerender();if($('sbg').classList.contains('open'))openSettings()}
 async function cloudSignOut(){const wipe=confirm('Sign out.\n\nAlso remove your saved data from this device? OK removes it (it stays in your account). Cancel keeps a copy here.');
@@ -5107,19 +5276,18 @@ function clStatus(){if($('clStat'))$('clStat').innerHTML=clStatusText();clHeader
 // the account button in the top bar: Sign in, or your initial once signed in (a red dot when not synced)
 function clHeader(){const b=$('acctBtn');if(!b)return;if(!CL||!CL.on){b.hidden=true;return}b.hidden=false;
   if(CL.user||(clHasSession()&&!CL.err&&CL.ready)){const who=CL.user?(clMyName()||CL.user.email||'?'):'…',t=CL.user?'Signed in as '+(CL.user.email||who)+(CL.err?' (not synced: '+CL.err+')':''):'Signing in…';
-    b.className='icon-btn acct-btn on'+(CL.err&&CL.user?' err':'');b.innerHTML=`<span class="acct-av">${esc(who.trim().charAt(0).toUpperCase()||'?')}</span>`;b.title=t;b.setAttribute('aria-label',t);return}
+    b.className='icon-btn acct-btn on'+(CL.err&&CL.user?' err':'');const pic=clAv(CL.user?CL.user.id:null)||(()=>{let c='';try{c=localStorage.getItem('fand.__avatar')||''}catch(e){}return clAvOk(c)?c:''})();b.innerHTML=`<span class="acct-av">${pic?`<img src="${pic}" alt="">`:esc(who.trim().charAt(0).toUpperCase()||'?')}</span>`;b.title=t;b.setAttribute('aria-label',t);return}
   b.className='icon-btn acct-btn';b.title='Sign in to keep your characters and data on every device';b.setAttribute('aria-label','Sign in');
   b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span class="acct-l">Sign in</span>'}
 const clMyName=()=>(CL.user&&CL.user.user_metadata&&CL.user.user_metadata.name)||'';
 async function clSetName(n){n=(n||'').trim().slice(0,60);if(!n)return;const {data,error}=await CL.sb.auth.updateUser({data:{name:n}});if(error)throw error;if(data&&data.user)CL.user=data.user;await CL.sb.rpc('fand_set_name',{p_me:n})}
-async function clSaveName(){try{await clSetName($('clName').value);await campRefresh();toast('Name saved')}catch(e){toast(clMsg(e))}}
 async function clAskName(){let n=clMyName();if(n)return n;n=(prompt('Your name at the table (the others in the campaign see it):','')||'').trim().slice(0,60);if(!n)return null;try{await clSetName(n)}catch(e){}return n}
 
 // ── the Account box in Settings ──
 function cloudSettingsHTML(){
   if(!CL.on)return `<div class="blk"><h4>Account</h4><div class="note">Accounts aren't switched on for this copy of FAND. With them, your characters and saved data follow you to every device, and a DM can share the party with the players. The site owner sets this up once (README: Accounts and campaigns).</div></div>`;
   if(CL.user)return `<div class="blk"><h4>Account <em>${esc(CL.user.email||'')}</em></h4>
-      <div class="keyrow"><input class="sel" id="clName" placeholder="Your name at the table" value="${esc(clMyName())}" maxlength="60" style="max-width:none;flex:1"><button class="btn" type="button" onclick="clSaveName()">Save name</button></div>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:8px">${clAvHTML(CL.user.id,clMyName()||CL.user.email,56)}<div style="flex:1;min-width:140px"><b style="display:block">${esc(clMyName()||'No name yet')}</b><small style="color:var(--muted)">Your picture and name are seen by the people in your campaigns.</small></div><button class="btn primary" type="button" onclick="closeSettings();openProfile()">Edit profile</button></div>
       <div class="okline" id="clStat" style="color:var(--text2)">${clStatusText()}</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0"><button class="btn" type="button" onclick="clSyncNow()">Sync now</button><a class="btn" href="${pageUrl('party')}" onclick="closeSettings()">Campaigns${CL.camps.length?' ('+CL.camps.length+')':''}</a>${clBackup()?'<button class="btn" type="button" onclick="clRestore()" title="What this device had saved before you first signed in here">Restore this device\'s old data</button>':''}<button class="btn" type="button" onclick="cloudSignOut()">Sign out</button></div>
       <div class="note">Your characters, journal, crafting plans, designs, dice, pins, and everything else this site saves are kept in your account and follow you to every device where you sign in. Appearance and the hidden-class locks stay on each device.</div></div>`;
@@ -5150,10 +5318,10 @@ function campPanelHTML(){if(!CL.on)return '';
     ${CL.camps.map(k=>{const dm=k.dm===me,ms=CL.members[k.id]||[],n=PARTY.filter(c=>c.camp===k.id).length;return `<div style="border-top:1px solid var(--line);margin-top:10px;padding-top:10px">
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><b>${esc(k.name)}</b><span class="b ${dm?'green':'ghost'}">${dm?'You are the DM':'Player'}</span><small style="color:var(--muted)">${n} shared character${n===1?'':'s'}</small>
         <span style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;align-items:center"><small style="color:var(--muted)">Invite code</small> <code style="font-size:1rem;letter-spacing:.08em">${esc(k.invite)}</code><button class="btn" onclick="campInvite('${k.id}')">Copy invite</button>${dm?`<button class="btn" onclick="campNewCode('${k.id}')" title="A new code; the old one stops working">New code</button><button class="btn" onclick="campRename('${k.id}')">Rename</button><button class="btn" onclick="campDelete('${k.id}')">Delete</button>`:`<button class="btn" onclick="campLeave('${k.id}')">Leave</button>`}</span></div>
-      <div class="chips" style="margin-top:6px">${ms.map(m=>`<span class="chip" style="cursor:default">${m.role==='dm'?'👑 ':''}${esc(m.name||'Unnamed')}${m.user_id===me?' <small>(you)</small>':''}${dm&&m.user_id!==me?` <a href="#" title="Remove from the campaign" aria-label="Remove ${esc(m.name||'player')}" onclick="campKick('${k.id}','${m.user_id}');return false">✕</a>`:''}</span>`).join('')}</div></div>`}).join('')}
+      <div class="chips" style="margin-top:6px">${ms.map(m=>`<span class="chip" style="cursor:default;display:inline-flex;align-items:center;gap:6px">${clAvHTML(m.user_id,m.name,22)}${m.role==='dm'?'👑 ':''}${esc(m.name||'Unnamed')}${m.user_id===me?' <small>(you)</small>':''}${dm&&m.user_id!==me?` <a href="#" title="Remove from the campaign" aria-label="Remove ${esc(m.name||'player')}" onclick="campKick('${k.id}','${m.user_id}');return false">✕</a>`:''}</span>`).join('')}</div></div>`}).join('')}
   </div>`}
 function campCharHTML(c){if(!CL.on||!CL.user||!c||c.id==='blank')return '';const k=CL.camps.find(x=>x.id===c.camp);
-  if(!clMine(c))return `<div class="cw-next sh-noprint">${clIsDM(c.camp)?`<b>${esc(c._by.n||'A player')}'s character</b> in ${esc(k?k.name:'your campaign')}. You are the DM: your changes are saved to their sheet.`:`<b>Shared by ${esc(c._by.n||'another player')}</b> in ${esc(k?k.name:'your campaign')}. Only they and the DM can change it; changes made here are replaced by their copy.`}</div>`;
+  if(!clMine(c))return `<div class="cw-next sh-noprint" style="display:flex;gap:10px;align-items:center">${clAvHTML(c._by.u,c._by.n,32)}<span>${clIsDM(c.camp)?`<b>${esc(c._by.n||'A player')}'s character</b> in ${esc(k?k.name:'your campaign')}. You are the DM: your changes are saved to their sheet.`:`<b>Shared by ${esc(c._by.n||'another player')}</b> in ${esc(k?k.name:'your campaign')}. Only they and the DM can change it; changes made here are replaced by their copy.`}</span></div>`;
   if(!CL.camps.length)return '';
   return `<div class="sh-noprint" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px"><span class="note" style="margin:0">🌐 Share with</span><select class="sel" data-cid="${esc(c.id)}" onchange="campShare(this.dataset.cid,this.value)" style="max-width:260px"><option value="">Not shared (only you)</option>${CL.camps.map(x=>`<option value="${x.id}"${c.camp===x.id?' selected':''}>${esc(x.name)}</option>`).join('')}</select>${k?`<small style="color:var(--muted)">Every member of ${esc(k.name)} sees this character, and the DM can change it.</small>`:''}</div>`}
 function campShare(id,camp){const c=PARTY.find(x=>x.id===id);if(!c||!clMine(c))return;
