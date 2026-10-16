@@ -676,7 +676,18 @@ D.SUBSTAGES = {};
 var CORE = ['BPS', 'MATS', 'MONSTERS', 'SUBS', 'GODS', 'DEMONS', 'PATRONS', 'MAT_FX', 'HIDDEN', 'STAGES', 'SUBSTAGES', 'PROF_STAGES'];
 var metaLine = 'const META=' + JSON.stringify(META) + ';';
 var VENDOR = fs.readFileSync(path.join(__dirname, '..', 'app', 'vendor', 'anthropic.js'), 'utf8');
-var single = '<script>\n' + VENDOR.replace(/<\/(script)/gi, '<\\/$1') + '\n</script>\n<script>\nconst SITE=null;\n' + ['BPS', 'SPELLS', 'VAULT', 'VAULT_DETAILS'].concat(CORE.slice(1)).map(lit).join('\n') + '\n' + metaLine + '\n</script>';
+// Accounts and campaigns (Supabase): on when tools/cloud/config.json has the project's URL and public key (see the README).
+// The Supabase library (supabase-js 2.117.2, MIT) ships only then; pages load it when someone signs in.
+var CLOUD = (function () {
+  var f = path.join(__dirname, '..', 'cloud', 'config.json');
+  var c = fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, 'utf8')) : {};
+  return c.url && c.key ? { url: String(c.url).replace(/\/+$/, ''), key: String(c.key), google: !!c.google } : null;
+})();
+var cloudLine = 'const CLOUD=' + JSON.stringify(CLOUD) + ';';
+var SUPA = CLOUD ? fs.readFileSync(path.join(__dirname, '..', 'app', 'vendor', 'supabase.js'), 'utf8') : '';
+log.push('accounts: ' + (CLOUD ? 'on (' + CLOUD.url + ')' : 'off (no url and key in tools/cloud/config.json)'));
+var noScriptEnd = function (js) { return js.replace(/<\/(script)/gi, '<\\/$1'); };
+var single = '<script>\n' + noScriptEnd(VENDOR) + '\n</script>\n' + (SUPA ? '<script>\n' + noScriptEnd(SUPA) + '\n</script>\n' : '') + '<script>\nconst SITE=null;\n' + cloudLine + '\n' + ['BPS', 'SPELLS', 'VAULT', 'VAULT_DETAILS'].concat(CORE.slice(1)).map(lit).join('\n') + '\n' + metaLine + '\n</script>';
 var out = tpl.split('<!--__DATA__-->').join(single);
 var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'magic', 'classes', 'subclasses', 'demons', 'patrons', 'forge', 'craft', 'party', 'sheet', 'encounter', 'prep', 'hooks', 'journal', 'hidden', 'towers', 'combat', 'rules', 'dice', 'tools', 'about'];
 var site = {};
@@ -716,6 +727,7 @@ var PAGE_INFO = {
 site['data/core.js'] = CORE.map(lit).join('\n') + '\n' + metaLine + '\n';
 site['data/spells.js'] = lit('SPELLS') + '\n';
 site['vendor/anthropic.js'] = VENDOR;
+if (SUPA) site['vendor/supabase.js'] = SUPA;
 // QR codes for sharing a character (qrcode-generator 1.4.4, MIT, by Kazuhiko Arase), loaded only when Share is opened
 site['vendor/qrcode.js'] = fs.readFileSync(path.join(__dirname, '..', 'app', 'vendor', 'qrcode.js'), 'utf8');
 site['data/vault.js'] = lit('VAULT') + '\n';
@@ -723,7 +735,7 @@ site['data/vault-details.js'] = lit('VAULT_DETAILS') + '\n';
 // a version stamp of this build's data: pages ask for data/*.js?v=<stamp>, so a new page never runs on a cached old data file
 var DATA_V = require('crypto').createHash('sha1').update(Object.keys(site).filter(function (k) { return /^data\//.test(k); }).sort().map(function (k) { return site[k]; }).join('')).digest('hex').slice(0, 10);
 PAGES.forEach(function (pg) {
-  var tags = '<script>const SITE={page:' + JSON.stringify(pg) + ',v:' + JSON.stringify(DATA_V) + '};</script>\n<script src="data/core.js?v=' + DATA_V + '"></script>\n<script src="data/vault.js?v=' + DATA_V + '"></script>' + (pg === 'spells' || pg === 'sheet' || pg === 'tools' || pg === 'magic' ? '\n<script src="data/spells.js?v=' + DATA_V + '"></script>' : '');
+  var tags = '<script>const SITE={page:' + JSON.stringify(pg) + ',v:' + JSON.stringify(DATA_V) + '};' + cloudLine + '</script>\n<script src="data/core.js?v=' + DATA_V + '"></script>\n<script src="data/vault.js?v=' + DATA_V + '"></script>' + (pg === 'spells' || pg === 'sheet' || pg === 'tools' || pg === 'magic' ? '\n<script src="data/spells.js?v=' + DATA_V + '"></script>' : '');
   var html = tpl.split('<!--__DATA__-->').join(tags);
   var info = PAGE_INFO[pg];
   html = html.replace('<title>FAND · Fantasy and Numerous Disasters</title>', '<title>' + (pg === 'home' ? 'FAND · Fantasy and Numerous Disasters' : info[0] + ' · FAND') + '</title>')
@@ -752,7 +764,7 @@ site['manifest.webmanifest'] = JSON.stringify({
 }, null, 2) + '\n';
 var mapFiles = (function () { var d = path.join(__dirname, '..', 'data', 'maps'); return fs.existsSync(d) ? fs.readdirSync(d).filter(function (f) { return /\.(jpe?g|png|webp)$/i.test(f); }).map(function (f) { return 'img/maps/' + f; }) : []; })();
 var PRECACHE = PAGE_FILES.concat(['data/core.js', 'data/vault.js', 'data/spells.js', 'data/vault-details.js'].map(function (f) { return f + '?v=' + DATA_V; }),
-  ['vendor/anthropic.js', 'vendor/qrcode.js', 'manifest.webmanifest', 'img/icons/icon-180.png', 'img/icons/icon-192.png', 'img/icons/icon-512.png'], mapFiles);
+  ['vendor/anthropic.js', 'vendor/qrcode.js', 'manifest.webmanifest', 'img/icons/icon-180.png', 'img/icons/icon-192.png', 'img/icons/icon-512.png'], SUPA ? ['vendor/supabase.js'] : [], mapFiles);
 // the offline copy's name changes whenever any file changes (pages too), so a phone never keeps an old page offline
 var SITE_V = require('crypto').createHash('sha1').update(Object.keys(site).filter(function (k) { return k !== 'sw.js'; }).sort().map(function (k) { return k + site[k]; }).join('')).digest('hex').slice(0, 8);
 site['sw.js'] = [

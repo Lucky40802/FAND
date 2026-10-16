@@ -571,6 +571,7 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
 </div>
 <div class="toast" id="toast"></div>
 <button class="upd" id="upd" hidden onclick="location.reload()">A new version of FAND is ready. Tap to load it.</button>
+<button class="upd" id="cloudupd" hidden onclick="location.reload()">Newer data from your account is ready. Tap to load it.</button>
 <button class="ai-fab" id="aiFab" onclick="toggleAI(true)" aria-label="Ask the FAND assistant">✦ <span>Ask FAND</span></button>
 <aside class="ai" id="ai" aria-label="FAND assistant">
   <div class="ai-h"><h3>FAND Assistant<small>Answers from this compendium · Claude Opus 5.5</small></h3>
@@ -587,7 +588,7 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   <div class="set" id="setBox"></div>
 </div>
 
-<script>const SITE={page:"realms",v:"673094471e"};</script>
+<script>const SITE={page:"realms",v:"673094471e"};const CLOUD=null;</script>
 <script src="data/core.js?v=673094471e"></script>
 <script src="data/vault.js?v=673094471e"></script>
 <script>
@@ -659,7 +660,7 @@ function diceLog(){const L=store.get('dicelog',[]);$('dl-log').innerHTML=L.lengt
 // On the play pages, dice in freshly drawn content become clickable.
 let DICE_OBS=null;function diceWatch(){if(DICE_OBS)DICE_OBS.disconnect();if(!['party','forge','encounter','combat','hooks','craft','prep'].includes(TAB))return;diceify($('content'));DICE_OBS=new MutationObserver(()=>{DICE_OBS.disconnect();diceify($('content'));DICE_OBS.observe($('content'),{childList:true,subtree:true})});DICE_OBS.observe($('content'),{childList:true,subtree:true})}
 function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('show'),1800)}
-const store={get(k,d){try{const v=localStorage.getItem('fand.'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('fand.'+k,JSON.stringify(v))}catch(e){}}};
+const store={get(k,d){try{const v=localStorage.getItem('fand.'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('fand.'+k,JSON.stringify(v))}catch(e){}cloudMark(k)}};
 
 // ════════════════════════════════════════════════════════════════
 //  Realms & indexes
@@ -1922,6 +1923,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-16','Accounts and campaigns','Sign in with your email (Settings, Account) and everything the site saves (characters, journal, crafting plans, designs, dice, pins) is kept in your account and follows you to every device. A DM can start a campaign on the Party page and send its invite code; players who join choose which characters to share, and everyone sees the shared characters change live. Only a character\'s owner and the DM can change it. The DM can also let their account open the hidden-class list on any device. Accounts are switched on once the site owner connects a Supabase project.','party'],
   ['2026-10-16','Apostle classes','Every god now has an Apostle class, given only to its true successor: one person at a time, chosen by the god for a great deed toward its mission. Each carries the god\'s will (its Runes) and its mission, ten features from Apostle level 1 to 20 (from Chosen Heir to True Successor, who claims the god\'s Primary Rune piece when it dies), and a burden: act against the god and it takes the class back. Find it in each god\'s window and under Apostle classes on the Classes page.','classes'],
   ['2026-10-16','A school opens every spell in it','Choosing a school of magic on the character sheet now gives access to every spell in that school, whatever classes the spell lists: those are only suggestions. Every school is offered, with your class\'s usual ones first and marked as suggested. (Before, an Artificer who chose Conjuration saw only one spell.)','sheet'],
   ['2026-10-16','Skills and proficiencies at creation','New characters follow the campaign\'s rules: the background gives +1 to its skills and one proficiency, and you may move a skill point twice. Every other proficiency must be taught by a teacher or earned by long use (written in the backstory). Skills rise later only through class or equipment, so there are 33 new materials that raise skills (Keen-Eyed, Hushed, Silver-Tongued, Learned, Wild-Wise, Mighty), which the sheet adds for you, and 14 new spells about skills and learning (Whispered Technique, Borrowed Hands, Lesson of the Masters, Weapon Bond, Instant Apprentice, and more).','sheet'],
@@ -2765,7 +2767,7 @@ const BP_IDX=new Map();BPS.forEach(b=>{if(!BP_IDX.has(lc(b.n)))BP_IDX.set(lc(b.n
 let findBP=n=>BP_IDX.get(lc(n||''));
 const godByKey=n=>GOD_IDX.get(lc(n||''));
 let PARTY=store.get('party',[]);
-const saveParty=()=>store.set('party',PARTY);
+const saveParty=()=>{partyStamp();store.set('party',PARTY)};
 function datalists(){
   if($('dl-bp'))return '';
   return `<datalist id="dl-bp">${BPS.map(b=>`<option value="${esc(b.n)}">`).join('')}</datalist>
@@ -3000,7 +3002,7 @@ async function shareChar(){const c=sheetChar(),url=location.href.split('#')[0]+'
   $('sh-copy').onclick=()=>(navigator.clipboard?navigator.clipboard.writeText(url):Promise.reject()).then(()=>toast('Link copied'),()=>toast('Copy failed'));
   if($('sh-send'))$('sh-send').onclick=()=>navigator.share({title:'FAND: '+name,url}).catch(()=>{});
 }
-async function importSharedChar(code){try{const c=await unpackChar(code);if(!c||typeof c!=='object'||!c.id)throw 0;const old=PARTY.find(x=>x.id===c.id);
+async function importSharedChar(code){try{const c=await unpackChar(code);if(!c||typeof c!=='object'||!c.id)throw 0;delete c.camp;delete c._by;delete c._cs;const old=PARTY.find(x=>x.id===c.id);
   if(confirm(old?`Update ${c.name||'this character'} on this device with the shared copy? The copy here is replaced.`:`Add ${c.name||'the shared character'}${c.cls?' ('+c.cls+' '+(c.level||1)+')':''} to this device?`)){if(old)Object.assign(old,c);else PARTY.push(c);saveParty();SHEET_ID=c.id;toast((c.name||'Character')+(old?' updated':' added'))}}
   catch(e){toast('That share link is damaged or incomplete')}history.replaceState(null,'',hashFor('sheet'));renderSheet()}
 window.addEventListener('hashchange',()=>{const sc=parseHash().params.get('char');if(sc&&TAB==='sheet'&&renderSheet._imp!==sc){renderSheet._imp=sc;importSharedChar(sc)}});
@@ -3366,7 +3368,7 @@ function renderSheet(){
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Character sheet</h3><p>The classic 5e sheet, adjusted for FAND: fill it in like paper, and bonuses, AC, slots, and attacks are worked out with FAND's rules. FAND's own boxes are on the FAND page.</p></div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px" class="sh-noprint"><select class="sel" id="sh-who">${PARTY.map(x=>`<option value="${x.id}"${x.id===c.id?' selected':''}>${esc(x.name||'Unnamed')}${x.cls?' · '+esc(x.cls)+' '+(x.level||1):''}</option>`).join('')}</select><button class="btn primary" type="button" onclick="charWizard()" title="A step-by-step guide that fills in the whole sheet for you">✨ Build a character for me</button><button class="btn" id="sh-new">+ Blank character</button>
       <span class="chips" style="margin-left:auto">${[['core','Page 1'],['details','Page 2: Details'],['spells','Page 3: Spells'],['fand','FAND']].map(([k,l])=>`<button class="chip${SHEET_TAB===k?' on':''}" data-shtab="${k}" style="${SHEET_TAB===k?'border-color:var(--gold);background:var(--goldbg)':''}">${l}</button>`).join('')}<button class="chip" id="sh-print">🖨 Print all</button><button class="btn" id="sh-share" type="button" title="Send this character to another phone or computer: a link or a QR code that carries the whole sheet">📱 Share</button><button class="btn" id="sh-blank" type="button" title="An empty FAND character sheet to fill in by hand">🖨 Print blank sheet</button></span></div>
-    ${!PARTY.some(x=>x.cls)?`<div class="cw-next sh-noprint"><b>New to this?</b> Press <b>✨ Build a character for me</b>: answer five simple questions (no rulebook needed) and the whole sheet is filled in for you.</div>`:''}${cwNextHTML(c)}
+    ${!PARTY.some(x=>x.cls)?`<div class="cw-next sh-noprint"><b>New to this?</b> Press <b>✨ Build a character for me</b>: answer five simple questions (no rulebook needed) and the whole sheet is filled in for you.</div>`:''}${campCharHTML(c)}${cwNextHTML(c)}
     ${head}
     <div class="sh-page" data-pg="core" ${SHEET_TAB!=='core'?'hidden':''}>${core}</div>
     <div class="sh-page" data-pg="details" ${SHEET_TAB!=='details'?'hidden':''}>${details}</div>
@@ -3435,16 +3437,18 @@ function renderParty(){
   if(!PARTY_SEL&&PARTY.length)PARTY_SEL=PARTY[0].id;
   const c=PARTY.find(x=>x.id===PARTY_SEL);
   $('content').innerHTML=`<div class="page">${datalists()}
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Party</h3><p>Characters, contracts, gear, materials, and money. Saved in this browser; export to share or back up.</p>
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Party</h3><p>Characters, contracts, gear, materials, and money. Saved in this browser${CL.on?' (and in your account when you sign in)':''}; export to share or back up.</p>
       <span style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap"><button class="btn primary" onclick="charWizard()" title="A step-by-step guide for new players">✨ Build one for me</button><button class="btn" onclick="addChar()">+ Add character</button><button class="btn" onclick="exportParty()">Export</button><button class="btn" onclick="clearPartyNotes()" title="Empty the Notes box of every character on this device">Clear all notes</button><label class="btn" style="cursor:pointer">Import<input type="file" accept=".json,application/json" style="display:none" onchange="importParty(this)"></label></span></div>
-    ${PARTY.length?`<div class="chips" style="margin-bottom:14px">${PARTY.map(x=>{const s=charStats(x);return `<button class="chip" style="padding:6px 12px;font-size:.85rem${x.id===PARTY_SEL?';border-color:var(--gold);background:var(--goldbg)':''}" onclick="PARTY_SEL='${x.id}';renderParty()"><b>${esc(x.name||'Unnamed')}</b> <small>Lv ${x.level||1} ${esc(x.cls||'')} · AC ${s.ac}</small></button>`}).join('')}</div>`:`<div class="empty"><b>No characters yet</b>Add the party to track contracts, rivals, gear, and materials.</div>`}
-    ${c?charEditor(c):''}</div>`;
+    ${campPanelHTML()}
+    ${PARTY.length?`<div class="chips" style="margin-bottom:14px">${PARTY.map(x=>{const s=charStats(x);return `<button class="chip" style="padding:6px 12px;font-size:.85rem${x.id===PARTY_SEL?';border-color:var(--gold);background:var(--goldbg)':''}" onclick="PARTY_SEL='${x.id}';renderParty()"><b>${esc(x.name||'Unnamed')}</b> <small>Lv ${x.level||1} ${esc(x.cls||'')} · AC ${s.ac}${x.camp&&CL.user?' · 🌐'+(x._by?' '+esc(x._by.n||''):''):''}</small></button>`}).join('')}</div>`:`<div class="empty"><b>No characters yet</b>Add the party to track contracts, rivals, gear, and materials.</div>`}
+    ${c?campCharHTML(c)+charEditor(c):''}</div>`;
   if(c)bindChar(c);
+  campLinkJoin();
 }
 function addChar(){const c={id:uid(),name:'New character',level:1,hpMax:10,hp:10,acBonus:0,attune:0,gear:[],inv:[],purse:{Human:0},specs:[]};PARTY.push(c);PARTY_SEL=c.id;saveParty();renderParty()}
 function clearPartyNotes(){const n=PARTY.filter(c=>(c.notes||'').trim()).length;if(!n){toast('No notes to clear');return}if(!confirm('Delete the notes of '+n+' character'+(n>1?'s':'')+' on this device? This cannot be undone.'))return;PARTY.forEach(c=>{c.notes=''});saveParty();renderParty();toast('All party notes cleared')}
 function exportParty(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(PARTY,null,2)],{type:'application/json'}));a.download='fand-party.json';document.body.appendChild(a);a.click();a.remove()}
-function importParty(inp){const f=inp.files[0];if(!f)return;f.text().then(t=>{try{const d=JSON.parse(t);if(!Array.isArray(d))throw 0;PARTY=d.map(x=>Object.assign({id:uid()},x));saveParty();PARTY_SEL=null;renderParty();toast('Imported '+PARTY.length+' characters')}catch(e){toast('That file is not a FAND party export')}})}
+function importParty(inp){const f=inp.files[0];if(!f)return;f.text().then(t=>{try{const d=JSON.parse(t);if(!Array.isArray(d))throw 0;PARTY=d.map(x=>{const o=Object.assign({id:uid()},x);delete o.camp;delete o._by;delete o._cs;return o});saveParty();PARTY_SEL=null;renderParty();toast('Imported '+PARTY.length+' characters')}catch(e){toast('That file is not a FAND party export')}})}
 function charEditor(c){
   const s=charStats(c),classes=[...new Set(SUBS.map(x=>x.par))].sort();
   const subs=SUBS.filter(x=>x.par===c.cls);
@@ -3680,7 +3684,8 @@ async function hcUnlock(code,how){
   HC=hcRetower(JSON.parse(new TextDecoder().decode(out)));store.set('hcguard',{fails:0,until:0});if(how!=='remembered')hcLog(true,how||'unlocked');
   try{sessionStorage.setItem('fand.hc',code)}catch(e){}return HC;
 }
-async function hcAuto(){if(HC||!HIDDEN.lock)return;let c=null;try{c=sessionStorage.getItem('fand.hc')}catch(e){}if(c)try{await hcUnlock(c,'remembered')}catch(e){try{sessionStorage.removeItem('fand.hc')}catch(x){}}}
+async function hcAuto(){if(HC||!HIDDEN.lock)return;let c=null;try{c=sessionStorage.getItem('fand.hc')}catch(e){}if(c)try{await hcUnlock(c,'remembered')}catch(e){try{sessionStorage.removeItem('fand.hc')}catch(x){}}
+  if(!HC){const k=await clHcAuto();if(k&&!HC)try{await hcUnlock(k,'account')}catch(e){}}}
 function hcLockHTML(){return `<div class="panel" style="max-width:460px;margin:20px auto;text-align:center;border-top:3px solid var(--gold)"><div style="font-size:2rem">🔒</div><b style="font-family:var(--serif);font-size:1.2rem">The list is sealed</b><p class="note">Enter the passphrase to see every hidden class.</p><form id="hc-form" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><input class="sel" id="hc-code" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Passphrase" style="max-width:280px;flex:1;text-align:center"><button class="btn primary" id="hc-go">Unlock</button></form><div id="hc-err" class="note" style="color:var(--red);min-height:1.2em"></div></div>`}
 function hcBindLock(after){const f=$('hc-form');if(!f)return;f.onsubmit=async e=>{e.preventDefault();const btn=$('hc-go');btn.disabled=true;btn.textContent='Unlocking…';$('hc-err').textContent='';try{await hcUnlock($('hc-code').value.trim());after()}catch(err){$('hc-err').textContent=err&&err.message||'That passphrase is not right.';$('hc-code').select()}finally{if($('hc-go')){$('hc-go').disabled=false;$('hc-go').textContent='Unlock'}}};$('hc-code').focus()}
 let PAT_SKIP=false;
@@ -3831,7 +3836,7 @@ async function renderHidden(){
     ${!HC?(quickModes().length&&!PAT_SKIP&&window.crypto&&crypto.subtle?patLockHTML():hcLockHTML()):`<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px"><input class="sel" id="hc-q" placeholder="Find a hidden class, a subclass, a Rune, a progenitor…" value="${esc(st.q||'')}" style="max-width:300px;flex:1"><label class="note" style="margin:0;display:flex;gap:6px;align-items:center" title="Show every class's numbers at this character level: dice grow every 10 levels, and at 21, 41, 61, and 81 the class turns II to V">At level <input class="sel" id="hc-lv" type="number" min="1" max="100" placeholder="as written" value="${store.get('hclv',0)||''}" style="width:96px"></label>
       ${(()=>{const sel=(k,label,vals)=>`<select class="sel" data-hcf="${k}"><option value="">${label}</option>${vals.map(v=>`<option${v===st[k]?' selected':''}>${esc(v)}</option>`).join('')}</select>`,u=f=>[...new Set(ALL.map(f).filter(Boolean))].sort();return sel('base','Any class',u(c=>c.base).filter(x=>x!=='Any'))+(st.base?sel('sub','Any '+st.base+' subclass',u(c=>c.base===st.base?c.sub:'')):'')+sel('tower','Any Tower',REALMS.map(r=>r.n).filter(r=>ALL.some(c=>c.tower===r)))+sel('prog','Any progenitor',u(c=>c.prog))})()}${st.tier?`<button class="btn" data-hct="">Show all tiers</button>`:''}<span class="note" style="margin:0">${C.length} shown</span></div>
     ${ALL.length?`<div style="display:flex;flex-direction:column;gap:10px">${C.slice(0,st.shown).map(c=>hcCard(c,false)).join('')}</div>${C.length>st.shown?`<div style="text-align:center;margin-top:12px"><button class="btn" id="hc-more">Show more (${fmt(C.length-st.shown)} left)</button></div>`:''}${!C.length?'<div class="empty">No hidden classes match.</div>':''}`:'<div class="empty">No hidden classes yet.</div>'}`}
-    ${HC?`<details class="fold" style="margin-top:14px"><summary>DM rules: classes outside the Towers</summary><ul class="note" style="margin:6px 0 0;padding-left:18px;line-height:1.6"><li><b>Corpse classes.</b> Some Epic classes wait in no Tower: they are claimed from the body of their last holder, wherever that holder fell. Their card says where.</li><li><b>Fused Legendaries.</b> Some Legendary classes are made from Epic classes. A character holding every part can fuse them on the character sheet (DM only); the parts become one class that keeps the highest class level among them.</li><li>Neither kind drops from a Tower floor, appears in a Tower's list, or waits in a secret room. None of this is shown to players anywhere on the site.</li></ul></details>`+patSetHTML()+hcLogHTML():''}
+    ${HC?`<details class="fold" style="margin-top:14px"><summary>DM rules: classes outside the Towers</summary><ul class="note" style="margin:6px 0 0;padding-left:18px;line-height:1.6"><li><b>Corpse classes.</b> Some Epic classes wait in no Tower: they are claimed from the body of their last holder, wherever that holder fell. Their card says where.</li><li><b>Fused Legendaries.</b> Some Legendary classes are made from Epic classes. A character holding every part can fuse them on the character sheet (DM only); the parts become one class that keeps the highest class level among them.</li><li>Neither kind drops from a Tower floor, appears in a Tower's list, or waits in a secret room. None of this is shown to players anywhere on the site.</li></ul></details>`+patSetHTML()+cloudHcHTML()+hcLogHTML():''}
   </div>`;
   if(!HC){if($('hc-pat')||$('hc-pin'))patLockBind(renderHidden);else hcBindLock(renderHidden);$('content').querySelectorAll('[data-hct]').forEach(b=>b.onclick=()=>{});return}
   patSetBind();
@@ -4964,6 +4969,7 @@ function openSettings(){
   $('setBox').innerHTML=`<div class="mh"><div class="kind">Settings</div><h2 id="setTitle">Settings</h2>
       <div class="mact"><button class="icon-btn" onclick="closeSettings()" aria-label="Close">${ICON.x}</button></div></div>
     <div class="mb">
+      ${cloudSettingsHTML()}
       <div class="blk"><h4>Anthropic API key <em>for the assistant</em></h4>
         <div class="keyrow"><input class="sel" id="setKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-…" value="${esc(k)}" style="max-width:none;flex:1"><button class="btn" id="setShow" type="button">Show</button></div>
         <label class="note" style="display:flex;gap:8px;align-items:center;margin-top:8px;color:var(--text2)"><input type="checkbox" id="setRemember" ${!k||keyRemembered()?'checked':''}> Remember on this device</label>
@@ -4978,7 +4984,8 @@ function openSettings(){
   $('setShow').onclick=()=>{const i=$('setKey');i.type=i.type==='password'?'text':'password';$('setShow').textContent=i.type==='password'?'Show':'Hide'};
   $('setSave').onclick=()=>{const v=$('setKey').value.trim();if(v&&!/^sk-ant-/.test(v)){$('setMsg').style.color='var(--red)';$('setMsg').textContent='That doesn\'t look like an Anthropic API key (they start with sk-ant-).';return}saveKey(v,$('setRemember').checked);closeSettings();toast(v?'API key saved':'API key removed');renderAI()};
   $('setRemove').onclick=()=>{saveKey('',false);closeSettings();toast('API key removed');renderAI()};
-  setTimeout(()=>$('setKey').focus(),20);
+  cloudSettingsBind();
+  if(!(CL.on&&!CL.user))setTimeout(()=>$('setKey').focus(),20);
 }
 // Quick rules: the rules a table checks mid-session, one tap from any page (works offline like the rest of the app)
 const COND_TEXT={Blinded:'Cannot see. Attacks against it have advantage; its own attacks have disadvantage; checks that need sight fail.',Charmed:'Cannot attack the charmer or target it with harm. The charmer has advantage on social checks with it.',Deafened:'Cannot hear; checks that need hearing fail.',Frightened:'Disadvantage on checks and attacks while the source of its fear is in sight; cannot willingly move closer to it.',Grappled:'Speed 0. Ends if the grappler is incapacitated or the two are pulled apart.',Incapacitated:'No actions and no reactions.',Invisible:'Cannot be seen without magic or a special sense. Its attacks have advantage; attacks against it have disadvantage.',Paralyzed:'Incapacitated and cannot move or speak. Fails Strength and Dexterity saves. Attacks against it have advantage, and a hit from within 5 feet is a critical hit.',Petrified:'Turned to stone: incapacitated, unaware, resistant to all damage, and immune to poison and disease.',Poisoned:'Disadvantage on attack rolls and ability checks.',Prone:'Can only crawl; standing costs half its speed. Disadvantage on its attacks. Attacks from within 5 feet have advantage, from farther away disadvantage.',Restrained:'Speed 0. Disadvantage on its attacks and Dexterity saves; attacks against it have advantage.',Stunned:'Incapacitated, cannot move, speaks only haltingly. Fails Strength and Dexterity saves; attacks against it have advantage.',Unconscious:'Incapacitated, drops what it holds and falls prone. Fails Strength and Dexterity saves; attacks have advantage, and a hit from within 5 feet is a critical hit.',Exhaustion:'Levels stack. 1: disadvantage on checks. 2: speed halved. 3: disadvantage on attacks and saves. 4: hit point maximum halved. 5: speed 0. 6: death.',Concentrating:'Keeps a spell going. Taking damage calls for a Constitution save, DC 10 or half the damage, whichever is higher; failing ends the spell.'};
@@ -5004,6 +5011,298 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('qbg').classList.
 document.addEventListener('click',e=>{if(e.target.closest('#qBox [data-go]'))closeQuick()},true);
 function closeSettings(){$('sbg').classList.remove('open')}
 $('sbg').addEventListener('mousedown',e=>{if(e.target===$('sbg'))closeSettings()});
+
+// ════════════════════════════════════════════════════════════════
+//  Accounts and campaigns (Supabase; set up with tools/cloud/, see the README)
+// ════════════════════════════════════════════════════════════════
+// Signed in, everything this site saves in the browser also goes to the account and follows it to every device. Each
+// saved key keeps the time it last changed on this device, and the newest change wins. The party is merged character by
+// character instead: each character keeps its own change time (_m) and a deleted one leaves a marker (partygone), so
+// editing different characters on two devices loses nothing. A DM's campaign shares characters: every member sees the
+// shared characters live, and only a character's owner or the DM can change it (the database enforces this).
+var CL={on:typeof CLOUD!=='undefined'&&!!(CLOUD&&CLOUD.url&&CLOUD.key),sb:null,user:null,ready:null,signing:null,camps:[],members:{},
+  dirty:new Set(),cdirty:new Set(),cgone:[],timer:0,ctimer:0,rtimer:0,pushing:false,cpushing:false,err:'',last:0,touched:false,chan:null,step:'',email:'',hc:false,later:false};
+// kept on each device only: appearance, screen state (filters, searches, recently viewed), and the hidden-class locks
+const CL_LOCAL=new Set(['theme','wakelock','tooltab','viewmode','charwiz','jedit','clsfocus','placefocus','diceanim','recent','spells','hc','hclv','jq','magic','rmap','hcpat','hcpin','hcqm','hcguard','hclog','anthropicKey']);
+const clSkip=k=>!k||k.startsWith('__')||CL_LOCAL.has(k);
+function clMeta(){if(!clMeta.m){try{clMeta.m=JSON.parse(localStorage.getItem('fand.__cloud')||'null')}catch(e){}if(!clMeta.m||typeof clMeta.m!=='object')clMeta.m={};clMeta.m.ts=clMeta.m.ts||{}}return clMeta.m}
+function clMetaSave(){try{localStorage.setItem('fand.__cloud',JSON.stringify(clMeta()))}catch(e){}}
+function clRaw(k,v){try{localStorage.setItem('fand.'+k,JSON.stringify(v))}catch(e){}}
+function clKeys(){const o=[];try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('fand.')&&!clSkip(k.slice(5)))o.push(k.slice(5))}}catch(e){}return o}
+function clMsg(e){const m=String(e&&(e.message||e.error_description||e.msg)||e||'Something went wrong.');
+  if(/failed to fetch|networkerror|load failed|network request failed/i.test(m))return 'Couldn\'t reach the account server. Check your connection.';
+  if(/rate limit/i.test(m))return 'Too many sign-in emails were sent. Wait a few minutes and try again.';
+  if(/expired|invalid.*(token|otp)|token.*invalid/i.test(m))return 'That code is wrong or has expired. Ask for a new one.';
+  return m}
+// called by store.set: note when a key changed here, and send it to the account shortly
+function cloudMark(k){if(!CL||!CL.on||clSkip(k))return;clMeta().ts[k]=Date.now();clMetaSave();if(CL.user){CL.dirty.add(k);clSchedule()}}
+function clSchedule(){clearTimeout(CL.timer);CL.timer=setTimeout(()=>{cloudPush().catch(()=>{})},1200)}
+
+// ── the party, character by character ──
+var PH=null,PHC={};
+const charHash=c=>JSON.stringify(c,(k,v)=>k&&k[0]==='_'?undefined:v);
+function partyHashInit(){PH={};PHC={};PARTY.forEach(c=>{if(c._m==null)c._m=0;PH[c.id]=charHash(c);PHC[c.id]=c.camp||''})}
+const clMine=c=>!c._by||!!(CL.user&&c._by.u===CL.user.id);
+const clIsDM=camp=>!!(CL.user&&CL.camps.some(k=>k.id===camp&&k.dm===CL.user.id));
+const clCanEdit=c=>clMine(c)||clIsDM(c.camp);
+// called by saveParty: stamp the characters that changed, and note the deleted ones
+function partyStamp(){if(!CL||!CL.on)return;if(!PH)partyHashInit();const now=Date.now(),seen=new Set();let gone=null;
+  PARTY.forEach(c=>{if(!c.id)c.id=uid();seen.add(c.id);const h=charHash(c);if(PH[c.id]!==h){c._m=now;PH[c.id]=h;if(c.camp&&clCanEdit(c))CL.cdirty.add(c.id)}PHC[c.id]=c.camp||''});
+  Object.keys(PH).forEach(id=>{if(seen.has(id))return;const camp=PHC[id];delete PH[id];delete PHC[id];(gone||(gone=store.get('partygone',{})))[id]=now;if(camp)CL.cgone.push([camp,id])});
+  if(gone){Object.keys(gone).forEach(id=>{if(now-gone[id]>180*864e5)delete gone[id]});store.set('partygone',gone)}
+  if(CL.user&&(CL.cdirty.size||CL.cgone.length))clCampSchedule()}
+function partyMerge(L,R,G){const by=new Map(),order=[];
+  const put=c=>{if(!c||typeof c!=='object'||!c.id)return;const o=by.get(c.id);if(!o)order.push(c.id);if(!o||(+c._m||0)>(+o._m||0))by.set(c.id,c)};
+  L.forEach(put);R.forEach(put);return order.map(id=>by.get(id)).filter(c=>c._by||!(G[c.id]>=(+c._m||0)))}
+const partySig=list=>JSON.stringify(list.map(c=>[c.id,+c._m||0,charHash(c)]));
+const clOwnParty=()=>PARTY.filter(clMine).map(c=>{const o=Object.assign({},c);delete o._by;return o});
+const clStrip=c=>{const o=Object.assign({},c);delete o._by;delete o._cs;delete o.camp;return o};
+function clPartyChanged(){if(PARTY_SEL&&!PARTY.some(x=>x.id===PARTY_SEL))PARTY_SEL=null;saveParty();clRerender()}
+// redraw the party or the sheet after a change from elsewhere, but never under the player's fingers
+function clRerender(){if(TAB!=='party'&&TAB!=='sheet')return;const a=document.activeElement;
+  if(a&&$('content').contains(a)&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)){CL.later=true;return}
+  CL.later=false;const y=$('content').scrollTop;if(TAB==='party')renderParty();else renderSheet();$('content').scrollTop=y}
+document.addEventListener('focusout',()=>{if(CL.later)setTimeout(()=>{if(CL.later)clRerender()},400)});
+
+// ── your own data ──
+async function cloudPull(){
+  const {data,error}=await CL.sb.from('user_data').select('key,value,ts');if(error)throw error;
+  const M=clMeta(),R=new Map((data||[]).map(r=>[r.key,r])),changed=[];
+  CL.hc=R.has('__hc');
+  R.forEach((r,k)=>{if(clSkip(k)||k==='party'||k==='partygone')return;const L=+M.ts[k]||0,ts=+r.ts||0;
+    if(ts>L){clRaw(k,r.value);M.ts[k]=ts;changed.push(k)}else if(L>ts)CL.dirty.add(k)});
+  clKeys().forEach(k=>{if(R.has(k)||k==='party'||k==='partygone')return;if(!M.ts[k])M.ts[k]=Date.now();CL.dirty.add(k)});
+  const G=Object.assign({},store.get('partygone',{})),rg=R.get('partygone');
+  if(rg&&rg.value&&typeof rg.value==='object')Object.entries(rg.value).forEach(([id,t])=>{if(!(G[id]>=t))G[id]=t});
+  if(Object.keys(G).length){clRaw('partygone',G);if(!rg||JSON.stringify(rg.value)!==JSON.stringify(G)){M.ts.partygone=Date.now();CL.dirty.add('partygone')}}
+  const rp=R.get('party'),rem=rp&&Array.isArray(rp.value)?rp.value:[],merged=partyMerge(PARTY,rem,G);
+  if(partySig(merged)!==partySig(PARTY)){PARTY=merged;partyHashInit();clRaw('party',PARTY);changed.push('party')}
+  if(!rp||partySig(clOwnParty())!==partySig(rem)){M.ts.party=Date.now();CL.dirty.add('party')}
+  clMetaSave();CL.last=Date.now();return changed}
+async function cloudPush(){if(!CL.user||CL.pushing||!CL.dirty.size)return;CL.pushing=true;const M=clMeta(),keys=[...CL.dirty];CL.dirty.clear();
+  try{const rows=keys.map(k=>({user_id:CL.user.id,key:k,value:k==='party'?clOwnParty():store.get(k,null),ts:+M.ts[k]||(M.ts[k]=Date.now())}));clMetaSave();
+    for(let i=0;i<rows.length;i+=50){const {error}=await CL.sb.from('user_data').upsert(rows.slice(i,i+50));if(error)throw error}
+    CL.err='';CL.last=Date.now()}
+  catch(e){keys.forEach(k=>CL.dirty.add(k));CL.err=clMsg(e)}
+  finally{CL.pushing=false;clStatus()}
+  if(CL.dirty.size&&!CL.err)clSchedule()}
+// data that changed on another device: the party is redrawn in place; anything else needs the page loaded again
+function clApply(changed){if(changed.includes('party'))clRerender();if(!changed.some(k=>k!=='party'))return;
+  let at=0;try{at=+sessionStorage.getItem('fand.__reload')||0}catch(e){}
+  if(!CL.touched&&Date.now()-at>15000){try{sessionStorage.setItem('fand.__reload',String(Date.now()))}catch(e){}location.reload();return}
+  $('cloudupd').hidden=false}
+
+// ── campaigns ──
+// Characters from other players arrive live, and some of the party and sheet code shows their fields as they are, so
+// nothing that could open HTML gets in: ids must be plain, and <, >, " and ` in text become look-alikes. Apostrophes stay
+// (hundreds of Blueprint names have one, and gear is looked up by name).
+const CL_ID=/^[A-Za-z0-9_-]{1,40}$/;
+const CL_SAFE={'<':'‹','>':'›','"':'”','`':'ʼ'};
+function clClean(v,d){if(typeof v==='string')return v.replace(/[<>"`]/g,ch=>CL_SAFE[ch]);if(!v||typeof v!=='object'||(d|0)>8)return typeof v==='number'||typeof v==='boolean'||v==null?v:undefined;
+  if(Array.isArray(v))return v.map(x=>clClean(x,(d|0)+1));const o={};Object.keys(v).forEach(k=>{if(k==='__proto__')return;o[clClean(k)]=clClean(v[k],(d|0)+1)});return o}
+function clIdOk(c){if(!CL_ID.test(String(c.id))){c.id=uid();PARTY_SEL=c.id}return c}
+const campName=(camp,u)=>{const m=(CL.members[camp]||[]).find(x=>x.user_id===u);return m&&m.name||'A player'};
+async function campRefresh(){if(!CL.user)return;
+  const [a,b]=await Promise.all([CL.sb.from('campaigns').select('id,name,dm,invite,created_at').order('created_at'),CL.sb.from('campaign_members').select('campaign_id,user_id,name,role,joined_at').order('joined_at')]);
+  if(a.error)throw a.error;if(b.error)throw b.error;
+  CL.camps=a.data||[];CL.members={};(b.data||[]).forEach(m=>(CL.members[m.campaign_id]||(CL.members[m.campaign_id]=[])).push(m));
+  await campPull();campSubscribe();clStatus();clRerender()}
+function clRefreshSoon(){clearTimeout(CL.rtimer);CL.rtimer=setTimeout(()=>{campRefresh().catch(e=>{CL.err=clMsg(e);clStatus()})},700)}
+// a character as the campaign has it; returns true when the copy here changed
+function campApply(r){if(!CL_ID.test(String(r.id)))return false;const d=Object.assign(clClean(r.data||{}),{id:r.id,camp:r.campaign_id,_cs:1});
+  if(r.owner!==CL.user.id)d._by={u:r.owner,n:campName(r.campaign_id,r.owner)};else delete d._by;
+  const i=PARTY.findIndex(c=>c.id===r.id),keep=()=>{if(PH){PH[d.id]=charHash(d);PHC[d.id]=d.camp}};
+  if(i<0){PARTY.push(d);keep();return true}
+  const L=PARTY[i],lm=+L._m||0,rm=+d._m||0;
+  if(rm>lm||(!clCanEdit(L)&&charHash(L)!==charHash(d))){PARTY[i]=d;keep();return true}
+  L._cs=1;if(lm>rm&&clCanEdit(L))CL.cdirty.add(L.id);
+  if(d._by&&(!L._by||L._by.n!==d._by.n)){L._by=d._by;return true}
+  return false}
+async function campPull(){const ids=CL.camps.map(k=>k.id);let rows=[];
+  if(ids.length){const {data,error}=await CL.sb.from('campaign_characters').select('campaign_id,id,owner,data').in('campaign_id',ids);if(error)throw error;rows=data||[]}
+  let ch=false;const have=new Set(rows.map(r=>r.campaign_id+'|'+r.id));
+  rows.forEach(r=>{if(campApply(r))ch=true});rows=rows.filter(r=>CL_ID.test(String(r.id)));
+  const keep=[];PARTY.forEach(c=>{if(!c.camp||have.has(c.camp+'|'+c.id)){keep.push(c);return}
+    if(c._by){ch=true;return}                                          // someone else's, no longer shared
+    if(!ids.includes(c.camp)||c._cs){delete c.camp;delete c._cs;ch=true} // you left the campaign, or the DM took it out
+    else CL.cdirty.add(c.id);                                          // shared here but not sent yet
+    keep.push(c)});
+  if(ch){PARTY=keep;clPartyChanged()}
+  if(CL.cdirty.size||CL.cgone.length)clCampSchedule()}
+function clCampSchedule(){clearTimeout(CL.ctimer);CL.ctimer=setTimeout(()=>{campPush().catch(()=>{})},900)}
+async function campPush(){if(!CL.user||CL.cpushing)return;CL.cpushing=true;let retry=false;
+  try{for(const id of [...CL.cdirty]){CL.cdirty.delete(id);const c=PARTY.find(x=>x.id===id);if(!c||!c.camp||!clCanEdit(c))continue;
+      const {error}=await CL.sb.rpc('fand_save_character',{p_campaign:c.camp,p_id:c.id,p_data:clStrip(c)});
+      if(error){if(error.code&&!/fetch|network/i.test(error.message||''))toast(clMsg(error));else{CL.cdirty.add(id);CL.err=clMsg(error);retry=true;break}}else c._cs=1}
+    while(CL.cgone.length){const [camp,id]=CL.cgone[0];if(!PARTY.some(x=>x.id===id&&x.camp===camp)){const {error}=await CL.sb.from('campaign_characters').delete().match({campaign_id:camp,id});if(error){CL.err=clMsg(error);retry=true;break}}CL.cgone.shift()}}
+  finally{CL.cpushing=false;clStatus()}
+  if(!retry&&(CL.cdirty.size||CL.cgone.length))clCampSchedule()}
+// live: characters and members as they change
+function campSubscribe(){if(CL.chan){CL.sb.removeChannel(CL.chan);CL.chan=null}if(!CL.camps.length)return;
+  const ch=CL.sb.channel('fand-campaigns');
+  CL.camps.forEach(k=>{ch.on('postgres_changes',{event:'*',schema:'public',table:'campaign_characters',filter:'campaign_id=eq.'+k.id},campEvent)
+    .on('postgres_changes',{event:'*',schema:'public',table:'campaign_members',filter:'campaign_id=eq.'+k.id},clRefreshSoon)});
+  CL.chan=ch.subscribe()}
+function campEvent(p){if(!CL.user)return;
+  if(p.eventType==='DELETE'){const o=p.old||{},i=PARTY.findIndex(c=>c.id===o.id&&c.camp===o.campaign_id);if(i<0)return;const c=PARTY[i];
+    if(c._by)PARTY.splice(i,1);else{delete c.camp;delete c._cs;toast((c.name||'Your character')+' is no longer shared with the campaign')}clPartyChanged();return}
+  const r=p.new;if(!r||!CL.camps.some(k=>k.id===r.campaign_id))return;const was=PARTY.find(c=>c.id===r.id);
+  if(!campApply(r))return;clPartyChanged();
+  const nm=(r.data&&r.data.name)||'A character';
+  if(!was)toast(nm+' joined the party');else if(r.owner===CL.user.id)toast(nm+' was updated')}
+
+// ── signing in and out ──
+function clHasSession(){try{for(let i=0;i<localStorage.length;i++){if(/^sb-.+-auth-token$/.test(localStorage.key(i)||''))return true}}catch(e){}return false}
+function clLoad(){return window.supabase&&window.supabase.createClient?Promise.resolve():new Promise((res,rej)=>{const s=document.createElement('script');s.src='vendor/supabase.js';s.onload=()=>window.supabase?res():rej(new Error('lib'));s.onerror=()=>rej(new Error('The account library could not be loaded. Check your connection.'));document.head.appendChild(s)})}
+const clRedirect=()=>/^https?:$/.test(location.protocol)?location.origin+location.pathname:undefined;
+function cloudStart(){if(!CL.on)return Promise.reject(new Error('Accounts are not set up on this site.'));if(CL.ready)return CL.ready;
+  CL.ready=(async()=>{await clLoad();
+    CL.sb=window.supabase.createClient(CLOUD.url,CLOUD.key,{auth:{flowType:'pkce',persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+    const q=new URLSearchParams(location.search),had=q.has('code'),bad=q.get('error_description');
+    const {data}=await CL.sb.auth.getSession();
+    if(had||bad){['code','error','error_code','error_description'].forEach(k=>q.delete(k));history.replaceState(null,'',location.pathname+(q.toString()?'?'+q:'')+location.hash)}
+    if(bad)toast(bad);else if(had&&!(data&&data.session))toast('That sign-in link was opened in another browser. Type the code from the email instead.');
+    CL.sb.auth.onAuthStateChange((ev,s)=>{setTimeout(()=>clAuth(ev,s),0)});
+    if(data&&data.session)await clSignedIn(data.session.user);
+    return CL.sb})();
+  CL.ready.catch(e=>{CL.err=clMsg(e);CL.ready=null;clStatus()});
+  return CL.ready}
+function clAuth(ev,s){if(s&&s.user){if(!CL.user||CL.user.id!==s.user.id)clSignedIn(s.user);else CL.user=s.user}else if(ev==='SIGNED_OUT'&&CL.user)clSignedOut()}
+function clSignedIn(user){if(CL.signing)return CL.signing;
+  CL.signing=(async()=>{const M=clMeta();
+    if(M.uid!==user.id){ // the first time this account is used on this device: keep a backup of what was here
+      const keys=clKeys();
+      if(keys.length){const bk={at:Date.now(),data:{}};keys.forEach(k=>{try{bk.data[k]=localStorage.getItem('fand.'+k)}catch(e){}});try{localStorage.setItem('fand.__backup',JSON.stringify(bk))}catch(e){}}
+      if(M.uid&&keys.length&&confirm('This device has saved data from another account. Replace it with this account\'s data?\n\nOK replaces it (a backup is kept on this device). Cancel adds it to this account.')){
+        keys.forEach(k=>{try{localStorage.removeItem('fand.'+k)}catch(e){}});PARTY=[];clRaw('party',[])}
+      M.ts={};M.uid=user.id;clMetaSave();partyHashInit()}
+    CL.user=user;CL.err='';let changed=[];
+    try{changed=await cloudPull();await campRefresh();await cloudPush()}catch(e){CL.err=clMsg(e)}
+    clStatus();clApply(changed);
+    let j=null;try{j=sessionStorage.getItem('fand.__join');sessionStorage.removeItem('fand.__join')}catch(e){}
+    if(j)setTimeout(()=>campJoin(j),100);
+    if($('sbg').classList.contains('open'))openSettings()})().finally(()=>{CL.signing=null});
+  return CL.signing}
+function clSignedOut(){if(CL.chan&&CL.sb){CL.sb.removeChannel(CL.chan);CL.chan=null}CL.user=null;CL.camps=[];CL.members={};CL.dirty.clear();CL.cdirty.clear();CL.cgone=[];CL.hc=false;
+  if(PARTY.some(c=>c._by)){PARTY=PARTY.filter(c=>!c._by);partyHashInit();clRaw('party',PARTY)}
+  clStatus();clRerender();if($('sbg').classList.contains('open'))openSettings()}
+async function cloudSignOut(){const wipe=confirm('Sign out.\n\nAlso remove your saved data from this device? OK removes it (it stays in your account). Cancel keeps a copy here.');
+  try{clearTimeout(CL.timer);await cloudPush();await campPush()}catch(e){}
+  try{await CL.sb.auth.signOut()}catch(e){}
+  clSignedOut();
+  if(wipe){clKeys().forEach(k=>{try{localStorage.removeItem('fand.'+k)}catch(e){}});try{localStorage.removeItem('fand.__cloud');localStorage.removeItem('fand.__backup')}catch(e){}location.reload();return}
+  toast('Signed out')}
+async function clSyncNow(quiet){if(!CL.user)return;try{const ch=await cloudPull();await campRefresh();await cloudPush();await campPush();if(!quiet)toast(CL.err?CL.err:'Synced');clApply(ch)}catch(e){CL.err=clMsg(e);if(!quiet)toast(CL.err)}clStatus()}
+const clBackup=()=>{try{return JSON.parse(localStorage.getItem('fand.__backup')||'null')}catch(e){return null}};
+function clRestore(){const b=clBackup();if(!b||!b.data)return;
+  if(!confirm('Put back the data this device had before you signed in ('+new Date(b.at).toLocaleString()+')? It replaces the same data in your account.'))return;
+  const M=clMeta(),now=Date.now();
+  Object.entries(b.data).forEach(([k,raw])=>{if(raw==null)return;let v=raw;if(k==='party'){try{v=JSON.stringify((JSON.parse(raw)||[]).map(c=>Object.assign(c,{_m:now})))}catch(e){}}try{localStorage.setItem('fand.'+k,v)}catch(e){}M.ts[k]=now;CL.dirty.add(k)});
+  try{localStorage.removeItem('fand.__backup')}catch(e){}
+  try{localStorage.removeItem('fand.partygone')}catch(e){}
+  clMetaSave();cloudPush().finally(()=>location.reload())}
+function clStatusText(){if(!CL.user)return '';if(CL.err)return 'Not synced: '+esc(CL.err);if(navigator.onLine===false)return 'Offline. Changes are kept here and sent when you are back online.';
+  if(CL.pushing||CL.dirty.size)return 'Saving…';if(!CL.last)return 'Connecting…';const s=Math.round((Date.now()-CL.last)/1000);
+  return 'Synced '+(s<60?'just now':s<3600?Math.round(s/60)+' min ago':new Date(CL.last).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'}))+'.'}
+function clStatus(){if($('clStat'))$('clStat').innerHTML=clStatusText()}
+const clMyName=()=>(CL.user&&CL.user.user_metadata&&CL.user.user_metadata.name)||'';
+async function clSetName(n){n=(n||'').trim().slice(0,60);if(!n)return;const {data,error}=await CL.sb.auth.updateUser({data:{name:n}});if(error)throw error;if(data&&data.user)CL.user=data.user;await CL.sb.rpc('fand_set_name',{p_me:n})}
+async function clSaveName(){try{await clSetName($('clName').value);await campRefresh();toast('Name saved')}catch(e){toast(clMsg(e))}}
+async function clAskName(){let n=clMyName();if(n)return n;n=(prompt('Your name at the table (the others in the campaign see it):','')||'').trim().slice(0,60);if(!n)return null;try{await clSetName(n)}catch(e){}return n}
+
+// ── the Account box in Settings ──
+function cloudSettingsHTML(){
+  if(!CL.on)return `<div class="blk"><h4>Account</h4><div class="note">Accounts aren't switched on for this copy of FAND. With them, your characters and saved data follow you to every device, and a DM can share the party with the players. The site owner sets this up once (README: Accounts and campaigns).</div></div>`;
+  if(CL.user)return `<div class="blk"><h4>Account <em>${esc(CL.user.email||'')}</em></h4>
+      <div class="keyrow"><input class="sel" id="clName" placeholder="Your name at the table" value="${esc(clMyName())}" maxlength="60" style="max-width:none;flex:1"><button class="btn" type="button" onclick="clSaveName()">Save name</button></div>
+      <div class="okline" id="clStat" style="color:var(--text2)">${clStatusText()}</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0"><button class="btn" type="button" onclick="clSyncNow()">Sync now</button><a class="btn" href="${pageUrl('party')}" onclick="closeSettings()">Campaigns${CL.camps.length?' ('+CL.camps.length+')':''}</a>${clBackup()?'<button class="btn" type="button" onclick="clRestore()" title="What this device had saved before you first signed in here">Restore this device\'s old data</button>':''}<button class="btn" type="button" onclick="cloudSignOut()">Sign out</button></div>
+      <div class="note">Your characters, journal, crafting plans, designs, dice, pins, and everything else this site saves are kept in your account and follow you to every device where you sign in. Appearance and the hidden-class locks stay on each device.</div></div>`;
+  return `<div class="blk"><h4>Account <em>optional</em></h4>
+      ${CL.step==='code'?`<div class="note" style="margin:0 0 8px">We emailed <b>${esc(CL.email)}</b>. Tap the link in that email, or type its code here.</div><div class="keyrow"><input class="sel" id="clCode" inputmode="numeric" autocomplete="one-time-code" placeholder="Code from the email" style="max-width:none;flex:1"><button class="btn primary" type="button" id="clVerify">Sign in</button></div><a href="#" class="note" onclick="CL.step='';CL.err='';openSettings();return false">Use a different email</a>`
+      :`<div class="keyrow"><input class="sel" id="clEmail" type="email" autocomplete="email" spellcheck="false" placeholder="you@example.com" value="${esc(CL.email)}" style="max-width:none;flex:1"><button class="btn primary" type="button" id="clSend">Email me a code</button></div>${CLOUD.google?'<button class="btn" type="button" id="clGoogle" style="margin-top:8px">Sign in with Google</button>':''}`}
+      <div class="okline" id="clMsg" style="color:var(--red)">${esc(CL.err)}</div>
+      <div class="note">Sign in to keep your characters and saved data in your account, on every device, and to play in your DM's campaign. There is no password: each sign-in sends a code to your email.</div></div>`}
+function clSetMsg(m){CL.err=m;if($('clMsg'))$('clMsg').textContent=m}
+function cloudSettingsBind(){if(!CL.on||CL.user)return;
+  if($('clSend')){const send=async()=>{const e=$('clEmail').value.trim(),b=$('clSend');if(!/^\S+@\S+\.\S+$/.test(e)){clSetMsg('Enter your email address.');return}b.disabled=true;b.textContent='Sending…';
+      try{const sb=await cloudStart();const {error}=await sb.auth.signInWithOtp({email:e,options:{shouldCreateUser:true,emailRedirectTo:clRedirect()}});if(error)throw error;CL.email=e;CL.step='code';CL.err='';openSettings();setTimeout(()=>{if($('clCode'))$('clCode').focus()},40)}
+      catch(err){b.disabled=false;b.textContent='Email me a code';clSetMsg(clMsg(err))}};
+    $('clSend').onclick=send;$('clEmail').onkeydown=e=>{if(e.key==='Enter')send()}}
+  if($('clVerify')){const verify=async()=>{const t=$('clCode').value.replace(/\s/g,''),b=$('clVerify');if(!t){clSetMsg('Type the code from the email.');return}b.disabled=true;b.textContent='Signing in…';
+      try{const sb=await cloudStart();const {data,error}=await sb.auth.verifyOtp({email:CL.email,token:t,type:'email'});if(error)throw error;CL.step='';if(data&&data.user)await clSignedIn(data.user);openSettings();toast('Signed in')}
+      catch(err){b.disabled=false;b.textContent='Sign in';clSetMsg(clMsg(err))}};
+    $('clVerify').onclick=verify;$('clCode').onkeydown=e=>{if(e.key==='Enter')verify()}}
+  if($('clGoogle'))$('clGoogle').onclick=async()=>{try{const sb=await cloudStart();const {error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:clRedirect()}});if(error)throw error}catch(err){clSetMsg(clMsg(err))}}}
+
+// ── the Campaigns box on the Party page, and who a character belongs to ──
+function campPanelHTML(){if(!CL.on)return '';
+  if(!CL.user)return `<div class="panel" style="margin-bottom:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span><b>Play together.</b> <span class="note" style="margin:0">Sign in to keep this party in your account and share it with your DM and the other players: everyone sees each shared character as it changes.</span></span><button class="btn primary" style="margin-left:auto" onclick="openSettings()">Sign in</button></div>`;
+  const me=CL.user.id;
+  return `<div class="panel" style="margin-bottom:14px">
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><b style="font-family:var(--serif);font-size:1.1rem">Campaigns</b><span class="note" style="margin:0">${CL.camps.length?'Every member sees the characters shared with a campaign, live. Choose what to share on each character.':'Start one as the DM, or join with the invite code your DM gave you.'}</span>
+      <span style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap"><button class="btn" onclick="campCreate()">+ New campaign (as DM)</button><button class="btn" onclick="campJoin()">Join with a code</button></span></div>
+    ${CL.camps.map(k=>{const dm=k.dm===me,ms=CL.members[k.id]||[],n=PARTY.filter(c=>c.camp===k.id).length;return `<div style="border-top:1px solid var(--line);margin-top:10px;padding-top:10px">
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><b>${esc(k.name)}</b><span class="b ${dm?'green':'ghost'}">${dm?'You are the DM':'Player'}</span><small style="color:var(--muted)">${n} shared character${n===1?'':'s'}</small>
+        <span style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;align-items:center"><small style="color:var(--muted)">Invite code</small> <code style="font-size:1rem;letter-spacing:.08em">${esc(k.invite)}</code><button class="btn" onclick="campInvite('${k.id}')">Copy invite</button>${dm?`<button class="btn" onclick="campNewCode('${k.id}')" title="A new code; the old one stops working">New code</button><button class="btn" onclick="campRename('${k.id}')">Rename</button><button class="btn" onclick="campDelete('${k.id}')">Delete</button>`:`<button class="btn" onclick="campLeave('${k.id}')">Leave</button>`}</span></div>
+      <div class="chips" style="margin-top:6px">${ms.map(m=>`<span class="chip" style="cursor:default">${m.role==='dm'?'👑 ':''}${esc(m.name||'Unnamed')}${m.user_id===me?' <small>(you)</small>':''}${dm&&m.user_id!==me?` <a href="#" title="Remove from the campaign" aria-label="Remove ${esc(m.name||'player')}" onclick="campKick('${k.id}','${m.user_id}');return false">✕</a>`:''}</span>`).join('')}</div></div>`}).join('')}
+  </div>`}
+function campCharHTML(c){if(!CL.on||!CL.user||!c||c.id==='blank')return '';const k=CL.camps.find(x=>x.id===c.camp);
+  if(!clMine(c))return `<div class="cw-next sh-noprint">${clIsDM(c.camp)?`<b>${esc(c._by.n||'A player')}'s character</b> in ${esc(k?k.name:'your campaign')}. You are the DM: your changes are saved to their sheet.`:`<b>Shared by ${esc(c._by.n||'another player')}</b> in ${esc(k?k.name:'your campaign')}. Only they and the DM can change it; changes made here are replaced by their copy.`}</div>`;
+  if(!CL.camps.length)return '';
+  return `<div class="sh-noprint" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px"><span class="note" style="margin:0">🌐 Share with</span><select class="sel" data-cid="${esc(c.id)}" onchange="campShare(this.dataset.cid,this.value)" style="max-width:260px"><option value="">Not shared (only you)</option>${CL.camps.map(x=>`<option value="${x.id}"${c.camp===x.id?' selected':''}>${esc(x.name)}</option>`).join('')}</select>${k?`<small style="color:var(--muted)">Every member of ${esc(k.name)} sees this character, and the DM can change it.</small>`:''}</div>`}
+function campShare(id,camp){const c=PARTY.find(x=>x.id===id);if(!c||!clMine(c))return;
+  if(c.camp&&c.camp!==camp)CL.cgone.push([c.camp,id]);
+  if(camp){clIdOk(c);c.camp=camp}else delete c.camp;delete c._cs;saveParty();
+  const k=CL.camps.find(x=>x.id===camp);toast(k?(c.name||'Character')+' is shared with '+k.name:(c.name||'Character')+' is no longer shared');clRerender()}
+async function clRpc(fn,args){const {data,error}=await CL.sb.rpc(fn,args);if(error)throw error;return data}
+async function clDo(f,ok){try{await f();await campRefresh();if(ok)toast(ok)}catch(e){toast(clMsg(e))}clRerender()}
+async function campCreate(){const name=(prompt('Name of the new campaign:','')||'').trim();if(!name)return;const me=await clAskName();if(me==null)return;
+  clDo(()=>clRpc('fand_create_campaign',{p_name:name,p_me:me}),'Campaign started. Copy the invite and send it to your players.')}
+async function campJoin(code){if(!CL.user){try{sessionStorage.setItem('fand.__join',code||'')}catch(e){}openSettings();return}
+  code=code||prompt('Invite code from your DM:','');if(!code)return;const me=await clAskName();if(me==null)return;
+  let k=null;await clDo(async()=>{k=await clRpc('fand_join_campaign',{p_code:code,p_me:me})},null);if(!k)return;toast('You joined '+k.name);
+  const mine=PARTY.filter(c=>clMine(c)&&!c.camp);
+  if(mine.length&&confirm(`Share ${mine.length>1?'your characters':'your character'} (${mine.map(c=>c.name||'Unnamed').join(', ')}) with ${k.name}?\n\nYou can change this on each character later.`)){mine.forEach(c=>{clIdOk(c);c.camp=k.id});saveParty();clRerender()}}
+function campInvite(id){const k=CL.camps.find(x=>x.id===id);if(!k)return;
+  const link=SITE&&/^https?:$/.test(location.protocol)?new URL(pageUrl('party'),location.href).href+'#/party?join='+k.invite:'';
+  const text=`Join my FAND campaign "${k.name}"${link?': '+link:''} (invite code ${k.invite})`;
+  (navigator.clipboard?navigator.clipboard.writeText(text):Promise.reject()).then(()=>toast('Invite copied'),()=>prompt('Copy this invite:',text))}
+function campNewCode(id){if(confirm('Make a new invite code? The old one stops working (members already in stay in).'))clDo(()=>clRpc('fand_new_invite',{p_campaign:id}),'New invite code made')}
+function campRename(id){const k=CL.camps.find(x=>x.id===id),n=(prompt('New name for the campaign:',k?k.name:'')||'').trim();if(n)clDo(()=>clRpc('fand_rename_campaign',{p_campaign:id,p_name:n}),'Campaign renamed')}
+function campDelete(id){const k=CL.camps.find(x=>x.id===id);if(!k||!confirm(`Delete ${k.name} for everyone? Each player keeps their own characters on their own devices.`))return;
+  clDo(async()=>{const {error}=await CL.sb.from('campaigns').delete().eq('id',id);if(error)throw error},'Campaign deleted')}
+function campLeave(id){const k=CL.camps.find(x=>x.id===id);if(!k||!confirm(`Leave ${k.name}? Your characters stop being shared with it, and you keep them.`))return;
+  clDo(async()=>{const {error}=await CL.sb.from('campaign_members').delete().match({campaign_id:id,user_id:CL.user.id});if(error)throw error},'You left '+k.name)}
+function campKick(id,u){if(!confirm(`Remove ${campName(id,u)} from the campaign? Their characters stop being shared; they keep them.`))return;
+  clDo(async()=>{const {error}=await CL.sb.from('campaign_members').delete().match({campaign_id:id,user_id:u});if(error)throw error},'Removed')}
+// an invite link (party.html#/party?join=CODE): join once signed in
+function campLinkJoin(){const j=parseHash().params.get('join');if(!j)return;history.replaceState(null,'',hashFor('party'));
+  if(!CL.on){toast('Accounts are not set up on this site');return}
+  if(CL.user){setTimeout(()=>campJoin(j),50);return}
+  try{sessionStorage.setItem('fand.__join',j)}catch(e){}
+  if(clHasSession())cloudStart().catch(()=>{});else{toast('Sign in to join the campaign');setTimeout(openSettings,60)}}
+window.addEventListener('hashchange',()=>{if(TAB==='party')campLinkJoin()});
+
+// ── the hidden-class passphrase, kept in the account if its owner asks ──
+async function clHcGet(){const {data}=await CL.sb.from('user_data').select('value').eq('key','__hc').maybeSingle();return data&&typeof data.value==='string'?data.value:null}
+async function clHcSave(on){let code=null;try{code=sessionStorage.getItem('fand.hc')}catch(e){}if(on&&!code){toast('Unlock with the passphrase first');renderHidden();return}
+  const {error}=on?await CL.sb.from('user_data').upsert({user_id:CL.user.id,key:'__hc',value:code,ts:Date.now()}):await CL.sb.from('user_data').delete().match({user_id:CL.user.id,key:'__hc'});
+  if(error){toast(clMsg(error));return}CL.hc=on;toast(on?'Your account now opens the hidden list':'The passphrase is no longer kept in your account');renderHidden()}
+async function clHcAuto(){if(!CL.on||!(CL.user||clHasSession()))return null;
+  const t=new Promise(r=>setTimeout(()=>r(null),4000));
+  return Promise.race([t,(async()=>{await cloudStart();if(CL.signing)await CL.signing;return CL.user&&CL.hc?clHcGet():null})().catch(()=>null)])}
+function cloudHcHTML(){if(!CL.on)return '';
+  if(!CL.user)return `<p class="note" style="margin-top:12px">Signed in (Settings, Account), your account can keep the passphrase and open this list on any device where you sign in.</p>`;
+  return `<label class="note" style="display:flex;gap:8px;align-items:center;margin-top:12px;color:var(--text2)"><input type="checkbox" ${CL.hc?'checked':''} onchange="clHcSave(this.checked)"> Open the hidden list on any device where I'm signed in (${esc(CL.user.email||'')})</label><p class="note" style="margin:4px 0 0">The passphrase is kept in your account, where only you can read it. Untick to remove it.</p>`}
+
+function cloudBoot(){if(!CL.on)return;partyHashInit();
+  ['pointerdown','keydown','input'].forEach(t=>document.addEventListener(t,()=>{CL.touched=true},{once:true,capture:true}));
+  document.addEventListener('visibilitychange',()=>{if(!CL.user)return;if(document.visibilityState==='visible'){if(Date.now()-CL.last>60000)clSyncNow(true)}else{clearTimeout(CL.timer);cloudPush().catch(()=>{});campPush().catch(()=>{})}});
+  addEventListener('online',()=>{if(!CL.user)return;CL.err='';cloudPush().catch(()=>{});clCampSchedule()});
+  let j=null;try{j=sessionStorage.getItem('fand.__join')}catch(e){}
+  if(clHasSession()||/[?&](code|error_description)=/.test(location.search)||(j&&clHasSession()))cloudStart().catch(()=>{});
+}
 
 // ════════════════════════════════════════════════════════════════
 //  Assistant (Claude, called from the browser with the visitor's own key)
@@ -5240,6 +5539,7 @@ async function ask(){
 //  Boot
 // ════════════════════════════════════════════════════════════════
 if(!location.hash)history.replaceState(null,'',hashFor(SITE?SITE.page:'home'));
+cloudBoot();
 route();
 // Home Screen app: the offline worker (sw.js) keeps every page and its data on the device. Site pages only, not FAND.html.
 if(SITE&&'serviceWorker'in navigator&&/^https?:$/.test(location.protocol)){
