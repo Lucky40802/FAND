@@ -763,7 +763,7 @@ site['manifest.webmanifest'] = JSON.stringify({
     { name: 'Dice', url: './dice.html', icons: [{ src: 'img/icons/icon-192.png', sizes: '192x192', type: 'image/png' }] },
     { name: 'Bestiary', url: './bestiary.html', icons: [{ src: 'img/icons/icon-192.png', sizes: '192x192', type: 'image/png' }] },
     { name: 'Combat tracker', short_name: 'Combat', url: './combat.html', icons: [{ src: 'img/icons/icon-192.png', sizes: '192x192', type: 'image/png' }] }
-  ],
+  ].concat(CLOUD ? [{ name: 'Sign in', description: 'Sign in to your FAND account', url: './index.html?signin=1', icons: [{ src: 'img/icons/icon-192.png', sizes: '192x192', type: 'image/png' }] }] : []),
   icons: [
     { src: 'img/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
     { src: 'img/icons/icon-512.png', sizes: '512x512', type: 'image/png' },

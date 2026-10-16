@@ -107,6 +107,12 @@ html.standalone .top .backbtn{display:grid}
 .icon-btn{background:var(--surf);border:1px solid var(--line);border-radius:8px;width:36px;height:36px;display:grid;place-items:center;color:var(--text2);flex-shrink:0}
 .icon-btn:hover{border-color:var(--acc);color:var(--text)}
 .icon-btn svg{width:18px;height:18px}
+.acct-btn{width:auto;padding:0 12px;gap:6px;display:flex;align-items:center;border-color:var(--gold,#c9a54a);color:var(--text);font:inherit;font-size:.84rem;font-weight:600}
+.acct-btn.on{width:36px;padding:0;justify-content:center;border-color:var(--line);position:relative}
+.acct-av{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--goldbg,rgba(201,165,74,.18));color:var(--gold,#c9a54a);font-weight:700;font-size:.85rem}
+.acct-btn.err::after{content:'';position:absolute;top:3px;right:3px;width:8px;height:8px;border-radius:50%;background:var(--red,#d55)}
+@media (max-width:900px){.acct-btn .acct-l{display:none}.acct-btn{width:36px;padding:0;justify-content:center}}
+.acct-btn[hidden]{display:none}
 
 /* ── Tabs ───────────────────────────────────────────────────── */
 .tabs{display:flex;gap:2px;padding:0 12px;background:var(--bg2);border-bottom:1px solid var(--line);overflow-x:auto;flex-shrink:0;scrollbar-width:none}
@@ -541,6 +547,7 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   <button class="icon-btn" onclick="openQuick()" aria-label="Quick rules" title="Quick rules"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M9 8h7M9 12h5"/></svg></button>
   <button class="icon-btn" id="installBtn" hidden onclick="installApp()" aria-label="Install FAND as an app" title="Install FAND as an app on this computer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></button>
   <button class="icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle light or dark theme" title="Toggle theme"></button>
+  <button class="icon-btn acct-btn" id="acctBtn" hidden onclick="openSettings()" aria-label="Sign in" title="Sign in"></button>
   <button class="icon-btn" onclick="openSettings()" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
 </header>
 
@@ -1925,6 +1932,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-17','Sign in from the top bar','A Sign in button now sits in the top bar of every page, beside Settings. Once you are signed in it shows your initial (with a red dot if something didn\'t sync), and it opens your account. The installed Windows app has Sign in in its taskbar menu too.','party'],
   ['2026-10-17','FAND on Windows','Install FAND as a Windows app from Microsoft Edge or Google Chrome: press the new install button in the header (or Install FAND on the About page). It opens in its own window, sits in the Start menu, and its taskbar icon has shortcuts to the Character sheet, Dice, Bestiary, and Combat. The About page also has a download of the offline file: the whole compendium in one file that opens with a double-click, no internet needed.','about'],
   ['2026-10-16','Accounts and campaigns','Sign in with your email (Settings, Account) and everything the site saves (characters, journal, crafting plans, designs, dice, pins) is kept in your account and follows you to every device. A DM can start a campaign on the Party page and send its invite code; players who join choose which characters to share, and everyone sees the shared characters change live. Only a character\'s owner and the DM can change it. The DM can also let their account open the hidden-class list on any device. Accounts are switched on once the site owner connects a Supabase project.','party'],
   ['2026-10-16','Old spells at level 1','Coiled Storm, Coiled Sight, and Dreaming Snow are 1st-level spells.','spells'],
@@ -5216,7 +5224,13 @@ function clRestore(){const b=clBackup();if(!b||!b.data)return;
 function clStatusText(){if(!CL.user)return '';if(CL.err)return 'Not synced: '+esc(CL.err);if(navigator.onLine===false)return 'Offline. Changes are kept here and sent when you are back online.';
   if(CL.pushing||CL.dirty.size)return 'Saving…';if(!CL.last)return 'Connecting…';const s=Math.round((Date.now()-CL.last)/1000);
   return 'Synced '+(s<60?'just now':s<3600?Math.round(s/60)+' min ago':new Date(CL.last).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'}))+'.'}
-function clStatus(){if($('clStat'))$('clStat').innerHTML=clStatusText()}
+function clStatus(){if($('clStat'))$('clStat').innerHTML=clStatusText();clHeader()}
+// the account button in the top bar: Sign in, or your initial once signed in (a red dot when not synced)
+function clHeader(){const b=$('acctBtn');if(!b)return;if(!CL||!CL.on){b.hidden=true;return}b.hidden=false;
+  if(CL.user||(clHasSession()&&!CL.err&&CL.ready)){const who=CL.user?(clMyName()||CL.user.email||'?'):'…',t=CL.user?'Signed in as '+(CL.user.email||who)+(CL.err?' (not synced: '+CL.err+')':''):'Signing in…';
+    b.className='icon-btn acct-btn on'+(CL.err&&CL.user?' err':'');b.innerHTML=`<span class="acct-av">${esc(who.trim().charAt(0).toUpperCase()||'?')}</span>`;b.title=t;b.setAttribute('aria-label',t);return}
+  b.className='icon-btn acct-btn';b.title='Sign in to keep your characters and data on every device';b.setAttribute('aria-label','Sign in');
+  b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span class="acct-l">Sign in</span>'}
 const clMyName=()=>(CL.user&&CL.user.user_metadata&&CL.user.user_metadata.name)||'';
 async function clSetName(n){n=(n||'').trim().slice(0,60);if(!n)return;const {data,error}=await CL.sb.auth.updateUser({data:{name:n}});if(error)throw error;if(data&&data.user)CL.user=data.user;await CL.sb.rpc('fand_set_name',{p_me:n})}
 async function clSaveName(){try{await clSetName($('clName').value);await campRefresh();toast('Name saved')}catch(e){toast(clMsg(e))}}
@@ -5236,7 +5250,7 @@ function cloudSettingsHTML(){
       <div class="okline" id="clMsg" style="color:var(--red)">${esc(CL.err)}</div>
       <div class="note">Sign in to keep your characters and saved data in your account, on every device, and to play in your DM's campaign. There is no password: each sign-in sends a code to your email.</div></div>`}
 function clSetMsg(m){CL.err=m;if($('clMsg'))$('clMsg').textContent=m}
-function cloudSettingsBind(){if(!CL.on||CL.user)return;
+function cloudSettingsBind(){if(!CL.on||CL.user)return;if($('clEmail'))setTimeout(()=>{if($('clEmail'))$('clEmail').focus()},30);
   if($('clSend')){const send=async()=>{const e=$('clEmail').value.trim(),b=$('clSend');if(!/^\S+@\S+\.\S+$/.test(e)){clSetMsg('Enter your email address.');return}b.disabled=true;b.textContent='Sending…';
       try{const sb=await cloudStart();const {error}=await sb.auth.signInWithOtp({email:e,options:{shouldCreateUser:true,emailRedirectTo:clRedirect()}});if(error)throw error;CL.email=e;CL.step='code';CL.err='';openSettings();setTimeout(()=>{if($('clCode'))$('clCode').focus()},40)}
       catch(err){b.disabled=false;b.textContent='Email me a code';clSetMsg(clMsg(err))}};
@@ -5308,12 +5322,13 @@ function cloudHcHTML(){if(!CL.on)return '';
   if(!CL.user)return `<p class="note" style="margin-top:12px">Signed in (Settings, Account), your account can keep the passphrase and open this list on any device where you sign in.</p>`;
   return `<label class="note" style="display:flex;gap:8px;align-items:center;margin-top:12px;color:var(--text2)"><input type="checkbox" ${CL.hc?'checked':''} onchange="clHcSave(this.checked)"> Open the hidden list on any device where I'm signed in (${esc(CL.user.email||'')})</label><p class="note" style="margin:4px 0 0">The passphrase is kept in your account, where only you can read it. Untick to remove it.</p>`}
 
-function cloudBoot(){if(!CL.on)return;partyHashInit();
+function cloudBoot(){if(!CL.on)return;partyHashInit();clHeader();
+  {const q=new URLSearchParams(location.search);if(q.has('signin')){q.delete('signin');history.replaceState(null,'',location.pathname+(q.toString()?'?'+q:'')+location.hash);setTimeout(openSettings,300)}}
   ['pointerdown','keydown','input'].forEach(t=>document.addEventListener(t,()=>{CL.touched=true},{once:true,capture:true}));
   document.addEventListener('visibilitychange',()=>{if(!CL.user)return;if(document.visibilityState==='visible'){if(Date.now()-CL.last>60000)clSyncNow(true)}else{clearTimeout(CL.timer);cloudPush().catch(()=>{});campPush().catch(()=>{})}});
   addEventListener('online',()=>{if(!CL.user)return;CL.err='';cloudPush().catch(()=>{});clCampSchedule()});
   let j=null;try{j=sessionStorage.getItem('fand.__join')}catch(e){}
-  if(clHasSession()||/[?&](code|error_description)=/.test(location.search)||(j&&clHasSession()))cloudStart().catch(()=>{});
+  if(clHasSession()||/[?&](code|error_description)=/.test(location.search)||(j&&clHasSession())){cloudStart().catch(()=>{});clHeader()}
 }
 
 // ════════════════════════════════════════════════════════════════
