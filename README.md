@@ -17,6 +17,7 @@ Everything for **FAND**, a homebrew D&D campaign: a mirror of the Obsidian vault
 | `tools/generators/` | Scripts that write vault pages |
 | `tools/checks/` | Read-only scans |
 | `tools/oneoff/` | Migration scripts already applied to the vault, kept for reference. Don't rerun them; most aren't idempotent |
+| `tools/cloud/` | Accounts and campaigns: the Supabase database setup (`schema.sql`) and the site's connection settings (`config.json`) |
 
 ## Syncing the vault
 Run `node sync-vault.js go` from the `tools` folder to mirror the live vault into `vault/`; without `go` it only reports what would change. It deletes files from `vault/` that were removed from the live vault.
@@ -63,7 +64,26 @@ The site has a home page, cross-linked detail views (a material shows the Bluepr
 - **Party** (`party.html`): characters with contracts, rivals, gear, traits, materials, money, and armor drawbacks. Saved in the browser; export and import as JSON.
 - **Encounters** and **Combat** (`encounter.html`, `combat.html`): XP-budget encounters by realm, and an initiative tracker that applies flat AC to every hit.
 
-All of this is stored in each visitor's browser (`localStorage`), so nothing is shared between devices unless exported.
+All of this is stored in each visitor's browser (`localStorage`). Without an account nothing is shared between devices unless exported; signed in, it follows the account (see Accounts and campaigns).
+
+## Accounts and campaigns
+Visitors can sign in with their email (Settings, Account). Signed in:
+
+- **Their saved data follows them.** Everything the site keeps in the browser (characters, journal, crafting plans, designs, dice, pins, tool settings) is also kept in their account and loaded on every device where they sign in. Each saved item remembers when it last changed and the newest change wins; the party is merged character by character, so editing different characters on two devices loses nothing. Appearance, filters and searches, and the hidden-class locks stay on each device. The Anthropic API key is never sent.
+- **A DM can run a campaign.** On the Party page the DM starts a campaign and copies its invite (a link and an 8-letter code). Players who join choose which of their characters to share. Every member sees the shared characters, and changes appear on everyone's Party page and sheet as they happen. Only a character's owner and the DM can change it. The DM can rename the campaign, make a new code, remove players, or delete the campaign; players can leave. Nobody loses their own characters by leaving.
+- **The DM's account can open the hidden classes.** Once the list is unlocked, a box on the Hidden classes page keeps the passphrase in the account, so it opens on any device where the DM signs in.
+
+Accounts use [Supabase](https://supabase.com) (free tier is enough) and stay switched off until the site is connected to a project. To switch them on:
+
+1. Create a Supabase project.
+2. In its **SQL Editor**, paste all of `tools/cloud/schema.sql` and run it. It makes the tables, the row-level security that keeps each account's data private and each campaign visible only to its members, and the functions the site calls. It's safe to run again after an update.
+3. Under **Authentication → URL Configuration**, set the Site URL to `https://lucky40802.github.io/FAND/site/` and add `https://lucky40802.github.io/FAND/**` to the Redirect URLs.
+4. Under **Authentication → Emails**, add the code to two templates, **Magic link or OTP** and **Confirm sign up** (someone's first sign-in uses the second), for example `<p>Your FAND sign-in code: <b>{{ .Token }}</b></p>`. The code is what people type on a phone's Home Screen app, or when they open the email on another device. The built-in email sender is meant for testing and sends only a few emails an hour, so for a whole table set up your own sender under **SMTP Settings**.
+5. From **Project Settings** (the Data API and API Keys pages), copy the project URL and the **publishable** key (or the legacy **anon** key) into `tools/cloud/config.json`. Both are meant to be public. Never put the secret or `service_role` key there.
+6. Optional: to offer Google sign-in, turn on the Google provider under **Authentication → Sign In / Providers** and set `"google": true` in `config.json`.
+7. Run `node generators/buildapp.js go` from `tools`, then commit and push.
+
+With a URL and key in `config.json`, the build adds `vendor/supabase.js` (supabase-js 2.117.2) to the site and inlines it into `app/FAND.html`. Pages load it only when someone signs in. The offline app signs in with the emailed code, since a sign-in link can't open a local file.
 
 ## Content added by the build
 - `tools/data/myth.js`: creatures from world mythology and folklore (Greek, Norse, Egyptian, Hindu, Aztec, Celtic, Japanese, Mesopotamian, and more), each with an original description. They get harvest parts, stat blocks, and lore like every other monster.
