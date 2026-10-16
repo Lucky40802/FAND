@@ -110,6 +110,9 @@ html.standalone .top .backbtn{display:grid}
 .acct-btn{width:auto;padding:0 12px;gap:6px;display:flex;align-items:center;border-color:var(--gold,#c9a54a);color:var(--text);font:inherit;font-size:.84rem;font-weight:600}
 .acct-btn.on{width:36px;padding:0;justify-content:center;border-color:var(--line);position:relative}
 .acct-av{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--goldbg,rgba(201,165,74,.18));color:var(--gold,#c9a54a);font-weight:700;font-size:.85rem}
+.acct-av img{width:26px;height:26px;border-radius:50%;object-fit:cover;display:block}
+.av{border-radius:50%;object-fit:cover;flex-shrink:0;display:inline-grid;place-items:center;vertical-align:middle;overflow:hidden}
+.av-i{background:var(--goldbg,rgba(201,165,74,.18));color:var(--gold,#c9a54a);font-weight:700;line-height:1}
 .acct-btn.err::after{content:'';position:absolute;top:3px;right:3px;width:8px;height:8px;border-radius:50%;background:var(--red,#d55)}
 @media (max-width:900px){.acct-btn .acct-l{display:none}.acct-btn{width:36px;padding:0;justify-content:center}}
 .acct-btn[hidden]{display:none}
@@ -1932,6 +1935,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-17','Profile pictures','Signed in, add a profile picture in Settings, Account (it is cropped to a square and made small on your device). It shows in the top bar, beside your name in your campaigns, and on characters you share. Only you and the people in your campaigns can see it.','party'],
   ['2026-10-17','Sign in from the top bar','A Sign in button now sits in the top bar of every page, beside Settings. Once you are signed in it shows your initial (with a red dot if something didn\'t sync), and it opens your account. The installed Windows app has Sign in in its taskbar menu too.','party'],
   ['2026-10-17','FAND on Windows','Install FAND as a Windows app from Microsoft Edge or Google Chrome: press the new install button in the header (or Install FAND on the About page). It opens in its own window, sits in the Start menu, and its taskbar icon has shortcuts to the Character sheet, Dice, Bestiary, and Combat. The About page also has a download of the offline file: the whole compendium in one file that opens with a double-click, no internet needed.','about'],
   ['2026-10-16','Accounts and campaigns','Sign in with your email (Settings, Account) and everything the site saves (characters, journal, crafting plans, designs, dice, pins) is kept in your account and follows you to every device. A DM can start a campaign on the Party page and send its invite code; players who join choose which characters to share, and everyone sees the shared characters change live. Only a character\'s owner and the DM can change it. The DM can also let their account open the hidden-class list on any device. Accounts are switched on once the site owner connects a Supabase project.','party'],
@@ -5040,7 +5044,7 @@ $('sbg').addEventListener('mousedown',e=>{if(e.target===$('sbg'))closeSettings()
 // character instead: each character keeps its own change time (_m) and a deleted one leaves a marker (partygone), so
 // editing different characters on two devices loses nothing. A DM's campaign shares characters: every member sees the
 // shared characters live, and only a character's owner or the DM can change it (the database enforces this).
-var CL={on:typeof CLOUD!=='undefined'&&!!(CLOUD&&CLOUD.url&&CLOUD.key),sb:null,user:null,ready:null,signing:null,camps:[],members:{},
+var CL={on:typeof CLOUD!=='undefined'&&!!(CLOUD&&CLOUD.url&&CLOUD.key),sb:null,user:null,avatars:{},ready:null,signing:null,camps:[],members:{},
   dirty:new Set(),cdirty:new Set(),cgone:[],timer:0,ctimer:0,rtimer:0,pushing:false,cpushing:false,err:'',last:0,touched:false,chan:null,step:'',email:'',hc:false,later:false};
 // kept on each device only: appearance, screen state (filters, searches, recently viewed), and the hidden-class locks
 const CL_LOCAL=new Set(['theme','wakelock','tooltab','viewmode','charwiz','jedit','clsfocus','placefocus','diceanim','recent','spells','hc','hclv','jq','magic','rmap','hcpat','hcpin','hcqm','hcguard','hclog','anthropicKey']);
@@ -5126,7 +5130,30 @@ async function campRefresh(){if(!CL.user)return;
   const [a,b]=await Promise.all([CL.sb.from('campaigns').select('id,name,dm,invite,created_at').order('created_at'),CL.sb.from('campaign_members').select('campaign_id,user_id,name,role,joined_at').order('joined_at')]);
   if(a.error)throw a.error;if(b.error)throw b.error;
   CL.camps=a.data||[];CL.members={};(b.data||[]).forEach(m=>(CL.members[m.campaign_id]||(CL.members[m.campaign_id]=[])).push(m));
+  await clAvLoad([CL.user.id].concat((b.data||[]).map(m=>m.user_id)));
   await campPull();campSubscribe();clStatus();clRerender()}
+// ── profile pictures: a small square image per account, seen by yourself and the people in your campaigns ──
+const CL_AV=/^data:image\/(webp|jpeg|png);base64,[A-Za-z0-9+/]+=*$/;
+const clAvOk=a=>typeof a==='string'&&a.length<200000&&CL_AV.test(a);
+function clAv(u){if(!u)return '';const a=CL.avatars[u];if(clAvOk(a))return a;if(CL.user&&u===CL.user.id){let c='';try{c=localStorage.getItem('fand.__avatar')||''}catch(e){}return clAvOk(c)?c:''}return ''}
+function clAvHTML(u,name,size){const a=clAv(u),n=String(name||'?').trim();
+  return a?`<img class="av" src="${a}" alt="" style="width:${size}px;height:${size}px">`:`<span class="av av-i" style="width:${size}px;height:${size}px;font-size:${Math.round(size*.45)}px">${esc(n.charAt(0).toUpperCase()||'?')}</span>`}
+async function clAvLoad(ids){ids=[...new Set(ids.filter(Boolean))];if(!ids.length||!CL.sb)return;
+  const {data,error}=await CL.sb.from('profiles').select('user_id,avatar').in('user_id',ids);if(error)return; // no profiles table yet: initials only
+  ids.forEach(id=>{delete CL.avatars[id]});(data||[]).forEach(r=>{if(clAvOk(r.avatar))CL.avatars[r.user_id]=r.avatar});
+  if(CL.user)try{localStorage.setItem('fand.__avatar',CL.avatars[CL.user.id]||'')}catch(e){}}
+// a picture from the device: cropped to the middle square and shrunk to 192 px before it leaves the browser
+function clPickAvatar(inp){const f=inp.files&&inp.files[0];inp.value='';if(!f)return;if(!/^image\//.test(f.type)){toast('Choose a picture file');return}
+  const url=URL.createObjectURL(f),img=new Image();
+  img.onload=()=>{URL.revokeObjectURL(url);const S=192,c=document.createElement('canvas');c.width=c.height=S;const w=img.naturalWidth,h=img.naturalHeight,m=Math.min(w,h),x=c.getContext('2d');
+    x.fillStyle='#2a2633';x.fillRect(0,0,S,S);x.imageSmoothingQuality='high';x.drawImage(img,(w-m)/2,(h-m)/2,m,m,0,0,S,S);
+    let d=c.toDataURL('image/webp',0.85);if(!/^data:image\/webp/.test(d))d=c.toDataURL('image/jpeg',0.85);clSetAvatar(d)};
+  img.onerror=()=>{URL.revokeObjectURL(url);toast('That picture could not be opened')};img.src=url}
+async function clSetAvatar(d){if(!CL.user)return;if(d&&!clAvOk(d)){toast('That picture can\'t be used. Try another one.');return}
+  const {error}=await CL.sb.rpc('fand_set_avatar',{p_avatar:d||null});
+  if(error){toast(/schema cache|could not find|does not exist/i.test(error.message||'')?'Pictures need the updated database setup: run tools/cloud/schema.sql in Supabase again.':clMsg(error));return}
+  if(d)CL.avatars[CL.user.id]=d;else delete CL.avatars[CL.user.id];try{localStorage.setItem('fand.__avatar',d||'')}catch(e){}
+  toast(d?'Picture saved':'Picture removed');clHeader();if($('sbg').classList.contains('open'))openSettings();clRerender()}
 function clRefreshSoon(){clearTimeout(CL.rtimer);CL.rtimer=setTimeout(()=>{campRefresh().catch(e=>{CL.err=clMsg(e);clStatus()})},700)}
 // a character as the campaign has it; returns true when the copy here changed
 function campApply(r){if(!CL_ID.test(String(r.id)))return false;const d=Object.assign(clClean(r.data||{}),{id:r.id,camp:r.campaign_id,_cs:1});
@@ -5203,7 +5230,7 @@ function clSignedIn(user){if(CL.signing)return CL.signing;
     if(j)setTimeout(()=>campJoin(j),100);
     if($('sbg').classList.contains('open'))openSettings()})().finally(()=>{CL.signing=null});
   return CL.signing}
-function clSignedOut(){if(CL.chan&&CL.sb){CL.sb.removeChannel(CL.chan);CL.chan=null}CL.user=null;CL.camps=[];CL.members={};CL.dirty.clear();CL.cdirty.clear();CL.cgone=[];CL.hc=false;
+function clSignedOut(){if(CL.chan&&CL.sb){CL.sb.removeChannel(CL.chan);CL.chan=null}CL.user=null;CL.camps=[];CL.members={};CL.avatars={};try{localStorage.removeItem('fand.__avatar')}catch(e){}CL.dirty.clear();CL.cdirty.clear();CL.cgone=[];CL.hc=false;
   if(PARTY.some(c=>c._by)){PARTY=PARTY.filter(c=>!c._by);partyHashInit();clRaw('party',PARTY)}
   clStatus();clRerender();if($('sbg').classList.contains('open'))openSettings()}
 async function cloudSignOut(){const wipe=confirm('Sign out.\n\nAlso remove your saved data from this device? OK removes it (it stays in your account). Cancel keeps a copy here.');
@@ -5228,7 +5255,7 @@ function clStatus(){if($('clStat'))$('clStat').innerHTML=clStatusText();clHeader
 // the account button in the top bar: Sign in, or your initial once signed in (a red dot when not synced)
 function clHeader(){const b=$('acctBtn');if(!b)return;if(!CL||!CL.on){b.hidden=true;return}b.hidden=false;
   if(CL.user||(clHasSession()&&!CL.err&&CL.ready)){const who=CL.user?(clMyName()||CL.user.email||'?'):'…',t=CL.user?'Signed in as '+(CL.user.email||who)+(CL.err?' (not synced: '+CL.err+')':''):'Signing in…';
-    b.className='icon-btn acct-btn on'+(CL.err&&CL.user?' err':'');b.innerHTML=`<span class="acct-av">${esc(who.trim().charAt(0).toUpperCase()||'?')}</span>`;b.title=t;b.setAttribute('aria-label',t);return}
+    b.className='icon-btn acct-btn on'+(CL.err&&CL.user?' err':'');const pic=clAv(CL.user?CL.user.id:null)||(()=>{let c='';try{c=localStorage.getItem('fand.__avatar')||''}catch(e){}return clAvOk(c)?c:''})();b.innerHTML=`<span class="acct-av">${pic?`<img src="${pic}" alt="">`:esc(who.trim().charAt(0).toUpperCase()||'?')}</span>`;b.title=t;b.setAttribute('aria-label',t);return}
   b.className='icon-btn acct-btn';b.title='Sign in to keep your characters and data on every device';b.setAttribute('aria-label','Sign in');
   b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span class="acct-l">Sign in</span>'}
 const clMyName=()=>(CL.user&&CL.user.user_metadata&&CL.user.user_metadata.name)||'';
@@ -5240,6 +5267,7 @@ async function clAskName(){let n=clMyName();if(n)return n;n=(prompt('Your name a
 function cloudSettingsHTML(){
   if(!CL.on)return `<div class="blk"><h4>Account</h4><div class="note">Accounts aren't switched on for this copy of FAND. With them, your characters and saved data follow you to every device, and a DM can share the party with the players. The site owner sets this up once (README: Accounts and campaigns).</div></div>`;
   if(CL.user)return `<div class="blk"><h4>Account <em>${esc(CL.user.email||'')}</em></h4>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:10px">${clAvHTML(CL.user.id,clMyName()||CL.user.email,56)}<label class="btn" style="cursor:pointer">${clAv(CL.user.id)?'Change picture':'Add a picture'}<input type="file" accept="image/*" hidden onchange="clPickAvatar(this)"></label>${clAv(CL.user.id)?'<button class="btn" type="button" onclick="clSetAvatar(null)">Remove</button>':''}<small style="color:var(--muted)">Seen by you and the people in your campaigns.</small></div>
       <div class="keyrow"><input class="sel" id="clName" placeholder="Your name at the table" value="${esc(clMyName())}" maxlength="60" style="max-width:none;flex:1"><button class="btn" type="button" onclick="clSaveName()">Save name</button></div>
       <div class="okline" id="clStat" style="color:var(--text2)">${clStatusText()}</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0"><button class="btn" type="button" onclick="clSyncNow()">Sync now</button><a class="btn" href="${pageUrl('party')}" onclick="closeSettings()">Campaigns${CL.camps.length?' ('+CL.camps.length+')':''}</a>${clBackup()?'<button class="btn" type="button" onclick="clRestore()" title="What this device had saved before you first signed in here">Restore this device\'s old data</button>':''}<button class="btn" type="button" onclick="cloudSignOut()">Sign out</button></div>
@@ -5271,10 +5299,10 @@ function campPanelHTML(){if(!CL.on)return '';
     ${CL.camps.map(k=>{const dm=k.dm===me,ms=CL.members[k.id]||[],n=PARTY.filter(c=>c.camp===k.id).length;return `<div style="border-top:1px solid var(--line);margin-top:10px;padding-top:10px">
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><b>${esc(k.name)}</b><span class="b ${dm?'green':'ghost'}">${dm?'You are the DM':'Player'}</span><small style="color:var(--muted)">${n} shared character${n===1?'':'s'}</small>
         <span style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;align-items:center"><small style="color:var(--muted)">Invite code</small> <code style="font-size:1rem;letter-spacing:.08em">${esc(k.invite)}</code><button class="btn" onclick="campInvite('${k.id}')">Copy invite</button>${dm?`<button class="btn" onclick="campNewCode('${k.id}')" title="A new code; the old one stops working">New code</button><button class="btn" onclick="campRename('${k.id}')">Rename</button><button class="btn" onclick="campDelete('${k.id}')">Delete</button>`:`<button class="btn" onclick="campLeave('${k.id}')">Leave</button>`}</span></div>
-      <div class="chips" style="margin-top:6px">${ms.map(m=>`<span class="chip" style="cursor:default">${m.role==='dm'?'👑 ':''}${esc(m.name||'Unnamed')}${m.user_id===me?' <small>(you)</small>':''}${dm&&m.user_id!==me?` <a href="#" title="Remove from the campaign" aria-label="Remove ${esc(m.name||'player')}" onclick="campKick('${k.id}','${m.user_id}');return false">✕</a>`:''}</span>`).join('')}</div></div>`}).join('')}
+      <div class="chips" style="margin-top:6px">${ms.map(m=>`<span class="chip" style="cursor:default;display:inline-flex;align-items:center;gap:6px">${clAvHTML(m.user_id,m.name,22)}${m.role==='dm'?'👑 ':''}${esc(m.name||'Unnamed')}${m.user_id===me?' <small>(you)</small>':''}${dm&&m.user_id!==me?` <a href="#" title="Remove from the campaign" aria-label="Remove ${esc(m.name||'player')}" onclick="campKick('${k.id}','${m.user_id}');return false">✕</a>`:''}</span>`).join('')}</div></div>`}).join('')}
   </div>`}
 function campCharHTML(c){if(!CL.on||!CL.user||!c||c.id==='blank')return '';const k=CL.camps.find(x=>x.id===c.camp);
-  if(!clMine(c))return `<div class="cw-next sh-noprint">${clIsDM(c.camp)?`<b>${esc(c._by.n||'A player')}'s character</b> in ${esc(k?k.name:'your campaign')}. You are the DM: your changes are saved to their sheet.`:`<b>Shared by ${esc(c._by.n||'another player')}</b> in ${esc(k?k.name:'your campaign')}. Only they and the DM can change it; changes made here are replaced by their copy.`}</div>`;
+  if(!clMine(c))return `<div class="cw-next sh-noprint" style="display:flex;gap:10px;align-items:center">${clAvHTML(c._by.u,c._by.n,32)}<span>${clIsDM(c.camp)?`<b>${esc(c._by.n||'A player')}'s character</b> in ${esc(k?k.name:'your campaign')}. You are the DM: your changes are saved to their sheet.`:`<b>Shared by ${esc(c._by.n||'another player')}</b> in ${esc(k?k.name:'your campaign')}. Only they and the DM can change it; changes made here are replaced by their copy.`}</span></div>`;
   if(!CL.camps.length)return '';
   return `<div class="sh-noprint" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px"><span class="note" style="margin:0">🌐 Share with</span><select class="sel" data-cid="${esc(c.id)}" onchange="campShare(this.dataset.cid,this.value)" style="max-width:260px"><option value="">Not shared (only you)</option>${CL.camps.map(x=>`<option value="${x.id}"${c.camp===x.id?' selected':''}>${esc(x.name)}</option>`).join('')}</select>${k?`<small style="color:var(--muted)">Every member of ${esc(k.name)} sees this character, and the DM can change it.</small>`:''}</div>`}
 function campShare(id,camp){const c=PARTY.find(x=>x.id===id);if(!c||!clMine(c))return;
