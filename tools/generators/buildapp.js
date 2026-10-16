@@ -693,9 +693,11 @@ site['manifest.webmanifest'] = JSON.stringify({
 var mapFiles = (function () { var d = path.join(__dirname, '..', 'data', 'maps'); return fs.existsSync(d) ? fs.readdirSync(d).filter(function (f) { return /\.(jpe?g|png|webp)$/i.test(f); }).map(function (f) { return 'img/maps/' + f; }) : []; })();
 var PRECACHE = PAGE_FILES.concat(['data/core.js', 'data/vault.js', 'data/spells.js', 'data/vault-details.js'].map(function (f) { return f + '?v=' + DATA_V; }),
   ['vendor/anthropic.js', 'vendor/qrcode.js', 'manifest.webmanifest', 'img/icons/icon-180.png', 'img/icons/icon-192.png', 'img/icons/icon-512.png'], mapFiles);
+// the offline copy's name changes whenever any file changes (pages too), so a phone never keeps an old page offline
+var SITE_V = require('crypto').createHash('sha1').update(Object.keys(site).filter(function (k) { return k !== 'sw.js'; }).sort().map(function (k) { return k + site[k]; }).join('')).digest('hex').slice(0, 8);
 site['sw.js'] = [
   '// FAND offline worker, written by tools/generators/buildapp.js. Build ' + DATA_V + '.',
-  'const CACHE="fand-' + DATA_V + '";',
+  'const CACHE="fand-' + DATA_V + '-' + SITE_V + '";',
   'const FILES=' + JSON.stringify(PRECACHE) + ';',
   '// Each file is saved on its own, so one file a phone refuses to store (the data is large) cannot stop the update.',
   'self.addEventListener("install",e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>Promise.all(FILES.map(f=>fetch(new Request(f,{cache:"reload"})).then(res=>res.ok?c.put(f,res):null).catch(()=>null)))))});',
