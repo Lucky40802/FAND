@@ -3884,11 +3884,6 @@
   "how": "Sink a shaft at The Edge over weeks with master-forged tools, guarded against what drifts in from beyond; carry ingots back in rune-sealed crates on a long, hard road.",
   "shaft": true
  },
- "Hushmoss": {
-  "hab": "Grey mats on the walls of Void-edge caverns, thickest in damp corners; all sound fades around it, so its patches feel like pockets of deaf silence.",
-  "how": "Scrape it off the rock with a flat knife in a few minutes and pack it in a cloth bag; communicate by hand signs, since shouts for help vanish near it.",
-  "shaft": false
- },
  "Stillstone": {
   "hab": "Found everywhere in the Void, from loose slabs to the bedrock below; each piece stays exactly where it last came to rest and resists every push.",
   "how": "Quarry it in place with chisels and wedges, a few hours per block; it will not move once cut, so set it on a sledge before the last stroke frees it.",
@@ -4603,5 +4598,115 @@
   "hab": "The exposed spine of the world in the Primordial realm, where the bedrock rises in ridges.",
   "how": "Only a Realm Forge can melt it. Cut slabs with tools of Primordial metal, and expect it to take a full tenday.",
   "shaft": true
+ },
+ "Owl-Eye Agate": {
+  "hab": "River gravel beds in the Human Realm.",
+  "how": "Mine it with a pick and smelt or cut it in a forge fit for its realm; work it soon after it is taken.",
+  "shaft": true
+ },
+ "Honeytongue Clover": {
+  "hab": "Misty meadows in the Mysterious Realm.",
+  "how": "Cut it by hand, wrap it in cloth, and dry or press it within a day.",
+  "shaft": false
+ },
+ "Inkstone": {
+  "hab": "Old library ruins in the Mysterious Realm.",
+  "how": "Mine it with a pick and smelt or cut it in a forge fit for its realm; work it soon after it is taken.",
+  "shaft": true
+ },
+ "Liar's Brass": {
+  "hab": "Contract hall foundations in the Hell.",
+  "how": "Mine it with a pick and smelt or cut it in a forge fit for its realm; work it soon after it is taken.",
+  "shaft": true
+ },
+ "Scripture Reed": {
+  "hab": "Heavenly streams in the Heaven.",
+  "how": "Cut it by hand, wrap it in cloth, and dry or press it within a day.",
+  "shaft": false
+ },
+ "Seraph-Eye Pearl": {
+  "hab": "Cloud-pool beds in the Heaven.",
+  "how": "Mine it with a pick and smelt or cut it in a forge fit for its realm; work it soon after it is taken.",
+  "shaft": true
+ },
+ "Trickster's Thistle": {
+  "hab": "Shifting fields in the Chaos.",
+  "how": "Cut it by hand, wrap it in cloth, and dry or press it within a day.",
+  "shaft": false
+ },
+ "Riddle Quartz": {
+  "hab": "Chaos geodes in the Chaos.",
+  "how": "Mine it with a pick and smelt or cut it in a forge fit for its realm; work it soon after it is taken.",
+  "shaft": true
+ },
+ "Leviathan Grip Kelp": {
+  "hab": "Abyssal reefs in the Abyss.",
+  "how": "Cut it by hand, wrap it in cloth, and dry or press it within a day.",
+  "shaft": false
+ },
+ "Deepwhisper Coral": {
+  "hab": "Silent trenches in the Abyss.",
+  "how": "Mine it with a pick and smelt or cut it in a forge fit for its realm; work it soon after it is taken.",
+  "shaft": true
+ },
+ "Ledger Leaf": {
+  "hab": "Ordered gardens in the Inner Realm Realm.",
+  "how": "Cut it by hand, wrap it in cloth, and dry or press it within a day.",
+  "shaft": false
+ },
+ "Magistrate's Silver": {
+  "hab": "Courthouse vaults in the Inner Realm Realm.",
+  "how": "Mine it with a pick and smelt or cut it in a forge fit for its realm; work it soon after it is taken.",
+  "shaft": true
+ },
+ "Comet-Tail Grass": {
+  "hab": "Star-plains in the Outer Realm Realm.",
+  "how": "Cut it by hand, wrap it in cloth, and dry or press it within a day.",
+  "shaft": false
+ },
+ "Titan Ore": {
+  "hab": "Titan graveyards in the Outer Realm Realm.",
+  "how": "Mine it with a pick and smelt or cut it in a forge fit for its realm; work it soon after it is taken.",
+  "shaft": true
+ },
+ "Starlore Shard": {
+  "hab": "Fallen-star craters in the Outer Realm Realm.",
+  "how": "Mine it with a pick and smelt or cut it in a forge fit for its realm; work it soon after it is taken.",
+  "shaft": true
+ },
+ "Silence Bloom": {
+  "hab": "Soundless hollows in the Void.",
+  "how": "Cut it by hand, wrap it in cloth, and dry or press it within a day.",
+  "shaft": false
+ },
+ "Void-Eye Obsidian": {
+  "hab": "The Void's rim in the Void.",
+  "how": "Mine it with a pick and smelt or cut it in a forge fit for its realm; work it soon after it is taken.",
+  "shaft": true
+ },
+ "Thought-Moss": {
+  "hab": "The thoughtless deeps in the Inner Void.",
+  "how": "Cut it by hand, wrap it in cloth, and dry or press it within a day.",
+  "shaft": false
+ },
+ "Murmur Ore": {
+  "hab": "Deep Inner Void seams in the Inner Void.",
+  "how": "Mine it with a pick and smelt or cut it in a forge fit for its realm; work it soon after it is taken.",
+  "shaft": true
+ },
+ "Firstspeech Root": {
+  "hab": "The first gardens in the Primordial.",
+  "how": "Cut it by hand, wrap it in cloth, and dry or press it within a day.",
+  "shaft": false
+ },
+ "Worldwatcher Amber": {
+  "hab": "The first forests in the Primordial.",
+  "how": "Mine it with a pick and smelt or cut it in a forge fit for its realm; work it soon after it is taken.",
+  "shaft": true
+ },
+ "Hushcap Moss": {
+  "hab": "Damp forest floors in the Human Realm.",
+  "how": "Cut it by hand, wrap it in cloth, and dry or press it within a day.",
+  "shaft": false
  }
 }
