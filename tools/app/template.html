@@ -103,6 +103,21 @@ html.standalone .top .backbtn{display:grid}
 .acct-av img{width:26px;height:26px;border-radius:50%;object-fit:cover;display:block}
 .av{border-radius:50%;object-fit:cover;flex-shrink:0;display:inline-grid;place-items:center;vertical-align:middle;overflow:hidden}
 .av-i{background:var(--goldbg,rgba(201,165,74,.18));color:var(--gold,#c9a54a);font-weight:700;line-height:1}
+.acctpop{width:300px;padding:6px}
+.acctpop .ap-h{display:flex;gap:12px;align-items:center;padding:10px 10px 12px;border-bottom:1px solid var(--line);margin-bottom:4px}
+.acctpop .ap-h b{display:block;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acctpop .ap-h small{display:block;font-size:.76rem;color:var(--muted);overflow-wrap:anywhere}
+.acctpop .ap-i{display:flex;width:100%;gap:10px;align-items:center;padding:8px 10px;border-radius:8px;background:none;border:0;color:var(--text2);font:inherit;font-size:.9rem;text-align:left;cursor:pointer}
+.acctpop .ap-i:hover,.acctpop .ap-i:focus-visible{background:var(--accbg);color:var(--text);outline:none}
+.acctpop .ap-i svg{width:16px;height:16px;flex-shrink:0;opacity:.8}
+.acctpop .ap-i small{margin-left:auto;font-size:.74rem;color:var(--muted)}
+.acctpop .ap-sep{height:1px;background:var(--line);margin:4px 6px}
+.pf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:10px}
+.pf-tile{position:relative;aspect-ratio:1;border-radius:50%;border:2px solid transparent;padding:0;background:var(--surf2,var(--surf));cursor:pointer;display:grid;place-items:center;overflow:hidden;color:var(--text2);font:inherit;font-size:.7rem;text-align:center;line-height:1.2}
+.pf-tile img{width:100%;height:100%;object-fit:cover;display:block}
+.pf-tile:hover{border-color:var(--line3)}
+.pf-tile.on{border-color:var(--gold,#c9a54a);box-shadow:0 0 0 3px var(--goldbg,rgba(201,165,74,.25))}
+.pf-tile.up{border:2px dashed var(--line3);background:none}
 .acct-btn.err::after{content:'';position:absolute;top:3px;right:3px;width:8px;height:8px;border-radius:50%;background:var(--red,#d55)}
 @media (max-width:900px){.acct-btn .acct-l{display:none}.acct-btn{width:36px;padding:0;justify-content:center}}
 .acct-btn[hidden]{display:none}
@@ -540,12 +555,13 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   <button class="icon-btn" onclick="openQuick()" aria-label="Quick rules" title="Quick rules"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M9 8h7M9 12h5"/></svg></button>
   <button class="icon-btn" id="installBtn" hidden onclick="installApp()" aria-label="Install FAND as an app" title="Install FAND as an app on this computer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></button>
   <button class="icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle light or dark theme" title="Toggle theme"></button>
-  <button class="icon-btn acct-btn" id="acctBtn" hidden onclick="openSettings()" aria-label="Sign in" title="Sign in"></button>
+  <button class="icon-btn acct-btn" id="acctBtn" hidden onclick="clAcctClick(this)" aria-haspopup="menu" aria-expanded="false" aria-label="Sign in" title="Sign in"></button>
   <button class="icon-btn" onclick="openSettings()" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
 </header>
 
 <nav class="tabs" id="tabs" aria-label="Sections"></nav>
 <div class="navpop" id="navpop" role="menu"></div>
+<div class="navpop acctpop" id="acctpop" role="menu" aria-label="Your account"></div>
 
 <div class="ws">
   <aside class="sb" id="sb" hidden aria-label="Filters"></aside>
@@ -1922,7 +1938,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
-  ['2026-10-17','Profile pictures','Signed in, add a profile picture in Settings, Account (it is cropped to a square and made small on your device). It shows in the top bar, beside your name in your campaigns, and on characters you share. Only you and the people in your campaigns can see it.','party'],
+  ['2026-10-17','Profile pictures','Click your picture (or initial) in the top bar for your account menu: Edit profile, Campaigns, Sync now, Settings, and Sign out. Edit profile sets your name and your picture: upload one (it is cropped to a square and made small on your device), pick one of sixteen emblems in the realms\' colours, or have none. It shows in the top bar, beside your name in your campaigns, and on characters you share. Only you and the people in your campaigns can see it.','party'],
   ['2026-10-17','Sign in from the top bar','A Sign in button now sits in the top bar of every page, beside Settings. Once you are signed in it shows your initial (with a red dot if something didn\'t sync), and it opens your account. The installed Windows app has Sign in in its taskbar menu too.','party'],
   ['2026-10-17','FAND on Windows','Install FAND as a Windows app from Microsoft Edge or Google Chrome: press the new install button in the header (or Install FAND on the About page). It opens in its own window, sits in the Start menu, and its taskbar icon has shortcuts to the Character sheet, Dice, Bestiary, and Combat. The About page also has a download of the offline file: the whole compendium in one file that opens with a double-click, no internet needed.','about'],
   ['2026-10-16','Accounts and campaigns','Sign in with your email (Settings, Account) and everything the site saves (characters, journal, crafting plans, designs, dice, pins) is kept in your account and follows you to every device. A DM can start a campaign on the Party page and send its invite code; players who join choose which characters to share, and everyone sees the shared characters change live. Only a character\'s owner and the DM can change it. The DM can also let their account open the hidden-class list on any device. Accounts are switched on once the site owner connects a Supabase project.','party'],
@@ -4991,17 +5007,68 @@ async function clAvLoad(ids){ids=[...new Set(ids.filter(Boolean))];if(!ids.lengt
   ids.forEach(id=>{delete CL.avatars[id]});(data||[]).forEach(r=>{if(clAvOk(r.avatar))CL.avatars[r.user_id]=r.avatar});
   if(CL.user)try{localStorage.setItem('fand.__avatar',CL.avatars[CL.user.id]||'')}catch(e){}}
 // a picture from the device: cropped to the middle square and shrunk to 192 px before it leaves the browser
-function clPickAvatar(inp){const f=inp.files&&inp.files[0];inp.value='';if(!f)return;if(!/^image\//.test(f.type)){toast('Choose a picture file');return}
+const clCanvasURL=c=>{const d=c.toDataURL('image/webp',0.85);return /^data:image\/webp/.test(d)?d:c.toDataURL('image/jpeg',0.85)};
+function clCrop(f){return new Promise((res,rej)=>{if(!f||!/^image\//.test(f.type)){rej(new Error('Choose a picture file.'));return}
   const url=URL.createObjectURL(f),img=new Image();
   img.onload=()=>{URL.revokeObjectURL(url);const S=192,c=document.createElement('canvas');c.width=c.height=S;const w=img.naturalWidth,h=img.naturalHeight,m=Math.min(w,h),x=c.getContext('2d');
-    x.fillStyle='#2a2633';x.fillRect(0,0,S,S);x.imageSmoothingQuality='high';x.drawImage(img,(w-m)/2,(h-m)/2,m,m,0,0,S,S);
-    let d=c.toDataURL('image/webp',0.85);if(!/^data:image\/webp/.test(d))d=c.toDataURL('image/jpeg',0.85);clSetAvatar(d)};
-  img.onerror=()=>{URL.revokeObjectURL(url);toast('That picture could not be opened')};img.src=url}
-async function clSetAvatar(d){if(!CL.user)return;if(d&&!clAvOk(d)){toast('That picture can\'t be used. Try another one.');return}
+    x.fillStyle='#2a2633';x.fillRect(0,0,S,S);x.imageSmoothingQuality='high';x.drawImage(img,(w-m)/2,(h-m)/2,m,m,0,0,S,S);res(clCanvasURL(c))};
+  img.onerror=()=>{URL.revokeObjectURL(url);rej(new Error('That picture could not be opened.'))};img.src=url})}
+async function clSetAvatar(d,quiet){if(!CL.user)return false;if(d&&!clAvOk(d)){toast('That picture can\'t be used. Try another one.');return false}
   const {error}=await CL.sb.rpc('fand_set_avatar',{p_avatar:d||null});
-  if(error){toast(/schema cache|could not find|does not exist/i.test(error.message||'')?'Pictures need the updated database setup: run tools/cloud/schema.sql in Supabase again.':clMsg(error));return}
+  if(error){toast(/schema cache|could not find|does not exist/i.test(error.message||'')?'Pictures need the updated database setup: run tools/cloud/schema.sql in Supabase again.':clMsg(error));return false}
   if(d)CL.avatars[CL.user.id]=d;else delete CL.avatars[CL.user.id];try{localStorage.setItem('fand.__avatar',d||'')}catch(e){}
-  toast(d?'Picture saved':'Picture removed');clHeader();if($('sbg').classList.contains('open'))openSettings();clRerender()}
+  if(!quiet)toast(d?'Picture saved':'Picture removed');clHeader();if($('sbg').classList.contains('open'))openSettings();clRerender();return true}
+// ready-made pictures: an emblem on a realm's colour, drawn here and saved like an uploaded picture
+const CL_EMBLEMS=['✦','☽','☀','✠','❖','♛','✧','☠','⚜','♆','✪','❂','☘','❄','⚔','✺'];
+function clEmblems(){if(clEmblems.list)return clEmblems.list;const cols=(typeof REALMS!=='undefined'?REALMS.map(r=>r.color):[]).concat(['#7b5cd6','#c9a54a','#3aa58a','#c2563f','#4a7fd1']);
+  clEmblems.list=CL_EMBLEMS.map((sym,i)=>{const S=192,c=document.createElement('canvas');c.width=c.height=S;const x=c.getContext('2d'),col=cols[i%cols.length]||'#888';
+    const g=x.createRadialGradient(S*.35,S*.3,S*.1,S/2,S/2,S*.75);g.addColorStop(0,col);g.addColorStop(1,'#141019');x.fillStyle=g;x.fillRect(0,0,S,S);
+    x.strokeStyle='rgba(255,255,255,.18)';x.lineWidth=6;x.beginPath();x.arc(S/2,S/2,S/2-14,0,Math.PI*2);x.stroke();
+    x.fillStyle='#fff';x.shadowColor='rgba(0,0,0,.5)';x.shadowBlur=10;x.font='bold 92px Georgia, "Times New Roman", serif';x.textAlign='center';x.textBaseline='middle';x.fillText(sym,S/2,S/2+6);
+    return clCanvasURL(c)});return clEmblems.list}
+
+// ── the account menu in the top bar ──
+function clAcctClick(btn){if(!CL.user){openSettings();return}const p=$('acctpop');if(p.classList.contains('open')){clAcctClose();return}
+  p.innerHTML=clAcctMenuHTML();const r=btn.getBoundingClientRect();p.style.top=(r.bottom+6)+'px';p.style.setProperty('--navtop',(r.bottom+6)+'px');p.style.left=Math.max(8,Math.min(r.right-300,innerWidth-308))+'px';
+  p.classList.add('open');btn.setAttribute('aria-expanded','true');const f=p.querySelector('.ap-i');if(f)f.focus()}
+function clAcctClose(){const p=$('acctpop');if(!p)return;p.classList.remove('open');const b=$('acctBtn');if(b)b.setAttribute('aria-expanded','false')}
+const AP_ICON={profile:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',camps:'<circle cx="8" cy="9" r="3"/><circle cx="17" cy="9" r="3"/><path d="M2 20c0-3 3-5 6-5s6 2 6 5M14 15c3 0 8 1 8 5"/>',sync:'<path d="M20 11a8 8 0 0 0-14-5l-2 2M4 13a8 8 0 0 0 14 5l2-2M4 4v4h4M20 20v-4h-4"/>',settings:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/>',out:'<path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/>'};
+function clAcctMenuHTML(){const u=CL.user,n=clMyName(),it=(k,l,sub)=>`<button class="ap-i" role="menuitem" data-ap="${k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${AP_ICON[k]}</svg>${l}${sub?`<small>${sub}</small>`:''}</button>`;
+  return `<div class="ap-h">${clAvHTML(u.id,n||u.email,48)}<div style="min-width:0"><b>${esc(n||'No name yet')}</b><small>${esc(u.email||'')}</small><small style="${CL.err?'color:var(--red)':''}">${clStatusText()}</small></div></div>
+    ${it('profile','Edit profile','picture and name')}${it('camps','Campaigns',CL.camps.length?String(CL.camps.length):'')}${it('sync','Sync now')}${it('settings','Settings')}<div class="ap-sep"></div>${it('out','Sign out')}`}
+document.addEventListener('click',e=>{const b=e.target.closest('#acctpop [data-ap]');if(!b)return;const k=b.dataset.ap;clAcctClose();
+  if(k==='profile')openProfile();else if(k==='camps')go('party');else if(k==='sync')clSyncNow();else if(k==='settings')openSettings();else if(k==='out')cloudSignOut()});
+document.addEventListener('mousedown',e=>{if(!e.target.closest('#acctpop')&&!e.target.closest('#acctBtn'))clAcctClose()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('acctpop')&&$('acctpop').classList.contains('open')){clAcctClose();$('acctBtn').focus()}});
+window.addEventListener('resize',clAcctClose);
+
+// ── Edit profile: a picture (upload, a ready-made emblem, or none) and a name ──
+let PROF=null;
+function openProfile(){if(!CL.user){openSettings();return}PROF={pick:clAv(CL.user.id)||null,up:null};renderProfile();$('qbg').classList.add('open');setTimeout(()=>{if($('pf-name'))$('pf-name').focus()},30)}
+function renderProfile(){const u=CL.user,em=clEmblems(),cur=PROF.pick,n=$('pf-name')?$('pf-name').value:clMyName();
+  const prev=cur?`<img class="av" src="${cur}" alt="" style="width:96px;height:96px">`:`<span class="av av-i" style="width:96px;height:96px;font-size:42px">${esc((n||u.email||'?').trim().charAt(0).toUpperCase()||'?')}</span>`;
+  const tile=(src,on,label,i)=>`<button type="button" class="pf-tile${on?' on':''}" data-pf="${i}" aria-label="${esc(label)}" aria-pressed="${on}">${src?`<img src="${src}" alt="">`:`<span>${label}</span>`}</button>`;
+  const tiles=[`<label class="pf-tile up" title="Upload a picture from this device" aria-label="Upload a picture"><span>＋<br>Upload</span><input type="file" accept="image/*" hidden id="pf-file"></label>`]
+    .concat(PROF.up?[tile(PROF.up,cur===PROF.up,'Your uploaded picture','up')]:[])
+    .concat(clAv(u.id)&&clAv(u.id)!==PROF.up&&!em.includes(clAv(u.id))?[tile(clAv(u.id),cur===clAv(u.id),'Your current picture','cur')]:[])
+    .concat(em.map((src,i)=>tile(src,cur===src,'Emblem '+CL_EMBLEMS[i],i)))
+    .concat([tile('',!cur,'No picture','none')]);
+  $('qBox').innerHTML=`<div class="mh"><div class="kind">Your account</div><h2 id="qTitle">Edit profile</h2><div class="mact"><button class="icon-btn" onclick="closeQuick()" aria-label="Close">${ICON.x}</button></div></div>
+    <div class="mb">
+      <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">${prev}<div style="flex:1;min-width:200px"><label class="note" style="display:block;margin:0 0 4px" for="pf-name">Your name at the table</label><input class="sel" id="pf-name" maxlength="60" placeholder="What the others in your campaigns see" value="${esc(n||'')}" style="max-width:none;width:100%"><div class="note" style="margin:6px 0 0">${esc(u.email||'')}</div></div></div>
+      <div class="blk" style="margin-top:16px"><h4>Picture <em>seen by you and the people in your campaigns</em></h4><div class="pf-grid">${tiles.join('')}</div></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap"><button class="btn" type="button" onclick="closeQuick()">Cancel</button><button class="btn primary" type="button" id="pf-save">Save</button></div>
+    </div>`;
+  $('qBox').querySelectorAll('[data-pf]').forEach(b=>b.onclick=()=>{const k=b.dataset.pf;PROF.pick=k==='none'?null:k==='up'?PROF.up:k==='cur'?clAv(u.id):em[+k];renderProfile()});
+  $('pf-file').onchange=async e=>{const f=e.target.files&&e.target.files[0];e.target.value='';if(!f)return;try{PROF.up=await clCrop(f);PROF.pick=PROF.up;renderProfile()}catch(err){toast(err.message)}};
+  $('pf-name').onkeydown=e=>{if(e.key==='Enter')$('pf-save').click()};
+  $('pf-save').onclick=async()=>{const b=$('pf-save');b.disabled=true;b.textContent='Saving…';
+    try{const nm=$('pf-name').value.trim().slice(0,60);let ok=true;
+      if(nm&&nm!==clMyName()){await clSetName(nm);await campRefresh().catch(()=>{})}
+      if((PROF.pick||null)!==(clAv(u.id)||null))ok=await clSetAvatar(PROF.pick,true);
+      if(ok){closeQuick();toast('Profile saved')}}
+    catch(err){toast(clMsg(err))}
+    finally{if($('pf-save')){b.disabled=false;b.textContent='Save'}}}}
 function clRefreshSoon(){clearTimeout(CL.rtimer);CL.rtimer=setTimeout(()=>{campRefresh().catch(e=>{CL.err=clMsg(e);clStatus()})},700)}
 // a character as the campaign has it; returns true when the copy here changed
 function campApply(r){if(!CL_ID.test(String(r.id)))return false;const d=Object.assign(clClean(r.data||{}),{id:r.id,camp:r.campaign_id,_cs:1});
@@ -5108,15 +5175,13 @@ function clHeader(){const b=$('acctBtn');if(!b)return;if(!CL||!CL.on){b.hidden=t
   b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span class="acct-l">Sign in</span>'}
 const clMyName=()=>(CL.user&&CL.user.user_metadata&&CL.user.user_metadata.name)||'';
 async function clSetName(n){n=(n||'').trim().slice(0,60);if(!n)return;const {data,error}=await CL.sb.auth.updateUser({data:{name:n}});if(error)throw error;if(data&&data.user)CL.user=data.user;await CL.sb.rpc('fand_set_name',{p_me:n})}
-async function clSaveName(){try{await clSetName($('clName').value);await campRefresh();toast('Name saved')}catch(e){toast(clMsg(e))}}
 async function clAskName(){let n=clMyName();if(n)return n;n=(prompt('Your name at the table (the others in the campaign see it):','')||'').trim().slice(0,60);if(!n)return null;try{await clSetName(n)}catch(e){}return n}
 
 // ── the Account box in Settings ──
 function cloudSettingsHTML(){
   if(!CL.on)return `<div class="blk"><h4>Account</h4><div class="note">Accounts aren't switched on for this copy of FAND. With them, your characters and saved data follow you to every device, and a DM can share the party with the players. The site owner sets this up once (README: Accounts and campaigns).</div></div>`;
   if(CL.user)return `<div class="blk"><h4>Account <em>${esc(CL.user.email||'')}</em></h4>
-      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:10px">${clAvHTML(CL.user.id,clMyName()||CL.user.email,56)}<label class="btn" style="cursor:pointer">${clAv(CL.user.id)?'Change picture':'Add a picture'}<input type="file" accept="image/*" hidden onchange="clPickAvatar(this)"></label>${clAv(CL.user.id)?'<button class="btn" type="button" onclick="clSetAvatar(null)">Remove</button>':''}<small style="color:var(--muted)">Seen by you and the people in your campaigns.</small></div>
-      <div class="keyrow"><input class="sel" id="clName" placeholder="Your name at the table" value="${esc(clMyName())}" maxlength="60" style="max-width:none;flex:1"><button class="btn" type="button" onclick="clSaveName()">Save name</button></div>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:8px">${clAvHTML(CL.user.id,clMyName()||CL.user.email,56)}<div style="flex:1;min-width:140px"><b style="display:block">${esc(clMyName()||'No name yet')}</b><small style="color:var(--muted)">Your picture and name are seen by the people in your campaigns.</small></div><button class="btn primary" type="button" onclick="closeSettings();openProfile()">Edit profile</button></div>
       <div class="okline" id="clStat" style="color:var(--text2)">${clStatusText()}</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0"><button class="btn" type="button" onclick="clSyncNow()">Sync now</button><a class="btn" href="${pageUrl('party')}" onclick="closeSettings()">Campaigns${CL.camps.length?' ('+CL.camps.length+')':''}</a>${clBackup()?'<button class="btn" type="button" onclick="clRestore()" title="What this device had saved before you first signed in here">Restore this device\'s old data</button>':''}<button class="btn" type="button" onclick="cloudSignOut()">Sign out</button></div>
       <div class="note">Your characters, journal, crafting plans, designs, dice, pins, and everything else this site saves are kept in your account and follow you to every device where you sign in. Appearance and the hidden-class locks stay on each device.</div></div>`;
