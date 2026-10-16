@@ -105,9 +105,9 @@ html.standalone .top .backbtn{display:grid}
 .tab:hover{color:var(--text)}
 .navg{position:relative}
 .navg>.tab .car{font-size:.65rem;opacity:.7;margin-left:2px}
-.navpop{position:fixed;z-index:48;min-width:260px;max-width:min(92vw,380px);background:var(--surf);border:1px solid var(--line3);border-radius:12px;box-shadow:var(--shadow);padding:6px;display:none;animation:pop .12s ease-out}
+.navpop{position:fixed;z-index:48;min-width:260px;max-width:min(92vw,380px);max-height:calc(100vh - var(--navtop,120px) - 12px);max-height:calc(100dvh - var(--navtop,120px) - 12px);overflow-y:auto;overscroll-behavior:contain;background:var(--surf);border:1px solid var(--line3);border-radius:12px;box-shadow:var(--shadow);padding:6px;display:none;animation:pop .12s ease-out}
 .navpop.open{display:block}
-.navpop a{display:flex;align-items:baseline;gap:8px;padding:8px 10px;border-radius:8px;text-decoration:none;color:var(--text2)}
+.navpop a{display:flex;align-items:baseline;gap:8px;padding:6px 10px;border-radius:8px;text-decoration:none;color:var(--text2)}
 .navpop a:hover,.navpop a.on{background:var(--accbg);color:var(--text)}
 .navpop a b{font-weight:600;color:var(--text)}
 .navpop a small{display:block;font-size:.74rem;color:var(--muted);margin-top:1px}
@@ -1172,7 +1172,7 @@ function openNav(g,btn){
   if(pop.classList.contains('open')&&pop.dataset.g===g){closeNav();return}
   pop.dataset.g=g;
   pop.innerHTML=grp[1].map(id=>{const t=TABS.find(x=>x[0]===id);if(!t)return '';return `<a href="${pageUrl(id)}" data-tab="${id}" role="menuitem" class="${id===TAB?'on':''}"><span><b>${t[1]}</b><small>${esc(NAV_BLURB[id]||'')}</small></span>${t[2]!=null?`<span class="n">${fmt(t[2])}</span>`:''}</a>`}).join('');
-  const r=btn.getBoundingClientRect();pop.style.top=(r.bottom+6)+'px';pop.style.left=Math.max(8,Math.min(r.left,innerWidth-Math.min(380,innerWidth*.92)-8))+'px';
+  const r=btn.getBoundingClientRect();pop.style.top=(r.bottom+6)+'px';pop.style.setProperty('--navtop',(r.bottom+6)+'px');pop.scrollTop=0;pop.style.left=Math.max(8,Math.min(r.left,innerWidth-Math.min(380,innerWidth*.92)-8))+'px';
   pop.classList.add('open');btn.setAttribute('aria-expanded','true');
 }
 function closeNav(){$('navpop').classList.remove('open');$('tabs').querySelectorAll('[aria-expanded]').forEach(b=>b.setAttribute('aria-expanded','false'))}
