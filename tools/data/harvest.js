@@ -154,15 +154,15 @@ function hash(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^=
 // body plans for the mythological creatures in data/myth.js
 var NAMED = {
   fey: ['Kitsune', 'Huli Jing', 'Bakeneko', 'Nokken', 'Fossegrim', 'Huldra', 'Leshy', 'Rusalka', 'Domovoi', 'Yaksha', 'Fear Dearg', 'Tokoloshe', 'Mara', 'Baku', 'Svartalf', 'Jorogumo', 'Chicken-Legged Hut', 'Tengu'],
-  beast: ['Nemean Lion', 'Erymanthian Boar', 'Cretan Bull', 'Ceryneian Hind', 'Cu Sith', 'Serpopard', 'Nue', 'Chupacabra', 'Bunyip', 'Manticore of the East', 'Chimera Hound'],
-  bird: ['Stymphalian Bird', 'Siren', 'Bennu', 'Anzu', 'Simurgh', 'Thunderbird', 'Alkonost', 'Garuda Kin', 'Impundulu', 'Ziz Fledgling', 'Piasa'],
-  reptile: ['Ladon Serpent', 'Lindworm', 'Uraeus', 'Makara', 'Naga Raja', 'Ahuizotl', 'Mokele-mbembe', 'Ninki Nanka', 'Tatzelwurm', 'Uktena', 'Basilisk King', 'Cockatrice Hen', 'Ophiotaurus', 'Jiaolong', 'Zmey', 'Yamata Serpent', 'Mushussu', 'Wyvern of the Marches', 'Grootslang'],
-  dragon: ['Nidhoggr Spawn', 'Tarasque Spawn', 'Akhekh'],
-  aquatic: ['Scylla', 'Charybdis', 'Ichthyocentaur', 'Hippocamp', 'Umibozu', 'Taniwha', 'Cipactli', 'World Fish', 'Leviathan Young', 'Kappa', 'Vodyanoy', 'Kelpie', 'Each-uisge', 'Selkie'],
+  beast: ['Fenrir', 'Skoll', 'Hati', 'Fenris Whelp', 'Ironwood Wolf', 'Garmr', 'Cerberus', 'Orthrus', 'The Primeval Behemoth', 'Bull of Heaven', 'Nemean Lion', 'Erymanthian Boar', 'Cretan Bull', 'Ceryneian Hind', 'Cu Sith', 'Serpopard', 'Nue', 'Chupacabra', 'Bunyip', 'Manticore of the East', 'Chimera Hound'],
+  bird: ['Ziz', 'Stymphalian Bird', 'Siren', 'Bennu', 'Anzu', 'Simurgh', 'Thunderbird', 'Alkonost', 'Garuda Kin', 'Impundulu', 'Ziz Fledgling', 'Piasa'],
+  reptile: ['Jormungandr', 'Jormungandr Spawn', 'Echidna', 'Lernaean Hydra', 'Vritra', 'Vritra Brood', 'Apep', 'Typhon Spawn', 'Ladon Serpent', 'Lindworm', 'Uraeus', 'Makara', 'Naga Raja', 'Ahuizotl', 'Mokele-mbembe', 'Ninki Nanka', 'Tatzelwurm', 'Uktena', 'Basilisk King', 'Cockatrice Hen', 'Ophiotaurus', 'Jiaolong', 'Zmey', 'Yamata Serpent', 'Mushussu', 'Wyvern of the Marches', 'Grootslang'],
+  dragon: ['Nidhoggr', 'Fafnir', 'Nidhoggr Spawn', 'Tarasque Spawn', 'Akhekh'],
+  aquatic: ['The Primeval Leviathan', 'Scylla', 'Charybdis', 'Ichthyocentaur', 'Hippocamp', 'Umibozu', 'Taniwha', 'Cipactli', 'World Fish', 'Leviathan Young', 'Kappa', 'Vodyanoy', 'Kelpie', 'Each-uisge', 'Selkie'],
   undead: ['Draugr', 'Mummy Priest', 'Vetala', 'Cihuateteo', 'Banshee Mourner', 'Dullahan', 'Sluagh', 'Gashadokuro', 'Jiangshi', 'Strigoi', 'Ocelot Warrior Spirit', 'Xolotl Hound', 'Keres'],
   fiend: ['Empusa', 'Lamia', 'Hel Hound', 'Ammit', 'Rakshasa Warlord', 'Pishacha', 'Tzitzimitl', 'Oni Brute', 'Ugallu', 'Southwest Wind Demon', 'Gallu', 'Lilitu', 'Div', 'Ifrit Lord', 'Wendigo', 'Skinwalker', 'Camazotz', 'Aswang', 'Manananggal', 'Black Shuck', 'Barghest', 'Krampus', 'Nuckelavee', 'Caoranach', 'Apep Spawn', 'Taotie'],
   celestial: ['Valkyrie Herald', 'Einherjar', 'Gandharva', 'Lamassu', 'Qilin', 'Pixiu', 'Raiju'],
-  giant: ['Gegenees', 'Jotunn Thane', 'Fomorian Raider', 'Asura Champion', 'Girtablullu', 'Behemoth Calf'],
+  giant: ['Typhon', 'Humbaba', 'Gegenees', 'Jotunn Thane', 'Fomorian Raider', 'Asura Champion', 'Girtablullu', 'Behemoth Calf'],
   construct: ['Talos Sentinel', 'Golem of Clay'],
   insect: ['Myrmekes'],
   aberration: ['Stheno']
