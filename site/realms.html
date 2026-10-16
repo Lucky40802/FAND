@@ -624,8 +624,18 @@ function diceOverlay(R,sides){
   if(!reduce){const spans=[...ov.querySelectorAll('.die span')];const t0=performance.now();const tick=now=>{const k=(now-t0)/900;spans.forEach(sp=>{sp.textContent=k<1?1+Math.floor(Math.random()*sides):sp.dataset.final});if(k<1)requestAnimationFrame(tick);else ov.classList.remove('spin')};requestAnimationFrame(tick)}
   clearTimeout(diceOverlay.t);diceOverlay.t=setTimeout(()=>ov.classList.remove('on'),4500);
 }
-function rollShow(e){const R=rollExpr(e.replace('−','-'));if(!R)return;const log=store.get('dicelog',[]);log.unshift({e:R.e,t:R.t,r:R.r,mod:R.mod});store.set('dicelog',log.slice(0,20));
-  const sides=+(/d(\d+)/i.exec(R.e)||[])[1]||20;if(store.get('diceanim',true))diceOverlay(R,sides);else toast(`🎲 ${R.e}: ${R.t}  (${R.r.join(' + ')}${R.mod?(R.mod>0?' + ':' − ')+Math.abs(R.mod):''})`);if($('dl-log'))diceLog()}
+// A mix of dice and numbers, like 2d6+1d8+3 or 4d6-1d4: each dice term is rolled with rollExpr (so the DM rig still applies)
+function rollMulti(e){const src=String(e||'').replace(/−/g,'-').replace(/\s+/g,'');if(!src)return null;const one=rollExpr(src);if(one)return one;
+  const terms=src.match(/[+\-]?[^+\-]+/g);if(!terms)return null;let r=[],sd=[],mod=0,first=0;
+  // the DM rig covers the whole mixed roll: a 'next roll only' rig is spent once, after every term; an exact total is spread over the dice
+  const g=store.get('dicerig',null),tot=g&&g.mode==='total';if(g&&g.mode)store.set('dicerig',tot?null:{...g,once:false});
+  try{for(const t of terms){const sg=t[0]==='-'?-1:1,body=t.replace(/^[+\-]/,'');if(/^\d+$/.test(body)){mod+=sg*+body;continue}if(!/^\d{0,2}d\d+$/i.test(body))return null;const R=rollExpr(body),x=+(/d(\d+)/i.exec(body)||[])[1];if(!first)first=x;r=r.concat(R.r.map(v=>sg*v));sd=sd.concat(R.r.map(()=>sg*x))}}
+  finally{if(g&&g.mode)store.set('dicerig',g.once?null:g)}
+  if(!r.length)return null;
+  if(tot){const lo=sd.reduce((a,x)=>a+(x>0?1:x),0),hi=sd.reduce((a,x)=>a+(x>0?x:-1),0),want=Math.max(lo,Math.min(hi,(+g.value||0)-mod));let left=want-lo;r=sd.map(x=>{if(x>0){const k=Math.min(x-1,left);left-=k;return 1+k}const k=Math.min(-x-1,left);left-=k;return x+k})}
+  if($('dr-rig-state'))rigState();return {e:src.replace(/([+\-])/g,' $1 ').trim(),r,mod,t:r.reduce((a,b)=>a+b,0)+mod,sides:first}}
+function rollShow(e){const R=rollMulti(e);if(!R)return;const log=store.get('dicelog',[]);log.unshift({e:R.e,t:R.t,r:R.r,mod:R.mod});store.set('dicelog',log.slice(0,50));
+  const sides=R.sides||+(/d(\d+)/i.exec(R.e)||[])[1]||20;if(store.get('diceanim',true))diceOverlay(R,sides);else toast(`🎲 ${R.e}: ${R.t}  (${R.r.join(' + ')}${R.mod?(R.mod>0?' + ':' − ')+Math.abs(R.mod):''})`);if($('dl-log'))diceLog()}
 function diceify(root){if(!root)return;const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement.closest('input,textarea,select,button,a,.dice,script,style')?NodeFilter.FILTER_REJECT:(DICE_RX.lastIndex=0,DICE_RX.test(n.nodeValue))?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP});const ns=[];while(w.nextNode())ns.push(w.currentNode);
   ns.forEach(n=>{const f=document.createDocumentFragment();let last=0;const t=n.nodeValue;DICE_RX.lastIndex=0;let m;while((m=DICE_RX.exec(t))){f.append(t.slice(last,m.index));const sp=document.createElement('span');sp.className='dice';sp.textContent=m[0];sp.title='Click to roll';f.append(sp);last=m.index+m[0].length}f.append(t.slice(last));n.replaceWith(f)})}
 document.addEventListener('click',e=>{const d=e.target.closest('.dice');if(d){e.preventDefault();e.stopPropagation();rollShow(d.textContent)}},true);
@@ -1077,9 +1087,9 @@ const TABS=[
   ['realms','Realms',REALMS.length],['gods','Gods',GODS.length],['runes','Runes',RUNES.length],['professions','Professions',Object.keys(PROFS).length],
   ['spells','Spells',META.counts.spells],['magic','Magic Towers',21],['classes','Classes',Object.keys(typeof STAGES!=='undefined'?STAGES:{}).length],['subclasses','Subclasses',SUBS.length],['demons','Demons',DEMONS.length],['patrons','Patrons',PATRONS.length],
   ['forge','Forge'],['craft','Craft'],['party','Party'],['sheet','Character sheet'],['encounter','Encounters'],['hooks','Hooks'],['prep','Session prep'],['journal','Journal'],['hidden','Hidden classes'],['towers','Towers'],['combat','Combat'],
-  ['rules','Rules'],['tools','Tools'],['about','About'],
+  ['rules','Rules'],['dice','Dice'],['tools','Tools'],['about','About'],
 ];
-const PAGES={home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,about:renderAbout,lore:()=>renderLore(),forge:()=>renderForge(),craft:()=>renderCraft(),party:()=>renderParty(),sheet:()=>renderSheet(),encounter:()=>renderEncounter(),hooks:()=>renderHooks(),magic:()=>renderMagic(),classes:()=>renderClasses(),prep:()=>renderPrep(),journal:()=>renderJournal(),hidden:()=>renderHidden(),towers:()=>renderTowers(),combat:()=>renderCombat()};
+const PAGES={home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,dice:()=>renderDice(),about:renderAbout,lore:()=>renderLore(),forge:()=>renderForge(),craft:()=>renderCraft(),party:()=>renderParty(),sheet:()=>renderSheet(),encounter:()=>renderEncounter(),hooks:()=>renderHooks(),magic:()=>renderMagic(),classes:()=>renderClasses(),prep:()=>renderPrep(),journal:()=>renderJournal(),hidden:()=>renderHidden(),towers:()=>renderTowers(),combat:()=>renderCombat()};
 
 // ════════════════════════════════════════════════════════════════
 //  State & routing
@@ -1124,10 +1134,10 @@ const NAV_GROUPS=[
   ['Creatures & Materials',['bestiary','materials']],
   ['Items & Crafting',['blueprints','forge','craft','professions']],
   ['Magic & Classes',['classes','subclasses','hidden','spells','magic']],
-  ['Play',['prep','sheet','party','journal','encounter','hooks','combat','tools']],
+  ['Play',['prep','sheet','party','journal','encounter','hooks','combat','dice','tools']],
   ['Reference',['rules','about']],
 ];
-const NAV_BLURB={magic:'The Magic Towers: one for each school of magic, where spells are taught and sold',classes:'Every class and subclass with its class changes, II to V, levels 1 to 100',sheet:'Create a character on a full sheet worked out with FAND\'s rules',hidden:'Unique, Epic, and Legendary classes unlocked through quests and Towers',towers:'Up to five Towers in every realm, grown from unclaimed Runes',journal:'Session notes that link to the world',hooks:'Story starters from the gods, Runes, and monsters',lore:'Infinatas, the gods, and the history of Vestige',realms:'The eleven realms and their coin',gods:'Pantheons, Runes, Hands, and rivals',runes:'Every Law, its lineage, and its progenitor',demons:'Archdevils, demon princes, and corruptions',patrons:'Warlock patrons',codex:'Every note from the Obsidian vault',bestiary:'Monsters with stat blocks, lore, and drops',materials:'Graded materials, traits, and prices',blueprints:'Ready-made designs for every profession',forge:'General Blueprints: pick a material for every part',craft:'Plan what to gather and buy',professions:'The ten professions and their specialties',spells:'Spells by school, tier, and class',subclasses:'Official and homebrew subclasses',party:'Characters, gear, contracts, and money',encounter:'Balanced fights by realm and level',combat:'Initiative, HP, and flat AC',tools:'Calculators and converters',rules:'Rules summaries',about:'What FAND has, version by version'};
+const NAV_BLURB={magic:'The Magic Towers: one for each school of magic, where spells are taught and sold',classes:'Every class and subclass with its class changes, II to V, levels 1 to 100',sheet:'Create a character on a full sheet worked out with FAND\'s rules',hidden:'Unique, Epic, and Legendary classes unlocked through quests and Towers',towers:'Up to five Towers in every realm, grown from unclaimed Runes',journal:'Session notes that link to the world',hooks:'Story starters from the gods, Runes, and monsters',lore:'Infinatas, the gods, and the history of Vestige',realms:'The eleven realms and their coin',gods:'Pantheons, Runes, Hands, and rivals',runes:'Every Law, its lineage, and its progenitor',demons:'Archdevils, demon princes, and corruptions',patrons:'Warlock patrons',codex:'Every note from the Obsidian vault',bestiary:'Monsters with stat blocks, lore, and drops',materials:'Graded materials, traits, and prices',blueprints:'Ready-made designs for every profession',forge:'General Blueprints: pick a material for every part',craft:'Plan what to gather and buy',professions:'The ten professions and their specialties',spells:'Spells by school, tier, and class',subclasses:'Official and homebrew subclasses',party:'Characters, gear, contracts, and money',encounter:'Balanced fights by realm and level',combat:'Initiative, HP, and flat AC',dice:'Roll dice, build pools, and save your rolls',tools:'Calculators and converters',rules:'Rules summaries',about:'What FAND has, version by version'};
 function navGroupOf(t){const g=NAV_GROUPS.find(([,ids])=>ids.includes(t));return g?g[0]:null}
 function openNav(g,btn){
   const pop=$('navpop'),grp=NAV_GROUPS.find(x=>x[0]===g);if(!grp)return;
@@ -1890,6 +1900,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-16','Dice has its own page','Dice is now its own page under Play. Quick roll takes any roll, including mixes like 2d6+1d8+3. The Dice pool lets you tap dice together and roll them at once. Saved rolls give one-tap buttons for the rolls you make every session. The history keeps your last 50 rolls, and the DM rig option is still there.','dice'],
   ['2026-10-16','Tools in tabs','The Tools page now shows one tool at a time: pick it from the row of tabs at the top (dice, mine shaft, scavenging, treasure, currency and the rest). It remembers the last tool you used, and links from the Rules open the right tab.','tools'],
   ['2026-10-16','God-beasts in the Bestiary','God-level beasts from myth (Fenrir, Jormungandr, Nidhoggr, Typhon, Echidna, Apep, Vritra, Ziz, the Primeval Leviathan and Behemoth, Garmr) with their spawn and kin (Skoll, Hati, Fenris Whelps, Cerberus, Orthrus, the Lernaean Hydra, Fafnir and more). Each has a Related list linking parents, spawn and gods, a God-beast badge, and a Bestiary filter for god-beasts and their spawn.'],
   ['2026-10-16','Short and long rests on the sheet','Page 1 of the character sheet has Short rest and Long rest buttons: a long rest restores hit points and every spell slot, gives back half the hit dice, clears death saves and temporary hit points, and reminds you of undead servants\' upkeep; a short rest gives back one used spell slot of your choice (and a Warlock\'s pact slots).','sheet'],
@@ -2437,6 +2448,40 @@ function backupLoad(inp){
     ks.forEach(k=>{try{localStorage.setItem(k,j.data[k])}catch(e){}});toast('Backup restored');setTimeout(()=>location.reload(),600);
   }).catch(()=>toast('That file is not a FAND backup')).finally(()=>{inp.value=''});
 }
+// The Dice page: quick rolls, a dice pool, saved rolls, and the roll history
+const DPOOL={d:{},mod:0};
+function dicePoolExpr(){const t=[4,6,8,10,12,20,100].filter(x=>DPOOL.d[x]).map(x=>DPOOL.d[x]+'d'+x);if(DPOOL.mod)t.push(String(DPOOL.mod));return t.join('+').replace('+-','-')}
+function dicePool(){const e=dicePoolExpr();$('dp-out').textContent=e||'Tap dice to add them';$('dp-roll').disabled=!e;$('dp-mod').textContent=(DPOOL.mod>0?'+':'')+DPOOL.mod}
+function diceSaved(){const L=store.get('dicesaved',[]);$('ds-list').innerHTML=L.length?L.map((x,i)=>`<div class="enc-row" style="display:flex;gap:8px;align-items:center;padding:7px 12px"><button class="btn primary" type="button" style="padding:4px 10px" onclick="rollShow(${esc(JSON.stringify(x.e))})">🎲</button><b style="flex:1">${esc(x.n)}</b><span class="mono">${esc(x.e)}</span><button class="btn" type="button" style="padding:3px 8px" title="Remove" onclick="const L=store.get('dicesaved',[]);L.splice(${i},1);store.set('dicesaved',L);diceSaved()">✕</button></div>`).join(''):'<div class="note">No saved rolls yet. Save the ones you use every session, like a weapon\'s damage or an initiative roll.</div>'}
+function renderDice(){
+  $('content').innerHTML=`<div class="page">
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Dice</h3><p>Roll anything at the table. Your history and saved rolls stay on this device.</p></div>
+    <div class="tools">
+      <div class="tool" id="t-dice"><h3>Quick roll</h3><div class="sub">Type any roll, like 2d6+3, d20, or a mix like 2d6+1d8+3. Dice written anywhere on the site can be clicked to roll too.</div>
+        <div class="form" style="grid-template-columns:2fr 1fr"><label>Roll<input id="dr-e" value="1d20" placeholder="2d6+3"></label><label style="align-self:end"><button class="btn primary" id="dr-go" type="button" style="width:100%">🎲 Roll</button></label></div>
+        <div class="chips" style="margin:8px 0">${['d4','d6','d8','d10','d12','d20','d100','2d6','4d6'].map(d=>`<button class="chip" type="button" onclick="rollShow('${d}')">${d}</button>`).join('')}<button class="chip" type="button" onclick="(()=>{const a=rollExpr('2d20');a.e='d20 advantage / disadvantage';a.t=Math.max(...a.r);store.get('diceanim',true)?diceOverlay(a,20):0;toast('🎲 Advantage: '+Math.max(...a.r)+' · disadvantage: '+Math.min(...a.r)+' ('+a.r.join(', ')+')')})()">d20 adv/dis</button></div>
+        <label class="note" style="display:flex;gap:6px;align-items:center;margin:0 0 6px"><input type="checkbox" id="dr-anim" ${store.get('diceanim',true)?'checked':''} onchange="store.set('diceanim',this.checked)"> Show rolling dice</label>
+        <details class="fold" id="dr-rig-box" ${HC?'':'hidden'} style="margin:0 0 8px"><summary style="font-size:.8rem;color:var(--muted)">DM: rig</summary><div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:6px">
+          <select class="sel" id="dr-rig" onchange="rigSet()" style="max-width:none;flex:1">${(()=>{const g=store.get('dicerig',null)||{};return RIG_MODES.map(([v,l])=>`<option value="${v}"${(g.mode||'')===v?' selected':''}>${l}</option>`).join('')})()}</select>
+          <input class="sel" id="dr-rig-v" type="number" placeholder="Total" value="${(store.get('dicerig',null)||{}).value||''}" onchange="rigSet()" style="width:90px;${(store.get('dicerig',null)||{}).mode==='total'?'':'display:none'}">
+          <label class="note" style="margin:0;display:flex;gap:4px;align-items:center"><input type="checkbox" id="dr-rig-once" ${(store.get('dicerig',null)||{once:true}).once!==false?'checked':''} onchange="rigSet()"> next roll only</label></div>
+          <div class="note" id="dr-rig-state" style="margin:6px 0 0"></div><div class="note" style="margin:4px 0 0">Applies to every roll on the site (this tool, clickable dice, the combat and encounter pages). Rigged rolls look exactly like fair ones.</div></details>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin:4px 0"><b style="font-size:.85rem">History</b><button class="btn" type="button" style="padding:3px 9px;font-size:.75rem" onclick="store.set('dicelog',[]);diceLog()">Clear</button></div><div id="dl-log" style="display:flex;flex-direction:column;gap:3px;max-height:none;overflow:auto"></div></div>
+
+      <div class="tool" id="t-pool"><h3>Dice pool</h3><div class="sub">Build a roll from several kinds of dice: tap a die to add one, then roll them all together.</div>
+        <div class="chips" style="margin:8px 0">${[4,6,8,10,12,20,100].map(x=>`<button class="chip" type="button" onclick="DPOOL.d[${x}]=(DPOOL.d[${x}]||0)+1;dicePool()">+ d${x}</button>`).join('')}</div>
+        <div style="display:flex;gap:6px;align-items:center;margin:0 0 8px"><span class="note" style="margin:0">Modifier</span><button class="btn" type="button" onclick="DPOOL.mod--;dicePool()">−</button><b id="dp-mod" style="min-width:28px;text-align:center">0</b><button class="btn" type="button" onclick="DPOOL.mod++;dicePool()">+</button></div>
+        <div class="big mono" id="dp-out" style="font-size:1.2rem;margin:6px 0"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" id="dp-roll" type="button" onclick="rollShow(dicePoolExpr())">🎲 Roll the pool</button><button class="btn" type="button" onclick="DPOOL.d={};DPOOL.mod=0;dicePool()">Clear</button><button class="btn" type="button" onclick="const e=dicePoolExpr();if(!e)return;const n=prompt('Name this roll (for example: Greatsword damage)',e);if(!n)return;const L=store.get('dicesaved',[]);L.push({n,e});store.set('dicesaved',L);diceSaved();toast('Saved '+n)">Save this roll</button></div></div>
+
+      <div class="tool" id="t-saved"><h3>Saved rolls</h3><div class="sub">One tap for the rolls you make every session.</div>
+        <div class="form" style="grid-template-columns:1fr 1fr auto"><label>Name<input id="ds-n" placeholder="Longsword damage"></label><label>Roll<input id="ds-e" placeholder="1d8+4"></label><label style="align-self:end"><button class="btn" type="button" id="ds-add">Save</button></label></div>
+        <div class="mlist" id="ds-list" style="margin-top:8px"></div></div>
+    </div></div>`;
+  diceLog();rigState();dicePool();diceSaved();hcAuto().then(()=>{if(HC&&$('dr-rig-box'))$('dr-rig-box').hidden=false});
+  $('dr-go').onclick=()=>rollShow($('dr-e').value);$('dr-e').onkeydown=e=>{if(e.key==='Enter')rollShow($('dr-e').value)};
+  $('ds-add').onclick=()=>{const n=$('ds-n').value.trim(),e=$('ds-e').value.trim();if(!e)return;if(!rollMulti(e)){toast('Not a roll: try 1d8+4 or 2d6+1d4');return}const L=store.get('dicesaved',[]);L.push({n:n||e,e});store.set('dicesaved',L);$('ds-n').value=$('ds-e').value='';diceSaved()};
+}
 // The Tools page shows one tool at a time, picked from a row of tabs; the last one used is remembered
 function toolTabs(){const box=document.querySelector('.tools');if(!box)return;const bk=$('t-backup');if(bk)box.append(bk);
   const T=[...box.children].filter(t=>t.classList.contains('tool'));const bar=document.createElement('div');bar.className='tooltabs';bar.setAttribute('role','tablist');
@@ -2490,17 +2535,6 @@ function renderTools(){
         <div class="form"><label class="full">Attunement<input type="number" id="p-a" value="2" min="0" max="9"></label></div>
         <div class="enc" id="p-out"></div><div class="note">Strain is Pressure minus Attunement: 1 disadvantage on Constitution saves; 2 also 1 level of exhaustion per day; 3 also no benefit from long rests; 4+ 1 level of exhaustion every hour.</div></div>
 
-      <div class="tool" id="t-dice"><h3>Dice roller</h3><div class="sub">Type any roll, like 2d6+3 or d20. Dice written anywhere on the site can be clicked to roll too.</div>
-        <div class="form" style="grid-template-columns:2fr 1fr"><label>Roll<input id="dr-e" value="1d20" placeholder="2d6+3"></label><label style="align-self:end"><button class="btn primary" id="dr-go" type="button" style="width:100%">🎲 Roll</button></label></div>
-        <div class="chips" style="margin:8px 0">${['d4','d6','d8','d10','d12','d20','d100','2d6','4d6'].map(d=>`<button class="chip" type="button" onclick="rollShow('${d}')">${d}</button>`).join('')}<button class="chip" type="button" onclick="(()=>{const a=rollExpr('2d20');a.e='d20 advantage / disadvantage';a.t=Math.max(...a.r);store.get('diceanim',true)?diceOverlay(a,20):0;toast('🎲 Advantage: '+Math.max(...a.r)+' · disadvantage: '+Math.min(...a.r)+' ('+a.r.join(', ')+')')})()">d20 adv/dis</button></div>
-        <label class="note" style="display:flex;gap:6px;align-items:center;margin:0 0 6px"><input type="checkbox" id="dr-anim" ${store.get('diceanim',true)?'checked':''} onchange="store.set('diceanim',this.checked)"> Show rolling dice</label>
-        <details class="fold" id="dr-rig-box" ${HC?'':'hidden'} style="margin:0 0 8px"><summary style="font-size:.8rem;color:var(--muted)">DM: rig</summary><div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:6px">
-          <select class="sel" id="dr-rig" onchange="rigSet()" style="max-width:none;flex:1">${(()=>{const g=store.get('dicerig',null)||{};return RIG_MODES.map(([v,l])=>`<option value="${v}"${(g.mode||'')===v?' selected':''}>${l}</option>`).join('')})()}</select>
-          <input class="sel" id="dr-rig-v" type="number" placeholder="Total" value="${(store.get('dicerig',null)||{}).value||''}" onchange="rigSet()" style="width:90px;${(store.get('dicerig',null)||{}).mode==='total'?'':'display:none'}">
-          <label class="note" style="margin:0;display:flex;gap:4px;align-items:center"><input type="checkbox" id="dr-rig-once" ${(store.get('dicerig',null)||{once:true}).once!==false?'checked':''} onchange="rigSet()"> next roll only</label></div>
-          <div class="note" id="dr-rig-state" style="margin:6px 0 0"></div><div class="note" style="margin:4px 0 0">Applies to every roll on the site (this tool, clickable dice, the combat and encounter pages). Rigged rolls look exactly like fair ones.</div></details>
-        <div id="dl-log" style="display:flex;flex-direction:column;gap:3px;max-height:180px;overflow:auto"></div></div>
-
       <div class="tool" id="t-slots"><h3>Spell slots</h3><div class="sub">From the vault's Spell Slots rules: full casters start with 3 first-level slots; half casters get none until level 2; Warlock slots return on a short rest.</div>
         <div class="form"><label>Class<select id="ss-c">${Object.keys(CASTER).map(c=>`<option>${c}</option>`).join('')}</select></label><label>Level<input type="number" id="ss-l" value="5" min="1" max="100"></label><label>Schools held<input type="number" id="ss-s" value="1" min="1" max="20"></label></div>
         <div class="out" id="ss-out"></div></div>
@@ -2519,7 +2553,6 @@ function renderTools(){
   const clampG=g=>Math.min(10,Math.max(1,Math.round(g||1)));
   sbToolBind();
   // dice and spell slots
-  diceLog();rigState();hcAuto().then(()=>{if(HC&&$('dr-rig-box'))$('dr-rig-box').hidden=false});$('dr-go').onclick=()=>rollShow($('dr-e').value);$('dr-e').onkeydown=e=>{if(e.key==='Enter')rollShow($('dr-e').value)};
   const slotsOut=()=>{const r=schoolSlots(slotsFor(v('ss-c'),n('ss-l')),n('ss-s')||1);$('ss-out').innerHTML=!r?'<div class="note">The vault\'s Spell Slots note isn\'t loaded.</div>':r.pact?`<div class="big">${r.n} × ${esc(r.lvl)}-level</div><div class="note">Pact Magic: always cast at this level; all slots return on a short rest.${r.pen?` −${r.pen} for extra schools.`:''}</div>`:r.slots.every(x=>!x)?'<div class="big">No slots yet</div><div class="note">Half casters gain their first slots at level 2.</div>':`<div class="kv">${r.slots.map((k,i)=>k?`<span>${['1st','2nd','3rd','4th','5th','6th','7th','8th','9th'][i]}</span><span><b>${k}</b> ${'●'.repeat(k)}</span>`:'').join('')}</div>${r.pen?`<div class="note">−${r.pen} slot${r.pen>1?'s':''} at each level for holding ${r.pen+1} schools (never below 1).</div>`:''}`};
   on(['ss-c','ss-l','ss-s'],slotsOut);
   // merchant shop
