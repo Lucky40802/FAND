@@ -63,6 +63,18 @@
           "type": "image/png"
         }
       ]
+    },
+    {
+      "name": "Sign in",
+      "description": "Sign in to your FAND account",
+      "url": "./index.html?signin=1",
+      "icons": [
+        {
+          "src": "img/icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     }
   ],
   "icons": [
