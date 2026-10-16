@@ -348,6 +348,28 @@ table.t tr:hover td{background:var(--surf2)}
 @media(max-width:640px){.cw-nav{padding-right:68px}}
 .cw-moves{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.cw-moves .sel{max-width:220px}
 .cw-next{background:var(--goldbg);border:1px solid var(--gold2);border-radius:10px;padding:10px 14px;margin-bottom:12px}.cw-next ul{margin:6px 0 0;padding-left:20px;line-height:1.6}
+.dp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px;margin:8px 0 12px}
+.dp-t{position:relative}
+.dp-add{width:100%;border:1px solid var(--line);border-radius:10px;background:var(--surf);padding:8px 4px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--text2);font:inherit;font-size:.82rem;font-weight:600;cursor:pointer}
+.dp-add:hover{border-color:var(--acc);color:var(--text)}
+.dp-add svg{width:36px;height:36px}.dp-add polygon{fill:none;stroke:currentColor;stroke-width:5;stroke-linejoin:round}
+.dp-t.on .dp-add{border-color:var(--gold,#c9a54a);background:var(--goldbg);color:var(--text)}
+.dp-c{position:absolute;top:-6px;right:-6px;min-width:22px;height:22px;padding:0 5px;border-radius:11px;background:var(--gold,#c9a54a);color:#1a1408;font-size:.78rem;display:grid;place-items:center}
+.dp-rm{position:absolute;top:-6px;left:-6px;width:22px;height:22px;border-radius:50%;border:1px solid var(--line3);background:var(--surf3,var(--surf));color:var(--text);font-weight:700;line-height:1;cursor:pointer;padding:0}
+.dp-opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px 14px;margin:0 0 10px}
+.dp-opts>label{display:flex;flex-direction:column;gap:4px;font-size:.8rem;color:var(--muted)}
+.dp-opts .sel{max-width:none}
+.dp-opts .dp-chk{flex-direction:row;align-items:flex-start;gap:8px;color:var(--text2)}.dp-opts .dp-chk small{display:block;color:var(--muted);font-size:.74rem}
+.dp-step{display:flex;gap:6px;align-items:center}.dp-step b{min-width:32px;text-align:center;color:var(--text);font-size:1rem}
+.dp-sum{margin:2px 0 10px;font-size:1.02rem}
+.dp-res{margin-top:12px;border-top:1px solid var(--line);padding-top:12px}
+.dp-total{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}.dp-total b{font-family:var(--serif);font-size:2.2rem;line-height:1}.dp-total span{color:var(--muted)}
+.dp-dice{display:flex;flex-wrap:wrap;gap:6px}
+.dp-r{position:relative;min-width:44px;height:46px;padding:0 6px 10px;border-radius:9px;border:1px solid var(--line);background:var(--surf);font:inherit;font-weight:700;font-size:1.05rem;color:var(--text);cursor:pointer;display:grid;place-items:center}
+.dp-r small{position:absolute;bottom:2px;left:0;right:0;text-align:center;font-size:.6rem;font-weight:500;color:var(--muted)}
+.dp-r:hover{border-color:var(--acc)}
+.dp-r.hi{border-color:var(--gold,#c9a54a);color:var(--gold,#c9a54a)}.dp-r.lo{border-color:var(--red,#d55);color:var(--red,#d55)}
+.dp-r.ok{background:var(--goldbg)}.dp-r.drop{opacity:.45;text-decoration:line-through}
 .tooltabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
 .tooltabs button{background:var(--surf);border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:.85rem;color:var(--muted);cursor:pointer}
 .tooltabs button:hover{color:var(--text)}
@@ -1951,6 +1973,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-17','A better Dice pool','The Dice pool on the Dice page now shows each kind of die as a tile (tap to add, − to take one away) and can read the dice in more ways: add them up, keep the highest or lowest few (4d6 keep 3 for ability scores), or count successes at or above a number. d20s can roll with advantage or disadvantage, dice can explode, and a FAND critical multiplies the damage by 1.5. Every die in the result is shown (highest faces in gold, 1s in red, dropped dice struck out), and tapping one rerolls just that die. Saved rolls keep these options.','dice'],
   ['2026-10-17','Every Tower floor is one level','A Tower\'s floors now climb one level at a time: floor 5 of the Milestone Spire is a level-5 floor for a level-5 party, with grade-5 guardians from the Human Realm (the boss on floor 10 is one of the strongest grade-10 monsters). Towers in higher realms start at the realm\'s level (Mysterious 11, Hell and Heaven 21, …), and past floor 10 the guardians stay grade 10. Session prep sends the party to the floor that matches its level.','towers'],
   ['2026-10-17','Profile pictures','Click your picture (or initial) in the top bar for your account menu: Edit profile, Campaigns, Sync now, Settings, and Sign out. Edit profile sets your name and your picture: upload one (it is cropped to a square and made small on your device), pick one of sixteen emblems in the realms\' colours, or have none. It shows in the top bar, beside your name in your campaigns, and on characters you share. Only you and the people in your campaigns can see it.','party'],
   ['2026-10-17','Sign in from the top bar','A Sign in button now sits in the top bar of every page, beside Settings. Once you are signed in it shows your initial (with a red dot if something didn\'t sync), and it opens your account. The installed Windows app has Sign in in its taskbar menu too.','party'],
@@ -2529,10 +2552,62 @@ function backupLoad(inp){
   }).catch(()=>toast('That file is not a FAND backup')).finally(()=>{inp.value=''});
 }
 // The Dice page: quick rolls, a dice pool, saved rolls, and the roll history
-const DPOOL={d:{},mod:0};
-function dicePoolExpr(){const t=[4,6,8,10,12,20,100].filter(x=>DPOOL.d[x]).map(x=>DPOOL.d[x]+'d'+x);if(DPOOL.mod)t.push(String(DPOOL.mod));return t.join('+').replace('+-','-')}
-function dicePool(){const e=dicePoolExpr();$('dp-out').textContent=e||'Tap dice to add them';$('dp-roll').disabled=!e;$('dp-mod').textContent=(DPOOL.mod>0?'+':'')+DPOOL.mod}
-function diceSaved(){const L=store.get('dicesaved',[]);$('ds-list').innerHTML=L.length?L.map((x,i)=>`<div class="enc-row" style="display:flex;gap:8px;align-items:center;padding:7px 12px"><button class="btn primary" type="button" style="padding:4px 10px" onclick="rollShow(${esc(JSON.stringify(x.e))})">🎲</button><b style="flex:1">${esc(x.n)}</b><span class="mono">${esc(x.e)}</span><button class="btn" type="button" style="padding:3px 8px" title="Remove" onclick="const L=store.get('dicesaved',[]);L.splice(${i},1);store.set('dicesaved',L);diceSaved()">✕</button></div>`).join(''):'<div class="note">No saved rolls yet. Save the ones you use every session, like a weapon\'s damage or an initiative roll.</div>'}
+// The Dice pool: dice of every kind rolled together, with ways to read them (sum, keep highest or lowest, count
+// successes), advantage on d20s, exploding dice, and FAND's critical hit (x1.5). Every die can be rerolled on its own.
+const DP_SIDES=[4,6,8,10,12,20,100];
+const DPOOL=Object.assign({d:{},mod:0,mode:'sum',n:1,target:5,adv:'',explode:false,crit:false,last:null},(()=>{try{const o=JSON.parse(localStorage.getItem('fand.dpool')||'null');return o&&typeof o==='object'?{d:o.d||{},mod:+o.mod||0,mode:o.mode||'sum',n:+o.n||1,target:+o.target||5,adv:o.adv||'',explode:!!o.explode,crit:!!o.crit}:{}}catch(e){return {}}})());
+const dpSpec=()=>({d:Object.assign({},DPOOL.d),mod:DPOOL.mod,mode:DPOOL.mode,n:DPOOL.n,target:DPOOL.target,adv:DPOOL.adv,explode:DPOOL.explode,crit:DPOOL.crit});
+const dpCount=sp=>DP_SIDES.reduce((a,x)=>a+(sp.d[x]|0),0);
+function dicePoolExpr(sp){sp=sp||DPOOL;const t=DP_SIDES.filter(x=>sp.d[x]).map(x=>sp.d[x]+'d'+x);if(!t.length)return '';if(sp.mod)t.push(String(sp.mod));return t.join('+').replace('+-','-')}
+// a plain-words name for the roll, used in the history
+function dpLabel(sp){const e=dicePoolExpr(sp);if(!e)return '';const bits=[];if(sp.adv&&sp.d[20])bits.push(sp.adv==='adv'?'advantage':'disadvantage');if(sp.mode==='kh')bits.push('keep highest '+sp.n);if(sp.mode==='kl')bits.push('keep lowest '+sp.n);if(sp.mode==='succ')bits.push('successes on '+sp.target+'+');if(sp.explode)bits.push('exploding');if(sp.crit)bits.push('critical ×1.5');return e+(bits.length?' ('+bits.join(', ')+')':'')}
+// one die through the DM rig (as rollMulti does: a 'next roll only' rig covers the whole pool)
+function dpDie(x){const r=rigDice(1,x,0);return r?r[0]:DIE(x)}
+function dpEntry(x,sp){const e={x,rolls:[]};if(x===20&&sp.adv){e.rolls=[dpDie(20),dpDie(20)];e.v=sp.adv==='adv'?Math.max(...e.rolls):Math.min(...e.rolls);e.pair=true}
+  else{let v=dpDie(x);e.rolls.push(v);let k=0;while(sp.explode&&v===x&&x>1&&k<10){v=dpDie(x);e.rolls.push(v);k++}e.v=e.rolls.reduce((a,b)=>a+b,0)}return e}
+function dpScore(R){const sp=R.sp,es=R.es;es.forEach(e=>e.drop=false);
+  if((sp.mode==='kh'||sp.mode==='kl')&&es.length){const keep=Math.max(1,Math.min(es.length,sp.n|0)),ord=es.map((e,i)=>[e.v,i]).sort((a,b)=>sp.mode==='kh'?b[0]-a[0]:a[0]-b[0]);ord.slice(keep).forEach(([,i])=>es[i].drop=true)}
+  if(sp.mode==='succ'){R.succ=es.filter(e=>e.v>=sp.target).length;R.t=R.succ;return R}
+  let t=es.filter(e=>!e.drop).reduce((a,e)=>a+e.v,0)+(sp.mod|0);if(sp.crit)t=Math.floor(t*1.5);R.t=t;return R}
+function dpRoll(sp){if(!dpCount(sp))return null;const g=store.get('dicerig',null);
+  // an exact-total rig on a plain sum is spread over the dice exactly, as Quick roll does
+  if(g&&g.mode==='total'&&sp.mode==='sum'&&!sp.adv&&!sp.explode&&!sp.crit){const M=rollMulti(dicePoolExpr(sp));if(M){let i=0;const es=[];DP_SIDES.forEach(x=>{for(let k=0;k<(sp.d[x]|0);k++){const v=M.r[i++];es.push({x,rolls:[v],v})}});return dpScore({sp,es})}}
+  if(g&&g.mode)store.set('dicerig',{...g,once:false});
+  try{const es=[];DP_SIDES.forEach(x=>{for(let k=0;k<Math.min(50,sp.d[x]|0);k++)es.push(dpEntry(x,sp))});return dpScore({sp,es})}
+  finally{if(g&&g.mode)store.set('dicerig',g.once?null:g);if($('dr-rig-state'))rigState()}}
+function dpLog(R){const sp=R.sp,log=store.get('dicelog',[]);log.unshift({e:dpLabel(sp),t:R.t,r:R.es.map(e=>e.drop?'('+e.v+')':e.v),mod:sp.mode==='succ'?0:sp.mod});store.set('dicelog',log.slice(0,50));if($('dl-log'))diceLog()}
+function dpShow(R){if(!R)return;DPOOL.last=R;dpLog(R);
+  const first=DP_SIDES.find(x=>R.sp.d[x])||20;if(store.get('diceanim',true))diceOverlay({e:dpLabel(R.sp),t:R.t,r:R.es.filter(e=>!e.drop).map(e=>e.v),mod:R.sp.mode==='succ'?0:R.sp.mod},first);dicePool()}
+function dicePoolRoll(sp){dpShow(dpRoll(sp||dpSpec()))}
+// reroll one die of the last roll (Lucky, Portent, a bardic reroll...)
+function dpReroll(i){const R=DPOOL.last;if(!R||!R.es[i])return;const sp=R.sp,g=store.get('dicerig',null);if(g&&g.mode)store.set('dicerig',{...g,once:false});
+  try{const old=R.es[i].v;R.es[i]=dpEntry(R.es[i].x,sp);dpScore(R);toast('Rerolled a d'+R.es[i].x+': '+old+' → '+R.es[i].v+(sp.mode==='succ'?' · '+R.t+' successes':' · total '+R.t))}
+  finally{if(g&&g.mode)store.set('dicerig',g.once?null:g)}
+  dpLog(R);dicePool()}
+function dpSet(k,v){DPOOL[k]=v;if(k==='d'||k==='mod'||k==='mode'||k==='n'||k==='target'||k==='adv'||k==='explode'||k==='crit')DPOOL.last=DPOOL.last&&JSON.stringify(DPOOL.last.sp)===JSON.stringify(dpSpec())?DPOOL.last:null;
+  try{localStorage.setItem('fand.dpool',JSON.stringify(dpSpec()))}catch(e){}dicePool()}
+function dpAdd(x,n){const d=Object.assign({},DPOOL.d);d[x]=Math.max(0,Math.min(50,(d[x]|0)+n));if(!d[x])delete d[x];dpSet('d',d)}
+function dpPreset(k){const P={ability:{d:{6:4},mod:0,mode:'kh',n:3,adv:'',explode:false,crit:false},adv:{d:{20:1},mode:'sum',adv:'adv',explode:false,crit:false},dis:{d:{20:1},mode:'sum',adv:'dis',explode:false,crit:false},fireball:{d:{6:8},mod:0,mode:'sum',adv:'',explode:false,crit:false}}[k];if(!P)return;Object.assign(DPOOL,P);if(P.mod===undefined)DPOOL.mod=0;dpSet('last',null);dicePoolRoll()}
+function dicePool(){const box=$('dp-box');if(!box)return;const sp=DPOOL,e=dicePoolExpr(sp),R=DPOOL.last;
+  box.innerHTML=`<div class="dp-grid">${DP_SIDES.map(x=>`<div class="dp-t${sp.d[x]?' on':''}"><button type="button" class="dp-add" onclick="dpAdd(${x},1)" aria-label="Add a d${x}"><svg viewBox="0 0 100 100"><polygon points="${DIE_SHAPE[x]||DIE_SHAPE[20]}"/></svg><span>d${x}</span></button>${sp.d[x]?`<b class="dp-c">${sp.d[x]}</b><button type="button" class="dp-rm" onclick="dpAdd(${x},-1)" aria-label="Remove a d${x}">−</button>`:''}</div>`).join('')}</div>
+    <div class="dp-opts">
+      <label>Modifier <span class="dp-step"><button class="btn" type="button" onclick="dpSet('mod',DPOOL.mod-1)" aria-label="Lower the modifier">−</button><b>${sp.mod>0?'+':''}${sp.mod}</b><button class="btn" type="button" onclick="dpSet('mod',DPOOL.mod+1)" aria-label="Raise the modifier">+</button></span></label>
+      <label>Read the dice <select class="sel" onchange="dpSet('mode',this.value)">${[['sum','Add them up'],['kh','Keep the highest…'],['kl','Keep the lowest…'],['succ','Count successes…']].map(([v,l])=>`<option value="${v}"${sp.mode===v?' selected':''}>${l}</option>`).join('')}</select></label>
+      ${sp.mode==='kh'||sp.mode==='kl'?`<label>How many to keep <input class="sel" type="number" min="1" max="50" value="${sp.n}" onchange="dpSet('n',Math.max(1,Math.min(50,+this.value||1)))" style="width:80px"></label>`:''}
+      ${sp.mode==='succ'?`<label>A success is <span style="display:flex;gap:4px;align-items:center"><input class="sel" type="number" min="1" max="100" value="${sp.target}" onchange="dpSet('target',Math.max(1,Math.min(100,+this.value||1)))" style="width:80px"> or more</span></label>`:''}
+      <label>d20s <select class="sel" onchange="dpSet('adv',this.value)">${[['','Normal'],['adv','Advantage (roll 2, keep higher)'],['dis','Disadvantage (roll 2, keep lower)']].map(([v,l])=>`<option value="${v}"${sp.adv===v?' selected':''}>${l}</option>`).join('')}</select></label>
+      <label class="dp-chk"><input type="checkbox" ${sp.explode?'checked':''} onchange="dpSet('explode',this.checked)"><span>Exploding dice<small>a die that rolls its highest face rolls again and adds</small></span></label>
+      ${sp.mode!=='succ'?`<label class="dp-chk"><input type="checkbox" ${sp.crit?'checked':''} onchange="dpSet('crit',this.checked)"><span>Critical hit ×1.5<small>FAND: a headshot deals 1.5 × damage (rounded down), before AC</small></span></label>`:''}
+    </div>
+    <div class="dp-sum"><span class="mono">${esc(e?dpLabel(sp):'Tap a die to add it to the pool')}</span></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" type="button" ${e?'':'disabled'} onclick="dicePoolRoll()">🎲 ${R?'Roll again':'Roll the pool'}</button><button class="btn" type="button" onclick="DPOOL.last=null;dpSet('d',{});dpSet('mod',0)">Clear</button><button class="btn" type="button" ${e?'':'disabled'} onclick="dpSave()">Save this roll</button></div>
+    <div class="chips" style="margin:10px 0 0"><span class="note" style="margin:0 4px 0 0">Quick:</span><button class="chip" type="button" onclick="dpPreset('ability')">Ability score (4d6, keep 3)</button><button class="chip" type="button" onclick="dpPreset('adv')">d20 advantage</button><button class="chip" type="button" onclick="dpPreset('dis')">d20 disadvantage</button><button class="chip" type="button" onclick="dpPreset('fireball')">Fireball (8d6)</button></div>
+    ${R?`<div class="dp-res"><div class="dp-total"><b>${R.t}</b><span>${R.sp.mode==='succ'?(R.t===1?'success':'successes'):'total'}</span></div>
+      <div class="dp-dice">${R.es.map((d,i)=>{const hi=d.rolls.some(v=>v===d.x),lo=!d.pair&&d.rolls[0]===1||d.pair&&d.v===1,ok=R.sp.mode==='succ'&&d.v>=R.sp.target;
+        return `<button type="button" class="dp-r${d.drop?' drop':''}${hi?' hi':''}${lo?' lo':''}${ok?' ok':''}" onclick="dpReroll(${i})" title="d${d.x}${d.pair?': rolled '+d.rolls.join(' and '):d.rolls.length>1?': exploded '+d.rolls.join(' + '):''}. Tap to reroll this die">${d.v}<small>d${d.x}${d.pair?' '+d.rolls.join('/'):d.rolls.length>1?' 💥':''}</small></button>`}).join('')}</div>
+      <div class="note" style="margin:6px 0 0">${R.sp.mode==='succ'?`Dice at ${R.sp.target} or more count as successes.`:`${R.es.filter(d=>!d.drop).map(d=>d.v).join(' + ')}${R.sp.mod?(R.sp.mod>0?' + ':' − ')+Math.abs(R.sp.mod):''}${R.sp.crit?' × 1.5':''}${R.es.some(d=>d.drop)?' · struck-out dice are dropped':''}`} · tap a die to reroll just that one.</div></div>`:''}`}
+function dpSave(){const e=dicePoolExpr();if(!e)return;const sp=dpSpec(),plain=sp.mode==='sum'&&!sp.adv&&!sp.explode&&!sp.crit,n=prompt('Name this roll (for example: Greatsword damage)',dpLabel(sp));if(!n)return;const L=store.get('dicesaved',[]);L.push(plain?{n,e}:{n,e:dpLabel(sp),pool:sp});store.set('dicesaved',L);diceSaved();toast('Saved '+n)}
+function diceSaved(){const L=store.get('dicesaved',[]);$('ds-list').innerHTML=L.length?L.map((x,i)=>`<div class="enc-row" style="display:flex;gap:8px;align-items:center;padding:7px 12px"><button class="btn primary" type="button" style="padding:4px 10px" onclick="${x.pool?`dicePoolRoll(store.get('dicesaved',[])[${i}].pool)`:`rollShow(${esc(JSON.stringify(x.e))})`}">🎲</button><b style="flex:1">${esc(x.n)}</b><span class="mono">${esc(x.e)}</span><button class="btn" type="button" style="padding:3px 8px" title="Remove" onclick="const L=store.get('dicesaved',[]);L.splice(${i},1);store.set('dicesaved',L);diceSaved()">✕</button></div>`).join(''):'<div class="note">No saved rolls yet. Save the ones you use every session, like a weapon\'s damage or an initiative roll.</div>'}
 function renderDice(){
   $('content').innerHTML=`<div class="page">
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Dice</h3><p>Roll anything at the table. Your history and saved rolls stay on this device.</p></div>
@@ -2548,11 +2623,8 @@ function renderDice(){
           <div class="note" id="dr-rig-state" style="margin:6px 0 0"></div><div class="note" style="margin:4px 0 0">Applies to every roll on the site (this tool, clickable dice, the combat and encounter pages). Rigged rolls look exactly like fair ones.</div></details>
         <div style="display:flex;justify-content:space-between;align-items:center;margin:4px 0"><b style="font-size:.85rem">History</b><button class="btn" type="button" style="padding:3px 9px;font-size:.75rem" onclick="store.set('dicelog',[]);diceLog()">Clear</button></div><div id="dl-log" style="display:flex;flex-direction:column;gap:3px;max-height:none;overflow:auto"></div></div>
 
-      <div class="tool" id="t-pool"><h3>Dice pool</h3><div class="sub">Build a roll from several kinds of dice: tap a die to add one, then roll them all together.</div>
-        <div class="chips" style="margin:8px 0">${[4,6,8,10,12,20,100].map(x=>`<button class="chip" type="button" onclick="DPOOL.d[${x}]=(DPOOL.d[${x}]||0)+1;dicePool()">+ d${x}</button>`).join('')}</div>
-        <div style="display:flex;gap:6px;align-items:center;margin:0 0 8px"><span class="note" style="margin:0">Modifier</span><button class="btn" type="button" onclick="DPOOL.mod--;dicePool()">−</button><b id="dp-mod" style="min-width:28px;text-align:center">0</b><button class="btn" type="button" onclick="DPOOL.mod++;dicePool()">+</button></div>
-        <div class="big mono" id="dp-out" style="font-size:1.2rem;margin:6px 0"></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" id="dp-roll" type="button" onclick="rollShow(dicePoolExpr())">🎲 Roll the pool</button><button class="btn" type="button" onclick="DPOOL.d={};DPOOL.mod=0;dicePool()">Clear</button><button class="btn" type="button" onclick="const e=dicePoolExpr();if(!e)return;const n=prompt('Name this roll (for example: Greatsword damage)',e);if(!n)return;const L=store.get('dicesaved',[]);L.push({n,e});store.set('dicesaved',L);diceSaved();toast('Saved '+n)">Save this roll</button></div></div>
+      <div class="tool" id="t-pool"><h3>Dice pool</h3><div class="sub">Tap dice to build a roll, choose how to read them (add up, keep the best, count successes), and roll them together. Tap any die in the result to reroll just that one.</div>
+        <div id="dp-box"></div></div>
 
       <div class="tool" id="t-saved"><h3>Saved rolls</h3><div class="sub">One tap for the rolls you make every session.</div>
         <div class="form" style="grid-template-columns:1fr 1fr auto"><label>Name<input id="ds-n" placeholder="Longsword damage"></label><label>Roll<input id="ds-e" placeholder="1d8+4"></label><label style="align-self:end"><button class="btn" type="button" id="ds-add">Save</button></label></div>
@@ -5066,7 +5138,7 @@ $('sbg').addEventListener('mousedown',e=>{if(e.target===$('sbg'))closeSettings()
 var CL={on:typeof CLOUD!=='undefined'&&!!(CLOUD&&CLOUD.url&&CLOUD.key),sb:null,user:null,avatars:{},ready:null,signing:null,camps:[],members:{},
   dirty:new Set(),cdirty:new Set(),cgone:[],timer:0,ctimer:0,rtimer:0,pushing:false,cpushing:false,err:'',last:0,touched:false,chan:null,step:'',email:'',hc:false,later:false};
 // kept on each device only: appearance, screen state (filters, searches, recently viewed), and the hidden-class locks
-const CL_LOCAL=new Set(['theme','wakelock','tooltab','viewmode','charwiz','jedit','clsfocus','placefocus','diceanim','recent','spells','hc','hclv','jq','magic','rmap','hcpat','hcpin','hcqm','hcguard','hclog','anthropicKey']);
+const CL_LOCAL=new Set(['theme','wakelock','tooltab','viewmode','charwiz','jedit','clsfocus','placefocus','diceanim','recent','spells','hc','hclv','jq','magic','rmap','dpool','hcpat','hcpin','hcqm','hcguard','hclog','anthropicKey']);
 const clSkip=k=>!k||k.startsWith('__')||CL_LOCAL.has(k);
 function clMeta(){if(!clMeta.m){try{clMeta.m=JSON.parse(localStorage.getItem('fand.__cloud')||'null')}catch(e){}if(!clMeta.m||typeof clMeta.m!=='object')clMeta.m={};clMeta.m.ts=clMeta.m.ts||{}}return clMeta.m}
 function clMetaSave(){try{localStorage.setItem('fand.__cloud',JSON.stringify(clMeta()))}catch(e){}}
