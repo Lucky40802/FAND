@@ -323,6 +323,43 @@ log.push('material origins: ' + JSON.stringify(orgCount) + ', unique traits on '
   log.push('habitats: ' + n + ' materials (' + sh + ' found in mine shafts)');
 })();
 
+// ---- blueprints past level 20 (data/high-bp.js): professions run to level 100, so every profession gets blueprints made from
+// the materials of the realms each stage opens. Deterministic and idempotent: a blueprint that already exists is left alone.
+(function () {
+  var f = path.join(__dirname, '..', 'data', 'high-bp.js'); if (!fs.existsSync(f)) return;
+  var H = require(f), TY = { O: 'Ore / Metal', W: 'Wood / Plant', G: 'Crystal / Gem', S: 'Stone', F: 'Hide / Cloth / Fiber', B: 'Bone / Fang / Horn / Scale', L: 'Blood / Organ', E: 'Essence / Soul / Core', K: 'Mechanism' };
+  D.BPS = D.BPS.filter(function (b) { return !b.hi; }); // regenerated on every build, so fixes to the generator always apply
+  var have = {}; D.BPS.forEach(function (b) { have[b.n.toLowerCase()] = 1; });
+  var byRT = {}; D.MATS.forEach(function (m) { if (!m.ty || m.supply) return; var k = m.realm + '|' + m.ty; (byRT[k] = byRT[k] || []).push(m); });
+  Object.keys(byRT).forEach(function (k) { byRT[k].sort(function (a, b) { return a.n < b.n ? -1 : 1; }); });
+  function pick(realm, t, g, salt) { var L = byRT[realm + '|' + TY[t]]; if (!L || !L.length) return null; var best = Math.min.apply(null, L.map(function (m) { return Math.abs(m.g - g); })); var c = L.filter(function (m) { return Math.abs(m.g - g) === best; }); return c[salt % c.length]; }
+  var R = ['I', 'II', 'III', 'IV', 'V'], added = 0, AC = { Body: function (L) { return 4 + Math.floor((L - 20) / 10); }, Shield: function (L) { return 2 + Math.floor((L - 20) / 15); } };
+  function make(P, k, L, salt, master) {
+    var s = Math.ceil(L / 20), realms = H.STAGE_REALMS[s], realm = realms[(L + salt) % realms.length], g = Math.min(10, 1 + Math.floor(((L - 1) % 20) / 2));
+    var m1 = pick(realm, k[2], g, L + salt), m2 = pick(realm, k[3], Math.max(1, g - 1), L + salt + 1);
+    if (!m1) { realm = realms[(L + salt + 1) % realms.length]; m1 = pick(realm, k[2], g, L + salt); m2 = pick(realm, k[3], Math.max(1, g - 1), L + salt + 1); }
+    if (!m1) return;
+    var mats = [m1.n]; if (m2 && m2.n !== m1.n) mats.push(m2.n);
+    if (master) { var m3 = pick(H.STAGE_REALMS[s][(L + salt + 1) % realms.length], 'E', 10, L) || pick(realm, 'G', 10, L); if (m3 && mats.indexOf(m3.n) < 0) mats.push(m3.n); }
+    var base = m1.n.replace(/^The /, '').replace(/ (Ore|Ingot|Hide|Pelt|Leaf|Root)$/, ''), last = base.split(' ').pop(); if (k[0].split(' ').indexOf(last) >= 0 && base.indexOf(' ') > 0) base = base.slice(0, base.lastIndexOf(' '));
+    var n = (master ? 'Masterwork ' : '') + base + ' ' + k[0];
+    if (have[n.toLowerCase()]) return; have[n.toLowerCase()] = 1;
+    var Pd = H.PROF[P], r = master || s >= 3 ? 'Artifact' : 'Legendary', b = { n: n, cat: k[1], lv: L, pr: P, sp: Pd.sp[realm] || Pd.sp0, dc: '', dm: '', r: r, mg: 0, conns: [], mats: mats, gr: m1.gr, hi: 1 };
+    if (k[4]) { b.dc = Math.ceil(L * 0.65) + k[4]; b.dm = k[5]; }
+    if (k[6]) { b.slot = k[6]; b.ac = String(k[6] === 'Body' ? AC.Body(L) : k[6] === 'Shield' ? AC.Shield(L) : 1 + Math.floor((L - 20) / 20)); }
+    if (m1.pn) b.prop = m1.pn + ' (Potency ' + m1.pot + ')';
+    b.ds = (r === 'Artifact' ? 'An ' : 'A ') + r.toLowerCase() + ' ' + k[0].toLowerCase() + ' ' + Pd.verb + ' from ' + mats.join(', ') + ', for a stage ' + R[s - 1] + ' ' + P + ' crafter (profession level ' + L + '+), from the ' + realm + ' Realm.' +
+      (b.dc ? ' It deals ' + b.dc + ' ' + b.dm.toLowerCase() + ' damage.' : '') + (b.ac ? ' It gives ' + b.ac + ' AC.' : '') + (master ? ' The finest work of its stage: its maker\'s mark is known across the realms.' : '') + (m1.pn ? ' Property: ' + b.prop + '.' : '');
+    D.BPS.push(b); added++;
+  }
+  Object.keys(H.PROF).forEach(function (P) {
+    var K = H.PROF[P].kinds;
+    for (var L = 21; L <= 99; L += 2) make(P, K[((L - 21) / 2) % K.length], L, 0, false);
+    [40, 60, 80, 100].forEach(function (L, i) { make(P, K[i % K.length], L, 3, true); });
+  });
+  log.push('blueprints past level 20: +' + added + ' (now ' + D.BPS.length + ')');
+})();
+
 // ---- contract spells (data/god-spells.json): one spell of each level 0-9 per god, chosen from the site's spells to fit
 // the god's Runes; a contract's rank decides how many of them its holder gets.
 (function () {
@@ -628,10 +665,10 @@ log.push('class stages: ' + Object.keys(D.STAGES).length + ' classes, changes II
 D.PROF_STAGES = {};
 (function () { var f = path.join(__dirname, '..', 'data', 'prof-stages.json'); if (fs.existsSync(f)) D.PROF_STAGES = JSON.parse(fs.readFileSync(f, 'utf8'));
   log.push('profession stages: ' + Object.keys(D.PROF_STAGES).length + ' professions'); })();
-// Each profession's Level Progression table in the vault stops at 20: carry it on to level 50 on the site, with the same
+// Each profession's Level Progression table in the vault stops at 20: carry it on to level 100 on the site, with the same
 // rule (+1 bonus every 2 levels), a free specialty every 5 levels, and the stage changes and features from PROF_STAGES.
 // Scavenging's bonus counts for both its crafting and its scavenging rolls.
-var PROF_TABLE_MAX = 50;
+var PROF_TABLE_MAX = 100;
 (function () {
   var R = ['I', 'II', 'III', 'IV', 'V'], done = 0;
   D.VAULT.notes.forEach(function (n) {
@@ -701,7 +738,7 @@ var PAGE_INFO = {
   professions: ['Professions', 'The ten professions of FAND, their specialties, and example Blueprints by level.'],
   spells: ['Spells', D.SPELLS.length.toLocaleString('en-US') + ' spells across twenty schools, filterable by class, level, and casting time.'],
   magic: ['Magic Towers', 'One Magic Tower for each school of magic, where its spells are taught and sold: learn a spell for good or buy a scroll, by rank.'],
-  classes: ['Classes', 'Every class and its ladder of class changes: a new, named version of the class every 10 levels from 11 to 91, each with a trial and new features.'],
+  classes: ['Classes', 'Every class and its class changes (II at level 21, III at 41, IV at 61, V at 81), each with a trial and new features, plus an Apostle class for every god.'],
   subclasses: ['Subclasses', D.SUBS.length + ' official and homebrew subclasses for every class.'],
   demons: ['Demons', 'Archdevils, demon princes, Great Old Ones, and the named corruptions of FAND.'],
   patrons: ['Patrons', 'Warlock patrons of FAND: fiends, archfey, Great Old Ones, the undying, celestials, genies, and homebrew.'],
@@ -734,6 +771,8 @@ site['data/vault.js'] = lit('VAULT') + '\n';
 site['data/vault-details.js'] = lit('VAULT_DETAILS') + '\n';
 // a version stamp of this build's data: pages ask for data/*.js?v=<stamp>, so a new page never runs on a cached old data file
 var DATA_V = require('crypto').createHash('sha1').update(Object.keys(site).filter(function (k) { return /^data\//.test(k); }).sort().map(function (k) { return site[k]; }).join('')).digest('hex').slice(0, 10);
+// where the site lives (GitHub Pages): used for canonical links, sharing previews, and the sitemap search engines read
+var SITE_URL = 'https://lucky40802.github.io/FAND/site/';
 PAGES.forEach(function (pg) {
   var tags = '<script>const SITE={page:' + JSON.stringify(pg) + ',v:' + JSON.stringify(DATA_V) + '};' + cloudLine + '</script>\n<script src="data/core.js?v=' + DATA_V + '"></script>\n<script src="data/vault.js?v=' + DATA_V + '"></script>' + (pg === 'spells' || pg === 'sheet' || pg === 'tools' || pg === 'magic' ? '\n<script src="data/spells.js?v=' + DATA_V + '"></script>' : '');
   var html = tpl.split('<!--__DATA__-->').join(tags);
@@ -741,7 +780,8 @@ PAGES.forEach(function (pg) {
   html = html.replace('<title>FAND · Fantasy and Numerous Disasters</title>', '<title>' + (pg === 'home' ? 'FAND · Fantasy and Numerous Disasters' : info[0] + ' · FAND') + '</title>')
     .replace(/<meta name="description" content="[^"]*">/, function () {
       var d = info[1].replace(/"/g, '&quot;');
-      return '<meta name="description" content="' + d + '">\n<meta property="og:title" content="' + (pg === 'home' ? 'FAND Compendium' : info[0] + ' · FAND Compendium') + '">\n<meta property="og:description" content="' + d + '">\n<meta property="og:type" content="website">';
+      var url = SITE_URL + (pg === 'home' ? '' : pg + '.html');
+      return '<meta name="description" content="' + d + '">\n<link rel="canonical" href="' + url + '">' + (pg === 'hidden' ? '\n<meta name="robots" content="noindex">' : '') + '\n<link rel="sitemap" type="application/xml" href="sitemap.xml">\n<meta property="og:title" content="' + (pg === 'home' ? 'FAND Compendium' : info[0] + ' · FAND Compendium') + '">\n<meta property="og:description" content="' + d + '">\n<meta property="og:type" content="website">\n<meta property="og:url" content="' + url + '">\n<meta property="og:image" content="' + SITE_URL + 'img/icons/icon-512.png">';
     });
   // Home Screen app (iPhone, iPad, Mac): manifest, icons, and the offline worker (see sw.js below)
   html = html.replace(/<link rel="icon"[^>]*>/, function (m) {
@@ -774,6 +814,10 @@ var mapFiles = (function () { var d = path.join(__dirname, '..', 'data', 'maps')
 var PRECACHE = PAGE_FILES.concat(['data/core.js', 'data/vault.js', 'data/spells.js', 'data/vault-details.js'].map(function (f) { return f + '?v=' + DATA_V; }),
   ['vendor/anthropic.js', 'vendor/qrcode.js', 'manifest.webmanifest', 'img/icons/icon-180.png', 'img/icons/icon-192.png', 'img/icons/icon-512.png'], SUPA ? ['vendor/supabase.js'] : [], mapFiles);
 // the offline copy's name changes whenever any file changes (pages too), so a phone never keeps an old page offline
+site['sitemap.xml'] = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + PAGES.filter(function (pg) { return pg !== 'hidden'; }).map(function (pg) {
+  return '  <url><loc>' + SITE_URL + (pg === 'home' ? '' : pg + '.html') + '</loc><lastmod>' + META.built + '</lastmod><changefreq>weekly</changefreq><priority>' + (pg === 'home' ? '1.0' : /bestiary|materials|blueprints|gods|spells|classes|rules/.test(pg) ? '0.8' : '0.6') + '</priority></url>';
+}).join('\n') + '\n</urlset>\n';
+site['robots.txt'] = 'User-agent: *\nAllow: /\nSitemap: ' + SITE_URL + 'sitemap.xml\n';
 var SITE_V = require('crypto').createHash('sha1').update(Object.keys(site).filter(function (k) { return k !== 'sw.js'; }).sort().map(function (k) { return k + site[k]; }).join('')).digest('hex').slice(0, 8);
 site['sw.js'] = [
   '// FAND offline worker, written by tools/generators/buildapp.js. Build ' + DATA_V + '.',

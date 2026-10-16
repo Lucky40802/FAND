@@ -6,9 +6,13 @@
 <meta name="color-scheme" content="dark light">
 <title>Session prep · FAND</title>
 <meta name="description" content="One page that rolls a whole session for your party: hooks, NPCs, three fights, a named foe, a Tower floor, loot, and the deeds that earn a level.">
+<link rel="canonical" href="https://lucky40802.github.io/FAND/site/prep.html">
+<link rel="sitemap" type="application/xml" href="sitemap.xml">
 <meta property="og:title" content="Session prep · FAND Compendium">
 <meta property="og:description" content="One page that rolls a whole session for your party: hooks, NPCs, three fights, a named foe, a Tower floor, loot, and the deeds that earn a level.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://lucky40802.github.io/FAND/site/prep.html">
+<meta property="og:image" content="https://lucky40802.github.io/FAND/site/img/icons/icon-512.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2l4 10 10 4-10 4-4 10-4-10-10-4 10-4z' fill='%23c9a54a'/%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="img/icons/icon-180.png">
@@ -361,6 +365,9 @@ svg.curve{width:100%;height:auto;margin-top:10px;display:block}
 .enc-row .h button:hover{color:var(--acc2)}
 
 /* ── Modal ──────────────────────────────────────────────────── */
+.scav-pop{position:fixed;inset:0;z-index:70;background:rgba(5,4,10,.7);backdrop-filter:blur(5px);display:flex;align-items:flex-start;justify-content:center;padding:4vh 12px;overflow-y:auto}
+.scav-win{width:100%;max-width:860px;max-height:92vh;overflow-y:auto;border-radius:14px;box-shadow:var(--shadow);background:var(--bg)}.scav-win>.panel{margin:0}
+@media(max-width:640px){.scav-pop{padding:0}.scav-win{max-height:100vh;border-radius:0;min-height:100vh}}
 .mbg{position:fixed;inset:0;z-index:50;background:rgba(5,4,10,.7);backdrop-filter:blur(5px);display:none;align-items:flex-start;justify-content:center;padding:5vh 16px;overflow-y:auto}
 .mbg.open{display:flex}
 .modal{position:relative;width:100%;max-width:760px;background:var(--surf);border:1px solid var(--line3);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;animation:pop .16s ease-out}
@@ -596,9 +603,9 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   <div class="set" id="setBox"></div>
 </div>
 
-<script>const SITE={page:"prep",v:"35dad1f905"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
-<script src="data/core.js?v=35dad1f905"></script>
-<script src="data/vault.js?v=35dad1f905"></script>
+<script>const SITE={page:"prep",v:"f9e3a4ebcd"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script src="data/core.js?v=f9e3a4ebcd"></script>
+<script src="data/vault.js?v=f9e3a4ebcd"></script>
 <script>
 'use strict';
 // ════════════════════════════════════════════════════════════════
@@ -1552,6 +1559,7 @@ const MODAL={
         +((m.rel||[]).length?blk('Related',`<div class="mlist">${m.rel.map(n=>{const x=MON_IDX.get(lc(n)),g=!x&&godByKey(n);return x?`<button data-ref="${ref(x)}"><span class="sw" style="width:9px;height:9px;border-radius:50%;background:${rcol(x.realm)}"></span>${esc(x.n)} <span class="x">CR ${esc(x.cr||'?')} · ${esc(x.realm)}</span><span class="r">${x.gb?'God-beast':/spawn|young|calf|fledgling|whelp|brood/i.test(x.n)?'Spawn':'Kin'}</span></button>`:g?`<button data-ref="${ref(g)}"><span class="sw" style="width:9px;height:9px;border-radius:50%;background:var(--gold2)"></span>${esc(g.n)} <span class="x">God</span><span class="r">Bound by myth</span></button>`:`<button disabled>${esc(n)}</button>`}).join('')}</div><div class="note">Parents, spawn, kin and the gods tied to this creature in its myths.</div>`,m.rel.length+' links'):'')
         +sbHTML(m)
         +`<div class="lore">${monsterLore(m).map(([h,t])=>`<h5>${esc(h)}</h5><p>${linkNames(esc(t),m)}</p>`).join('')}</div>`
+        +((m.drops||[]).length?`<div><button class="btn primary" type="button" onclick="scavPop(${esc(JSON.stringify(m.n))})">🔪 Scavenge a corpse</button> <span class="note" style="margin:0">Opens the Scavenging rolls for one ${esc(m.n)} corpse.</span></div>`:'')
         +blk('Drops',drops+`<div class="note">×N is how many one corpse holds (${esc(m.sb&&m.sb.sz||'Medium')} body). Scavenging DC ${scavBase(m)}: meet it to take 1 part, +1 part for every 2 points above it; each new try on the same corpse adds ${SCAV_STEP} to the DC. These counts are for a whole corpse: the killing blow's damage type can ruin some parts (bludgeoning crushes bone, fire burns hide, poison taints organs).</div>`,(m.drops||[]).length+' parts · '+(m.drops||[]).reduce((a,d)=>a+(d[2]||1),0)+' pieces per corpse')
         +(sugg.length?blk('Suggested drops',`<div class="chips">${sugg.map(x=>matChip(x.n,x.gr)).join('')}</div><div class="note">This official monster's drops are listed on the ${esc(m.realm)} Bestiary page in the vault. These are same-realm materials near its grade, as a starting point.</div>`):'')
         +(realm?`<div><button class="btn" data-ref="${ref(realm)}">Open the ${esc(m.realm)} realm →</button></div>`:'')};
@@ -1689,6 +1697,14 @@ function paletteSearch(){
       if(ch.length){h+=`<div class="pal-g">Classes and class changes</div>`;ch.slice(0,6).forEach(([cls,k,n])=>{PRES.push({tab:'classes',focus:'cl-'+pid(cls)+(k>1?'-'+k:'')});h+=`<button class="pal-i" data-pi="${PRES.length-1}"><span>${hl(n,q)}</span><span class="r">${k>1?'level '+stageStart(k):'class'}</span></button>`})}}
     {const pl=[];Object.entries(REALM_MAPS).forEach(([rn,M])=>M.places.forEach(([g,n])=>{if(lc(n).includes(q))pl.push([rn,g,n])}));if(pl.length){h+=`<div class="pal-g">Places</div>`;pl.slice(0,6).forEach(([rn,g,n])=>{PRES.push({tab:'realms',place:n});h+=`<button class="pal-i" data-pi="${PRES.length-1}"><span>${hl(n,q)}</span><span class="r">${esc(g)} · ${esc(rn)} Realm</span></button>`})}}
     if(!SP.length&&META.counts.spells){PRES.push({tab:'spells',setup:{q:$('pq').value.trim()}});h+=`<div class="pal-g">Spells</div><button class="pal-i" data-pi="${PRES.length-1}">Search ${fmt(META.counts.spells)} spells for “${esc($('pq').value.trim())}”<span class="r">Spells page →</span></button>`}
+    // more of the site in the search: Apostle classes, peoples, backgrounds, professions, and each tool on the Tools page
+    {const extra=[];const add=(n,r,o)=>{if(lc(n).includes(q))extra.push([n,r,o])};
+      GODS.forEach(g=>{const a=apostleOf(g);if(lc(a.name).includes(q)||(q.length>3&&lc(a.title).includes(q)))extra.push([a.name,a.title,{x:g}])});
+      if(typeof CW_RACE!=='undefined')CW_RACE.forEach(r=>add(r[0],'people · '+r[5],{run:()=>charWizard({race:r[0],step:1})}));
+      if(typeof CW_BG!=='undefined')CW_BG.forEach(b=>add(b[0],'background · '+b[3],{run:()=>charWizard({bg:b[0],step:1})}));
+      Object.keys(PROFS).forEach(p=>add(p,'profession',{tab:'professions'}));
+      [['t-mine','Mine shaft'],['t-scav','Scavenge a corpse'],['t-dmg','Damage vs. Armor Class'],['t-grade','Material grade'],['t-ref','Refining planner'],['t-enc','Encounter and loot roller'],['t-loot','Treasure'],['t-cur','Currency converter'],['t-travel','Realm Pressure check'],['t-slots','Spell slots'],['t-sb','Stat block creator'],['t-shop','Merchant shop'],['t-backup','Backup']].forEach(([id,n])=>add(n,'tool',{tab:'tools',tool:id}));
+      if(extra.length){h+=`<div class="pal-g">Apostle classes, peoples, backgrounds, and tools</div>`;extra.slice(0,8).forEach(([n,r,o])=>{PRES.push(o);h+=`<button class="pal-i" data-pi="${PRES.length-1}"><span>${hl(n,q)}</span><span class="r">${esc(r)}</span></button>`})}}
     const tabs=TABS.filter(([,l])=>lc(l).includes(q));
     if(tabs.length){h+=`<div class="pal-g">Sections</div>`;tabs.forEach(([id,l])=>{PRES.push({tab:id});h+=`<button class="pal-i" data-pi="${PRES.length-1}">${l}<span class="r">section</span></button>`})}
     if(!PRES.length)h=`<div class="empty" style="padding:30px">No matches for “${esc(q)}”</div>`;
@@ -1701,7 +1717,7 @@ function palRow(x,label,i){
   return `<button class="pal-i" data-pi="${i}">${col?`<span class="sw" style="width:8px;height:8px;border-radius:50%;background:${col};flex-shrink:0"></span>`:''}<span>${label}</span><span class="r">${esc(sub)}</span></button>`;
 }
 function palMark(){$('pres').querySelectorAll('.pal-i').forEach(b=>b.classList.toggle('sel',+b.dataset.pi===PSEL));const s=$('pres').querySelector('.sel');if(s)s.scrollIntoView({block:'nearest'})}
-function palPick(i){const r=PRES[i];if(!r)return;closePalette();if(r.focus)store.set('clsfocus',r.focus);if(r.place)store.set('placefocus',r.place);if(r.tab){go(r.tab,r.setup);if(r.focus&&TAB==='classes')renderClasses();return}const x=r.x;const tab=TYPES[x._t].tab;if(!SITE&&TAB!==tab){history.pushState(null,'',hashFor(tab));TAB=tab;renderTab()}LIST=VIEWS[TAB]?filtered():[];openItem(x)}
+function palPick(i){const r=PRES[i];if(!r)return;closePalette();if(r.run){r.run();return}if(r.tool)store.set('tooltab',r.tool);if(r.focus)store.set('clsfocus',r.focus);if(r.place)store.set('placefocus',r.place);if(r.tab){go(r.tab,r.setup);if(r.focus&&TAB==='classes')renderClasses();return}const x=r.x;const tab=TYPES[x._t].tab;if(!SITE&&TAB!==tab){history.pushState(null,'',hashFor(tab));TAB=tab;renderTab()}LIST=VIEWS[TAB]?filtered():[];openItem(x)}
 let pTimer;$('pq').addEventListener('input',()=>{clearTimeout(pTimer);pTimer=setTimeout(paletteSearch,60)});
 $('pq').addEventListener('keydown',e=>{
   if(e.key==='ArrowDown'){PSEL=Math.min(PRES.length-1,PSEL+1);palMark();e.preventDefault()}
@@ -1851,15 +1867,15 @@ function renderProfessions(){
   $('content').innerHTML=`<div class="page">
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Professions</h3><p>Ten broad professions. Each old craft lives on as a specialty. You start with one specialty and gain more over time; crafting outside them is at disadvantage.</p></div>
     <div class="panel" style="margin-bottom:14px"><b style="font-family:var(--serif)">Profession stages</b><p class="note" style="margin:4px 0 8px">Like classes, every profession has a stage every 20 levels (I to V), each opening a band of realms. A crafter can only work materials from realms their stage has reached; harvesting or scavenging parts from a deeper realm is at disadvantage. The profession bonus is half the profession level: <b>+1 every 2 levels</b> (+10 at level 20, +25 at level 50, +50 at level 100). It is added to the profession's crafting rolls, and for <b>Scavenging</b> to both its crafting and its scavenging rolls (Harvesting's also counts when gathering and mining).</p><div class="tablewrap"><table class="t"><thead><tr><th>Stage</th><th>Profession levels</th><th>Materials it can work</th><th class="num">Bonus</th></tr></thead><tbody>${Array.from({length:MAX_STAGE},(_,i)=>i+1).map(k=>`<tr><td>${ROMAN[k-1]}</td><td>${stageStart(k)}–${stageEnd(k)}</td><td>${REALMS.filter(r=>tierStage(r.tier)===k).map(r=>`<span class="b" style="color:${r.color}">${esc(r.n)}</span>`).join(' ')}${k>1?' and below':''}</td><td class="num">+${Math.floor(stageStart(k)/2)} to +${Math.floor(stageEnd(k)/2)}</td></tr>`).join('')}</tbody></table></div></div>
-    <details class="panel fold" style="margin-bottom:14px"><summary><b style="font-family:var(--serif)">Level by level, 1 to 50</b> <small style="color:var(--muted)">the same for every profession: +1 bonus every 2 levels</small></summary>
-      <div class="tablewrap" style="margin-top:8px"><table class="t"><thead><tr><th class="num">Level</th><th class="num">Bonus</th><th>What it brings</th></tr></thead><tbody>${Array.from({length:50},(_,i)=>i+1).map(L=>{const u=[];if(L<=20)u.push(['Basic Recipes','Advanced Components','Rare Crafting','Masterwork Techniques','Legendary Creation'][Math.floor((L-1)/4)]);if(L>1&&(L-1)%20===0)u.push('Stage '+ROMAN[Math.floor((L-1)/20)]+': new title and a trial');if(L>20&&(L-1)%10===0)u.push('a stage feature');if(L%5===0)u.push('free specialty');return `<tr${L%2===0?' style="background:var(--goldbg)"':''}><td class="num">${L}</td><td class="num"><b>+${Math.floor(L/2)}</b></td><td>${u.join(' · ')}</td></tr>`}).join('')}</tbody></table></div>
-      <div class="note">Highlighted rows are where the bonus goes up. Each profession's own stage names and features are listed in its panel below. Levels keep going to 100 the same way.</div></details>
-    <div class="panel" style="margin-bottom:14px"><b style="font-family:var(--serif)">Levels 21 to 100</b><p class="note" style="margin:4px 0 8px">The vault's professions run to level 20; on this site they go on to 100 like classes. The rules keep going the same way: the next level needs <b>100 × that level</b> in Profession XP, a free specialty comes every 5 levels, and every 20 levels the profession changes stage (with a trial, a new title, and two features). Blueprints stop at level 20: past it, a crafter's work grows through the deeper realms' materials and the stage features.</p>
+    <details class="panel fold" style="margin-bottom:14px"><summary><b style="font-family:var(--serif)">Level by level, 1 to 100</b> <small style="color:var(--muted)">the same for every profession: +1 bonus every 2 levels</small></summary>
+      <div class="tablewrap" style="margin-top:8px"><table class="t"><thead><tr><th class="num">Level</th><th class="num">Bonus</th><th>What it brings</th></tr></thead><tbody>${Array.from({length:100},(_,i)=>i+1).map(L=>{const u=[];if(L<=20)u.push(['Basic Recipes','Advanced Components','Rare Crafting','Masterwork Techniques','Legendary Creation'][Math.floor((L-1)/4)]);if(L>1&&(L-1)%20===0)u.push('Stage '+ROMAN[Math.floor((L-1)/20)]+': new title and a trial');if(L>20&&(L-1)%10===0)u.push('a stage feature');if(L%5===0)u.push('free specialty');return `<tr${L%2===0?' style="background:var(--goldbg)"':''}><td class="num">${L}</td><td class="num"><b>+${Math.floor(L/2)}</b></td><td>${u.join(' · ')}</td></tr>`}).join('')}</tbody></table></div>
+      <div class="note">Highlighted rows are where the bonus goes up. Each profession's own stage names and features are listed in its panel below.</div></details>
+    <div class="panel" style="margin-bottom:14px"><b style="font-family:var(--serif)">Levels 21 to 100</b><p class="note" style="margin:4px 0 8px">The vault's professions run to level 20; on this site they go on to 100 like classes. The rules keep going the same way: the next level needs <b>100 × that level</b> in Profession XP, a free specialty comes every 5 levels, and every 20 levels the profession changes stage (with a trial, a new title, and two features). Past level 20, every profession has blueprints on every other level up to 100, made from the materials of the realms its stage opens, with a masterwork at the top of each stage (levels 40, 60, 80, and 100).</p>
       <div class="tablewrap"><table class="t"><thead><tr><th class="num">Level</th><th class="num">XP for that level</th><th class="num">Running total from level 1</th></tr></thead><tbody>${[20,30,40,50,60,70,80,90,100].map(L=>`<tr><td class="num">${L}</td><td class="num">${fmt(100*L)}</td><td class="num">${fmt(50*L*(L+1)-100)}</td></tr>`).join('')}</tbody></table></div></div>
     <div class="ladder" style="grid-template-columns:repeat(auto-fill,minmax(340px,1fr))">${Object.entries(PROFS).map(([p,P])=>{
       const bps=BPS.filter(b=>b.pr===p);const sp={};bps.forEach(b=>{if(b.sp&&b.sp!==p)sp[b.sp]=(sp[b.sp]||0)+1});
       const specs=[...new Set(P.abs.concat(Object.keys(sp)))];
-      const lvs=[1,5,10,15,20].map(l=>pick(p,l)).filter((b,i,a)=>b&&a.indexOf(b)===i);
+      const lvs=[1,5,10,15,20,40,60,80,100].map(l=>pick(p,l)).filter((b,i,a)=>b&&a.indexOf(b)===i);
       return `<div class="panel" style="display:flex;flex-direction:column;gap:10px">
         <div style="display:flex;align-items:baseline;gap:10px"><span style="font-size:1.4rem">${P.icon}</span><h4 style="font-size:1.25rem;margin:0">${p}</h4><button class="btn" style="margin-left:auto" data-go="blueprints" data-setup='${esc(JSON.stringify({side:p}))}'>${fmt(bps.length)} Blueprints →</button></div>
         <p>${esc(P.blurb)}</p>
@@ -1931,6 +1947,8 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-17','Scavenging in a pop-up window','The Scavenge panel now opens as its own pop-up window: from the 🔪 Scavenge button in the combat tracker, and from a new Scavenge a corpse button in every monster\'s window in the Bestiary. Close it with ✕, Escape, or a click outside.','bestiary'],
+  ['2026-10-17','Professions to level 100, and 433 new Blueprints','Every profession\'s level table now runs all the way to level 100 (+1 bonus every 2 levels, so +50 at 100). Professions also have Blueprints past level 20 now: one on every other level from 21 to 99 for each of the ten professions, made from the materials of the realms its stage opens (Hell, Heaven, and Chaos at stage II, up to the Inner Void and Primordial at stage V), plus a Masterwork at levels 40, 60, 80, and 100.','blueprints'],
   ['2026-10-17','Sign in from the top bar','A Sign in button now sits in the top bar of every page, beside Settings. Once you are signed in it shows your initial (with a red dot if something didn\'t sync), and it opens your account. The installed Windows app has Sign in in its taskbar menu too.','party'],
   ['2026-10-17','FAND on Windows','Install FAND as a Windows app from Microsoft Edge or Google Chrome: press the new install button in the header (or Install FAND on the About page). It opens in its own window, sits in the Start menu, and its taskbar icon has shortcuts to the Character sheet, Dice, Bestiary, and Combat. The About page also has a download of the offline file: the whole compendium in one file that opens with a double-click, no internet needed.','about'],
   ['2026-10-16','Accounts and campaigns','Sign in with your email (Settings, Account) and everything the site saves (characters, journal, crafting plans, designs, dice, pins) is kept in your account and follows you to every device. A DM can start a campaign on the Party page and send its invite code; players who join choose which characters to share, and everyone sees the shared characters change live. Only a character\'s owner and the DM can change it. The DM can also let their account open the hidden-class list on any device. Accounts are switched on once the site owner connects a Supabase project.','party'],
@@ -3222,7 +3240,7 @@ function cwRoll(){return Array.from({length:6},()=>{const d=[1,2,3,4].map(()=>1+
 function cwBase(){const k=CW_CLASS[CW.cls],v=CW.method==='roll'?(CW.rolled||(CW.rolled=cwRoll())):[15,14,13,12,10,8],o={};k.o.forEach((a,i)=>o[a]=v[i]);return o}
 function cwRaceBonus(){const r=(CW_RACE.find(x=>x[0]===CW.race)||[])[2]||{};if(r!=='flex')return r;const k=CW_CLASS[CW.cls];return k?{[k.o[0]]:2,[k.o[1]]:1}:{}}
 function cwScores(){const b=cwBase(),r=cwRaceBonus(),o={};ABIL.forEach(([a])=>o[a]=b[a]+(r[a]||0));return o}
-function charWizard(){CW={step:0,cls:'',race:'',method:'std',bg:'',name:'',align:'',traits:cwPick(CW_PERS.traits),ideals:cwPick(CW_PERS.ideals),bonds:cwPick(CW_PERS.bonds),flaws:cwPick(CW_PERS.flaws)};if(TAB!=='sheet'){store.set('charwiz',1);go('sheet');return}renderCharWiz()}
+function charWizard(pre){CW={step:0,cls:'',race:'',method:'std',bg:'',name:'',align:'',traits:cwPick(CW_PERS.traits),ideals:cwPick(CW_PERS.ideals),bonds:cwPick(CW_PERS.bonds),flaws:cwPick(CW_PERS.flaws)};if(pre&&typeof pre==='object')Object.assign(CW,pre);if(TAB!=='sheet'){store.set('charwiz',pre&&typeof pre==='object'?pre:1);go('sheet');return}renderCharWiz()}
 function cwSet(k,v,next){CW[k]=v;if(k==='method'&&v==='roll')CW.rolled=cwRoll();if(next)CW.step++;renderCharWiz()}
 function cwGo(d){if(d>0&&!cwOk())return;CW.step=Math.max(0,Math.min(CW_STEPS.length-1,CW.step+d));renderCharWiz();window.scrollTo(0,0);$('content').scrollTop=0}
 function cwOk(){const s=CW.step;if(s===5&&!CW.prof){toast('Pick the one proficiency your background gives');return false}if(s===1&&!CW.cls){toast('Pick a class, or press Surprise me');return false}if(s===2&&!CW.race){toast('Pick a people, or press Surprise me');return false}if(s===4&&!CW.bg){toast('Pick a background, or press Surprise me');return false}if(s===6&&!CW.name.trim()){toast('Give your character a name (or press Random name)');return false}return true}
@@ -3291,7 +3309,7 @@ function cwNextHTML(c){if(!c.wizNext)return '';return `<div class="cw-next sh-no
 
 function renderSheet(){
   if(CW){renderCharWiz();return}
-  if(store.get('charwiz',0)){store.set('charwiz',0);charWizard();return}
+  {const pw=store.get('charwiz',0);if(pw){store.set('charwiz',0);charWizard(typeof pw==='object'?pw:null);return}}
   {const sc=parseHash().params.get('char');if(sc&&renderSheet._imp!==sc){renderSheet._imp=sc;importSharedChar(sc)}}
   if(!HC&&!renderSheet._hc){renderSheet._hc=1;hcAuto().then(()=>{if(HC&&TAB==='sheet')renderSheet()}).catch(()=>{})}
   const c=sheetChar(),s=charStats(c),L=+c.level||1,pb=profBonus(L),A=c.abil||{},M=k=>mod(A[k]),L2=c.cls2?Math.max(0,Math.min(L-1,+c.lv2||0)):0,L1=L-L2,si=c.cls?stageInfo(c.cls,L1):null,siC=c.cls?stageInfo(c.cls,L):null,si2=c.cls2&&L2?stageInfo(c.cls2,L2):null;
@@ -4375,7 +4393,15 @@ const scavTrained=(who,m)=>!!who&&lc(who.prof||'')==='scavenging'&&stageOf(+who.
 const scavBonus=who=>who&&lc(who.prof||'')==='scavenging'?Math.floor((+who.profLv||0)/2):0;
 const scavPicks=(tot,dc)=>tot<dc?0:1+Math.floor((tot-dc)/2);
 const scavSoft=n=>{const x=findMat(n);return !!x&&['L','E'].includes(matCode(x))};
-const SCAV={cb:{get:()=>CB.corpses&&CB.corpses[CB.harvest],set:S=>{CB.corpses=CB.corpses||{};CB.corpses[CB.harvest]=S;saveCB()},render:()=>renderCombat(),close:()=>{CB.harvest=null;saveCB();renderCombat()}},
+// The Scavenge panel opens as a pop-up window (from the combat tracker and from any monster's window); it keeps its
+// scroll position when it redraws after a roll. Escape or a click outside closes it.
+function scavPopHTML(k,title){const h=scavHTML(k,title);return h?`<div class="scav-pop" onclick="if(event.target===this)SCAV.${k}.close()" role="dialog" aria-modal="true" aria-label="Scavenge"><div class="scav-win">${h}</div></div>`:''}
+const keepScroll=f=>{const w=document.querySelector('.scav-win'),y=w?w.scrollTop:0;f();const w2=document.querySelector('.scav-win');if(w2)w2.scrollTop=y};
+function scavPop(name){const m=MON_IDX.get(lc(name));if(!m)return;store.set('scavpop',scavNew(m));if(typeof hideModal==='function')hideModal();renderScavPop()}
+function renderScavPop(){let host=document.getElementById('scavpopHost');if(!host){host=document.createElement('div');host.id='scavpopHost';document.body.appendChild(host)}const S=store.get('scavpop',null);keepScroll(()=>{host.innerHTML=S&&scavMon(S)?scavPopHTML('pop','Scavenge a '+esc(S.mon)+' corpse'):''})}
+document.addEventListener('keydown',e=>{if(e.key!=='Escape'||!document.querySelector('.scav-pop'))return;if(store.get('scavpop',null))SCAV.pop.close();else if(typeof CB!=='undefined'&&CB&&CB.harvest)SCAV.cb.close()});
+const SCAV={cb:{get:()=>CB.corpses&&CB.corpses[CB.harvest],set:S=>{CB.corpses=CB.corpses||{};CB.corpses[CB.harvest]=S;saveCB()},render:()=>keepScroll(renderCombat),close:()=>{CB.harvest=null;saveCB();renderCombat()}},
+  pop:{get:()=>store.get('scavpop',null),set:S=>store.set('scavpop',S),render:()=>renderScavPop(),close:()=>{store.set('scavpop',null);renderScavPop()}},
   tool:{get:()=>store.get('scav',null),set:S=>store.set('scav',S),render:()=>renderScavTool(),close:()=>{store.set('scav',null);renderScavTool()}}};
 function scavHTML(k,title){const C=SCAV[k],S=C.get(),m=scavMon(S);if(!m)return '';
   const who=workerOf(S.who,BASE_SCAV),ok=scavTrained(who,m),dc=scavDC(m,S),parts=Object.entries(S.left),remain=parts.reduce((a,[,q])=>a+q,0),inB=Object.values(S.basket||{}).reduce((a,b)=>a+b,0),tier=(REALM[m.realm]||{}).tier||1;
@@ -4464,7 +4490,7 @@ function raiseRoll(k,i){const C=SCAV[k],S=C.get(),m=scavMon(S),u=UNDEAD[i],R=S.r
   C.set(S);C.render()}
 // combat tracker: the downed monster's corpse
 function harvestHTML(){const x=CB.harvest&&CB.list.find(y=>y.id===CB.harvest),m=x&&MON_IDX.get(lc(x.mon));if(!m)return '';CB.corpses=CB.corpses||{};
-  if(!CB.corpses[x.id]||CB.corpses[x.id].mon!==m.n){CB.corpses[x.id]=scavNew(m,x.kt);saveCB()}return `<section class="sec">${scavHTML('cb','Scavenge the '+esc(x.name))}</section>`}
+  if(!CB.corpses[x.id]||CB.corpses[x.id].mon!==m.n){CB.corpses[x.id]=scavNew(m,x.kt);saveCB()}return scavPopHTML('cb','Scavenge the '+esc(x.name))}
 // Tools page: scavenge any monster's corpse
 function renderScavTool(){const el=$('sc-box');if(!el)return;const S=store.get('scav',null);
   el.innerHTML=S&&scavMon(S)?scavHTML('tool','Scavenge a '+esc(S.mon)+' corpse'):`<div class="form"><label class="full">Monster<input class="sel" id="sc-mon" list="sc-mons" placeholder="Type a monster's name…"></label><datalist id="sc-mons">${MONSTERS.map(m=>`<option value="${esc(m.n)}">${esc(m.realm+' '+m.g)}</option>`).join('')}</datalist><div style="display:flex;justify-content:flex-end"><button class="btn primary" id="sc-go">Lay out the corpse</button></div></div>`;
