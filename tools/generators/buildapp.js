@@ -755,7 +755,15 @@ PAGES.forEach(function (pg) {
 var PAGE_FILES = PAGES.map(function (pg) { return pg === 'home' ? 'index.html' : pg + '.html'; });
 site['manifest.webmanifest'] = JSON.stringify({
   name: 'FAND Compendium', short_name: 'FAND', description: 'The FAND campaign compendium and table tools for the world of Vestige.',
-  start_url: './index.html', scope: './', display: 'standalone', background_color: '#0b0a12', theme_color: '#0b0a12',
+  id: './', start_url: './index.html', scope: './', display: 'standalone', display_override: ['standalone', 'minimal-ui'], background_color: '#0b0a12', theme_color: '#0b0a12',
+  categories: ['games', 'entertainment', 'reference'],
+  // right-click the installed app's icon (Windows taskbar or Start menu, Android long-press) for these
+  shortcuts: [
+    { name: 'Character sheet', short_name: 'Sheet', url: './sheet.html', icons: [{ src: 'img/icons/icon-192.png', sizes: '192x192', type: 'image/png' }] },
+    { name: 'Dice', url: './dice.html', icons: [{ src: 'img/icons/icon-192.png', sizes: '192x192', type: 'image/png' }] },
+    { name: 'Bestiary', url: './bestiary.html', icons: [{ src: 'img/icons/icon-192.png', sizes: '192x192', type: 'image/png' }] },
+    { name: 'Combat tracker', short_name: 'Combat', url: './combat.html', icons: [{ src: 'img/icons/icon-192.png', sizes: '192x192', type: 'image/png' }] }
+  ],
   icons: [
     { src: 'img/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
     { src: 'img/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
