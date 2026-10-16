@@ -396,6 +396,7 @@ svg.curve{width:100%;height:auto;margin-top:10px;display:block}
 .mlist button{display:flex;gap:10px;align-items:center;background:var(--surf);border:0;border-bottom:1px solid var(--line);padding:7px 11px;text-align:left;font-size:.85rem;color:var(--text2)}
 .mlist button:last-child{border-bottom:0}
 .mlist button:hover{background:var(--surf2);color:var(--text)}
+.mlist button{flex-wrap:wrap;min-width:0}.mlist button>*{min-width:0;overflow-wrap:anywhere}
 .mlist .r{margin-left:auto;font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
 .mlist .x{font-size:.75rem;color:var(--muted)}
 details.fold summary{cursor:pointer;font-size:.8rem;color:var(--acc2);list-style:none}
@@ -603,9 +604,9 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   <div class="set" id="setBox"></div>
 </div>
 
-<script>const SITE={page:"hooks",v:"29f4324b1f"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
-<script src="data/core.js?v=29f4324b1f"></script>
-<script src="data/vault.js?v=29f4324b1f"></script>
+<script>const SITE={page:"hooks",v:"aef61f533e"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script src="data/core.js?v=aef61f533e"></script>
+<script src="data/vault.js?v=aef61f533e"></script>
 <script>
 'use strict';
 // ════════════════════════════════════════════════════════════════
@@ -641,7 +642,7 @@ function rigDice(n,x,mod){const g=store.get('dicerig',null);if(!g||!g.mode)retur
   else if(g.mode==='high')r=Array.from({length:n},()=>x-Math.floor(Math.random()*(x-half+1)));else if(g.mode==='low')r=Array.from({length:n},()=>1+Math.floor(Math.random()*half));
   else if(g.mode==='total'){let need=Math.max(n,Math.min(n*x,(+g.value||0)-mod));r=Array(n).fill(1);need-=n;const idx=[...r.keys()].sort(()=>Math.random()-.5);while(need>0){for(const i of idx){if(need<=0)break;const add=Math.min(x-r[i],Math.max(1,Math.ceil(Math.random()*Math.min(need,x-r[i]))));if(add>0){r[i]+=add;need-=add}}if(r.every(v=>v===x))break}}
   if(!r)return null;if(g.once)store.set('dicerig',null);if($('dr-rig-state'))rigState();return r}
-function rollExpr(e){const m=/^\s*(\d{0,2})d(\d+)(?:\s*([+\-−])\s*(\d+))?\s*$/i.exec(e);if(!m)return null;const n=Math.min(50,+m[1]||1),x=+m[2],mod=m[3]?(m[3]==='+'?1:-1)*+m[4]:0;const r=rigDice(n,x,mod)||Array.from({length:n},()=>DIE(x));return {e:e.trim(),r,mod,t:r.reduce((a,b)=>a+b,0)+mod}}
+function rollExpr(e){const m=/^\s*(\d{0,2})d(\d+)(?:\s*([+\-−])\s*(\d+))?\s*$/i.exec(e);if(!m||m[1]==='0'||m[1]==='00'||+m[2]<1)return null;const n=Math.min(50,+m[1]||1),x=+m[2],mod=m[3]?(m[3]==='+'?1:-1)*+m[4]:0;const r=rigDice(n,x,mod)||Array.from({length:n},()=>DIE(x));return {e:e.trim(),r,mod,t:r.reduce((a,b)=>a+b,0)+mod}}
 const RIG_MODES=[['','Off (fair dice)'],['nat20','Natural 20 (d20 rolls)'],['nat1','Natural 1 (d20 rolls)'],['max','Maximum on every die'],['min','Minimum on every die'],['high','High (each die in its top half)'],['low','Low (each die in its bottom half)'],['total','Exact total…']];
 function rigState(){const g=store.get('dicerig',null),el=$('dr-rig-state');if(!el)return;el.innerHTML=g&&g.mode?`<b style="color:var(--red)">Armed:</b> ${esc((RIG_MODES.find(x=>x[0]===g.mode)||[])[1]||'')}${g.mode==='total'?' '+(+g.value||0):''} · ${g.once?'next roll only':'until switched off'} <a href="#" onclick="store.set('dicerig',null);rigState();return false">disarm</a>`:'Fair dice.'}
 function rigSet(){const mode=$('dr-rig').value,once=$('dr-rig-once').checked,value=+$('dr-rig-v').value||0;$('dr-rig-v').style.display=mode==='total'?'':'none';store.set('dicerig',mode?{mode,once,value}:null);rigState()}
@@ -666,7 +667,7 @@ function rollMulti(e){const src=String(e||'').replace(/−/g,'-').replace(/\s+/g
   if(!r.length)return null;
   if(tot){const lo=sd.reduce((a,x)=>a+(x>0?1:x),0),hi=sd.reduce((a,x)=>a+(x>0?x:-1),0),want=Math.max(lo,Math.min(hi,(+g.value||0)-mod));let left=want-lo;r=sd.map(x=>{if(x>0){const k=Math.min(x-1,left);left-=k;return 1+k}const k=Math.min(-x-1,left);left-=k;return x+k})}
   if($('dr-rig-state'))rigState();return {e:src.replace(/([+\-])/g,' $1 ').trim(),r,mod,t:r.reduce((a,b)=>a+b,0)+mod,sides:first}}
-function rollShow(e){const R=rollMulti(e);if(!R)return;const log=store.get('dicelog',[]);log.unshift({e:R.e,t:R.t,r:R.r,mod:R.mod});store.set('dicelog',log.slice(0,50));
+function rollShow(e){const R=rollMulti(e);if(!R){if(String(e||'').trim())toast('Not a roll: try 2d6+3');return}const log=store.get('dicelog',[]);log.unshift({e:R.e,t:R.t,r:R.r,mod:R.mod});store.set('dicelog',log.slice(0,50));
   const sides=R.sides||+(/d(\d+)/i.exec(R.e)||[])[1]||20;if(store.get('diceanim',true))diceOverlay(R,sides);else toast(`🎲 ${R.e}: ${R.t}  (${R.r.join(' + ')}${R.mod?(R.mod>0?' + ':' − ')+Math.abs(R.mod):''})`);if($('dl-log'))diceLog()}
 function diceify(root){if(!root)return;const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement.closest('input,textarea,select,button,a,.dice,script,style')?NodeFilter.FILTER_REJECT:(DICE_RX.lastIndex=0,DICE_RX.test(n.nodeValue))?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP});const ns=[];while(w.nextNode())ns.push(w.currentNode);
   ns.forEach(n=>{const f=document.createDocumentFragment();let last=0;const t=n.nodeValue;DICE_RX.lastIndex=0;let m;while((m=DICE_RX.exec(t))){f.append(t.slice(last,m.index));const sp=document.createElement('span');sp.className='dice';sp.textContent=m[0];sp.title='Click to roll';f.append(sp);last=m.index+m[0].length}f.append(t.slice(last));n.replaceWith(f)})}
@@ -1490,6 +1491,7 @@ function mdVault(src){
     if(/^\s*([-*+]|\d+[.)])\s+/.test(l)){const ord=/^\s*\d/.test(l);let h=ord?'<ol>':'<ul>';while(i<L.length&&/^\s*([-*+]|\d+[.)])\s+/.test(L[i])){const ind=(/^\s*/.exec(L[i])[0].length);h+=`<li style="margin-left:${ind*6}px">${inline(L[i].replace(/^\s*([-*+]|\d+[.)])\s+(\[[ x]\]\s*)?/,''))}</li>`;i++}out+=h+(ord?'</ol>':'</ul>');continue}
     if(!l.trim()){i++;continue}
     const para=[];while(i<L.length&&L[i].trim()&&!/^(#|>|\s*\||\s*([-*+]|\d+[.)])\s)/.test(L[i])){para.push(L[i]);i++}
+    if(!para.length){para.push(L[i]);i++} // a line no other rule takes (a stray table row): show it as text rather than loop forever
     out+=`<p>${para.map(inline).join('<br>')}</p>`;
   }
   return out;
@@ -1696,15 +1698,15 @@ function paletteSearch(){
     if(typeof STAGES!=='undefined'){const ch=[];Object.entries(STAGES).forEach(([cls,list])=>{if(lc(cls).includes(q))ch.push([cls,1,cls]);list.forEach(x=>{if(lc(x.name).includes(q))ch.push([cls,x.stage,x.name])})});
       if(ch.length){h+=`<div class="pal-g">Classes and class changes</div>`;ch.slice(0,6).forEach(([cls,k,n])=>{PRES.push({tab:'classes',focus:'cl-'+pid(cls)+(k>1?'-'+k:'')});h+=`<button class="pal-i" data-pi="${PRES.length-1}"><span>${hl(n,q)}</span><span class="r">${k>1?'level '+stageStart(k):'class'}</span></button>`})}}
     {const pl=[];Object.entries(REALM_MAPS).forEach(([rn,M])=>M.places.forEach(([g,n])=>{if(lc(n).includes(q))pl.push([rn,g,n])}));if(pl.length){h+=`<div class="pal-g">Places</div>`;pl.slice(0,6).forEach(([rn,g,n])=>{PRES.push({tab:'realms',place:n});h+=`<button class="pal-i" data-pi="${PRES.length-1}"><span>${hl(n,q)}</span><span class="r">${esc(g)} · ${esc(rn)} Realm</span></button>`})}}
-    if(!SP.length&&META.counts.spells){PRES.push({tab:'spells',setup:{q:$('pq').value.trim()}});h+=`<div class="pal-g">Spells</div><button class="pal-i" data-pi="${PRES.length-1}">Search ${fmt(META.counts.spells)} spells for “${esc($('pq').value.trim())}”<span class="r">Spells page →</span></button>`}
     // more of the site in the search: Apostle classes, peoples, backgrounds, professions, and each tool on the Tools page
     {const extra=[];const add=(n,r,o)=>{if(lc(n).includes(q))extra.push([n,r,o])};
       GODS.forEach(g=>{const a=apostleOf(g);if(lc(a.name).includes(q)||(q.length>3&&lc(a.title).includes(q)))extra.push([a.name,a.title,{x:g}])});
       if(typeof CW_RACE!=='undefined')CW_RACE.forEach(r=>add(r[0],'people · '+r[5],{run:()=>charWizard({race:r[0],step:1})}));
       if(typeof CW_BG!=='undefined')CW_BG.forEach(b=>add(b[0],'background · '+b[3],{run:()=>charWizard({bg:b[0],step:1})}));
       Object.keys(PROFS).forEach(p=>add(p,'profession',{tab:'professions'}));
-      [['t-mine','Mine shaft'],['t-scav','Scavenge a corpse'],['t-dmg','Damage vs. Armor Class'],['t-grade','Material grade'],['t-ref','Refining planner'],['t-enc','Encounter and loot roller'],['t-loot','Treasure'],['t-cur','Currency converter'],['t-travel','Realm Pressure check'],['t-slots','Spell slots'],['t-sb','Stat block creator'],['t-shop','Merchant shop'],['t-backup','Backup']].forEach(([id,n])=>add(n,'tool',{tab:'tools',tool:id}));
+      [['t-clock','Session clock'],['t-npc','Quick NPC'],['t-trip','Travel and weather'],['t-cond','Conditions'],['t-mine','Mine shaft'],['t-scav','Scavenge a corpse'],['t-dmg','Damage vs. Armor Class'],['t-grade','Material grade'],['t-ref','Refining planner'],['t-enc','Encounter and loot roller'],['t-loot','Treasure'],['t-cur','Currency converter'],['t-travel','Realm Pressure check'],['t-slots','Spell slots'],['t-sb','Stat block creator'],['t-shop','Merchant shop'],['t-backup','Backup']].forEach(([id,n])=>add(n,'tool',{tab:'tools',tool:id}));
       if(extra.length){h+=`<div class="pal-g">Apostle classes, peoples, backgrounds, and tools</div>`;extra.slice(0,8).forEach(([n,r,o])=>{PRES.push(o);h+=`<button class="pal-i" data-pi="${PRES.length-1}"><span>${hl(n,q)}</span><span class="r">${esc(r)}</span></button>`})}}
+    if(!SP.length&&META.counts.spells){PRES.push({tab:'spells',setup:{q:$('pq').value.trim()}});h+=`<div class="pal-g">Spells</div><button class="pal-i" data-pi="${PRES.length-1}">Search ${fmt(META.counts.spells)} spells for “${esc($('pq').value.trim())}”<span class="r">Spells page →</span></button>`}
     const tabs=TABS.filter(([,l])=>lc(l).includes(q));
     if(tabs.length){h+=`<div class="pal-g">Sections</div>`;tabs.forEach(([id,l])=>{PRES.push({tab:id});h+=`<button class="pal-i" data-pi="${PRES.length-1}">${l}<span class="r">section</span></button>`})}
     if(!PRES.length)h=`<div class="empty" style="padding:30px">No matches for “${esc(q)}”</div>`;
@@ -1947,6 +1949,8 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-17','Site check fixes','Profession notes no longer freeze the page, and their tables now run to level 100. Craft and Forge show the right profession stage. Levelling up asks for the hit points gained. A party member\'s god contract needs a way it was gained, as on the sheet. Bad dice like 0d6 are refused. The Journal finds spells. Small fixes to wording and phone layout.','tools'],
+  ['2026-10-17','Everything to run a session','The Tools page has four new tabs for the table: a Session clock (days and hours, rests, and torches or lanterns that burn down), a Quick NPC (name, look, voice, manner, quirk, wants, and god), Travel and weather (days on the road at your pace, each day\'s realm weather, and random encounters from that realm\'s Bestiary), and Conditions at a glance. A row of links at the top jumps to Session prep, Combat, Encounters, Hooks, Dice, Journal, Party, and Rules.','tools'],
   ['2026-10-17','Scavenging fix, and Arawn','Opening a corpse to scavenge no longer breaks the page when its saved progress is incomplete (from an older version or another device): the corpse is repaired, or cleared with a note if it cannot be. Arawn\'s Minor contract material (also his temple passage offering) is now Kingsbane Mushroom instead of Witchsilver.','gods'],
   ['2026-10-17','Scavenging in a pop-up window','The Scavenge panel now opens as its own pop-up window: from the 🔪 Scavenge button in the combat tracker, and from a new Scavenge a corpse button in every monster\'s window in the Bestiary. Close it with ✕, Escape, or a click outside.','bestiary'],
   ['2026-10-17','Professions to level 100, and 433 new Blueprints','Every profession\'s level table now runs all the way to level 100 (+1 bonus every 2 levels, so +50 at 100). Professions also have Blueprints past level 20 now: one on every other level from 21 to 99 for each of the ten professions, made from the materials of the realms its stage opens (Hell, Heaven, and Chaos at stage II, up to the Inner Void and Primordial at stage V), plus a Masterwork at levels 40, 60, 80, and 100.','blueprints'],
@@ -2565,10 +2569,77 @@ function toolTabs(){const box=document.querySelector('.tools');if(!box)return;co
   bar.innerHTML=T.map(t=>`<button type="button" role="tab" data-tt="${t.id}">${t.querySelector('h3').innerHTML}</button>`).join('');box.before(bar);box.classList.add('tabbed');
   const show=id=>{if(!T.some(t=>t.id===id))id=T[0].id;T.forEach(t=>t.hidden=t.id!==id);bar.querySelectorAll('[data-tt]').forEach(b=>{const on=b.dataset.tt===id;b.classList.toggle('on',on);b.setAttribute('aria-selected',on);if(on)b.scrollIntoView({block:'nearest',inline:'nearest'})});store.set('tooltab',id)};
   bar.onclick=e=>{const b=e.target.closest('[data-tt]');if(b)show(b.dataset.tt)};show(store.get('tooltab',T[0].id))}
+// ── Tools for running a session at the table: in-game clock, a quick NPC, travel with weather and encounters, conditions ──
+const WEATHER={
+  Human:['Clear and mild','Grey drizzle all day','Strong wind from the hills','Fog until noon','Hot and still','A thunderstorm in the afternoon'],
+  Mysterious:['A silver mist that hides the road','Lights drifting between the trees','Rain that falls upward for an hour','Still air and no birdsong','A warm, sweet-smelling wind','Fog that whispers names'],
+  Hell:['Ash falling like snow','Heat haze over the brimstone flats','A storm of embers','Sulphur fog','Red skies and burning wind','A rain of hot cinders'],
+  Heaven:['Blinding clear light','Choir-song on the wind','Clouds underfoot','A gentle golden rain','Calm, with a single bell ringing','Wind that smells of incense'],
+  Chaos:['The weather changes every hour','Snow and sunshine at once','Gravity drifts for a few minutes','Rain of tiny stones','Colours bleed out of the sky','Three suns, then none'],
+  Abyss:['Crushing pressure and black water','A cold current from below','Faint glowing tides','Silt storms that hide everything','Still, silent dark','Whale-song shaking the stones'],
+  'Inner Realm':['Perfectly ordered calm','Wind that blows on the hour','Measured, even rain','Clockwork thunder at noon','Fog in neat squares','Bright, flat light'],
+  'Outer Realm':['A sky full of falling stars','Thin, cold air','Starlight brighter than day','A comet passing overhead','Silence and frost','Aurora that hums'],
+  Void:['Nothing: no wind, no sound','Darkness that eats torchlight','Cold that numbs thought','A sudden echo with no source','Grey emptiness','Drifting motes of nothing'],
+  'Inner Void':['Edges of the world flicker','Thoughts feel heavy','A hum from everywhere','Light bends around you','Time stutters for a moment','Total stillness'],
+  Primordial:['Storms of raw creation','New land rising from the ground','Rain that tastes like iron','Giant shapes in the clouds','The first dawn, over and over','Earthquakes and blooming flowers']
+};
+const PACE=[['slow',18,'Slow: 18 miles a day; can use Stealth'],['normal',24,'Normal: 24 miles a day'],['fast',30,'Fast: 30 miles a day; −5 to passive Perception']];
+const COND_RULES=[
+  ['Blinded','Cannot see. Fails any check that needs sight. Attacks against it have advantage; its attacks have disadvantage.'],
+  ['Charmed','Cannot attack or harm the charmer. The charmer has advantage on social checks with it.'],
+  ['Deafened','Cannot hear. Fails any check that needs hearing.'],
+  ['Frightened','Disadvantage on checks and attacks while it can see the source of its fear. Cannot move closer to it.'],
+  ['Grappled','Speed 0. Ends if the grappler is incapacitated or the creature is moved out of reach.'],
+  ['Incapacitated','Cannot take actions or reactions.'],
+  ['Invisible','Cannot be seen without magic. Attacks against it have disadvantage; its attacks have advantage.'],
+  ['Paralyzed','Incapacitated, cannot move or speak. Fails Strength and Dexterity saves. Attacks have advantage; hits from within 5 ft are critical hits.'],
+  ['Petrified','Turned to stone: incapacitated, unaware, resists all damage, immune to poison and disease.'],
+  ['Poisoned','Disadvantage on attack rolls and ability checks.'],
+  ['Prone','Can only crawl. Disadvantage on attacks. Attacks within 5 ft have advantage; from farther, disadvantage.'],
+  ['Restrained','Speed 0. Disadvantage on attacks and Dexterity saves. Attacks against it have advantage.'],
+  ['Stunned','Incapacitated, cannot move, speaks falteringly. Fails Strength and Dexterity saves. Attacks against it have advantage.'],
+  ['Unconscious','Incapacitated, drops what it holds, falls prone. Fails Strength and Dexterity saves. Attacks have advantage; hits from within 5 ft are critical hits.'],
+  ['Exhaustion','Levels 1–6: 1 disadvantage on checks; 2 speed halved; 3 disadvantage on attacks and saves; 4 HP maximum halved; 5 speed 0; 6 death. A long rest removes one level. In FAND, realm Pressure strain can add levels.']
+];
+const pickOf=a=>a[Math.floor(Math.random()*a.length)];
+// in-game clock: day, minutes since midnight, and light sources that burn down
+function clockGet(){return store.get('clock',{day:1,min:8*60,lights:[]})}
+function clockAdd(m,label){const C=clockGet();C.min+=m;while(C.min>=1440){C.min-=1440;C.day++}C.lights=(C.lights||[]).map(l=>Object.assign(l,{left:l.left-m})).filter(l=>{if(l.left<=0){toast(l.n+' burns out');return false}return true});store.set('clock',C);if(label)toast(label);renderClock()}
+function clockLight(n,mins){const C=clockGet();C.lights=(C.lights||[]).concat({n,left:mins});store.set('clock',C);renderClock()}
+function renderClock(){const el=$('ck-box');if(!el)return;const C=clockGet(),h=Math.floor(C.min/60),mm=C.min%60,part=h<5?'deep night':h<8?'dawn':h<12?'morning':h<14?'midday':h<18?'afternoon':h<21?'evening':'night';
+  el.innerHTML=`<div class="big">Day ${C.day}, ${String(h).padStart(2,'0')}:${String(mm).padStart(2,'0')} <small style="font-size:.9rem;color:var(--muted)">${part}</small></div>
+  <div class="chips" style="margin:8px 0">${[[1,'+1 min (10 rounds)'],[10,'+10 min'],[60,'+1 hour'],[60,'Short rest (1 h)'],[480,'Long rest (8 h)'],[1440,'+1 day']].map(([m,l])=>`<button class="chip" type="button" onclick="clockAdd(${m},${l.includes('rest')?`'${l} done'`:'null'})">${l}</button>`).join('')}</div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"><span class="note" style="margin:0">Light:</span><button class="btn" type="button" onclick="clockLight('Torch',60)">🔥 Torch (1 h)</button><button class="btn" type="button" onclick="clockLight('Lantern',360)">🏮 Lantern (6 h of oil)</button><button class="btn" type="button" onclick="clockLight('Candle',60)">🕯 Candle (1 h)</button></div>
+  ${(C.lights||[]).length?`<ul class="sh-ul" style="margin-top:6px">${C.lights.map((l,i)=>`<li>${esc(l.n)}: ${l.left>=60?Math.floor(l.left/60)+' h ':''}${l.left%60?l.left%60+' min':''} left <a href="#" onclick="const C=clockGet();C.lights.splice(${i},1);store.set('clock',C);renderClock();return false">put out</a></li>`).join('')}</ul>`:''}
+  <div style="margin-top:8px"><a href="#" onclick="if(confirm('Reset the clock to day 1, 08:00?')){store.set('clock',{day:1,min:480,lights:[]});renderClock()}return false">Reset</a></div>`}
+// one NPC, ready to play right now
+function npcQuick(){const el=$('nq-out');if(!el)return;const role=$('nq-role').value,realm=$('nq-realm').value;
+  const n=pickOf(NPC_FIRST)+' '+pickOf(NPC_LAST),god=pickOf(GODS.filter(g=>!realm||g.home===realm).length?GODS.filter(g=>!realm||g.home===realm):GODS);
+  el.innerHTML=`<div class="big">${esc(n)}</div><div class="kv" style="margin-top:6px"><span>Role</span><span>${esc(role||pickOf(['innkeeper','guard','merchant','priest','smith','scavenger','courier','beggar','noble','Tower climber']))}${realm?' in the '+esc(realm)+' Realm':''}</span><span>Looks</span><span>${esc(pickOf(NPC_LOOKS2))}</span><span>Voice</span><span>${esc(pickOf(NPC_VOICE))}</span><span>Manner</span><span>${esc(pickOf(NPC_PERSONA))}</span><span>Quirk</span><span>They ${esc(pickOf(NPC_TRAITS))}</span><span>Wants</span><span>${esc(pickOf(NPC_GOALS))}</span><span>Worships</span><span>${refChip(god,esc(godKey(god)))}</span></div>`}
+// a journey: days on the road, the weather each day, and whether something finds the party
+function travelRoll(){const el=$('tr-out');if(!el)return;const realm=$('tr-realm').value,miles=Math.max(1,+$('tr-mi').value||1),pace=PACE.find(p=>p[0]===$('tr-pace').value)||PACE[1],days=Math.ceil(miles/pace[1]);
+  const W=WEATHER[realm]||WEATHER.Human,pool=MONSTERS.filter(m=>m.realm===realm),R=REALM[realm],out=[];
+  for(let d=1;d<=Math.min(days,30);d++){const r=1+Math.floor(Math.random()*20),m=r>=17&&pool.length?pickOf(pool):null;out.push(`<tr><td class="num">${d}</td><td>${esc(pickOf(W))}</td><td>${m?`<b>Encounter</b> (d20 ${r}): ${refChip(m,esc(m.n))} <small>${esc(m.realm+' '+m.g)}</small>`:`<span class="note" style="margin:0">Quiet (d20 ${r})</span>`}</td></tr>`)}
+  el.innerHTML=`<div class="note">${miles} miles at ${esc(pace[2].toLowerCase())}: <b>${days} day${days>1?'s':''}</b>. An encounter comes on a d20 roll of 17+ each day.${R?` The ${esc(realm)} has Pressure ${R.pressure}: travellers below that Attunement suffer strain (Rules).`:''}${days>30?' (Showing the first 30 days.)':''}</div><div class="tablewrap"><table class="t"><thead><tr><th class="num">Day</th><th>Weather</th><th>On the road</th></tr></thead><tbody>${out.join('')}</tbody></table></div>`}
 function renderTools(){
   $('content').innerHTML=`<div class="page">
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Table tools</h3><p>Quick calculators built on the rules in the vault.</p></div>
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Table tools</h3><p>Everything to run a session: the clock, NPCs, travel, conditions, scavenging, mining, treasure, and shops here, plus the pages below.</p></div>
+    <div class="chips" style="margin:0 0 12px">${[['prep','📋 Session prep'],['combat','⚔ Combat tracker'],['encounter','🐉 Encounters'],['hooks','🪝 Hooks'],['dice','🎲 Dice'],['journal','📓 Journal'],['party','👥 Party'],['rules','📖 Rules']].map(([t,l])=>`<a class="chip" href="${pageUrl(t)}" data-go="${t}">${l}</a>`).join('')}</div>
     <div class="tools">
+      <div class="tool" id="t-clock"><h3>Session clock</h3><div class="sub">Keep the in-game time: advance it by rounds, hours, or rests, and track how long torches and lanterns have left.</div><div id="ck-box"></div></div>
+
+      <div class="tool" id="t-npc"><h3>Quick NPC</h3><div class="sub">Someone the party just met, ready to play: name, look, voice, manner, a quirk, what they want, and their god.</div>
+        <div class="form" style="grid-template-columns:1fr 1fr auto"><label>Role<input id="nq-role" placeholder="Any (innkeeper, guard…)"></label><label>Realm<select id="nq-realm"><option value="">Any</option>${REALMS.map(r=>`<option>${esc(r.n)}</option>`).join('')}</select></label><label style="align-self:end"><button class="btn primary" type="button" onclick="npcQuick()">🎲 New NPC</button></label></div>
+        <div id="nq-out" style="margin-top:10px"></div></div>
+
+      <div class="tool" id="t-trip"><h3>Travel and weather</h3><div class="sub">A journey day by day: how long it takes at your pace, the realm's weather each day, and whether something finds the party.</div>
+        <div class="form" style="grid-template-columns:repeat(3,1fr) auto"><label>Realm<select id="tr-realm">${realmOpts('Human')}</select></label><label>Miles<input id="tr-mi" type="number" min="1" value="60"></label><label>Pace<select id="tr-pace">${PACE.map(p=>`<option value="${p[0]}"${p[0]==='normal'?' selected':''}>${p[2].split(':')[0]}</option>`).join('')}</select></label><label style="align-self:end"><button class="btn primary" type="button" onclick="travelRoll()">🎲 Roll the trip</button></label></div>
+        <div id="tr-out" style="margin-top:10px"></div></div>
+
+      <div class="tool" id="t-cond"><h3>Conditions</h3><div class="sub">What each condition does, at a glance.</div>
+        <input class="sel" type="search" placeholder="Find a condition" style="max-width:none;width:100%;margin-bottom:8px" oninput="const q=this.value.toLowerCase();this.parentNode.querySelectorAll('.cond-row').forEach(r=>r.hidden=!!q&&!r.textContent.toLowerCase().includes(q))">
+        <div class="mlist">${COND_RULES.map(([n,t])=>`<div class="cond-row" style="padding:7px 10px;border-bottom:1px solid var(--line)"><b>${n}</b><div class="note" style="margin:2px 0 0">${t}</div></div>`).join('')}</div></div>
+
       <div class="tool" id="t-backup"><h3>Backup</h3><div class="sub">Everything this device has saved (party, sheets, journal, encounters, Tower progress, pins, settings) in one file. Keep a copy before switching devices or if you use FAND as a Home Screen app.</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><button class="btn primary" onclick="backupSave()">Download backup</button><label class="btn">Restore from file<input type="file" accept=".json,application/json" hidden onchange="backupLoad(this)"></label></div>
         <div class="note" style="margin-top:8px">The DM lock, its log, and the assistant key are never included.</div></div>
@@ -2625,7 +2696,7 @@ function renderTools(){
         <label style="align-self:end"><button class="btn" id="s-roll" type="button" style="width:100%">🎲 Restock</button></label></div>
         <div id="s-out" style="margin-top:10px"></div></div>
     </div></div>`;
-  renderMineTool();renderScavTool();
+  renderMineTool();renderScavTool();renderClock();npcQuick();travelRoll();
   const v=id=>$(id).value,n=id=>+$(id).value||0,on=(ids,f)=>{ids.forEach(i=>{$(i).addEventListener('input',f);$(i).addEventListener('change',f)});f()};
   const clampG=g=>Math.min(10,Math.max(1,Math.round(g||1)));
   sbToolBind();
@@ -2793,7 +2864,7 @@ const CT_SPELL_MAX=[0,1,2,3,5,6,7,8,9,9];
 const ctSpellMax=ct=>CT_SPELL_MAX[CONTRACTS.indexOf(ct)]??0;
 const ctRankForLv=lv=>CONTRACTS[CT_SPELL_MAX.findIndex(m=>m>=lv)];
 const CT_SPELL_RULE='Contract spells are the god\'s gift, not learnt: they work in every realm (their dice follow the god\'s home realm) and need no spell slots: the cantrip at will, each other spell once per long rest (or with your own slots, if you have them). Breaking the contract takes them away.';
-function godSpellChip(n,lv){const s=SP.find(x=>x.n===n),t=lv?'level '+lv:'cantrip';return s?refChip(s,esc(n),t):`<a class="chip" href="${pageUrl('spells')}" onclick="store.set('spells',Object.assign(store.get('spells',{}),{q:${esc(JSON.stringify(n))}}))">${esc(n)} <small>${t}</small></a>`}
+function godSpellChip(n,lv){const s=SP.find(x=>x.n===n),t=lv?'level '+lv:'cantrip';return s?refChip(s,esc(n),t):`<a class="chip" href="${pageUrl('spells')}" onclick="go('spells',{q:${esc(JSON.stringify(n))}});return false">${esc(n)} <small>${t}</small></a>`}
 function godSpellsHTML(g,ct){if(!g||!(g.csp||[]).length)return '';const max=ct?ctSpellMax(ct):9;
   return `<div class="mlist">${g.csp.map((n,lv)=>{const r=ctRankForLv(lv),on=!ct||lv<=max;return `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:2px 0;${on?'':'opacity:.45'}">${godSpellChip(n,lv)}<small style="color:var(--muted)">${r?'from '+esc(r.r):''}${ct&&!on?' (not yet)':''}</small></div>`}).join('')}</div><div class="note">${esc(CT_SPELL_RULE)}</div>`}
 function contractTable(g){
@@ -2936,7 +3007,7 @@ function craftCheck(b,who){
 }
 function craftCheckHTML(b,who){
   const c=craftCheck(b,who),st=store.get('craft',{});
-  return `<div class="callout" style="border-color:var(--gold)"><b>Crafting check</b>: d20 ${who?`+ ${c.bonus} (${esc(who.name||'crafter')}, ${esc(b.pr)} level ${c.lv})`:'+ profession bonus (half the profession level)'} vs <b>DC ${c.dc}</b> (${esc(b.r||'Common')})${c.mt>1?` · needs ${esc(b.pr)} stage ${c.mt} (level ${stageStart(c.mt)}+) for its ${esc(TIER_NAMES(c.mt))} materials`:''}${c.dis.length?` at <b>disadvantage</b> (${esc(c.dis.join('; '))})`:''}. Time: ${esc(c.time)}.
+  return `<div class="callout" style="border-color:var(--gold)"><b>Crafting check</b>: d20 ${who?`+ ${c.bonus} (${esc(who.name||'crafter')}, ${esc(b.pr)} level ${c.lv})`:'+ profession bonus (half the profession level)'} vs <b>DC ${c.dc}</b> (${esc(b.r||'Common')})${tierStage(c.mt)>1?` · needs ${esc(b.pr)} stage ${ROMAN[tierStage(c.mt)-1]} (level ${stageStart(tierStage(c.mt))}+) for its ${esc(TIER_NAMES(c.mt))} materials`:''}${c.dis.length?` at <b>disadvantage</b> (${esc(c.dis.join('; '))})`:''}. Time: ${esc(c.time)}.
     ${c.blocked?`<div style="color:var(--red);margin-top:4px"><b>Can't craft:</b> ${esc(c.blocked)}</div>`:''}
     <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px"><label class="note" style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" id="cf-noshop" ${st.noShop?'checked':''}> No proper workspace or tools</label>${!c.blocked?`<button class="btn" id="cf-roll">🎲 Roll the crafting check</button>`:''}<span id="cf-res"></span></div>
     <div class="note" style="margin:6px 0 0">Success: the item is finished and its materials are used. Failure: nothing is lost; try again. Natural 1: the materials are ruined. Natural 20: a maker's flourish.</div></div>`;
@@ -3248,9 +3319,9 @@ function cwOk(){const s=CW.step;if(s===5&&!CW.prof){toast('Pick the one proficie
 const CW_SEARCH_MIN=12;// a step with more choices than this gets a search bar
 function cwSearch(n,ph){return n>CW_SEARCH_MIN?`<input class="sel cw-search" type="search" placeholder="${ph} (${n})" oninput="cwFilter(this)" style="max-width:none;width:100%;margin:0 0 10px">`:''}
 function cwFilter(inp){const q=inp.value.trim().toLowerCase(),box=inp.closest('.cw');box.querySelectorAll('.cw-opt').forEach(b=>b.hidden=!!q&&!b.textContent.toLowerCase().includes(q));
-  box.querySelectorAll('.cw-group').forEach(g=>g.hidden=![...g.querySelectorAll('.cw-opt')].some(b=>!b.hidden));const e=box.querySelector('.cw-none');if(e)e.hidden=!!box.querySelector('.cw-opt:not([hidden])')}
+  box.querySelectorAll('.cw-group').forEach(g=>g.hidden=![...g.querySelectorAll('.cw-opt')].some(b=>!b.hidden));const e=box.querySelector('.cw-none');if(e)e.style.display=box.querySelector('.cw-opt:not([hidden])')?'none':'block'}
 function cwGroups(list,gi,card){const G=[];list.forEach(x=>{let g=G.find(y=>y[0]===x[gi]);if(!g)G.push(g=[x[gi],[]]);g[1].push(x)});
-  return G.map(([n,xs])=>`<div class="cw-group">${G.length>1?`<h4 class="cw-gh">${esc(n)} <small>${xs.length}</small></h4>`:''}<div class="cw-grid">${xs.map(card).join('')}</div></div>`).join('')+'<div class="cw-none note" hidden>Nothing matches. Try another word.</div>'}
+  return G.map(([n,xs])=>`<div class="cw-group">${G.length>1?`<h4 class="cw-gh">${esc(n)} <small>${xs.length}</small></h4>`:''}<div class="cw-grid">${xs.map(card).join('')}</div></div>`).join('')+'<div class="cw-none note" style="display:none">Nothing matches. Try another word.</div>'}
 function cwOpt(on,title,body,click,tag){return `<button type="button" class="cw-opt${on?' on':''}" onclick="${click}"><b>${title}</b>${tag?` <span class="b gold">${tag}</span>`:''}<div>${body}</div></button>`}
 function renderCharWiz(){
   const s=CW.step,k=CW_CLASS[CW.cls],skn=x=>(SKILLS.find(y=>y[0]===x)||[])[1]||x;let body='';
@@ -3438,7 +3509,9 @@ function renderSheet(){
 const DEEDS=['Conquered a Tower boss floor','Completed a task for their god','Rose a rank in a god contract','Passed a class change trial','Slew a named monster or a boss','Unlocked a hidden class','Crafted a Rare or better item','Survived a week in a deeper realm','Claimed or broke a contract at great cost','Saved a settlement or a temple','Found a progenitor\'s remains','Ended a feud between gods\' contractors'];
 function levelUp(c,deed){
   const before=+c.level||1;if(before>=MAX_LEVEL){toast('Already at level '+MAX_LEVEL);return}
-  c.level=before+1;c.log=(c.log||[]).concat({d:new Date().toISOString().slice(0,10),deed:deed||'Accomplishment',lv:c.level});saveParty();
+  c.level=before+1;c.log=(c.log||[]).concat({d:new Date().toISOString().slice(0,10),deed:deed||'Accomplishment',lv:c.level});
+  {const con=Math.floor(((+(c.abil||{}).con||10)-10)/2),hd=CLASS_DIE[c.cls]||8,avg=Math.floor(hd/2)+1+con,v=prompt(`Hit points gained at level ${c.level} (roll 1d${hd} + CON, or take the average):`,String(Math.max(1,avg)));if(v!==null&&+v>0){c.hpMax=(+c.hpMax||0)+ +v;if(c.hp!=null&&c.hp!=='')c.hp=(+c.hp||0)+ +v}}
+  saveParty();
   const k0=stageOf(before),k1=stageOf(c.level);
   if(k1>k0&&c.cls){const st=STAGES[c.cls]&&STAGES[c.cls].find(x=>x.stage===k1);toast(`Level ${c.level}: ${c.cls} becomes ${stageName(c.cls,k1)}! ${st?' Trial: '+st.trial:''}`)}else toast(`${c.name||'Character'} reached level ${c.level}`);
 }
@@ -3532,7 +3605,7 @@ function charEditor(c){
 }
 function bindChar(c){
   $('content').querySelectorAll('[data-k]').forEach(el=>el.addEventListener('change',()=>{
-    const k=el.dataset.k;c[k]=el.multiple?[...el.selectedOptions].map(o=>o.value):el.type==='number'?+el.value:el.value;
+    const k=el.dataset.k;if(k==='god'&&el.value&&!c.ctHow){toast('Pick how the contract was gained first: a follower, a ritual, a temple, or an integrated item');el.value=c.god||'';const w=$('content').querySelector('[data-k="ctHow"]');if(w)w.focus();return}c[k]=el.multiple?[...el.selectedOptions].map(o=>o.value):el.type==='number'?+el.value:el.value;
     if(k==='cls')c.sub='';if(k==='prof')c.specs=[];saveParty();setTimeout(renderParty);
   }));
   $('content').querySelectorAll('[data-purse]').forEach(el=>el.addEventListener('change',()=>{c.purse=c.purse||{};c.purse[el.dataset.purse]=+el.value||0;saveParty();setTimeout(renderParty)}));
@@ -4398,8 +4471,9 @@ const scavSoft=n=>{const x=findMat(n);return !!x&&['L','E'].includes(matCode(x))
 // scroll position when it redraws after a roll. Escape or a click outside closes it.
 function scavPopHTML(k,title){const h=scavHTML(k,title);return h?`<div class="scav-pop" onclick="if(event.target===this)SCAV.${k}.close()" role="dialog" aria-modal="true" aria-label="Scavenge"><div class="scav-win">${h}</div></div>`:''}
 const keepScroll=f=>{const w=document.querySelector('.scav-win'),y=w?w.scrollTop:0;f();const w2=document.querySelector('.scav-win');if(w2)w2.scrollTop=y};
-function scavPop(name){const m=MON_IDX.get(lc(name));if(!m)return;store.set('scavpop',scavNew(m));if(typeof hideModal==='function')hideModal();renderScavPop()}
-function renderScavPop(){let host=document.getElementById('scavpopHost');if(!host){host=document.createElement('div');host.id='scavpopHost';document.body.appendChild(host)}const S=store.get('scavpop',null);keepScroll(()=>{host.innerHTML=S&&scavMon(S)?scavPopHTML('pop','Scavenge a '+esc(S.mon)+' corpse'):''})}
+const aAn=n=>/^[aeiou]/i.test(String(n))?'an':'a';
+function scavPop(name){const m=MON_IDX.get(lc(name));if(!m)return;store.set('scavpop',scavNew(m));if(typeof hideModal==='function'){hideModal();history.replaceState(null,'',hashFor(TAB))}renderScavPop()}
+function renderScavPop(){let host=document.getElementById('scavpopHost');if(!host){host=document.createElement('div');host.id='scavpopHost';document.body.appendChild(host)}const S=store.get('scavpop',null);keepScroll(()=>{host.innerHTML=S&&scavMon(S)?scavPopHTML('pop','Scavenge '+aAn(S.mon)+' '+esc(S.mon)+' corpse'):''})}
 document.addEventListener('keydown',e=>{if(e.key!=='Escape'||!document.querySelector('.scav-pop'))return;if(store.get('scavpop',null))SCAV.pop.close();else if(typeof CB!=='undefined'&&CB&&CB.harvest)SCAV.cb.close()});
 const SCAV={cb:{get:()=>CB.corpses&&CB.corpses[CB.harvest],set:S=>{CB.corpses=CB.corpses||{};CB.corpses[CB.harvest]=S;saveCB()},render:()=>keepScroll(renderCombat),close:()=>{CB.harvest=null;saveCB();renderCombat()}},
   pop:{get:()=>store.get('scavpop',null),set:S=>store.set('scavpop',S),render:()=>renderScavPop(),close:()=>{store.set('scavpop',null);renderScavPop()}},
@@ -4486,7 +4560,7 @@ function raiseHTML(k){const C=SCAV[k],S=C.get(),m=scavMon(S);if(!m)return '';con
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0"><label class="note" style="margin:0">Necromancer <select class="sel" onchange="raiseSet('${k}','who',this.value)"><option value="">${PARTY.some(isSummoner)?'Choose…':'No summoner in the party'}</option>${PARTY.filter(isSummoner).map(c=>`<option value="${c.id}"${c.id===R.who?' selected':''}>${esc(c.name||'Unnamed')} (level ${+c.level||1}, ${summonSlots(c)} slot${summonSlots(c)===1?'':'s'})</option>`).join('')}</select></label>
       <label class="note" style="margin:0">Days since death <input type="number" min="0" value="${+R.days||0}" style="width:60px" onchange="raiseSet('${k}','days',+this.value)"></label></div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px">${flags.map(([f,l])=>`<label class="note" style="margin:0;display:flex;gap:4px;align-items:center"><input type="checkbox"${R[f]?' checked':''} onchange="raiseSet('${k}','${f}',this.checked)"> ${l}</label>`).join('')}</div>
-    ${who?`<div class="note" style="margin:0 0 6px">Corpse level ${corpseLv(m)} (CR ${esc(String(m.sb&&m.sb.cr||m.cr||'?'))})${rc.gap?` +${rc.gap} because the ${esc(m.realm)} lies beyond ${esc(who.name||'their')} stage`:''} vs level ${+who.level||1}: <b>${rc.p>=1?'it always rises':Math.round(rc.p*1e4)/100+'% chance'}</b> (2/10^${rc.d+1}). Summon slots: ${used} of ${slots} used (one per point of INT).</div>`:''}
+    ${who?`<div class="note" style="margin:0 0 6px">Corpse level ${corpseLv(m)} (CR ${esc(String(m.sb&&m.sb.cr||m.cr||'?'))})${rc.gap?` +${rc.gap} because the ${esc(m.realm)} lies beyond ${esc(who.name||'their')} stage`:''} vs level ${+who.level||1}: <b>${rc.p>=1?'it always rises':Math.round(rc.p*1e4)/100+'% chance'}</b> (${rc.p>=1?'certain':'2/10^'+(rc.d+1)}). Summon slots: ${used} of ${slots} used (one per point of INT).</div>`:''}
     <div class="tablewrap"><table class="t"><thead><tr><th>Undead</th><th class="num">Keeps</th><th>Corpse needed</th><th>Upkeep</th><th></th></tr></thead><tbody>${UNDEAD.map((u,i)=>{const ok=u.ok(m,S,R);return `<tr${ok?'':' style="opacity:.45"'}><td><b>${esc(u.n)}</b>${u.chain?' <span class="b gold" title="Needs a binding ritual with a chain device">⛓</span>':''}${u.spirit?' <small style="color:var(--muted)">spirit</small>':''}</td><td class="num">${u.p}%</td><td>${esc(u.need)}</td><td>${esc(u.up)}</td><td>${ok&&who&&!R.done?`<button class="btn" onclick="raiseRoll('${k}',${i})"${used>=slots?' disabled title="No summon slot free"':''}>Raise</button>`:''}</td></tr>`}).join('')}</tbody></table></div>
     ${R.res?`<div style="margin-top:6px">${R.res}</div>`:''}
     <div class="note">One try per corpse. A servant keeps its share of the original's ability scores, HP, AC, and attack and damage numbers (rounded down). ⛓ = it stays a servant only through a ritual with a chain device; if the chain breaks, it is freed (spirits flee, the rest turn on their master).</div></details>`}
@@ -4502,7 +4576,7 @@ function harvestHTML(){const x=CB.harvest&&CB.list.find(y=>y.id===CB.harvest),m=
   if(!CB.corpses[x.id]||CB.corpses[x.id].mon!==m.n){CB.corpses[x.id]=scavNew(m,x.kt);saveCB()}return scavPopHTML('cb','Scavenge the '+esc(x.name))}
 // Tools page: scavenge any monster's corpse
 function renderScavTool(){const el=$('sc-box');if(!el)return;const S=store.get('scav',null);
-  el.innerHTML=S&&scavMon(S)?scavHTML('tool','Scavenge a '+esc(S.mon)+' corpse'):`<div class="form"><label class="full">Monster<input class="sel" id="sc-mon" list="sc-mons" placeholder="Type a monster's name…"></label><datalist id="sc-mons">${MONSTERS.map(m=>`<option value="${esc(m.n)}">${esc(m.realm+' '+m.g)}</option>`).join('')}</datalist><div style="display:flex;justify-content:flex-end"><button class="btn primary" id="sc-go">Lay out the corpse</button></div></div>`;
+  el.innerHTML=S&&scavMon(S)?scavHTML('tool','Scavenge '+aAn(S.mon)+' '+esc(S.mon)+' corpse'):`<div class="form"><label class="full">Monster<input class="sel" id="sc-mon" list="sc-mons" placeholder="Type a monster's name…"></label><datalist id="sc-mons">${MONSTERS.map(m=>`<option value="${esc(m.n)}">${esc(m.realm+' '+m.g)}</option>`).join('')}</datalist><div style="display:flex;justify-content:flex-end"><button class="btn primary" id="sc-go">Lay out the corpse</button></div></div>`;
   const go=$('sc-go');if(go)go.onclick=()=>{const m=MON_IDX.get(lc($('sc-mon').value.trim()));if(!m){toast('Pick a monster from the list');return}store.set('scav',scavNew(m));renderScavTool()}}
 // Mine shafts (Tools page): dig a shaft in a realm. Each level is 60 ft deeper and holds rarer ground: level L brings
 // up the realm's minerals of grade L-1 to L+1. Veins start hidden: a Harvesting search of the level finds every vein
@@ -4991,7 +5065,7 @@ function forgeOut(){
   $('fg-out').innerHTML=`<div class="panel" style="display:flex;flex-direction:column;gap:12px;border-color:${bad?'var(--red)':'var(--gold)'}">
     <label class="note" style="margin:0">Name<input class="sel" id="fg-name" value="${esc(r.name)}" style="max-width:none;width:100%;margin-top:4px;font-family:var(--serif);font-size:1.1rem;font-weight:700"></label>
     <div class="badges">${r.rar?rarB(r.rar):''}<span class="b ghost">${esc(FORGE.base)}</span>${r.il?`<span class="b">Item level ${r.il}</span>`:''}${B.armor||B.shield?`<span class="b">${esc(B.slot||B.kind)} · ${esc(r.weight||'')}</span>`:''}${bad?'<span class="b red">Wrong material</span>':''}</div>
-    ${kv([r.damage!=null?['Damage',`<span class="mono">${esc(r.damage)}</span> ${esc(r.dtype)}${r.vers?` <small style="font-weight:400">(<span class="mono">${esc(r.vers)}</span> two-handed)</small>`:''}`]:null,r.attack!=null?['Attack bonus',(r.attack>=0?'+':'')+r.attack]:null,B.ranged?['Range',B.ranged]:null,B.props?['Properties',esc(B.props)]:null,r.focusBonus!=null?['Spellcasting',`+${r.focusBonus} to spell attack rolls and spell save DC`]:null,r.potion?['Effect',esc(r.potion.effect)+(r.potion.cat?`<br><small>Catalyst (half strength): ${esc(r.potion.cat)}</small>`:'')]:null,r.potion&&r.potion.kind==='drink'&&FORGE.base==='Healing Potion'?['Heals',`<span class="mono">${esc(r.potion.heal)}</span>`]:null,r.potion&&['poison','bomb'].includes(r.potion.kind)?['Save DC',r.potion.dc]:null,r.potion&&['bomb','coat'].includes(r.potion.kind)?['Damage',`<span class="mono">${esc(r.potion.dmg)}</span> (the reagent's element)`]:null,r.potion?['Keeps for',esc(r.potion.shelf)+(r.potion.unstable?'; unstable':'')]:null,r.ac!=null?['AC',r.ac]:null,r.ac!=null?['Drawback',`${esc(r.weight)} · ${r.drawback.length?esc(r.drawback.join('; ')):'none'}`]:null,B.potion?null:['Breaks on',r.breakOn?'a natural 1'+(r.breakOn>1?'–'+r.breakOn:''):'—'],['Material cost',r.parts.some(p=>p.m&&!p.m.price&&!p.m.gen&&(REALM[p.m.realm]||{}).base===0)?fav(r.parts.reduce((a,p)=>a+(p.m?favorOf(p.m)*p.s.qty:0),0))+' (Void-grade: bought from gods with Favor)'+(r.cost?' plus '+gp(r.cost):''):gp(r.cost)],['Crafted with',esc(r.prof)+(r.realmSpec?' ('+esc(r.realmSpec)+')':'')+(()=>{const mt=Math.max(1,...r.parts.filter(p=>p.m).map(p=>((REALM[p.m.realm]||{}).tier||1)));return mt>1?` <small style="font-weight:400;color:var(--muted)">stage ${mt}: level ${stageStart(mt)}+ for ${esc(TIER_NAMES(mt))} materials</small>`:''})()]].filter(Boolean))}
+    ${kv([r.damage!=null?['Damage',`<span class="mono">${esc(r.damage)}</span> ${esc(r.dtype)}${r.vers?` <small style="font-weight:400">(<span class="mono">${esc(r.vers)}</span> two-handed)</small>`:''}`]:null,r.attack!=null?['Attack bonus',(r.attack>=0?'+':'')+r.attack]:null,B.ranged?['Range',B.ranged]:null,B.props?['Properties',esc(B.props)]:null,r.focusBonus!=null?['Spellcasting',`+${r.focusBonus} to spell attack rolls and spell save DC`]:null,r.potion?['Effect',esc(r.potion.effect)+(r.potion.cat?`<br><small>Catalyst (half strength): ${esc(r.potion.cat)}</small>`:'')]:null,r.potion&&r.potion.kind==='drink'&&FORGE.base==='Healing Potion'?['Heals',`<span class="mono">${esc(r.potion.heal)}</span>`]:null,r.potion&&['poison','bomb'].includes(r.potion.kind)?['Save DC',r.potion.dc]:null,r.potion&&['bomb','coat'].includes(r.potion.kind)?['Damage',`<span class="mono">${esc(r.potion.dmg)}</span> (the reagent's element)`]:null,r.potion?['Keeps for',esc(r.potion.shelf)+(r.potion.unstable?'; unstable':'')]:null,r.ac!=null?['AC',r.ac]:null,r.ac!=null?['Drawback',`${esc(r.weight)} · ${r.drawback.length?esc(r.drawback.join('; ')):'none'}`]:null,B.potion?null:['Breaks on',r.breakOn?'a natural 1'+(r.breakOn>1?'–'+r.breakOn:''):'—'],['Material cost',r.parts.some(p=>p.m&&!p.m.price&&!p.m.gen&&(REALM[p.m.realm]||{}).base===0)?fav(r.parts.reduce((a,p)=>a+(p.m?favorOf(p.m)*p.s.qty:0),0))+' (Void-grade: bought from gods with Favor)'+(r.cost?' plus '+gp(r.cost):''):gp(r.cost)],['Crafted with',esc(r.prof)+(r.realmSpec?' ('+esc(r.realmSpec)+')':'')+(()=>{const mt=Math.max(1,...r.parts.filter(p=>p.m).map(p=>((REALM[p.m.realm]||{}).tier||1)));return tierStage(mt)>1?` <small style="font-weight:400;color:var(--muted)">stage ${ROMAN[tierStage(mt)-1]}: level ${stageStart(tierStage(mt))}+ for ${esc(TIER_NAMES(mt))} materials</small>`:''})()]].filter(Boolean))}
     ${r.adds.length?`<div><div class="blk"><h4>What each material adds</h4></div><div class="tablewrap"><table class="t"><tbody>${r.adds.map(([part,m,t])=>`<tr><td style="white-space:nowrap"><b>${esc(part)}</b></td><td><a href="#" data-ref="${ref(m)}">${esc(m.n)}</a></td><td>${esc(t)}</td></tr>`).join('')}</tbody></table></div></div>`:''}
     ${r.notes.length?`<div class="callout" style="border-color:var(--red);background:color-mix(in srgb,var(--red) 8%,transparent)"><b style="color:var(--red)">Penalties</b><ul style="margin:6px 0 0 18px">${r.notes.map(([s,lv,t,why])=>`<li><b>${esc(s)}</b> (${lv==='wrong'?'wrong material':lv==='poor'?'poor fit':'too weak'}): ${why?esc(why)+' ':''}${lv==='weak'?t:esc(t)}</li>`).join('')}</ul></div>`:''}
     ${r.props.length?`<div><div class="blk"><h4>Properties from every part</h4></div><div class="mlist">${r.props.map(p=>`<button data-ref="${ref(p.m)}" style="flex-direction:column;align-items:flex-start"><span><b>✧ ${esc(p.m.pn)}</b> <span class="x">${esc(p.s.name)} · ${esc(p.m.n)}${p.half?' · half Potency':''}</span></span><span style="font-size:.8rem">${esc((p.m.prop||'').replace(/^[^:]+:\s*/,''))}</span></button>`).join('')}</div></div>`:''}
