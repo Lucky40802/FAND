@@ -183,7 +183,7 @@ log.push('harvest parts: +' + genAdded + ' materials (now ' + D.MATS.length + ')
 (function () {
   var G; try { G = require(path.join(__dirname, '..', 'data', 'gathered.js')); } catch (e) { if (e.code !== 'MODULE_NOT_FOUND') throw e; return; }
   var have = {}; D.MATS.forEach(function (m) { have[m.n.toLowerCase()] = 1; });
-  var CODEK = { ore: 'O', herb: 'W', fauna: 'L' }, BY = { ore: 'Harvesting (Mining)', herb: 'Harvesting (Foraging)', fauna: 'Scavenging' }, added = 0;
+  var CODEK = { ore: 'O', herb: 'W', fauna: 'L', hide: 'F' }, BY = { ore: 'Harvesting (Mining)', herb: 'Harvesting (Foraging)', fauna: 'Scavenging', hide: 'Scavenging' }, added = 0;
   G.forEach(function (r) {
     var name = r[0], realm = r[1], g = Math.max(1, Math.min(10, +r[2] || 1)), kind = r[3], c = CODE[realm];
     if (!c || have[name.toLowerCase()]) return;

@@ -15,6 +15,11 @@ var A = {
   mindblast: ['Mind Blast', 'Weapon: +{P}d6 psychic damage. Once per long rest, a 30-ft cone: Intelligence save (DC {DC}) or stunned for 1 round.'],
   eyeray: ['Eye Ray', 'Once per short rest, fire a ray (60 ft, DC {DC}): charm, fear, sleep, or slow. At Potency 6+ also paralysis or disintegration (10d6 force).'],
   null: ['Nullifying', 'Weapon: once per turn, a hit ends one spell of level {B1} or lower on the target. Armor: advantage on saves against spells.'],
+  warding: ['Warding', 'Worn: +{B} to every saving throw.'],
+  steadfast: ['Steadfast', 'Worn: +{P} to Strength and Constitution saving throws.'],
+  clarity: ['Clear-Minded', 'Worn: +{P} to Intelligence, Wisdom, and Charisma saving throws.'],
+  quick: ['Quickening', 'Worn: +{P} to initiative and +{B} to Dexterity saving throws.'],
+  alert: ['Ever-Ready', 'Worn: +{P} to initiative. At Potency 6+, you cannot be surprised while conscious.'],
   time: ['Timebound', '+{B} to initiative. Once per long rest, take one extra action (once per short rest at Potency 5+).'],
   gravity: ['Gravitic', 'Weapon: a hit pushes or pulls the target up to {P5} ft. Armor: you can\'t be knocked prone or moved against your will.'],
   regen: ['Regenerating', 'Regain {P} hit points at the start of each of your turns while above 0. The item repairs itself overnight.'],
@@ -92,7 +97,22 @@ var RULES = [
 var REALM_DEFAULT = { He: 'fiend', Ab: 'fiend', Hv: 'radiant', Ch: 'wild', In: 'law', Ou: 'far', Vo: 'null', IV: 'null', Pr: 'divine' };
 var TYPE_DEFAULT = { O: 'metal', W: 'nature', G: 'gem', S: 'stone', F: 'supple', B: 'sharp', L: 'blood', E: 'core', K: 'mech', U: 'supply' };
 
+// materials made for one property (saving throws and initiative, which only gear and class can raise): name -> property
+var NAMED = {
+  'Wardleaf': 'warding', 'Ironheart Ore': 'steadfast', 'Quickhare Hide': 'quick',
+  'Clearwater Lotus': 'clarity', 'Wardsilver': 'warding', 'Startle-Moth Silk': 'alert',
+  'Cinderwake Moss': 'alert', 'Oathiron': 'steadfast', 'Imp-Quill Skink Hide': 'quick',
+  'Haloward Lily': 'warding', 'Serene Electrum': 'clarity', 'Dawnfinch Down': 'alert',
+  'Flickerfern': 'quick', 'Stillpoint Ore': 'steadfast', 'Wardscale Newt Hide': 'warding',
+  'Deepcalm Kelp': 'clarity', 'Bulwark Pyrite': 'steadfast', 'Twitchfin Eelskin': 'quick',
+  'Lawward Clover': 'warding', 'Truthglass Ore': 'clarity', 'Clockbeetle Carapace': 'alert',
+  'Farsight Sage': 'alert', 'Starward Iron': 'warding', 'Comet-Hare Hide': 'quick',
+  'Quietroot': 'clarity', 'Nullward Slag': 'warding', 'Blinkmite Carapace': 'quick',
+  'Unshaken Lichen': 'steadfast', 'Edgewake Ore': 'alert', 'Mindstill Mantis Shell': 'clarity',
+  'First-Ward Seed': 'warding', 'Worldspine Ore': 'steadfast', 'Dawnstrike Raptor Hide': 'quick'
+};
 function key(name, t, c) {
+  if (NAMED[name]) return NAMED[name];
   if (t === 'U') return 'supply';
   for (var i = 0; i < RULES.length; i++) if (RULES[i][0].test(name)) return RULES[i][1];
   if (REALM_DEFAULT[c] && /[BLEF]/.test(t)) return REALM_DEFAULT[c];
