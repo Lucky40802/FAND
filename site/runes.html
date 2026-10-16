@@ -1881,6 +1881,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-16','Short and long rests on the sheet','Page 1 of the character sheet has Short rest and Long rest buttons: a long rest restores hit points and every spell slot, gives back half the hit dice, clears death saves and temporary hit points, and reminds you of undead servants\' upkeep; a short rest restores a Warlock\'s pact slots.','sheet'],
   ['2026-10-16','A lighter site','The main data file is a third smaller (16.4 MB to 10.4 MB; 3.4 to 3.0 MB as downloaded): the 13,000 materials, 6,500 Blueprints, and 870 monsters now store each repeated text once, and harvest-part descriptions are written in the browser. Nothing on the site changes, but pages open faster and the offline copy takes less room on a phone.','about'],
   ['2026-10-16','Raising the dead, for players','The Rules page\'s Necromancy section now has the full table of undead (what each keeps, the corpse it needs, its upkeep, and which need a chain ritual) and the chance at each level gap; Quick rules has a Raising the dead summary, and the raising spells (Animate Dead, Create Undead, Legion of Bones, \u2026) point to the rules. The offline copy now refreshes whenever any page changes.','rules'],
   ['2026-10-16','Monsters add CON to their AC too','Every monster\'s Armor Class now includes its CON modifier, as characters\' does (up to +5 per stage of its realm; a negative one lowers it, never below 0). Stat blocks, the Bestiary, Tower floors, encounters, and the combat tracker all use it.','bestiary'],
@@ -2960,6 +2961,7 @@ function renderSheet(){
     </div>
     <div class="sh-col">
       <div class="sh-trio">${box('Armor class',`<div class="sh-big">${s.ac}</div><small>armor ${s.armorAC}${s.conAC?' · CON '+sgn(s.conAC):''}${s.ct?' · contract +'+s.ct.ac:''}</small>`,'sh-shield')}${box('Initiative',`<div class="sh-big">${sgn(M('dex'))}</div>`)}${box('Speed',`${inp('speed','30','style="width:60px;text-align:center"','number')}${speedPen?`<small style="color:var(--red)">−${speedPen} ft from armor</small>`:''}`)}</div>
+      <div class="sh-row sh-noprint" style="gap:6px"><button class="btn" type="button" onclick="sheetRest('short')" title="Warlock pact slots come back">☕ Short rest</button><button class="btn" type="button" onclick="sheetRest('long')" title="Full HP, all slots, half your hit dice back, death saves cleared">🌙 Long rest</button></div>
       ${box('Current hit points',`<div class="sh-row sh-hpmax"><span>Hit Point Maximum</span>${inp('hpMax','','style="width:70px"','number')}</div><div class="sh-big">${inp('hp','','style="width:100%;text-align:center;font-size:1.6rem"','number')}</div>`)}
       ${box('Temporary hit points',inp('tempHp','','style="width:100%;text-align:center"','number'))}
       <div class="sh-trio" style="grid-template-columns:1fr 1fr">${box('Hit dice',`<div class="sh-row sh-hpmax"><span>Total</span><b>${L1}d${CLASS_DIE[c.cls]||8}${L2?` + ${L2}d${CLASS_DIE[c.cls2]||8}`:''}</b></div>${inp('hdUsed','used','style="width:60px"','number')}`)}${box('Death saves',`<div class="sh-row">Successes ${[0,1,2].map(i=>chk('ds.s'+i)).join('')}</div><div class="sh-row">Failures ${[0,1,2].map(i=>chk('ds.f'+i)).join('')}</div>`)}</div>
@@ -3053,6 +3055,13 @@ function levelUp(c,deed){
 function sheetSkillAdd(){const c=sheetChar(),n=$('sk-new').value.trim();if(!n)return;c.custom=(c.custom||[]).concat({n,ab:$('sk-ab').value,prof:false});saveParty();renderSheet()}
 function sheetInvAdd(){const c=sheetChar(),n=$('inv-n').value.trim(),q=Math.max(1,+$('inv-q').value||1);if(!n)return;c.inv=c.inv||[];const r=c.inv.find(z=>lc(z[0])===lc(n));if(r)r[1]=(+r[1]||0)+q;else c.inv.push([(findMat(n)||{}).n||n,q]);saveParty();renderSheet()}
 function sheetInvRm(i){const c=sheetChar();c.inv=(c.inv||[]).filter((_,j)=>j!==i);saveParty();renderSheet()}
+// rests (5e): a long rest restores hit points, every spell slot, and half the hit dice (at least 1) and clears death
+// saves and temporary hit points; a short rest restores a Warlock's pact slots
+function sheetRest(kind){const c=sheetChar(),L=+c.level||1;if(!confirm(kind==='long'?'Long rest: full hit points, all spell slots, half your hit dice back, death saves cleared?':'Short rest: pact slots back (spend hit dice by hand)?'))return;
+  const pact=c.cls==='Warlock'||c.cls2==='Warlock';
+  if(kind==='long'){if(c.hpMax!=null&&c.hpMax!=='')c.hp=c.hpMax;c.tempHp='';c.slotUsed={};c.ds={};c.hdUsed=Math.max(0,(+c.hdUsed||0)-Math.max(1,Math.floor(L/2)));
+    const up=(c.undead||[]).filter(u=>u.up&&!/^none/i.test(u.up));saveParty();renderSheet();toast('Long rest taken'+(up.length?': remember upkeep for '+up.length+' undead servant'+(up.length>1?'s':''):''))}
+  else{if(pact)c.slotUsed={};saveParty();renderSheet();toast(pact?'Short rest: pact slots restored':'Short rest taken')}}
 function sheetSpec(x){const c=sheetChar();c.specs=c.specs||[];c.specs=c.specs.includes(x)?c.specs.filter(y=>y!==x):c.specs.concat(x);saveParty();renderSheet()}
 function sheetCls2(k){const c=sheetChar();if(!k&&c.cls2&&!confirm('Drop '+c.cls2+'? Its levels go back to '+(c.cls||'the first class')+'.'))return;if(k&&!confirm('Take '+k+' as a second class? It needs a teacher of '+k+' or a trial (DM\'s call).'))return;c.cls2=k||'';c.lv2=0;c.sub2='';c.growApplied2=0;saveParty();renderSheet()}
 function sheetLv2(d){const c=sheetChar(),L=+c.level||1,v=Math.max(0,Math.min(L-1,(+c.lv2||0)+d));c.lv2=v;saveParty();renderSheet()}
