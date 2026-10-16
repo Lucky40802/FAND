@@ -150,6 +150,7 @@ log.push('mythological creatures: +' + mythAdded + ' (Bestiary now ' + D.MONSTER
 
 // ---- harvest parts: every monster yields every part of its body plan (data/harvest.js). Generated parts are marked gen:1;
 // they exist only in this app, not in the vault. Rebuilt from scratch on every run.
+var GOD_MAT_OV, matByNameLc;
 var HV = require(path.join(__dirname, '..', 'data', 'harvest.js')), PR = require(path.join(__dirname, '..', 'data', 'properties.js'));
 D.MATS = D.MATS.filter(function (m) { return !m.gen; });
 var matIdx = {}; D.MATS.forEach(function (m) { matIdx[m.n.toLowerCase()] = m; });
@@ -454,12 +455,15 @@ D.GODS.forEach(function (g) {
       if (best) { mine[best.n] = 1; used[best.n] = (used[best.n] || 0) + 1; }
       return best;
     };
+    if (typeof GOD_MAT_OV === 'undefined') { GOD_MAT_OV = (function () { var f = path.join(__dirname, '..', 'data', 'god-materials.json'); return fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, 'utf8')) : {}; })(); matByNameLc = {}; D.MATS.forEach(function (m) { matByNameLc[m.n.toLowerCase()] = 1; }); }
     var r0 = sig[0].rank, r1 = sig[1].rank, r2 = sig[2].rank;
     var minor = pick(1, Math.max(12, r0), Math.max(1, Math.min(r0 - 3, 8)), true);  // the Minor material is also the passage offering: something a pilgrim can gather
     var major = pick(Math.min(r0, r1), Math.max(r0, r1), Math.round((r0 + r1) / 2));
     var finger = pick(Math.min(100, Math.max(r2 + 1, 20)), 100, Math.min(100, Math.max(r2 + 8, homeTier * 10)));
     g.rk = {};
     if (minor) g.rk.Minor = minor.n; g.rk.Normal = sig[0].n; if (major) g.rk.Major = major.n; g.rk.Senior = sig[1].n; g.rk.Apostle = sig[2].n; if (finger) g.rk.Finger = finger.n;
+    // hand-picked materials (data/god-materials.json) win over the automatic choice
+    var ov = GOD_MAT_OV[g.n.split(' - ')[0]]; if (ov) Object.keys(ov).forEach(function (rk) { if (matByNameLc[ov[rk].toLowerCase()]) g.rk[rk] = ov[rk]; else log.push('WARNING god-materials.json: no material named ' + ov[rk]); });
     var lo = Math.max(1, Math.min(r0, r1) - 10), hi = Math.max(r1, Math.min(100, homeTier * 10));
     g.stock = [];
     for (var k = 0; k < 6; k++) { var m = pick(lo, hi, lo + Math.round((hi - lo) * k / 5)); if (m) g.stock.push(m.n); }

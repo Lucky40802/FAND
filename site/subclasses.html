@@ -603,9 +603,9 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   <div class="set" id="setBox"></div>
 </div>
 
-<script>const SITE={page:"subclasses",v:"f9e3a4ebcd"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
-<script src="data/core.js?v=f9e3a4ebcd"></script>
-<script src="data/vault.js?v=f9e3a4ebcd"></script>
+<script>const SITE={page:"subclasses",v:"29f4324b1f"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script src="data/core.js?v=29f4324b1f"></script>
+<script src="data/vault.js?v=29f4324b1f"></script>
 <script>
 'use strict';
 // ════════════════════════════════════════════════════════════════
@@ -1947,6 +1947,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-17','Scavenging fix, and Arawn','Opening a corpse to scavenge no longer breaks the page when its saved progress is incomplete (from an older version or another device): the corpse is repaired, or cleared with a note if it cannot be. Arawn\'s Minor contract material (also his temple passage offering) is now Kingsbane Mushroom instead of Witchsilver.','gods'],
   ['2026-10-17','Scavenging in a pop-up window','The Scavenge panel now opens as its own pop-up window: from the 🔪 Scavenge button in the combat tracker, and from a new Scavenge a corpse button in every monster\'s window in the Bestiary. Close it with ✕, Escape, or a click outside.','bestiary'],
   ['2026-10-17','Professions to level 100, and 433 new Blueprints','Every profession\'s level table now runs all the way to level 100 (+1 bonus every 2 levels, so +50 at 100). Professions also have Blueprints past level 20 now: one on every other level from 21 to 99 for each of the ten professions, made from the materials of the realms its stage opens (Hell, Heaven, and Chaos at stage II, up to the Inner Void and Primordial at stage V), plus a Masterwork at levels 40, 60, 80, and 100.','blueprints'],
   ['2026-10-17','Sign in from the top bar','A Sign in button now sits in the top bar of every page, beside Settings. Once you are signed in it shows your initial (with a red dot if something didn\'t sync), and it opens your account. The installed Windows app has Sign in in its taskbar menu too.','party'],
@@ -4403,7 +4404,15 @@ document.addEventListener('keydown',e=>{if(e.key!=='Escape'||!document.querySele
 const SCAV={cb:{get:()=>CB.corpses&&CB.corpses[CB.harvest],set:S=>{CB.corpses=CB.corpses||{};CB.corpses[CB.harvest]=S;saveCB()},render:()=>keepScroll(renderCombat),close:()=>{CB.harvest=null;saveCB();renderCombat()}},
   pop:{get:()=>store.get('scavpop',null),set:S=>store.set('scavpop',S),render:()=>renderScavPop(),close:()=>{store.set('scavpop',null);renderScavPop()}},
   tool:{get:()=>store.get('scav',null),set:S=>store.set('scav',S),render:()=>renderScavTool(),close:()=>{store.set('scav',null);renderScavTool()}}};
-function scavHTML(k,title){const C=SCAV[k],S=C.get(),m=scavMon(S);if(!m)return '';
+// A saved corpse from an older version (or another device) may lack fields: rebuild what is missing instead of failing.
+function scavFix(C,S,m){if(!S||!m)return S;let fixed=false;
+  if(!S.left||typeof S.left!=='object'){const N=scavNew(m,S.kt);S.left=N.left;S.lost=N.lost;fixed=true}
+  if(!S.basket||typeof S.basket!=='object'){S.basket={};fixed=true}if(!S.lost||typeof S.lost!=='object'){S.lost={};fixed=true}
+  if(typeof S.picks!=='number'){S.picks=0;fixed=true}if(typeof S.tries!=='number'){S.tries=0;fixed=true}
+  if(fixed)try{C.set(S)}catch(e){}return S}
+function scavHTML(k,title){try{return scavHTML0(k,title)}catch(e){console.error(e);const C=SCAV[k];try{C.set(null)}catch(e2){}
+  return `<div class="panel"><b>This corpse could not be opened</b><div class="note">Its saved state was damaged, so it has been cleared. Open the corpse again to start fresh.</div><button class="btn" onclick="SCAV.${k}.close()">Close</button></div>`}}
+function scavHTML0(k,title){const C=SCAV[k],S=scavFix(C,C.get(),scavMon(C.get())),m=scavMon(S);if(!m)return '';
   const who=workerOf(S.who,BASE_SCAV),ok=scavTrained(who,m),dc=scavDC(m,S),parts=Object.entries(S.left),remain=parts.reduce((a,[,q])=>a+q,0),inB=Object.values(S.basket||{}).reduce((a,b)=>a+b,0),tier=(REALM[m.realm]||{}).tier||1;
   return `<div class="panel" style="border-color:var(--gold)"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="margin:0;font-size:1.15rem">🔪 ${title}</h4><span class="note" style="margin:0">Scavenging DC <b>${dc}</b> (10 + grade ${m.g}${realmDC(tier)?' + '+realmDC(tier)+' for the '+esc(m.realm):''}${S.tries?` + ${SCAV_STEP*S.tries} for ${S.tries} earlier ${S.tries>1?'tries':'try'}`:''}) · ${remain} part${remain===1?'':'s'} left</span><button class="btn" style="margin-left:auto" onclick="SCAV.${k}.close()">Close</button></div>
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0"><label class="note" style="margin:0">Scavenger <select class="sel" onchange="scavSet('${k}','who',this.value)"><option value="">A base Scavenger (Scavenging 1, +0)</option><option value="none"${S.who==='none'?' selected':''}>Someone with no training (+0, disadvantage)</option>${PARTY.map(c=>`<option value="${c.id}"${c.id===S.who?' selected':''}>${esc(c.name||'Unnamed')}${lc(c.prof||'')==='scavenging'?` (Scavenging ${+c.profLv||0}, +${scavBonus(c)})`:' (+0, no Scavenging)'}</option>`).join('')}</select></label>
