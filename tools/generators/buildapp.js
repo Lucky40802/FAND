@@ -697,11 +697,16 @@ site['sw.js'] = [
   '// FAND offline worker, written by tools/generators/buildapp.js. Build ' + DATA_V + '.',
   'const CACHE="fand-' + DATA_V + '";',
   'const FILES=' + JSON.stringify(PRECACHE) + ';',
-  'self.addEventListener("install",e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES.map(f=>new Request(f,{cache:"reload"})))).then(()=>self.skipWaiting()))});',
+  '// Each file is saved on its own, so one file a phone refuses to store (the data is large) cannot stop the update.',
+  'self.addEventListener("install",e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>Promise.all(FILES.map(f=>fetch(new Request(f,{cache:"reload"})).then(res=>res.ok?c.put(f,res):null).catch(()=>null)))))});',
   'self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith("fand-")&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});',
   'self.addEventListener("fetch",e=>{const r=e.request;if(r.method!=="GET")return;const u=new URL(r.url);if(u.origin!==location.origin)return;',
-  '  const page=r.mode==="navigate";',
-  '  e.respondWith(caches.open(CACHE).then(c=>c.match(r,{ignoreSearch:page}).then(hit=>hit||fetch(r).then(res=>{if(res.ok&&!page)c.put(r,res.clone());return res}).catch(()=>page?c.match("index.html"):Response.error()))))});',
+  '  // pages and anything unversioned: the network first (always the newest site when online), the saved copy offline;',
+  '  // versioned data (?v=build) never changes, so the saved copy is used first',
+  '  const page=r.mode==="navigate",fixed=u.searchParams.has("v");',
+  '  if(fixed)return e.respondWith(caches.open(CACHE).then(c=>c.match(r).then(hit=>hit||fetch(r).then(res=>{if(res.ok)c.put(r,res.clone());return res}))));',
+  '  e.respondWith(fetch(r,{cache:"no-cache"}).then(res=>{if(res.ok){const cp=res.clone();caches.open(CACHE).then(c=>c.put(page?new Request(u.pathname.split("/").pop()||"index.html"):r,cp))}return res}).catch(()=>caches.open(CACHE).then(c=>c.match(r,{ignoreSearch:page}).then(hit=>hit||(page?c.match("index.html"):Response.error())))));',
+  '});',
   ''
 ].join('\n');
 console.log(log.join('\n'));
