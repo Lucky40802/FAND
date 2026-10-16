@@ -18,6 +18,15 @@ var log = [];
 function span(name) {
   var m = new RegExp('(const|let|var)\\s+' + name + '\\s*=').exec(t); if (!m) return null;
   var s = t.indexOf('=', m.index) + 1; while (/\s/.test(t[s])) s++;
+  // a packed list (see packMats): the unpacking function, then its two arguments as JSON
+  if (t.startsWith('(function(T,R)', s)) {
+    var k = t.indexOf('return R})(', s) + 'return R})('.length, fn = t.slice(s + 1, k - 2);
+    var a1 = jsonAt(k), a2 = jsonAt(a1.end + 2);
+    return new Function('return ' + fn)()(a1.v, a2.v);
+  }
+  return jsonAt(s).v;
+}
+function jsonAt(s) {
   var depth = 0, j = s;
   for (; j < t.length; j++) {
     var ch = t[j];
@@ -25,7 +34,7 @@ function span(name) {
     if (ch === '[' || ch === '{') depth++;
     else if (ch === ']' || ch === '}') { depth--; if (depth === 0) break; }
   }
-  return JSON.parse(t.slice(s, j + 1));
+  return { v: JSON.parse(t.slice(s, j + 1)), end: j };
 }
 var D = {};
 ['BPS', 'SPELLS', 'MATS', 'MONSTERS', 'SUBS', 'GODS', 'DEMONS', 'PATRONS', 'MAT_FX'].forEach(function (k) {
@@ -455,7 +464,26 @@ var FOLDER = function (o) { if (o && typeof o.f === 'string') o.f = o.f.replace(
 function lit(k) {
   if (k === 'VAULT' && D.VAULT) D.VAULT.notes.forEach(FOLDER);
   if (k === 'VAULT_DETAILS' && D.VAULT_DETAILS) Object.keys(D.VAULT_DETAILS).forEach(function (t) { var o = D.VAULT_DETAILS[t]; Object.keys(o).forEach(function (n) { FOLDER(o[n]); }); });
+  if (k === 'MATS' || k === 'BPS' || k === 'MONSTERS') return 'const ' + k + '=' + WORLD(packMats(D[k], k === 'MATS')).replace(/<\/(script)/gi, '<\\/$1') + ';';
   var j = JSON.stringify(D[k]); if (k !== 'VAULT' && k !== 'VAULT_DETAILS') j = WORLD(j); return 'const ' + k + '=' + j.replace(/<\/(script)/gi, '<\\/$1') + ';'; }
+// The material list is mostly the same text repeated (13,000 materials share a few hundred properties, traits, uses,
+// and types), so each repeated value is stored once and referred to by number, and a harvest part's generated
+// description is rebuilt from its name. The data file unpacks itself as it loads, so pages see the same list as before.
+function packMats(L, regenDs) {
+  var keys = {}; L.forEach(function (m) { Object.keys(m).forEach(function (f) { keys[f] = 1; }); });
+  var T = {}, idx = {};
+  Object.keys(keys).forEach(function (f) {
+    var u = {}, n = 0, tot = 0; L.forEach(function (m) { if (m[f] == null || typeof m[f] === 'number') return; tot++; var s = JSON.stringify(m[f]); if (!(s in u)) { u[s] = n++; } });
+    if (tot > 200 && n < tot / 4) { T[f] = Object.keys(u).sort(function (a, b) { return u[a] - u[b]; }).map(function (s) { return JSON.parse(s); }); idx[f] = u; }
+  });
+  var rows = L.map(function (m) { var o = {};
+    Object.keys(m).forEach(function (f) { var v = m[f]; if (f === 'ds' && m.dsg && regenDs) return; o[f] = idx[f] && v != null && typeof v !== 'number' ? idx[f][JSON.stringify(v)] : v; });
+    return o; });
+  var unpack = '(function(T,R){var art=function(w){return /^[aeiou]/i.test(w)?"an":"a"};R.forEach(function(m){for(var f in T)if(typeof m[f]==="number")m[f]=T[f][m[f]];' +
+    'if(m.dsg&&m.ds==null){var mon=m.from&&m.from[0],part=mon?m.n.slice(mon.length).trim().toLowerCase():m.n.toLowerCase();' +
+    'm.ds="The "+part+" of "+art(mon||"")+" "+(mon||"creature")+", harvested at grade "+m.g+" in the "+m.realm+" Realm."+(m.use?" Crafters use it for "+m.use.charAt(0).toLowerCase()+m.use.slice(1)+".":"")}});return R})';
+  return unpack + '(' + JSON.stringify(T) + ',' + JSON.stringify(rows) + ')';
+}
 var VAULT_FILE = process.env.VAULT_JSON || path.join(__dirname, '..', 'data', 'vault.json');
 D.VAULT = fs.existsSync(VAULT_FILE) ? JSON.parse(fs.readFileSync(VAULT_FILE, 'utf8')) : { imported: '', notes: [] };
 D.VAULT.notes = D.VAULT.notes.filter(function (n) { return !/^-+$/.test(n.n); });
