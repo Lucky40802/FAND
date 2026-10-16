@@ -1687,7 +1687,7 @@ function paletteSearch(){
       if(typeof CW_RACE!=='undefined')CW_RACE.forEach(r=>add(r[0],'people · '+r[5],{run:()=>charWizard({race:r[0],step:1})}));
       if(typeof CW_BG!=='undefined')CW_BG.forEach(b=>add(b[0],'background · '+b[3],{run:()=>charWizard({bg:b[0],step:1})}));
       Object.keys(PROFS).forEach(p=>add(p,'profession',{tab:'professions'}));
-      [['t-mine','Mine shaft'],['t-scav','Scavenge a corpse'],['t-dmg','Damage vs. Armor Class'],['t-grade','Material grade'],['t-ref','Refining planner'],['t-enc','Encounter and loot roller'],['t-loot','Treasure'],['t-cur','Currency converter'],['t-travel','Realm Pressure check'],['t-slots','Spell slots'],['t-sb','Stat block creator'],['t-shop','Merchant shop'],['t-backup','Backup']].forEach(([id,n])=>add(n,'tool',{tab:'tools',tool:id}));
+      [['t-clock','Session clock'],['t-npc','Quick NPC'],['t-trip','Travel and weather'],['t-cond','Conditions'],['t-mine','Mine shaft'],['t-scav','Scavenge a corpse'],['t-dmg','Damage vs. Armor Class'],['t-grade','Material grade'],['t-ref','Refining planner'],['t-enc','Encounter and loot roller'],['t-loot','Treasure'],['t-cur','Currency converter'],['t-travel','Realm Pressure check'],['t-slots','Spell slots'],['t-sb','Stat block creator'],['t-shop','Merchant shop'],['t-backup','Backup']].forEach(([id,n])=>add(n,'tool',{tab:'tools',tool:id}));
       if(extra.length){h+=`<div class="pal-g">Apostle classes, peoples, backgrounds, and tools</div>`;extra.slice(0,8).forEach(([n,r,o])=>{PRES.push(o);h+=`<button class="pal-i" data-pi="${PRES.length-1}"><span>${hl(n,q)}</span><span class="r">${esc(r)}</span></button>`})}}
     const tabs=TABS.filter(([,l])=>lc(l).includes(q));
     if(tabs.length){h+=`<div class="pal-g">Sections</div>`;tabs.forEach(([id,l])=>{PRES.push({tab:id});h+=`<button class="pal-i" data-pi="${PRES.length-1}">${l}<span class="r">section</span></button>`})}
@@ -1931,6 +1931,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-17','Everything to run a session','The Tools page has four new tabs for the table: a Session clock (days and hours, rests, and torches or lanterns that burn down), a Quick NPC (name, look, voice, manner, quirk, wants, and god), Travel and weather (days on the road at your pace, each day\'s realm weather, and random encounters from that realm\'s Bestiary), and Conditions at a glance. A row of links at the top jumps to Session prep, Combat, Encounters, Hooks, Dice, Journal, Party, and Rules.','tools'],
   ['2026-10-17','Scavenging fix, and Arawn','Opening a corpse to scavenge no longer breaks the page when its saved progress is incomplete (from an older version or another device): the corpse is repaired, or cleared with a note if it cannot be. Arawn\'s Minor contract material (also his temple passage offering) is now Kingsbane Mushroom instead of Witchsilver.','gods'],
   ['2026-10-17','Scavenging in a pop-up window','The Scavenge panel now opens as its own pop-up window: from the 🔪 Scavenge button in the combat tracker, and from a new Scavenge a corpse button in every monster\'s window in the Bestiary. Close it with ✕, Escape, or a click outside.','bestiary'],
   ['2026-10-17','Professions to level 100, and 433 new Blueprints','Every profession\'s level table now runs all the way to level 100 (+1 bonus every 2 levels, so +50 at 100). Professions also have Blueprints past level 20 now: one on every other level from 21 to 99 for each of the ten professions, made from the materials of the realms its stage opens (Hell, Heaven, and Chaos at stage II, up to the Inner Void and Primordial at stage V), plus a Masterwork at levels 40, 60, 80, and 100.','blueprints'],
@@ -2410,10 +2411,77 @@ function toolTabs(){const box=document.querySelector('.tools');if(!box)return;co
   bar.innerHTML=T.map(t=>`<button type="button" role="tab" data-tt="${t.id}">${t.querySelector('h3').innerHTML}</button>`).join('');box.before(bar);box.classList.add('tabbed');
   const show=id=>{if(!T.some(t=>t.id===id))id=T[0].id;T.forEach(t=>t.hidden=t.id!==id);bar.querySelectorAll('[data-tt]').forEach(b=>{const on=b.dataset.tt===id;b.classList.toggle('on',on);b.setAttribute('aria-selected',on);if(on)b.scrollIntoView({block:'nearest',inline:'nearest'})});store.set('tooltab',id)};
   bar.onclick=e=>{const b=e.target.closest('[data-tt]');if(b)show(b.dataset.tt)};show(store.get('tooltab',T[0].id))}
+// ── Tools for running a session at the table: in-game clock, a quick NPC, travel with weather and encounters, conditions ──
+const WEATHER={
+  Human:['Clear and mild','Grey drizzle all day','Strong wind from the hills','Fog until noon','Hot and still','A thunderstorm in the afternoon'],
+  Mysterious:['A silver mist that hides the road','Lights drifting between the trees','Rain that falls upward for an hour','Still air and no birdsong','A warm, sweet-smelling wind','Fog that whispers names'],
+  Hell:['Ash falling like snow','Heat haze over the brimstone flats','A storm of embers','Sulphur fog','Red skies and burning wind','A rain of hot cinders'],
+  Heaven:['Blinding clear light','Choir-song on the wind','Clouds underfoot','A gentle golden rain','Calm, with a single bell ringing','Wind that smells of incense'],
+  Chaos:['The weather changes every hour','Snow and sunshine at once','Gravity drifts for a few minutes','Rain of tiny stones','Colours bleed out of the sky','Three suns, then none'],
+  Abyss:['Crushing pressure and black water','A cold current from below','Faint glowing tides','Silt storms that hide everything','Still, silent dark','Whale-song shaking the stones'],
+  'Inner Realm':['Perfectly ordered calm','Wind that blows on the hour','Measured, even rain','Clockwork thunder at noon','Fog in neat squares','Bright, flat light'],
+  'Outer Realm':['A sky full of falling stars','Thin, cold air','Starlight brighter than day','A comet passing overhead','Silence and frost','Aurora that hums'],
+  Void:['Nothing: no wind, no sound','Darkness that eats torchlight','Cold that numbs thought','A sudden echo with no source','Grey emptiness','Drifting motes of nothing'],
+  'Inner Void':['Edges of the world flicker','Thoughts feel heavy','A hum from everywhere','Light bends around you','Time stutters for a moment','Total stillness'],
+  Primordial:['Storms of raw creation','New land rising from the ground','Rain that tastes like iron','Giant shapes in the clouds','The first dawn, over and over','Earthquakes and blooming flowers']
+};
+const PACE=[['slow',18,'Slow: 18 miles a day; can use Stealth'],['normal',24,'Normal: 24 miles a day'],['fast',30,'Fast: 30 miles a day; −5 to passive Perception']];
+const CONDITIONS=[
+  ['Blinded','Cannot see. Fails any check that needs sight. Attacks against it have advantage; its attacks have disadvantage.'],
+  ['Charmed','Cannot attack or harm the charmer. The charmer has advantage on social checks with it.'],
+  ['Deafened','Cannot hear. Fails any check that needs hearing.'],
+  ['Frightened','Disadvantage on checks and attacks while it can see the source of its fear. Cannot move closer to it.'],
+  ['Grappled','Speed 0. Ends if the grappler is incapacitated or the creature is moved out of reach.'],
+  ['Incapacitated','Cannot take actions or reactions.'],
+  ['Invisible','Cannot be seen without magic. Attacks against it have disadvantage; its attacks have advantage.'],
+  ['Paralyzed','Incapacitated, cannot move or speak. Fails Strength and Dexterity saves. Attacks have advantage; hits from within 5 ft are critical hits.'],
+  ['Petrified','Turned to stone: incapacitated, unaware, resists all damage, immune to poison and disease.'],
+  ['Poisoned','Disadvantage on attack rolls and ability checks.'],
+  ['Prone','Can only crawl. Disadvantage on attacks. Attacks within 5 ft have advantage; from farther, disadvantage.'],
+  ['Restrained','Speed 0. Disadvantage on attacks and Dexterity saves. Attacks against it have advantage.'],
+  ['Stunned','Incapacitated, cannot move, speaks falteringly. Fails Strength and Dexterity saves. Attacks against it have advantage.'],
+  ['Unconscious','Incapacitated, drops what it holds, falls prone. Fails Strength and Dexterity saves. Attacks have advantage; hits from within 5 ft are critical hits.'],
+  ['Exhaustion','Levels 1–6: 1 disadvantage on checks; 2 speed halved; 3 disadvantage on attacks and saves; 4 HP maximum halved; 5 speed 0; 6 death. A long rest removes one level. In FAND, realm Pressure strain can add levels.']
+];
+const pickOf=a=>a[Math.floor(Math.random()*a.length)];
+// in-game clock: day, minutes since midnight, and light sources that burn down
+function clockGet(){return store.get('clock',{day:1,min:8*60,lights:[]})}
+function clockAdd(m,label){const C=clockGet();C.min+=m;while(C.min>=1440){C.min-=1440;C.day++}C.lights=(C.lights||[]).map(l=>Object.assign(l,{left:l.left-m})).filter(l=>{if(l.left<=0){toast(l.n+' burns out');return false}return true});store.set('clock',C);if(label)toast(label);renderClock()}
+function clockLight(n,mins){const C=clockGet();C.lights=(C.lights||[]).concat({n,left:mins});store.set('clock',C);renderClock()}
+function renderClock(){const el=$('ck-box');if(!el)return;const C=clockGet(),h=Math.floor(C.min/60),mm=C.min%60,part=h<5?'deep night':h<8?'dawn':h<12?'morning':h<14?'midday':h<18?'afternoon':h<21?'evening':'night';
+  el.innerHTML=`<div class="big">Day ${C.day}, ${String(h).padStart(2,'0')}:${String(mm).padStart(2,'0')} <small style="font-size:.9rem;color:var(--muted)">${part}</small></div>
+  <div class="chips" style="margin:8px 0">${[[1,'+1 min (10 rounds)'],[10,'+10 min'],[60,'+1 hour'],[60,'Short rest (1 h)'],[480,'Long rest (8 h)'],[1440,'+1 day']].map(([m,l])=>`<button class="chip" type="button" onclick="clockAdd(${m},${l.includes('rest')?`'${l} done'`:'null'})">${l}</button>`).join('')}</div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"><span class="note" style="margin:0">Light:</span><button class="btn" type="button" onclick="clockLight('Torch',60)">🔥 Torch (1 h)</button><button class="btn" type="button" onclick="clockLight('Lantern',360)">🏮 Lantern (6 h of oil)</button><button class="btn" type="button" onclick="clockLight('Candle',60)">🕯 Candle (1 h)</button></div>
+  ${(C.lights||[]).length?`<ul class="sh-ul" style="margin-top:6px">${C.lights.map((l,i)=>`<li>${esc(l.n)}: ${l.left>=60?Math.floor(l.left/60)+' h ':''}${l.left%60?l.left%60+' min':''} left <a href="#" onclick="const C=clockGet();C.lights.splice(${i},1);store.set('clock',C);renderClock();return false">put out</a></li>`).join('')}</ul>`:''}
+  <div style="margin-top:8px"><a href="#" onclick="if(confirm('Reset the clock to day 1, 08:00?')){store.set('clock',{day:1,min:480,lights:[]});renderClock()}return false">Reset</a></div>`}
+// one NPC, ready to play right now
+function npcQuick(){const el=$('nq-out');if(!el)return;const role=$('nq-role').value,realm=$('nq-realm').value;
+  const n=pickOf(NPC_FIRST)+' '+pickOf(NPC_LAST),god=pickOf(GODS.filter(g=>!realm||g.home===realm).length?GODS.filter(g=>!realm||g.home===realm):GODS);
+  el.innerHTML=`<div class="big">${esc(n)}</div><div class="kv" style="margin-top:6px"><span>Role</span><span>${esc(role||pickOf(['innkeeper','guard','merchant','priest','smith','scavenger','courier','beggar','noble','Tower climber']))}${realm?' in the '+esc(realm)+' Realm':''}</span><span>Looks</span><span>${esc(pickOf(NPC_LOOKS2))}</span><span>Voice</span><span>${esc(pickOf(NPC_VOICE))}</span><span>Manner</span><span>${esc(pickOf(NPC_PERSONA))}</span><span>Quirk</span><span>They ${esc(pickOf(NPC_TRAITS))}</span><span>Wants</span><span>${esc(pickOf(NPC_GOALS))}</span><span>Worships</span><span>${refChip(god,esc(godKey(god)))}</span></div>`}
+// a journey: days on the road, the weather each day, and whether something finds the party
+function travelRoll(){const el=$('tr-out');if(!el)return;const realm=$('tr-realm').value,miles=Math.max(1,+$('tr-mi').value||1),pace=PACE.find(p=>p[0]===$('tr-pace').value)||PACE[1],days=Math.ceil(miles/pace[1]);
+  const W=WEATHER[realm]||WEATHER.Human,pool=MONSTERS.filter(m=>m.realm===realm),R=REALM[realm],out=[];
+  for(let d=1;d<=Math.min(days,30);d++){const r=1+Math.floor(Math.random()*20),m=r>=17&&pool.length?pickOf(pool):null;out.push(`<tr><td class="num">${d}</td><td>${esc(pickOf(W))}</td><td>${m?`<b>Encounter</b> (d20 ${r}): ${refChip(m,esc(m.n))} <small>${esc(m.realm+' '+m.g)}</small>`:`<span class="note" style="margin:0">Quiet (d20 ${r})</span>`}</td></tr>`)}
+  el.innerHTML=`<div class="note">${miles} miles at ${esc(pace[2].toLowerCase())}: <b>${days} day${days>1?'s':''}</b>. An encounter comes on a d20 roll of 17+ each day.${R?` The ${esc(realm)} has Pressure ${R.pressure}: travellers below that Attunement suffer strain (Rules).`:''}${days>30?' (Showing the first 30 days.)':''}</div><div class="tablewrap"><table class="t"><thead><tr><th class="num">Day</th><th>Weather</th><th>On the road</th></tr></thead><tbody>${out.join('')}</tbody></table></div>`}
 function renderTools(){
   $('content').innerHTML=`<div class="page">
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Table tools</h3><p>Quick calculators built on the rules in the vault.</p></div>
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Table tools</h3><p>Everything to run a session: the clock, NPCs, travel, conditions, scavenging, mining, treasure, and shops here, plus the pages below.</p></div>
+    <div class="chips" style="margin:0 0 12px">${[['prep','📋 Session prep'],['combat','⚔ Combat tracker'],['encounter','🐉 Encounters'],['hooks','🪝 Hooks'],['dice','🎲 Dice'],['journal','📓 Journal'],['party','👥 Party'],['rules','📖 Rules']].map(([t,l])=>`<a class="chip" href="${pageUrl(t)}" data-go="${t}">${l}</a>`).join('')}</div>
     <div class="tools">
+      <div class="tool" id="t-clock"><h3>Session clock</h3><div class="sub">Keep the in-game time: advance it by rounds, hours, or rests, and track how long torches and lanterns have left.</div><div id="ck-box"></div></div>
+
+      <div class="tool" id="t-npc"><h3>Quick NPC</h3><div class="sub">Someone the party just met, ready to play: name, look, voice, manner, a quirk, what they want, and their god.</div>
+        <div class="form" style="grid-template-columns:1fr 1fr auto"><label>Role<input id="nq-role" placeholder="Any (innkeeper, guard…)"></label><label>Realm<select id="nq-realm"><option value="">Any</option>${REALMS.map(r=>`<option>${esc(r.n)}</option>`).join('')}</select></label><label style="align-self:end"><button class="btn primary" type="button" onclick="npcQuick()">🎲 New NPC</button></label></div>
+        <div id="nq-out" style="margin-top:10px"></div></div>
+
+      <div class="tool" id="t-trip"><h3>Travel and weather</h3><div class="sub">A journey day by day: how long it takes at your pace, the realm's weather each day, and whether something finds the party.</div>
+        <div class="form" style="grid-template-columns:repeat(3,1fr) auto"><label>Realm<select id="tr-realm">${realmOpts('Human')}</select></label><label>Miles<input id="tr-mi" type="number" min="1" value="60"></label><label>Pace<select id="tr-pace">${PACE.map(p=>`<option value="${p[0]}"${p[0]==='normal'?' selected':''}>${p[2].split(':')[0]}</option>`).join('')}</select></label><label style="align-self:end"><button class="btn primary" type="button" onclick="travelRoll()">🎲 Roll the trip</button></label></div>
+        <div id="tr-out" style="margin-top:10px"></div></div>
+
+      <div class="tool" id="t-cond"><h3>Conditions</h3><div class="sub">What each condition does, at a glance.</div>
+        <input class="sel" type="search" placeholder="Find a condition" style="max-width:none;width:100%;margin-bottom:8px" oninput="const q=this.value.toLowerCase();this.parentNode.querySelectorAll('.cond-row').forEach(r=>r.hidden=!!q&&!r.textContent.toLowerCase().includes(q))">
+        <div class="mlist">${CONDITIONS.map(([n,t])=>`<div class="cond-row" style="padding:7px 10px;border-bottom:1px solid var(--line)"><b>${n}</b><div class="note" style="margin:2px 0 0">${t}</div></div>`).join('')}</div></div>
+
       <div class="tool" id="t-backup"><h3>Backup</h3><div class="sub">Everything this device has saved (party, sheets, journal, encounters, Tower progress, pins, settings) in one file. Keep a copy before switching devices or if you use FAND as a Home Screen app.</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><button class="btn primary" onclick="backupSave()">Download backup</button><label class="btn">Restore from file<input type="file" accept=".json,application/json" hidden onchange="backupLoad(this)"></label></div>
         <div class="note" style="margin-top:8px">The DM lock, its log, and the assistant key are never included.</div></div>
@@ -2470,7 +2538,7 @@ function renderTools(){
         <label style="align-self:end"><button class="btn" id="s-roll" type="button" style="width:100%">🎲 Restock</button></label></div>
         <div id="s-out" style="margin-top:10px"></div></div>
     </div></div>`;
-  renderMineTool();renderScavTool();
+  renderMineTool();renderScavTool();renderClock();npcQuick();travelRoll();
   const v=id=>$(id).value,n=id=>+$(id).value||0,on=(ids,f)=>{ids.forEach(i=>{$(i).addEventListener('input',f);$(i).addEventListener('change',f)});f()};
   const clampG=g=>Math.min(10,Math.max(1,Math.round(g||1)));
   sbToolBind();
