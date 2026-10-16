@@ -4493,5 +4493,115 @@
   "hab": "In the bones of creation at the Primordial's foundation, where unworked adamant forms the hardest substance that exists; almost no one can reach it.",
   "how": "Only adamant tools can cut it, and the work takes months at crushing depth; carry it out in reinforced crates. Few survive.",
   "shaft": true
+ },
+ "Wardleaf": {
+  "hab": "Low shrubs beside old shrines and in churchyards, where generations of prayers have soaked into the soil.",
+  "how": "Pick the leaves at dawn while they are still curled, and press them flat between cloth. Fold into charms or stitch into a lining while fresh.",
+  "shaft": false
+ },
+ "Ironheart Ore": {
+  "hab": "Deep seams in old hill mines, as red-black nodules in grey rock that feel warm to the touch.",
+  "how": "Pick the nodules out whole with a light hammer and chisel; smelt hot in a bellows furnace. One sack of nodules gives a few ingots.",
+  "shaft": true
+ },
+ "Clearwater Lotus": {
+  "hab": "The still centres of cold mountain tarns, where the water is so clear the bottom looks close enough to touch.",
+  "how": "Wade or swim out and cut the stem below the water line. Keep the flower floating in a bowl of the same water until it is worked.",
+  "shaft": false
+ },
+ "Wardsilver": {
+  "hab": "Thin veins under ruined temples, often found where the rock has been blackened by an old curse.",
+  "how": "Mine slowly and test each chunk with a drop of holy water: wardsilver beads it. Smelt with charcoal from a shrine fire.",
+  "shaft": true
+ },
+ "Cinderwake Moss": {
+  "hab": "Patches on cooling lava fields in Hell, glowing faintly wherever something has walked past.",
+  "how": "Scrape it into a lidded iron tin with a long spatula. It smoulders when disturbed, so pack it with ash.",
+  "shaft": false
+ },
+ "Oathiron": {
+  "hab": "The bedrock under the devils' contract halls, in seams stamped with old signatures.",
+  "how": "Mining it needs permission from whoever holds the hall, or a very quiet night. Smelt in a hellfire forge; it will not melt in an ordinary one.",
+  "shaft": true
+ },
+ "Haloward Lily": {
+  "hab": "Cloud meadows in Heaven, growing in rings around places where angels once stood.",
+  "how": "Lift the whole bulb with a silver trowel so the ring of light stays whole. Replant or work it within a day.",
+  "shaft": false
+ },
+ "Serene Electrum": {
+  "hab": "Seams under the choir terraces of Heaven, recognised by the faint single note they hum.",
+  "how": "Cut it out with a fine pick while the choir is singing, which keeps the metal calm. Refine in a temple forge.",
+  "shaft": true
+ },
+ "Flickerfern": {
+  "hab": "Groves in Chaos that shift from day to day; the fern is never in the same place twice.",
+  "how": "Mark it with chalk the moment you see it, then cut it quickly. Store it in a lead box so it stays put.",
+  "shaft": false
+ },
+ "Stillpoint Ore": {
+  "hab": "The calm centres of chaos storms, where the ground stops changing for a little while.",
+  "how": "Wait for a storm's eye to pass over a seam, then dig fast before it moves on. Smelts like ordinary iron.",
+  "shaft": true
+ },
+ "Deepcalm Kelp": {
+  "hab": "Silent trenches in the Abyss where the demons' whispers do not reach.",
+  "how": "Dive or drop a hooked line, cut the fronds, and dry them in the dark. Keep them away from loud noise.",
+  "shaft": false
+ },
+ "Bulwark Pyrite": {
+  "hab": "The rubble of collapsed demon forts, in heavy golden chunks that survived what crushed the walls.",
+  "how": "Dig through the rubble and sort the chunks by weight. Work it cold: heat makes it brittle.",
+  "shaft": true
+ },
+ "Lawward Clover": {
+  "hab": "The ordered gardens of the Inner Realm, always in perfect rows.",
+  "how": "Count the leaves before picking: only the four-leafed ones carry the ward. Dry flat in a book of law.",
+  "shaft": false
+ },
+ "Truthglass Ore": {
+  "hab": "The foundations of courthouses and oath-stones in the Inner Realm.",
+  "how": "Cut it out in clear blocks; lies spoken nearby cloud it, so work in silence. Grind and fuse into glass or metal.",
+  "shaft": true
+ },
+ "Farsight Sage": {
+  "hab": "High star-plains in the Outer Realm, on the slopes that face the most stars.",
+  "how": "Cut the stems at night and hang them to dry under the open sky. Burn or weave the dried leaves.",
+  "shaft": false
+ },
+ "Starward Iron": {
+  "hab": "Craters where stars have fallen in the Outer Realm, in pitted grey-black lumps.",
+  "how": "Dig out the meteorite whole and cut it with a diamond-edged saw. Smelt only in a forge cooled by night air.",
+  "shaft": true
+ },
+ "Quietroot": {
+  "hab": "Soundless hollows in the Void, where no echo comes back.",
+  "how": "Dig without speaking; any sound makes the root wither. Wrap it in wool until it is used.",
+  "shaft": false
+ },
+ "Nullward Slag": {
+  "hab": "Heaps outside abandoned null forges at the edges of the Void.",
+  "how": "Shovel the slag into sacks and remelt it in a Void forge. Ordinary flame does not touch it.",
+  "shaft": true
+ },
+ "Unshaken Lichen": {
+  "hab": "The oldest stones in the Inner Void, older than the realms.",
+  "how": "Scrape it off with a bone knife and keep it on a piece of the same stone, or it crumbles.",
+  "shaft": false
+ },
+ "Edgewake Ore": {
+  "hab": "The rim of the Inner Void, in seams that hum louder as anyone approaches.",
+  "how": "Approach slowly so the seam does not crack from its own humming; cut and quench in cold water.",
+  "shaft": true
+ },
+ "First-Ward Seed": {
+  "hab": "The first gardens of the Primordial realm, beneath the oldest guardian trees.",
+  "how": "Collect fallen seeds by hand from the roots. Plant one, or crush and bind it into a ward with resin.",
+  "shaft": false
+ },
+ "Worldspine Ore": {
+  "hab": "The exposed spine of the world in the Primordial realm, where the bedrock rises in ridges.",
+  "how": "Only a Realm Forge can melt it. Cut slabs with tools of Primordial metal, and expect it to take a full tenday.",
+  "shaft": true
  }
 }
