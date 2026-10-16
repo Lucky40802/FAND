@@ -565,9 +565,9 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   <div class="set" id="setBox"></div>
 </div>
 
-<script>const SITE={page:"hidden",v:"ebbf5b5c03"};</script>
-<script src="data/core.js?v=ebbf5b5c03"></script>
-<script src="data/vault.js?v=ebbf5b5c03"></script>
+<script>const SITE={page:"hidden",v:"cbabea0c73"};</script>
+<script src="data/core.js?v=cbabea0c73"></script>
+<script src="data/vault.js?v=cbabea0c73"></script>
 <script>
 'use strict';
 // ════════════════════════════════════════════════════════════════
@@ -894,7 +894,7 @@ const CARD={
     const drops=(m.drops||[]).slice(0,3).map(d=>`<span class="chip"><span class="sw" style="background:${rcol(realmOf(d[1]))}"></span>${esc(d[0])}</span>`).join('');
     return `<button class="card" style="--strip:${rcol(m.realm)}" data-ref="${ref(m)}">
       <div class="t"><div class="nm">${esc(m.n)}</div>${isPinned(m)?'<span class="pin">★</span>':''}</div>
-      <div class="badges">${realmB(m.realm+' '+m.g)}${m.cr?`<span class="b">CR ${esc(m.cr)}</span><span class="b ${m.myth?'blue':'ghost'}" title="${esc(BOOKS[m.book]||m.book)}">${esc(m.myth?m.myth+' myth':m.book)}</span>`:`<span class="b">CR ${esc(m.sb?m.sb.cr:'?')}</span><span class="b gold">Homebrew</span>`}</div>
+      <div class="badges">${realmB(m.realm+' '+m.g)}${m.gb?'<span class="b red" title="A god-level beast: CR 26 or more">God-beast</span>':''}${m.cr?`<span class="b">CR ${esc(m.cr)}</span><span class="b ${m.myth?'blue':'ghost'}" title="${esc(BOOKS[m.book]||m.book)}">${esc(m.myth?m.myth+' myth':m.book)}</span>`:`<span class="b">CR ${esc(m.sb?m.sb.cr:'?')}</span><span class="b gold">Homebrew</span>`}</div>
       ${m.sb?`<div class="ln">AC <b>${m.sb.ac}</b> · HP <b>${m.sb.hp}</b> · ${esc(m.sb.sz)} ${esc(m.sb.ty)}${m.sb.lg?' · <b style="color:var(--gold2)">Legendary</b>':''}</div>`:''}
       ${m.hab?`<div class="ln">⌖ ${esc(m.hab)}</div>`:''}
       <div class="ds">${esc(m.txt||m.ds)}</div>
@@ -997,6 +997,7 @@ const VIEWS={
       {id:'src',label:'All sources',opts:()=>[['hb','Homebrew'],...opts(MONSTERS,m=>m.book).map(([v,l])=>[v,l.replace(v,BOOKS[v]||v)])],test:(m,v)=>v==='hb'?!!m.hb:m.book===v},
       {id:'g',label:'All grades',opts:()=>Array.from({length:10},(_,i)=>[String(i+1),'Grade '+(i+1)]),test:(m,v)=>m.g===+v},
       {id:'myth',label:'Any mythology',opts:()=>opts(MONSTERS,m=>m.myth),test:(m,v)=>m.myth===v},
+      {id:'gb',label:'All creatures',opts:()=>[['gb','God-beasts only'],['kin','God-beasts and their spawn']],test:(m,v)=>v==='gb'?!!m.gb:!!(m.gb||(m.rel||[]).some(n=>{const x=MON_IDX.get(lc(n));return x&&x.gb}))},
     ],
     toggles:[{id:'pin',label:'★ Pinned',test:m=>isPinned(m)}],
     sorts:[['g','Grade ↑',(a,b)=>(a.tier-b.tier)||(a.g-b.g)||byName(a,b)],['gd','Grade ↓',(a,b)=>(b.tier-a.tier)||(b.g-a.g)||byName(a,b)],['name','Name A–Z',byName],['cr','CR ↓',(a,b)=>crNum(b.sb?b.sb.cr:b.cr)-crNum(a.sb?a.sb.cr:a.cr)||byName(a,b)]],
@@ -1503,9 +1504,11 @@ const MODAL={
     if(m.drops&&m.drops.length)drops=`<div class="mlist">${m.drops.map(([n,gr,q])=>{const x=findMat(n);return x?`<button data-ref="${ref(x)}"><span class="sw" style="width:9px;height:9px;border-radius:50%;background:${rcol(x.realm)}"></span>${esc(n)} <b>×${q||1}</b> <span class="x">${esc(gr)}${x.tr?' · ◆ '+esc(x.tr.n):x.pn?' · '+esc(x.pn):''}</span><span class="r">${x.price?gp(x.price):'not sold'}</span></button>`:`<button disabled>${esc(n)} <span class="x">${esc(gr)}</span></button>`}).join('')}</div>`;
     const sugg=!drops?suggestDrops(m,4):[];
     return {title:esc(m.n),strip:rcol(m.realm),kind:(m.hb?'Homebrew monster':m.myth?m.myth+' mythology':'Official monster')+' · '+esc(m.realm)+' Bestiary',
-      badges:`${realmB(m.realm+' '+m.g)}${m.cr?`<span class="b">CR ${esc(m.cr)}</span><span class="b ${m.myth?'blue':'ghost'}">${esc(m.myth?m.myth+' mythology':BOOKS[m.book]||m.book)}</span>`:'<span class="b gold">Homebrew</span>'}`,
+      badges:`${realmB(m.realm+' '+m.g)}${m.gb?'<span class="b red" title="A god-level beast: CR 26 or more">God-beast</span>':''}${m.cr?`<span class="b">CR ${esc(m.cr)}</span><span class="b ${m.myth?'blue':'ghost'}">${esc(m.myth?m.myth+' mythology':BOOKS[m.book]||m.book)}</span>`:'<span class="b gold">Homebrew</span>'}`,
       body:kv([['Realm',esc(m.realm)],['Grade',m.g],m.cr?['Challenge',esc(m.cr)]:null,m.hab?['Habitat',esc(m.hab)]:null,realm?['Realm pressure',realm.pressure]:null])
         +`<div class="prose">${esc(m.txt||m.ds)}</div>`
+        +(m.gb?`<div class="note"><b>God-beast.</b> A creature on the level of the gods (CR 26+). Its corpse counts as level ${corpseLv(m)} for raising the dead, so only a necromancer near that level has a real chance. Fighting one is a campaign event: expect a lair, legendary actions, and a god who wants it bound or freed.</div>`:'')
+        +((m.rel||[]).length?blk('Related',`<div class="mlist">${m.rel.map(n=>{const x=MON_IDX.get(lc(n)),g=!x&&godByKey(n);return x?`<button data-ref="${ref(x)}"><span class="sw" style="width:9px;height:9px;border-radius:50%;background:${rcol(x.realm)}"></span>${esc(x.n)} <span class="x">CR ${esc(x.cr||'?')} · ${esc(x.realm)}</span><span class="r">${x.gb?'God-beast':/spawn|young|calf|fledgling|whelp|brood/i.test(x.n)?'Spawn':'Kin'}</span></button>`:g?`<button data-ref="${ref(g)}"><span class="sw" style="width:9px;height:9px;border-radius:50%;background:var(--gold2)"></span>${esc(g.n)} <span class="x">God</span><span class="r">Bound by myth</span></button>`:`<button disabled>${esc(n)}</button>`}).join('')}</div><div class="note">Parents, spawn, kin and the gods tied to this creature in its myths.</div>`,m.rel.length+' links'):'')
         +sbHTML(m)
         +`<div class="lore">${monsterLore(m).map(([h,t])=>`<h5>${esc(h)}</h5><p>${linkNames(esc(t),m)}</p>`).join('')}</div>`
         +blk('Drops',drops+`<div class="note">×N is how many one corpse holds (${esc(m.sb&&m.sb.sz||'Medium')} body). Scavenging DC ${scavBase(m)}: meet it to take 1 part, +1 part for every 2 points above it; each new try on the same corpse adds ${SCAV_STEP} to the DC. These counts are for a whole corpse: the killing blow's damage type can ruin some parts (bludgeoning crushes bone, fire burns hide, poison taints organs).</div>`,(m.drops||[]).length+' parts · '+(m.drops||[]).reduce((a,d)=>a+(d[2]||1),0)+' pieces per corpse')
@@ -1881,7 +1884,8 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
-  ['2026-10-16','Short and long rests on the sheet','Page 1 of the character sheet has Short rest and Long rest buttons: a long rest restores hit points and every spell slot, gives back half the hit dice, clears death saves and temporary hit points, and reminds you of undead servants\' upkeep; a short rest restores a Warlock\'s pact slots.','sheet'],
+  ['2026-10-16','God-beasts in the Bestiary','God-level beasts from myth (Fenrir, Jormungandr, Nidhoggr, Typhon, Echidna, Apep, Vritra, Ziz, the Primeval Leviathan and Behemoth, Garmr) with their spawn and kin (Skoll, Hati, Fenris Whelps, Cerberus, Orthrus, the Lernaean Hydra, Fafnir and more). Each has a Related list linking parents, spawn and gods, a God-beast badge, and a Bestiary filter for god-beasts and their spawn.'],
+  ['2026-10-16','Short and long rests on the sheet','Page 1 of the character sheet has Short rest and Long rest buttons: a long rest restores hit points and every spell slot, gives back half the hit dice, clears death saves and temporary hit points, and reminds you of undead servants\' upkeep; a short rest gives back one used spell slot of your choice (and a Warlock\'s pact slots).','sheet'],
   ['2026-10-16','A lighter site','The main data file is a third smaller (16.4 MB to 10.4 MB; 3.4 to 3.0 MB as downloaded): the 13,000 materials, 6,500 Blueprints, and 870 monsters now store each repeated text once, and harvest-part descriptions are written in the browser. Nothing on the site changes, but pages open faster and the offline copy takes less room on a phone.','about'],
   ['2026-10-16','Raising the dead, for players','The Rules page\'s Necromancy section now has the full table of undead (what each keeps, the corpse it needs, its upkeep, and which need a chain ritual) and the chance at each level gap; Quick rules has a Raising the dead summary, and the raising spells (Animate Dead, Create Undead, Legion of Bones, \u2026) point to the rules. The offline copy now refreshes whenever any page changes.','rules'],
   ['2026-10-16','Monsters add CON to their AC too','Every monster\'s Armor Class now includes its CON modifier, as characters\' does (up to +5 per stage of its realm; a negative one lowers it, never below 0). Stat blocks, the Bestiary, Tower floors, encounters, and the combat tracker all use it.','bestiary'],
@@ -2961,7 +2965,7 @@ function renderSheet(){
     </div>
     <div class="sh-col">
       <div class="sh-trio">${box('Armor class',`<div class="sh-big">${s.ac}</div><small>armor ${s.armorAC}${s.conAC?' · CON '+sgn(s.conAC):''}${s.ct?' · contract +'+s.ct.ac:''}</small>`,'sh-shield')}${box('Initiative',`<div class="sh-big">${sgn(M('dex'))}</div>`)}${box('Speed',`${inp('speed','30','style="width:60px;text-align:center"','number')}${speedPen?`<small style="color:var(--red)">−${speedPen} ft from armor</small>`:''}`)}</div>
-      <div class="sh-row sh-noprint" style="gap:6px"><button class="btn" type="button" onclick="sheetRest('short')" title="Warlock pact slots come back">☕ Short rest</button><button class="btn" type="button" onclick="sheetRest('long')" title="Full HP, all slots, half your hit dice back, death saves cleared">🌙 Long rest</button></div>
+      <div class="sh-row sh-noprint" style="gap:6px"><button class="btn" type="button" onclick="sheetRest('short')" title="Get back one used spell slot of your choice (and Warlock pact slots)">☕ Short rest</button><button class="btn" type="button" onclick="sheetRest('long')" title="Full HP, all slots, half your hit dice back, death saves cleared">🌙 Long rest</button></div>
       ${box('Current hit points',`<div class="sh-row sh-hpmax"><span>Hit Point Maximum</span>${inp('hpMax','','style="width:70px"','number')}</div><div class="sh-big">${inp('hp','','style="width:100%;text-align:center;font-size:1.6rem"','number')}</div>`)}
       ${box('Temporary hit points',inp('tempHp','','style="width:100%;text-align:center"','number'))}
       <div class="sh-trio" style="grid-template-columns:1fr 1fr">${box('Hit dice',`<div class="sh-row sh-hpmax"><span>Total</span><b>${L1}d${CLASS_DIE[c.cls]||8}${L2?` + ${L2}d${CLASS_DIE[c.cls2]||8}`:''}</b></div>${inp('hdUsed','used','style="width:60px"','number')}`)}${box('Death saves',`<div class="sh-row">Successes ${[0,1,2].map(i=>chk('ds.s'+i)).join('')}</div><div class="sh-row">Failures ${[0,1,2].map(i=>chk('ds.f'+i)).join('')}</div>`)}</div>
@@ -3057,11 +3061,15 @@ function sheetInvAdd(){const c=sheetChar(),n=$('inv-n').value.trim(),q=Math.max(
 function sheetInvRm(i){const c=sheetChar();c.inv=(c.inv||[]).filter((_,j)=>j!==i);saveParty();renderSheet()}
 // rests (5e): a long rest restores hit points, every spell slot, and half the hit dice (at least 1) and clears death
 // saves and temporary hit points; a short rest restores a Warlock's pact slots
-function sheetRest(kind){const c=sheetChar(),L=+c.level||1;if(!confirm(kind==='long'?'Long rest: full hit points, all spell slots, half your hit dice back, death saves cleared?':'Short rest: pact slots back (spend hit dice by hand)?'))return;
+function sheetRest(kind){const c=sheetChar(),L=+c.level||1;if(!confirm(kind==='long'?'Long rest: full hit points, all spell slots, half your hit dice back, death saves cleared?':'Short rest: get back one used spell slot of your choice (and pact slots)? Spend hit dice by hand.'))return;
   const pact=c.cls==='Warlock'||c.cls2==='Warlock';
   if(kind==='long'){if(c.hpMax!=null&&c.hpMax!=='')c.hp=c.hpMax;c.tempHp='';c.slotUsed={};c.ds={};c.hdUsed=Math.max(0,(+c.hdUsed||0)-Math.max(1,Math.floor(L/2)));
     const up=(c.undead||[]).filter(u=>u.up&&!/^none/i.test(u.up));saveParty();renderSheet();toast('Long rest taken'+(up.length?': remember upkeep for '+up.length+' undead servant'+(up.length>1?'s':''):''))}
-  else{if(pact)c.slotUsed={};saveParty();renderSheet();toast(pact?'Short rest: pact slots restored':'Short rest taken')}}
+  else{// campaign rule: a short rest gives back one used spell slot of the player's choice (a Warlock's pact slots come back too)
+    const su=c.slotUsed||{},lvls=Object.keys(su).filter(l=>Object.values(su[l]||{}).some(Boolean)).map(Number).sort((x,y)=>x-y);let got='';
+    if(lvls.length){const pick=prompt('Short rest: which spell slot level do you get back? Used slots at level '+lvls.join(', ')+'.',String(lvls[lvls.length-1]));
+      const L2=+pick;if(lvls.includes(L2)){const k=Object.keys(su[L2]).filter(i=>su[L2][i]).pop();su[L2][k]=false;got=' · a level '+L2+' slot is back'}}
+    if(pact)c.slotUsed={};c.slotUsed=c.slotUsed||su;saveParty();renderSheet();toast('Short rest taken'+got+(pact?' · pact slots restored':''))}}
 function sheetSpec(x){const c=sheetChar();c.specs=c.specs||[];c.specs=c.specs.includes(x)?c.specs.filter(y=>y!==x):c.specs.concat(x);saveParty();renderSheet()}
 function sheetCls2(k){const c=sheetChar();if(!k&&c.cls2&&!confirm('Drop '+c.cls2+'? Its levels go back to '+(c.cls||'the first class')+'.'))return;if(k&&!confirm('Take '+k+' as a second class? It needs a teacher of '+k+' or a trial (DM\'s call).'))return;c.cls2=k||'';c.lv2=0;c.sub2='';c.growApplied2=0;saveParty();renderSheet()}
 function sheetLv2(d){const c=sheetChar(),L=+c.level||1,v=Math.max(0,Math.min(L-1,(+c.lv2||0)+d));c.lv2=v;saveParty();renderSheet()}

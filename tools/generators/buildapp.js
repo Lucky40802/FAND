@@ -139,7 +139,10 @@ require(path.join(__dirname, '..', 'data', 'myth.js')).trim().split('\n').forEac
   if (!l || l.charAt(0) === '/') return;
   var p = l.split('|'); if (p.length < 6 || haveMon[p[0].toLowerCase()]) return;
   var c = p[2], cr = p[1], crn = cr.indexOf('/') > 0 ? +cr.split('/')[0] / +cr.split('/')[1] : +cr;
-  D.MONSTERS.push({ n: p[0], grp: R.name(c) + ' Bestiary', realm: R.name(c), g: crBand(crn), tier: R.tier(c), cr: cr, book: 'Myth', myth: p[3], txt: p[4] + '.', hab: p[5], drops: [] });
+  var mo = { n: p[0], grp: R.name(c) + ' Bestiary', realm: R.name(c), g: crBand(crn), tier: R.tier(c), cr: cr, book: 'Myth', myth: p[3], txt: p[4] + '.', hab: p[5], drops: [] };
+  if (p[6]) mo.rel = p[6].split(';').map(function (x) { return x.trim(); }).filter(Boolean);
+  if (crn >= 26) mo.gb = 1; // a god-beast
+  D.MONSTERS.push(mo);
   haveMon[p[0].toLowerCase()] = 1; mythAdded++;
 });
 D.MONSTERS.sort(function (a, b) { return a.n < b.n ? -1 : a.n > b.n ? 1 : 0; });
