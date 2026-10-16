@@ -1,6 +1,6 @@
 ---
 school: Shadow Magic
-level: Cantrip
+level: 1
 castingTime: 1 Action
 range: Weapon range
 duration: Instant

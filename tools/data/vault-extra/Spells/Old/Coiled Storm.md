@@ -1,6 +1,6 @@
 ---
 school: Elemental
-level: Cantrip
+level: 1
 castingTime: 1 Bonus Action
 range: 120 ft
 duration: Instant
