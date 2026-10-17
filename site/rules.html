@@ -490,6 +490,9 @@ details.fold>div{margin-top:10px}
 .pal-foot{display:flex;gap:14px;padding:8px 16px;border-top:1px solid var(--line);font-size:.72rem;color:var(--muted)}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--surf3);border:1px solid var(--line3);color:var(--text);padding:8px 14px;border-radius:8px;font-size:.84rem;opacity:0;transition:all .2s;z-index:80;pointer-events:none}
 .toast.show{opacity:1;transform:translateX(-50%)}
+.toast.act{pointer-events:auto;display:flex;gap:14px;align-items:center;padding:8px 10px 8px 14px}
+.toast button{background:none;border:0;color:var(--gold2);font-weight:700;padding:4px 6px;border-radius:6px}
+.toast button:hover{background:var(--goldbg)}
 .upd{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--surf3);border:1px solid var(--gold,#c9a54a);color:var(--text);padding:10px 16px;border-radius:10px;font:inherit;font-size:.86rem;z-index:81;cursor:pointer;max-width:calc(100% - 32px)}
 .upd[hidden]{display:none}
 
@@ -655,6 +658,33 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
 .qcard:hover{border-color:var(--acc);transform:translateY(-1px)}
 .qcard b{color:var(--text);font-family:var(--serif);font-size:1.05rem}
 .qcard small{font-size:.8rem;color:var(--muted);line-height:1.35}
+/* Phones: the bottom bar and the Menu page */
+.bnav{display:none}
+.mdrawer{position:fixed;inset:0;z-index:75;background:var(--bg);overflow-y:auto;padding:max(12px,env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom));overscroll-behavior:contain}
+.mdrawer[hidden]{display:none}
+.md-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.md-h b{font-family:var(--serif);font-size:1.4rem}
+.md-quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px}
+.md-quick a{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;border:1px solid var(--line);border-radius:12px;background:var(--surf);color:var(--text);text-decoration:none;font-size:.82rem}
+.md-quick svg{width:22px;height:22px;color:var(--acc2)}
+.md-g h4{font-family:var(--sans);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:16px 0 6px}
+.md-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.md-grid a{display:flex;justify-content:space-between;align-items:baseline;gap:6px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surf);color:var(--text);text-decoration:none;min-width:0}
+.md-grid a b{font-weight:600;font-family:var(--sans);font-size:.92rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.md-grid a small{color:var(--muted);font-size:.72rem}
+.md-grid a.on{border-color:var(--acc);background:var(--accbg)}
+@media (max-width:640px){
+  .bnav{display:flex;flex-shrink:0;background:var(--bg2);border-top:1px solid var(--line);padding:4px 4px calc(4px + env(safe-area-inset-bottom));gap:2px}
+  .bnav a,.bnav button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:50px;padding:4px 2px;background:none;border:0;border-radius:10px;color:var(--muted);text-decoration:none;font-size:.68rem;-webkit-tap-highlight-color:transparent}
+  .bnav svg{width:22px;height:22px}
+  .bnav .on{color:var(--acc2);background:var(--accbg)}
+  .bnav a:active,.bnav button:active{background:var(--surf2)}
+  .tabs{display:none}
+  .ai-fab{bottom:calc(70px + env(safe-area-inset-bottom));right:14px}
+  .toast{bottom:calc(76px + env(safe-area-inset-bottom))}
+  .upd{bottom:calc(72px + env(safe-area-inset-bottom))}
+}
+@media print{.bnav,.mdrawer{display:none!important}}
 /* Comfort (Settings → Appearance): text size scales every rem; high contrast; less motion */
 :root{--ts:1}
 html{font-size:calc(100% * var(--ts))}
@@ -704,6 +734,8 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   </main>
 </div>
 
+<nav class="bnav" id="bnav" aria-label="Quick navigation"></nav>
+<div class="mdrawer" id="mdrawer" role="dialog" aria-modal="true" aria-label="Menu" hidden></div>
 <div class="mbg" id="mbg" role="dialog" aria-modal="true" aria-labelledby="mtitle">
   <div class="modal" id="modal"></div>
 </div>
@@ -734,7 +766,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"rules",v:"26cc659b8c",b:"f1009296"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"rules",v:"26cc659b8c",b:"9b5c2ff6"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script src="data/core.js?v=26cc659b8c"></script>
 <script src="data/vault.js?v=26cc659b8c"></script>
 <script>
@@ -872,7 +904,10 @@ document.addEventListener('click',e=>{const d=e.target.closest('.dice');if(d){e.
 function diceLog(){const L=store.get('dicelog',[]);$('dl-log').innerHTML=L.length?L.map(x=>`<div style="display:flex;gap:8px;font-size:.88rem"><b style="width:44px;text-align:right">${x.t}</b><span class="mono">${esc(x.e)}</span><span style="color:var(--muted)">${x.r.join(', ')}${x.mod?(x.mod>0?' +':' ')+x.mod:''}</span></div>`).join(''):'<div class="note">No rolls yet.</div>'}
 // On the play pages, dice in freshly drawn content become clickable.
 let DICE_OBS=null;function diceWatch(){if(DICE_OBS)DICE_OBS.disconnect();if(!['party','forge','encounter','combat','hooks','craft','prep'].includes(TAB))return;diceify($('content'));DICE_OBS=new MutationObserver(()=>{DICE_OBS.disconnect();diceify($('content'));DICE_OBS.observe($('content'),{childList:true,subtree:true})});DICE_OBS.observe($('content'),{childList:true,subtree:true})}
-function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('show'),1800)}
+// Deleting happens at once and the toast offers Undo for 6 seconds, instead of asking "Are you sure?" first.
+function undoToast(msg,undo){const t=$('toast');t.innerHTML=`<span>${esc(msg)}</span><button type="button">Undo</button>`;t.classList.add('show','act');clearTimeout(toast._t);
+  t.querySelector('button').onclick=()=>{t.classList.remove('show','act');clearTimeout(toast._t);undo();toast('Restored')};toast._t=setTimeout(()=>t.classList.remove('show','act'),6000)}
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.remove('act');t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('show'),1800)}
 const store={get(k,d){try{const v=localStorage.getItem('fand.'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('fand.'+k,JSON.stringify(v))}catch(e){}cloudMark(k)}};
 
 // ════════════════════════════════════════════════════════════════
@@ -1415,8 +1450,21 @@ function renderTabs_flat(){
 }
 $('tabs').addEventListener('click',e=>{const g=e.target.closest('[data-group]');if(g){e.preventDefault();openNav(g.dataset.group,g);return}const b=e.target.closest('.tab');if(!b||SITE||e.ctrlKey||e.metaKey||e.shiftKey)return;e.preventDefault();go(b.dataset.tab)});
 
+// Phones: a bar at the bottom with Home, Search, Dice, your character (the DM gets Combat), and Menu (every page).
+const BNAV_ICON={home:'<path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>',dice:'<path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 2v6M3 7l9 5 9-5M12 12v10"/>',sheet:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',combat:'<path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2"/><path d="M9.5 6.5L18 3h3v3l-3.5 8.5"/>',menu:'<path d="M4 6h16M4 12h16M4 18h16"/>'};
+const bIcon=k=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${BNAV_ICON[k]}</svg>`;
+function renderBnav(){const b=$('bnav');if(!b)return;const dm=role()==='dm',fourth=dm?['combat','Combat','combat']:['sheet','Character','sheet'];
+  b.innerHTML=[['home','Home','home'],['search','Search','search'],['dice','Dice','dice'],fourth,['menu','Menu','menu']].map(([id,l,ic])=>id==='search'?`<button type="button" onclick="openPalette()">${bIcon(ic)}<span>${l}</span></button>`:id==='menu'?`<button type="button" onclick="openMenuDrawer()" aria-haspopup="dialog">${bIcon(ic)}<span>${l}</span></button>`:`<a href="${pageUrl(id)}" data-tab="${id}"${TAB===id?' class="on" aria-current="page"':''}>${bIcon(ic)}<span>${l}</span></a>`).join('')}
+function openMenuDrawer(){const d=$('mdrawer'),u=typeof CL!=='undefined'&&CL.user;
+  d.innerHTML=`<div class="md-h"><b>Menu</b><button type="button" class="icon-btn" onclick="closeMenuDrawer()" aria-label="Close menu">${ICON.x}</button></div>
+    <div class="md-quick"><a href="${pageUrl('account')}" data-tab="account">${bIcon('sheet')}<span>${u?'Your account':'Sign in'}</span></a><a href="${pageUrl('settings')}" data-tab="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg><span>Settings</span></a><a href="#" onclick="closeMenuDrawer();openQuick();return false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/></svg><span>Quick rules</span></a></div>
+    ${navGroups().map(([g,ids])=>`<div class="md-g"><h4>${esc(g)}</h4><div class="md-grid">${ids.map(id=>{const t=TABS.find(x=>x[0]===id);return t?`<a href="${pageUrl(id)}" data-tab="${id}"${id===TAB?' class="on"':''}><b>${esc(t[1])}</b>${t[2]!=null?`<small>${fmt(t[2])}</small>`:''}</a>`:''}).join('')}</div></div>`).join('')}`;
+  d.hidden=false;d.scrollTop=0;const f=d.querySelector('.md-h button');if(f)f.focus()}
+function closeMenuDrawer(){$('mdrawer').hidden=true}
+['bnav','mdrawer'].forEach(id=>$(id).addEventListener('click',e=>{const a=e.target.closest('a[data-tab]');if(!a)return;closeMenuDrawer();if(SITE||e.ctrlKey||e.metaKey)return;e.preventDefault();go(a.dataset.tab)}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('mdrawer').hidden){closeMenuDrawer();e.stopPropagation()}},true);
 function renderTab(){
-  renderTabs();
+  renderTabs();renderBnav();
   toggleDrawer(false);
   $('content').dataset.tab=TAB;
   document.title=(TABS.find(t=>t[0]===TAB)||[])[1]+' · FAND';
@@ -3186,6 +3234,10 @@ let findBP=n=>BP_IDX.get(lc(n||''));
 const godByKey=n=>GOD_IDX.get(lc(n||''));
 let PARTY=store.get('party',[]);
 const saveParty=()=>{partyStamp();store.set('party',PARTY)};
+function partyDelete(id){const i=PARTY.findIndex(x=>x.id===id),c=PARTY[i];if(!c)return;PARTY.splice(i,1);PARTY_SEL=null;saveParty();renderParty();undoToast((c.name||'Character')+' deleted',()=>{partyRestore(c,i);PARTY_SEL=c.id;if(TAB==='party')renderParty()})}
+// Undo a deleted character: put it back where it was and forget its deletion marker (so other devices keep it too)
+function partyRestore(c,i){try{const g=store.get('partygone',{});if(g[c.id]){delete g[c.id];store.set('partygone',g)}}catch(e){}if(typeof CL!=='undefined'&&CL.cgone)CL.cgone=CL.cgone.filter(x=>x[1]!==c.id);
+  PARTY.splice(Math.max(0,Math.min(i,PARTY.length)),0,c);saveParty()}
 function datalists(){
   if($('dl-bp'))return '';
   return `<datalist id="dl-bp">${BPS.map(b=>`<option value="${esc(b.n)}">`).join('')}</datalist>
@@ -3418,7 +3470,7 @@ function sheetHcGrant(){if(!HC)return;const c=sheetChar(),x=HC.find(y=>lc(y.n)==
 function sheetHcFuse(k){if(!HC)return;const c=sheetChar(),x=HC[k],list=hcList(c);if(!x||!x.combo)return;const parts=list.filter(h=>x.combo.includes(h.n));if(parts.length<x.combo.length)return;
   if(!confirm('Fuse '+x.combo.join(' + ')+' into '+x.n+'? The three classes become one.'))return;const lv0=Math.min(...parts.map(h=>h.lv0));
   c.hcls=list.filter(h=>!x.combo.includes(h.n)).concat(hcEntry(x,lv0));saveParty();hcLog(true,'fused '+x.n+' for '+(c.name||'a character'));toast(x.n+' formed');renderSheet()}
-function sheetHcRemove(i){if(!HC)return;const c=sheetChar(),list=hcList(c),h=list[i];if(!h||!confirm('Remove '+h.n+' from this character?'))return;hcLog(true,'removed '+h.n+' from '+(c.name||'a character'));c.hcls=list.filter((_,j)=>j!==i);saveParty();renderSheet()}
+function sheetHcRemove(i){if(!HC)return;const c=sheetChar(),list=hcList(c),h=list[i];if(!h)return;hcLog(true,'removed '+h.n+' from '+(c.name||'a character'));c.hcls=list.filter((_,j)=>j!==i);saveParty();renderSheet();undoToast(h.n+' removed',()=>{c.hcls=list;saveParty();hcLog(true,'put back '+h.n+' on '+(c.name||'a character'));if(TAB==='sheet')renderSheet()})}
 function sheetHcGrow(i){const c=sheetChar(),list=hcList(c),h=list[i];if(!h)return;const n=hcSteady(hcLevelAt(+c.level||1,h.lv0)),p=n-(h.ga||0);if(p<=0)return;if(h.grow){c.abil=c.abil||{};Object.entries(h.grow).forEach(([k,v])=>{c.abil[k]=(+c.abil[k]||10)+v*p})}h.ga=n;c.hcls=list;saveParty();renderSheet();toast(h.grow?'Hidden class growth added':'Points marked as spent')}
 function sheetGrow(){const c=sheetChar(),L=+c.level||1,L2=c.cls2?Math.max(0,Math.min(L-1,+c.lv2||0)):0,n=steadyCount(L-L2),p=n-(c.growApplied||0),n2=c.cls2?steadyCount(L2):0,p2=n2-(c.growApplied2||0);if((p<=0||!CLASS_MAIN[c.cls])&&(p2<=0||!CLASS_MAIN[c.cls2]))return;c.abil=c.abil||{};if(p>0&&CLASS_MAIN[c.cls]){Object.entries(growthOf(c.cls)).forEach(([k,v])=>{c.abil[k]=(+c.abil[k]||10)+v*p});c.growApplied=n}if(p2>0&&CLASS_MAIN[c.cls2]){Object.entries(growthOf(c.cls2)).forEach(([k,v])=>{c.abil[k]=(+c.abil[k]||10)+v*p2});c.growApplied2=n2}saveParty();renderSheet();toast('Steady Growth added')}
 // Share a character: the whole sheet packed into a link (compressed, base64url) that opens this page on another device and
@@ -3941,7 +3993,7 @@ function lvlApply(){const c=lvlChar();if(!c)return;const hp=+LVL.hp||0;if(hp>0){
   LVL.sp.forEach(n=>{const x=SP.find(y=>y.n===n);if(!x)return;c.spells=c.spells||{};(c.spells[x.lv]=c.spells[x.lv]||[]).push(n)});
   saveParty();const done=[hp>0?'+'+hp+' HP':'',LVL.sub,LVL.sp.length?LVL.sp.length+' new spell'+(LVL.sp.length>1?'s':''):''].filter(Boolean).join(', ');LVL=null;renderLvl();
   if(TAB==='sheet')renderSheet();else if(TAB==='party')renderParty();toast(`${c.name||'Character'} is level ${c.level}${done?': '+done:''}`)}
-function sheetDelete(){const c=sheetChar();if(!c)return;if(!confirm(`Delete ${c.name||'this character'}? This can't be undone.`))return;PARTY=PARTY.filter(x=>x.id!==c.id);if(PARTY_SEL===c.id)PARTY_SEL=null;SHEET_ID=PARTY[0]?PARTY[0].id:null;saveParty();toast((c.name||'Character')+' deleted');renderSheet()}
+function sheetDelete(){const c=sheetChar();if(!c)return;const i=PARTY.indexOf(c);PARTY=PARTY.filter(x=>x.id!==c.id);if(PARTY_SEL===c.id)PARTY_SEL=null;SHEET_ID=PARTY[0]?PARTY[0].id:null;saveParty();renderSheet();undoToast((c.name||'Character')+' deleted',()=>{partyRestore(c,i);SHEET_ID=c.id;if(TAB==='sheet')renderSheet()})}
 function sheetGear(act,i){const c=sheetChar();if(!c)return;c.gear=c.gear||[];if(act==='rm')c.gear.splice(i,1);else{const v=$('gear-n').value.trim(),b=findBP(v);if(!b){toast('No Blueprint named “'+v+'”');return}c.gear.push(b.n);const k=(c.inv||[]).findIndex(z=>lc(z[0])===lc(b.n));if(k>=0){c.inv[k][1]=(+c.inv[k][1]||0)-1;if(c.inv[k][1]<=0)c.inv.splice(k,1)}}saveParty();renderSheet()}
 function sheetSkillAdd(){const c=sheetChar(),n=$('sk-new').value.trim();if(!n)return;c.custom=(c.custom||[]).concat({n,ab:$('sk-ab').value,prof:false});saveParty();renderSheet()}
 function sheetInvAdd(){const c=sheetChar(),n=$('inv-n').value.trim(),q=Math.max(1,+$('inv-q').value||1);if(!n)return;invAdd(c,n,q);saveParty();renderSheet()}
@@ -4010,7 +4062,7 @@ function charEditor(c){
       <div class="full"><div class="note" style="margin:0 0 4px">More contracts (a character can serve several gods; a conflict of interest forces a choice)</div>${(c.extra||[]).map((x,i)=>`<span class="chip"${x.how?` title="${esc(ctWay(x.how))}"`:''}>${esc(x.god)} · ${esc(x.rank||'Minor')} <span style="cursor:pointer" onclick="rmContract('${c.id}',${i})" title="Remove">✕</span></span>`).join(' ')}
         <span class="keyrow" style="margin-top:4px"><select class="sel" id="xc-god"><option value="">Add a god…</option>${GODS.map(g=>`<option value="${esc(godKey(g))}">${esc(godKey(g))}</option>`).join('')}</select><select class="sel" id="xc-rank">${CONTRACT_RANKS.map(r=>`<option>${r}</option>`).join('')}</select>${ctWayOpts('','xc-how')}<button class="btn" type="button" onclick="addContract('${c.id}')">Add</button></span></div>
       <label class="full">Notes<textarea data-k="notes" rows="3" style="background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:7px 9px;color:var(--text);font:inherit">${esc(c.notes||'')}</textarea></label></div>
-    <div style="display:flex;justify-content:space-between"><button class="btn" onclick="if(confirm('Delete this character?')){PARTY=PARTY.filter(x=>x.id!=='${c.id}');PARTY_SEL=null;saveParty();renderParty()}">Delete character</button><span style="display:flex;gap:8px"><button class="btn primary" onclick="(()=>{const d=prompt('What did they accomplish to earn this level?','');if(d===null)return;levelUp(PARTY.find(x=>x.id==='${c.id}'),d.trim()||'Accomplishment');renderParty()})()">⬆ Level up</button><button class="btn" onclick="go('craft')">Crafting planner →</button></span></div>
+    <div style="display:flex;justify-content:space-between"><button class="btn" onclick="partyDelete('${c.id}')">Delete character</button><span style="display:flex;gap:8px"><button class="btn primary" onclick="(()=>{const d=prompt('What did they accomplish to earn this level?','');if(d===null)return;levelUp(PARTY.find(x=>x.id==='${c.id}'),d.trim()||'Accomplishment');renderParty()})()">⬆ Level up</button><button class="btn" onclick="go('craft')">Crafting planner →</button></span></div>
    </div>
    <div style="display:flex;flex-direction:column;gap:14px">
     <div class="panel">${kv([['AC',`${s.ac} <small style="font-weight:400;color:var(--muted)">(armor ${s.armorAC}${s.conAC?', CON '+sgn(s.conAC):''}${s.ct?', contract +'+s.ct.ac:''}${s.ac-s.armorAC-s.conAC-(s.ct?s.ct.ac:0)?', other '+(s.ac-s.armorAC-s.conAC-(s.ct?s.ct.ac:0)):''})</small>`],['HP',`${c.hp??'?'} / ${c.hpMax??'?'}`],['Class stage',c.cls?(()=>{const si=stageInfo(c.cls,+c.level||1);return `<b>${esc(si.name)}</b>${si.k>1?` <small style="font-weight:400;color:var(--muted)">${ORDN(si.k)} change of ${esc(c.cls)}</small>`:''}<br><small style="font-weight:400;color:var(--muted)">Can use spells from: ${si.realms.map(esc).join(', ')}${si.k<10?` · next change at level ${stageStart(si.k+1)}`:''}</small>`})():''],['Spell slots',(()=>{const r=slotsFor(c.cls,+c.level||1);return !r?'':r.pact?`${r.n} × ${esc(r.lvl)}-level (short rest)`:r.slots.map((k,i)=>k?`${['1st','2nd','3rd','4th','5th','6th','7th','8th','9th'][i]} ${k}`:'').filter(Boolean).join(' · ')||'none yet'})()],['Armor drawbacks',s.drawback.length?`<ul style="margin:0;padding-left:16px;font-weight:400">${s.drawback.map(o=>`<li>${esc(o.d)} <small style="color:var(--muted)">(${esc(o.from.join(', '))})</small></li>`).join('')}</ul>`:'None'],['Contract',s.god?refChip(s.god,esc(godKey(s.god)))+(s.ct?' · '+esc(s.ct.r):''):'None']])}
@@ -4189,7 +4241,7 @@ function renderJournal(){
   const save=J2=>{store.set('journal',J2);renderJournal()};
   $('jn-add').onclick=()=>{const t=$('jn-t').value.trim(),b=$('jn-b').value.trim();if(!t&&!b)return;const ed=store.get('jedit',null),J2=store.get('journal',[]),e={t:t||'Session '+(J2.length+1),d:$('jn-d').value,body:b};if(ed!=null&&J2[ed]){J2[ed]=e;store.set('jedit',null)}else J2.push(e);save(J2)};
   $('jn-q').oninput=e=>{store.set('jq',e.target.value);const pos=e.target.selectionStart;renderJournal();const f=$('jn-q');f.focus();f.setSelectionRange(pos,pos)};
-  $('content').querySelectorAll('[data-jdel]').forEach(b=>b.onclick=()=>{if(confirm('Delete this entry?')){const J2=store.get('journal',[]);J2.splice(+b.dataset.jdel,1);save(J2)}});
+  $('content').querySelectorAll('[data-jdel]').forEach(b=>b.onclick=()=>{const J2=store.get('journal',[]),k=+b.dataset.jdel,[x]=J2.splice(k,1);save(J2);undoToast('Entry deleted',()=>{const J3=store.get('journal',[]);J3.splice(k,0,x);save(J3)})});
   $('content').querySelectorAll('[data-jedit]').forEach(b=>b.onclick=()=>{const e=store.get('journal',[])[+b.dataset.jedit];store.set('jedit',+b.dataset.jedit);$('jn-t').value=e.t;$('jn-d').value=e.d||'';$('jn-b').value=e.body;$('jn-add').textContent='Save changes';$('content').scrollTop=0;$('jn-b').focus()});
   $('jn-exp').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(store.get('journal',[]),null,1)],{type:'application/json'}));a.download='FAND journal.json';a.click()};
   $('jn-imp').onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{try{const d=JSON.parse(t);if(!Array.isArray(d))throw 0;save(store.get('journal',[]).concat(d));toast('Imported '+d.length+' entries')}catch(err){toast('That file is not a FAND journal')}})};
@@ -5200,7 +5252,7 @@ function renderCombat(){
       <button class="btn" onclick="cbAddCustom()">+ Custom</button>
       <label class="note" style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" id="cb-ac" ${CB.noAC?'':'checked'} onchange="CB.noAC=!this.checked;saveCB()"> Subtract AC from damage</label><label class="note" style="display:flex;gap:6px;align-items:center;margin:0">Damage type <select class="sel" style="padding:2px 6px" onchange="CB.dt=this.value;saveCB()"><option value="">—</option>${Object.keys(KILL_FX).map(t=>`<option${t===CB.dt?' selected':''}>${t}</option>`).join('')}</select></label>
       ${'wakeLock'in navigator?`<label class="note" style="display:flex;gap:6px;align-items:center;margin:0" title="Stops the phone or tablet from dimming and locking while this page is open"><input type="checkbox" id="cb-wake" ${store.get('wakelock',false)?'checked':''} onchange="store.set('wakelock',this.checked);wakeSync()"> Keep screen on</label>`:''}
-      <button class="btn" onclick="if(confirm('Clear the combat?')){store.set('combat',{round:1,turn:0,list:[]});renderCombat()}">Clear</button>
+      <button class="btn" onclick="const was=store.get('combat',null);store.set('combat',{round:1,turn:0,list:[]});renderCombat();undoToast('Combat cleared',()=>{store.set('combat',was);if(TAB==='combat')renderCombat()})">Clear</button>
     </div>
     <div class="tablewrap" style="margin-top:14px"><table class="t cbt"><thead><tr><th class="num">Init</th><th>Combatant</th><th class="num">AC</th><th>HP</th><th>Damage / heal</th><th>Conditions</th><th></th></tr></thead><tbody>
     ${CB.list.length?CB.list.map((x,i)=>{const m=x.mon&&MON_IDX.get(lc(x.mon)),pct=x.max?Math.max(0,Math.min(100,x.hp/x.max*100)):0,down=x.hp<=0;
@@ -5634,7 +5686,7 @@ function renderSettings(){const k=getKey(),u=CL.user,dark=document.documentEleme
       ${setSec('data','Saved data','Everything FAND saves lives in this browser'+(u?' and in your account.':'. Sign in to keep it in an account too.'),`
         <div class="set-row"><span>Back up everything<small>A file with your characters, journal, plans, designs, dice, and settings</small></span><button class="btn" type="button" onclick="setExport()">Download backup</button></div>
         <div class="set-row"><span>Restore a backup<small>Replaces the same data on this device${u?' and in your account':''}</small></span><label class="btn" style="cursor:pointer">Choose file<input type="file" accept=".json,application/json" hidden onchange="setImport(this)"></label></div>
-        <div class="set-row"><span>Pins<small>${PINS.size} pinned item${PINS.size===1?'':'s'}</small></span><button class="btn" type="button" onclick="if(confirm('Remove all pins?')){PINS=new Set();store.set('pins',[]);toast('Pins cleared');renderSettings()}">Clear pins</button></div>
+        <div class="set-row"><span>Pins<small>${PINS.size} pinned item${PINS.size===1?'':'s'}</small></span><button class="btn" type="button" onclick="clearPins()">Clear pins</button></div>
         <div class="set-row"><span>Assistant chat<small>The conversation in this tab</small></span><button class="btn" type="button" onclick="newChat();toast('Chat cleared')">Clear chat</button></div>`)}
       ${setSec('app','App','',`<div class="set-row"><span>Install FAND<small>Its own window, the Start menu, and offline play</small></span><button class="btn" type="button" onclick="installApp()">Install</button></div>
         <div class="set-row"><span>Version<small>${esc(String(META.version||''))}${META.built?' · built '+esc(META.built):''}${SITE&&SITE.b?' · build '+esc(SITE.b):''}</small></span>${SITE&&SITE.b?'<button class="btn" type="button" id="updBtn" onclick="checkUpdate()">Check for updates</button>':''}</div>
@@ -5645,6 +5697,7 @@ function renderSettings(){const k=getKey(),u=CL.user,dark=document.documentEleme
     $('setSave').onclick=()=>{const v=$('setKey').value.trim();if(v&&!/^sk-ant-/.test(v)){$('setMsg').style.color='var(--red)';$('setMsg').textContent='That doesn\'t look like an Anthropic API key (they start with sk-ant-).';return}saveKey(v,$('setRemember').checked);toast(v?'API key saved':'API key removed');renderAI();renderSettings()};
     $('setKey').onkeydown=e=>{if(e.key==='Enter')$('setSave').click()};
     $('setRemove').onclick=()=>{saveKey('',false);toast('API key removed');renderAI();renderSettings()}}}
+function clearPins(){const was=[...PINS];PINS=new Set();store.set('pins',[]);renderSettings();undoToast('Pins cleared',()=>{PINS=new Set(was);store.set('pins',was);if(TAB==='settings')renderSettings()})}
 // backups: every key this site saves (never the API key or account bookkeeping)
 function setExport(){const data={};try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('fand.')&&k!==KEY_NAME&&!k.startsWith('fand.__'))data[k.slice(5)]=localStorage.getItem(k)}}catch(e){}
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({fand:'backup',at:new Date().toISOString(),data},null,1)],{type:'application/json'}));a.download='fand-backup-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();toast('Backup downloaded')}
