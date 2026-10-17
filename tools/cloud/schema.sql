@@ -273,3 +273,45 @@ begin
     end if;
   end if;
 end $$;
+
+-- ── site-provided AI keys (optional) ─────────────────────────────
+-- The Forge (Grok) and, later, the chat assistant (Claude) can use keys the site owner provides instead of each
+-- player's own. The keys live encrypted in Supabase Vault; add or change them with the commands in ai-keys.sql.
+-- Only the database owner (used by the `forge` Edge Function) can read them: the fand_private schema is not exposed
+-- to the website, and its functions are revoked from every website role. Each signed-in account gets a daily limit.
+create schema if not exists fand_private;
+revoke all on schema fand_private from public, anon, authenticated;
+
+create table if not exists fand_private.ai_usage (
+  user_id uuid not null references auth.users (id) on delete cascade,
+  kind text not null check (kind in ('forge', 'chat')),
+  day date not null default current_date,
+  n int not null default 0,
+  primary key (user_id, kind, day)
+);
+alter table fand_private.ai_usage enable row level security;
+revoke all on fand_private.ai_usage from public, anon, authenticated;
+
+-- the key for one kind of call, if this account is still under today's limit (errors start with "fand:")
+create or replace function fand_private.ai_key(p_user uuid, p_kind text, p_limit int) returns text
+language plpgsql security definer set search_path = '' as $$
+declare used int; k text;
+  nm text := case p_kind when 'forge' then 'fand_grok_key' when 'chat' then 'fand_claude_key' end;
+begin
+  if nm is null then raise exception 'fand: unknown kind %', p_kind; end if;
+  select u.n into used from fand_private.ai_usage u where u.user_id = p_user and u.kind = p_kind and u.day = current_date;
+  if coalesce(used, 0) >= p_limit then raise exception 'fand: daily limit'; end if;
+  select s.decrypted_secret into k from vault.decrypted_secrets s where s.name = nm;
+  if k is null or k = '' then raise exception 'fand: no key'; end if;
+  return k;
+end $$;
+
+-- count one successful call
+create or replace function fand_private.ai_used(p_user uuid, p_kind text) returns void
+language sql security definer set search_path = '' as $$
+  insert into fand_private.ai_usage (user_id, kind, day, n) values (p_user, p_kind, current_date, 1)
+  on conflict (user_id, kind, day) do update set n = fand_private.ai_usage.n + 1;
+$$;
+
+revoke all on function fand_private.ai_key(uuid, text, int) from public, anon, authenticated;
+revoke all on function fand_private.ai_used(uuid, text) from public, anon, authenticated;

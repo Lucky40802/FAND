@@ -881,7 +881,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"classes",v:"2abeee3d53",b:"efce388d"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"classes",v:"2abeee3d53",b:"2a6b0bac"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=2abeee3d53",10912158],["data/vault.js?v=2abeee3d53",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -2535,6 +2535,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-17','Forge with Grok without your own key','Signed in, you can now forge with Grok using this site\'s key, a few forges a day, with no xAI key of your own. Adding your own key in Settings still works and has no daily limit.'],
   ['2026-10-17','Text boxes match the theme','Search and number boxes (on Hidden classes, the Forge, Tools, and elsewhere) now use FAND\'s own colours, so they no longer turn black in light mode on a device set to dark mode.'],
   ['2026-10-17','Hand out Tower Cards','Each Magic Tower now lets you pick any character in the party and either take its card for them (spending a spell slot, as before) or give it at no cost: a card found in the realm, a reward, or a gift from the DM. The character sheet\'s Tower Cards box can add a card the DM handed over, and each tower lists who already holds its card.'],
   ['2026-10-17','Forge with Grok','The Forge has a new Forge with Grok panel: describe the weapon you want, add your materials, and Grok (through your own xAI API key, added in Settings → Assistant) picks the design, places each material on a part, and names it with a short description. The Forge\'s own rules then work out the damage, rarity, and properties, and the weapon is saved as a Blueprint you can craft or equip.'],
@@ -6097,7 +6098,9 @@ let GROK=Object.assign({want:'',mats:[],msg:'',busy:false},store.get('grokforge'
 const saveGrokState=()=>store.set('grokforge',{want:GROK.want,mats:GROK.mats});
 const GROK_MAX_MATS=8;
 const grokWeapons=()=>GEN.filter(([,b])=>b.dmg);
-function grokPanel(){const key=grokKey(),mats=GROK.mats.map(n=>findMat(n)).filter(Boolean);
+// who pays: the player's own key if they added one, else (signed in) the site's key through the `forge` Edge Function
+const grokVia=()=>grokKey()?'own':CL.on&&CL.user?'site':'';
+function grokPanel(){const key=grokVia(),mats=GROK.mats.map(n=>findMat(n)).filter(Boolean);
   return `<div class="panel" id="gk" style="margin-bottom:14px;border-color:var(--acc)">
     <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><b style="font-family:var(--serif);font-size:1.15rem">✨ Forge with Grok</b><span class="note" style="margin:0">Describe a weapon, add your materials, and Grok designs its Blueprint. The stats follow the Forge's rules.</span></div>
     <label class="note" style="display:block;margin:10px 0 0"><b>1. The weapon you want</b><textarea id="gk-want" rows="2" maxlength="400" placeholder="A long, curved blade that hums in the dark…" style="display:block;width:100%;margin-top:4px;background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:7px 9px;color:var(--text);font:inherit">${esc(GROK.want)}</textarea></label>
@@ -6105,7 +6108,7 @@ function grokPanel(){const key=grokKey(),mats=GROK.mats.map(n=>findMat(n)).filte
     <div class="keyrow"><input class="sel" id="gk-mat" list="dl-mat" placeholder="Type a material…" style="max-width:none;flex:1"><button class="btn" type="button" id="gk-add">Add</button></div>
     <div class="chips" style="margin-top:6px">${mats.length?mats.map((m,i)=>`<span class="chip">${refChip(m)} <small>${esc(m.gr||'')} · ${esc(CAT_NAME[matCode(m)]||'')}</small> <span style="cursor:pointer" data-gk-rm="${i}" title="Remove">✕</span></span>`).join(''):'<span class="note" style="margin:0">No materials yet. A weapon needs at least a hard main part (metal, bone, or stone) and something for the haft or hilt.</span>'}</div>
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px"><b class="note" style="margin:0">3.</b>
-      ${key?`<button class="btn primary" type="button" id="gk-go" ${GROK.busy?'disabled':''}>${GROK.busy?'Forging…':'Forge the Blueprint'}</button>`:`<span class="note" style="margin:0">Add your xAI API key in <a href="${pageUrl('settings')}" data-go="settings">Settings → Assistant</a> to forge with Grok.</span>`}
+      ${key?`<button class="btn primary" type="button" id="gk-go" ${GROK.busy?'disabled':''}>${GROK.busy?'Forging…':'Forge the Blueprint'}</button>`:`<span class="note" style="margin:0">${CL.on?`<a href="${pageUrl('account')}" data-go="account">Sign in</a> to forge with FAND's Grok, or add`:'Add'} your own xAI API key in <a href="${pageUrl('settings')}" data-go="settings">Settings → Assistant</a>.</span>`}
       <span class="note" id="gk-msg" style="margin:0">${esc(GROK.msg||'')}</span></div>
   </div>`}
 function bindGrok(){if(!$('gk'))return;
@@ -6123,6 +6126,11 @@ function grokPrompt(want,mats){
 Rules: choose the design closest to what the player asked for. Use only the player's materials, spelled exactly as given. Put a material only on a part whose good categories include it; use a poor fit only if nothing good is left; never use a wrong one. Fill every required part you can. A material can go on more than one part. The name must not be the plain design name.`},
     {role:'user',content:JSON.stringify({request:want,materials:M,designs:weapons})}]}
 async function grokCall(messages,json){
+  if(!grokKey()){// the site's key, on the server
+    if(!(CL.on&&CL.user&&CL.sb))throw new Error('Sign in, or add your own xAI key in Settings.');
+    const {data,error}=await CL.sb.functions.invoke('forge',{body:{messages}});
+    if(error){let t='';try{t=(await error.context.json()).error}catch(e){}const err=new Error(t||(/Failed to send|fetch/i.test(error.message||'')?'Could not reach the forge server.':'The forge server had a problem. Try again.'));err.status=error.context&&error.context.status;throw err}
+    return String((data&&data.content)||'')}
   const r=await fetch('https://api.x.ai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+grokKey()},body:JSON.stringify(Object.assign({model:grokModel(),messages,temperature:0.8},json?{response_format:{type:'json_object'}}:{}))});
   if(!r.ok){let t='';try{const j=await r.json();t=(j.error&&(j.error.message||j.error))||j.message||''}catch(e){}const err=new Error(r.status===401||r.status===403?'xAI did not accept the key. Check it in Settings.':r.status===429?'xAI says too many requests or no credit left. Try again later.':'xAI error '+r.status+(t?': '+String(t).slice(0,160):''));err.status=r.status;throw err}
   const j=await r.json();return String(((j.choices||[])[0]||{}).message?.content||'')}
@@ -6134,7 +6142,7 @@ async function grokForge(){
   GROK.busy=true;GROK.msg='Grok is designing your weapon…';renderForge();
   try{
     const msgs=grokPrompt(want,mats);let txt;
-    try{txt=await grokCall(msgs,true)}catch(e){if(e.status===400)txt=await grokCall(msgs,false);else throw e}
+    try{txt=await grokCall(msgs,true)}catch(e){if(e.status===400&&grokKey())txt=await grokCall(msgs,false);else throw e}
     const o=grokParse(txt),W=new Map(grokWeapons().map(([n,b])=>[lc(n),[n,b]])),hit=W.get(lc(o.design||''));
     if(!hit)throw new Error('Grok picked a design the Forge does not know ('+String(o.design||'none').slice(0,40)+'). Try again or reword the request.');
     const [base,B]=hit,byName=new Map(mats.map(m=>[lc(m.n),m])),parts={};
@@ -6202,7 +6210,7 @@ function renderSettings(){const k=getKey(),u=CL.user,dark=document.documentEleme
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 10px"><button class="btn primary" type="button" id="setSave">Save key</button><button class="btn" type="button" id="setRemove" ${k?'':'disabled'}>Remove key</button></div>
         <div class="note">The key is stored only in this browser (never in your account) and is sent only to Anthropic's API (api.anthropic.com). Usage is billed to your Anthropic account. Get a key at <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a>. On a shared computer, untick “Remember” so the key is forgotten when the tab closes.</div>
         <h4 style="margin:18px 0 6px;font-family:var(--serif)">Forge with Grok</h4>
-        <p class="note" style="margin:0 0 8px">The Forge can design a weapon from your description and materials using Grok, through your own xAI API key.</p>
+        <p class="note" style="margin:0 0 8px">The Forge can design a weapon from your description and materials using Grok.${CL.on?' Signed-in players use this site\'s key (a few forges a day); add your own key to use yours instead, with no daily limit.':' Add your own xAI API key to use it.'}</p>
         <div class="keyrow"><input class="sel" id="setGrok" type="password" autocomplete="off" spellcheck="false" placeholder="xai-…" value="${esc(grokKey())}" style="max-width:none;flex:1"><button class="btn" id="setGrokShow" type="button">Show</button></div>
         <label class="note" style="display:flex;gap:8px;align-items:center;margin:8px 0 0">Model <input class="sel" id="setGrokModel" value="${esc(grokModel())}" style="max-width:200px" spellcheck="false"></label>
         <div id="setGrokMsg" class="okline">${grokKey()?'A Grok key is saved.':''}</div>
