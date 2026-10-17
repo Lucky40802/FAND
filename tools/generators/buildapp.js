@@ -361,6 +361,34 @@ log.push('material origins: ' + JSON.stringify(orgCount) + ', unique traits on '
   log.push('blueprints past level 20: +' + added + ' (now ' + D.BPS.length + ')');
 })();
 
+// ---- harvesting tools, storage, the Bag of Holding, and rune fragments (data/gear-bp.js). Regenerated on every build.
+(function () {
+  var f = path.join(__dirname, '..', 'data', 'gear-bp.js'); if (!fs.existsSync(f)) return;
+  delete require.cache[require.resolve(f)];
+  var G = require(f), TY = { O: 'Ore / Metal', W: 'Wood / Plant', G: 'Crystal / Gem', S: 'Stone', F: 'Hide / Cloth / Fiber', B: 'Bone / Fang / Horn / Scale', L: 'Blood / Organ', E: 'Essence / Soul / Core' };
+  D.BPS = D.BPS.filter(function (b) { return !b.gear; });
+  D.MATS = D.MATS.filter(function (m) { return !m.frag; });
+  G.FRAGMENTS.forEach(function (x) {
+    D.MATS.push({ n: x.n, cat: 'Rune Fragment', realm: 'Mysterious', gr: 'Mysterious 10', tier: 2, g: 10, rank: 100, il: 50, rar: 'Artifact', price: 0, ty: 'Essence / Soul / Core', tc: 'E', org: 'Rune', src: x.src, ds: x.ds, rune: x.rune, frag: 1, site: 1, bonus: '', prop: '' });
+  });
+  var byRT = {}; D.MATS.forEach(function (m) { if (!m.ty || m.supply || m.frag || m.gen || (m.from && m.from.length) || m.org === 'Creature' && !/Hide|Cloth|Fiber|Bone/.test(m.ty) || m.rune) return; var k = m.realm + '|' + m.ty; (byRT[k] = byRT[k] || []).push(m); });
+  Object.keys(byRT).forEach(function (k) { byRT[k].sort(function (a, b) { return (b.used || 0) - (a.used || 0) || (a.n < b.n ? -1 : 1); }); });
+  function pick(realm, t, g) { var L = byRT[realm + '|' + TY[t]] || byRT['Human|' + TY[t]]; if (!L || !L.length) return null; var best = Math.min.apply(null, L.map(function (m) { return Math.abs(m.g - g); })); return L.filter(function (m) { return Math.abs(m.g - g) === best; })[0]; }
+  var have = {}; D.BPS.forEach(function (b) { have[b.n.toLowerCase()] = b; });
+  var added = 0, tagged = 0;
+  G.NEW.forEach(function (x) {
+    if (have[x.n.toLowerCase()]) return;
+    var mats = (x.mats || []).slice(), first = null;
+    (x.m || []).forEach(function (q) { var m = pick(q[0], q[1], q[2]); if (m && mats.indexOf(m.n) < 0) { mats.push(m.n); if (!first) first = m; } });
+    var b = { n: x.n, cat: x.cat, lv: x.lv, pr: x.pr, sp: x.sp, dc: '', dm: '', r: x.r, mg: 0, conns: [], mats: mats, gr: first ? first.gr : '', ds: x.ds, gear: 1 };
+    ['kit', 'kb', 'mine', 'cap', 'carry', 'grow', 'voidbag', 'devotion', 'needs'].forEach(function (k) { if (x[k] != null) b[k] = x[k]; });
+    D.BPS.push(b); have[b.n.toLowerCase()] = b; added++;
+  });
+  Object.keys(G.TOOLS).forEach(function (n) { var b = have[n.toLowerCase()]; if (!b) return; var t = G.TOOLS[n]; ['kit', 'kb', 'kg', 'kr', 'mine'].forEach(function (k) { if (t[k] != null) b[k] = t[k]; }); tagged++; });
+  Object.keys(G.STORE).forEach(function (n) { var b = have[n.toLowerCase()]; if (!b) return; b.cap = G.STORE[n][0]; b.carry = G.STORE[n][1]; if (!/Holds \d+ items/.test(b.ds || '')) b.ds = (b.ds || '') + ' Holds ' + b.cap + ' items' + (b.carry ? ' on top of the 20 a character can carry.' : '.'); tagged++; });
+  log.push('tools and storage: +' + added + ' blueprints, ' + tagged + ' existing tagged, ' + G.FRAGMENTS.length + ' rune fragments');
+})();
+
 // ---- contract spells (data/god-spells.json): one spell of each level 0-9 per god, chosen from the site's spells to fit
 // the god's Runes; a contract's rank decides how many of them its holder gets.
 (function () {
