@@ -382,7 +382,7 @@ log.push('material origins: ' + JSON.stringify(orgCount) + ', unique traits on '
     var mats = (x.mats || []).slice(), first = null;
     (x.m || []).forEach(function (q) { var m = pick(q[0], q[1], q[2]); if (m && mats.indexOf(m.n) < 0) { mats.push(m.n); if (!first) first = m; } });
     var b = { n: x.n, cat: x.cat, lv: x.lv, pr: x.pr, sp: x.sp, dc: x.dc || '', dm: x.dm || '', r: x.r, mg: 0, conns: [], mats: mats, gr: first ? first.gr : '', ds: x.ds, gear: 1 };
-    ['kit', 'kb', 'mine', 'cap', 'carry', 'grow', 'voidbag', 'devotion', 'needs', 'starter', 'slot', 'ac'].forEach(function (k) { if (x[k] != null) b[k] = x[k]; });
+    ['kit', 'kb', 'mine', 'cap', 'carry', 'grow', 'voidbag', 'devotion', 'needs', 'starter', 'slot', 'ac', 'gp'].forEach(function (k) { if (x[k] != null) b[k] = x[k]; });
     D.BPS.push(b); have[b.n.toLowerCase()] = b; added++;
   });
   Object.keys(G.TOOLS).forEach(function (n) { var b = have[n.toLowerCase()]; if (!b) return; var t = G.TOOLS[n]; ['kit', 'kb', 'kg', 'kr', 'mine'].forEach(function (k) { if (t[k] != null) b[k] = t[k]; }); tagged++; });

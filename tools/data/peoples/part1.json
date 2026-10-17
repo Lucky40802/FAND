@@ -1,0 +1,512 @@
+{
+  "Human": {
+    "size": "Medium",
+    "height": "5 to 6 and a half feet",
+    "weight": "120 to 250 pounds",
+    "age": "Humans become adults in their late teens and rarely live past a century.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Humans come in every height, build, and skin tone. Their lives are short, so they push hard to leave a mark. They build cities, start wars, found faiths, and chase every kind of trade. A human hero can fit any class and any story.",
+    "vestige": "Vestige is the human realm, and humans are its most common people. Most towns, roads, and kingdoms here are human-built.",
+    "traits": [
+      ["Ability Score Increase", "Each of your six ability scores goes up by 1."],
+      ["Extra Language", "You speak, read, and write Common and one other language of your choice."]
+    ]
+  },
+  "High Elf": {
+    "size": "Medium",
+    "height": "4 and a half to 6 feet",
+    "weight": "90 to 160 pounds",
+    "age": "Elves are physically grown by about 20 but are not seen as adults until around 100, and they can live to about 750.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "Elvish", "One of your choice"],
+    "desc": "High elves are slender and fine-featured, with pointed ears and sharp eyes. They value learning, art, and magic, and many study spellcraft for centuries. They can seem aloof, but they are patient and loyal once they trust someone. They make natural wizards and thoughtful scholars.",
+    "vestige": "High elves in Vestige often keep old libraries and study the Towers from a careful distance. Their long lives let them remember events most humans only read about.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Keen Senses", "You are proficient in the Perception skill."],
+      ["Fey Ancestry", "You have advantage on saving throws against being charmed. Magic cannot put you to sleep."],
+      ["Trance", "You do not need to sleep. You meditate in a semiconscious state for 4 hours a day and gain the same benefit a human gets from 8 hours of sleep."],
+      ["Elf Weapon Training", "You are proficient with the longsword, shortsword, shortbow, and longbow."],
+      ["Cantrip", "You know one cantrip of your choice from the wizard spell list. Intelligence is your spellcasting ability for it."],
+      ["Extra Language", "You can speak, read, and write one extra language of your choice."]
+    ]
+  },
+  "Wood Elf": {
+    "size": "Medium",
+    "height": "4 and a half to 6 feet",
+    "weight": "90 to 160 pounds",
+    "age": "Wood elves are physically grown by about 20, count as adults around 100, and can live to about 750.",
+    "type": "Humanoid",
+    "speed": 35, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "Elvish"],
+    "desc": "Wood elves have coppery or tan skin and hair in shades of brown, green, or copper. They live in deep forests and move through them quickly and quietly. They tend to be wary of outsiders and close to the land. They make strong rangers, druids, and scouts.",
+    "vestige": "Wood elves keep to the old forests of Vestige, where few roads reach. They watch travelers closely and rarely let them pass unseen.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Keen Senses", "You are proficient in the Perception skill."],
+      ["Fey Ancestry", "You have advantage on saving throws against being charmed. Magic cannot put you to sleep."],
+      ["Trance", "You do not need to sleep. You meditate for 4 hours a day and gain the same benefit a human gets from 8 hours of sleep."],
+      ["Elf Weapon Training", "You are proficient with the longsword, shortsword, shortbow, and longbow."],
+      ["Fleet of Foot", "Your base walking speed is 35 feet."],
+      ["Mask of the Wild", "You can try to hide even when you are only lightly obscured by natural things, such as leaves, heavy rain, falling snow, or mist."]
+    ]
+  },
+  "Dark Elf": {
+    "size": "Medium",
+    "height": "4 and a half to 5 and a half feet",
+    "weight": "75 to 150 pounds",
+    "age": "Dark elves are physically grown by about 20, count as adults around 100, and can live to about 750.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 120,
+    "senses": "",
+    "langs": ["Common", "Elvish"],
+    "desc": "Dark elves, also called drow, have dark gray or black skin and white or pale hair. They grew up in caverns far below the surface, where light is rare. Their homelands are often harsh and full of schemes. A dark elf adventurer has usually left that life behind and must prove themselves to wary strangers.",
+    "vestige": "Dark elves in Vestige come from deep places under the land. Some of their tunnels are said to run close to the roots of Towers.",
+    "traits": [
+      ["Superior Darkvision", "You can see in dim light within 120 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Sunlight Sensitivity", "When you, or what you are trying to see, is in direct sunlight, you have disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight."],
+      ["Keen Senses", "You are proficient in the Perception skill."],
+      ["Fey Ancestry", "You have advantage on saving throws against being charmed. Magic cannot put you to sleep."],
+      ["Trance", "You do not need to sleep. You meditate for 4 hours a day and gain the same benefit a human gets from 8 hours of sleep."],
+      ["Drow Magic", "You know the dancing lights cantrip. At 3rd level you can cast faerie fire once, and at 5th level you can cast darkness once. Each spell comes back after a long rest. Charisma is your spellcasting ability for them."],
+      ["Drow Weapon Training", "You are proficient with rapiers, shortswords, and hand crossbows."]
+    ]
+  },
+  "Hill Dwarf": {
+    "size": "Medium",
+    "height": "3 and a half to 4 and a half feet",
+    "weight": "115 to 200 pounds",
+    "age": "Dwarves reach adulthood around 50 and often live to about 350.",
+    "type": "Humanoid",
+    "speed": 25, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "Dwarvish"],
+    "desc": "Hill dwarves are short, broad, and heavy, with thick beards and weathered faces. They value family, tradition, and honest work. They hold grudges for a long time and keep promises just as long. Their sharp senses and tough bodies make them steady clerics and front-line fighters.",
+    "vestige": "Hill dwarves farm, brew, and mine across the rolling uplands of Vestige. Their halls trade metal and ale with human towns.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Steady Speed", "Your walking speed is 25 feet, and wearing heavy armor does not lower it."],
+      ["Dwarven Resilience", "You have advantage on saving throws against poison, and you have resistance to poison damage."],
+      ["Dwarven Combat Training", "You are proficient with the battleaxe, handaxe, light hammer, and warhammer."],
+      ["Tool Proficiency", "You are proficient with one of these: smith's tools, brewer's supplies, or mason's tools."],
+      ["Stonecunning", "When you make an Intelligence (History) check about the origin of stonework, you count as proficient and add double your proficiency bonus."],
+      ["Dwarven Toughness", "Your hit point maximum goes up by 1, and it goes up by 1 again every time you gain a level."]
+    ]
+  },
+  "Mountain Dwarf": {
+    "size": "Medium",
+    "height": "4 to 5 feet",
+    "weight": "130 to 220 pounds",
+    "age": "Dwarves reach adulthood around 50 and often live to about 350.",
+    "type": "Humanoid",
+    "speed": 25, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "Dwarvish"],
+    "desc": "Mountain dwarves are tall for dwarves and strongly built, often with braided beards. They live in fortress-halls carved into peaks. Most are raised around forges and drilled for war from a young age. They make excellent fighters, even when they pick a class that does not usually wear armor.",
+    "vestige": "Mountain dwarves hold the high ranges of Vestige. Their deep forges are some of the best in the realm.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Steady Speed", "Your walking speed is 25 feet, and wearing heavy armor does not lower it."],
+      ["Dwarven Resilience", "You have advantage on saving throws against poison, and you have resistance to poison damage."],
+      ["Dwarven Combat Training", "You are proficient with the battleaxe, handaxe, light hammer, and warhammer."],
+      ["Tool Proficiency", "You are proficient with one of these: smith's tools, brewer's supplies, or mason's tools."],
+      ["Stonecunning", "When you make an Intelligence (History) check about the origin of stonework, you count as proficient and add double your proficiency bonus."],
+      ["Dwarven Armor Training", "You are proficient with light and medium armor."]
+    ]
+  },
+  "Lightfoot Halfling": {
+    "size": "Small",
+    "height": "2 and a half to 3 and a half feet",
+    "weight": "35 to 45 pounds",
+    "age": "Halflings come of age at 20 and usually live into the middle of their second century.",
+    "type": "Humanoid",
+    "speed": 25, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "Halfling"],
+    "desc": "Lightfoot halflings are small and quick, with curly hair and friendly faces. They like comfort, good food, and good company. Many wander from town to town and fit in wherever they go. Their luck and stealth make them great rogues and charming bards.",
+    "vestige": "Lightfoot halflings live in and around the human towns of Vestige. Many travel the trade roads and hear every rumor first.",
+    "traits": [
+      ["Lucky", "When you roll a 1 on the d20 for an attack roll, ability check, or saving throw, you can reroll it. You must use the new roll."],
+      ["Brave", "You have advantage on saving throws against being frightened."],
+      ["Halfling Nimbleness", "You can move through the space of any creature that is at least one size larger than you."],
+      ["Naturally Stealthy", "You can try to hide even when you are hidden only by a creature that is at least one size larger than you."]
+    ]
+  },
+  "Stout Halfling": {
+    "size": "Small",
+    "height": "2 and a half to 3 and a half feet",
+    "weight": "35 to 50 pounds",
+    "age": "Halflings come of age at 20 and usually live into the middle of their second century.",
+    "type": "Humanoid",
+    "speed": 25, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "Halfling"],
+    "desc": "Stout halflings are a bit sturdier than their cousins. Some say they have dwarven blood. They are cheerful, practical, and hard to knock down. Their luck and toughness suit fighters, rogues, and anyone who expects to drink something dangerous.",
+    "vestige": "Stout halflings tend to settle in farm country and hill villages of Vestige. They often live near dwarven halls and trade with them.",
+    "traits": [
+      ["Lucky", "When you roll a 1 on the d20 for an attack roll, ability check, or saving throw, you can reroll it. You must use the new roll."],
+      ["Brave", "You have advantage on saving throws against being frightened."],
+      ["Halfling Nimbleness", "You can move through the space of any creature that is at least one size larger than you."],
+      ["Stout Resilience", "You have advantage on saving throws against poison, and you have resistance to poison damage."]
+    ]
+  },
+  "Rock Gnome": {
+    "size": "Small",
+    "height": "3 to 4 feet",
+    "weight": "35 to 45 pounds",
+    "age": "Gnomes are grown by about 40 and can live 350 to 500 years.",
+    "type": "Humanoid",
+    "speed": 25, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "Gnomish"],
+    "desc": "Rock gnomes are small, bright-eyed, and always busy. They love to tinker, take things apart, and build new gadgets. Their homes are full of half-finished machines. They make clever wizards, artificers, and problem-solvers.",
+    "vestige": "Rock gnomes run workshops in many Vestige towns. Some study the strange workings of the Towers just to see how they tick.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Gnome Cunning", "You have advantage on Intelligence, Wisdom, and Charisma saving throws against magic."],
+      ["Artificer's Lore", "When you make an Intelligence (History) check about magic items, alchemical objects, or technological devices, you add twice your proficiency bonus instead of your normal bonus."],
+      ["Tinker", "You are proficient with tinker's tools. With 1 hour and 10 gp of materials, you can build a Tiny device (AC 5, 1 hit point): a clockwork toy, a fire starter, or a music box. It works for 24 hours unless you spend an hour fixing it, and you can have up to three running at once."]
+    ]
+  },
+  "Forest Gnome": {
+    "size": "Small",
+    "height": "3 to 4 feet",
+    "weight": "35 to 45 pounds",
+    "age": "Gnomes are grown by about 40 and can live 350 to 500 years.",
+    "type": "Humanoid",
+    "speed": 25, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "Gnomish"],
+    "desc": "Forest gnomes are small, quiet, and often hard to spot. They live in hidden villages deep in the woods. They use small illusions to stay out of sight and befriend the animals around them. They are playful with friends and shy with strangers.",
+    "vestige": "Forest gnomes hide in the wooded corners of Vestige. Most humans never know a gnome village is nearby.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Gnome Cunning", "You have advantage on Intelligence, Wisdom, and Charisma saving throws against magic."],
+      ["Natural Illusionist", "You know the minor illusion cantrip. Intelligence is your spellcasting ability for it."],
+      ["Speak with Small Beasts", "You can share simple ideas with beasts that are Small or smaller, using sounds and gestures."]
+    ]
+  },
+  "Half-Elf": {
+    "size": "Medium",
+    "height": "5 to 6 feet",
+    "weight": "110 to 190 pounds",
+    "age": "Half-elves reach adulthood around 20, like humans, and often live past 180 years.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "Elvish", "One of your choice"],
+    "desc": "Half-elves have human builds with slightly pointed ears and a touch of elven grace. They often feel like they belong to two worlds and fully to neither. Many become skilled at reading people and smoothing things over. They make strong bards, warlocks, and diplomats.",
+    "vestige": "Half-elves are common in the mixed cities of Vestige. They often act as go-betweens for human and elven communities.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Fey Ancestry", "You have advantage on saving throws against being charmed. Magic cannot put you to sleep."],
+      ["Skill Versatility", "You gain proficiency in two skills of your choice."],
+      ["Extra Language", "You speak, read, and write Common, Elvish, and one other language of your choice."]
+    ]
+  },
+  "Half-Orc": {
+    "size": "Medium",
+    "height": "5 to 6 and a half feet",
+    "weight": "140 to 280 pounds",
+    "age": "Half-orcs grow up a little faster than humans, reaching adulthood around 14, and rarely live past 75.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "Orc"],
+    "desc": "Half-orcs are tall and powerful, with grayish skin, jutting jaws, and small tusks. They often carry scars and wear them with pride. People may judge them on sight, so many feel they must prove themselves. They are fierce in battle and very hard to bring down.",
+    "vestige": "Half-orcs live on the edges of Vestige's kingdoms, in border towns and mercenary camps. Many earn respect as guards and soldiers.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Menacing", "You are proficient in the Intimidation skill."],
+      ["Relentless Endurance", "When you drop to 0 hit points but are not killed outright, you can drop to 1 hit point instead. You must finish a long rest before you can do this again."],
+      ["Savage Attacks", "When you score a critical hit with a melee weapon attack, roll one of the weapon's damage dice one extra time and add it to the critical hit's damage."]
+    ]
+  },
+  "Tiefling": {
+    "size": "Medium",
+    "height": "5 to 6 feet",
+    "weight": "110 to 200 pounds",
+    "age": "Tieflings mature at the same rate as humans and live a few years longer.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "Infernal"],
+    "desc": "Tieflings look mostly human but have horns, a tail, and solid-colored eyes. Their skin can range from human tones to deep red. People often distrust them because of their fiendish blood. Many tieflings grow tough and independent, and they make striking warlocks, sorcerers, and rogues.",
+    "vestige": "Tieflings carry a trace of the Hell realm in their blood. In Vestige they are often met with suspicion, though most have never seen Hell.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Hellish Resistance", "You have resistance to fire damage."],
+      ["Infernal Legacy", "You know the thaumaturgy cantrip. At 3rd level you can cast hellish rebuke as a 2nd-level spell once, and at 5th level you can cast darkness once. Each comes back after a long rest. Charisma is your spellcasting ability for them."]
+    ]
+  },
+  "Dragonborn": {
+    "size": "Medium",
+    "height": "5 and a half to 7 feet",
+    "weight": "220 to 320 pounds",
+    "age": "Dragonborn grow fast, reaching adulthood by 15, and live to about 80.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "Draconic"],
+    "desc": "Dragonborn are tall and heavy, with scaled skin and draconic heads. Their scales match the color or metal of their dragon ancestor. They value honor, skill, and their clan above almost anything. They make bold paladins, fighters, and sorcerers.",
+    "vestige": "Dragonborn clans are scattered across Vestige. Each clan keeps careful records of its dragon ancestor and its deeds.",
+    "traits": [
+      ["Draconic Ancestry", "Choose a dragon type: black or copper (acid), blue or bronze (lightning), brass, gold, or red (fire), green (poison), or silver or white (cold). This sets your breath weapon's damage type and your resistance."],
+      ["Breath Weapon", "As an action, you exhale energy in a 5 by 30 foot line (black, blue, brass, bronze, copper) or a 15-foot cone (gold, green, red, silver, white). Each creature there makes a save (Dexterity for acid, fire, and lightning, Constitution for cold and poison) against DC 8 + your Constitution modifier + your proficiency bonus. It takes 2d6 damage on a failure and half on a success. The damage rises to 3d6 at 6th level, 4d6 at 11th, and 5d6 at 16th. You can use it once per short or long rest."],
+      ["Damage Resistance", "You have resistance to the damage type of your draconic ancestry."]
+    ]
+  },
+  "Aasimar": {
+    "size": "Small or Medium",
+    "height": "Small: 2 to 4 feet. Medium: 4 to 7 feet",
+    "weight": "Small: 35 to 70 pounds. Medium: 110 to 240 pounds",
+    "age": "Aasimar mature like humans and can live up to about 160 years.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Aasimar look human, but a touch of the heavens shows through. They may have glowing eyes, faint freckles of light, or a soft halo when they are emotional. Many feel called to a purpose they do not fully understand. They make strong paladins, clerics, and warlocks.",
+    "vestige": "Aasimar carry a spark of the Heaven realm. In Vestige some treat them as omens, though the gods who visit here are only guests under Infinatas.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Celestial Resistance", "You have resistance to necrotic damage and radiant damage."],
+      ["Healing Hands", "As an action, you touch a creature and roll a number of d4s equal to your proficiency bonus. The creature regains that many hit points. Once used, you need a long rest to use it again."],
+      ["Light Bearer", "You know the light cantrip. Charisma is your spellcasting ability for it."],
+      ["Celestial Revelation", "From 3rd level, you can transform as a bonus action for 1 minute, once per long rest. Once on each of your turns during it, you deal extra damage to one target equal to your proficiency bonus (radiant or necrotic, by form). Pick a form each time: Heavenly Wings (a flying speed equal to your walking speed), Inner Radiance (bright light in 10 feet, and at the end of each of your turns each creature within 10 feet takes radiant damage equal to your proficiency bonus), or Necrotic Shroud (when you transform, creatures within 10 feet that can see you make a Charisma save, DC 8 + your proficiency bonus + your Charisma modifier, or are frightened of you until the end of your next turn)."]
+    ]
+  },
+  "Firbolg": {
+    "size": "Medium",
+    "height": "6 to 8 feet",
+    "weight": "240 to 300 pounds",
+    "age": "Firbolgs reach adulthood around 30 and can live about 500 years.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Firbolgs are tall and broad, with soft fur, cow-like noses, and large, gentle eyes. They live quietly in deep forests and protect them. They prefer to stay hidden and avoid fights when they can. They make calm druids, rangers, and clerics.",
+    "vestige": "Firbolgs tend the wild woods of Vestige and rarely visit cities. Locals tell stories of huge, kind strangers who help lost travelers and then vanish.",
+    "traits": [
+      ["Firbolg Magic", "You can cast detect magic and disguise self once each, and they come back after a long rest. You can also cast them with spell slots. With disguise self you can seem up to 3 feet shorter. Choose Intelligence, Wisdom, or Charisma as the spellcasting ability."],
+      ["Hidden Step", "As a bonus action, you turn invisible until the start of your next turn, or until you attack, deal damage, or force a creature to make a save. You can do this a number of times equal to your proficiency bonus, and you regain all uses after a long rest."],
+      ["Powerful Build", "You count as one size larger when working out how much you can carry, push, drag, or lift."],
+      ["Speech of Beast and Leaf", "You can share simple ideas with beasts and plants, and they can understand you. You have advantage on Charisma checks to influence them."]
+    ]
+  },
+  "Goliath": {
+    "size": "Medium",
+    "height": "7 to 8 feet",
+    "weight": "280 to 340 pounds",
+    "age": "Goliaths reach adulthood in their late teens and rarely live past 100.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Goliaths are huge and muscular, with gray skin marked by dark patches and patterns. They live high in the mountains, where life is hard and cold. They love fair competition and keep score of everything. They make tough barbarians, fighters, and monks.",
+    "vestige": "Goliaths live on the highest peaks of Vestige, above even the dwarves. A few climb near the tops of Towers just to say they did.",
+    "traits": [
+      ["Little Giant", "You are proficient in the Athletics skill. You count as one size larger when working out how much you can carry, push, drag, or lift (Powerful Build)."],
+      ["Mountain Born", "You have resistance to cold damage. You are also used to high altitude, so thin air does not trouble you."],
+      ["Stone's Endurance", "When you take damage, you can use your reaction to roll a d12, add your Constitution modifier, and reduce the damage by that total. You can do this a number of times equal to your proficiency bonus, and you regain all uses after a long rest."]
+    ]
+  },
+  "Kenku": {
+    "size": "Small or Medium",
+    "height": "Small: 3 to 4 feet. Medium: 4 to 5 and a half feet",
+    "weight": "50 to 100 pounds",
+    "age": "Kenku reach adulthood around 12 and usually live about 60 years.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Kenku are feathered bird-folk with dark plumage, beaks, and clawed hands. Many talk by copying sounds and voices they have heard. They remember things in sharp detail and can copy writing and crafts very well. They make sly rogues, careful spies, and odd but loyal friends.",
+    "vestige": "Kenku gather in the crowded cities of Vestige, where there is always something new to hear. They often work as messengers and lookouts.",
+    "traits": [
+      ["Expert Duplication", "When you copy writing or craftwork, including your own, you have advantage on any ability checks to make the copy match the original."],
+      ["Kenku Recall", "You are proficient in two skills of your choice. When you make a check with a skill you are proficient in, you can give yourself advantage on it. You can do this a number of times equal to your proficiency bonus, and you regain all uses after a long rest."],
+      ["Mimicry", "You can copy sounds you have heard, including voices. A creature that hears the copy can tell it is fake only with a Wisdom (Insight) check against DC 8 + your proficiency bonus + your Charisma modifier."]
+    ]
+  },
+  "Lizardfolk": {
+    "size": "Medium",
+    "height": "5 to 6 and a half feet",
+    "weight": "120 to 220 pounds",
+    "age": "Lizardfolk reach adulthood around 14 and rarely live past 60.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 30, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Lizardfolk have scaly skin, long snouts, sharp teeth, and often crests or frills. They think in practical terms and can seem cold to others. They see the world as food, threats, and tools. They are steady hunters and make strong barbarians, rangers, and druids.",
+    "vestige": "Lizardfolk live in the swamps and wetlands of Vestige. They trade with outsiders when it is useful and ignore them when it is not.",
+    "traits": [
+      ["Swim Speed", "You have a swimming speed of 30 feet."],
+      ["Bite", "Your jaws are a natural weapon. You can make unarmed strikes with them that deal 1d6 + your Strength modifier slashing damage on a hit."],
+      ["Hold Breath", "You can hold your breath for up to 15 minutes at a time."],
+      ["Hungry Jaws", "As a bonus action, you make a bite attack. If it hits, you gain temporary hit points equal to your proficiency bonus. You can do this a number of times equal to your proficiency bonus, and you regain all uses after a long rest."],
+      ["Natural Armor", "When you are not wearing armor, your AC is 13 + your Dexterity modifier. A shield still adds its bonus."],
+      ["Nature's Intuition", "You are proficient in two of these skills: Animal Handling, Medicine, Nature, Perception, Stealth, or Survival."]
+    ]
+  },
+  "Tabaxi": {
+    "size": "Small or Medium",
+    "height": "Small: 3 to 4 feet. Medium: 5 to 6 and a half feet",
+    "weight": "Small: 40 to 80 pounds. Medium: 100 to 200 pounds",
+    "age": "Tabaxi mature at about the same rate as humans and live about as long.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 30,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Tabaxi are cat-folk with fur, tails, sharp claws, and keen eyes. They are driven by curiosity and love stories, secrets, and rare objects. They often lose interest once a mystery is solved and move on to the next one. They make quick rogues, monks, and bards.",
+    "vestige": "Tabaxi wander Vestige as traders, travelers, and collectors of tales. Many are drawn to the Towers by the stories told about them.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Cat's Claws", "You have a climbing speed equal to your walking speed. Your claws are natural weapons. You can make unarmed strikes with them that deal 1d6 + your Strength modifier slashing damage on a hit."],
+      ["Cat's Talent", "You are proficient in the Perception and Stealth skills."],
+      ["Feline Agility", "When you move on your turn in combat, you can double your speed until the end of the turn. You cannot do it again until you spend one of your turns without moving at all."]
+    ]
+  },
+  "Triton": {
+    "size": "Medium",
+    "height": "4 and a half to 6 feet",
+    "weight": "90 to 200 pounds",
+    "age": "Tritons reach adulthood around 15 and can live about 200 years.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 30, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Tritons have blue or green skin, webbed hands and feet, and fin-like ridges. They come from deep ocean cities where they guard against dark threats below. On land they can seem proud or out of touch, but they mean well. They make dutiful paladins, sorcerers, and fighters.",
+    "vestige": "Tritons guard the deep seas off Vestige's coasts. Some come ashore to learn about the surface and the people who live there.",
+    "traits": [
+      ["Amphibious", "You can breathe both air and water."],
+      ["Swim Speed", "You have a swimming speed of 30 feet."],
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Control Air and Water", "You can cast fog cloud. At 3rd level you can also cast gust of wind, and at 5th level water walk. Each can be cast once without a spell slot and comes back after a long rest, and you can also cast them with spell slots. Choose Intelligence, Wisdom, or Charisma as the spellcasting ability."],
+      ["Emissary of the Sea", "You can share simple ideas with beasts, elementals, and monstrosities that can breathe water. They can understand your meaning."],
+      ["Guardian of the Depths", "You are used to the cold of the deep sea, and you have resistance to cold damage."]
+    ]
+  },
+  "Tortle": {
+    "size": "Small or Medium",
+    "height": "Small: 3 to 4 feet. Medium: 5 to 6 feet",
+    "weight": "Small: 100 to 200 pounds. Medium: 300 to 450 pounds",
+    "age": "Tortles reach adulthood around 15 and usually live about 50 years.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Tortles are turtle-folk with thick shells, beaked faces, and clawed hands. Their shell is their home, so they travel light and feel at ease almost anywhere. They are calm, curious, and like to see the world before they grow old. They make sturdy fighters, monks, and druids.",
+    "vestige": "Tortles walk the coasts and rivers of Vestige, often wandering far from where they hatched. They tend to treat each new place as a short visit.",
+    "traits": [
+      ["Claws", "Your claws are natural weapons. You can make unarmed strikes with them that deal 1d6 + your Strength modifier slashing damage on a hit."],
+      ["Hold Breath", "You can hold your breath for up to 1 hour."],
+      ["Natural Armor", "Your shell gives you a base AC of 17. Your Dexterity modifier does not change it. You cannot wear armor, but a shield still adds its bonus."],
+      ["Nature's Intuition", "You are proficient in one of these skills: Animal Handling, Medicine, Nature, Perception, Stealth, or Survival."],
+      ["Shell Defense", "As an action, you pull into your shell. You gain +4 AC and advantage on Strength and Constitution saves. While inside, your speed is 0, you have disadvantage on Dexterity saves, and you cannot take reactions. You can come out as a bonus action."]
+    ]
+  },
+  "Bugbear": {
+    "size": "Medium",
+    "height": "6 to 8 feet",
+    "weight": "250 to 350 pounds",
+    "age": "Bugbears reach adulthood around 16 and can live to about 80.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Bugbears are tall, hairy goblinoids with long arms and big ears. Despite their size, they move with surprising quiet. Their goblinoid line has a touch of fey magic. They make dangerous rogues, rangers, and fighters who strike first and hard.",
+    "vestige": "Bugbears live in forests, ruins, and the wild edges of Vestige. Some take work as guards or scouts in human lands.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Fey Ancestry", "You have advantage on saving throws you make to avoid or end the charmed condition."],
+      ["Long-Limbed", "When you make a melee attack on your turn, your reach for it is 5 feet greater than normal."],
+      ["Powerful Build", "You count as one size larger when working out how much you can carry, push, drag, or lift."],
+      ["Sneaky", "You are proficient in the Stealth skill. You can also move through and stop in a space big enough for a Small creature without squeezing."],
+      ["Surprise Attack", "If you hit a creature with an attack roll and it has not yet taken a turn in the current combat, it takes an extra 2d6 damage. You can do this only once per combat."]
+    ]
+  },
+  "Goblin": {
+    "size": "Small",
+    "height": "3 to 4 feet",
+    "weight": "40 to 80 pounds",
+    "age": "Goblins reach adulthood around 8 and can live to about 60.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Goblins are small goblinoids with big ears, sharp teeth, and quick hands. They are often underestimated, and they know how to use that. They are good at getting out of trouble and hitting back harder than expected. They make slippery rogues and surprising fighters.",
+    "vestige": "Goblins live everywhere in Vestige, from caves to city slums. Many work hard to shake off the bad name others give them.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Fey Ancestry", "You have advantage on saving throws you make to avoid or end the charmed condition."],
+      ["Fury of the Small", "When you damage a creature with an attack or spell and it is larger than you, you can deal extra damage equal to your proficiency bonus. You can use this once per turn, a number of times equal to your proficiency bonus, and you regain all uses after a long rest."],
+      ["Nimble Escape", "You can take the Disengage or Hide action as a bonus action on each of your turns."]
+    ]
+  },
+  "Hobgoblin": {
+    "size": "Medium",
+    "height": "5 to 6 and a half feet",
+    "weight": "150 to 200 pounds",
+    "age": "Hobgoblins reach adulthood around 15 and can live to about 80.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Hobgoblins are tall goblinoids with orange or reddish skin and sharp features. They value order, teamwork, and discipline. Their goblinoid line carries old fey magic tied to helping others. They make strong fighters, wizards, and leaders who shine when working with a team.",
+    "vestige": "Hobgoblins in Vestige often serve in armies and organized guilds. Their skill at drilling troops is well known across the realm.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Fey Ancestry", "You have advantage on saving throws you make to avoid or end the charmed condition."],
+      ["Fey Gift", "You can take the Help action as a bonus action, a number of times equal to your proficiency bonus per long rest. From 3rd level, pick one extra effect when you do: Hospitality (you and the helped creature each gain 1d6 + your proficiency bonus temporary hit points), Passage (you and the helped creature gain +10 feet of walking speed until the start of your next turn), or Spite (until the start of your next turn, the first attack roll by one creature you can see within 5 feet has disadvantage)."],
+      ["Fortune from the Many", "When you miss an attack or fail an ability check or saving throw, you can add a bonus to the roll equal to the number of allies you can see within 30 feet, up to +3. You can do this a number of times equal to your proficiency bonus, and you regain all uses after a long rest."]
+    ]
+  },
+  "Kobold": {
+    "size": "Small",
+    "height": "2 to 3 feet",
+    "weight": "25 to 40 pounds",
+    "age": "Kobolds reach adulthood around 6 and can live past 100, though few do.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Kobolds are small, scaly, and reptilian, with snouts, tails, and small horns. They see themselves as kin to dragons and are proud of it. They survive by being clever, careful, and working together. They make crafty rogues, sorcerers, and trap-loving artificers.",
+    "vestige": "Kobolds dig warrens in hills and old mines across Vestige. Some still tell tales of the dragons their ancestors served.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Draconic Cry", "As a bonus action, you let out a cry. Until the start of your next turn, you and your allies have advantage on attack rolls against enemies within 10 feet of you that can hear you. You can do this a number of times equal to your proficiency bonus, and you regain all uses after a long rest."],
+      ["Kobold Legacy", "Choose one: Craftiness (proficiency in Arcana, Investigation, Medicine, Sleight of Hand, or Survival), Defiance (advantage on saves to avoid or end the frightened condition), or Draconic Sorcery (one cantrip from the sorcerer list, using Intelligence, Wisdom, or Charisma as your spellcasting ability)."]
+    ]
+  }
+}
