@@ -182,6 +182,11 @@ html.standalone .top .backbtn{display:grid}
 .field .clear{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:0;color:var(--muted);font-size:1rem;padding:2px 6px;display:none}
 .field.has .clear{display:block}
 select.sel,.btn{background:var(--surf);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:.82rem;color:var(--text2);outline:none;max-width:220px}
+input.sel,textarea.sel{background:var(--surf);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:.82rem;color:var(--text);outline:none}
+input.sel::placeholder,textarea.sel::placeholder{color:var(--muted)}
+input.sel:hover,input.sel:focus,textarea.sel:focus{border-color:var(--acc)}
+/* native controls (number spinners, search clear, date pickers) follow FAND's theme, not the device's */
+:root[data-theme="light"]{color-scheme:light}:root[data-theme="dark"]{color-scheme:dark}
 select.sel:hover,.btn:hover{border-color:var(--acc)}
 select.sel.set{border-color:var(--gold);color:var(--text)}
 .btn.on{border-color:var(--gold);color:var(--gold2);background:var(--goldbg)}
@@ -876,7 +881,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"account",v:"2abeee3d53",b:"5804d795"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"account",v:"2abeee3d53",b:"efce388d"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=2abeee3d53",10912158],["data/vault.js?v=2abeee3d53",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -2530,6 +2535,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-17','Text boxes match the theme','Search and number boxes (on Hidden classes, the Forge, Tools, and elsewhere) now use FAND\'s own colours, so they no longer turn black in light mode on a device set to dark mode.'],
   ['2026-10-17','Hand out Tower Cards','Each Magic Tower now lets you pick any character in the party and either take its card for them (spending a spell slot, as before) or give it at no cost: a card found in the realm, a reward, or a gift from the DM. The character sheet\'s Tower Cards box can add a card the DM handed over, and each tower lists who already holds its card.'],
   ['2026-10-17','Forge with Grok','The Forge has a new Forge with Grok panel: describe the weapon you want, add your materials, and Grok (through your own xAI API key, added in Settings → Assistant) picks the design, places each material on a part, and names it with a short description. The Forge\'s own rules then work out the damage, rarity, and properties, and the weapon is saved as a Blueprint you can craft or equip.'],
   ['2026-10-17','What a spell does, in its own box','Spell lists (the Spells page, the character builder, and the level-up window) no longer print each spell\'s description underneath it. Open a spell (or tap ⓘ What it does in the builder and level-up lists) and its effect sits in a large box at the top of the window.'],
