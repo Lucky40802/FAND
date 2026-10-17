@@ -67,7 +67,7 @@
     {
       "name": "Sign in",
       "description": "Sign in to your FAND account",
-      "url": "./index.html?signin=1",
+      "url": "./account.html",
       "icons": [
         {
           "src": "img/icons/icon-192.png",
