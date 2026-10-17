@@ -270,7 +270,7 @@ button.chip:hover,a.chip:hover{border-color:var(--acc);color:var(--text)}
 .dice-box{display:flex;flex-direction:column;align-items:center;gap:14px;padding:20px}
 .dice-row{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;max-width:90vw}
 .die{position:relative;width:96px;height:96px;filter:drop-shadow(0 8px 18px rgba(0,0,0,.45))}
-.die svg{width:100%;height:100%}.die polygon{fill:var(--acc,#6d4bd6);stroke:#fff;stroke-width:3;stroke-linejoin:round}
+.die svg{width:100%;height:100%}
 .die span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font:700 1.9rem var(--serif);text-shadow:0 2px 4px rgba(0,0,0,.4)}
 #dice-ov.spin .die{animation:dieSpin .9s cubic-bezier(.2,.7,.3,1) var(--d) both}
 @keyframes dieSpin{0%{transform:translate(-60vw,-30vh) rotate(-540deg) scale(.4);opacity:0}60%{opacity:1}80%{transform:translate(0,0) rotate(12deg) scale(1.08)}100%{transform:none}}
@@ -353,11 +353,19 @@ table.t tr:hover td{background:var(--surf2)}
 .set-row{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:10px 0;border-top:1px solid var(--line)}.set-row:first-of-type{border-top:0}
 .set-row>span{flex:1;min-width:200px;color:var(--text)}.set-row>span small{display:block;color:var(--muted);font-size:.78rem}
 @media (max-width:800px){.acct-hero{grid-template-columns:1fr;gap:18px;margin:12px 0}.set-layout{grid-template-columns:1fr}.set-nav{position:static;flex-direction:row;overflow-x:auto;gap:6px}.set-nav a{white-space:nowrap;border:1px solid var(--line)}}
+.dsk-grid{display:flex;flex-direction:column;gap:12px}
+.dsk-h{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.dsk-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px}
+.dsk{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px 6px;border:1px solid var(--line);border-radius:10px;background:var(--surf);cursor:pointer;font:inherit;color:var(--text2)}
+.dsk:hover{border-color:var(--acc)}.dsk.on{border-color:var(--gold,#c9a54a);background:var(--goldbg);color:var(--text)}
+.dsk small{font-size:.68rem;line-height:1.2;text-align:center}
+.dsk-die{position:relative;width:52px;height:52px;display:block}.dsk-die svg{width:100%;height:100%;display:block}
+.dsk-die b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:700 .95rem var(--serif)}
 .dp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px;margin:8px 0 12px}
 .dp-t{position:relative}
 .dp-add{width:100%;border:1px solid var(--line);border-radius:10px;background:var(--surf);padding:8px 4px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--text2);font:inherit;font-size:.82rem;font-weight:600;cursor:pointer}
 .dp-add:hover{border-color:var(--acc);color:var(--text)}
-.dp-add svg{width:36px;height:36px}.dp-add polygon{fill:none;stroke:currentColor;stroke-width:5;stroke-linejoin:round}
+.dp-add svg{width:36px;height:36px}
 .dp-t.on .dp-add{border-color:var(--gold,#c9a54a);background:var(--goldbg);color:var(--text)}
 .dp-c{position:absolute;top:-6px;right:-6px;min-width:22px;height:22px;padding:0 5px;border-radius:11px;background:var(--gold,#c9a54a);color:#1a1408;font-size:.78rem;display:grid;place-items:center}
 .dp-rm{position:absolute;top:-6px;left:-6px;width:22px;height:22px;border-radius:50%;border:1px solid var(--line3);background:var(--surf3,var(--surf));color:var(--text);font-weight:700;line-height:1;cursor:pointer;padding:0}
@@ -704,13 +712,80 @@ function rigState(){const g=store.get('dicerig',null),el=$('dr-rig-state');if(!e
 function rigSet(){const mode=$('dr-rig').value,once=$('dr-rig-once').checked,value=+$('dr-rig-v').value||0;$('dr-rig-v').style.display=mode==='total'?'':'none';store.set('dicerig',mode?{mode,once,value}:null);rigState()}
 // Dice overlay: the dice tumble across the screen, their faces flicker, and they land on the rolled numbers.
 const DIE_SHAPE={4:'50,6 94,88 6,88',6:'12,12 88,12 88,88 12,88',8:'50,4 94,50 50,96 6,50',10:'50,4 92,42 50,96 8,42',12:'50,4 95,36 78,92 22,92 5,36',20:'50,3 92,26 92,74 50,97 8,74 8,26',100:'50,4 92,42 50,96 8,42'};
+// Dice styles (the colour and finish of the dice in the rolling animation and the Dice pool), after the dice sold for
+// tabletop play: plain colours, metals, gemstones, and resin specials (galaxy, glitter, marble, liquid core, glow).
+const DSK=(()=>{const L=(id,name,group,o)=>Object.assign({id,name,group},o);return [
+  L('fand','FAND violet','Classic',{grad:['#8b6cf0','#5a3cc4'],stroke:'#fff',ink:'#fff'}),
+  L('crimson','Crimson','Classic',{grad:['#e75656','#8e1414'],stroke:'#ffd9d9',ink:'#fff'}),
+  L('midnight','Midnight blue','Classic',{grad:['#4467e0','#14204f'],stroke:'#c9d6ff',ink:'#fff'}),
+  L('forest','Forest green','Classic',{grad:['#46ad73','#174a2e'],stroke:'#d8f3e3',ink:'#fff'}),
+  L('ivory','Bone and ivory','Classic',{grad:['#fdf8ec','#d4c6a4'],stroke:'#8a7a55',ink:'#3b2f1a',sh:'none'}),
+  L('onyx','Onyx and gold','Classic',{grad:['#3a3a42','#08080b'],stroke:'#c9a54a',ink:'#f0d27a'}),
+  L('gold','Gold','Metal',{metal:['#7a5a10','#f7e08a','#b8902a','#fff3c0','#8a6612'],stroke:'#5a420c',ink:'#4a3507',engrave:1}),
+  L('silver','Silver','Metal',{metal:['#6b7078','#f4f6f8','#a9aeb6','#ffffff','#7c8189'],stroke:'#4a4e55',ink:'#2c2f34',engrave:1}),
+  L('copper','Copper','Metal',{metal:['#6e3216','#f2a36f','#b5602f','#ffd2b0','#7a3a1a'],stroke:'#4a200c',ink:'#3a1806',engrave:1}),
+  L('bronze','Ancient bronze','Metal',{metal:['#3f3416','#b39a52','#6f5f2c','#d8c58a','#4a3e1a'],stroke:'#2c240e',ink:'#efe3b5',patina:1}),
+  L('rosegold','Rose gold','Metal',{metal:['#8a4f4a','#f6c7bd','#c78d84','#ffe6df','#9a5c56'],stroke:'#6a3a35',ink:'#5a2e2a',engrave:1}),
+  L('gunmetal','Gunmetal','Metal',{metal:['#1e2126','#7d858f','#3a3f46','#a5adb7','#24282d'],stroke:'#0d0f12',ink:'#eef1f4'}),
+  L('ruby','Ruby','Gemstone',{gem:['#ff9aa8','#d1103a','#4a0010'],ink:'#fff'}),
+  L('sapphire','Sapphire','Gemstone',{gem:['#9dbdff','#1f4fd6','#061650'],ink:'#fff'}),
+  L('emerald','Emerald','Gemstone',{gem:['#a6f5c8','#14a35a','#033a1c'],ink:'#fff'}),
+  L('amethyst','Amethyst','Gemstone',{gem:['#e8c4ff','#8a3fd6','#280850'],ink:'#fff'}),
+  L('obsidian','Obsidian','Gemstone',{gem:['#7a808c','#15161b','#000000'],ink:'#e2e6ee'}),
+  L('opal','Opal','Gemstone',{lin:['#f7f4ff','#bfe9ff','#ffd6f0','#d9ffe9','#fff3c9','#e6dcff'],facets:1,stroke:'#ffffff',ink:'#3a3550',sh:'0 1px 0 rgba(255,255,255,.8)'}),
+  L('tigerseye',"Tiger's eye",'Gemstone',{bands:['#3a1f07','#c98a2a','#6b3c0d','#f1c060','#4a2808'],facets:1,stroke:'#2a1504',ink:'#fff'}),
+  L('lapis','Lapis lazuli','Gemstone',{gem:['#6688e8','#1d3a9a','#0a1747'],flecks:'#e8c45a',ink:'#fff'}),
+  L('galaxy','Galaxy','Resin & special',{galaxy:1,stroke:'#cfe8ff',ink:'#fff'}),
+  L('stardust','Stardust glitter','Resin & special',{grad:['#33235e','#120a2a'],glitter:'#ffffff',stroke:'#e8dcff',ink:'#fff'}),
+  L('marble','White marble','Resin & special',{grad:['#fbfaf7','#d9d6dd'],veins:'#6b6875',stroke:'#6b6875',ink:'#2a2833',sh:'none'}),
+  L('dragon','Dragon blood (liquid core)','Resin & special',{grad:['rgba(255,140,110,.55)','rgba(110,10,10,.9)'],core:['#ffd04a','#ff3a1a','#7a0505'],stroke:'#ffd0c4',ink:'#fff'}),
+  L('glow','Glow in the dark','Resin & special',{grad:['#e2ffd8','#86e870'],stroke:'#f0ffea',ink:'#1d4a14',sh:'none',glow:'#8dff6a'}),
+  L('ice','Frost (clear)','Resin & special',{grad:['rgba(230,245,255,.7)','rgba(120,170,220,.4)'],stroke:'#f0f9ff',ink:'#ffffff',sh:'0 1px 3px rgba(20,60,110,.7)'}),
+  L('twotone','Two-tone dusk','Resin & special',{split:['#ff8a3a','#4a2a8a'],stroke:'#fff',ink:'#fff'}),
+  L('rainbow','Rainbow prism','Resin & special',{lin:['#ff4d4d','#ffa53a','#ffe14a','#4ad66d','#3ab0ff','#8a5cff'],stroke:'#fff',ink:'#fff'}),
+  L('wood','Oak wood','Resin & special',{grad:['#c99358','#8a5a2b'],grain:'#4a2c12',stroke:'#4a2c12',ink:'#2a170a',sh:'0 1px 0 rgba(255,220,170,.55)'}),
+  L('bloodmoon','Blood moon','Resin & special',{gem:['#ff7a4a','#8a0a1a','#1a0005'],glitter:'#ffb38a',ink:'#fff'})
+]})();
+const DSK_IDX=new Map(DSK.map(x=>[x.id,x]));
+const dskById=id=>DSK_IDX.get(id)||DSK[0];
+const diceSkin=()=>dskById(store.get('diceskin','fand'));
+// a die drawn in a style: returns the SVG and the colours for its number
+function dieSVG(sides,sk,uid){sk=sk?(typeof sk==='string'?dskById(sk):sk):diceSkin();const P=DIE_SHAPE[sides]||DIE_SHAPE[20],pts=P.split(' ').map(q=>q.split(',').map(Number));
+  const cx=pts.reduce((a,q)=>a+q[0],0)/pts.length,cy=pts.reduce((a,q)=>a+q[1],0)/pts.length,id='dk'+uid;let seed=0;for(const ch of id+sk.id)seed=(seed*31+ch.charCodeAt(0))>>>0;
+  const rnd=()=>(seed=(seed*1664525+1013904223)>>>0)/4294967296,stops=a=>a.map((c,i)=>`<stop offset="${Math.round(i/(a.length-1)*100)}%" stop-color="${c}"/>`).join('');
+  let defs=`<clipPath id="${id}c"><polygon points="${P}"/></clipPath>`,fill='',over='';
+  if(sk.grad||sk.metal||sk.lin){defs+=`<linearGradient id="${id}f" x1="0" y1="0" x2="1" y2="1">${stops(sk.grad||sk.metal||sk.lin)}</linearGradient>`;fill=`url(#${id}f)`}
+  if(sk.bands){defs+=`<linearGradient id="${id}f" x1="0" y1="0" x2="1" y2=".3" spreadMethod="reflect">${stops(sk.bands)}</linearGradient>`;fill=`url(#${id}f)`}
+  if(sk.split){defs+=`<linearGradient id="${id}f" x1="0" y1="0" x2="1" y2="1"><stop offset="50%" stop-color="${sk.split[0]}"/><stop offset="50%" stop-color="${sk.split[1]}"/></linearGradient>`;fill=`url(#${id}f)`}
+  if(sk.gem){defs+=`<radialGradient id="${id}f" cx="38%" cy="32%" r="78%"><stop offset="0%" stop-color="${sk.gem[0]}"/><stop offset="45%" stop-color="${sk.gem[1]}"/><stop offset="100%" stop-color="${sk.gem[2]}"/></radialGradient>`;fill=`url(#${id}f)`}
+  if(sk.galaxy){defs+=`<radialGradient id="${id}f" cx="35%" cy="35%" r="85%"><stop offset="0%" stop-color="#4fe3e0"/><stop offset="35%" stop-color="#5a3ad6"/><stop offset="70%" stop-color="#2a0f5a"/><stop offset="100%" stop-color="#090320"/></radialGradient><filter id="${id}b"><feGaussianBlur stdDeviation="6"/></filter>`;fill=`url(#${id}f)`;
+    over+=`<ellipse cx="62" cy="58" rx="26" ry="12" fill="#ff5ad8" opacity=".35" filter="url(#${id}b)" transform="rotate(-25 62 58)"/><ellipse cx="38" cy="40" rx="20" ry="9" fill="#5affef" opacity=".3" filter="url(#${id}b)"/>`;
+    for(let k=0;k<26;k++)over+=`<circle cx="${(rnd()*100).toFixed(1)}" cy="${(rnd()*100).toFixed(1)}" r="${(0.4+rnd()*1.3).toFixed(2)}" fill="#fff" opacity="${(0.5+rnd()*0.5).toFixed(2)}"/>`}
+  if(sk.veins||sk.grain){const g=!!sk.grain;defs+=`<filter id="${id}v" x="0" y="0" width="100%" height="100%"><feTurbulence type="${g?'turbulence':'fractalNoise'}" baseFrequency="${g?'0.012 0.22':'0.022 0.05'}" numOctaves="${g?2:4}" seed="${Math.floor(rnd()*90)}"/><feColorMatrix type="luminanceToAlpha"/><feComponentTransfer><feFuncA type="table" tableValues="${g?'0 0.55 0 0.55 0 0.55 0':'0 0 0 0.85 0 0 0'}"/></feComponentTransfer><feComposite in="SourceGraphic" operator="in"/></filter>`;
+    over+=`<rect x="0" y="0" width="100" height="100" fill="${sk.veins||sk.grain}" filter="url(#${id}v)" opacity="${g?.55:.7}"/>`}
+  if(sk.patina)for(let k=0;k<6;k++)over+=`<circle cx="${(rnd()*100).toFixed(1)}" cy="${(rnd()*100).toFixed(1)}" r="${(5+rnd()*9).toFixed(1)}" fill="#4fa58a" opacity=".22"/>`;
+  if(sk.core){defs+=`<radialGradient id="${id}k"><stop offset="0%" stop-color="${sk.core[0]}"/><stop offset="55%" stop-color="${sk.core[1]}"/><stop offset="100%" stop-color="${sk.core[2]}" stop-opacity="0"/></radialGradient>`;over+=`<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="26" fill="url(#${id}k)"/>`;for(let k=0;k<14;k++){const a=rnd()*6.283,r=rnd()*18;over+=`<circle cx="${(cx+Math.cos(a)*r).toFixed(1)}" cy="${(cy+Math.sin(a)*r).toFixed(1)}" r="${(0.5+rnd()).toFixed(2)}" fill="#ffe9a8" opacity=".85"/>`}}
+  if(sk.glitter)for(let k=0;k<42;k++)over+=`<circle cx="${(rnd()*100).toFixed(1)}" cy="${(rnd()*100).toFixed(1)}" r="${(0.35+rnd()*1.1).toFixed(2)}" fill="${sk.glitter}" opacity="${(0.35+rnd()*0.6).toFixed(2)}"/>`;
+  if(sk.flecks)for(let k=0;k<16;k++)over+=`<circle cx="${(rnd()*100).toFixed(1)}" cy="${(rnd()*100).toFixed(1)}" r="${(0.5+rnd()*1.2).toFixed(2)}" fill="${sk.flecks}" opacity=".9"/>`;
+  // facets: each face of the die lit a little differently (metals and gems)
+  if(sk.metal||sk.gem||sk.facets)over+=pts.map((q,i)=>{const r=pts[(i+1)%pts.length];return `<polygon points="${cx.toFixed(1)},${cy.toFixed(1)} ${q.join(',')} ${r.join(',')}" fill="${i%2?'rgba(0,0,0,.14)':'rgba(255,255,255,.10)'}" stroke="rgba(255,255,255,.22)" stroke-width="1"/>`}).join('');
+  // a soft shine on the upper left
+  over+=`<ellipse cx="34" cy="26" rx="22" ry="10" fill="#fff" opacity="${sk.metal?.28:sk.ice?.4:.16}" transform="rotate(-30 34 26)"/>`;
+  const stroke=sk.stroke||'rgba(255,255,255,.75)';
+  const svg=`<svg viewBox="0 0 100 100" aria-hidden="true"><defs>${defs}</defs><polygon points="${P}" style="fill:${fill||'#6d4bd6'};stroke:none"/><g clip-path="url(#${id}c)">${over}</g><polygon points="${P}" style="fill:none;stroke:${stroke};stroke-width:3;stroke-linejoin:round"/></svg>`;
+  const sh=sk.sh||(sk.engrave?'0 1px 0 rgba(255,255,255,.6), 0 -1px 0 rgba(0,0,0,.35)':'0 2px 4px rgba(0,0,0,.45)');
+  return {svg,ink:sk.ink||'#fff',sh,glow:sk.glow||''}}
+function setDiceSkin(id){const sk=dskById(id);store.set('diceskin',sk.id);toast('Dice style: '+sk.name);document.querySelectorAll('.dsk-grid').forEach(g=>{g.outerHTML=diceSkinGrid(g.dataset.k)});if($('dp-box'))dicePool();
+  if(store.get('diceanim',true))diceOverlay({e:'d20 · '+sk.name,t:0,r:[DIE(20)],mod:0,preview:true},20)}
+function diceSkinGrid(k){k=k||'g';const cur=diceSkin().id,groups=[...new Set(DSK.map(x=>x.group))];
+  return `<div class="dsk-grid" data-k="${k}">${groups.map(g=>`<div class="dsk-group"><div class="dsk-h">${esc(g)}</div><div class="dsk-row">${DSK.filter(x=>x.group===g).map(x=>{const d=dieSVG(20,x,k+x.id);return `<button type="button" class="dsk${x.id===cur?' on':''}" onclick="setDiceSkin('${x.id}')" aria-pressed="${x.id===cur}" title="${esc(x.name)}"><span class="dsk-die" style="${d.glow?`filter:drop-shadow(0 0 6px ${d.glow})`:''}">${d.svg}<b style="color:${d.ink};text-shadow:${d.sh}">20</b></span><small>${esc(x.name)}</small></button>`}).join('')}</div></div>`).join('')}</div>`}
 function diceOverlay(R,sides){
   let ov=$('dice-ov');if(!ov){ov=document.createElement('div');ov.id='dice-ov';document.body.appendChild(ov);ov.onclick=()=>ov.classList.remove('on')}
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,shown=R.r.slice(0,12);
-  ov.innerHTML=`<div class="dice-box"><div class="dice-row">${shown.map((v,i)=>`<div class="die" style="--d:${i*60}ms"><svg viewBox="0 0 100 100"><polygon points="${DIE_SHAPE[sides]||DIE_SHAPE[20]}"/></svg><span data-final="${v}">${v}</span></div>`).join('')}${R.r.length>12?`<div class="note">+${R.r.length-12} more</div>`:''}</div>
-    <div class="dice-total"><span class="dice-expr">${esc(R.e)}</span><b>${R.t}</b><small>${R.r.join(' + ')}${R.mod?(R.mod>0?' + ':' − ')+Math.abs(R.mod):''}${sides===20&&R.r.length===1?(R.r[0]===20?' · natural 20!':R.r[0]===1?' · natural 1':''):''}</small></div><div class="note" style="color:#fff9">click anywhere to close</div></div>`;
+  ov.innerHTML=`<div class="dice-box"><div class="dice-row">${shown.map((v,i)=>{const x=(R.sd&&R.sd[i])||sides,d=dieSVG(x,null,'ov'+i);return `<div class="die" style="--d:${i*60}ms${d.glow?`;filter:drop-shadow(0 0 14px ${d.glow}) drop-shadow(0 8px 18px rgba(0,0,0,.45))`:''}">${d.svg}<span data-final="${v}" data-sides="${x}" style="color:${d.ink};text-shadow:${d.sh}">${Math.abs(v)}</span></div>`}).join('')}${R.r.length>12?`<div class="note">+${R.r.length-12} more</div>`:''}</div>
+    <div class="dice-total"><span class="dice-expr">${esc(R.e)}</span><b>${R.preview?R.r[0]:R.t}</b><small>${R.r.join(' + ')}${R.mod?(R.mod>0?' + ':' − ')+Math.abs(R.mod):''}${sides===20&&R.r.length===1?(R.r[0]===20?' · natural 20!':R.r[0]===1?' · natural 1':''):''}</small></div><div class="note" style="color:#fff9">click anywhere to close</div></div>`;
   ov.classList.add('on');ov.classList.toggle('spin',!reduce);
-  if(!reduce){const spans=[...ov.querySelectorAll('.die span')];const t0=performance.now();const tick=now=>{const k=(now-t0)/900;spans.forEach(sp=>{sp.textContent=k<1?1+Math.floor(Math.random()*sides):sp.dataset.final});if(k<1)requestAnimationFrame(tick);else ov.classList.remove('spin')};requestAnimationFrame(tick)}
+  if(!reduce){const spans=[...ov.querySelectorAll('.die span')];const t0=performance.now();const tick=now=>{const k=(now-t0)/900;spans.forEach(sp=>{sp.textContent=k<1?1+Math.floor(Math.random()*(+sp.dataset.sides||sides)):Math.abs(+sp.dataset.final)});if(k<1)requestAnimationFrame(tick);else ov.classList.remove('spin')};requestAnimationFrame(tick)}
   clearTimeout(diceOverlay.t);diceOverlay.t=setTimeout(()=>ov.classList.remove('on'),4500);
 }
 // A mix of dice and numbers, like 2d6+1d8+3 or 4d6-1d4: each dice term is rolled with rollExpr (so the DM rig still applies)
@@ -722,7 +797,7 @@ function rollMulti(e){const src=String(e||'').replace(/−/g,'-').replace(/\s+/g
   finally{if(g&&g.mode)store.set('dicerig',g.once?null:g)}
   if(!r.length)return null;
   if(tot){const lo=sd.reduce((a,x)=>a+(x>0?1:x),0),hi=sd.reduce((a,x)=>a+(x>0?x:-1),0),want=Math.max(lo,Math.min(hi,(+g.value||0)-mod));let left=want-lo;r=sd.map(x=>{if(x>0){const k=Math.min(x-1,left);left-=k;return 1+k}const k=Math.min(-x-1,left);left-=k;return x+k})}
-  if($('dr-rig-state'))rigState();return {e:src.replace(/([+\-])/g,' $1 ').trim(),r,mod,t:r.reduce((a,b)=>a+b,0)+mod,sides:first}}
+  if($('dr-rig-state'))rigState();return {e:src.replace(/([+\-])/g,' $1 ').trim(),r,mod,t:r.reduce((a,b)=>a+b,0)+mod,sides:first,sd:sd.map(Math.abs)}}
 function rollShow(e){const R=rollMulti(e);if(!R){if(String(e||'').trim())toast('Not a roll: try 2d6+3');return}const log=store.get('dicelog',[]);log.unshift({e:R.e,t:R.t,r:R.r,mod:R.mod});store.set('dicelog',log.slice(0,50));
   const sides=R.sides||+(/d(\d+)/i.exec(R.e)||[])[1]||20;if(store.get('diceanim',true))diceOverlay(R,sides);else toast(`🎲 ${R.e}: ${R.t}  (${R.r.join(' + ')}${R.mod?(R.mod>0?' + ':' − ')+Math.abs(R.mod):''})`);if($('dl-log'))diceLog()}
 function diceify(root){if(!root)return;const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement.closest('input,textarea,select,button,a,.dice,script,style')?NodeFilter.FILTER_REJECT:(DICE_RX.lastIndex=0,DICE_RX.test(n.nodeValue))?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP});const ns=[];while(w.nextNode())ns.push(w.currentNode);
@@ -2006,6 +2081,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-17','Dice styles','Your dice can now look the way you like: 30 styles in four groups, after the dice sold for the table. Classic colours (FAND violet, crimson, midnight blue, forest, bone and ivory, onyx and gold), metals (gold, silver, copper, ancient bronze, rose gold, gunmetal), gemstones (ruby, sapphire, emerald, amethyst, obsidian, opal, tiger\'s eye, lapis lazuli), and resin specials (galaxy, stardust glitter, white marble, a dragon-blood liquid core, glow in the dark, clear frost, two-tone, rainbow, oak, and blood moon). Pick one on the Dice page or in Settings; the rolling dice and the Dice pool use it, and it follows your account.','dice'],
   ['2026-10-17','Account and Settings pages','Sign in now has a page of its own (Account): what an account gives you, and the sign-in form. Signed in, the same page holds your profile (name and picture, edited right there), your campaigns, sync, and backups. Settings is a full page too, with Account, Appearance (theme and rolling dice), the assistant\'s API key, Saved data (download or restore a backup of everything you have saved), and installing the app. The ⚙ button and the account menu open them.','account'],
   ['2026-10-17','Forges for every Blueprint','Every Blueprint now needs a forge: the workshop its profession uses, of grade I to V, set by its rarity, its materials\' realm, and its level. Higher grades burn that realm\'s fuel. The grade shows in each Blueprint\'s window, on the Forge page, and in the Craft planner, where a Your forge choice gives disadvantage one grade short and blocks it two short. The Rules page explains where to find each grade.','rules'],
   ['2026-10-17','Better on phones','The site now fits narrow phones exactly instead of zooming out slightly, and window close buttons are no longer cut off. Tapping a text box or dropdown no longer makes iPhones zoom in. Chips, checkboxes, buttons, and map pins are bigger and easier to tap, and rows of controls wrap instead of squashing.','tools'],
@@ -2479,7 +2555,7 @@ function dpRoll(sp){if(!dpCount(sp))return null;const g=store.get('dicerig',null
   finally{if(g&&g.mode)store.set('dicerig',g.once?null:g);if($('dr-rig-state'))rigState()}}
 function dpLog(R){const sp=R.sp,log=store.get('dicelog',[]);log.unshift({e:dpLabel(sp),t:R.t,r:R.es.map(e=>e.drop?'('+e.v+')':e.v),mod:sp.mode==='succ'?0:sp.mod});store.set('dicelog',log.slice(0,50));if($('dl-log'))diceLog()}
 function dpShow(R){if(!R)return;DPOOL.last=R;dpLog(R);
-  const first=DP_SIDES.find(x=>R.sp.d[x])||20;if(store.get('diceanim',true))diceOverlay({e:dpLabel(R.sp),t:R.t,r:R.es.filter(e=>!e.drop).map(e=>e.v),mod:R.sp.mode==='succ'?0:R.sp.mod},first);dicePool()}
+  const first=DP_SIDES.find(x=>R.sp.d[x])||20;if(store.get('diceanim',true))diceOverlay({e:dpLabel(R.sp),t:R.t,r:R.es.filter(e=>!e.drop).map(e=>e.v),sd:R.es.filter(e=>!e.drop).map(e=>e.x),mod:R.sp.mode==='succ'?0:R.sp.mod},first);dicePool()}
 function dicePoolRoll(sp){dpShow(dpRoll(sp||dpSpec()))}
 // reroll one die of the last roll (Lucky, Portent, a bardic reroll...)
 function dpReroll(i){const R=DPOOL.last;if(!R||!R.es[i])return;const sp=R.sp,g=store.get('dicerig',null);if(g&&g.mode)store.set('dicerig',{...g,once:false});
@@ -2491,7 +2567,7 @@ function dpSet(k,v){DPOOL[k]=v;if(k==='d'||k==='mod'||k==='mode'||k==='n'||k==='
 function dpAdd(x,n){const d=Object.assign({},DPOOL.d);d[x]=Math.max(0,Math.min(50,(d[x]|0)+n));if(!d[x])delete d[x];dpSet('d',d)}
 function dpPreset(k){const P={ability:{d:{6:4},mod:0,mode:'kh',n:3,adv:'',explode:false,crit:false},adv:{d:{20:1},mode:'sum',adv:'adv',explode:false,crit:false},dis:{d:{20:1},mode:'sum',adv:'dis',explode:false,crit:false},fireball:{d:{6:8},mod:0,mode:'sum',adv:'',explode:false,crit:false}}[k];if(!P)return;Object.assign(DPOOL,P);if(P.mod===undefined)DPOOL.mod=0;dpSet('last',null);dicePoolRoll()}
 function dicePool(){const box=$('dp-box');if(!box)return;const sp=DPOOL,e=dicePoolExpr(sp),R=DPOOL.last;
-  box.innerHTML=`<div class="dp-grid">${DP_SIDES.map(x=>`<div class="dp-t${sp.d[x]?' on':''}"><button type="button" class="dp-add" onclick="dpAdd(${x},1)" aria-label="Add a d${x}"><svg viewBox="0 0 100 100"><polygon points="${DIE_SHAPE[x]||DIE_SHAPE[20]}"/></svg><span>d${x}</span></button>${sp.d[x]?`<b class="dp-c">${sp.d[x]}</b><button type="button" class="dp-rm" onclick="dpAdd(${x},-1)" aria-label="Remove a d${x}">−</button>`:''}</div>`).join('')}</div>
+  box.innerHTML=`<div class="dp-grid">${DP_SIDES.map(x=>`<div class="dp-t${sp.d[x]?' on':''}"><button type="button" class="dp-add" onclick="dpAdd(${x},1)" aria-label="Add a d${x}">${dieSVG(x,null,'pt'+x).svg}<span>d${x}</span></button>${sp.d[x]?`<b class="dp-c">${sp.d[x]}</b><button type="button" class="dp-rm" onclick="dpAdd(${x},-1)" aria-label="Remove a d${x}">−</button>`:''}</div>`).join('')}</div>
     <div class="dp-opts">
       <label>Modifier <span class="dp-step"><button class="btn" type="button" onclick="dpSet('mod',DPOOL.mod-1)" aria-label="Lower the modifier">−</button><b>${sp.mod>0?'+':''}${sp.mod}</b><button class="btn" type="button" onclick="dpSet('mod',DPOOL.mod+1)" aria-label="Raise the modifier">+</button></span></label>
       <label>Read the dice <select class="sel" onchange="dpSet('mode',this.value)">${[['sum','Add them up'],['kh','Keep the highest…'],['kl','Keep the lowest…'],['succ','Count successes…']].map(([v,l])=>`<option value="${v}"${sp.mode===v?' selected':''}>${l}</option>`).join('')}</select></label>
@@ -2527,6 +2603,8 @@ function renderDice(){
 
       <div class="tool" id="t-pool"><h3>Dice pool</h3><div class="sub">Tap dice to build a roll, choose how to read them (add up, keep the best, count successes), and roll them together. Tap any die in the result to reroll just that one.</div>
         <div id="dp-box"></div></div>
+
+      <div class="tool" id="t-style"><h3>Dice style</h3><div class="sub">How your dice look when they roll: ${DSK.length} styles of colour, metal, gemstone, and resin. Tap one to try it.</div>${diceSkinGrid('dp')}</div>
 
       <div class="tool" id="t-saved"><h3>Saved rolls</h3><div class="sub">One tap for the rolls you make every session.</div>
         <div class="form" style="grid-template-columns:1fr 1fr auto"><label>Name<input id="ds-n" placeholder="Longsword damage"></label><label>Roll<input id="ds-e" placeholder="1d8+4"></label><label style="align-self:end"><button class="btn" type="button" id="ds-add">Save</button></label></div>
@@ -5099,6 +5177,7 @@ function renderSettings(){const k=getKey(),u=CL.user,dark=document.documentEleme
         :u?`<div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">${clAvHTML(u.id,clMyName()||u.email,56)}<div style="flex:1;min-width:160px"><b style="display:block">${esc(clMyName()||'No name yet')}</b><small style="color:var(--muted)">${esc(u.email||'')}</small><div class="note" id="clStat" style="margin:2px 0 0">${clStatusText()}</div></div><button class="btn primary" type="button" onclick="openAccount()">Your account</button><button class="btn" type="button" onclick="cloudSignOut()">Sign out</button></div>`
         :`<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span style="flex:1;min-width:200px">You're not signed in. Signed in, your characters, journal, and the rest are kept in your account, and you can play in your DM's campaign.</span><button class="btn primary" type="button" onclick="openAccount()">Sign in</button></div>`)}
       ${setSec('look','Appearance','',`<div class="set-row"><span>Theme</span><div class="seg"><button type="button" class="${dark?'on':''}" onclick="store.set('theme','dark');applyTheme('dark');renderSettings()">Dark</button><button type="button" class="${!dark?'on':''}" onclick="store.set('theme','light');applyTheme('light');renderSettings()">Light</button></div></div>
+        <div class="set-row" style="display:block"><span style="display:block;margin-bottom:8px">Dice style<small>${esc(diceSkin().name)} · ${DSK.length} styles to choose from</small></span>${diceSkinGrid('st')}</div>
         <label class="set-row"><span>Rolling dice animation<small>Dice tumble across the screen when you roll</small></span><input type="checkbox" ${store.get('diceanim',true)?'checked':''} onchange="store.set('diceanim',this.checked);toast(this.checked?'Rolling dice on':'Rolling dice off')"></label>`)}
       ${setSec('ai','Assistant <em>Ask FAND</em>','The assistant answers from the compendium using Claude, through your own Anthropic API key.',`
         <div class="keyrow"><input class="sel" id="setKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-…" value="${esc(k)}" style="max-width:none;flex:1"><button class="btn" id="setShow" type="button">Show</button></div>
