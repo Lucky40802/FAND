@@ -132,6 +132,11 @@ html.standalone .top .backbtn{display:grid}
 .pf-tile:hover{border-color:var(--line3)}
 .pf-tile.on{border-color:var(--gold,#c9a54a);box-shadow:0 0 0 3px var(--goldbg,rgba(201,165,74,.25))}
 .pf-tile.up{border:2px dashed var(--line3);background:none}
+.acct-btn[data-sync]::after{content:'';position:absolute;top:3px;right:3px;width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 2px var(--bg2)}
+.acct-btn[data-sync="saving"]::after{background:var(--gold);animation:syncPulse 1s ease-in-out infinite}
+.acct-btn[data-sync="offline"]::after{background:var(--muted2)}
+.acct-btn[data-sync="err"]::after{background:var(--red,#d55)}
+@keyframes syncPulse{50%{opacity:.35}}
 .acct-btn.err::after{content:'';position:absolute;top:3px;right:3px;width:8px;height:8px;border-radius:50%;background:var(--red,#d55)}
 @media (max-width:900px){.acct-btn .acct-l{display:none}.acct-btn{width:36px;padding:0;justify-content:center}}
 .acct-btn[hidden]{display:none}
@@ -697,6 +702,12 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
 .ctray .chip{display:inline-flex;align-items:center;gap:4px}.ctray .chip button{background:none;border:0;color:var(--muted);font-size:1rem;line-height:1;padding:0 2px}
 .ctab th{white-space:nowrap}.ctab td.cdiff{background:var(--accbg)}.ctab td.cbest{background:color-mix(in srgb,var(--green) 18%,transparent);font-weight:700}
 @media (max-width:640px){.ctray{bottom:calc(72px + env(safe-area-inset-bottom))}}
+/* Customise Home */
+.hedit-top{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px;position:sticky;top:0;z-index:3;background:var(--surf);box-shadow:0 6px 16px rgba(0,0,0,.12)}
+.hsec{border:1px dashed var(--line3);border-radius:12px;padding:8px 12px 4px;margin-bottom:12px}
+.hsec.off{opacity:.45}
+.hsec-bar{display:flex;gap:6px;align-items:center;margin-bottom:6px}.hsec-bar b{flex:1;font-family:var(--serif)}.hsec-bar .btn{padding:4px 10px;min-height:0}
+.hedit .hsec>*:not(.hsec-bar){pointer-events:none}
 /* First-visit guide */
 .gd-bg{position:fixed;inset:0;z-index:90;background:transparent}
 .gd-bg.dim{background:rgba(5,4,12,.6)}
@@ -818,7 +829,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"lore",v:"4c16bda2b1",b:"ab48e02d"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"lore",v:"4c16bda2b1",b:"d791a216"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=4c16bda2b1",10911773],["data/vault.js?v=4c16bda2b1",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -2191,28 +2202,40 @@ function homeRoleHTML(){const r=role();
   if(!r)return `<section class="sec"><div class="callout" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div style="flex:1;min-width:220px"><b>How do you use FAND?</b><br><span class="note" style="margin:0">FAND puts the pages you use most first: your character for players, the table tools for DMs. Change it any time in Settings.</span></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" type="button" onclick="setRole('player')">I'm a player</button><button class="btn primary" type="button" onclick="setRole('dm')">I'm the DM</button><button class="btn" type="button" onclick="setRole('both')">Both</button></div></div></section>`;
   if(r==='both')return '';
   return `<section class="sec"><div class="sec-h"><h3>${r==='dm'?'Your table':'Your character'}</h3><p>${ROLES[r]} view · <a href="${pageUrl('settings')}#set-play" data-go="settings">change</a></p></div><div class="qgrid">${ROLE_HOME[r].map(id=>{const t=TABS.find(x=>x[0]===id);return t?`<a class="qcard" href="${pageUrl(id)}" data-go="${id}"><b>${esc(t[1])}</b><small>${esc(NAV_BLURB[id]||'')}</small></a>`:''}).join('')}</div></section>`}
+// Customise Home: move sections up and down, or hide the ones you don't use
+let HOME_EDIT=false;
+const homeL=()=>Object.assign({order:[],hidden:[]},store.get('homelayout',{}));
+function homeLayout(S){const H=homeL(),ord=S.slice().sort((a,b)=>{const ia=H.order.indexOf(a[0]),ib=H.order.indexOf(b[0]);return (ia<0?99+S.indexOf(a):ia)-(ib<0?99+S.indexOf(b):ib)});
+  const body=ord.map(([k,l,f],i)=>{const hid=H.hidden.includes(k);if(hid&&!HOME_EDIT)return '';let h='';try{h=f()||''}catch(e){h=''}
+    return HOME_EDIT?`<div class="hsec${hid?' off':''}" data-hk="${k}"><div class="hsec-bar"><b>${esc(l)}</b><button type="button" class="btn" data-hmv="-1" ${i?'':'disabled'} aria-label="Move ${esc(l)} up">↑</button><button type="button" class="btn" data-hmv="1" ${i<ord.length-1?'':'disabled'} aria-label="Move ${esc(l)} down">↓</button><button type="button" class="btn${hid?' primary':''}" data-hhide>${hid?'Show':'Hide'}</button></div>${h||'<div class="note" style="padding:6px 0">(nothing to show here yet)</div>'}</div>`:h}).join('');
+  return (HOME_EDIT?`<div class="callout hedit-top"><b>Customise Home</b><span class="note" style="margin:0;flex:1">Move sections with ↑ ↓, hide what you don't use. Saved in your account.</span><button type="button" class="btn" data-hreset>Reset</button><button type="button" class="btn primary" data-hdone>Done</button></div>`:'')+body+(HOME_EDIT?'':`<div style="text-align:center;margin:18px 0 6px"><button type="button" class="btn" data-hedit>✎ Customise Home</button></div>`)}
+function homeBind(){const C=$('content');C.querySelectorAll('[data-hedit],[data-hdone],[data-hreset],[data-hmv],[data-hhide]').forEach(b=>b.onclick=()=>{const H=homeL(),k=(b.closest('[data-hk]')||{}).dataset;
+  if(b.dataset.hedit!=null)HOME_EDIT=true;else if(b.dataset.hdone!=null)HOME_EDIT=false;else if(b.dataset.hreset!=null){store.set('homelayout',{});HOME_EDIT=false;toast('Home reset')}
+  else{const keys=[...C.querySelectorAll('[data-hk]')].map(e=>e.dataset.hk);if(b.dataset.hmv){const i=keys.indexOf(k.hk),j=i+ +b.dataset.hmv;[keys[i],keys[j]]=[keys[j],keys[i]];H.order=keys}else{H.hidden=H.hidden.includes(k.hk)?H.hidden.filter(x=>x!==k.hk):H.hidden.concat(k.hk);H.order=keys}store.set('homelayout',H)}
+  const y=C.scrollTop;renderHome();C.scrollTop=y})}
 function renderHome(){
   const pins=pinnedItems();
   const homebrew=MONSTERS.filter(m=>m.hb).length;
   const fingers=GODS.reduce((a,g)=>a+(g.hand||[]).length,0);
   const stats=[['blueprints',BPS.length,'Blueprints'],['materials',MATS.length,'Graded materials'],['bestiary',MONSTERS.length,`Monsters · ${homebrew} homebrew · ${MONSTERS.filter(m=>m.myth).length} from myth`],['realms',REALMS.length,'Realm tiers'],['gods',GODS.length,`Gods · ${fingers} named Fingers`],['professions',10,'Professions'],['subclasses',SUBS.length,'Subclasses'],['spells',META.counts.spells,META.counts.spells<10000?'Spells from the vault':'Spells in the app']];
-  $('content').innerHTML=`<div class="page">
-    <section class="hero">
+  // every section of Home, in the order and with the sections chosen under Customise Home (Home layout, kept in your account)
+  const S=[
+    ['hero','Welcome and search',()=>`<section class="hero">
       <div class="badges" style="margin-bottom:12px"><span class="b gold">Version ${esc(META.version)}</span><span class="b ghost">Built ${esc(META.built)}</span></div>
       <h2>Fantasy and Numerous Disasters</h2><p style="font-family:var(--serif);font-style:italic;color:var(--gold2);margin:-4px 0 8px">The FAND compendium of Vestige</p>
       <p>Every Blueprint, material, monster, realm, and god in the FAND campaign, cross-linked. Click anything to see what it's made from, what drops it, and who wants it.</p>
       <button class="hero-search" onclick="openPalette()">${ICON.search.replace('<svg','<svg width="18" height="18"')}<span>Search everything…</span><kbd>Ctrl K</kbd></button>
       <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="randomItem(BPS.concat(MATS,MONSTERS,GODS))">🎲 Show me something random</button></div>
-    </section>
-    ${homeRoleHTML()}
-    <section class="sec"><div class="stats">${stats.map(([t,v,l])=>`<button class="stat" data-go="${t}"><span class="v">${fmt(v)}</span><span class="l">${l}</span></button>`).join('')}</div></section>
-    ${(()=>{const rec=recentItems().slice(0,10);return rec.length?`<section class="sec"><div class="sec-h"><h3>Recently viewed</h3><p>on this device · <a href="#" onclick="store.set('recent',[]);renderHome();return false">clear</a></p></div><div class="chips">${rec.map(x=>refChip(x,esc(x._t==='god'?godKey(x):x.n),{bp:'Blueprint',mat:'Material',mon:'Monster',god:'God',rune:'Rune',spell:'Spell',sub:'Subclass',realm:'Realm',demon:'Demon',patron:'Patron',note:'Note'}[x._t]||'')).join('')}</div></section>`:''})()}
-    ${pins.length?`<section class="sec"><div class="sec-h"><h3>Pinned</h3><p>${pins.length} saved on this device</p></div><div class="grid">${pins.slice(0,12).map(card).join('')}</div></section>`:''}
-    <section class="sec"><div class="callout" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div style="flex:1;min-width:220px"><b>New to FAND or to tabletop games?</b><br><span class="note" style="margin:0">Make a character from scratch in five simple steps. No rulebook needed.</span></div><button class="btn primary" type="button" onclick="charWizard()">✨ Build a character for me</button></div></section>
-    <section class="sec"><div class="sec-h"><h3>Latest changes</h3><p>What's new on the site · <a href="${pageUrl('about')}" data-go="about">all changes →</a></p></div><div style="display:flex;flex-direction:column;gap:8px">${SITE_CHANGES.slice(0,6).map(([d,t,x,pg])=>`<div class="callout" style="border-color:var(--gold)"><div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b>${pg?`<a href="${pageUrl(pg)}" data-go="${pg}">${esc(t)}</a>`:esc(t)}</b><small style="color:var(--muted)">${esc(d)}</small></div><div style="line-height:1.55;margin-top:2px">${esc(x)}</div></div>`).join('')}</div></section>
-    <section class="sec"><div class="sec-h"><h3>The realm ladder</h3><p>Eleven realms in ten tiers. Each tier's materials grade 1–10, giving Material Rank 1–100.</p><button class="btn" data-go="realms">All realms →</button></div>
-      <div class="ladder">${REALMS.map(r=>`<button class="rung" style="--rc:${r.color}" data-ref="${ref(r)}"><span class="tier">Tier ${r.tier} · Rank ${(r.tier-1)*10+1}–${r.tier*10}</span><span class="nm">${esc(r.n)}</span><span class="ln">${fmt(MATS.filter(m=>m.realm===r.n).length)} materials · ${fmt(MONSTERS.filter(m=>m.realm===r.n).length)} monsters</span></button>`).join('')}</div></section>
-    <section class="sec cols">
+    </section>`],
+    ['role','Your character or table',()=>homeRoleHTML()],
+    ['stats','Counts',()=>`<section class="sec"><div class="stats">${stats.map(([t,v,l])=>`<button class="stat" data-go="${t}"><span class="v">${fmt(v)}</span><span class="l">${l}</span></button>`).join('')}</div></section>`],
+    ['recent','Recently viewed',()=>(()=>{const rec=recentItems().slice(0,10);return rec.length?`<section class="sec"><div class="sec-h"><h3>Recently viewed</h3><p>on this device · <a href="#" onclick="store.set('recent',[]);renderHome();return false">clear</a></p></div><div class="chips">${rec.map(x=>refChip(x,esc(x._t==='god'?godKey(x):x.n),{bp:'Blueprint',mat:'Material',mon:'Monster',god:'God',rune:'Rune',spell:'Spell',sub:'Subclass',realm:'Realm',demon:'Demon',patron:'Patron',note:'Note'}[x._t]||'')).join('')}</div></section>`:''})()],
+    ['pinned','Pinned',()=>pins.length?`<section class="sec"><div class="sec-h"><h3>Pinned</h3><p>${pins.length} saved on this device</p></div><div class="grid">${pins.slice(0,12).map(card).join('')}</div></section>`:''],
+    ['builder','Character builder',()=>`<section class="sec"><div class="callout" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div style="flex:1;min-width:220px"><b>New to FAND or to tabletop games?</b><br><span class="note" style="margin:0">Make a character from scratch in five simple steps. No rulebook needed.</span></div><button class="btn primary" type="button" onclick="charWizard()">✨ Build a character for me</button></div></section>`],
+    ['changes','Latest changes',()=>`<section class="sec"><div class="sec-h"><h3>Latest changes</h3><p>What's new on the site · <a href="${pageUrl('about')}" data-go="about">all changes →</a></p></div><div style="display:flex;flex-direction:column;gap:8px">${SITE_CHANGES.slice(0,6).map(([d,t,x,pg])=>`<div class="callout" style="border-color:var(--gold)"><div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b>${pg?`<a href="${pageUrl(pg)}" data-go="${pg}">${esc(t)}</a>`:esc(t)}</b><small style="color:var(--muted)">${esc(d)}</small></div><div style="line-height:1.55;margin-top:2px">${esc(x)}</div></div>`).join('')}</div></section>`],
+    ['ladder','The realm ladder',()=>`<section class="sec"><div class="sec-h"><h3>The realm ladder</h3><p>Eleven realms in ten tiers. Each tier's materials grade 1–10, giving Material Rank 1–100.</p><button class="btn" data-go="realms">All realms →</button></div>
+      <div class="ladder">${REALMS.map(r=>`<button class="rung" style="--rc:${r.color}" data-ref="${ref(r)}"><span class="tier">Tier ${r.tier} · Rank ${(r.tier-1)*10+1}–${r.tier*10}</span><span class="nm">${esc(r.n)}</span><span class="ln">${fmt(MATS.filter(m=>m.realm===r.n).length)} materials · ${fmt(MONSTERS.filter(m=>m.realm===r.n).length)} monsters</span></button>`).join('')}</div></section>`],
+    ['guide','Start here',()=>`<section class="sec cols">
       <div class="panel"><h4>Start here</h4><ul>
         <li><a href="${pageUrl('lore')}" data-go="lore">Lore</a>: Infinatas and Inane, the pantheons, the Runes, and the realms.</li>
         <li><a href="${pageUrl('rules')}" data-go="rules">Rules reference</a>: Armor Class, grading, refining, economy, travel, contracts.</li>
@@ -2229,9 +2252,11 @@ function renderHome(){
         <li><span class="vtag">1.17</span>Material Refining and Realm Travel.</li>
         <li><span class="vtag">1.15</span>God Roster: 70 gods, their Runes, Hands, and rivals.</li>
       </ul></div>
-    </section>
-    <section class="sec"><div class="panel"><h4>Still open</h4><p>More official subclasses from late books · placing the party in contracts, rivals, and materials · a god-wars timeline and adventure hooks · more damage-to-support spell conversions.</p></div></section>
-  </div>`;
+    </section>`],
+    ['open','Still open',()=>`<section class="sec"><div class="panel"><h4>Still open</h4><p>More official subclasses from late books · placing the party in contracts, rivals, and materials · a god-wars timeline and adventure hooks · more damage-to-support spell conversions.</p></div></section>`]
+  ];
+  $('content').innerHTML=`<div class="page${HOME_EDIT?' hedit':''}">${homeLayout(S)}</div>`;
+  homeBind();
 }
 
 // Realm map, from the vault's Realm Map note: places by Pressure (height), routes with how they are traveled.
@@ -6034,7 +6059,7 @@ function clMsg(e){const m=String(e&&(e.message||e.error_description||e.msg)||e||
   return m}
 // called by store.set: note when a key changed here, and send it to the account shortly
 function cloudMark(k){if(!CL||!CL.on||clSkip(k))return;clMeta().ts[k]=Date.now();clMetaSave();if(CL.user){CL.dirty.add(k);clSchedule()}}
-function clSchedule(){clearTimeout(CL.timer);CL.timer=setTimeout(()=>{cloudPush().catch(()=>{})},1200)}
+function clSchedule(){setTimeout(clDot,0);clearTimeout(CL.timer);CL.timer=setTimeout(()=>{cloudPush().catch(()=>{})},1200)}
 
 // ── the party, character by character ──
 var PH=null,PHC={};
@@ -6276,7 +6301,11 @@ function clRestore(){const b=clBackup();if(!b||!b.data)return;
 function clStatusText(){if(!CL.user)return '';if(CL.err)return 'Not synced: '+esc(CL.err);if(navigator.onLine===false)return 'Offline. Changes are kept here and sent when you are back online.';
   if(CL.pushing||CL.dirty.size)return 'Saving…';if(!CL.last)return 'Connecting…';const s=Math.round((Date.now()-CL.last)/1000);
   return 'Synced '+(s<60?'just now':s<3600?Math.round(s/60)+' min ago':new Date(CL.last).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'}))+'.'}
-function clStatus(){if($('clStat'))$('clStat').innerHTML=clStatusText();clHeader()}
+function clStatus(){if($('clStat'))$('clStat').innerHTML=clStatusText();clHeader();clDot()}
+// the sync light on the account button: green synced, amber (pulsing) saving, grey offline, red not synced
+function syncState(){if(!CL||!CL.user)return '';if(CL.err)return 'err';if(navigator.onLine===false)return 'offline';if(CL.pushing||CL.dirty.size)return 'saving';return 'ok'}
+function clDot(){const b=$('acctBtn');if(!b)return;const st=syncState();if(!st){delete b.dataset.sync;return}b.dataset.sync=st;b.setAttribute('aria-description',clStatusText().replace(/<[^>]+>/g,''));b.title=(b.title||'').split(' · ')[0]+' · '+clStatusText().replace(/<[^>]+>/g,'')}
+addEventListener('offline',()=>clDot());
 // the account button in the top bar: Sign in, or your initial once signed in (a red dot when not synced)
 function clHeader(){const b=$('acctBtn');if(!b)return;if(!CL||!CL.on){b.hidden=true;return}b.hidden=false;
   if(CL.user||(clHasSession()&&!CL.err&&CL.ready)){const who=CL.user?(clMyName()||CL.user.email||'?'):'…',t=CL.user?'Signed in as '+(CL.user.email||who)+(CL.err?' (not synced: '+CL.err+')':''):'Signing in…';
