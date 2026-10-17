@@ -14,7 +14,7 @@ var PLANS = [
   ['celestial', /angel|deva|planetar|solar|couatl|unicorn|pegasus|ki-rin|empyrean|celestial|seraph|archon/i],
   ['plant', /treant|shrub|blight|myconid|shrieker|violet fungus|vine|tree|dryad|plant|fung|mold|moss|corpse flower|thorn/i],
   ['aberration', /beholder|spectator|gauth|mind flayer|illithid|aboleth|chuul|cloaker|grell|nothic|otyugh|gibbering|intellect devourer|neogi|neothelid|elder brain|star spawn|choker|flumph|balhannoth|morkoth|aberration|tentacle/i],
-  ['insect', /spider|scorpion|wasp|bee\b|ant\b|beetle|centipede|crawler|ankheg|kruthik|mantis|insect|ettercap|drider|phase spider|tick|chitine|choldrith|thri-kreen|cave fisher|stirge|locust|hornet/i],
+  ['insect', /spider|scorpion|wasp|bee\b|\bant\b|beetle|centipede|crawler|ankheg|kruthik|mantis|insect|ettercap|drider|phase spider|tick|chitine|choldrith|thri-kreen|cave fisher|stirge|locust|hornet/i],
   ['aquatic', /shark|fish|eel|sahuagin|merrow|kraken|octopus|squid|whale|kuo-toa|sea |sea$|crab|lobster|reef|leviathan|deepmaw|piranha|plesiosaur|quipper|sea hag|merfolk|water weird/i],
   ['bird', /hawk|eagle|falcon|owl\b|raptor|roc\b|vulture|peryton|griffon|gryphon|hippogriff|harpy|kenku|aarakocra|phoenix|axe beak|cockatrice|bird|raven|crow|blood hawk|stormhawk/i],
   ['reptile', /lizard|snake|serpent|viper|crocodile|basilisk|naga|yuan-ti|salamander|dinosaur|tyrannosaurus|triceratops|ankylosaurus|allosaurus|pteranodon|dimetrodon|turtle|tortoise|behir|hydra|bullywug|frog|toad|troglodyte|kobold|lizardfolk/i],
