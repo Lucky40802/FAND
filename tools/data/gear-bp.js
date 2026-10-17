@@ -55,6 +55,58 @@ NEW.push({ n: 'Bag of Void', cat: 'Storage', lv: 18, pr: 'Enchanting', sp: 'Soul
 NEW.push({ n: 'Bag of Devotion', cat: 'Storage', lv: 18, pr: 'Enchanting', sp: 'Soul Binding', r: 'Very Rare', mats: [], needs: ['Bag of Holding', "a signature material of the god it serves"], devotion: 1,
   ds: "A Bag of Holding sewn shut around one of a god's signature materials, which ties it to that god. Anything placed inside is given to that god: it leaves the bag at once and arrives as an offering. The god knows who gave it, and a fitting gift may be remembered (the DM decides how). Like the Bag of Void, it holds nothing of its own. Made from a finished Bag of Holding, which is used up." });
 
+// Starter gear: plain level-1 versions of the 5e starting equipment, so a new character's kit is in the site and its
+// weapons show as attacks. [name, category, damage dice, damage type, profession, materials, extra]
+var STARTER = [
+  ['Club', 'Hammer', '1d4', 'Bludgeoning', 'Carving', ['Oak']], ['Dagger', 'Dagger', '1d4', 'Piercing', 'Blacksmithing', ['Iron', 'Leather']],
+  ['Greatclub', 'Hammer', '1d8', 'Bludgeoning', 'Carving', ['Oak']], ['Handaxe', 'Axe', '1d6', 'Slashing', 'Blacksmithing', ['Iron', 'Oak']],
+  ['Javelin', 'Spear', '1d6', 'Piercing', 'Blacksmithing', ['Iron', 'Oak']], ['Light Hammer', 'Hammer', '1d4', 'Bludgeoning', 'Blacksmithing', ['Iron', 'Oak']],
+  ['Mace', 'Hammer', '1d6', 'Bludgeoning', 'Blacksmithing', ['Iron']], ['Quarterstaff', 'Staff', '1d6', 'Bludgeoning', 'Carving', ['Oak']],
+  ['Sickle', 'Dagger', '1d4', 'Slashing', 'Blacksmithing', ['Iron', 'Oak']], ['Spear', 'Spear', '1d6', 'Piercing', 'Blacksmithing', ['Iron', 'Oak']],
+  ['Light Crossbow', 'Bow', '1d8', 'Piercing', 'Carving', ['Oak', 'Iron']], ['Dart', 'Dagger', '1d4', 'Piercing', 'Blacksmithing', ['Iron']],
+  ['Shortbow', 'Bow', '1d6', 'Piercing', 'Carving', ['Yew', 'Leather']], ['Sling', 'Bow', '1d4', 'Bludgeoning', 'Tailoring', ['Leather']],
+  ['Battleaxe', 'Axe', '1d8', 'Slashing', 'Blacksmithing', ['Iron', 'Oak']], ['Flail', 'Hammer', '1d8', 'Bludgeoning', 'Blacksmithing', ['Iron']],
+  ['Glaive', 'Spear', '1d10', 'Slashing', 'Blacksmithing', ['Iron', 'Oak']], ['Greataxe', 'Axe', '1d12', 'Slashing', 'Blacksmithing', ['Iron', 'Oak']],
+  ['Greatsword', 'Sword', '2d6', 'Slashing', 'Blacksmithing', ['Iron', 'Leather']], ['Halberd', 'Spear', '1d10', 'Slashing', 'Blacksmithing', ['Iron', 'Oak']],
+  ['Lance', 'Spear', '1d12', 'Piercing', 'Blacksmithing', ['Iron', 'Oak']], ['Longsword', 'Sword', '1d8', 'Slashing', 'Blacksmithing', ['Iron', 'Leather']],
+  ['Maul', 'Hammer', '2d6', 'Bludgeoning', 'Blacksmithing', ['Iron', 'Oak']], ['Morningstar', 'Hammer', '1d8', 'Piercing', 'Blacksmithing', ['Iron', 'Oak']],
+  ['Pike', 'Spear', '1d10', 'Piercing', 'Blacksmithing', ['Iron', 'Oak']], ['Rapier', 'Sword', '1d8', 'Piercing', 'Blacksmithing', ['Iron', 'Leather']],
+  ['Scimitar', 'Sword', '1d6', 'Slashing', 'Blacksmithing', ['Iron', 'Leather']], ['Shortsword', 'Sword', '1d6', 'Piercing', 'Blacksmithing', ['Iron', 'Leather']],
+  ['Trident', 'Spear', '1d6', 'Piercing', 'Blacksmithing', ['Iron', 'Oak']], ['War Pick', 'Hammer', '1d8', 'Piercing', 'Blacksmithing', ['Iron', 'Oak']],
+  ['Warhammer', 'Hammer', '1d8', 'Bludgeoning', 'Blacksmithing', ['Iron', 'Oak']], ['Whip', 'Dagger', '1d4', 'Slashing', 'Tailoring', ['Leather']],
+  ['Hand Crossbow', 'Bow', '1d6', 'Piercing', 'Carving', ['Oak', 'Iron']], ['Heavy Crossbow', 'Bow', '1d10', 'Piercing', 'Carving', ['Oak', 'Iron']],
+  ['Longbow', 'Bow', '1d8', 'Piercing', 'Carving', ['Yew', 'Leather']],
+  // armor: FAND armor adds a little AC to a base of 0
+  ['Padded Armor', 'Armor', '', '', 'Tailoring', ['Leather'], { slot: 'Body', ac: '1' }], ['Leather Armor', 'Armor', '', '', 'Tailoring', ['Leather'], { slot: 'Body', ac: '2' }],
+  ['Studded Leather', 'Armor', '', '', 'Tailoring', ['Leather', 'Iron'], { slot: 'Body', ac: '2' }], ['Hide Armor', 'Armor', '', '', 'Tailoring', ['Leather'], { slot: 'Body', ac: '3' }],
+  ['Chain Shirt', 'Armor', '', '', 'Blacksmithing', ['Iron'], { slot: 'Body', ac: '3' }], ['Scale Mail', 'Armor', '', '', 'Blacksmithing', ['Iron', 'Leather'], { slot: 'Body', ac: '4' }],
+  ['Ring Mail', 'Armor', '', '', 'Blacksmithing', ['Iron', 'Leather'], { slot: 'Body', ac: '3' }], ['Breastplate', 'Armor', '', '', 'Blacksmithing', ['Iron'], { slot: 'Body', ac: '4' }],
+  ['Chain Mail', 'Armor', '', '', 'Blacksmithing', ['Iron'], { slot: 'Body', ac: '5' }], ['Half Plate', 'Armor', '', '', 'Blacksmithing', ['Iron', 'Leather'], { slot: 'Body', ac: '5' }],
+  ['Splint Armor', 'Armor', '', '', 'Blacksmithing', ['Iron', 'Leather'], { slot: 'Body', ac: '6' }], ['Plate Armor', 'Armor', '', '', 'Blacksmithing', ['Iron', 'Leather'], { slot: 'Body', ac: '7' }],
+  ['Shield', 'Shield', '', '', 'Blacksmithing', ['Iron', 'Oak'], { slot: 'Shield', ac: '1' }], ['Wooden Shield', 'Shield', '', '', 'Carving', ['Oak', 'Leather'], { slot: 'Shield', ac: '1' }],
+  // ammunition, foci, tools, instruments, packs
+  ['Arrows', 'Ammunition', '', '', 'Carving', ['Oak', 'Feathers'], { q: 20 }], ['Bolts', 'Ammunition', '', '', 'Carving', ['Oak', 'Iron'], { q: 20 }],
+  ['Arcane Focus', 'Focus', '', '', 'Enchanting', ['Crystal'], { ds: 'A crystal, orb, rod, staff, or wand that channels arcane spells.' }],
+  ['Holy Symbol', 'Focus', '', '', 'Enchanting', ['Silver'], { ds: 'An amulet, emblem, or reliquary bearing a god\'s symbol; a focus for divine spells.' }],
+  ['Druidic Focus', 'Focus', '', '', 'Carving', ['Oak'], { ds: 'A sprig of mistletoe, a totem, a yew wand, or a wooden staff; a focus for druid spells.' }],
+  ['Spellbook', 'Book', '', '', 'Tailoring', ['Leather'], { ds: 'A leather-bound book of 100 blank pages where a wizard writes the spells they know.' }],
+  ["Thieves' Tools", 'Tool', '', '', 'Blacksmithing', ['Iron', 'Leather'], { ds: 'Picks, a small file, a mirror on a handle, and narrow scissors, for locks and traps.' }],
+  ['Lute', 'Instrument', '', '', 'Carving', ['Oak'], { ds: 'A stringed instrument for any bard.' }],
+  ["Dungeoneer's Pack", 'Storage', '', '', 'Tailoring', ['Leather'], { cap: 10, carry: 1, ds: 'A backpack with a crowbar, a hammer, 10 pitons, 10 torches, a tinderbox, 10 days of rations, a waterskin, and 50 feet of rope.' }],
+  ["Burglar's Pack", 'Storage', '', '', 'Tailoring', ['Leather'], { cap: 10, carry: 1, ds: 'A backpack with ball bearings, string, a bell, candles, a crowbar, a hammer, pitons, a hooded lantern, oil, rations, a tinderbox, a waterskin, and 50 feet of rope.' }],
+  ["Priest's Pack", 'Storage', '', '', 'Tailoring', ['Leather'], { cap: 10, carry: 1, ds: 'A backpack with a blanket, candles, a tinderbox, an alms box, incense, a censer, vestments, rations, and a waterskin.' }],
+  ["Scholar's Pack", 'Storage', '', '', 'Tailoring', ['Leather'], { cap: 10, carry: 1, ds: 'A backpack with a book of lore, ink, an ink pen, 10 sheets of parchment, a little bag of sand, and a small knife.' }],
+  ["Entertainer's Pack", 'Storage', '', '', 'Tailoring', ['Leather'], { cap: 10, carry: 1, ds: 'A backpack with a bedroll, two costumes, candles, rations, a waterskin, and a disguise kit.' }],
+  ["Diplomat's Pack", 'Storage', '', '', 'Tailoring', ['Leather'], { cap: 10, carry: 1, ds: 'A chest with cases for maps and scrolls, fine clothes, ink, a pen, a lamp, oil, paper, perfume, sealing wax, and soap.' }]
+];
+STARTER.forEach(function (x) {
+  var e = x[6] || {}, b = { n: x[0], cat: x[1], lv: 1, pr: x[4], sp: x[4], r: 'Common', mats: x[5], starter: 1, dc: x[2], dm: x[3],
+    ds: e.ds || ('A plain ' + x[0].toLowerCase() + ', the kind a new adventurer starts with.' + (x[2] ? ' It deals ' + x[2] + ' ' + x[3].toLowerCase() + ' damage.' : '') + (e.ac ? ' It gives +' + e.ac + ' AC.' : '') + (e.q ? ' A bundle of ' + e.q + '.' : '')) };
+  ['slot', 'ac', 'cap', 'carry'].forEach(function (k) { if (e[k] != null) b[k] = e[k]; });
+  if (e.cap) b.ds += ' Holds ' + e.cap + ' items on top of the 20 a character can carry.';
+  NEW.push(b);
+});
+
 module.exports = {
   NEW: NEW,
   TOOLS: {

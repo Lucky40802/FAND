@@ -10,6 +10,9 @@ Inane is [[Infinatas]]'s split personality: the same being, turned the other way
 - The gods' original world eroded away because of Inane. To the gods it was an unknown entity, and they called it only "Inane".
 - After their world was gone, Infinatas allowed the surviving gods into this realm, but only under strict regulation.
 
+## One vessel, three personalities
+Infinatas and Inane share one vessel. A third personality, [[Isorropía]], made a vessel of its own and left to change the realm from inside it. Balance belongs to Infinatas, Destruction to Inane, and Isorropía keeps a fragment of every Rune of creation.
+
 ## If Infinatas is killed
 Infinatas cannot stay dead. If he is killed, Inane takes over completely and destroys everything, including what remains of Infinatas, until nothing is left. Only then does Infinatas come back into existence, and he creates everything again.
 
