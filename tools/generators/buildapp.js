@@ -730,7 +730,7 @@ log.push('accounts: ' + (CLOUD ? 'on (' + CLOUD.url + ')' : 'off (no url and key
 var noScriptEnd = function (js) { return js.replace(/<\/(script)/gi, '<\\/$1'); };
 var single = '<script>\n' + noScriptEnd(VENDOR) + '\n</script>\n' + (SUPA ? '<script>\n' + noScriptEnd(SUPA) + '\n</script>\n' : '') + '<script>\nconst SITE=null;\n' + cloudLine + '\n' + ['BPS', 'SPELLS', 'VAULT', 'VAULT_DETAILS'].concat(CORE.slice(1)).map(lit).join('\n') + '\n' + metaLine + '\n</script>';
 var out = tpl.split('<!--__DATA__-->').join(single);
-var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'magic', 'classes', 'subclasses', 'demons', 'patrons', 'forge', 'craft', 'party', 'sheet', 'encounter', 'prep', 'hooks', 'journal', 'hidden', 'towers', 'combat', 'rules', 'dice', 'tools', 'about'];
+var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'magic', 'classes', 'subclasses', 'demons', 'patrons', 'forge', 'craft', 'party', 'sheet', 'encounter', 'prep', 'hooks', 'journal', 'hidden', 'towers', 'combat', 'rules', 'dice', 'tools', 'about', 'account', 'settings'];
 var site = {};
 var PAGE_INFO = {
   home: ['Home', 'FAND (Fantasy and Numerous Disasters) campaign compendium: Blueprints, materials, monsters, realms, gods, spells, rules, and table tools for the world of Vestige.'],
@@ -763,7 +763,9 @@ var PAGE_INFO = {
   lore: ['Lore', 'The lore of Vestige: Infinatas and Inane, how the gods came to this realm, the pantheons, the contested Runes, the realms, and the progenitors.'],
   runes: ['Runes', 'Every Rune in FAND: its progenitor, who held it before vanishing or being killed, the gods who inherited and contest it, and the relics that channel it.'],
   codex: ['Codex', 'Every note from the FAND Obsidian vault: rules, Runes, realms, classes, gods, the Player\'s Guide, and patch notes.'],
-  about: ['About', 'What has been built in FAND, version by version, and what is still open.']
+  about: ['About', 'What has been built in FAND, version by version, and what is still open.'],
+  account: ['Account', 'Sign in to FAND: your characters and saved data on every device, your profile, and your campaigns.'],
+  settings: ['Settings', 'FAND settings: appearance, the assistant\'s API key, backups of your saved data, and installing the app.']
 };
 site['data/core.js'] = CORE.map(lit).join('\n') + '\n' + metaLine + '\n';
 site['data/spells.js'] = lit('SPELLS') + '\n';
@@ -807,7 +809,7 @@ site['manifest.webmanifest'] = JSON.stringify({
     { name: 'Dice', url: './dice.html', icons: [{ src: 'img/icons/icon-192.png', sizes: '192x192', type: 'image/png' }] },
     { name: 'Bestiary', url: './bestiary.html', icons: [{ src: 'img/icons/icon-192.png', sizes: '192x192', type: 'image/png' }] },
     { name: 'Combat tracker', short_name: 'Combat', url: './combat.html', icons: [{ src: 'img/icons/icon-192.png', sizes: '192x192', type: 'image/png' }] }
-  ].concat(CLOUD ? [{ name: 'Sign in', description: 'Sign in to your FAND account', url: './index.html?signin=1', icons: [{ src: 'img/icons/icon-192.png', sizes: '192x192', type: 'image/png' }] }] : []),
+  ].concat(CLOUD ? [{ name: 'Sign in', description: 'Sign in to your FAND account', url: './account.html', icons: [{ src: 'img/icons/icon-192.png', sizes: '192x192', type: 'image/png' }] }] : []),
   icons: [
     { src: 'img/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
     { src: 'img/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
