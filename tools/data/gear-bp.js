@@ -99,13 +99,23 @@ var STARTER = [
   ["Entertainer's Pack", 'Storage', '', '', 'Tailoring', ['Leather'], { cap: 10, carry: 1, ds: 'A backpack with a bedroll, two costumes, candles, rations, a waterskin, and a disguise kit.' }],
   ["Diplomat's Pack", 'Storage', '', '', 'Tailoring', ['Leather'], { cap: 10, carry: 1, ds: 'A chest with cases for maps and scrolls, fine clothes, ink, a pen, a lamp, oil, paper, perfume, sealing wax, and soap.' }]
 ];
+// 5e list prices in gp: a character who leaves an item out of their starting kit gets this much back
+var STARTER_GP = { Club: 0.1, Dagger: 2, Greatclub: 0.2, Handaxe: 5, Javelin: 0.5, 'Light Hammer': 2, Mace: 5, Quarterstaff: 0.2, Sickle: 1, Spear: 1, 'Light Crossbow': 25, Dart: 0.05,
+  Shortbow: 25, Sling: 0.1, Battleaxe: 10, Flail: 10, Glaive: 20, Greataxe: 30, Greatsword: 50, Halberd: 20, Lance: 10, Longsword: 15, Maul: 10, Morningstar: 15, Pike: 5, Rapier: 25,
+  Scimitar: 25, Shortsword: 10, Trident: 5, 'War Pick': 5, Warhammer: 15, Whip: 2, 'Hand Crossbow': 75, 'Heavy Crossbow': 50, Longbow: 50, 'Padded Armor': 5, 'Leather Armor': 10,
+  'Studded Leather': 45, 'Hide Armor': 10, 'Chain Shirt': 50, 'Scale Mail': 50, 'Ring Mail': 30, Breastplate: 400, 'Chain Mail': 75, 'Half Plate': 750, 'Splint Armor': 200,
+  'Plate Armor': 1500, Shield: 10, 'Wooden Shield': 10, Arrows: 1, Bolts: 1, 'Arcane Focus': 10, 'Holy Symbol': 5, 'Druidic Focus': 1, Spellbook: 50, "Thieves' Tools": 25, Lute: 35,
+  "Dungeoneer's Pack": 12, "Burglar's Pack": 16, "Priest's Pack": 19, "Scholar's Pack": 40, "Entertainer's Pack": 40, "Diplomat's Pack": 39 };
 STARTER.forEach(function (x) {
   var e = x[6] || {}, b = { n: x[0], cat: x[1], lv: 1, pr: x[4], sp: x[4], r: 'Common', mats: x[5], starter: 1, dc: x[2], dm: x[3],
     ds: e.ds || ('A plain ' + x[0].toLowerCase() + ', the kind a new adventurer starts with.' + (x[2] ? ' It deals ' + x[2] + ' ' + x[3].toLowerCase() + ' damage.' : '') + (e.ac ? ' It gives +' + e.ac + ' AC.' : '') + (e.q ? ' A bundle of ' + e.q + '.' : '')) };
   ['slot', 'ac', 'cap', 'carry'].forEach(function (k) { if (e[k] != null) b[k] = e[k]; });
+  if (STARTER_GP[x[0]] != null) b.gp = STARTER_GP[x[0]];
   if (e.cap) b.ds += ' Holds ' + e.cap + ' items on top of the 20 a character can carry.';
   NEW.push(b);
 });
+
+NEW.forEach(function (b) { if (b.n === "Explorer's Pack") b.gp = 10; if (b.n === 'Backpack') b.gp = 2; });
 
 module.exports = {
   NEW: NEW,
