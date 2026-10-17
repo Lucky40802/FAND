@@ -86,6 +86,16 @@ Accounts use [Supabase](https://supabase.com) (free tier is enough) and stay swi
 
 With a URL and key in `config.json`, the build adds `vendor/supabase.js` (supabase-js 2.117.2) to the site and inlines it into `app/FAND.html`. Pages load it only when someone signs in. The offline app signs in with the emailed code, since a sign-in link can't open a local file.
 
+### The site's own AI keys (optional)
+By default the Forge's **Forge with Grok** uses each player's own xAI key (Settings → Assistant). To let signed-in players use **your** key instead, without ever sending it to a browser:
+
+1. Run `tools/cloud/schema.sql` again (it adds a private `fand_private` schema the website can't reach, with a per-account daily counter).
+2. In the **SQL Editor**, run the `vault.create_secret` lines from `tools/cloud/ai-keys.sql` with your real keys: `fand_grok_key` for the Forge, `fand_claude_key` for the chat assistant (stored for later; the assistant still uses each player's key). Keys are kept encrypted in Supabase Vault. Never put a real key in this repository.
+3. Under **Edge Functions**, create a function named `forge` and paste `tools/cloud/functions/forge/index.ts` (or `supabase functions deploy forge` with the CLI). If calls fail with *Invalid JWT*, turn off **Verify JWT** for it: the function checks the sign-in itself.
+4. Optional, under the function's **Secrets**: `FORGE_DAILY_LIMIT` (forges per account per day, default 20) and `GROK_MODEL` (default `grok-4`).
+
+Players who add their own key in Settings keep using it, with no daily limit.
+
 ## Content added by the build
 - `tools/data/myth.js`: creatures from world mythology and folklore (Greek, Norse, Egyptian, Hindu, Aztec, Celtic, Japanese, Mesopotamian, and more), each with an original description. They get harvest parts, stat blocks, and lore like every other monster.
 - Monster lore (Overview, Appearance, Behavior and Tactics, Habitat and Ecology, Society, Harvesting, In FAND, Adventure Hook) is written by the site from each monster's body plan, realm, stats, and drops.
