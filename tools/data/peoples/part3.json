@@ -1,0 +1,514 @@
+{
+  "Vedalken": {
+    "size": "Medium",
+    "height": "5 feet 4 inches to 6 feet 4 inches",
+    "weight": "110 to 200 pounds",
+    "age": "Vedalken reach adulthood around 40 and can live to about 350.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "Vedalken", "One of your choice"],
+    "desc": "Vedalken are tall, hairless people with blue skin and calm faces. They see every flaw as a chance to improve something. They rarely show strong feelings and prefer reason to passion. Play one if you like a patient, precise character who studies problems until they give way.",
+    "vestige": "In Vestige, vedalken are found wherever there is work to perfect, often among scholars, crafters, and record keepers. They tend to travel the realms to study them.",
+    "traits": [
+      ["Dispassionate", "You have advantage on Intelligence, Wisdom, and Charisma saving throws."],
+      ["Tireless Precision", "You gain proficiency in one of these skills: Arcana, History, Investigation, Medicine, Performance, or Sleight of Hand. You also gain proficiency with one tool of your choice. Whenever you make an ability check with the chosen skill or tool, roll a d4 and add it to the total."],
+      ["Partially Amphibious", "You can breathe underwater for up to 1 hour. Once you use this, you can't do it again until you finish a long rest."]
+    ]
+  },
+  "Simic Hybrid": {
+    "size": "Medium",
+    "height": "5 to 6 feet",
+    "weight": "120 to 220 pounds",
+    "age": "Hybrids age like the people they were before the change, usually reaching adulthood around 18 and living under a century.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "Elvish or Vedalken"],
+    "desc": "A Simic hybrid is a human, elf, or vedalken whose body was reshaped by magic and grafted with animal traits. Some have fins or gills, some have shells or extra limbs. Many were changed by choice, others not. Play one if you want a character whose body keeps growing new tricks as they level up.",
+    "vestige": "In Vestige, hybrids are the work of mages who experiment on living bodies. Some come from the Mysterious realm, where strange changes are less surprising.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You can't see colors in darkness, only shades of gray."],
+      ["Animal Enhancement (1st level)", "Choose one: Manta Glide, Nimble Climber, or Underwater Adaptation."],
+      ["Manta Glide", "You have flaps of skin like a ray. When you fall, you can slow yourself. You fall only 60 feet per round, take no falling damage, and can move 2 feet sideways for every 1 foot you drop."],
+      ["Nimble Climber", "You gain a climbing speed equal to your walking speed."],
+      ["Underwater Adaptation", "You can breathe both air and water, and you gain a swimming speed equal to your walking speed."],
+      ["Animal Enhancement (5th level)", "At 5th level, choose one more enhancement. It can be one of the three above that you don't have, or one of these: Grappling Appendages, Carapace, or Acid Spit."],
+      ["Grappling Appendages", "You grow two extra limbs, such as tentacles or claws. They are natural weapons for unarmed strikes, dealing 1d6 + your Strength modifier bludgeoning damage. When you hit with one, you can try to grapple the target as a bonus action. The limbs can't wield weapons or shields or do fine work."],
+      ["Carapace", "A hard shell covers your skin. You gain +1 to AC while you aren't wearing heavy armor."],
+      ["Acid Spit", "As an action, spit acid at a creature you can see within 30 feet. It makes a Dexterity saving throw (DC 8 + your Constitution modifier + your proficiency bonus) or takes 2d10 acid damage. The damage becomes 3d10 at 11th level and 4d10 at 17th level. You can use this a number of times equal to your Constitution modifier (at least once), and regain all uses after a long rest."]
+    ]
+  },
+  "Locathah": {
+    "size": "Medium",
+    "height": "5 to 6 feet",
+    "weight": "150 to 250 pounds",
+    "age": "Locathah reach adulthood around 10 and live up to about 80 years.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 30, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "Aquan"],
+    "desc": "Locathah are fish-folk with scaly skin, wide mouths, and fins along their heads and backs. They live in close coastal communities and have long had to fight bigger powers for their homes. They are tough, watchful, and hard to break. Play one if you want a stubborn survivor who is at home both on the shore and under the waves.",
+    "vestige": "In Vestige, locathah live along coasts and reefs, and some trade with surface towns. They do not need to dive deep, so they leave the Abyss to others.",
+    "traits": [
+      ["Natural Armor", "Your scales give you a base AC of 12 + your Dexterity modifier when you wear no armor. You can still use a shield."],
+      ["Observant & Athletic", "You have proficiency in the Athletics and Perception skills."],
+      ["Leviathan Will", "You have advantage on saving throws against being charmed, frightened, paralyzed, poisoned, stunned, or put to sleep."],
+      ["Limited Amphibiousness", "You can breathe air and water. You must fully submerge in water at least once every 4 hours, or you begin to suffocate."],
+      ["Swimming", "You have a swimming speed of 30 feet."]
+    ]
+  },
+  "Verdan": {
+    "size": "Small or Medium",
+    "height": "About 3 feet at first, growing to 4 or 5 feet",
+    "weight": "35 to 120 pounds",
+    "age": "Verdan reach adulthood in their early twenties. Their people are so new that no one yet knows how long they live.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "Goblin", "One of your choice"],
+    "desc": "Verdan were goblins and hobgoblins until a burst of chaos remade them. They have green skin and large ears, and their bodies keep changing as they age. They are curious, friendly, and hungry to learn about the world. Play one if you want a cheerful talker who grows, quite literally, over the campaign.",
+    "vestige": "In Vestige, verdan are said to have been touched by the Chaos realm. They are still a young people, finding their place among older ones.",
+    "traits": [
+      ["Growing Size", "You start out Small. At 5th level, you grow and become Medium."],
+      ["Black Blood Healing", "When you roll a 1 or 2 on a Hit Die to regain hit points, you can reroll it. You must use the new roll."],
+      ["Limited Telepathy", "You can speak telepathically to any creature you can see within 30 feet. It understands you if it knows at least one language. It can't answer back telepathically."],
+      ["Persuasive", "You have proficiency in the Persuasion skill."],
+      ["Telepathic Insight", "You have advantage on Wisdom and Charisma saving throws."]
+    ]
+  },
+  "Grung": {
+    "size": "Small",
+    "height": "2 feet 6 inches to 3 feet 6 inches",
+    "weight": "25 to 40 pounds",
+    "age": "Grung grow up fast, reaching adulthood in about a year. They live to about 50.",
+    "type": "Humanoid",
+    "speed": 25, "fly": 0, "swim": 0, "climb": 25,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Grung"],
+    "desc": "Grung are small frog-folk with bright skin that warns of their poison. Their color marks their rank in a strict caste system. They live in trees near rainforest water and must keep their skin wet. Play one if you want a small, bold, hopping character who is dangerous to touch.",
+    "vestige": "In Vestige, grung live in warm, wet forests and swamps. They rarely leave the trees and see outsiders with suspicion.",
+    "traits": [
+      ["Arboreal Alertness", "You have proficiency in the Perception skill."],
+      ["Amphibious", "You can breathe both air and water."],
+      ["Poison Immunity", "You are immune to poison damage and to the poisoned condition."],
+      ["Poisonous Skin", "Any creature that grapples you or touches your skin must succeed on a DC 12 Constitution saving throw or be poisoned for 1 minute. Once it is no longer touching you, it can repeat the save at the end of each of its turns, ending the effect on a success. You can also coat a piercing weapon with your poison as part of an attack. On a hit, the target makes a DC 12 Constitution save or takes an extra 2d4 poison damage."],
+      ["Standing Leap", "Your long jump is up to 25 feet and your high jump is up to 15 feet, with or without a running start."],
+      ["Climbing", "You have a climbing speed of 25 feet."],
+      ["Water Dependency", "If you don't immerse yourself in water for at least 1 hour during a day, you gain one level of exhaustion at the end of that day. You can only recover from this exhaustion through magic or by spending at least 1 hour in water."]
+    ]
+  },
+  "Astral Elf": {
+    "size": "Medium",
+    "height": "5 to 6 feet",
+    "weight": "90 to 160 pounds",
+    "age": "Astral elves reach adulthood around 100. While they stay in the timeless Astral Sea, they do not age at all.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Astral elves are elves whose ancestors left the world long ago for the silver sea between planes. Their eyes hold a faint starry light. They have lived so long that the passing years of others can seem small to them. Play one if you want a calm, ancient-feeling character with a little radiant magic and quick, star-bright steps.",
+    "vestige": "In Vestige, astral elves come from the starlit space between the realms. Many feel most at home in the Outer Realm, close to the stars.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Astral Fire", "You know one of these cantrips: Dancing Lights, Light, or Sacred Flame. Intelligence, Wisdom, or Charisma is your spellcasting ability for it (choose when you pick this people)."],
+      ["Fey Ancestry", "You have advantage on saving throws against being charmed."],
+      ["Keen Senses", "You have proficiency in the Perception skill."],
+      ["Starlight Step", "As a bonus action, you can teleport up to 30 feet to an empty space you can see. You can do this a number of times equal to your proficiency bonus, and regain all uses after a long rest."],
+      ["Astral Trance", "You don't need to sleep, and magic can't put you to sleep. You finish a long rest in 4 hours of quiet trance. When you finish, you gain proficiency in one skill and with one weapon or tool of your choice until your next long rest."]
+    ]
+  },
+  "Autognome": {
+    "size": "Small",
+    "height": "3 to 4 feet",
+    "weight": "60 to 100 pounds",
+    "age": "Autognomes are built fully formed. No one knows how long they can last, but many keep working for centuries with care and repair.",
+    "type": "Construct",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Autognomes are small mechanical people built by rock gnomes. Many were made to do a single job and later broke away to find their own purpose. Their bodies are metal, gears, and glass. Play one if you want a clever, sturdy little machine who is good at nearly anything at the right moment.",
+    "vestige": "In Vestige, autognomes come from gnome workshops. Some wander the realms looking for their makers or a new reason to keep going.",
+    "traits": [
+      ["Armored Casing", "When you wear no armor, your base AC is 13 + your Dexterity modifier."],
+      ["Built for Success", "After you see the roll but before you know the result, you can add a d4 to one attack roll, ability check, or saving throw you make. You can do this a number of times equal to your proficiency bonus, and regain all uses after a long rest."],
+      ["Healing Machine", "If someone casts Mending on you, you can spend a Hit Die, roll it, and regain that many hit points plus your Constitution modifier. Spells like Cure Wounds and Healing Word work on you even though you are a Construct."],
+      ["Mechanical Nature", "You resist poison damage and are immune to disease. You have advantage on saving throws against being paralyzed or poisoned. You don't need to eat, drink, or breathe."],
+      ["Sentry's Rest", "Instead of sleeping, you finish a long rest by spending 6 hours inactive and motionless. You stay conscious and can see and hear around you."],
+      ["Specialized Design", "You gain proficiency with two tools of your choice."]
+    ]
+  },
+  "Giff": {
+    "size": "Medium",
+    "height": "6 feet 6 inches to 7 feet 6 inches",
+    "weight": "300 to 450 pounds",
+    "age": "Giff reach adulthood around 15 and live to about 60.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 30, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Giff are huge, hippo-headed people with thick skin and a love of order. Many serve as soldiers or mercenaries and take pride in drill, rank, and loud weapons. They are loyal and brave, sometimes to a fault. Play one if you want a strong, proud warrior who hits hard and loves firearms.",
+    "vestige": "In Vestige, giff often hire themselves out as soldiers and guards across the realms. They are drawn to any place that values discipline.",
+    "traits": [
+      ["Astral Spark", "When you hit a target with a simple or martial weapon, you can deal extra force damage equal to your proficiency bonus. You can do this a number of times equal to your proficiency bonus, and regain all uses after a long rest."],
+      ["Firearms Mastery", "You are proficient with all firearms. You ignore the loading property of firearms, and attacking at long range with one doesn't give you disadvantage."],
+      ["Hippo Build", "You have advantage on Strength checks and Strength saving throws. You count as one size larger when working out how much you can carry, push, drag, or lift."],
+      ["Swimming", "You have a swimming speed equal to your walking speed."]
+    ]
+  },
+  "Hadozee": {
+    "size": "Small or Medium",
+    "height": "3 to 6 feet",
+    "weight": "50 to 160 pounds",
+    "age": "Hadozee reach adulthood around 14 and live about 100 years.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 30,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Hadozee are furry, ape-like people with flaps of skin between their arms and legs. They can grip with their feet as well as their hands and glide down from great heights. They are friendly, curious, and love to travel. Play one if you want a nimble climber who is hard to pin down and quick to dodge harm.",
+    "vestige": "In Vestige, hadozee often work as sailors and riggers, at home high in masts and treetops. They wander freely between realms.",
+    "traits": [
+      ["Dexterous Feet", "As a bonus action, you can use your feet to take the Use an Object action."],
+      ["Glide", "When you fall at least 10 feet, you can use your reaction to spread your skin flaps. You then move up to 5 feet sideways for every 1 foot you fall, and you take no falling damage."],
+      ["Hadozee Dodge", "When you take damage, you can use your reaction to roll a d6. Add your proficiency bonus and reduce the damage by the total. You can do this a number of times equal to your proficiency bonus, and regain all uses after a long rest."],
+      ["Climbing", "You have a climbing speed equal to your walking speed."]
+    ]
+  },
+  "Plasmoid": {
+    "size": "Small or Medium",
+    "height": "3 to 6 feet, depending on the shape you hold",
+    "weight": "50 to 200 pounds",
+    "age": "Plasmoids reach maturity around 15 and live about 200 years.",
+    "type": "Ooze",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Plasmoids are thinking blobs of jelly-like living matter. They can stretch out limbs, form a rough head and body, or slump into a puddle. Their bodies take in food through their skin. Play one if you want a strange, flexible character who can slip through gaps no one else could.",
+    "vestige": "In Vestige, plasmoids are rare travelers whose origins are unclear. Many feel drawn to the Void or the Mysterious realm, where odd forms raise fewer questions.",
+    "traits": [
+      ["Amorphous", "You can squeeze through a space as narrow as 1 inch wide, as long as you wear and carry nothing. You have advantage on ability checks to start or escape a grapple."],
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Hold Breath", "You can hold your breath for up to 1 hour."],
+      ["Natural Resilience", "You resist acid and poison damage, and you have advantage on saving throws against being poisoned."],
+      ["Shape Self", "As an action, you can grow a pseudopod up to 10 feet long. It can open doors, carry up to 10 pounds, and handle simple objects, but it can't attack, use magic items, or lift more than that. As an action, you can also reshape your body to have a head, arms, and legs, or return to a blob. Your size never changes."]
+    ]
+  },
+  "Thri-kreen": {
+    "size": "Small or Medium",
+    "height": "3 to 7 feet",
+    "weight": "60 to 300 pounds",
+    "age": "Thri-kreen reach adulthood in about 8 years and rarely live past 30.",
+    "type": "Monstrosity",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Thri-kreen are insect-folk with hard shells, two pairs of arms, and large compound eyes. Their shells change color to blend in with the land around them. They never sleep and talk mind to mind as easily as aloud. Play one if you want an alien hunter with extra hands and a quiet, watchful nature.",
+    "vestige": "In Vestige, thri-kreen roam the dry wilds and travel in hunting packs. Their tireless watch makes them prized guides and guards.",
+    "traits": [
+      ["Chameleon Carapace", "When you wear no armor, your base AC is 13 + your Dexterity modifier. As an action, you can change your shell's color to match your surroundings, giving you advantage on Stealth checks made to hide."],
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Secondary Arms", "You have a second, smaller pair of arms. They can handle objects, open doors, pick up or put down Tiny items, and wield a weapon with the light property."],
+      ["Sleepless", "You don't need to sleep. You stay awake through a long rest, though you must still avoid hard activity to finish it."],
+      ["Thri-kreen Telepathy", "Without speaking, you can share thoughts with one creature you can see within 120 feet. It understands you only if it knows a language you know. It can answer you telepathically."]
+    ]
+  },
+  "Dhampir": {
+    "size": "Small or Medium",
+    "height": "Same as the people you were before, usually 3 to 6 feet",
+    "weight": "Same as the people you were before, usually 40 to 200 pounds",
+    "age": "Dhampirs age like the people they came from, though some seem to stop aging once they reach adulthood.",
+    "type": "Humanoid",
+    "speed": 35, "fly": 0, "swim": 0, "climb": 35,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "A dhampir is a living person with a vampire's hunger in their blood. They may have been born this way or changed by a curse or bite. They look mostly like who they were, but paler, with sharp teeth and an unsettling stillness. Play one if you want a swift, wall-crawling hunter torn between life and undeath.",
+    "vestige": "In Vestige, dhampirs are rare and often hide what they are. They are drawn to the shadowed edges of the realms, near the Void and Hell.",
+    "traits": [
+      ["Ancestral Legacy", "If you replace another people with this one, you can keep that people's skill proficiencies and any climbing, flying, or swimming speed. If you don't, you gain proficiency in two skills of your choice."],
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Deathless Nature", "You don't need to breathe."],
+      ["Spider Climb", "You have a climbing speed equal to your walking speed. At 3rd level, you can move up, down, and across walls and upside down on ceilings, with your hands free."],
+      ["Vampiric Bite", "Your fangs are a natural weapon for unarmed strikes, dealing 1d4 + your Constitution modifier piercing damage. You have advantage on the attack if you are at half your hit points or less. When you hit a creature that isn't a Construct or Undead, you can feed. Either regain hit points equal to the damage dealt, or gain a bonus equal to the damage on your next ability check or attack roll. You can feed a number of times equal to your proficiency bonus, and regain all uses after a long rest."]
+    ]
+  },
+  "Hexblood": {
+    "size": "Small or Medium",
+    "height": "Same as the people you were before, usually 3 to 6 feet",
+    "weight": "Same as the people you were before, usually 40 to 200 pounds",
+    "age": "Hexbloods age like other people, but they show no signs of old age after reaching adulthood and may live around a century.",
+    "type": "Fey",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "A hexblood is a person changed by a hag's magic, through a bargain, a curse, or birth. They often have odd hair, strange eyes, or skin that shifts color with their mood. They carry a little witch magic and can leave a token of themselves behind. Play one if you want a spooky, clever character with a link to fairy-tale witches.",
+    "vestige": "In Vestige, hexbloods often trace their change to the Mysterious realm, where hags make their deals. Some still owe a debt there.",
+    "traits": [
+      ["Ancestral Legacy", "If you replace another people with this one, you can keep that people's skill proficiencies and any climbing, flying, or swimming speed. If you don't, you gain proficiency in two skills of your choice."],
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Eerie Token", "As a bonus action, you can remove a lock of hair, a nail, or a tooth and fill it with magic. While it exists and is within 10 miles, you can use an action to send a message of up to 25 words to whoever holds it. You can also use an action to see and hear through the token for up to 1 minute. Once you make a token, you can't make another until you finish a long rest, and making a new one destroys the old one."],
+      ["Hex Magic", "You can cast Disguise Self and Hex with this trait. Each can be cast once without a spell slot, and you regain the use after a long rest. You can also cast them with any spell slots you have. Intelligence, Wisdom, or Charisma is your spellcasting ability for them (choose when you pick this people)."]
+    ]
+  },
+  "Reborn": {
+    "size": "Small or Medium",
+    "height": "Same as the people you were before, usually 3 to 6 feet",
+    "weight": "Same as the people you were before, usually 40 to 200 pounds",
+    "age": "Reborn don't age in the usual way. Many look the age they were when they died and could go on for a very long time.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "The reborn are people who died and came back, through magic, science, or something stranger. Their bodies often show stitches, grey skin, or other signs of what happened. Pieces of their old life surface in flashes of skill and memory. Play one if you want a haunted character looking for who they used to be.",
+    "vestige": "In Vestige, death is not always the end, and some souls return from the Void or are pulled back by others. Reborn often search for whoever brought them back.",
+    "traits": [
+      ["Ancestral Legacy", "If you replace another people with this one, you can keep that people's skill proficiencies and any climbing, flying, or swimming speed. If you don't, you gain proficiency in two skills of your choice."],
+      ["Deathless Nature", "You have advantage on saving throws against disease and being poisoned, and you resist poison damage. You have advantage on death saving throws. You don't need to eat, drink, breathe, or sleep, and magic can't put you to sleep. You finish a long rest by spending 4 hours inactive but awake."],
+      ["Knowledge from a Past Life", "When you make an ability check that uses a skill, you can roll a d6 and add it to the check after seeing the roll. You can do this a number of times equal to your proficiency bonus, and regain all uses after a long rest."]
+    ]
+  },
+  "Hellbound": {
+    "size": "Medium",
+    "height": "5 to 6 feet 6 inches",
+    "weight": "120 to 220 pounds",
+    "age": "Hellbound reach adulthood around 18 and live to about 150.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "Infernal"],
+    "desc": "Hellbound are born in Hell's contract halls, where every promise is binding. They often have ember-dark eyes, warm skin, and voices that carry. They grow up around deals and learn early to read the fine print. Play one if you want a sharp negotiator who knows when someone is bound by their word.",
+    "vestige": "Hellbound come from Hell, one of Vestige's eleven realms. They feel no strain from its Pressure and are often trusted to witness bargains.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Fire Resistance", "You resist fire damage."],
+      ["Contract Sense", "You know when a creature you can see within 30 feet is bound by a contract, pact, or sworn oath. You sense that the bond exists, not its terms."],
+      ["Silver Tongue", "You have proficiency in your choice of the Deception or Persuasion skill."],
+      ["Hell-Adapted", "You feel no strain from Hell's Pressure."]
+    ]
+  },
+  "Haloed": {
+    "size": "Medium",
+    "height": "5 to 6 feet 6 inches",
+    "weight": "110 to 200 pounds",
+    "age": "Haloed reach adulthood around 20 and live to about 200.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "Celestial"],
+    "desc": "Haloed are born in Heaven's cloud meadows and carry a faint ring of light above their heads. They tend to be calm and kind, and they are drawn to people in need. Their light can be dimmed but never fully hidden. Play one if you want a gentle protector who brings comfort into dark places.",
+    "vestige": "Haloed come from Heaven, one of Vestige's eleven realms. They feel no strain from its Pressure and often travel as healers or guides.",
+    "traits": [
+      ["Radiant Resistance", "You resist radiant damage."],
+      ["Halo", "As a bonus action, you can make your halo shed dim light in a 10-foot radius. You can end it as a bonus action."],
+      ["Steadying Touch", "As an action, you can touch a creature at 0 hit points. It becomes stable and regains 1 hit point. Once you use this, you can't do it again until you finish a long rest."],
+      ["Calm Heart", "You have advantage on saving throws against being frightened."],
+      ["Heaven-Adapted", "You feel no strain from Heaven's Pressure."]
+    ]
+  },
+  "Chaosborn": {
+    "size": "Medium",
+    "height": "4 feet 6 inches to 6 feet 6 inches",
+    "weight": "100 to 220 pounds",
+    "age": "Chaosborn reach adulthood around 16. Their lifespans vary wildly, from about 60 to 120 years.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "Primordial"],
+    "desc": "Chaosborn are born where nothing stays the same. Their hair, eyes, or skin may shift color from day to day. They are restless, adaptable, and comfortable with surprises. Play one if you want an unpredictable character who can bend luck when it matters.",
+    "vestige": "Chaosborn come from Chaos, one of Vestige's eleven realms. They feel no strain from its Pressure, though calmer realms can feel dull to them.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Shifting Resistance", "When you finish a long rest, roll a d8 to choose a damage type you resist until your next long rest: 1 acid, 2 cold, 3 fire, 4 lightning, 5 necrotic, 6 poison, 7 radiant, 8 thunder."],
+      ["Twist of Fate", "When you roll any die, you can reroll it and must use the new roll. Once you use this, you can't do it again until you finish a long rest."],
+      ["Chaos-Adapted", "You feel no strain from Chaos's Pressure."]
+    ]
+  },
+  "Abyssal Deepkin": {
+    "size": "Medium",
+    "height": "5 feet 6 inches to 7 feet",
+    "weight": "160 to 280 pounds",
+    "age": "Deepkin reach adulthood around 20 and live to about 150.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 30, "climb": 0,
+    "dv": 120,
+    "senses": "",
+    "langs": ["Common", "Abyssal"],
+    "desc": "Abyssal Deepkin are born in the dark, cold trenches of the Abyss. They are broad and strong, with large eyes and skin suited to crushing depths. They are patient and slow to anger, but hard to stop once moving. Play one if you want a powerful swimmer who sees easily in the deepest dark.",
+    "vestige": "Deepkin come from the Abyss, one of Vestige's eleven realms. They feel no strain from its Pressure and make strong guides into its depths.",
+    "traits": [
+      ["Superior Darkvision", "You can see in dim light within 120 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Cold Resistance", "You resist cold damage."],
+      ["Deep Lungs", "You can hold your breath for up to 1 hour."],
+      ["Swimming", "You have a swimming speed of 30 feet."],
+      ["Abyss-Adapted", "You feel no strain from the Abyss's Pressure."]
+    ]
+  },
+  "Lawbound": {
+    "size": "Medium",
+    "height": "5 to 6 feet 4 inches",
+    "weight": "110 to 200 pounds",
+    "age": "Lawbound reach adulthood around 25 and live to about 250.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Lawbound are born in the ordered gardens of the Inner Realm. They are neat, steady, and thoughtful, and they value honesty above most things. A lie sits wrong with them, and they can often feel one being told. Play one if you want a clear-minded judge, scholar, or investigator.",
+    "vestige": "Lawbound come from the Inner Realm, one of Vestige's eleven realms. They feel no strain from its Pressure and are often asked to settle disputes.",
+    "traits": [
+      ["Truth Sense", "When a creature you can hear within 30 feet speaks, you can learn whether its last statement was a deliberate lie. Once you use this, you can't do it again until you finish a long rest."],
+      ["Ordered Mind", "You have advantage on saving throws against being charmed."],
+      ["Careful Eye", "You have proficiency in your choice of the Insight or Investigation skill."],
+      ["Inner Realm-Adapted", "You feel no strain from the Inner Realm's Pressure."]
+    ]
+  },
+  "Starwalker": {
+    "size": "Medium",
+    "height": "5 feet to 6 feet 6 inches",
+    "weight": "100 to 180 pounds",
+    "age": "Starwalkers reach adulthood around 18 and live to about 120.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "Celestial"],
+    "desc": "Starwalkers are born on the star-plains of the Outer Realm. They are lean and light on their feet, with eyes that catch distant light. They grow up crossing wide open spaces and reading far horizons. Play one if you want a scout or archer who spots trouble long before anyone else.",
+    "vestige": "Starwalkers come from the Outer Realm, one of Vestige's eleven realms. They feel no strain from its Pressure and make natural guides and lookouts.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Far Sight", "In clear conditions, you can see details up to 1 mile away as clearly as if they were 100 feet away."],
+      ["Star Leap", "Your long jump and high jump distances are doubled."],
+      ["Keen Eyes", "You have proficiency in the Perception skill."],
+      ["Outer Realm-Adapted", "You feel no strain from the Outer Realm's Pressure."]
+    ]
+  },
+  "Hollowborn": {
+    "size": "Medium",
+    "height": "5 to 6 feet 4 inches",
+    "weight": "90 to 170 pounds",
+    "age": "Hollowborn reach adulthood around 20 and live to about 150.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "Deep Speech"],
+    "desc": "Hollowborn are born in the silence of the Void. They are pale and quiet, and they move without a sound. Many speak little and listen a great deal. Play one if you want a soft-footed scout or rogue who is at ease in empty, dark places.",
+    "vestige": "Hollowborn come from the Void, one of Vestige's eleven realms. They feel no strain from its Pressure, though noisy places can wear on them.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Necrotic Resistance", "You resist necrotic damage."],
+      ["Silent Step", "You make no sound when you walk. You have advantage on Stealth checks made to move quietly."],
+      ["Void-Adapted", "You feel no strain from the Void's Pressure."]
+    ]
+  },
+  "Mistborn": {
+    "size": "Medium",
+    "height": "4 feet 10 inches to 6 feet 2 inches",
+    "weight": "90 to 170 pounds",
+    "age": "Mistborn reach adulthood around 20 and can live to about 300.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "Sylvan"],
+    "desc": "Mistborn are born in the fog of the Mysterious Realm. Their outlines can seem soft at the edges, and a faint haze sometimes clings to them. They are hard to read and harder to fool. Play one if you want a slippery, elusive character who can vanish in a curl of mist.",
+    "vestige": "Mistborn come from the Mysterious Realm, one of Vestige's eleven realms. They feel no strain from its Pressure and know some of its hidden paths.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Mist Step", "As a bonus action, you can turn to mist and reappear in an empty space you can see within 30 feet. Once you use this, you can't do it again until you finish a short or long rest."],
+      ["Clouded Mind", "You have advantage on saving throws against being charmed."],
+      ["Mysterious Realm-Adapted", "You feel no strain from the Mysterious Realm's Pressure."]
+    ]
+  },
+  "Edgeborn": {
+    "size": "Medium",
+    "height": "5 to 6 feet 4 inches",
+    "weight": "110 to 200 pounds",
+    "age": "Edgeborn reach adulthood around 20 and live to about 150.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "Edge Sense 30 ft",
+    "langs": ["Common", "Deep Speech"],
+    "desc": "Edgeborn are born on the rim of the Inner Void, where the world thins out. They are watchful and steady, with a sense for presence that goes beyond sight. Few can sneak up on them. Play one if you want a calm guardian who always knows who is in the room.",
+    "vestige": "Edgeborn come from the Inner Void, one of Vestige's eleven realms. They feel no strain from its Pressure and often keep watch at its borders.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."],
+      ["Edge Sense", "You know where every creature within 30 feet of you is, even if it is invisible, hidden, or out of sight. Creatures in that range gain no advantage on attacks against you for being unseen. You still need to see a target for spells that require sight."],
+      ["Inner Void-Adapted", "You feel no strain from the Inner Void's Pressure."]
+    ]
+  },
+  "Firstblood": {
+    "size": "Medium",
+    "height": "5 feet 4 inches to 7 feet",
+    "weight": "150 to 280 pounds",
+    "age": "Firstblood reach adulthood around 15 and live to about 90.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "Primordial"],
+    "desc": "Firstblood descend from the first people of the Primordial realm. They are strong, hardy, and hard to wear down. Their customs are old and simple, built around endurance and kinship. Play one if you want a tireless fighter who shakes off what would stop others.",
+    "vestige": "Firstblood come from the Primordial realm, one of Vestige's eleven realms. They feel no strain from its Pressure and keep some of its oldest traditions.",
+    "traits": [
+      ["Enduring Blood", "You have advantage on saving throws against exhaustion."],
+      ["Shrug It Off", "At the start of your turn, you can end one condition on yourself: blinded, charmed, deafened, frightened, paralyzed, poisoned, or stunned. Once you use this, you can't do it again until you finish a long rest."],
+      ["Primal Strength", "You have proficiency in the Athletics skill."],
+      ["Primordial-Adapted", "You feel no strain from the Primordial realm's Pressure."]
+    ]
+  },
+  "Runeborn": {
+    "size": "Medium",
+    "height": "5 to 6 feet 4 inches",
+    "weight": "110 to 200 pounds",
+    "age": "Runeborn age like humans, reaching adulthood around 18 and living to about 100.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Runeborn are born where a Rune's power spilled into the world. Glowing marks trace their skin and brighten when they use magic. They carry a small piece of one of the Laws of existence. Play one if you want a magic-touched character drawn to the deeper rules of the world.",
+    "vestige": "Runeborn can be born in any realm where a Rune's power has spilled over. The Rune that marked you, and the god who holds it, are worth deciding with your DM.",
+    "traits": [
+      ["Rune Cantrip", "You know one cantrip tied to the Law of the Rune that marked you, chosen with your DM. Intelligence, Wisdom, or Charisma is your spellcasting ability for it (choose when you pick this people)."],
+      ["Rune-Marks", "Glowing rune-marks cover parts of your skin. They shed dim light in a 5-foot radius when you cast a spell, and you can dim them to faint lines but never fully hide them."],
+      ["Rune Sense", "You can sense the presence and direction of any Rune, or anything holding a Rune's power, within 60 feet of you."],
+      ["Rune Lore", "You have proficiency in the Arcana skill."],
+      ["Rune Sight (3rd level)", "Starting at 3rd level, you can cast Detect Magic once without a spell slot, and regain the use after a long rest. It uses the same spellcasting ability as your Rune Cantrip."]
+    ]
+  },
+  "Godspawn": {
+    "size": "Medium",
+    "height": "5 to 6 feet 6 inches",
+    "weight": "110 to 220 pounds",
+    "age": "Godspawn reach adulthood around 18 and live a little longer than humans, often to about 120.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Godspawn are distant descendants of a god of Vestige. Most look like ordinary people, with one small sign of their ancestor, such as unusual eyes or a faint scent of their god's domain. The god's followers often sense the connection. Play one if you want a character with divine roots and the doors those roots can open.",
+    "vestige": "The gods are guests in Vestige under Infinatas, and some left descendants behind. Pick your ancestor god with your DM.",
+    "traits": [
+      ["Divine Recognition", "Followers of your ancestor god recognize you as kin to their god. Meeting one of them counts as meeting a follower of that god for the purpose of a contract."],
+      ["Divine Resistance", "You resist one damage type tied to your ancestor god, chosen with your DM."],
+      ["Godly Presence", "You have proficiency in your choice of the Religion or Persuasion skill."]
+    ]
+  }
+}

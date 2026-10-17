@@ -1,0 +1,2608 @@
+[
+ {
+  "name": "Variant Human",
+  "short": "A human who trades broad talent for one sharp gift: a feat at 1st level.",
+  "bonus": {
+   "str": 1,
+   "dex": 1
+  },
+  "speed": 30,
+  "traitsShort": "Two +1 scores of your choice; one skill; one feat at 1st level",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 1/2 feet",
+   "weight": "110 to 250 lb",
+   "age": "Adult by the late teens; most live under a century.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "One of your choice"
+   ],
+   "desc": "Variant humans look like any other human. The difference is in training: they have honed one special talent early in life. In play they are simple and flexible. The starting feat lets you build almost any idea from level 1.",
+   "vestige": "Most come from the Human Realm, though humans now live in many realms. Treat them as any human of Vestige who stands out early.",
+   "traits": [
+    [
+     "Ability Score Increase",
+     "Two different ability scores of your choice each rise by 1. The STR and DEX bonus shown here is a placeholder; move them where you like."
+    ],
+    [
+     "Skills",
+     "You gain proficiency in one skill of your choice."
+    ],
+    [
+     "Feat",
+     "You gain one feat of your choice at 1st level."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Custom Lineage",
+  "short": "Build your own people: one big score boost, a feat, and a sense or skill.",
+  "bonus": {
+   "con": 2
+  },
+  "speed": 30,
+  "traitsShort": "+2 to one score; one feat; darkvision or one skill; Small or Medium",
+  "group": "More peoples",
+  "profile": {
+   "size": "Small or Medium",
+   "height": "Any, as you decide",
+   "weight": "Any, as you decide",
+   "age": "Lifespan matches a human unless your story says otherwise.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "Darkvision 60 ft if chosen as the variable trait",
+   "langs": [
+    "Common",
+    "One of your choice"
+   ],
+   "desc": "A custom lineage is a frame for a people the books do not cover. You describe the look and the culture yourself. It may be a strange blend, a lone survivor, or something changed by magic. It plays like a variant human with a stronger single boost.",
+   "vestige": "Use this for a people you and your GM invent for one realm of Vestige. Keep its lore small and agreed at the table.",
+   "traits": [
+    [
+     "Ability Score Increase",
+     "One ability score of your choice rises by 2. The CON bonus shown here is a placeholder."
+    ],
+    [
+     "Size",
+     "You choose Small or Medium."
+    ],
+    [
+     "Feat",
+     "You gain one feat of your choice at 1st level."
+    ],
+    [
+     "Variable Trait",
+     "Choose one: darkvision out to 60 feet, or proficiency in one skill of your choice."
+    ],
+    [
+     "Creature Type",
+     "You are a Humanoid."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Chromatic Dragonborn",
+  "short": "A dragonborn whose blood carries a chromatic dragon's fury.",
+  "bonus": {
+   "str": 2,
+   "cha": 1
+  },
+  "speed": 30,
+  "traitsShort": "Line breath weapon; resists ancestry damage; brief immunity at 5th level",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 1/2 to 7 feet",
+   "weight": "180 to 320 lb",
+   "age": "Grow fast and reach adulthood by 15; most live to about 80.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Draconic"
+   ],
+   "desc": "Chromatic dragonborn have scales in the hard colors of their ancestors: black, blue, green, red, or white. Many feel a pull toward pride and power. Others fight that pull hard. They are strong front-line fighters with a long ranged breath.",
+   "vestige": "They might be found anywhere dragons left a mark, often near Chaos or Abyss borders. Their tie to any one dragon is personal, not a nation.",
+   "traits": [
+    [
+     "Draconic Ancestry",
+     "Pick black (acid), blue (lightning), green (poison), red (fire), or white (cold). This sets your breath and resistance."
+    ],
+    [
+     "Breath Weapon",
+     "When you take the Attack action, you can swap one attack for a breath of your ancestry's damage in a 5-foot-wide, 30-foot line. Each creature there makes a Dex save (DC 8 + your CON modifier + proficiency bonus), taking 1d10 on a fail or half on a success. Damage rises to 2d10 at 5th level, 3d10 at 11th, and 4d10 at 17th. Uses equal your proficiency bonus per long rest."
+    ],
+    [
+     "Draconic Resistance",
+     "You resist the damage type of your ancestry."
+    ],
+    [
+     "Chromatic Warding",
+     "From 5th level, you can use an action to become immune to your ancestry damage for 1 minute. Once per long rest."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Metallic Dragonborn",
+  "short": "A dragonborn shaped by a metallic dragon's calm and old strength.",
+  "bonus": {
+   "str": 2,
+   "cha": 1
+  },
+  "speed": 30,
+  "traitsShort": "Cone breath weapon; resists ancestry damage; second breath at 5th level",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 1/2 to 7 feet",
+   "weight": "180 to 320 lb",
+   "age": "Grow fast and reach adulthood by 15; most live to about 80.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Draconic"
+   ],
+   "desc": "Metallic dragonborn shine with brass, bronze, copper, gold, or silver scales. They often carry a sense of duty or curiosity. They are steady allies with a short, wide breath. At 5th level they gain a breath that controls the fight instead of dealing damage.",
+   "vestige": "They fit well in Heaven or the Human Realm, where order is prized. Any tie to an actual dragon is the player's own story.",
+   "traits": [
+    [
+     "Draconic Ancestry",
+     "Pick brass (fire), bronze (lightning), copper (acid), gold (fire), or silver (cold). This sets your breath and resistance."
+    ],
+    [
+     "Breath Weapon",
+     "When you take the Attack action, you can swap one attack for a breath of your ancestry's damage in a 15-foot cone. Each creature there makes a Dex save (DC 8 + your CON modifier + proficiency bonus), taking 1d10 on a fail or half on a success. Damage rises to 2d10 at 5th level, 3d10 at 11th, and 4d10 at 17th. Uses equal your proficiency bonus per long rest."
+    ],
+    [
+     "Draconic Resistance",
+     "You resist the damage type of your ancestry."
+    ],
+    [
+     "Metallic Breath Weapon",
+     "From 5th level, once per long rest you can exhale a second 15-foot cone. Enervating breath: a failed Con save leaves each target incapacitated until the start of your next turn. Repulsion breath: a failed Str save pushes each target 20 feet away and knocks it prone. Same DC as your Breath Weapon."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Gem Dragonborn",
+  "short": "A dragonborn touched by a gem dragon's mind magic.",
+  "bonus": {
+   "int": 2,
+   "cha": 1
+  },
+  "speed": 30,
+  "traitsShort": "Cone breath weapon; resists ancestry damage; telepathy; short flight at 5th level",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 1/2 to 7 feet",
+   "weight": "180 to 320 lb",
+   "age": "Grow fast and reach adulthood by 15; most live to about 80.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Draconic"
+   ],
+   "desc": "Gem dragonborn have scales that look cut from crystal or stone. Their thoughts reach out to others without words. Many are thoughtful and inward. They play well as clever scouts and talkers with a rare breath type.",
+   "vestige": "Gem dragons are linked to the mind and to the far planes, so these dragonborn suit the Mysterious Realm or the Outer Realm. Keep their origins vague.",
+   "traits": [
+    [
+     "Draconic Ancestry",
+     "Pick amethyst (force), crystal (radiant), emerald (psychic), sapphire (thunder), or topaz (necrotic). This sets your breath and resistance."
+    ],
+    [
+     "Breath Weapon",
+     "When you take the Attack action, you can swap one attack for a breath of your ancestry's damage in a 15-foot cone. Each creature there makes a Dex save (DC 8 + your CON modifier + proficiency bonus), taking 1d10 on a fail or half on a success. Damage rises to 2d10 at 5th level, 3d10 at 11th, and 4d10 at 17th. Uses equal your proficiency bonus per long rest."
+    ],
+    [
+     "Draconic Resistance",
+     "You resist the damage type of your ancestry."
+    ],
+    [
+     "Psionic Mind",
+     "You can speak telepathically to any creature within 30 feet. It must know a language to understand you, and it cannot reply this way."
+    ],
+    [
+     "Gem Flight",
+     "From 5th level, you can use a bonus action to grow spectral wings for 1 minute, gaining a fly speed equal to your walking speed. Once per long rest."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Draconblood Dragonborn",
+  "short": "A hornless, tail-swinging dragonborn of old noble blood and sharp wits.",
+  "bonus": {
+   "int": 2,
+   "cha": 1
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; breath weapon; once-per-rest advantage on Intimidation or Persuasion",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 1/2 to 7 feet",
+   "weight": "180 to 320 lb",
+   "age": "Grow fast and reach adulthood by 15; most live to about 80.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Draconic"
+   ],
+   "desc": "Draconblood dragonborn have tails and lack the heavy build of other dragonborn. They see their bloodline as a mark of rank. They are confident and clever, and they like to lead. They make strong talkers and spellcasters.",
+   "vestige": "They suit old noble houses in the Human Realm or Inner Realm. Their pride in blood can be a story hook, not a fixed history.",
+   "traits": [
+    [
+     "Draconic Ancestry",
+     "Pick a dragon type and its damage: black or copper (acid), blue or bronze (lightning), brass, gold, or red (fire), green (poison), silver or white (cold)."
+    ],
+    [
+     "Breath Weapon",
+     "As an action, you breathe your ancestry's damage: a 5 by 30 foot line for acid, fire (brass), or lightning; a 15-foot cone for the rest. Dex or Con save as the type requires (DC 8 + your CON modifier + proficiency bonus). 2d6 on a fail, half on a success. Rises to 3d6 at 6th level, 4d6 at 11th, 5d6 at 16th. Once per short or long rest."
+    ],
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Forceful Presence",
+     "Once per short or long rest, you can give yourself advantage on an Intimidation or Persuasion check."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Ravenite Dragonborn",
+  "short": "A tough dragonborn who strikes back the moment it is hurt.",
+  "bonus": {
+   "str": 2,
+   "con": 1
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; breath weapon; reaction attack when struck once per rest",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 1/2 to 7 feet",
+   "weight": "180 to 320 lb",
+   "age": "Grow fast and reach adulthood by 15; most live to about 80.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Draconic"
+   ],
+   "desc": "Ravenite dragonborn are broad, scarred, and hard to break. Many come from a past of labor or hardship they fought free of. They are proud of their own strength. In play they are sturdy fighters who punish anyone who hits them.",
+   "vestige": "They fit realms with hard frontiers, such as the Inner Void or the edges of Chaos. Their freedom story is theirs to shape.",
+   "traits": [
+    [
+     "Draconic Ancestry",
+     "Pick a dragon type and its damage: black or copper (acid), blue or bronze (lightning), brass, gold, or red (fire), green (poison), silver or white (cold)."
+    ],
+    [
+     "Breath Weapon",
+     "As an action, you breathe your ancestry's damage: a 5 by 30 foot line for acid, fire (brass), or lightning; a 15-foot cone for the rest. Dex or Con save as the type requires (DC 8 + your CON modifier + proficiency bonus). 2d6 on a fail, half on a success. Rises to 3d6 at 6th level, 4d6 at 11th, 5d6 at 16th. Once per short or long rest."
+    ],
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Vengeful Assault",
+     "When a creature in reach damages you, you can use your reaction to make one weapon attack against it. Once per short or long rest."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Abyssal Tiefling",
+  "short": "A tiefling marked by the wild, rotting power of demons.",
+  "bonus": {
+   "int": 1,
+   "cha": 2
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; resists poison; poison spells; thaumaturgy",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "110 to 230 lb",
+   "age": "Mature at the same rate as humans and live a little longer.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Abyssal"
+   ],
+   "desc": "Abyssal tieflings show demonic signs: odd horns, rough skin, or eyes that glow. Their power is unruly and sickly. Many are restless and blunt. They play as hardy casters who weaken foes.",
+   "vestige": "They are tied to the Abyss realm by blood, not by loyalty. Most never set foot there.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Abyssal Resistance",
+     "You have resistance to poison damage."
+    ],
+    [
+     "Abyssal Legacy",
+     "You know Poison Spray. At 3rd level you can cast Ray of Sickness, and at 5th Hold Person, each once per long rest without a slot (or with slots as normal). Choose INT, WIS, or CHA for these spells."
+    ],
+    [
+     "Otherworldly Presence",
+     "You know the Thaumaturgy cantrip, using the same ability as your legacy spells."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Chthonic Tiefling",
+  "short": "A tiefling marked by the cold, grave-deep power of the underworld.",
+  "bonus": {
+   "int": 1,
+   "cha": 2
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; resists necrotic; death-touched spells; thaumaturgy",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "110 to 230 lb",
+   "age": "Mature at the same rate as humans and live a little longer.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Infernal"
+   ],
+   "desc": "Chthonic tieflings carry the chill of the dead. Their skin may be ashen and their touch cold. Many are quiet and patient. They play as grim casters who drain foes and pad their own health.",
+   "vestige": "Their legacy points to deep, dead places such as the Void or Inner Void. That tie is distant and personal.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Chthonic Resistance",
+     "You have resistance to necrotic damage."
+    ],
+    [
+     "Chthonic Legacy",
+     "You know Chill Touch. At 3rd level you can cast False Life, and at 5th Ray of Enfeeblement, each once per long rest without a slot (or with slots as normal). Choose INT, WIS, or CHA for these spells."
+    ],
+    [
+     "Otherworldly Presence",
+     "You know the Thaumaturgy cantrip, using the same ability as your legacy spells."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Feral Tiefling",
+  "short": "A quick, sharp tiefling with a hunter's edge instead of a talker's charm.",
+  "bonus": {
+   "dex": 2,
+   "int": 1
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; resists fire; thaumaturgy, hellish rebuke, darkness",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "110 to 230 lb",
+   "age": "Mature at the same rate as humans and live a little longer.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Infernal"
+   ],
+   "desc": "Feral tieflings look like other tieflings but move with a lean, fast grace. They lean on speed and brains over charm. Many feel more wild than refined. They suit rogues, rangers, and quick arcane casters.",
+   "vestige": "They fit anywhere Hell's blood has touched the mortal realms. Treat the hellish link as old and faint.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Hellish Resistance",
+     "You have resistance to fire damage."
+    ],
+    [
+     "Infernal Legacy",
+     "You know Thaumaturgy. At 3rd level you can cast Hellish Rebuke as a 2nd-level spell once per long rest, and at 5th Darkness once per long rest. CHA is your spellcasting ability."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Winged Tiefling",
+  "short": "A tiefling born with leathery wings instead of hellish spells.",
+  "bonus": {
+   "int": 1,
+   "cha": 2
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; resists fire; bat-like wings with a 30-foot fly speed",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "110 to 230 lb",
+   "age": "Mature at the same rate as humans and live a little longer.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Infernal"
+   ],
+   "desc": "Winged tieflings bear leathery wings that fold behind them like a cloak. They draw stares even among other tieflings. Flight shapes how they see the world: from above, with an easy way out. They are great scouts and skirmishers.",
+   "vestige": "Hell's blood shows plainly in them. In Vestige they may face suspicion in Heaven but find work as messengers or scouts.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Hellish Resistance",
+     "You have resistance to fire damage."
+    ],
+    [
+     "Winged",
+     "You have bat-like wings that grow from your shoulders. You have a flying speed of 30 feet while not wearing heavy armor. These wings replace the usual Infernal Legacy spells."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Infernal Tiefling",
+  "short": "A tiefling whose power comes straight from the fires of the Nine Hells.",
+  "bonus": {
+   "int": 1,
+   "cha": 2
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; resists fire; fire bolt, hellish rebuke, darkness",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "110 to 230 lb",
+   "age": "Mature at the same rate as humans and live a little longer.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Infernal"
+   ],
+   "desc": "Infernal tieflings are the newer, 2024 take on the classic tiefling. Horns, tails, and solid-colored eyes are common. Their legacy is fire and shadow. They play as flexible casters with a strong damage cantrip.",
+   "vestige": "They trace their spark to Hell, one of Vestige's eleven realms. Most live far from it and owe it nothing.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Hellish Resistance",
+     "You have resistance to fire damage."
+    ],
+    [
+     "Infernal Legacy",
+     "You know Fire Bolt. At 3rd level you can cast Hellish Rebuke, and at 5th Darkness, each once per long rest without a slot (or with slots as normal). Choose INT, WIS, or CHA for these spells."
+    ],
+    [
+     "Otherworldly Presence",
+     "You know the Thaumaturgy cantrip, using the same ability as your legacy spells."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Tiefling of Baalzebul",
+  "short": "A tiefling whose bloodline traces back to the archdevil Baalzebul.",
+  "bonus": {
+   "int": 1,
+   "cha": 2
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; resists fire; thaumaturgy, ray of sickness, crown of madness",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "110 to 230 lb",
+   "age": "Mature at the same rate as humans and live a little longer.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Infernal"
+   ],
+   "desc": "These tieflings carry the mark of Baalzebul, an archdevil of lies and slow corruption. Their faces can look sly or swollen, and some smell faintly of rot. They are not bound to serve their patron, but the link shapes their gifts. They play as tieflings with a different spell kit and a different stat lean.",
+   "vestige": "In Vestige, Baalzebul is best treated as a distant power of Hell. A character's bloodline is a family secret, not a pact.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Hellish Resistance",
+     "You have resistance to fire damage."
+    ],
+    [
+     "Legacy of Baalzebul",
+     "You know Thaumaturgy. At 3rd level you can cast Ray of Sickness as a 2nd-level spell once per long rest, and at 5th Crown of Madness once per long rest. CHA is your spellcasting ability."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Tiefling of Dispater",
+  "short": "A tiefling whose bloodline traces back to the archdevil Dispater.",
+  "bonus": {
+   "dex": 1,
+   "cha": 2
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; resists fire; thaumaturgy, disguise self, detect thoughts",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "110 to 230 lb",
+   "age": "Mature at the same rate as humans and live a little longer.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Infernal"
+   ],
+   "desc": "These tieflings carry the mark of Dispater, an archdevil of secrets and locked doors. They often look plain and watchful, with iron-gray coloring. They are not bound to serve their patron, but the link shapes their gifts. They play as tieflings with a different spell kit and a different stat lean.",
+   "vestige": "In Vestige, Dispater is best treated as a distant power of Hell. A character's bloodline is a family secret, not a pact.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Hellish Resistance",
+     "You have resistance to fire damage."
+    ],
+    [
+     "Legacy of Dispater",
+     "You know Thaumaturgy. At 3rd level you can cast Disguise Self once per long rest, and at 5th Detect Thoughts once per long rest. CHA is your spellcasting ability."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Tiefling of Fierna",
+  "short": "A tiefling whose bloodline traces back to the archdevil Fierna.",
+  "bonus": {
+   "wis": 1,
+   "cha": 2
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; resists fire; friends, charm person, suggestion",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "110 to 230 lb",
+   "age": "Mature at the same rate as humans and live a little longer.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Infernal"
+   ],
+   "desc": "These tieflings carry the mark of Fierna, an archdevil of passion and charm. They are often striking and warm, with red or golden tones. They are not bound to serve their patron, but the link shapes their gifts. They play as tieflings with a different spell kit and a different stat lean.",
+   "vestige": "In Vestige, Fierna is best treated as a distant power of Hell. A character's bloodline is a family secret, not a pact.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Hellish Resistance",
+     "You have resistance to fire damage."
+    ],
+    [
+     "Legacy of Fierna",
+     "You know Friends. At 3rd level you can cast Charm Person as a 2nd-level spell once per long rest, and at 5th Suggestion once per long rest. CHA is your spellcasting ability."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Tiefling of Glasya",
+  "short": "A tiefling whose bloodline traces back to the archdevil Glasya.",
+  "bonus": {
+   "dex": 1,
+   "cha": 2
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; resists fire; minor illusion, disguise self, invisibility",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "110 to 230 lb",
+   "age": "Mature at the same rate as humans and live a little longer.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Infernal"
+   ],
+   "desc": "These tieflings carry the mark of Glasya, an archdevil of schemes and clever crime. They tend to be slim and quick, with sharp, bright eyes. They are not bound to serve their patron, but the link shapes their gifts. They play as tieflings with a different spell kit and a different stat lean.",
+   "vestige": "In Vestige, Glasya is best treated as a distant power of Hell. A character's bloodline is a family secret, not a pact.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Hellish Resistance",
+     "You have resistance to fire damage."
+    ],
+    [
+     "Legacy of Glasya",
+     "You know Minor Illusion. At 3rd level you can cast Disguise Self once per long rest, and at 5th Invisibility once per long rest. CHA is your spellcasting ability."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Tiefling of Levistus",
+  "short": "A tiefling whose bloodline traces back to the archdevil Levistus.",
+  "bonus": {
+   "con": 1,
+   "cha": 2
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; resists fire; ray of frost, armor of agathys, darkness",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "110 to 230 lb",
+   "age": "Mature at the same rate as humans and live a little longer.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Infernal"
+   ],
+   "desc": "These tieflings carry the mark of Levistus, an archdevil of cold and grim endurance. Their skin may be pale blue and cool to the touch. They are not bound to serve their patron, but the link shapes their gifts. They play as tieflings with a different spell kit and a different stat lean.",
+   "vestige": "In Vestige, Levistus is best treated as a distant power of Hell. A character's bloodline is a family secret, not a pact.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Hellish Resistance",
+     "You have resistance to fire damage."
+    ],
+    [
+     "Legacy of Levistus",
+     "You know Ray of Frost. At 3rd level you can cast Armor of Agathys as a 2nd-level spell once per long rest, and at 5th Darkness once per long rest. CHA is your spellcasting ability."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Tiefling of Mammon",
+  "short": "A tiefling whose bloodline traces back to the archdevil Mammon.",
+  "bonus": {
+   "int": 1,
+   "cha": 2
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; resists fire; mage hand, tenser's floating disk, arcane lock",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "110 to 230 lb",
+   "age": "Mature at the same rate as humans and live a little longer.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Infernal"
+   ],
+   "desc": "These tieflings carry the mark of Mammon, an archdevil of wealth and greed. Many have a gold sheen to their skin or eyes. They are not bound to serve their patron, but the link shapes their gifts. They play as tieflings with a different spell kit and a different stat lean.",
+   "vestige": "In Vestige, Mammon is best treated as a distant power of Hell. A character's bloodline is a family secret, not a pact.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Hellish Resistance",
+     "You have resistance to fire damage."
+    ],
+    [
+     "Legacy of Mammon",
+     "You know Mage Hand. At 3rd level you can cast Tenser's Floating Disk once per long rest, and at 5th Arcane Lock once per long rest. CHA is your spellcasting ability."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Tiefling of Mephistopheles",
+  "short": "A tiefling whose bloodline traces back to the archdevil Mephistopheles.",
+  "bonus": {
+   "int": 1,
+   "cha": 2
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; resists fire; mage hand, burning hands, flame blade",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "110 to 230 lb",
+   "age": "Mature at the same rate as humans and live a little longer.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Infernal"
+   ],
+   "desc": "These tieflings carry the mark of Mephistopheles, an archdevil of arcane fire and forbidden lore. Their horns often curl high and their eyes flicker like flame. They are not bound to serve their patron, but the link shapes their gifts. They play as tieflings with a different spell kit and a different stat lean.",
+   "vestige": "In Vestige, Mephistopheles is best treated as a distant power of Hell. A character's bloodline is a family secret, not a pact.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Hellish Resistance",
+     "You have resistance to fire damage."
+    ],
+    [
+     "Legacy of Mephistopheles",
+     "You know Mage Hand. At 3rd level you can cast Burning Hands as a 2nd-level spell once per long rest, and at 5th Flame Blade once per long rest. CHA is your spellcasting ability."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Tiefling of Zariel",
+  "short": "A tiefling whose bloodline traces back to the archdevil Zariel.",
+  "bonus": {
+   "str": 1,
+   "cha": 2
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; resists fire; thaumaturgy, searing smite, branding smite",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "110 to 230 lb",
+   "age": "Mature at the same rate as humans and live a little longer.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Infernal"
+   ],
+   "desc": "These tieflings carry the mark of Zariel, an archdevil of war and fury. They are often tall and scarred, with ember-bright eyes. They are not bound to serve their patron, but the link shapes their gifts. They play as tieflings with a different spell kit and a different stat lean.",
+   "vestige": "In Vestige, Zariel is best treated as a distant power of Hell. A character's bloodline is a family secret, not a pact.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Hellish Resistance",
+     "You have resistance to fire damage."
+    ],
+    [
+     "Legacy of Zariel",
+     "You know Thaumaturgy. At 3rd level you can cast Searing Smite as a 2nd-level spell once per long rest, and at 5th Branding Smite once per long rest. CHA is your spellcasting ability."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Ghostwise Halfling",
+  "short": "A reclusive wild halfling who can speak mind to mind.",
+  "bonus": {
+   "dex": 2,
+   "wis": 1
+  },
+  "speed": 25,
+  "traitsShort": "Lucky; brave; nimble; short-range telepathy",
+  "group": "More peoples",
+  "profile": {
+   "size": "Small",
+   "height": "2 1/2 to 3 1/2 feet",
+   "weight": "35 to 45 lb",
+   "age": "Adult at 20; many live to 150.",
+   "type": "Humanoid",
+   "speed": 25,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Halfling"
+   ],
+   "desc": "Ghostwise halflings live deep in forests, apart from other folk. They are quiet and close-knit. Their silent speech lets them hunt and plan without a sound. They play as calm, wary scouts.",
+   "vestige": "They fit wild, quiet corners of the Human Realm or the Mysterious Realm. Few outsiders know their homes.",
+   "traits": [
+    [
+     "Lucky",
+     "When you roll a 1 on a d20 for an attack, ability check, or save, you can reroll it and must use the new roll."
+    ],
+    [
+     "Brave",
+     "You have advantage on saves against being frightened."
+    ],
+    [
+     "Halfling Nimbleness",
+     "You can move through the space of any creature that is at least one size larger than you."
+    ],
+    [
+     "Silent Speech",
+     "You can speak telepathically to one creature within 30 feet. It must share a language with you to understand. It cannot answer this way."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Lotusden Halfling",
+  "short": "A forest halfling who draws plant magic from the woods it guards.",
+  "bonus": {
+   "dex": 2,
+   "wis": 1
+  },
+  "speed": 25,
+  "traitsShort": "Lucky; brave; nimble; druidcraft, entangle, spike growth; hard to track",
+  "group": "More peoples",
+  "profile": {
+   "size": "Small",
+   "height": "2 1/2 to 3 1/2 feet",
+   "weight": "35 to 45 lb",
+   "age": "Adult at 20; many live to 150.",
+   "type": "Humanoid",
+   "speed": 25,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Halfling"
+   ],
+   "desc": "Lotusden halflings live within a great, wild forest and treat it as kin. Moss, bark, and flowers often decorate them. They are gentle until their home is threatened. They play as nature casters who control the ground.",
+   "vestige": "They suit the deep green places of the Human Realm or the Primordial realm. Keep their forest homes small and local.",
+   "traits": [
+    [
+     "Lucky",
+     "When you roll a 1 on a d20 for an attack, ability check, or save, you can reroll it and must use the new roll."
+    ],
+    [
+     "Brave",
+     "You have advantage on saves against being frightened."
+    ],
+    [
+     "Halfling Nimbleness",
+     "You can move through the space of any creature that is at least one size larger than you."
+    ],
+    [
+     "Child of the Wood",
+     "You know Druidcraft. At 3rd level you can cast Entangle, and at 5th Spike Growth, each once per long rest without components. WIS is your spellcasting ability."
+    ],
+    [
+     "Timberwalk",
+     "Checks to track you have disadvantage. Moving through nonmagical difficult terrain made of plants and undergrowth costs you no extra movement."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Pallid Elf",
+  "short": "A pale, moon-blessed elf with a gift for seeing hidden truths.",
+  "bonus": {
+   "dex": 2,
+   "wis": 1
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; keen senses; fey ancestry; trance; sharp insight; moon magic",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "90 to 160 lb",
+   "age": "Adult around 100; may live to 750.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Elvish"
+   ],
+   "desc": "Pallid elves have very pale skin and white or silver hair. They live by the moon and value hidden knowledge. Many are calm, probing, and hard to fool. They make strong investigators and support casters.",
+   "vestige": "They suit quiet, moonlit places in the Mysterious Realm. Their faith in the moon can be a small local custom.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Keen Senses",
+     "You are proficient in the Perception skill."
+    ],
+    [
+     "Fey Ancestry",
+     "You have advantage on saves against being charmed, and magic cannot put you to sleep."
+    ],
+    [
+     "Trance",
+     "You do not sleep. Four hours of light meditation gives you the same benefit as eight hours of sleep."
+    ],
+    [
+     "Incisive Sense",
+     "You have advantage on Investigation and Insight checks."
+    ],
+    [
+     "Blessing of the Moon",
+     "You know Light. At 3rd level you can cast Sleep, and at 5th Invisibility (self only), each once per long rest without components. WIS is your spellcasting ability."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Aquatic Half-Elf",
+  "short": "A half-elf with sea elf blood who swims as well as it walks.",
+  "bonus": {
+   "cha": 2,
+   "con": 1
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; fey ancestry; 30-foot swim speed",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "110 to 190 lb",
+   "age": "Adult around 20; may live past 180.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 30,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Elvish",
+    "One of your choice"
+   ],
+   "desc": "Aquatic half-elves have one parent of sea elf descent. They often grow up in coastal towns between two worlds. Many are easy-going and good at making friends on both shores. They play as charming, flexible heroes at home in water.",
+   "vestige": "They fit port cities and coasts in the Human Realm. Their sea-elf kin may be a story of their own.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Fey Ancestry",
+     "You have advantage on saves against being charmed, and magic cannot put you to sleep."
+    ],
+    [
+     "Ability Score Increase",
+     "CHA rises by 2 and two other scores of your choice rise by 1. CON is shown as a placeholder."
+    ],
+    [
+     "Swimming",
+     "You have a swimming speed of 30 feet. This replaces the usual half-elf Skill Versatility."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Kender",
+  "short": "A small, fearless wanderer with a sharp tongue and curious hands.",
+  "bonus": {
+   "dex": 2,
+   "cha": 1
+  },
+  "speed": 30,
+  "traitsShort": "Fearless; one wanderer skill; taunt foes into attacking you",
+  "group": "More peoples",
+  "profile": {
+   "size": "Small",
+   "height": "3 to 4 feet",
+   "weight": "40 to 70 lb",
+   "age": "Adult around 20; most live about 100 years.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "One of your choice"
+   ],
+   "desc": "Kender look like slim, quick halflings with long topknots and bright eyes. They are endlessly curious and rarely afraid. Objects tend to \"find their way\" into their pockets. They play as bold, chatty tricksters who pull attention off their friends.",
+   "vestige": "Kender suit the roads between realms, where their wanderlust takes them. They rarely stay in one realm long.",
+   "traits": [
+    [
+     "Fearless",
+     "You have advantage on saves against being frightened. Once per long rest, when you fail such a save, you can succeed instead."
+    ],
+    [
+     "Kender Aptitude",
+     "You gain proficiency in one of these skills: Insight, Investigation, Sleight of Hand, Stealth, or Survival."
+    ],
+    [
+     "Taunt",
+     "As a bonus action, pick a creature within 60 feet that can hear you. It makes a WIS save (DC 8 + proficiency bonus + your INT, WIS, or CHA modifier). On a fail, it has disadvantage on attacks against anyone but you until the start of your next turn. Uses equal your proficiency bonus per long rest."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Aetherborn",
+  "short": "A short-lived being born from refined aether, grey-skinned and driven.",
+  "bonus": {
+   "cha": 2,
+   "dex": 1
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; resists necrotic; proficient in Intimidation",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "100 to 160 lb",
+   "age": "Born fully grown; few live more than a few years.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Two of your choice"
+   ],
+   "desc": "Aetherborn have ash-gray skin and dark eyes, and they seem to fade at the edges. They come into being as adults and know their lives are short. Many chase pleasure, fame, or a lasting legacy. They play as bold, eerie talkers.",
+   "vestige": "Their sudden birth from pure energy fits the Inner Realm or the Primordial realm. How they first appeared is left open.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Ability Score Increase",
+     "CHA rises by 2 and two other scores of your choice rise by 1. DEX is shown as a placeholder."
+    ],
+    [
+     "Born of Aether",
+     "You have resistance to necrotic damage."
+    ],
+    [
+     "Menacing",
+     "You are proficient in the Intimidation skill."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Kor",
+  "short": "A lean nomad who climbs cliffs and crosses chasms with rope and hook.",
+  "bonus": {
+   "dex": 2,
+   "wis": 1
+  },
+  "speed": 30,
+  "traitsShort": "Climb speed 30; Athletics and Acrobatics; lucky",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 1/2 to 6 1/2 feet",
+   "weight": "100 to 160 lb",
+   "age": "Adult by 20; live about as long as humans.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 30,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Kor"
+   ],
+   "desc": "Kor are tall and slender with pale skin and long limbs. They travel light and live as nomads. Ropes and hooks are their tools and their art. They play as agile climbers and quiet, steady guides.",
+   "vestige": "Kor suit wild, broken lands in the Primordial realm or along the edges of the Void. They tend to pass through rather than settle.",
+   "traits": [
+    [
+     "Kor Climbing",
+     "You have a climbing speed of 30 feet. You are proficient in Athletics and Acrobatics."
+    ],
+    [
+     "Lucky",
+     "When you roll a 1 on a d20 for an attack, ability check, or save, you can reroll it and must use the new roll."
+    ],
+    [
+     "Kor Signs",
+     "You can share simple ideas with other kor through hand signs, silently."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Merfolk",
+  "short": "A sea dweller with a fish-like body who walks the land as well as it swims.",
+  "bonus": {
+   "wis": 2,
+   "cha": 1
+  },
+  "speed": 30,
+  "traitsShort": "Amphibious; swim speed 30; one lore skill",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "120 to 200 lb",
+   "age": "Adult by 18; live about as long as humans.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 30,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Merfolk"
+   ],
+   "desc": "Merfolk have fins, fine scales, and skin in shades of blue, green, or gray. They can walk on land but feel most at home in water. Many follow a creed that shapes their outlook. They play as graceful, thoughtful explorers.",
+   "vestige": "Merfolk fit the seas and rivers of any realm, especially the Human Realm's coasts. Their creeds are local beliefs, not world lore.",
+   "traits": [
+    [
+     "Amphibious",
+     "You can breathe both air and water."
+    ],
+    [
+     "Swimmer",
+     "You have a swimming speed of 30 feet."
+    ],
+    [
+     "Merfolk Lore",
+     "You gain proficiency in one of these skills: Insight, Nature, or Persuasion."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Siren",
+  "short": "A winged, bird-like sea folk with a voice that sways listeners.",
+  "bonus": {
+   "cha": 2,
+   "dex": 1
+  },
+  "speed": 25,
+  "traitsShort": "Fly speed 30; friends cantrip",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "90 to 140 lb",
+   "age": "Adult by 18; live about as long as humans.",
+   "type": "Humanoid",
+   "speed": 25,
+   "fly": 30,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Siren"
+   ],
+   "desc": "Sirens have feathers, wings, and bright eyes, and many live near the sea. Their voices are their pride. They often work as guides, pirates, or messengers. They play as fast flyers and smooth talkers.",
+   "vestige": "Sirens suit sea cliffs and coastal skies in the Human Realm or Heaven. Keep their island homes small.",
+   "traits": [
+    [
+     "Flight",
+     "You have a flying speed of 30 feet. You cannot fly while wearing medium or heavy armor."
+    ],
+    [
+     "Siren's Song",
+     "You know the Friends cantrip. CHA is your spellcasting ability for it."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Vampire (Zendikar)",
+  "short": "A living, blood-hungry folk who feed on the life of others.",
+  "bonus": {
+   "cha": 2,
+   "int": 1
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; resists necrotic; feeds on blood to heal",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "110 to 200 lb",
+   "age": "Adult around 18; may live for centuries.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Vampire"
+   ],
+   "desc": "These vampires are a living people, not undead. They have pale skin and dark eyes and need blood to stay strong. Many hide their hunger behind fine manners. They play as sly, charming fighters who heal by feeding.",
+   "vestige": "They fit shadowed parts of the Mysterious Realm or the Void. Whether people fear or tolerate them is up to each realm.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Vampiric Resistance",
+     "You have resistance to necrotic damage."
+    ],
+    [
+     "Bloodthirst",
+     "You can bite a willing creature, or one you are grappling, or one that is incapacitated or restrained. On a hit it takes 1 piercing and 1d6 necrotic damage, and you regain hit points equal to the necrotic damage."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Aven",
+  "short": "A winged, bird-headed folk with sharp eyes and a love of the sky.",
+  "bonus": {
+   "dex": 2,
+   "wis": 1
+  },
+  "speed": 25,
+  "traitsShort": "Fly speed 30; keen-eyed: Perception and no long-range penalty",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "80 to 140 lb",
+   "age": "Adult by 16; live about as long as humans.",
+   "type": "Humanoid",
+   "speed": 25,
+   "fly": 30,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Aven"
+   ],
+   "desc": "Aven have the heads and wings of birds such as hawks or ibises. They are light-boned and proud of their flight. Hawk-headed aven are known for their eyes. They play as fast scouts and sharp archers.",
+   "vestige": "They suit open skies in Heaven or the Human Realm. Their old temples and trials can be local legends.",
+   "traits": [
+    [
+     "Flight",
+     "You have a flying speed of 30 feet. You cannot fly while wearing medium or heavy armor."
+    ],
+    [
+     "Hawkeyed",
+     "You are proficient in Perception. Attacking at long range with a ranged weapon does not give you disadvantage."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Khenra",
+  "short": "A jackal-headed warrior folk, swift and fierce, often born as twins.",
+  "bonus": {
+   "dex": 2,
+   "str": 1
+  },
+  "speed": 35,
+  "traitsShort": "Speed 35; trained with khopesh, spear, and javelin",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 1/2 to 6 1/2 feet",
+   "weight": "120 to 200 lb",
+   "age": "Adult by 15; few live past 60.",
+   "type": "Humanoid",
+   "speed": 35,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Khenra"
+   ],
+   "desc": "Khenra are lean, jackal-headed people with keen ears. They are fast, fierce, and often born as twins who stay close for life. They live for the fight and the hunt. They play as quick melee skirmishers.",
+   "vestige": "They suit desert or wasteland regions of the Chaos realm or the Human Realm. A khenra's twin can be a strong story tie.",
+   "traits": [
+    [
+     "Khenra Weapon Training",
+     "You are proficient with the khopesh, spear, and javelin. Treat a khopesh as a longsword."
+    ],
+    [
+     "Fleet of Foot",
+     "Your base walking speed is 35 feet."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Naga (Amonkhet)",
+  "short": "A snake-bodied folk with a venomous bite and a crushing coil.",
+  "bonus": {
+   "con": 2,
+   "int": 1
+  },
+  "speed": 30,
+  "traitsShort": "Bite and constrict; resists poison; burst of speed",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "6 to 7 feet tall when raised, longer in length",
+   "weight": "200 to 300 lb",
+   "age": "Adult by 20; may live 150 years.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Naga"
+   ],
+   "desc": "These naga have a human-like upper body joined to a long serpent tail. They are patient and calm thinkers. In a fight they bite and crush. They play as sturdy brawlers with a scholar's mind.",
+   "vestige": "They suit hot, old lands in the Human Realm or the Primordial realm. Their ties to old temples are local stories.",
+   "traits": [
+    [
+     "Speed Burst",
+     "When you Dash on your turn and wear no heavy armor and carry no heavy load, your speed rises by 5 feet until the end of the turn."
+    ],
+    [
+     "Bite",
+     "Your fangs are a natural weapon. On a hit, you deal 1d4 + STR piercing damage, and the target makes a CON save (DC 8 + CON modifier + proficiency bonus) or takes 1d4 poison damage."
+    ],
+    [
+     "Constrict",
+     "As an action, you can wrap a Medium or smaller creature you are grappling. It takes 1d6 + STR bludgeoning damage and stays grappled; you cannot constrict another creature while doing so."
+    ],
+    [
+     "Poison Immunity",
+     "You have resistance to poison damage and advantage on saves against being poisoned."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Mark of Detection",
+  "short": "A half-elf whose dragonmark reveals magic, poison, and hidden things.",
+  "bonus": {
+   "wis": 2,
+   "int": 1
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; fey ancestry; +1d4 to Insight and Investigation; detect magic and poison",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "110 to 190 lb",
+   "age": "Adult around 20; may live past 180.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Elvish",
+    "One of your choice"
+   ],
+   "desc": "These half-elves bear a mark that lets them sense what others miss. Many work as inspectors, guards, or investigators. They tend to be careful and watchful. They play as sharp-eyed problem solvers.",
+   "vestige": "Dragonmarks are rare and run in families. In Vestige, a marked house could be a small guild in one realm, not a world power.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Fey Ancestry",
+     "You have advantage on saves against being charmed, and magic cannot put you to sleep."
+    ],
+    [
+     "Deductive Intuition",
+     "When you make an Investigation or Insight check, add 1d4 to the roll."
+    ],
+    [
+     "Magical Detection",
+     "You can cast Detect Magic and Detect Poison and Disease once each per long rest. At 3rd level you can also cast See Invisibility once per long rest. INT is your spellcasting ability."
+    ],
+    [
+     "Spells of the Mark",
+     "If you have the Spellcasting or Pact Magic feature, extra spells tied to your mark are added to your class spell list."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Mark of Finding",
+  "short": "A hunter whose dragonmark tracks down lost things and wanted people.",
+  "bonus": {
+   "wis": 2,
+   "con": 1
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; +1d4 to Perception and Survival; hunter's mark; locate object",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 1/2 feet",
+   "weight": "110 to 250 lb",
+   "age": "Adult by the late teens; most live under a century.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Goblin"
+   ],
+   "desc": "The Mark of Finding appears among humans and half-orcs. Its bearers are bounty hunters, guides, and trackers. They are patient and hard to shake. They play as relentless hunters.",
+   "vestige": "Dragonmarks are rare and run in families. In Vestige, a marked house could be a small guild in one realm, not a world power.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Hunter's Intuition",
+     "When you make a Perception or Survival check, add 1d4 to the roll."
+    ],
+    [
+     "Finder's Magic",
+     "You can cast Hunter's Mark once per long rest. At 3rd level you can also cast Locate Object once per long rest. WIS is your spellcasting ability."
+    ],
+    [
+     "Spells of the Mark",
+     "If you have the Spellcasting or Pact Magic feature, extra spells tied to your mark are added to your class spell list."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Mark of Handling",
+  "short": "A human whose dragonmark lets them calm and command beasts.",
+  "bonus": {
+   "wis": 2,
+   "dex": 1
+  },
+  "speed": 30,
+  "traitsShort": "+1d4 to Animal Handling and Nature; speak with and befriend animals",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 1/2 feet",
+   "weight": "110 to 250 lb",
+   "age": "Adult by the late teens; most live under a century.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "One of your choice"
+   ],
+   "desc": "Humans with this mark have a deep bond with animals. They breed, train, and ride beasts with ease. Many are warm with creatures and gruff with people. They play as beast-friends and mounted warriors.",
+   "vestige": "Dragonmarks are rare and run in families. In Vestige, a marked house could be a small guild in one realm, not a world power.",
+   "traits": [
+    [
+     "Wild Intuition",
+     "When you make an Animal Handling or Nature check, add 1d4 to the roll."
+    ],
+    [
+     "Primal Connection",
+     "You can cast Animal Friendship and Speak with Animals once each per long rest. WIS is your spellcasting ability."
+    ],
+    [
+     "The Bigger They Are",
+     "From 3rd level, those two spells can also target a monstrosity with an Intelligence of 3 or lower."
+    ],
+    [
+     "Spells of the Mark",
+     "If you have the Spellcasting or Pact Magic feature, extra spells tied to your mark are added to your class spell list."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Mark of Healing",
+  "short": "A halfling whose dragonmark knits wounds with a touch.",
+  "bonus": {
+   "dex": 2,
+   "wis": 1
+  },
+  "speed": 25,
+  "traitsShort": "Lucky; brave; nimble; +1d4 to Medicine; cure wounds",
+  "group": "More peoples",
+  "profile": {
+   "size": "Small",
+   "height": "2 1/2 to 3 1/2 feet",
+   "weight": "35 to 45 lb",
+   "age": "Adult at 20; many live to 150.",
+   "type": "Humanoid",
+   "speed": 25,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Halfling"
+   ],
+   "desc": "Halflings with the Mark of Healing are known as gifted healers. Many run clinics or travel with caravans. They are calm under pressure. They play as small, tough support characters.",
+   "vestige": "Dragonmarks are rare and run in families. In Vestige, a marked house could be a small guild in one realm, not a world power.",
+   "traits": [
+    [
+     "Lucky",
+     "When you roll a 1 on a d20 for an attack, ability check, or save, you can reroll it and must use the new roll."
+    ],
+    [
+     "Brave",
+     "You have advantage on saves against being frightened."
+    ],
+    [
+     "Halfling Nimbleness",
+     "You can move through the space of any creature that is at least one size larger than you."
+    ],
+    [
+     "Medical Intuition",
+     "When you make a Medicine check or use an herbalism kit, add 1d4 to the roll."
+    ],
+    [
+     "Healing Touch",
+     "You can cast Cure Wounds once per long rest. WIS is your spellcasting ability."
+    ],
+    [
+     "Spells of the Mark",
+     "If you have the Spellcasting or Pact Magic feature, extra spells tied to your mark are added to your class spell list."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Mark of Hospitality",
+  "short": "A halfling whose dragonmark makes any place feel like home.",
+  "bonus": {
+   "dex": 2,
+   "cha": 1
+  },
+  "speed": 25,
+  "traitsShort": "Lucky; brave; nimble; +1d4 to Persuasion and cooking; host magic",
+  "group": "More peoples",
+  "profile": {
+   "size": "Small",
+   "height": "2 1/2 to 3 1/2 feet",
+   "weight": "35 to 45 lb",
+   "age": "Adult at 20; many live to 150.",
+   "type": "Humanoid",
+   "speed": 25,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Halfling"
+   ],
+   "desc": "Halflings with this mark are famous innkeepers and hosts. Their magic cleans, cooks, and serves. They are friendly and hard to dislike. They play as social glue for any party.",
+   "vestige": "Dragonmarks are rare and run in families. In Vestige, a marked house could be a small guild in one realm, not a world power.",
+   "traits": [
+    [
+     "Lucky",
+     "When you roll a 1 on a d20 for an attack, ability check, or save, you can reroll it and must use the new roll."
+    ],
+    [
+     "Brave",
+     "You have advantage on saves against being frightened."
+    ],
+    [
+     "Halfling Nimbleness",
+     "You can move through the space of any creature that is at least one size larger than you."
+    ],
+    [
+     "Ever Hospitable",
+     "When you make a Persuasion check or a check with brewer's supplies or cook's utensils, add 1d4 to the roll."
+    ],
+    [
+     "Innkeeper's Magic",
+     "You know Prestidigitation. You can cast Purify Food and Drink and Unseen Servant once each per long rest. CHA is your spellcasting ability."
+    ],
+    [
+     "Spells of the Mark",
+     "If you have the Spellcasting or Pact Magic feature, extra spells tied to your mark are added to your class spell list."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Mark of Making",
+  "short": "A human whose dragonmark lets them mend and empower tools and arms.",
+  "bonus": {
+   "int": 2,
+   "dex": 1
+  },
+  "speed": 30,
+  "traitsShort": "+1d4 to Arcana and tool checks; mending; magic weapon; extra tool",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 1/2 feet",
+   "weight": "110 to 250 lb",
+   "age": "Adult by the late teens; most live under a century.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "One of your choice"
+   ],
+   "desc": "Humans with this mark are master crafters. They see how things are built and how to fix them. Many are proud of their work and impatient with sloppy hands. They play as clever makers who boost the party's gear.",
+   "vestige": "Dragonmarks are rare and run in families. In Vestige, a marked house could be a small guild in one realm, not a world power.",
+   "traits": [
+    [
+     "Artisan's Intuition",
+     "When you make an Arcana check or a check with artisan's tools, add 1d4 to the roll."
+    ],
+    [
+     "Maker's Gift",
+     "You gain proficiency with one set of artisan's tools of your choice."
+    ],
+    [
+     "Spellsmith",
+     "You know Mending. You can cast Magic Weapon once per long rest, and it lasts 1 hour without concentration. INT is your spellcasting ability."
+    ],
+    [
+     "Spells of the Mark",
+     "If you have the Spellcasting or Pact Magic feature, extra spells tied to your mark are added to your class spell list."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Mark of Passage",
+  "short": "A human whose dragonmark lets them move fast and blink short distances.",
+  "bonus": {
+   "dex": 2,
+   "con": 1
+  },
+  "speed": 35,
+  "traitsShort": "Speed 35; +1d4 to Acrobatics and land vehicles; misty step",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 1/2 feet",
+   "weight": "110 to 250 lb",
+   "age": "Adult by the late teens; most live under a century.",
+   "type": "Humanoid",
+   "speed": 35,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "One of your choice"
+   ],
+   "desc": "Humans with this mark are couriers, drivers, and guides. They are always in motion. Many dislike staying still for long. They play as quick, slippery skirmishers.",
+   "vestige": "Dragonmarks are rare and run in families. In Vestige, a marked house could be a small guild in one realm, not a world power.",
+   "traits": [
+    [
+     "Courier's Speed",
+     "Your base walking speed is 35 feet."
+    ],
+    [
+     "Intuitive Motion",
+     "When you make an Acrobatics check or a check to operate a land vehicle, add 1d4 to the roll."
+    ],
+    [
+     "Magical Passage",
+     "You can cast Misty Step once per long rest. DEX is your spellcasting ability."
+    ],
+    [
+     "Spells of the Mark",
+     "If you have the Spellcasting or Pact Magic feature, extra spells tied to your mark are added to your class spell list."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Mark of Scribing",
+  "short": "A gnome whose dragonmark carries words across distance and tongues.",
+  "bonus": {
+   "int": 2,
+   "cha": 1
+  },
+  "speed": 25,
+  "traitsShort": "Darkvision; gnome cunning; +1d4 to History and calligraphy; message; comprehend languages",
+  "group": "More peoples",
+  "profile": {
+   "size": "Small",
+   "height": "3 to 4 feet",
+   "weight": "35 to 45 lb",
+   "age": "Adult around 40; may live 350 to 500 years.",
+   "type": "Humanoid",
+   "speed": 25,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Gnomish"
+   ],
+   "desc": "Gnomes with this mark are scribes, translators, and message keepers. They love words and records. They are often curious and chatty. They play as clever support characters who handle talk and lore.",
+   "vestige": "Dragonmarks are rare and run in families. In Vestige, a marked house could be a small guild in one realm, not a world power.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Gnome Cunning",
+     "You have advantage on Intelligence, Wisdom, and Charisma saves against magic."
+    ],
+    [
+     "Gifted Scribe",
+     "When you make a History check or a check with calligrapher's supplies, add 1d4 to the roll."
+    ],
+    [
+     "Scribe's Insight",
+     "You know Message. You can cast Comprehend Languages once per long rest. At 3rd level you can also cast Magic Mouth once per long rest. INT is your spellcasting ability."
+    ],
+    [
+     "Spells of the Mark",
+     "If you have the Spellcasting or Pact Magic feature, extra spells tied to your mark are added to your class spell list."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Mark of Sentinel",
+  "short": "A human whose dragonmark makes them a natural bodyguard.",
+  "bonus": {
+   "con": 2,
+   "wis": 1
+  },
+  "speed": 30,
+  "traitsShort": "+1d4 to Insight and Perception; shield spell; take a hit for an ally",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 1/2 feet",
+   "weight": "110 to 250 lb",
+   "age": "Adult by the late teens; most live under a century.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "One of your choice"
+   ],
+   "desc": "Humans with this mark are guards and protectors by instinct. They spot danger early and step in front of it. Many are serious and loyal. They play as defenders who keep allies alive.",
+   "vestige": "Dragonmarks are rare and run in families. In Vestige, a marked house could be a small guild in one realm, not a world power.",
+   "traits": [
+    [
+     "Sentinel's Intuition",
+     "When you make an Insight or Perception check, add 1d4 to the roll."
+    ],
+    [
+     "Guardian's Shield",
+     "You can cast Shield once per long rest. WIS is your spellcasting ability."
+    ],
+    [
+     "Vigilant Guardian",
+     "When a creature you can see within 5 feet is hit by an attack, you can use your reaction to swap places with it and take the hit instead. Once per long rest."
+    ],
+    [
+     "Spells of the Mark",
+     "If you have the Spellcasting or Pact Magic feature, extra spells tied to your mark are added to your class spell list."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Mark of Shadow",
+  "short": "An elf whose dragonmark bends shadow into illusion and stealth.",
+  "bonus": {
+   "dex": 2,
+   "cha": 1
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; keen senses; fey ancestry; trance; +1d4 to Stealth and Performance; invisibility",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "90 to 160 lb",
+   "age": "Adult around 100; may live to 750.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Elvish"
+   ],
+   "desc": "Elves with this mark are spies and entertainers. Their art and their secrets go hand in hand. Many are charming on stage and cold in private. They play as sneaky, flashy rogues and bards.",
+   "vestige": "Dragonmarks are rare and run in families. In Vestige, a marked house could be a small guild in one realm, not a world power.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Keen Senses",
+     "You are proficient in the Perception skill."
+    ],
+    [
+     "Fey Ancestry",
+     "You have advantage on saves against being charmed, and magic cannot put you to sleep."
+    ],
+    [
+     "Trance",
+     "You do not sleep. Four hours of light meditation gives you the same benefit as eight hours of sleep."
+    ],
+    [
+     "Cunning Intuition",
+     "When you make a Performance or Stealth check, add 1d4 to the roll."
+    ],
+    [
+     "Shape Shadows",
+     "You know Minor Illusion. You can cast Invisibility once per long rest. CHA is your spellcasting ability."
+    ],
+    [
+     "Spells of the Mark",
+     "If you have the Spellcasting or Pact Magic feature, extra spells tied to your mark are added to your class spell list."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Mark of Storm",
+  "short": "A half-elf whose dragonmark calls wind and shrugs off lightning.",
+  "bonus": {
+   "cha": 2,
+   "dex": 1
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; fey ancestry; resists lightning; +1d4 to Acrobatics and navigation; gust of wind",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "110 to 190 lb",
+   "age": "Adult around 20; may live past 180.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Elvish",
+    "One of your choice"
+   ],
+   "desc": "Half-elves with this mark are sailors, fliers, and weather-workers. They feel the wind change before others do. Many are bold and restless. They play as mobile casters who push foes around.",
+   "vestige": "Dragonmarks are rare and run in families. In Vestige, a marked house could be a small guild in one realm, not a world power.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Fey Ancestry",
+     "You have advantage on saves against being charmed, and magic cannot put you to sleep."
+    ],
+    [
+     "Windwright's Intuition",
+     "When you make an Acrobatics check or a check with navigator's tools, add 1d4 to the roll."
+    ],
+    [
+     "Storm's Boon",
+     "You have resistance to lightning damage."
+    ],
+    [
+     "Headwinds",
+     "You know Gust. At 3rd level you can cast Gust of Wind once per long rest. CHA is your spellcasting ability."
+    ],
+    [
+     "Spells of the Mark",
+     "If you have the Spellcasting or Pact Magic feature, extra spells tied to your mark are added to your class spell list."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Mark of Warding",
+  "short": "A dwarf whose dragonmark seals doors and guards what is valued.",
+  "bonus": {
+   "con": 2,
+   "int": 1
+  },
+  "speed": 25,
+  "traitsShort": "Darkvision; dwarven resilience; +1d4 to Investigation and thieves' tools; alarm; mage armor; arcane lock",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "4 to 5 feet",
+   "weight": "130 to 200 lb",
+   "age": "Adult around 50; live about 350 years.",
+   "type": "Humanoid",
+   "speed": 25,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Dwarvish"
+   ],
+   "desc": "Dwarves with this mark are locksmiths, vault keepers, and guards. They think like thieves so they can stop them. Many are stubborn and careful. They play as tough, trap-savvy protectors.",
+   "vestige": "Dragonmarks are rare and run in families. In Vestige, a marked house could be a small guild in one realm, not a world power.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Dwarven Resilience",
+     "You have advantage on saves against poison and resistance to poison damage."
+    ],
+    [
+     "Speed",
+     "Your walking speed is 25 feet, and wearing heavy armor does not lower it."
+    ],
+    [
+     "Warder's Intuition",
+     "When you make an Investigation check or use thieves' tools, add 1d4 to the roll."
+    ],
+    [
+     "Wards and Seals",
+     "You can cast Alarm and Mage Armor once each per long rest. At 3rd level you can also cast Arcane Lock once per long rest without its gold cost. INT is your spellcasting ability."
+    ],
+    [
+     "Spells of the Mark",
+     "If you have the Spellcasting or Pact Magic feature, extra spells tied to your mark are added to your class spell list."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Cloud Giant Goliath",
+  "short": "A goliath whose cloud giant blood grants a striking gift.",
+  "bonus": {
+   "str": 2,
+   "con": 1
+  },
+  "speed": 35,
+  "traitsShort": "Speed 35; teleport 30 feet; powerful build; grow Large at 5th level",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "7 to 8 feet",
+   "weight": "280 to 340 lb",
+   "age": "Adult in their late teens; usually live under a century.",
+   "type": "Humanoid",
+   "speed": 35,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Giant"
+   ],
+   "desc": "Goliaths are huge, gray-skinned folk with dark skin markings. Cloud giant blood makes them light on their feet and a little aloof. They value fair contests and earning their place. They play as strong front-liners with a signature ancestry move.",
+   "vestige": "Goliaths suit high, harsh lands in the Primordial realm or the Inner Realm. Their link to cloud giants can be distant family lore.",
+   "traits": [
+    [
+     "Giant Ancestry",
+     "Cloud's Jaunt: As a bonus action, you teleport up to 30 feet to an empty space you can see. Uses equal your proficiency bonus per long rest."
+    ],
+    [
+     "Large Form",
+     "From 5th level, you can use a bonus action to become Large for 10 minutes if there is room. You gain advantage on STR checks and +10 feet of speed. Once per long rest."
+    ],
+    [
+     "Powerful Build",
+     "You have advantage on checks to end the grappled condition. You count as one size larger for carrying capacity."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Fire Giant Goliath",
+  "short": "A goliath whose fire giant blood grants a striking gift.",
+  "bonus": {
+   "str": 2,
+   "con": 1
+  },
+  "speed": 35,
+  "traitsShort": "Speed 35; +1d10 fire on a hit; powerful build; grow Large at 5th level",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "7 to 8 feet",
+   "weight": "280 to 340 lb",
+   "age": "Adult in their late teens; usually live under a century.",
+   "type": "Humanoid",
+   "speed": 35,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Giant"
+   ],
+   "desc": "Goliaths are huge, gray-skinned folk with dark skin markings. Fire giant blood gives them warm skin and a forge-hot temper. They value fair contests and earning their place. They play as strong front-liners with a signature ancestry move.",
+   "vestige": "Goliaths suit high, harsh lands in the Primordial realm or the Inner Realm. Their link to fire giants can be distant family lore.",
+   "traits": [
+    [
+     "Giant Ancestry",
+     "Fire's Burn: When you hit a target with an attack and deal damage, you can add 1d10 fire damage. Uses equal your proficiency bonus per long rest."
+    ],
+    [
+     "Large Form",
+     "From 5th level, you can use a bonus action to become Large for 10 minutes if there is room. You gain advantage on STR checks and +10 feet of speed. Once per long rest."
+    ],
+    [
+     "Powerful Build",
+     "You have advantage on checks to end the grappled condition. You count as one size larger for carrying capacity."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Frost Giant Goliath",
+  "short": "A goliath whose frost giant blood grants a striking gift.",
+  "bonus": {
+   "str": 2,
+   "con": 1
+  },
+  "speed": 35,
+  "traitsShort": "Speed 35; +1d6 cold and slow on a hit; powerful build; grow Large at 5th level",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "7 to 8 feet",
+   "weight": "280 to 340 lb",
+   "age": "Adult in their late teens; usually live under a century.",
+   "type": "Humanoid",
+   "speed": 35,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Giant"
+   ],
+   "desc": "Goliaths are huge, gray-skinned folk with dark skin markings. Frost giant blood shows in pale skin and a cold, hard stare. They value fair contests and earning their place. They play as strong front-liners with a signature ancestry move.",
+   "vestige": "Goliaths suit high, harsh lands in the Primordial realm or the Inner Realm. Their link to frost giants can be distant family lore.",
+   "traits": [
+    [
+     "Giant Ancestry",
+     "Frost's Chill: When you hit a target with an attack and deal damage, you can add 1d6 cold damage and lower its speed by 10 feet until the start of your next turn. Uses equal your proficiency bonus per long rest."
+    ],
+    [
+     "Large Form",
+     "From 5th level, you can use a bonus action to become Large for 10 minutes if there is room. You gain advantage on STR checks and +10 feet of speed. Once per long rest."
+    ],
+    [
+     "Powerful Build",
+     "You have advantage on checks to end the grappled condition. You count as one size larger for carrying capacity."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Hill Giant Goliath",
+  "short": "A goliath whose hill giant blood grants a striking gift.",
+  "bonus": {
+   "str": 2,
+   "con": 1
+  },
+  "speed": 35,
+  "traitsShort": "Speed 35; knock foes prone on a hit; powerful build; grow Large at 5th level",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "7 to 8 feet",
+   "weight": "280 to 340 lb",
+   "age": "Adult in their late teens; usually live under a century.",
+   "type": "Humanoid",
+   "speed": 35,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Giant"
+   ],
+   "desc": "Goliaths are huge, gray-skinned folk with dark skin markings. Hill giant blood makes them broad, heavy, and hard to stop. They value fair contests and earning their place. They play as strong front-liners with a signature ancestry move.",
+   "vestige": "Goliaths suit high, harsh lands in the Primordial realm or the Inner Realm. Their link to hill giants can be distant family lore.",
+   "traits": [
+    [
+     "Giant Ancestry",
+     "Hill's Tumble: When you hit a Large or smaller creature with an attack and deal damage, you can knock it prone. Uses equal your proficiency bonus per long rest."
+    ],
+    [
+     "Large Form",
+     "From 5th level, you can use a bonus action to become Large for 10 minutes if there is room. You gain advantage on STR checks and +10 feet of speed. Once per long rest."
+    ],
+    [
+     "Powerful Build",
+     "You have advantage on checks to end the grappled condition. You count as one size larger for carrying capacity."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Stone Giant Goliath",
+  "short": "A goliath whose stone giant blood grants a striking gift.",
+  "bonus": {
+   "str": 2,
+   "con": 1
+  },
+  "speed": 35,
+  "traitsShort": "Speed 35; reduce damage with a reaction; powerful build; grow Large at 5th level",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "7 to 8 feet",
+   "weight": "280 to 340 lb",
+   "age": "Adult in their late teens; usually live under a century.",
+   "type": "Humanoid",
+   "speed": 35,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Giant"
+   ],
+   "desc": "Goliaths are huge, gray-skinned folk with dark skin markings. Stone giant blood gives them gray, marked skin and a calm patience. They value fair contests and earning their place. They play as strong front-liners with a signature ancestry move.",
+   "vestige": "Goliaths suit high, harsh lands in the Primordial realm or the Inner Realm. Their link to stone giants can be distant family lore.",
+   "traits": [
+    [
+     "Giant Ancestry",
+     "Stone's Endurance: When you take damage, you can use your reaction to roll 1d12, add your CON modifier, and reduce the damage by that total. Uses equal your proficiency bonus per long rest."
+    ],
+    [
+     "Large Form",
+     "From 5th level, you can use a bonus action to become Large for 10 minutes if there is room. You gain advantage on STR checks and +10 feet of speed. Once per long rest."
+    ],
+    [
+     "Powerful Build",
+     "You have advantage on checks to end the grappled condition. You count as one size larger for carrying capacity."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Storm Giant Goliath",
+  "short": "A goliath whose storm giant blood grants a striking gift.",
+  "bonus": {
+   "str": 2,
+   "con": 1
+  },
+  "speed": 35,
+  "traitsShort": "Speed 35; thunder reprisal when hurt; powerful build; grow Large at 5th level",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "7 to 8 feet",
+   "weight": "280 to 340 lb",
+   "age": "Adult in their late teens; usually live under a century.",
+   "type": "Humanoid",
+   "speed": 35,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Giant"
+   ],
+   "desc": "Goliaths are huge, gray-skinned folk with dark skin markings. Storm giant blood brings a deep voice and a sense of coming weather. They value fair contests and earning their place. They play as strong front-liners with a signature ancestry move.",
+   "vestige": "Goliaths suit high, harsh lands in the Primordial realm or the Inner Realm. Their link to storm giants can be distant family lore.",
+   "traits": [
+    [
+     "Giant Ancestry",
+     "Storm's Thunder: When a creature within 60 feet damages you, you can use your reaction to deal 1d8 thunder damage to it. Uses equal your proficiency bonus per long rest."
+    ],
+    [
+     "Large Form",
+     "From 5th level, you can use a bonus action to become Large for 10 minutes if there is room. You gain advantage on STR checks and +10 feet of speed. Once per long rest."
+    ],
+    [
+     "Powerful Build",
+     "You have advantage on checks to end the grappled condition. You count as one size larger for carrying capacity."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Beasthide Shifter",
+  "short": "A tough shifter whose hide hardens like a bear's when it shifts.",
+  "bonus": {
+   "con": 2,
+   "str": 1
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; Athletics; shift for temporary hit points; extra temporary hit points and +1 AC while shifted",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "90 to 200 lb",
+   "age": "Adult by 10; rarely live past 70.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "One of your choice"
+   ],
+   "desc": "Shifters look mostly human but carry beastly traits: sharp eyes, thick hair, and pointed ears. Beasthide shifters are heavy and calm, like bears or boars. They stand their ground. When they shift, those traits surge for a short time. They play as tough fighters with a once-per-rest power spike.",
+   "vestige": "Shifters fit wild borders in the Human Realm or the Primordial realm. Where their beast blood came from is left open.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Tough",
+     "You are proficient in Athletics."
+    ],
+    [
+     "Shifting",
+     "As a bonus action, you take on a more bestial form for 1 minute or until you die or end it as a bonus action. You gain temporary hit points equal to your level + CON modifier (minimum 1). Once per short or long rest."
+    ],
+    [
+     "Shifting Feature",
+     "While shifted, you gain an extra 1d6 temporary hit points and a +1 bonus to AC."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Longtooth Shifter",
+  "short": "A fierce shifter who grows fangs and bites while shifted.",
+  "bonus": {
+   "str": 2,
+   "dex": 1
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; Intimidation; shift for temporary hit points; bonus action bite while shifted",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "90 to 200 lb",
+   "age": "Adult by 10; rarely live past 70.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "One of your choice"
+   ],
+   "desc": "Shifters look mostly human but carry beastly traits: sharp eyes, thick hair, and pointed ears. Longtooth shifters are wolfish and pack-minded. They lead from the front. When they shift, those traits surge for a short time. They play as tough fighters with a once-per-rest power spike.",
+   "vestige": "Shifters fit wild borders in the Human Realm or the Primordial realm. Where their beast blood came from is left open.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Fierce",
+     "You are proficient in Intimidation."
+    ],
+    [
+     "Shifting",
+     "As a bonus action, you take on a more bestial form for 1 minute or until you die or end it as a bonus action. You gain temporary hit points equal to your level + CON modifier (minimum 1). Once per short or long rest."
+    ],
+    [
+     "Shifting Feature",
+     "While shifted, you can use a bonus action to make an unarmed strike with your fangs, dealing 1d6 + STR piercing damage."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Swiftstride Shifter",
+  "short": "A quick shifter who darts away from danger while shifted.",
+  "bonus": {
+   "dex": 2,
+   "cha": 1
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; Acrobatics; shift for temporary hit points; faster speed and a reaction dodge while shifted",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "90 to 200 lb",
+   "age": "Adult by 10; rarely live past 70.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "One of your choice"
+   ],
+   "desc": "Shifters look mostly human but carry beastly traits: sharp eyes, thick hair, and pointed ears. Swiftstride shifters are lean and catlike. They like freedom and hate being boxed in. When they shift, those traits surge for a short time. They play as tough fighters with a once-per-rest power spike.",
+   "vestige": "Shifters fit wild borders in the Human Realm or the Primordial realm. Where their beast blood came from is left open.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Graceful",
+     "You are proficient in Acrobatics."
+    ],
+    [
+     "Shifting",
+     "As a bonus action, you take on a more bestial form for 1 minute or until you die or end it as a bonus action. You gain temporary hit points equal to your level + CON modifier (minimum 1). Once per short or long rest."
+    ],
+    [
+     "Shifting Feature",
+     "While shifted, your walking speed rises by 10 feet. When a creature ends its turn within 5 feet of you, you can use your reaction to move up to 10 feet without provoking opportunity attacks."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Wildhunt Shifter",
+  "short": "A keen-sensed shifter who cannot be caught off guard while shifted.",
+  "bonus": {
+   "wis": 2,
+   "dex": 1
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; Survival; shift for temporary hit points; advantage on WIS checks; foes nearby lose advantage on you while shifted",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "90 to 200 lb",
+   "age": "Adult by 10; rarely live past 70.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "One of your choice"
+   ],
+   "desc": "Shifters look mostly human but carry beastly traits: sharp eyes, thick hair, and pointed ears. Wildhunt shifters are watchful and patient trackers. They notice everything. When they shift, those traits surge for a short time. They play as tough fighters with a once-per-rest power spike.",
+   "vestige": "Shifters fit wild borders in the Human Realm or the Primordial realm. Where their beast blood came from is left open.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Natural Tracker",
+     "You are proficient in Survival."
+    ],
+    [
+     "Shifting",
+     "As a bonus action, you take on a more bestial form for 1 minute or until you die or end it as a bonus action. You gain temporary hit points equal to your level + CON modifier (minimum 1). Once per short or long rest."
+    ],
+    [
+     "Shifting Feature",
+     "While shifted, you have advantage on WIS checks, and creatures within 30 feet cannot gain advantage on attacks against you unless you are incapacitated."
+    ]
+   ]
+  }
+ }
+]

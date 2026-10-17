@@ -1,0 +1,503 @@
+{
+  "Orc": {
+    "size": "Medium",
+    "height": "5.5 to 6.5 feet",
+    "weight": "180 to 300 pounds",
+    "age": "Orcs are adults by about 12 and rarely live past 50.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Orcs are tall and broad, with grey or green skin, strong jaws and jutting lower tusks. Many live as travelers, hunters and soldiers who keep moving. They are known for stamina that seems to have no end. Playing an orc means pushing forward when others would stop, and refusing to fall when a blow should have dropped you.",
+    "vestige": "Orcs roam the wild edges of the Human Realm, where their endurance makes them prized guides, guards and Tower climbers.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of grey in darkness."],
+      ["Adrenaline Rush", "You can take the Dash action as a bonus action. When you do, you gain temporary hit points equal to your proficiency bonus. You can do this a number of times equal to your proficiency bonus, and regain all uses on a long rest."],
+      ["Powerful Build", "You count as one size larger when working out how much you can carry, push, drag or lift."],
+      ["Relentless Endurance", "When you drop to 0 hit points but are not killed outright, you can drop to 1 hit point instead. Once you use this, you cannot use it again until you finish a long rest."]
+    ]
+  },
+  "Yuan-ti": {
+    "size": "Small or Medium",
+    "height": "Small: 3 to 4 feet. Medium: 4.5 to 6.5 feet",
+    "weight": "Small: 40 to 70 pounds. Medium: 110 to 200 pounds",
+    "age": "Yuan-ti grow up at about the same rate as humans and live about as long.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Yuan-ti look mostly human, but with patches of scales, slit pupils and a forked tongue. Some have snake-like skin over most of the body. They tend to be calm, patient and hard to read. Their serpent blood shields them from poison and from magic that tries to bend them. They suit players who like a cool head and a quiet threat.",
+    "vestige": "In Vestige, yuan-ti are a scattered people whose serpent blood is old and half forgotten. They live among humans and often keep to themselves.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light, in shades of grey."],
+      ["Magic Resistance", "You have advantage on saving throws against spells."],
+      ["Poison Resilience", "You have advantage on saving throws to avoid or end the poisoned condition. You also have resistance to poison damage."],
+      ["Serpentine Spellcasting", "You know the Poison Spray cantrip. You can cast Animal Friendship at will, but only on snakes. At 3rd level you can cast Suggestion once without a spell slot, regaining it on a long rest. You can also cast these spells with spell slots you have. Choose Intelligence, Wisdom or Charisma as the spellcasting ability for them when you pick this people."]
+    ]
+  },
+  "Air Genasi": {
+    "size": "Small or Medium",
+    "height": "Small: 3 to 4 feet. Medium: 4.5 to 6.5 feet",
+    "weight": "Small: 40 to 70 pounds. Medium: 110 to 220 pounds",
+    "age": "Genasi grow up at about the same rate as humans and can live up to about 120 years.",
+    "type": "Humanoid",
+    "speed": 35, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Air genasi carry the touch of elemental wind. Their skin may be pale blue or grey, and their hair often stirs in a breeze no one else feels. They are light on their feet and often restless. They never need to catch their breath. Players who like quick movement and a free spirit tend to enjoy them.",
+    "vestige": "Air genasi are born in the Human Realm where elemental power has seeped into a family line. Many feel drawn to high places and the tops of Towers.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light, in shades of grey."],
+      ["Unending Breath", "You can hold your breath for as long as you like, as long as you are not incapacitated."],
+      ["Lightning Resistance", "You have resistance to lightning damage."],
+      ["Mingle with the Wind", "You know the Shocking Grasp cantrip. At 3rd level you can cast Feather Fall, and at 5th level Levitate. Each can be cast once without a spell slot, and you regain that use on a long rest. You can also cast them with spell slots you have. Choose Intelligence, Wisdom or Charisma as the spellcasting ability when you pick this people."]
+    ]
+  },
+  "Earth Genasi": {
+    "size": "Small or Medium",
+    "height": "Small: 3 to 4 feet. Medium: 4.5 to 6.5 feet",
+    "weight": "Small: 40 to 80 pounds. Medium: 120 to 240 pounds",
+    "age": "Genasi grow up at about the same rate as humans and can live up to about 120 years.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Earth genasi carry the weight of elemental stone. Their skin may look like polished rock, dusty soil or rough crystal. They are steady, patient and hard to move once they decide something. Broken ground does not slow them down. They suit players who like to stand firm and protect others.",
+    "vestige": "Earth genasi are born in the Human Realm where elemental power has seeped into a family line. Miners and Tower builders often count them as lucky.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light, in shades of grey."],
+      ["Earth Walk", "You can move across difficult terrain made of earth or stone without spending extra movement."],
+      ["Merge with Stone", "You know the Blade Ward cantrip. You can cast it as a bonus action a number of times equal to your proficiency bonus, regaining all uses on a long rest. At 5th level you can cast Pass without Trace once without a spell slot, regaining it on a long rest. You can also cast it with spell slots you have. Choose Intelligence, Wisdom or Charisma as the spellcasting ability when you pick this people."]
+    ]
+  },
+  "Fire Genasi": {
+    "size": "Small or Medium",
+    "height": "Small: 3 to 4 feet. Medium: 4.5 to 6.5 feet",
+    "weight": "Small: 40 to 70 pounds. Medium: 110 to 220 pounds",
+    "age": "Genasi grow up at about the same rate as humans and can live up to about 120 years.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Fire genasi carry a spark of elemental flame. Their skin may be red, coal black or ash grey, and their hair can flicker like a small fire. They run warm in body and in temper. Many are bold, proud and quick to act. They suit players who like passion and a bit of danger.",
+    "vestige": "Fire genasi are born in the Human Realm where elemental power has seeped into a family line. Smiths and lamp keepers often welcome them.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light, in shades of grey."],
+      ["Fire Resistance", "You have resistance to fire damage."],
+      ["Reach to the Blaze", "You know the Produce Flame cantrip. At 3rd level you can cast Burning Hands, and at 5th level Flame Blade. Each can be cast once without a spell slot, and you regain that use on a long rest. You can also cast them with spell slots you have. Choose Intelligence, Wisdom or Charisma as the spellcasting ability when you pick this people."]
+    ]
+  },
+  "Water Genasi": {
+    "size": "Small or Medium",
+    "height": "Small: 3 to 4 feet. Medium: 4.5 to 6.5 feet",
+    "weight": "Small: 40 to 70 pounds. Medium: 110 to 220 pounds",
+    "age": "Genasi grow up at about the same rate as humans and can live up to about 120 years.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 30, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Water genasi carry the pull of the tide. Their skin may be blue or green, sometimes with a faint scale pattern, and their hair moves as if under water. They are often calm on the surface and strong underneath. They breathe water as easily as air. They suit players who like to adapt and go with the flow.",
+    "vestige": "Water genasi are born in the Human Realm where elemental power has seeped into a family line. Coastal towns and river folk treat them as friends of the water.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light, in shades of grey."],
+      ["Acid Resistance", "You have resistance to acid damage."],
+      ["Amphibious", "You can breathe both air and water."],
+      ["Swim Speed", "You have a swimming speed equal to your walking speed."],
+      ["Call to the Wave", "You know the Acid Splash cantrip. At 3rd level you can cast Create or Destroy Water, and at 5th level Water Walk. Each can be cast once without a spell slot, and you regain that use on a long rest. You can also cast them with spell slots you have. Choose Intelligence, Wisdom or Charisma as the spellcasting ability when you pick this people."]
+    ]
+  },
+  "Aarakocra": {
+    "size": "Medium",
+    "height": "About 5 feet",
+    "weight": "80 to 100 pounds",
+    "age": "Aarakocra are adults by about 3 and rarely live past 30.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 30, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Aarakocra are bird-folk with feathered bodies, strong wings and sharp talons. Their faces look like those of parrots, eagles or other birds. They love open sky and feel cramped under roofs. They see the world from above and can reach places others cannot. They suit players who want freedom of movement.",
+    "vestige": "Aarakocra nest on high cliffs and Tower ledges across the Human Realm, and often carry messages between distant places.",
+    "traits": [
+      ["Flight", "You have a flying speed equal to your walking speed. You cannot use it while wearing medium or heavy armor."],
+      ["Talons", "Your unarmed strikes can be talon attacks that deal 1d6 + your Strength modifier slashing damage, instead of the normal unarmed strike damage."],
+      ["Wind Caller", "At 3rd level you can cast Gust of Wind once without a spell slot, regaining it on a long rest. You can also cast it with spell slots you have. Choose Intelligence, Wisdom or Charisma as the spellcasting ability when you pick this people."]
+    ]
+  },
+  "Centaur": {
+    "size": "Medium",
+    "height": "6 to 7 feet",
+    "weight": "600 to 700 pounds",
+    "age": "Centaurs are adults by about 15 and can live to about 100.",
+    "type": "Fey",
+    "speed": 40, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Centaurs have the upper body of a person joined to the body of a horse. They are fast, strong and at home on open plains and in forests. Many are hunters, scouts and keepers of wild lands. In a fight they gallop in and follow a weapon blow with a kick of their hooves. They suit players who like speed and charging into battle.",
+    "vestige": "Centaur herds range across the open lands of the Human Realm. They often serve as scouts and runners between settlements.",
+    "traits": [
+      ["Charge", "If you move at least 30 feet in a straight line toward a target and then hit it with a melee weapon attack on the same turn, you can make a hooves attack against it as a bonus action right away."],
+      ["Equine Build", "You count as one size larger when working out how much you can carry, push, drag or lift. Because of this strong back, a smaller willing ally may ride you if your GM allows. Any climb that needs hands and feet is hard for you: each foot of such climbing costs you 4 extra feet of movement instead of 1."],
+      ["Hooves", "Your hooves are natural weapons. You can use them for unarmed strikes that deal 1d6 + your Strength modifier bludgeoning damage."],
+      ["Natural Affinity", "You are proficient in one of these skills of your choice: Animal Handling, Medicine, Nature or Survival."]
+    ]
+  },
+  "Minotaur": {
+    "size": "Medium",
+    "height": "6 to 7.5 feet",
+    "weight": "250 to 350 pounds",
+    "age": "Minotaurs grow up at about the same rate as humans and live a little longer.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Minotaurs are big, muscled people with the head of a bull and heavy horns. They are often loud, direct and fiercely loyal. They rarely get lost, even in mazes and tunnels. In battle they rush foes with their horns and knock them back. They suit players who like to hit hard and lead from the front.",
+    "vestige": "Minotaurs in Vestige are known as tireless warriors and guides. Their sense of direction makes them valued in the winding halls of the Towers.",
+    "traits": [
+      ["Horns", "Your horns are natural weapons. You can use them for unarmed strikes that deal 1d6 + your Strength modifier piercing damage."],
+      ["Goring Rush", "Right after you take the Dash action and move at least 20 feet, you can make one horns attack as a bonus action."],
+      ["Hammering Horns", "Right after you hit a creature with a melee attack as part of the Attack action, you can use a bonus action to try to push it up to 10 feet away. The target must be no more than one size larger than you. It makes a Strength save against DC 8 + your proficiency bonus + your Strength modifier, and is pushed if it fails."],
+      ["Labyrinthine Recall", "You always know which way is north. You have advantage on Wisdom (Survival) checks to find your way or to track."]
+    ]
+  },
+  "Satyr": {
+    "size": "Medium",
+    "height": "4.5 to 6 feet",
+    "weight": "100 to 180 pounds",
+    "age": "Satyrs grow up at about the same rate as humans and can live well past a century.",
+    "type": "Fey",
+    "speed": 35, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Satyrs have the upper body of a person and the legs of a goat, with small horns on their heads. They love music, dancing, wine and good company. Their fey nature makes magic slide off them more often than not. They leap far and can butt foes with their horns. They suit players who want charm, fun and a bit of mischief.",
+    "vestige": "Satyrs are wandering fey folk who have settled in the Human Realm. They are welcome guests at festivals and often travel with bands of musicians.",
+    "traits": [
+      ["Ram", "You can use your head and horns for unarmed strikes that deal 1d6 + your Strength modifier bludgeoning damage."],
+      ["Magic Resistance", "You have advantage on saving throws against spells."],
+      ["Mirthful Leaps", "Whenever you make a long jump or high jump, roll a d8 and add the result to the number of feet you cover, even on a standing jump. The extra distance still costs movement as normal."],
+      ["Reveler", "You are proficient in the Performance and Persuasion skills, and with one musical instrument of your choice."]
+    ]
+  },
+  "Fairy": {
+    "size": "Small",
+    "height": "2.5 to 4 feet",
+    "weight": "30 to 50 pounds",
+    "age": "Fairies can live for centuries, and their age is hard to guess from how they look.",
+    "type": "Fey",
+    "speed": 30, "fly": 30, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Fairies are small fey with wings like those of insects or birds. Some look almost human, others have antennae, bright skin or flower-like features. They are curious, playful and full of wild magic. They fly from the start and know a few small spells. They suit players who want a whimsical, magical character.",
+    "vestige": "Fairies drift into the Human Realm from wild and hidden places. They are most often found in old forests and flower meadows.",
+    "traits": [
+      ["Flight", "You have a flying speed equal to your walking speed. You cannot use it while wearing medium or heavy armor."],
+      ["Fairy Magic", "You know the Druidcraft cantrip. At 3rd level you can cast Faerie Fire, and at 5th level Enlarge/Reduce. Each can be cast once without a spell slot, and you regain that use on a long rest. You can also cast them with spell slots you have. Choose Intelligence, Wisdom or Charisma as the spellcasting ability when you pick this people."]
+    ]
+  },
+  "Harengon": {
+    "size": "Small or Medium",
+    "height": "Small: 3 to 4 feet. Medium: 4.5 to 6 feet",
+    "weight": "Small: 40 to 70 pounds. Medium: 100 to 180 pounds",
+    "age": "Harengons grow up at about the same rate as humans and live about as long.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Harengons are rabbit-folk with long ears, soft fur and powerful legs. They are alert, quick and often cheerful. They react fast and have a knack for slipping out of trouble. They can bound away from danger in a single hop. They suit players who like speed, luck and a light heart.",
+    "vestige": "Harengons live in meadows, farmland and small villages in the Human Realm. They are known as quick messengers and lucky companions.",
+    "traits": [
+      ["Hare-Trigger", "You add your proficiency bonus to your initiative rolls."],
+      ["Leporine Senses", "You are proficient in the Perception skill."],
+      ["Lucky Footwork", "When you fail a Dexterity saving throw, you can use your reaction to roll a d4 and add it to the save, which may turn it into a success. You cannot do this if you are prone or your speed is 0."],
+      ["Rabbit Hop", "As a bonus action, you can jump a number of feet equal to five times your proficiency bonus without provoking opportunity attacks. You can only do this if your speed is above 0. You can use it a number of times equal to your proficiency bonus, regaining all uses on a long rest."]
+    ]
+  },
+  "Owlin": {
+    "size": "Small or Medium",
+    "height": "Small: 3 to 4 feet. Medium: 4.5 to 6 feet",
+    "weight": "Small: 30 to 60 pounds. Medium: 90 to 160 pounds",
+    "age": "Owlin grow up at about the same rate as humans and live about as long.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 30, "swim": 0, "climb": 0,
+    "dv": 120,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Owlin are owl-folk with soft feathers, large eyes and broad wings. They see well in the dark and fly without a sound. Many are thoughtful, watchful and fond of learning. They are at their best at night. They suit players who like stealth, scouting and a wise air.",
+    "vestige": "Owlin roost in old forests and quiet libraries across the Human Realm. Night watches and Tower scholars often seek their help.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 120 feet as if it were bright light, and in darkness as if it were dim light, in shades of grey."],
+      ["Flight", "You have a flying speed equal to your walking speed. You cannot use it while wearing medium or heavy armor."],
+      ["Silent Feathers", "You are proficient in the Stealth skill."]
+    ]
+  },
+  "Changeling": {
+    "size": "Small or Medium",
+    "height": "Small: 3 to 4 feet. Medium: 5 to 6 feet",
+    "weight": "Small: 40 to 70 pounds. Medium: 110 to 180 pounds",
+    "age": "Changelings grow up at about the same rate as humans and live about as long.",
+    "type": "Fey",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "In their true form, changelings are pale, with colorless eyes and silver-white hair. They can change their face, voice and body at will. Many live several lives under different faces. Some hide what they are, others are open about it. They suit players who enjoy disguise, social play and intrigue.",
+    "vestige": "Changelings move unseen through the towns of the Human Realm. No one knows how many there are, which is how most of them like it.",
+    "traits": [
+      ["Changeling Instincts", "You are proficient in two of these skills of your choice: Deception, Insight, Intimidation, Performance or Persuasion."],
+      ["Shapechanger", "As an action, you can change your look and voice. You choose details like coloring, hair length and sex, and can shift your size between Small and Medium. You can look like a member of another people, but your game statistics do not change. You cannot copy a creature you have never seen, and you must keep the same basic body plan. Your clothes and gear do not change. The new form lasts until you use an action to return to your true form or you die."]
+    ]
+  },
+  "Shifter": {
+    "size": "Medium",
+    "height": "4.5 to 6.5 feet",
+    "weight": "90 to 200 pounds",
+    "age": "Shifters grow up quickly, reaching adulthood around 10, and rarely live past 70.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Shifters look mostly human, with animal touches like sharp eyes, thick hair, pointed ears or long canine teeth. Deep inside them is a beast that they can let loose for a short time. When they shift, their features grow wilder and they become harder to stop. Each shifter favors one kind of beast form. They suit players who want a wild side to call on in a fight.",
+    "vestige": "Shifters live on the edge of human towns and in the wilder lands of the Human Realm. Many work as hunters, trackers and border guards.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light, in shades of grey."],
+      ["Bestial Instincts", "You are proficient in one of these skills of your choice: Acrobatics, Athletics, Intimidation or Survival."],
+      ["Shifting", "As a bonus action, you take on a beastly form for 1 minute. It ends early if you die or end it as a bonus action. When you shift, you gain temporary hit points equal to twice your proficiency bonus. You can shift a number of times equal to your proficiency bonus, regaining all uses on a long rest. You also gain a benefit based on your chosen kind of shifter, listed below."],
+      ["Beasthide", "When you shift, you gain an extra 1d6 temporary hit points. While shifted, you have a +1 bonus to your Armor Class."],
+      ["Longtooth", "While shifted, you can use a bonus action to make an unarmed strike with your fangs, dealing 1d6 + your Strength modifier piercing damage."],
+      ["Swiftstride", "While shifted, your walking speed increases by 10 feet. When a creature ends its turn within 5 feet of you, you can use your reaction to move up to 10 feet without provoking opportunity attacks."],
+      ["Wildhunt", "While shifted, you have advantage on Wisdom checks. No creature within 30 feet of you can make an attack roll with advantage against you unless you are incapacitated."]
+    ]
+  },
+  "Warforged": {
+    "size": "Medium",
+    "height": "5 feet 10 inches to 6.5 feet",
+    "weight": "270 to 300 pounds",
+    "age": "Warforged are made fully grown. Most are between 2 and 30 years old, and no one knows how long they can last.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Warforged are living constructs made of wood, metal and stone, built to fight in a war that has ended. Their bodies have armor plates woven into them. They do not need food, air or sleep. Many are searching for purpose now that their war is over. They suit players who like a sturdy character asking what it means to be a person.",
+    "vestige": "In Vestige, warforged are a rare sight. They are relics of an old war whose makers are lost, and some think a Tower had a hand in their making.",
+    "traits": [
+      ["Constructed Resilience", "You have advantage on saving throws against being poisoned and resistance to poison damage. You do not need to eat, drink or breathe. You are immune to disease. You do not need to sleep, and magic cannot put you to sleep."],
+      ["Sentry's Rest", "For a long rest, you spend at least 6 hours in an inactive, motionless state instead of sleeping. You stay conscious and can see and hear as normal."],
+      ["Integrated Protection", "You gain a +1 bonus to Armor Class. You can only don armor you are proficient with. Putting on or taking off armor takes 1 hour, during which it bonds to your body. While you live, the armor cannot be removed against your will."],
+      ["Specialized Design", "You gain proficiency in one skill and one tool of your choice."]
+    ]
+  },
+  "Kalashtar": {
+    "size": "Medium",
+    "height": "5 to 6.5 feet",
+    "weight": "110 to 180 pounds",
+    "age": "Kalashtar grow up at about the same rate as humans and live about as long.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "Telepathy (see Mind Link)",
+    "langs": ["Common", "Quori", "One of your choice"],
+    "desc": "Kalashtar look like graceful, calm humans, but each is bound to a spirit from the realm of dreams. Their eyes sometimes glow when their feelings run strong. They are thoughtful, gentle and often spiritual. They can speak mind to mind, and they do not dream as others do. They suit players who want a calm, mystic character with a hidden passenger.",
+    "vestige": "Kalashtar in Vestige are bound to spirits that some believe come from the Mysterious Realm. They live quietly among humans and keep their spirits' stories close.",
+    "traits": [
+      ["Dual Mind", "You have advantage on all Wisdom saving throws."],
+      ["Mental Discipline", "You have resistance to psychic damage."],
+      ["Mind Link", "You can speak telepathically to any creature you can see within a range of 10 feet times your level. It does not need to share a language with you, but it must understand at least one language. As an action, you can let one such creature answer you telepathically for 1 hour, or until you use this on another creature."],
+      ["Severed from Dreams", "You do not dream. You are immune to spells and effects that need you to dream, like the Dream spell. Effects that put you to sleep still work on you."]
+    ]
+  },
+  "Githyanki": {
+    "size": "Medium",
+    "height": "5 to 6.5 feet",
+    "weight": "100 to 170 pounds",
+    "age": "Githyanki are adults in their late teens and live about a century.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "Gith"],
+    "desc": "Githyanki are tall and lean, with yellow or green skin, sunken eyes and pointed ears. They are a proud warrior people raised in the space between worlds. Every one of them is trained in arms and armor. They also carry a spark of mind magic. They suit players who want a disciplined fighter with an edge of cruelty or pride.",
+    "vestige": "Githyanki raiders and exiles travel the spaces between the eleven realms. Those who stay in Vestige often hire out as soldiers or Tower delvers.",
+    "traits": [
+      ["Decadent Mastery", "You learn one language of your choice. You are also proficient in one skill or tool of your choice."],
+      ["Martial Prodigy", "You are proficient with light and medium armor, and with shortswords, longswords and greatswords."],
+      ["Githyanki Psionics", "You know the Mage Hand cantrip, and the hand is invisible when you cast it this way. At 3rd level you can cast Jump once, and at 5th level Misty Step once. You regain these uses on a long rest. Intelligence is your spellcasting ability for these spells. You need no components to cast them."]
+    ]
+  },
+  "Githzerai": {
+    "size": "Medium",
+    "height": "5 to 6.5 feet",
+    "weight": "90 to 160 pounds",
+    "age": "Githzerai are adults in their late teens and live about a century.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "",
+    "langs": ["Common", "Gith"],
+    "desc": "Githzerai are lean and wiry, with yellow skin, sharp features and often shaved heads. They live by strict discipline and order. They train their minds as much as their bodies. This makes them hard to frighten or charm. They suit players who want a calm, focused character, like a monk or a psychic guard.",
+    "vestige": "Githzerai keep quiet monasteries in remote corners of the Human Realm. They are known for their discipline and for watching the borders between realms.",
+    "traits": [
+      ["Mental Discipline", "You have advantage on saving throws against being charmed or frightened."],
+      ["Githzerai Psionics", "You know the Mage Hand cantrip, and the hand is invisible when you cast it this way. At 3rd level you can cast Shield once, and at 5th level Detect Thoughts once. You regain these uses on a long rest. Wisdom is your spellcasting ability for these spells. You need no components to cast them."]
+    ]
+  },
+  "Eladrin": {
+    "size": "Medium",
+    "height": "4.5 to 6 feet",
+    "weight": "90 to 160 pounds",
+    "age": "Eladrin mature at about the same rate as humans and can live up to 750 years.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Eladrin are elves deeply tied to fey magic. Their mood and look shift with the seasons: hopeful in spring, bold in summer, calm in autumn, sorrowful in winter. Their hair and skin often change color to match. They can step from place to place in a blink. They suit players who like a changeable, magical character.",
+    "vestige": "Eladrin wander the Human Realm like visitors from a dream. Their seasons can change overnight, and most humans find them hard to predict.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light, in shades of grey."],
+      ["Fey Ancestry", "You have advantage on saving throws against being charmed."],
+      ["Keen Senses", "You are proficient in the Perception skill."],
+      ["Trance", "You do not need to sleep, and magic cannot put you to sleep. You can finish a long rest in 4 hours of meditation while staying conscious. When you do, you gain two proficiencies of your choice, each with a weapon or tool, until your next long rest."],
+      ["Fey Step", "As a bonus action, you can teleport up to 30 feet to an empty space you can see. You can do this a number of times equal to your proficiency bonus, regaining all uses on a long rest. From 3rd level, your current season adds an effect, listed below. The save DC is 8 + your proficiency bonus + your Intelligence, Wisdom or Charisma modifier (chosen when you pick this people). You can change season when you finish a long rest."],
+      ["Autumn", "When you Fey Step, up to two creatures you can see within 10 feet of you must make a Wisdom save. On a fail, they are charmed by you for 1 minute, or until you or your allies damage them."],
+      ["Winter", "When you Fey Step, one creature you can see within 5 feet of you before you teleport must make a Wisdom save. On a fail, it is frightened of you until the end of your next turn."],
+      ["Spring", "When you Fey Step, you can touch one willing creature within 5 feet. It teleports instead of you, to an empty space you can see within 30 feet of you."],
+      ["Summer", "Right after you Fey Step, each creature of your choice within 5 feet of you takes fire damage equal to your proficiency bonus."]
+    ]
+  },
+  "Sea Elf": {
+    "size": "Medium",
+    "height": "4.5 to 6 feet",
+    "weight": "90 to 160 pounds",
+    "age": "Sea elves mature at about the same rate as humans and can live up to 750 years.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 30, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Sea elves are elves of the deep waters. Their skin ranges from pale blue to deep green, and their hair often looks like seaweed or foam. They breathe water and air alike and swim with ease. They can share simple ideas with sea creatures. They suit players who want to explore coasts, rivers and the depths.",
+    "vestige": "Sea elves keep underwater homes off the coasts of the Human Realm. They trade with fishing towns and sometimes guard drowned ruins.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light, in shades of grey."],
+      ["Child of the Sea", "You have a swimming speed equal to your walking speed. You can breathe both air and water."],
+      ["Fey Ancestry", "You have advantage on saving throws against being charmed."],
+      ["Friend of the Sea", "You can share simple ideas with any beast that has a swimming speed. It can understand you, though it may not answer in words."],
+      ["Keen Senses", "You are proficient in the Perception skill."],
+      ["Trance", "You do not need to sleep, and magic cannot put you to sleep. You can finish a long rest in 4 hours of meditation while staying conscious. When you do, you gain two proficiencies of your choice, each with a weapon or tool, until your next long rest."]
+    ]
+  },
+  "Shadow Elf": {
+    "size": "Medium",
+    "height": "4.5 to 6 feet",
+    "weight": "90 to 160 pounds",
+    "age": "Shadow elves mature at about the same rate as humans and can live up to 750 years.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "One of your choice"],
+    "desc": "Shadow elves (called shadar-kai in 5e) are elves shaped by a grey land of shadow and gloom. Their skin is pale or ashen, and their eyes are dark. Many are quiet, grim and hard to impress. Death energy does them less harm, and they can slip through shadow over short distances. They suit players who want a dark, mysterious elf.",
+    "vestige": "Shadow elves come from a grey, shadowed land and now live on the quiet fringes of the Human Realm. Few humans know exactly where their homeland lies.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light, in shades of grey."],
+      ["Raven's Blessing", "As a bonus action, you can teleport up to 30 feet to an empty space you can see. You can do this a number of times equal to your proficiency bonus, regaining all uses on a long rest. From 3rd level, you also gain resistance to all damage after you teleport, until the start of your next turn."],
+      ["Fey Ancestry", "You have advantage on saving throws against being charmed."],
+      ["Keen Senses", "You are proficient in the Perception skill."],
+      ["Necrotic Resistance", "You have resistance to necrotic damage."],
+      ["Trance", "You do not need to sleep, and magic cannot put you to sleep. You can finish a long rest in 4 hours of meditation while staying conscious. When you do, you gain two proficiencies of your choice, each with a weapon or tool, until your next long rest."]
+    ]
+  },
+  "Deep Dwarf": {
+    "size": "Medium",
+    "height": "4 to 5 feet",
+    "weight": "130 to 200 pounds",
+    "age": "Deep dwarves are adults by about 50 and can live around 350 years.",
+    "type": "Humanoid",
+    "speed": 25, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 120,
+    "senses": "",
+    "langs": ["Common", "Dwarvish", "Undercommon"],
+    "desc": "Deep dwarves (called duergar in 5e) are grey-skinned dwarves of the far underground. They are stern, hardworking and slow to trust. Their minds are hard to trick, and their bodies shrug off poison. They can briefly grow to giant size or fade from sight. Bright sunlight troubles them. They suit players who like a tough, grim character with a few surprises.",
+    "vestige": "Deep dwarves live in mines and halls far beneath the Human Realm. Some say their tunnels run close to the roots of the Towers.",
+    "traits": [
+      ["Superior Darkvision", "You can see in dim light within 120 feet as if it were bright light, and in darkness as if it were dim light, in shades of grey."],
+      ["Dwarven Resilience", "You have advantage on saving throws against poison, and resistance to poison damage."],
+      ["Duergar Resilience", "You have advantage on saving throws against illusions, and against being charmed or paralyzed."],
+      ["Duergar Magic", "At 3rd level you can cast Enlarge/Reduce on yourself, using only the enlarge option. At 5th level you can cast Invisibility on yourself. Each can be cast once, and you regain the use on a long rest. You need no material components. Intelligence is your spellcasting ability for these spells."],
+      ["Dwarven Combat Training", "You are proficient with the battleaxe, handaxe, light hammer and warhammer."],
+      ["Tool Proficiency", "You are proficient with one of these of your choice: smith's tools, brewer's supplies or mason's tools."],
+      ["Stonecunning", "When you make an Intelligence (History) check about the origin of stonework, you count as proficient and add double your proficiency bonus."],
+      ["Heavy Armor Ease", "Wearing heavy armor does not reduce your speed."],
+      ["Sunlight Sensitivity", "You have disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight when you, your target or what you are looking at is in direct sunlight."]
+    ]
+  },
+  "Deep Gnome": {
+    "size": "Small",
+    "height": "3 to 3.5 feet",
+    "weight": "80 to 120 pounds",
+    "age": "Deep gnomes are adults by about 25 and live 200 to 250 years.",
+    "type": "Humanoid",
+    "speed": 25, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 120,
+    "senses": "",
+    "langs": ["Common", "Gnomish", "Undercommon"],
+    "desc": "Deep gnomes (called svirfneblin in 5e) are small, wiry gnomes with grey skin that blends with rock. They live quiet, careful lives in deep tunnels. Their minds resist magic, and they are hard to spot among stones. They are cautious and practical but loyal to friends. They suit players who like stealth and a careful, clever approach.",
+    "vestige": "Deep gnomes live in hidden burrows beneath the Human Realm. They rarely come to the surface, and when they do, they move carefully.",
+    "traits": [
+      ["Superior Darkvision", "You can see in dim light within 120 feet as if it were bright light, and in darkness as if it were dim light, in shades of grey."],
+      ["Gnome Cunning", "You have advantage on all Intelligence, Wisdom and Charisma saving throws against magic."],
+      ["Stone Camouflage", "You have advantage on Dexterity (Stealth) checks to hide in rocky terrain."]
+    ]
+  },
+  "Leonin": {
+    "size": "Medium",
+    "height": "6 to 7 feet",
+    "weight": "180 to 300 pounds",
+    "age": "Leonin grow up at about the same rate as humans and can live to about 100.",
+    "type": "Humanoid",
+    "speed": 35, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 60,
+    "senses": "",
+    "langs": ["Common", "Leonin"],
+    "desc": "Leonin are lion-folk with golden or tawny fur, sharp claws and, for many, a great mane. They live in proud prides on open grasslands. They value strength, courage and freedom. Their roar can make enemies freeze in fear. They suit players who want a fierce, proud hunter.",
+    "vestige": "Leonin prides roam the plains of the Human Realm. They keep to their own ways but respect bold travelers.",
+    "traits": [
+      ["Darkvision", "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light, in shades of grey."],
+      ["Claws", "Your claws are natural weapons. You can use them for unarmed strikes that deal 1d4 + your Strength modifier slashing damage."],
+      ["Hunter's Instincts", "You are proficient in one of these skills of your choice: Athletics, Intimidation, Perception or Survival."],
+      ["Daunting Roar", "As a bonus action, you roar. Each creature of your choice within 10 feet that can hear you must make a Wisdom save against DC 8 + your proficiency bonus + your Constitution modifier. On a fail, it is frightened of you until the end of your next turn. You regain this on a short or long rest."]
+    ]
+  },
+  "Loxodon": {
+    "size": "Medium",
+    "height": "7 to 8 feet",
+    "weight": "300 to 400 pounds",
+    "age": "Loxodons grow up at about the same rate as humans and can live about 450 years.",
+    "type": "Humanoid",
+    "speed": 30, "fly": 0, "swim": 0, "climb": 0,
+    "dv": 0,
+    "senses": "Keen smell",
+    "langs": ["Common", "Loxodon"],
+    "desc": "Loxodons are tall, heavy people with elephant heads, thick grey skin, large ears and a strong trunk. They are calm, patient and wise. Their thick hide works like armor. Their trunk can grab and lift things and pick up scents from far off. They suit players who want a steady, thoughtful protector.",
+    "vestige": "Loxodons live in close communities in the Human Realm, often as builders, healers and keepers of memory. Others seek them out for their calm counsel.",
+    "traits": [
+      ["Powerful Build", "You count as one size larger when working out how much you can carry, push, drag or lift."],
+      ["Loxodon Serenity", "You have advantage on saving throws against being charmed or frightened."],
+      ["Natural Armor", "When you wear no armor, your AC is 12 + your Constitution modifier. You can still use a shield and keep this benefit."],
+      ["Trunk", "Your trunk can grab things within 5 feet and lift, push or drag up to five times your Strength score in pounds. It cannot wield weapons or shields, or do fine work like using tools, magic items or casting a spell's somatic part. You can also use it as a snorkel."],
+      ["Keen Smell", "You have advantage on Wisdom (Perception), Wisdom (Survival) and Intelligence (Investigation) checks that involve smell."]
+    ]
+  }
+}
