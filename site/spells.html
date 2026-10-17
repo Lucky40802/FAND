@@ -279,17 +279,33 @@ button.chip:hover,a.chip:hover{border-color:var(--acc);color:var(--text)}
 @media print{.sheet .sh-noprint,.sheet .sec-h,.ai-fab{display:none!important}.sheet .sh-page{display:block!important;break-after:page}.sheet .sh-page[hidden]{display:block!important}.sheet input,.sheet textarea,.sheet select{border:none;border-bottom:1px solid #999;border-radius:0}.sheet .sh-cols{grid-template-columns:1.15fr 1fr 1fr!important}}
 
 .dice{border-bottom:1px dashed var(--gold);cursor:pointer;white-space:nowrap}.dice:hover{background:var(--goldbg)}
-#dice-ov{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;background:rgba(10,8,20,.55);backdrop-filter:blur(2px);cursor:pointer}
-#dice-ov.on{display:flex}
-.dice-box{display:flex;flex-direction:column;align-items:center;gap:14px;padding:20px}
-.dice-row{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;max-width:90vw}
-.die{position:relative;width:96px;height:96px;filter:drop-shadow(0 8px 18px rgba(0,0,0,.45))}
+#dice-ov{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 60%,rgba(40,30,70,.55),rgba(6,5,14,.78));backdrop-filter:blur(3px);cursor:pointer;overflow:hidden}
+#dice-ov.on{display:flex;animation:dovIn .18s ease-out}
+@keyframes dovIn{from{opacity:0}to{opacity:1}}
+.dice-box{display:flex;flex-direction:column;align-items:center;gap:16px;padding:20px;position:relative}
+.dice-row{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;max-width:min(92vw,720px)}
+.die-slot{position:relative;width:96px;height:96px}
+.die-sh{position:absolute;left:12%;right:12%;bottom:-10px;height:16px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.55),transparent);pointer-events:none}
+.die{position:relative;width:96px;height:96px;filter:drop-shadow(0 6px 10px rgba(0,0,0,.35));will-change:transform}
 .die svg{width:100%;height:100%}
-.die span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font:700 1.9rem var(--serif);text-shadow:0 2px 4px rgba(0,0,0,.4)}
-#dice-ov.spin .die{animation:dieSpin .9s cubic-bezier(.2,.7,.3,1) var(--d) both}
-@keyframes dieSpin{0%{transform:translate(-60vw,-30vh) rotate(-540deg) scale(.4);opacity:0}60%{opacity:1}80%{transform:translate(0,0) rotate(12deg) scale(1.08)}100%{transform:none}}
-.dice-total{display:flex;flex-direction:column;align-items:center;color:#fff;background:rgba(0,0,0,.35);padding:10px 22px;border-radius:14px}
-.dice-total b{font:700 3rem var(--serif);line-height:1}.dice-total .dice-expr{font-size:.85rem;opacity:.8}.dice-total small{opacity:.85}
+.die span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font:700 1.9rem var(--serif);text-shadow:0 2px 4px rgba(0,0,0,.4);transition:filter .1s}
+.die.moving span{filter:blur(1.2px)}
+.die.landed span{animation:faceLand .32s cubic-bezier(.3,1.6,.5,1)}
+@keyframes faceLand{0%{transform:scale(.6)}100%{transform:scale(1)}}
+.die-slot.max .die{filter:drop-shadow(0 0 12px rgba(255,214,110,.9)) drop-shadow(0 6px 10px rgba(0,0,0,.35))}
+.die-slot.min .die{filter:drop-shadow(0 0 10px rgba(255,80,80,.75)) drop-shadow(0 6px 10px rgba(0,0,0,.35))}
+.die-ring{position:absolute;left:50%;top:50%;width:96px;height:96px;margin:-48px 0 0 -48px;border-radius:50%;border:3px solid rgba(255,220,140,.8);pointer-events:none;animation:dieRing .5s ease-out forwards}
+@keyframes dieRing{from{transform:scale(.6);opacity:.9}to{transform:scale(1.7);opacity:0}}
+.dice-total{display:flex;flex-direction:column;align-items:center;color:#fff;background:rgba(0,0,0,.4);padding:10px 24px;border-radius:14px;border:1px solid rgba(255,255,255,.08);opacity:0;transform:translateY(10px);transition:opacity .25s,transform .25s}
+.dice-total.show{opacity:1;transform:none}
+.dice-total b{font:700 3.2rem var(--serif);line-height:1;font-variant-numeric:tabular-nums}.dice-total .dice-expr{font-size:.85rem;opacity:.8}.dice-total small{opacity:.85;text-align:center;max-width:80vw}
+.dice-total.crit{border-color:rgba(255,214,110,.7);box-shadow:0 0 40px rgba(255,200,90,.45)}.dice-total.crit b{color:#ffd970;text-shadow:0 0 18px rgba(255,200,90,.8)}
+.dice-total.fumble{border-color:rgba(255,90,90,.6);animation:fumble .45s ease-in-out}.dice-total.fumble b{color:#ff8a8a}
+@keyframes fumble{0%,100%{transform:none}20%{transform:translateX(-8px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(3px)}}
+.dice-spark{position:absolute;width:7px;height:7px;border-radius:50%;background:#ffd970;box-shadow:0 0 8px #ffcf5a;pointer-events:none}
+.dice-acts{display:flex;gap:8px;align-items:center}
+.dice-acts button{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:6px 14px;font-size:.85rem}
+.dice-acts button:hover{background:rgba(255,255,255,.18)}
 .rtree{list-style:none;padding-left:16px;margin:0;border-left:1px solid var(--line)}.rtree li{margin:3px 0;font-size:.9rem}.rtree summary{cursor:pointer}.rtree>li>details>summary::marker{color:var(--gold)}
 @media (max-width:640px){.sec-h{flex-direction:column;align-items:flex-start;gap:4px}.tools .form{grid-template-columns:1fr 1fr!important}}
 .sec-h .btn{margin-left:auto}
@@ -791,7 +807,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"spells",v:"4c16bda2b1",b:"93cc064c"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"spells",v:"4c16bda2b1",b:"f9c66c06"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=4c16bda2b1",10911773],["data/vault.js?v=4c16bda2b1",1144011],["data/spells.js?v=4c16bda2b1",1127066]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -901,14 +917,49 @@ function setDiceSkin(id){const sk=dskById(id);store.set('diceskin',sk.id);toast(
   if(store.get('diceanim',true))diceOverlay({e:'d20 · '+sk.name,t:0,r:[DIE(20)],mod:0,preview:true},20)}
 function diceSkinGrid(k){k=k||'g';const cur=diceSkin().id,groups=[...new Set(DSK.map(x=>x.group))];
   return `<div class="dsk-grid" data-k="${k}">${groups.map(g=>`<div class="dsk-group"><div class="dsk-h">${esc(g)}</div><div class="dsk-row">${DSK.filter(x=>x.group===g).map(x=>{const d=dieSVG(20,x,k+x.id);return `<button type="button" class="dsk${x.id===cur?' on':''}" onclick="setDiceSkin('${x.id}')" aria-pressed="${x.id===cur}" title="${esc(x.name)}"><span class="dsk-die" style="${d.glow?`filter:drop-shadow(0 0 6px ${d.glow})`:''}">${d.svg}<b style="color:${d.ink};text-shadow:${d.sh}">20</b></span><small>${esc(x.name)}</small></button>`}).join('')}</div></div>`).join('')}</div>`}
+// The roll: each die is thrown in from the edge of the screen, tumbles, bounces twice on the table with a shadow beneath it,
+// and settles in its place; then the total counts up. Highest faces glow gold and 1s red; a natural 20 bursts, a natural
+// 1 shakes. Each bounce clacks (Web Audio, no files) and taps the phone; both can be turned off. Less motion: no throw.
+let DICE_AC=null;
+function diceClack(v){if(!store.get('dicesound',true))return;try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;DICE_AC=DICE_AC||new AC();const c=DICE_AC,t=c.currentTime,n=Math.floor(c.sampleRate*.05),buf=c.createBuffer(1,n,c.sampleRate),d=buf.getChannelData(0);
+  for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/n,6);const src=c.createBufferSource();src.buffer=buf;const f=c.createBiquadFilter();f.type='bandpass';f.frequency.value=1800+Math.random()*2200;f.Q.value=1.4;const g=c.createGain();g.gain.value=.5*v;src.connect(f).connect(g).connect(c.destination);src.start(t);
+  const o=c.createOscillator(),og=c.createGain();o.frequency.setValueAtTime(140,t);o.frequency.exponentialRampToValueAtTime(60,t+.06);og.gain.setValueAtTime(.25*v,t);og.gain.exponentialRampToValueAtTime(.001,t+.07);o.connect(og).connect(c.destination);o.start(t);o.stop(t+.08)}catch(e){}}
+// keyframes for one throw: flight in an arc from (dx,dy) to the slot, two bounces (squashing on each landing), a short slide, and a wobble
+function diceThrow(dx,dy,H,rot){const F=[],S=[],N=46,L1=.46,L2=.66,L3=.8;
+  for(let i=0;i<=N;i++){const t=i/N;let x,y,sq=0;
+    if(t<=L1){const u=t/L1;x=dx*(1-u)*(1-u*.25)+dx*.04*u;y=dy*(1-u)-H*4*u*(1-u)}
+    else if(t<=L2){const u=(t-L1)/(L2-L1);x=dx*.04*(1-u*.6);y=-H*.24*4*u*(1-u)}
+    else if(t<=L3){const u=(t-L2)/(L3-L2);x=dx*.016*(1-u*.7);y=-H*.07*4*u*(1-u)}
+    else{const u=(t-L3)/(1-L3);x=dx*.005*(1-u);y=0}
+    [L1,L2,L3].forEach(l=>{const dd=Math.abs(t-l);if(dd<.03)sq=Math.max(sq,(1-dd/.03)*(l===L1?.16:l===L2?.09:.04))});
+    const r=rot*Math.pow(1-Math.min(1,t/.86),2.2)+(t>.8?Math.sin((t-.8)*40)*6*(1-t)/.2:0);
+    F.push({offset:t,transform:`translate(${x.toFixed(1)}px,${y.toFixed(1)}px) rotate(${r.toFixed(1)}deg) scale(${(1+sq).toFixed(3)},${(1-sq).toFixed(3)})`});
+    const h=Math.max(0,-y)/Math.max(1,H),off=t<L1*.5?Math.min(1,t/(L1*.5)):1;S.push({offset:t,transform:`translate(${x.toFixed(1)}px,0) scale(${(1-h*.55).toFixed(3)})`,opacity:((1-h*.75)*off).toFixed(3)})}
+  return {F,S,hits:[L1,L2,L3]}}
 function diceOverlay(R,sides){
-  let ov=$('dice-ov');if(!ov){ov=document.createElement('div');ov.id='dice-ov';document.body.appendChild(ov);ov.onclick=()=>ov.classList.remove('on')}
-  const reduce=lessMotion(),shown=R.r.slice(0,12);
-  ov.innerHTML=`<div class="dice-box"><div class="dice-row">${shown.map((v,i)=>{const x=(R.sd&&R.sd[i])||sides,d=dieSVG(x,null,'ov'+i);return `<div class="die" style="--d:${i*60}ms${d.glow?`;filter:drop-shadow(0 0 14px ${d.glow}) drop-shadow(0 8px 18px rgba(0,0,0,.45))`:''}">${d.svg}<span data-final="${v}" data-sides="${x}" style="color:${d.ink};text-shadow:${d.sh}">${Math.abs(v)}</span></div>`}).join('')}${R.r.length>12?`<div class="note">+${R.r.length-12} more</div>`:''}</div>
-    <div class="dice-total"><span class="dice-expr">${esc(R.e)}</span><b>${R.preview?R.r[0]:R.t}</b><small>${R.r.join(' + ')}${R.mod?(R.mod>0?' + ':' − ')+Math.abs(R.mod):''}${sides===20&&R.r.length===1?(R.r[0]===20?' · natural 20!':R.r[0]===1?' · natural 1':''):''}</small></div><div class="note" style="color:#fff9">click anywhere to close</div></div>`;
-  ov.classList.add('on');ov.classList.toggle('spin',!reduce);
-  if(!reduce){const spans=[...ov.querySelectorAll('.die span')];const t0=performance.now();const tick=now=>{const k=(now-t0)/900;spans.forEach(sp=>{sp.textContent=k<1?1+Math.floor(Math.random()*(+sp.dataset.sides||sides)):Math.abs(+sp.dataset.final)});if(k<1)requestAnimationFrame(tick);else ov.classList.remove('spin')};requestAnimationFrame(tick)}
-  clearTimeout(diceOverlay.t);diceOverlay.t=setTimeout(()=>ov.classList.remove('on'),4500);
+  let ov=$('dice-ov');if(!ov){ov=document.createElement('div');ov.id='dice-ov';ov.setAttribute('role','dialog');ov.setAttribute('aria-label','Dice roll');document.body.appendChild(ov);ov.onclick=e=>{if(!e.target.closest('.dice-acts'))ov.classList.remove('on')}}
+  const reduce=lessMotion(),shown=R.r.slice(0,12),single20=!R.preview&&R.r.length===1&&(R.sd?R.sd[0]:sides)===20,crit=single20&&R.r[0]===20,fumble=single20&&R.r[0]===1;
+  ov.innerHTML=`<div class="dice-box"><div class="dice-row">${shown.map((v,i)=>{const x=(R.sd&&R.sd[i])||sides,d=dieSVG(x,null,'ov'+i),hi=!R.preview&&x>2&&Math.abs(v)===x,lo=!R.preview&&x>2&&Math.abs(v)===1;return `<div class="die-slot${hi?' max':lo?' min':''}"><div class="die-sh"></div><div class="die"${d.glow?` style="filter:drop-shadow(0 0 14px ${d.glow}) drop-shadow(0 6px 10px rgba(0,0,0,.35))"`:''}>${d.svg}<span data-final="${v}" data-sides="${x}" style="color:${d.ink};text-shadow:${d.sh}">${Math.abs(v)}</span></div></div>`}).join('')}${R.r.length>12?`<div class="note" style="color:#fff">+${R.r.length-12} more</div>`:''}</div>
+    <div class="dice-total${crit?' crit':fumble?' fumble':''}"><span class="dice-expr">${esc(R.e)}</span><b data-total="${R.preview?R.r[0]:R.t}">${R.preview?R.r[0]:R.t}</b><small>${R.r.join(' + ')}${R.mod?(R.mod>0?' + ':' − ')+Math.abs(R.mod):''}${crit?' · natural 20!':fumble?' · natural 1':''}</small></div>
+    <div class="dice-acts">${R.again?'<button type="button" data-again>🎲 Roll again</button>':''}<button type="button" data-snd aria-pressed="${store.get('dicesound',true)}" title="Dice sounds">${store.get('dicesound',true)?'🔊':'🔇'}</button></div><div class="note" style="color:#fff9;margin:0">tap anywhere to close</div></div>`;
+  const acts=ov.querySelector('.dice-acts');acts.onclick=e=>{if(e.target.closest('[data-again]')){R.again()}else if(e.target.closest('[data-snd]')){const v=!store.get('dicesound',true);store.set('dicesound',v);e.target.closest('[data-snd]').textContent=v?'🔊':'🔇';if(v)diceClack(.6)}};
+  ov.classList.add('on');clearTimeout(diceOverlay.t);(diceOverlay.timers||[]).forEach(clearTimeout);diceOverlay.timers=[];
+  const tot=ov.querySelector('.dice-total'),totB=tot.querySelector('b'),final=+totB.dataset.total;
+  const later=(f,ms)=>diceOverlay.timers.push(setTimeout(f,ms));
+  const finish=()=>{tot.classList.add('show');if(!reduce&&!R.preview&&Math.abs(final)>1){const t0=performance.now(),D=380;const step=now=>{const k=Math.min(1,(now-t0)/D);totB.textContent=Math.round(final*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(step)};totB.textContent='0';requestAnimationFrame(step)}
+    if(crit&&!reduce){const box=ov.querySelector('.dice-box');for(let i=0;i<22;i++){const sp=document.createElement('i');sp.className='dice-spark';box.appendChild(sp);const a=Math.random()*Math.PI*2,dist=90+Math.random()*120;sp.style.left='50%';sp.style.top='40%';sp.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${Math.cos(a)*dist}px,${Math.sin(a)*dist}px) scale(.2)`,opacity:0}],{duration:700+Math.random()*400,easing:'cubic-bezier(.2,.7,.3,1)',fill:'forwards'})}if(navigator.vibrate)try{navigator.vibrate([20,40,30])}catch(e){}}
+    diceOverlay.t=setTimeout(()=>ov.classList.remove('on'),5500)};
+  if(reduce||!ov.animate){finish();return}
+  const slots=[...ov.querySelectorAll('.die-slot')];let last=0;
+  slots.forEach((sl,i)=>{const die=sl.querySelector('.die'),sh=sl.querySelector('.die-sh'),sp=die.querySelector('span'),b=sl.getBoundingClientRect(),side=i%2?1:-1;
+    const dx=side*(innerWidth*.45+Math.random()*innerWidth*.2)+(b.left+b.width/2-innerWidth/2)*-.3,dy=innerHeight-b.top+60+Math.random()*80,H=Math.min(innerHeight*.32,180+Math.random()*90),rot=-side*(560+Math.random()*540);
+    const T=1050+Math.random()*250,delay=i*70+Math.random()*60,{F,S,hits}=diceThrow(dx,dy,H,rot);last=Math.max(last,delay+T);
+    die.animate(F,{duration:T,delay,easing:'linear',fill:'backwards'});sh.animate(S,{duration:T,delay,easing:'linear',fill:'backwards'});
+    die.classList.add('moving');const sides2=+sp.dataset.sides||sides,fin=Math.abs(+sp.dataset.final);
+    const fl=setInterval(()=>{sp.textContent=1+Math.floor(Math.random()*sides2)},70);diceOverlay.timers.push(fl);
+    hits.forEach((h,k)=>later(()=>{diceClack(k===0?1:k===1?.55:.25);if(k===0&&navigator.vibrate)try{navigator.vibrate(8)}catch(e){}},delay+T*h));
+    later(()=>{clearInterval(fl);sp.textContent=fin;die.classList.remove('moving');die.classList.add('landed');if(sl.classList.contains('max')||sl.classList.contains('min')){const r=document.createElement('div');r.className='die-ring';if(sl.classList.contains('min'))r.style.borderColor='rgba(255,100,100,.8)';sl.appendChild(r)}},delay+T*hits[2])});
+  later(finish,last-120);
 }
 // A mix of dice and numbers, like 2d6+1d8+3 or 4d6-1d4: each dice term is rolled with rollExpr (so the DM rig still applies)
 function rollMulti(e){const src=String(e||'').replace(/−/g,'-').replace(/\s+/g,'');if(!src)return null;const one=rollExpr(src);if(one)return one;
@@ -921,7 +972,7 @@ function rollMulti(e){const src=String(e||'').replace(/−/g,'-').replace(/\s+/g
   if(tot){const lo=sd.reduce((a,x)=>a+(x>0?1:x),0),hi=sd.reduce((a,x)=>a+(x>0?x:-1),0),want=Math.max(lo,Math.min(hi,(+g.value||0)-mod));let left=want-lo;r=sd.map(x=>{if(x>0){const k=Math.min(x-1,left);left-=k;return 1+k}const k=Math.min(-x-1,left);left-=k;return x+k})}
   if($('dr-rig-state'))rigState();return {e:src.replace(/([+\-])/g,' $1 ').trim(),r,mod,t:r.reduce((a,b)=>a+b,0)+mod,sides:first,sd:sd.map(Math.abs)}}
 function rollShow(e){const R=rollMulti(e);if(!R){if(String(e||'').trim())toast('Not a roll: try 2d6+3');return}const log=store.get('dicelog',[]);log.unshift({e:R.e,t:R.t,r:R.r,mod:R.mod});store.set('dicelog',log.slice(0,50));
-  const sides=R.sides||+(/d(\d+)/i.exec(R.e)||[])[1]||20;if(store.get('diceanim',true))diceOverlay(R,sides);else toast(`🎲 ${R.e}: ${R.t}  (${R.r.join(' + ')}${R.mod?(R.mod>0?' + ':' − ')+Math.abs(R.mod):''})`);if($('dl-log'))diceLog()}
+  const sides=R.sides||+(/d(\d+)/i.exec(R.e)||[])[1]||20;if(store.get('diceanim',true))diceOverlay(Object.assign(R,{again:()=>rollShow(e)}),sides);else toast(`🎲 ${R.e}: ${R.t}  (${R.r.join(' + ')}${R.mod?(R.mod>0?' + ':' − ')+Math.abs(R.mod):''})`);if($('dl-log'))diceLog()}
 function diceify(root){if(!root)return;const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement.closest('input,textarea,select,button,a,.dice,script,style')?NodeFilter.FILTER_REJECT:(DICE_RX.lastIndex=0,DICE_RX.test(n.nodeValue))?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP});const ns=[];while(w.nextNode())ns.push(w.currentNode);
   ns.forEach(n=>{const f=document.createDocumentFragment();let last=0;const t=n.nodeValue;DICE_RX.lastIndex=0;let m;while((m=DICE_RX.exec(t))){f.append(t.slice(last,m.index));const sp=document.createElement('span');sp.className='dice';sp.textContent=m[0];sp.title='Click to roll';f.append(sp);last=m.index+m[0].length}f.append(t.slice(last));n.replaceWith(f)})}
 document.addEventListener('click',e=>{const d=e.target.closest('.dice');if(d){e.preventDefault();e.stopPropagation();rollShow(d.textContent)}},true);
@@ -2907,7 +2958,7 @@ function dpRoll(sp){if(!dpCount(sp))return null;const g=store.get('dicerig',null
   finally{if(g&&g.mode)store.set('dicerig',g.once?null:g);if($('dr-rig-state'))rigState()}}
 function dpLog(R){const sp=R.sp,log=store.get('dicelog',[]);log.unshift({e:dpLabel(sp),t:R.t,r:R.es.map(e=>e.drop?'('+e.v+')':e.v),mod:sp.mode==='succ'?0:sp.mod});store.set('dicelog',log.slice(0,50));if($('dl-log'))diceLog()}
 function dpShow(R){if(!R)return;DPOOL.last=R;dpLog(R);
-  const first=DP_SIDES.find(x=>R.sp.d[x])||20;if(store.get('diceanim',true))diceOverlay({e:dpLabel(R.sp),t:R.t,r:R.es.filter(e=>!e.drop).map(e=>e.v),sd:R.es.filter(e=>!e.drop).map(e=>e.x),mod:R.sp.mode==='succ'?0:R.sp.mod},first);dicePool()}
+  const first=DP_SIDES.find(x=>R.sp.d[x])||20;if(store.get('diceanim',true))diceOverlay({e:dpLabel(R.sp),t:R.t,r:R.es.filter(e=>!e.drop).map(e=>e.v),sd:R.es.filter(e=>!e.drop).map(e=>e.x),mod:R.sp.mode==='succ'?0:R.sp.mod,again:()=>dpShow(dpRoll(R.sp))},first);dicePool()}
 function dicePoolRoll(sp){dpShow(dpRoll(sp||dpSpec()))}
 // reroll one die of the last roll (Lucky, Portent, a bardic reroll...)
 function dpReroll(i){const R=DPOOL.last;if(!R||!R.es[i])return;const sp=R.sp,g=store.get('dicerig',null);if(g&&g.mode)store.set('dicerig',{...g,once:false});
@@ -5796,7 +5847,8 @@ function renderSettings(){const k=getKey(),u=CL.user,dark=document.documentEleme
         <div class="set-row"><span>Text size<small>Makes every page's text bigger or smaller</small></span><div class="seg" style="flex-wrap:wrap">${TSCALES.map(([z,l])=>`<button type="button" class="${Math.abs(+store.get('tscale',1)-z)<.01?'on':''}" onclick="setComfort('tscale',${z})" style="font-size:${z}em">${l}</button>`).join('')}</div></div>
         <label class="set-row"><span>High contrast<small>Brighter text and stronger borders</small></span><input type="checkbox" ${store.get('contrast',false)?'checked':''} onchange="setComfort('contrast',this.checked)"></label>
         <label class="set-row"><span>Less motion<small>No sliding, fading, or tumbling dice${matchMedia('(prefers-reduced-motion: reduce)').matches?' (your device already asks for this)':''}</small></span><input type="checkbox" ${lessMotion()?'checked':''} onchange="setComfort('motion',this.checked?'reduce':'full')"></label>
-        <label class="set-row"><span>Rolling dice animation<small>Dice tumble across the screen when you roll</small></span><input type="checkbox" ${store.get('diceanim',true)?'checked':''} onchange="store.set('diceanim',this.checked);toast(this.checked?'Rolling dice on':'Rolling dice off')"></label>`)}
+        <label class="set-row"><span>Dice sounds<small>A clack each time a die hits the table</small></span><input type="checkbox" ${store.get('dicesound',true)?'checked':''} onchange="store.set('dicesound',this.checked);if(this.checked)diceClack(.7)"></label>
+        <label class="set-row"><span>Rolling dice animation<small>Dice are thrown onto the table, bounce, and settle when you roll</small></span><input type="checkbox" ${store.get('diceanim',true)?'checked':''} onchange="store.set('diceanim',this.checked);toast(this.checked?'Rolling dice on':'Rolling dice off')"></label>`)}
       ${setSec('ai','Assistant <em>Ask FAND</em>','The assistant answers from the compendium using Claude, through your own Anthropic API key.',`
         <div class="keyrow"><input class="sel" id="setKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-…" value="${esc(k)}" style="max-width:none;flex:1"><button class="btn" id="setShow" type="button">Show</button></div>
         <label class="note" style="display:flex;gap:8px;align-items:center;margin-top:8px;color:var(--text2)"><input type="checkbox" id="setRemember" ${!k||keyRemembered()?'checked':''}> Remember on this device</label>
