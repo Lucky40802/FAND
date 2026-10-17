@@ -660,6 +660,14 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
 .qcard:hover{border-color:var(--acc);transform:translateY(-1px)}
 .qcard b{color:var(--text);font-family:var(--serif);font-size:1.05rem}
 .qcard small{font-size:.8rem;color:var(--muted);line-height:1.35}
+/* Loading: a progress bar while the data downloads (site pages), and placeholder cards */
+.boot{width:min(320px,80%);height:6px;border-radius:6px;background:var(--line);overflow:hidden;opacity:0;transition:opacity .2s}
+.boot.on{opacity:1}
+.boot i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--gold));border-radius:6px;transition:width .15s}
+.boot-s{font-family:var(--sans);font-style:normal;font-size:.78rem;color:var(--muted);text-align:center;max-width:420px;min-height:1em}
+.skel{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;width:min(960px,100%);margin-top:18px}
+.skel i{height:74px;border-radius:12px;background:linear-gradient(90deg,var(--surf) 0%,var(--surf2) 50%,var(--surf) 100%);background-size:200% 100%;animation:skel 1.4s ease-in-out infinite;border:1px solid var(--line)}
+@keyframes skel{from{background-position:100% 0}to{background-position:-100% 0}}
 /* First-visit guide */
 .gd-bg{position:fixed;inset:0;z-index:90;background:transparent}
 .gd-bg.dim{background:rgba(5,4,12,.6)}
@@ -745,7 +753,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="scrim" id="scrim" onclick="toggleDrawer(false)"></div>
   <main class="main">
     <div class="ctrl" id="ctrl" hidden></div>
-    <div class="content" id="content"><div class="loading">Loading the compendium…</div></div>
+    <div class="content" id="content"><div class="loading">Loading the compendium…<div class="boot"><i id="bootbar"></i></div><small class="boot-s" id="boots"></small><div class="skel" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div>
   </main>
 </div>
 
@@ -781,10 +789,9 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"settings",v:"26cc659b8c",b:"76f49943"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
-<script src="data/core.js?v=26cc659b8c"></script>
-<script src="data/vault.js?v=26cc659b8c"></script>
-<script>
+<script>const SITE={page:"settings",v:"26cc659b8c",b:"36bf6661"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>(function(){var F=[["data/core.js?v=26cc659b8c",10720938],["data/vault.js?v=26cc659b8c",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
+<script type="text/x-fand" id="fand-app">
 'use strict';
 // ════════════════════════════════════════════════════════════════
 //  Helpers
@@ -2273,6 +2280,10 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-17','A new Hidden classes page for the DM','Once unlocked, Hidden classes is a menu and a page: search, tabs for Unique, Epic, and Legendary, group by tier, Tower, basic class, or progenitor, and filters on the left; the chosen class on the right, with its own link, previous and next, who in your party holds it, and a Grant button. On phones the menu and the class take turns. Players who open the page see how hidden classes are earned instead.','hidden'],
+  ['2026-10-17','Player or DM view','Tell FAND how you play (on Home, in the first-visit guide, or in Settings → How you play). DMs get a DM menu with hidden classes, session prep, encounters, combat, hooks, and Towers; players get their character, party, dice, and journal first. Home shows the pages your role uses most.','settings'],
+  ['2026-10-17','Easier on phones','A bar at the bottom of phones holds Home, Search, Dice, your character (Combat for the DM), and Menu, a full page of every section. Pages show a progress bar while the compendium downloads on the first visit, and the page frame appears at once.','tools'],
+  ['2026-10-17','Help, a guide, Undo, and comfort settings','A new Help page explains everything, including what to do when a change doesn\'t show yet, and a short guide shows newcomers around. Deleting a character, a journal entry, or a hidden class from a character now has Undo. Settings has text size, high contrast, less motion, the version, and Check for updates. A monster\'s window can add it to combat or an encounter, an item\'s window can give it to a character, and dice on every page can be tapped to roll.','help'],
   ['2026-10-17','Levelling up shows your choices','Pressing ⬆ Level up now opens a window with everything the new level brings: hit points (the average is filled in), a subclass at level 3, a new stage and its trial, the school point, and new spells. Full casters learn 2 spells a level and half casters 1, from the schools they hold and up to the level they can cast. Every caster now starts with 4 cantrips (and 2 first-level spells, or 1 for a half caster).','sheet'],
   ['2026-10-17','Dice styles','Your dice can now look the way you like: 30 styles in four groups, after the dice sold for the table. Classic colours (FAND violet, crimson, midnight blue, forest, bone and ivory, onyx and gold), metals (gold, silver, copper, ancient bronze, rose gold, gunmetal), gemstones (ruby, sapphire, emerald, amethyst, obsidian, opal, tiger\'s eye, lapis lazuli), and resin specials (galaxy, stardust glitter, white marble, a dragon-blood liquid core, glow in the dark, clear frost, two-tone, rainbow, oak, and blood moon). Pick one on the Dice page or in Settings; the rolling dice and the Dice pool use it, and it follows your account.','dice'],
   ['2026-10-17','Account and Settings pages','Sign in now has a page of its own (Account): what an account gives you, and the sign-in form. Signed in, the same page holds your profile (name and picture, edited right there), your campaigns, sync, and backups. Settings is a full page too, with Account, Appearance (theme and rolling dice), the assistant\'s API key, Saved data (download or restore a backup of everything you have saved), and installing the app. The ⚙ button and the account menu open them.','account'],

@@ -809,12 +809,26 @@ site['data/vault-details.js'] = lit('VAULT_DETAILS') + '\n';
 var DATA_V = require('crypto').createHash('sha1').update(Object.keys(site).filter(function (k) { return /^data\//.test(k); }).sort().map(function (k) { return site[k]; }).join('')).digest('hex').slice(0, 10);
 // where the site lives (GitHub Pages): used for canonical links, sharing previews, and the sitemap search engines read
 var SITE_URL = 'https://lucky40802.github.io/FAND/site/';
+var LOADER = '(function(){var F=__FILES__,T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});' +
+  'function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}' +
+  'function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}' +
+  'function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}' +
+  'function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}' +
+  'function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}' +
+  'function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}' +
+  'function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\\"loading\\">FAND couldn’t load its data. Check your connection and <a href=\\"\\">try again</a>.</div>"})}' +
+  'if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);' +
+  'Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();';
 // this build's stamp (the app and its data together): Settings → App shows it, and "Check for updates" compares it with
 // the newest page on the server
 var BUILD_ID = require('crypto').createHash('sha1').update(tpl + DATA_V).digest('hex').slice(0, 8);
 PAGES.forEach(function (pg) {
-  var tags = '<script>const SITE={page:' + JSON.stringify(pg) + ',v:' + JSON.stringify(DATA_V) + ',b:' + JSON.stringify(BUILD_ID) + '};' + cloudLine + '</script>\n<script src="data/core.js?v=' + DATA_V + '"></script>\n<script src="data/vault.js?v=' + DATA_V + '"></script>' + (pg === 'spells' || pg === 'sheet' || pg === 'tools' || pg === 'magic' || pg === 'journal' ? '\n<script src="data/spells.js?v=' + DATA_V + '"></script>' : '');
-  var html = tpl.split('<!--__DATA__-->').join(tags);
+  // The page draws its frame at once; a small loader downloads the data with a progress bar, runs it, then starts the app
+  // (kept in the page as <script type="text/x-fand">). If fetch can't be used (a file:// copy), it falls back to plain tags.
+  var files = ['core', 'vault'].concat(pg === 'spells' || pg === 'sheet' || pg === 'tools' || pg === 'magic' || pg === 'journal' ? ['spells'] : []).map(function (f) { return ['data/' + f + '.js?v=' + DATA_V, Buffer.byteLength(site['data/' + f + '.js'], 'utf8')]; });
+  var tags = '<script>const SITE={page:' + JSON.stringify(pg) + ',v:' + JSON.stringify(DATA_V) + ',b:' + JSON.stringify(BUILD_ID) + '};' + cloudLine + '</script>\n<script>' + LOADER.replace('__FILES__', JSON.stringify(files)) + '</script>';
+  if (tpl.indexOf('<!--__DATA__-->\n<script>\n') < 0) throw new Error('template: the app script must follow the <!--__DATA__--> marker');
+  var html = tpl.split('<!--__DATA__-->\n<script>\n').join(tags + '\n<script type="text/x-fand" id="fand-app">\n');
   var info = PAGE_INFO[pg];
   html = html.replace('<title>FAND · Fantasy and Numerous Disasters</title>', '<title>' + (pg === 'home' ? 'FAND · Fantasy and Numerous Disasters' : info[0] + ' · FAND') + '</title>')
     .replace(/<meta name="description" content="[^"]*">/, function () {
