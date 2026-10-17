@@ -619,6 +619,42 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   .b,.vtag,.sh-lab{font-size:11.5px}
   .modal .mbody,.modal{overscroll-behavior:contain}
 }
+/* Hidden classes: the menu and the chosen class */
+.hcx-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 12px}
+.hcx-tab{border:1px solid var(--line);background:var(--surf);border-radius:999px;padding:6px 12px;display:flex;gap:6px;align-items:center;color:var(--text2)}
+.hcx-tab i{width:9px;height:9px;border-radius:50%;background:var(--tc)}
+.hcx-tab.on{border-color:var(--tc);background:color-mix(in srgb,var(--tc) 14%,var(--surf));color:var(--text)}
+.hcx-layout{display:grid;grid-template-columns:minmax(260px,340px) minmax(0,1fr);gap:16px;align-items:start}
+.hcx-menu{position:sticky;top:0;background:var(--surf);border:1px solid var(--line);border-radius:12px;display:flex;flex-direction:column;max-height:calc(100vh - 150px);max-height:calc(100dvh - 150px);overflow:hidden}
+.hcx-mtop{padding:10px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.hcx-f>summary{font-size:.86rem}
+.hcx-f .sel{max-width:none;width:100%}
+.hcx-list{overflow-y:auto;padding:2px 6px 10px;flex:1;overscroll-behavior:contain}
+.hcx-g>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:8px;padding:9px 8px 4px;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);position:sticky;top:0;background:var(--surf);z-index:1}
+.hcx-g>summary::-webkit-details-marker{display:none}
+.hcx-g:not([open])>summary{border-bottom:1px solid var(--line)}
+.hcx-row{display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:none;border:0;border-radius:8px;padding:7px 8px;color:var(--text2)}
+.hcx-row:hover{background:var(--surf2);color:var(--text)}
+.hcx-row.on{background:var(--accbg);color:var(--text);box-shadow:inset 3px 0 0 var(--acc)}
+.hcx-row i{flex:0 0 8px;height:8px;border-radius:50%}
+.hcx-row span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hcx-row small{color:var(--muted);font-size:.72rem;white-space:nowrap;max-width:42%;overflow:hidden;text-overflow:ellipsis}
+.hcx-detail{background:var(--surf);border:1px solid var(--line);border-top:3px solid var(--tc,var(--line3));border-radius:12px;padding:16px 18px;min-width:0}
+.hcx-dnav{display:flex;gap:6px;align-items:center;margin-bottom:8px}
+.hcx-dnav .sp{flex:1}
+.hcx-dnav .icon-btn[disabled]{opacity:.35;cursor:default}
+.hcx-detail h2{font-size:1.7rem;margin:2px 0 8px;line-height:1.15}
+.hcx-kind{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--tc,var(--gold2))}
+.hcx-dm{margin:12px 0 4px;padding:10px 12px;border:1px dashed var(--line3);border-radius:10px;background:var(--bg);display:flex;flex-direction:column;gap:8px}
+.hcx-dm .keyrow{margin:0}
+.hcx-back{display:none}
+@media (max-width:800px){.hcx-layout{grid-template-columns:minmax(0,1fr)}.hcx-menu{position:static;max-height:none}.hcx-list{overflow:visible}.hcx-layout.d .hcx-menu,.hcx-layout:not(.d) .hcx-detail{display:none}.hcx-back{display:inline-flex}.hcx-detail{padding:14px}}
+/* Home: the pages your role uses most */
+.qgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.qcard{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surf);text-decoration:none;color:var(--text2);transition:border-color .15s,transform .15s}
+.qcard:hover{border-color:var(--acc);transform:translateY(-1px)}
+.qcard b{color:var(--text);font-family:var(--serif);font-size:1.05rem}
+.qcard small{font-size:.8rem;color:var(--muted);line-height:1.35}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -1330,9 +1366,21 @@ const NAV_GROUPS=[
   ['Reference',['rules','about','account','settings']],
 ];
 const NAV_BLURB={account:'Sign in, your profile and picture, sync, and campaigns',settings:'Appearance, the assistant\'s API key, and your saved data',magic:'The Magic Towers: one for each school of magic, where spells are taught and sold',classes:'Every class and subclass with its class changes, II to V, levels 1 to 100',sheet:'Create a character on a full sheet worked out with FAND\'s rules',hidden:'Unique, Epic, and Legendary classes unlocked through quests and Towers',towers:'Up to five Towers in every realm, grown from unclaimed Runes',journal:'Session notes that link to the world',hooks:'Story starters from the gods, Runes, and monsters',lore:'Infinatas, the gods, and the history of Vestige',realms:'The eleven realms and their coin',gods:'Pantheons, Runes, Hands, and rivals',runes:'Every Law, its lineage, and its progenitor',demons:'Archdevils, demon princes, and corruptions',patrons:'Warlock patrons',codex:'Every note from the Obsidian vault',bestiary:'Monsters with stat blocks, lore, and drops',materials:'Graded materials, traits, and prices',blueprints:'Ready-made designs for every profession',forge:'General Blueprints: pick a material for every part',craft:'Plan what to gather and buy',professions:'The ten professions and their specialties',spells:'Spells by school, tier, and class',subclasses:'Official and homebrew subclasses',party:'Characters, gear, contracts, and money',encounter:'Balanced fights by realm and level',combat:'Initiative, HP, and flat AC',dice:'Roll dice, build pools, and save your rolls',tools:'Calculators and converters',rules:'Rules summaries',about:'What FAND has, version by version'};
-function navGroupOf(t){const g=NAV_GROUPS.find(([,ids])=>ids.includes(t));return g?g[0]:null}
+// Player or DM (Settings, or the first-visit guide): which pages FAND puts first in the menu, on Home, and in the phone bar.
+// A DM gets a DM group (hidden classes, session prep, encounters, combat, hooks, Towers); a player gets the Play pages that
+// matter at the table first and no Hidden classes entry (the list is the DM's). 'Both' leaves everything as it is.
+const ROLES={player:'Player',dm:'Dungeon Master',both:'Both'};
+const role=()=>{const r=store.get('role','');return ROLES[r]?r:''};
+const DM_PAGES=['hidden','prep','encounter','combat','hooks','towers'],PLAYER_FIRST=['sheet','party','dice','journal'];
+function navGroups(){const r=role();
+  if(r==='dm')return [['DM',DM_PAGES]].concat(NAV_GROUPS.map(([g,ids])=>[g,ids.filter(id=>!DM_PAGES.includes(id)||id==='towers')]));
+  if(r==='player')return NAV_GROUPS.map(([g,ids])=>[g,(g==='Play'?PLAYER_FIRST.filter(x=>ids.includes(x)).concat(ids.filter(x=>!PLAYER_FIRST.includes(x))):ids).filter(x=>x!=='hidden')]);
+  return NAV_GROUPS}
+function setRole(r){store.set('role',ROLES[r]?r:'');renderTabs();if(typeof renderBnav==='function')renderBnav();if(['home','settings','hidden','help'].includes(TAB))renderTab();
+  toast(r==='dm'?'DM view: your table tools come first':r==='player'?'Player view: your character comes first':'Showing every page')}
+function navGroupOf(t){const g=navGroups().find(([,ids])=>ids.includes(t));return g?g[0]:null}
 function openNav(g,btn){
-  const pop=$('navpop'),grp=NAV_GROUPS.find(x=>x[0]===g);if(!grp)return;
+  const pop=$('navpop'),grp=navGroups().find(x=>x[0]===g);if(!grp)return;
   if(pop.classList.contains('open')&&pop.dataset.g===g){closeNav();return}
   pop.dataset.g=g;
   pop.innerHTML=grp[1].map(id=>{const t=TABS.find(x=>x[0]===id);if(!t)return '';return `<a href="${pageUrl(id)}" data-tab="${id}" role="menuitem" class="${id===TAB?'on':''}"><span><b>${t[1]}</b><small>${esc(NAV_BLURB[id]||'')}</small></span>${t[2]!=null?`<span class="n">${fmt(t[2])}</span>`:''}</a>`}).join('');
@@ -1345,7 +1393,7 @@ $('navpop').addEventListener('click',e=>{const a=e.target.closest('a[data-tab]')
 window.addEventListener('resize',closeNav);
 function renderTabs(){
   const cur=navGroupOf(TAB);
-  $('tabs').innerHTML=`<a class="tab${TAB==='home'?' on':''}" href="${pageUrl('home')}" data-tab="home">Home</a>`+NAV_GROUPS.map(([g,ids])=>{const n=ids.reduce((a,id)=>{const t=TABS.find(x=>x[0]===id);return a+(t&&t[2]||0)},0);return `<span class="navg"><button class="tab${g===cur?' on':''}" data-group="${esc(g)}" aria-haspopup="menu" aria-expanded="false">${g}${g===cur?`<span class="n">· ${(TABS.find(t=>t[0]===TAB)||[])[1]||''}</span>`:''}<span class="car">▾</span></button></span>`}).join('');
+  $('tabs').innerHTML=`<a class="tab${TAB==='home'?' on':''}" href="${pageUrl('home')}" data-tab="home">Home</a>`+navGroups().map(([g,ids])=>{const n=ids.reduce((a,id)=>{const t=TABS.find(x=>x[0]===id);return a+(t&&t[2]||0)},0);return `<span class="navg"><button class="tab${g===cur?' on':''}" data-group="${esc(g)}" aria-haspopup="menu" aria-expanded="false">${g}${g===cur?`<span class="n">· ${(TABS.find(t=>t[0]===TAB)||[])[1]||''}</span>`:''}<span class="car">▾</span></button></span>`}).join('');
   const on=$('tabs').querySelector('.tab.on');if(on){const T=$('tabs'),r=on.getBoundingClientRect(),tr=T.getBoundingClientRect();if(r.right>tr.right||r.left<tr.left)T.scrollLeft+=r.left-tr.left-16}
 }
 function renderTabs_flat(){
@@ -1906,6 +1954,12 @@ applyTheme(store.get('theme',matchMedia&&matchMedia('(prefers-color-scheme: ligh
 // ════════════════════════════════════════════════════════════════
 //  Pages
 // ════════════════════════════════════════════════════════════════
+// Home's first section: the pages a player or a DM reaches for most, or (before they choose) the question.
+const ROLE_HOME={player:['sheet','party','dice','spells','journal','rules'],dm:['prep','encounter','combat','hidden','bestiary','hooks']};
+function homeRoleHTML(){const r=role();
+  if(!r)return `<section class="sec"><div class="callout" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div style="flex:1;min-width:220px"><b>How do you use FAND?</b><br><span class="note" style="margin:0">FAND puts the pages you use most first: your character for players, the table tools for DMs. Change it any time in Settings.</span></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" type="button" onclick="setRole('player')">I'm a player</button><button class="btn primary" type="button" onclick="setRole('dm')">I'm the DM</button><button class="btn" type="button" onclick="setRole('both')">Both</button></div></div></section>`;
+  if(r==='both')return '';
+  return `<section class="sec"><div class="sec-h"><h3>${r==='dm'?'Your table':'Your character'}</h3><p>${ROLES[r]} view · <a href="${pageUrl('settings')}#set-play" data-go="settings">change</a></p></div><div class="qgrid">${ROLE_HOME[r].map(id=>{const t=TABS.find(x=>x[0]===id);return t?`<a class="qcard" href="${pageUrl(id)}" data-go="${id}"><b>${esc(t[1])}</b><small>${esc(NAV_BLURB[id]||'')}</small></a>`:''}).join('')}</div></section>`}
 function renderHome(){
   const pins=pinnedItems();
   const homebrew=MONSTERS.filter(m=>m.hb).length;
@@ -1919,6 +1973,7 @@ function renderHome(){
       <button class="hero-search" onclick="openPalette()">${ICON.search.replace('<svg','<svg width="18" height="18"')}<span>Search everything…</span><kbd>Ctrl K</kbd></button>
       <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="randomItem(BPS.concat(MATS,MONSTERS,GODS))">🎲 Show me something random</button></div>
     </section>
+    ${homeRoleHTML()}
     <section class="sec"><div class="stats">${stats.map(([t,v,l])=>`<button class="stat" data-go="${t}"><span class="v">${fmt(v)}</span><span class="l">${l}</span></button>`).join('')}</div></section>
     ${(()=>{const rec=recentItems().slice(0,10);return rec.length?`<section class="sec"><div class="sec-h"><h3>Recently viewed</h3><p>on this device · <a href="#" onclick="store.set('recent',[]);renderHome();return false">clear</a></p></div><div class="chips">${rec.map(x=>refChip(x,esc(x._t==='god'?godKey(x):x.n),{bp:'Blueprint',mat:'Material',mon:'Monster',god:'God',rune:'Rune',spell:'Spell',sub:'Subclass',realm:'Realm',demon:'Demon',patron:'Patron',note:'Note'}[x._t]||'')).join('')}</div></section>`:''})()}
     ${pins.length?`<section class="sec"><div class="sec-h"><h3>Pinned</h3><p>${pins.length} saved on this device</p></div><div class="grid">${pins.slice(0,12).map(card).join('')}</div></section>`:''}
@@ -4263,10 +4318,13 @@ const hcTrack=c=>[...(c.features||[]).slice(0,3).map((f,i)=>[HC_TRACK[i]||HC_TRA
   ...[2,3,4,5].map(k=>[stageStart(k),'Class change: '+c.n+' '+ROMAN[k-1],`The class turns with you into ${c.n} ${ROMAN[k-1]}: every limited-use feature gains ${k-1} extra use${k>2?'s':''}, and its dice keep pace with your character level.`])];
 const hcLevelAt=(L,lv0)=>Math.max(1,Math.min(HC_MAX,(+L||1)-(+lv0||1)+1));
 const hcSteady=hl=>{let n=0;for(let l=2;l<=hl;l++)if(isSteady(l))n++;return n};
-function hcCard(c,open){
-  const tier=HC_TIERS.find(t=>t[0]===c.tier)||HC_TIERS[1],pr=c.prog&&RUNE_IDX.get(lc(c.prog));
-  return `<details class="panel" ${open?'open':''} style="border-left:3px solid ${tier[2]};padding:12px 14px" id="hc-${pid(c.n)}"><summary style="cursor:pointer;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;list-style:none"><b style="font-family:var(--serif);font-size:1.12rem">${esc(c.n)}</b><span class="b" style="color:${tier[2]}">${esc(c.tier)}</span>${c.base&&c.base!=='Any'?`<span class="b ghost">${esc(c.base)}${c.sub?' · '+esc(c.sub):''}</span>`:''}${c.prog?`<span class="b ghost">follows ${esc(c.prog)}${c.rune?' · '+esc(c.rune)+' Rune':''}</span>`:''}<span class="note" style="margin:0 0 0 auto">${c.combo?'Fusion of '+c.combo.length+' Epic classes':c.corpse?'In a predecessor\'s corpse':esc(towerOf(c.tower).name)+' · floor '+hcFloor(c)}</span></summary>
-    ${c.notice?`<div class="mono" style="margin-top:8px;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--gold2);font-size:.85rem">${esc(c.notice)}</div>`:''}
+const hcTierOf=c=>HC_TIERS.find(t=>t[0]===c.tier)||HC_TIERS[1];
+const hcBadges=c=>`<span class="b" style="color:${hcTierOf(c)[2]}">${esc(c.tier)}</span>${c.base&&c.base!=='Any'?`<span class="b ghost">${esc(c.base)}${c.sub?' · '+esc(c.sub):''}</span>`:''}${c.prog?`<span class="b ghost">follows ${esc(c.prog)}${c.rune?' · '+esc(c.rune)+' Rune':''}</span>`:''}`;
+const hcWhere=c=>c.combo?'Fusion of '+c.combo.length+' Epic classes':c.corpse?'In a predecessor\'s corpse':towerOf(hcTower(c)).name+' · floor '+hcFloor(c);
+// a hidden class's full write-up (the detail pane of the Hidden classes page)
+function hcBody(c){
+  const pr=c.prog&&RUNE_IDX.get(lc(c.prog));
+  return `    ${c.notice?`<div class="mono" style="margin-top:8px;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--gold2);font-size:.85rem">${esc(c.notice)}</div>`:''}
     <div style="margin-top:8px;line-height:1.6">${esc(c.blurb||'')}</div>
     ${kv([['Requires',esc(c.requires||'')],['Unlock',esc(c.unlock||'')],c.combo?['Fusion',`${c.combo.map(n=>{const x=(HC||[]).find(y=>y.n===n);return x?`<a href="#hc-${pid(n)}">${esc(n)}</a>${x.corpse?' <small style="color:var(--muted)">(corpse)</small>':''}`:esc(n)}).join(' + ')}<br><small style="color:var(--muted)">A character who holds all of them can fuse them into this class (on the character sheet).</small>`]:c.corpse?['Where',`${esc(c.corpse)}${/Riverend/.test(c.corpse)?` <a href="${pageUrl('realms')}" data-go="realms">(map)</a>`:''}<br><small style="color:var(--muted)">Not in any Tower: claimed from the body of the class's last holder.</small>`]:['Tower',`<a href="${pageUrl('towers')}#tw-${pid(hcTower(c))}" data-go="towers">${esc(towerOf(hcTower(c)).name)}</a> (${esc(c.tower)} Realm), floor ${hcFloor(c)} of ${towerOf(c.tower).floors}: a level ${towerStart(c.tower)+Math.floor((hcFloor(c)-1)/10)} floor, so the climb itself needs a party of about that level`],c.prog?['Progenitor',pr?refChip(pr,esc(c.prog)):esc(c.prog)]:null,c.base?['Basic class',`<a href="#" data-go="subclasses" data-setup='${esc(JSON.stringify({side:c.base}))}'>${esc(c.base)}</a>`]:null].filter(Boolean))}
     <div class="note" style="margin:8px 0 0">A <b>bonus class</b>: held alongside the holder's own class and subclass. It starts at class level 1 when unlocked and gains a level each time its holder levels up, up to ${HC_MAX}, turning into II, III, IV and V every 20 class levels like every class.</div>
@@ -4278,28 +4336,92 @@ function hcCard(c,open){
     ${c.tier==='Legendary'&&!c.combo?`<div class="note" style="margin:8px 0 0">✦ Besides its own Tower, this class's trial can wait in a secret room on any floor of any Tower whose level is ${hcReqLevel(c)} or more (${Math.round(LEG_TRIAL[0]*100)}% a floor, ${Math.round(LEG_TRIAL[1]*100)}% on boss floors), apart from the floor's mission; whoever finds the room and passes it earns the class.</div>`:''}
     ${hcGrowthText(c)?`<div class="note" style="margin:8px 0 0;color:var(--text2)"><b>Steady Growth:</b> ${esc(hcGrowthText(c))} on each of its own Steady Growth levels (class levels 2, 4, 6–9, 11–14, 16–19 of every 20), on top of the holder's own class.</div>`:''}
     ${c.cost?`<div class="callout" style="border-color:var(--red);margin-top:8px"><b>The price:</b> ${esc(c.cost)}</div>`:''}
-    ${c.secret?`<details class="fold" style="margin-top:8px"><summary>DM only: the hidden condition</summary><div class="note" style="margin:4px 0 0">${esc(c.secret)}</div></details>`:''}</details>`;
+    ${c.secret?`<details class="fold" style="margin-top:8px"><summary>DM only: the hidden condition</summary><div class="note" style="margin:4px 0 0">${esc(c.secret)}</div></details>`:''}`;
 }
+function hcCard(c,open){return `<details class="panel" ${open?'open':''} style="border-left:3px solid ${hcTierOf(c)[2]};padding:12px 14px" id="hc-${pid(c.n)}"><summary style="cursor:pointer;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;list-style:none"><b style="font-family:var(--serif);font-size:1.12rem">${esc(c.n)}</b>${hcBadges(c)}<span class="note" style="margin:0 0 0 auto">${esc(hcWhere(c))}</span></summary>${hcBody(c)}</details>`}
+// The Hidden classes page, once unlocked: a menu of every class on the left (search, tier tabs, grouping, filters) and the
+// chosen class on the right, with the DM's tools (who holds it, grant it to a character). On phones the two take turns.
+const HCX_GROUPS={tier:['Tier',c=>c.tier],tower:['Tower',c=>c.combo?'Fused Legendaries':c.corpse?'Corpse classes':c.tower+' Realm'],base:['Basic class',c=>c.base&&c.base!=='Any'?c.base:'Any class'],prog:['Progenitor',c=>c.prog||'No progenitor'],az:['A to Z',c=>/[A-Z]/.test((c.n[0]||'').toUpperCase())?c.n[0].toUpperCase():'#']};
+const hcSt=()=>Object.assign({tier:'',q:'',base:'',sub:'',tower:'',prog:'',group:'tier',sel:''},store.get('hc',{}));
+function hcSet(o){store.set('hc',Object.assign(hcSt(),o))}
+function hcFiltered(){const st=hcSt(),q=lc(st.q||'');return (HC||[]).filter(c=>(!st.tier||c.tier===st.tier)&&(!st.base||c.base===st.base)&&(!st.sub||c.sub===st.sub)&&(!st.tower||c.tower===st.tower)&&(!st.prog||c.prog===st.prog)&&(!q||lc([c.n,c.was,c.base,c.sub,c.prog,c.rune,c.blurb,c.tower,c.corpse].join(' ')).includes(q)))}
+function hcGroups(C){const st=hcSt(),g=HCX_GROUPS[st.group]||HCX_GROUPS.tier,m=new Map();C.forEach(c=>{const k=g[1](c);if(!m.has(k))m.set(k,[]);m.get(k).push(c)});
+  const order=st.group==='tier'?HC_TIERS.map(t=>t[0]):st.group==='tower'?REALMS.map(r=>r.n+' Realm').concat(['Corpse classes','Fused Legendaries']):[...m.keys()].sort((a,b)=>a.localeCompare(b));
+  return order.filter(k=>m.has(k)).map(k=>[k,m.get(k).sort(byName)])}
+function hcListHTML(C){const st=hcSt(),gs=hcGroups(C),meta=c=>st.group==='tower'?(c.base&&c.base!=='Any'?c.base:c.tier):c.combo?'fusion':c.corpse?'corpse':c.tower;
+  return gs.length?gs.map(([k,cs])=>{const tc=st.group==='tier'?hcTierOf(cs[0])[2]:'';return `<details class="hcx-g" open><summary><span${tc?` style="color:${tc}"`:''}>${esc(k)}</span><span>${cs.length}</span></summary>${cs.map(c=>`<button type="button" class="hcx-row${c.n===st.sel?' on':''}" data-hci="${HC.indexOf(c)}"><i style="background:${hcTierOf(c)[2]}"></i><span>${esc(c.n)}</span><small>${esc(meta(c)||'')}</small></button>`).join('')}</details>`}).join('')
+    :`<div class="empty" style="padding:24px 10px">No hidden classes match.${st.q||st.base||st.tower||st.prog||st.tier?' <a href="#" data-hcx-clear>Clear the search and filters</a>':''}</div>`}
+const hcHolders=c=>PARTY.filter(ch=>hcList(ch).some(h=>h.n===c.n));
+function hcDetailHTML(c,C){const tier=hcTierOf(c),k=C.indexOf(c),held=hcHolders(c),free=PARTY.filter(ch=>!held.includes(ch));
+  return `<div class="hcx-dnav"><button type="button" class="btn hcx-back" data-hcx-back>← All hidden classes</button><span class="sp"></span>${k>=0?`<span class="note" style="margin:0">${k+1} of ${C.length}</span><button type="button" class="icon-btn" data-hcx-step="-1" aria-label="Previous hidden class" title="Previous (↑)" ${k<1?'disabled':''}>‹</button><button type="button" class="icon-btn" data-hcx-step="1" aria-label="Next hidden class" title="Next (↓)" ${k>=C.length-1?'disabled':''}>›</button>`:''}<button type="button" class="icon-btn" data-hcx-link aria-label="Copy a link to this class" title="Copy link">${ICON.link}</button></div>
+    <div class="hcx-kind">${esc(c.tier)} hidden class</div><h2>${esc(c.n)}</h2><div class="badges" style="display:flex;gap:6px;flex-wrap:wrap">${hcBadges(c)}</div><div class="note" style="margin:6px 0 0">${esc(hcWhere(c))}</div>
+    <div class="hcx-dm"><div><b>Held by</b> ${held.length?held.map(ch=>`<span class="b ghost">${esc(ch.name||'Unnamed')} · level ${+ch.level||1}</span>`).join(' '):'<span class="note" style="margin:0">no one in your party</span>'}${c.tier==='Unique'&&held.length?' <span class="b gold">Unique: taken</span>':''}</div>
+      ${free.length?`<div class="keyrow"><select class="sel" id="hcx-to" aria-label="Character to grant this class to">${free.map(ch=>`<option value="${esc(ch.id)}">${esc(ch.name||'Unnamed')} (level ${+ch.level||1})</option>`).join('')}</select><button type="button" class="btn" data-hcx-grant="${HC.indexOf(c)}">Grant</button></div>`:PARTY.length?'':`<div class="note" style="margin:0">Add characters on the <a href="${pageUrl('party')}" data-go="party">Party</a> page to grant them hidden classes.</div>`}</div>
+    ${hcBody(c)}`}
+function hcOverviewHTML(){const held=PARTY.map(ch=>[ch,hcList(ch)]).filter(([,l])=>l.length);
+  return `<div class="hcx-kind" style="color:var(--gold2)">Hidden classes</div><h2 style="margin-bottom:10px">Choose a class from the menu</h2>
+    <div class="cols" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px">${HC_TIERS.map(([t,,col])=>`<button type="button" class="stat" data-hct="${t}" style="border-top:3px solid ${col}"><span class="v" style="color:${col}">${fmt(HC.filter(c=>c.tier===t).length)}</span><span class="l">${t}</span></button>`).join('')}</div>
+    <div class="blk"><h4>Your party's hidden classes</h4></div>${held.length?`<div class="mlist">${held.map(([ch,l])=>`<div style="padding:4px 0"><b>${esc(ch.name||'Unnamed')}</b> <small style="color:var(--muted)">level ${+ch.level||1}</small> ${l.map(h=>{const x=HC.find(y=>y.n===h.n);return x?`<a href="#" class="chip" data-hci="${HC.indexOf(x)}">${esc(h.n)}</a>`:`<span class="chip">${esc(h.n)}</span>`}).join(' ')}</div>`).join('')}</div>`:'<div class="note">No one in your party holds a hidden class yet. Open a class and use Grant, or grant one on the character sheet.</div>'}
+    <div class="note" style="margin-top:12px">Tips: type in the search box to find a class, a subclass, a Rune, or a progenitor; <kbd>↑</kbd> <kbd>↓</kbd> step through the list; Group by sorts the menu by tier, Tower, basic class, or progenitor.</div>`}
+function hcxPaint(){const C=hcFiltered(),st=hcSt();if($('hcx-list'))$('hcx-list').innerHTML=hcListHTML(C);if($('hcx-n'))$('hcx-n').textContent=C.length+' of '+HC.length;
+  const c=st.sel&&HC.find(x=>x.n===st.sel),d=$('hcx-detail');if(!d)return;d.style.setProperty('--tc',c?hcTierOf(c)[2]:'var(--line3)');d.innerHTML=c?hcDetailHTML(c,C):hcOverviewHTML();diceify(d);
+  $('hcx').classList.toggle('d',!!c)}
+function hcxShow(i,scroll){const c=HC[i];if(!c)return;hcSet({sel:c.n});if(SITE)history.replaceState(null,'','#hc-'+pid(c.n));
+  const d=$('hcx-detail');d.style.setProperty('--tc',hcTierOf(c)[2]);d.innerHTML=hcDetailHTML(c,hcFiltered());diceify(d);$('hcx').classList.add('d');
+  $('hcx-list').querySelectorAll('.hcx-row').forEach(b=>b.classList.toggle('on',+b.dataset.hci===i));const row=$('hcx-list').querySelector('.hcx-row.on');if(row&&scroll!==false)row.scrollIntoView({block:'nearest'});
+  if(matchMedia('(max-width:800px)').matches)$('content').scrollTop=0;else d.scrollIntoView({block:'nearest'})}
+function hcxStep(n){const C=hcFiltered(),st=hcSt(),gs=hcGroups(C).flatMap(g=>g[1]),k=gs.findIndex(c=>c.n===st.sel),nx=gs[k<0?(n>0?0:gs.length-1):Math.max(0,Math.min(gs.length-1,k+n))];if(nx)hcxShow(HC.indexOf(nx))}
+function hcGrantTo(i){const c=HC[i],ch=$('hcx-to')&&PARTY.find(x=>x.id===$('hcx-to').value);if(!c||!ch)return;const list=hcList(ch),held=hcHolders(c);if(list.some(h=>h.n===c.n)){toast('Already held');return}
+  if(c.tier==='Unique'&&held.length&&!confirm(c.n+' is Unique and '+(held[0].name||'another character')+' already holds it. Grant it anyway?'))return;
+  ch.hcls=list.concat(hcEntry(c,Math.max(1,+ch.level||1)));saveParty();hcLog(true,'granted '+c.n+' to '+(ch.name||'a character'));toast(c.n+' granted to '+(ch.name||'the character'));hcxShow(i,false)}
 async function renderHidden(){
   await hcAuto();
-  const st=Object.assign({tier:'',q:'',base:'',sub:'',tower:'',prog:'',shown:30},store.get('hc',{})),q=lc(st.q||''),ALL=HC||[],C=ALL.filter(c=>(!st.tier||c.tier===st.tier)&&(!st.base||c.base===st.base)&&(!st.sub||c.sub===st.sub)&&(!st.tower||c.tower===st.tower)&&(!st.prog||c.prog===st.prog)&&(!q||lc([c.n,c.was,c.base,c.sub,c.prog,c.rune,c.blurb,c.tower].join(' ')).includes(q)));
-  $('content').innerHTML=`<div class="page">
+  const st=hcSt(),ALL=HC||[],dm=role()==='dm',player=role()==='player';
+  const tiers=`<div class="hcx-tabs" role="tablist" aria-label="Tiers">${[['','All',ALL.length||Object.values(HIDDEN.counts||{}).reduce((a,b)=>a+b,0),'var(--acc)']].concat(HC_TIERS.map(([t,,col])=>[t,t,HC?ALL.filter(c=>c.tier===t).length:(HIDDEN.counts||{})[t]||0,col])).map(([v,l,n,col])=>`<button type="button" role="tab" aria-selected="${st.tier===v}" class="hcx-tab${st.tier===v?' on':''}" style="--tc:${col}" data-hct="${v}"><i></i>${l} <span class="b ghost">${fmt(n)}</span></button>`).join('')}</div>`;
+  const about=`<div class="cols" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-bottom:14px">${HC_TIERS.map(([t,d,col])=>`<div class="panel" style="border-top:3px solid ${col}"><b style="font-family:var(--serif);font-size:1.15rem;color:${col}">${t}</b> <span class="b ghost">${HC?ALL.filter(c=>c.tier===t).length:(HIDDEN.counts||{})[t]||0}</span><div style="margin-top:4px;font-size:.88rem;color:var(--text2)">${esc(d)}</div></div>`).join('')}</div>`;
+  const lock=quickModes().length&&!PAT_SKIP&&window.crypto&&crypto.subtle?patLockHTML():hcLockHTML();
+  if(!HC){$('content').innerHTML=`<div class="page">
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Hidden classes</h3><p>Beyond the basic classes are hidden classes. No one picks them at character creation: they are unlocked only through quests and by climbing the <a href="${pageUrl('towers')}" data-go="towers">Towers</a> that stand in every realm.</p></div>
-    <div class="cols" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-bottom:14px">${HC_TIERS.map(([t,d,col])=>`<button class="panel" style="text-align:left;cursor:pointer;border-top:3px solid ${col};${st.tier===t?'background:var(--goldbg)':''}" data-hct="${t}"><b style="font-family:var(--serif);font-size:1.15rem;color:${col}">${t}</b> <span class="b ghost">${HC?HC.filter(c=>c.tier===t).length:(HIDDEN.counts||{})[t]||0}</span><div style="margin-top:4px;font-size:.88rem;color:var(--text2)">${esc(d)}</div></button>`).join('')}</div>
-    ${!HC?(quickModes().length&&!PAT_SKIP&&window.crypto&&crypto.subtle?patLockHTML():hcLockHTML()):`<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px"><input class="sel" id="hc-q" placeholder="Find a hidden class, a subclass, a Rune, a progenitor…" value="${esc(st.q||'')}" style="max-width:300px;flex:1"><label class="note" style="margin:0;display:flex;gap:6px;align-items:center" title="Show every class's numbers at this character level: dice grow every 10 levels, and at 21, 41, 61, and 81 the class turns II to V">At level <input class="sel" id="hc-lv" type="number" min="1" max="100" placeholder="as written" value="${store.get('hclv',0)||''}" style="width:96px"></label>
-      ${(()=>{const sel=(k,label,vals)=>`<select class="sel" data-hcf="${k}"><option value="">${label}</option>${vals.map(v=>`<option${v===st[k]?' selected':''}>${esc(v)}</option>`).join('')}</select>`,u=f=>[...new Set(ALL.map(f).filter(Boolean))].sort();return sel('base','Any class',u(c=>c.base).filter(x=>x!=='Any'))+(st.base?sel('sub','Any '+st.base+' subclass',u(c=>c.base===st.base?c.sub:'')):'')+sel('tower','Any Tower',REALMS.map(r=>r.n).filter(r=>ALL.some(c=>c.tower===r)))+sel('prog','Any progenitor',u(c=>c.prog))})()}${st.tier?`<button class="btn" data-hct="">Show all tiers</button>`:''}<span class="note" style="margin:0">${C.length} shown</span></div>
-    ${ALL.length?`<div style="display:flex;flex-direction:column;gap:10px">${C.slice(0,st.shown).map(c=>hcCard(c,false)).join('')}</div>${C.length>st.shown?`<div style="text-align:center;margin-top:12px"><button class="btn" id="hc-more">Show more (${fmt(C.length-st.shown)} left)</button></div>`:''}${!C.length?'<div class="empty">No hidden classes match.</div>':''}`:'<div class="empty">No hidden classes yet.</div>'}`}
-    ${HC?`<details class="fold" style="margin-top:14px"><summary>DM rules: classes outside the Towers</summary><ul class="note" style="margin:6px 0 0;padding-left:18px;line-height:1.6"><li><b>Corpse classes.</b> Some Epic classes wait in no Tower: they are claimed from the body of their last holder, wherever that holder fell. Their card says where.</li><li><b>Fused Legendaries.</b> Some Legendary classes are made from Epic classes. A character holding every part can fuse them on the character sheet (DM only); the parts become one class that keeps the highest class level among them.</li><li>Neither kind drops from a Tower floor, appears in a Tower's list, or waits in a secret room. None of this is shown to players anywhere on the site.</li></ul></details>`+patSetHTML()+cloudHcHTML()+hcLogHTML():''}
+    ${about}
+    ${player?`<div class="callout" style="margin-bottom:12px"><b>Looking for a hidden class?</b> The list is kept by your DM. Climb the <a href="${pageUrl('towers')}" data-go="towers">Towers</a>, follow rumours, and finish quests; when you earn one, your DM grants it on your <a href="${pageUrl('sheet')}" data-go="sheet">character sheet</a>, where its features appear.</div><details class="fold"><summary>I'm the DM: unlock the list</summary>${lock}</details>`:lock}
   </div>`;
-  if(!HC){if($('hc-pat')||$('hc-pin'))patLockBind(renderHidden);else hcBindLock(renderHidden);$('content').querySelectorAll('[data-hct]').forEach(b=>b.onclick=()=>{});return}
-  patSetBind();
-  $('content').querySelectorAll('[data-hct]').forEach(b=>b.onclick=()=>{const s2=store.get('hc',{});s2.tier=s2.tier===b.dataset.hct?'':b.dataset.hct;s2.shown=30;store.set('hc',s2);renderHidden()});
-  $('content').querySelectorAll('[data-hcf]').forEach(el=>el.onchange=()=>{const s2=store.get('hc',{});s2[el.dataset.hcf]=el.value;if(el.dataset.hcf==='base')s2.sub='';s2.shown=30;store.set('hc',s2);renderHidden()});
-  if($('hc-more'))$('hc-more').onclick=()=>{const s2=store.get('hc',{});s2.shown=(s2.shown||30)+60;store.set('hc',s2);const y=$('content').scrollTop;renderHidden().then(()=>{$('content').scrollTop=y})};
-  if($('hc-lv'))$('hc-lv').onchange=()=>{const v=Math.max(0,Math.min(MAX_LEVEL,+$('hc-lv').value||0));store.set('hclv',v);renderHidden()};
-  $('hc-q').oninput=e=>{const s2=store.get('hc',{});s2.q=e.target.value;s2.shown=30;store.set('hc',s2);const pos=e.target.selectionStart;renderHidden();const f=$('hc-q');f.focus();f.setSelectionRange(pos,pos)};
-  const h=location.hash.match(/#hc-([\w-]+)/);if(h&&$('hc-'+h[1])){$('hc-'+h[1]).open=true;$('hc-'+h[1]).scrollIntoView()}
-  diceify($('content'));
+    if($('hc-pat')||$('hc-pin'))patLockBind(renderHidden);else hcBindLock(renderHidden);return}
+  const h=location.hash.match(/#hc-([\w-]+)/);if(h){const x=ALL.find(c=>pid(c.n)===h[1]);if(x&&x.n!==st.sel){hcSet({sel:x.n,tier:st.tier&&st.tier!==x.tier?'':st.tier});return renderHidden()}}
+  const sel=(k,label,vals)=>`<select class="sel" data-hcf="${k}" aria-label="${esc(label)}"><option value="">${label}</option>${vals.map(v=>`<option${v===st[k]?' selected':''}>${esc(v)}</option>`).join('')}</select>`,u=f=>[...new Set(ALL.map(f).filter(Boolean))].sort();
+  const nf=['base','tower','prog'].filter(k=>st[k]).length;
+  $('content').innerHTML=`<div class="page">
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Hidden classes ${dm?'<span class="b gold" style="vertical-align:middle">DM</span>':''}</h3><p>Every hidden class in Vestige: where it waits, what it asks, and what it grants. Players never see this list. <a href="#" data-hcx-lock>Lock it again</a></p></div>
+    ${tiers}
+    <div class="hcx-layout${st.sel&&ALL.some(c=>c.n===st.sel)?' d':''}" id="hcx">
+      <aside class="hcx-menu" aria-label="Hidden class menu"><div class="hcx-mtop">
+        <input class="sel" id="hc-q" type="search" placeholder="Find a class, subclass, Rune, progenitor…" value="${esc(st.q||'')}" style="max-width:none" autocomplete="off">
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><label class="note" style="margin:0;display:flex;gap:6px;align-items:center">Group by <select class="sel" data-hcf="group" style="width:auto">${Object.entries(HCX_GROUPS).map(([k,[l]])=>`<option value="${k}"${st.group===k?' selected':''}>${l}</option>`).join('')}</select></label><span class="note" style="margin:0 0 0 auto" id="hcx-n"></span></div>
+        <details class="fold hcx-f"${nf?' open':''}><summary>Filters${nf?` <span class="b gold">${nf}</span>`:''}</summary><div style="display:flex;flex-direction:column;gap:6px;margin-top:6px">${sel('base','Any basic class',u(c=>c.base).filter(x=>x!=='Any'))}${st.base?sel('sub','Any '+st.base+' subclass',u(c=>c.base===st.base?c.sub:'')):''}${sel('tower','Any Tower realm',REALMS.map(r=>r.n).filter(r=>ALL.some(c=>c.tower===r)))}${sel('prog','Any progenitor',u(c=>c.prog))}
+          <label class="note" style="margin:0;display:flex;gap:6px;align-items:center" title="Show every class's numbers at this character level: dice grow every 10 levels, and at 21, 41, 61, and 81 the class turns II to V">Numbers at level <input class="sel" id="hc-lv" type="number" min="1" max="100" placeholder="as written" value="${store.get('hclv',0)||''}" style="width:96px"></label>${nf?'<button type="button" class="btn" data-hcx-clear>Clear filters</button>':''}</div></details>
+      </div><div class="hcx-list" id="hcx-list"></div></aside>
+      <section class="hcx-detail" id="hcx-detail" aria-live="polite"></section>
+    </div>
+    <details class="fold" style="margin-top:14px"><summary>About the tiers</summary><div style="margin-top:8px">${about}</div></details>
+    <details class="fold" style="margin-top:14px"><summary>DM rules: classes outside the Towers</summary><ul class="note" style="margin:6px 0 0;padding-left:18px;line-height:1.6"><li><b>Corpse classes.</b> Some Epic classes wait in no Tower: they are claimed from the body of their last holder, wherever that holder fell. Their card says where.</li><li><b>Fused Legendaries.</b> Some Legendary classes are made from Epic classes. A character holding every part can fuse them on the character sheet (DM only); the parts become one class that keeps the highest class level among them.</li><li>Neither kind drops from a Tower floor, appears in a Tower's list, or waits in a secret room. None of this is shown to players anywhere on the site.</li></ul></details>${patSetHTML()+cloudHcHTML()+hcLogHTML()}
+  </div>`;
+  hcxPaint();patSetBind();
+  const root=$('content');
+  root.onclick=e=>{const t=e.target;
+    const r=t.closest('[data-hci]');if(r){e.preventDefault();hcxShow(+r.dataset.hci);return}
+    const tb=t.closest('[data-hct]');if(tb){hcSet({tier:tb.dataset.hct});renderHidden();return}
+    if(t.closest('[data-hcx-back]')){hcSet({sel:''});if(SITE)history.replaceState(null,'',location.pathname+location.search);hcxPaint();return}
+    const s=t.closest('[data-hcx-step]');if(s){hcxStep(+s.dataset.hcxStep);return}
+    if(t.closest('[data-hcx-link]')){const url=location.href.split('#')[0]+'#hc-'+pid(hcSt().sel);(navigator.clipboard?navigator.clipboard.writeText(url):Promise.reject()).then(()=>toast('Link copied'),()=>toast(url));return}
+    const g=t.closest('[data-hcx-grant]');if(g){hcGrantTo(+g.dataset.hcxGrant);return}
+    if(t.closest('[data-hcx-clear]')){e.preventDefault();hcSet({q:'',base:'',sub:'',tower:'',prog:'',tier:''});renderHidden();return}
+    if(t.closest('[data-hcx-lock]')){e.preventDefault();HC=null;try{sessionStorage.removeItem('fand.hc')}catch(x){}hcLog(true,'locked again');toast('Hidden classes locked');renderHidden();return}
+    const a=t.closest('a[href^="#hc-"]');if(a){const x=ALL.find(c=>'#hc-'+pid(c.n)===a.getAttribute('href'));if(x){e.preventDefault();hcxShow(ALL.indexOf(x))}}};
+  root.querySelectorAll('[data-hcf]').forEach(el=>el.onchange=()=>{const o={[el.dataset.hcf]:el.value};if(el.dataset.hcf==='base')o.sub='';hcSet(o);renderHidden()});
+  if($('hc-lv'))$('hc-lv').onchange=()=>{const v=Math.max(0,Math.min(MAX_LEVEL,+$('hc-lv').value||0));store.set('hclv',v);hcxPaint()};
+  let qt=0;$('hc-q').oninput=e=>{clearTimeout(qt);qt=setTimeout(()=>{hcSet({q:e.target.value});hcxPaint()},120)};
+  $('hc-q').onkeydown=e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();hcxStep(e.key==='ArrowDown'?1:-1)}else if(e.key==='Enter'){const r=$('hcx-list').querySelector('.hcx-row');if(r&&!hcSt().sel)hcxShow(+r.dataset.hci)}};
+  $('hcx-list').onkeydown=e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();hcxStep(e.key==='ArrowDown'?1:-1);const r=$('hcx-list').querySelector('.hcx-row.on');if(r)r.focus()}};
+  const on=$('hcx-list').querySelector('.hcx-row.on');if(on)on.scrollIntoView({block:'center'});
 }
 // Tower trials (campaign owner's rules): every floor is one level (the Milestone Spire's floor 5 is level 5, with grade-5
 // guardians), every 10th floor has a boss, a conquered boss floor lets the party teleport to it, and a party above
@@ -5457,7 +5579,7 @@ function openAccount(){go('account')}
 function closeSettings(){}
 const setSec=(id,title,sub,body)=>`<section class="panel set-sec" id="set-${id}"><h3>${title}</h3>${sub?`<p class="note" style="margin:2px 0 12px">${sub}</p>`:''}${body}</section>`;
 function renderSettings(){const k=getKey(),u=CL.user,dark=document.documentElement.dataset.theme!=='light';
-  const nav=[['account','Account'],['look','Appearance'],['ai','Assistant'],['data','Saved data'],['app','App']];
+  const nav=[['account','Account'],['play','How you play'],['look','Appearance'],['ai','Assistant'],['data','Saved data'],['app','App']];
   $('content').innerHTML=`<div class="page set-wrap">
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Settings</h3><p>How FAND looks and behaves on this device, the assistant's key, and your saved data.</p></div>
     <div class="set-layout"><nav class="set-nav" aria-label="Settings sections">${nav.map(([id,l])=>`<a href="#" onclick="document.getElementById('set-${id}').scrollIntoView({behavior:'smooth'});return false">${l}</a>`).join('')}</nav>
@@ -5465,6 +5587,7 @@ function renderSettings(){const k=getKey(),u=CL.user,dark=document.documentEleme
       ${setSec('account','Account',CL.on?'Your characters and saved data follow your account to every device.':'',!CL.on?`<div class="note">Accounts aren't switched on for this copy of FAND.</div>`
         :u?`<div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">${clAvHTML(u.id,clMyName()||u.email,56)}<div style="flex:1;min-width:160px"><b style="display:block">${esc(clMyName()||'No name yet')}</b><small style="color:var(--muted)">${esc(u.email||'')}</small><div class="note" id="clStat" style="margin:2px 0 0">${clStatusText()}</div></div><button class="btn primary" type="button" onclick="openAccount()">Your account</button><button class="btn" type="button" onclick="cloudSignOut()">Sign out</button></div>`
         :`<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span style="flex:1;min-width:200px">You're not signed in. Signed in, your characters, journal, and the rest are kept in your account, and you can play in your DM's campaign.</span><button class="btn primary" type="button" onclick="openAccount()">Sign in</button></div>`)}
+      ${setSec('play','How you play','FAND puts the pages you use most first: in the menu, on Home, and in the bar at the bottom of phones.',`<div class="set-row"><span>I mostly use FAND as<small>${role()==='dm'?'DM: a DM menu with hidden classes, session prep, encounters, combat, hooks, and Towers':role()==='player'?'Player: your character, party, dice, and journal first; the hidden class list stays with the DM':'Every page in its usual place'}</small></span><div class="seg">${Object.entries(ROLES).map(([k,l])=>`<button type="button" class="${(role()||'both')===k?'on':''}" onclick="setRole('${k}')">${k==='dm'?'DM':l}</button>`).join('')}</div></div>`)}
       ${setSec('look','Appearance','',`<div class="set-row"><span>Theme</span><div class="seg"><button type="button" class="${dark?'on':''}" onclick="store.set('theme','dark');applyTheme('dark');renderSettings()">Dark</button><button type="button" class="${!dark?'on':''}" onclick="store.set('theme','light');applyTheme('light');renderSettings()">Light</button></div></div>
         <div class="set-row" style="display:block"><span style="display:block;margin-bottom:8px">Dice style<small>${esc(diceSkin().name)} · ${DSK.length} styles to choose from</small></span>${diceSkinGrid('st')}</div>
         <label class="set-row"><span>Rolling dice animation<small>Dice tumble across the screen when you roll</small></span><input type="checkbox" ${store.get('diceanim',true)?'checked':''} onchange="store.set('diceanim',this.checked);toast(this.checked?'Rolling dice on':'Rolling dice off')"></label>`)}
