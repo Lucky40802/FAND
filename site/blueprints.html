@@ -791,7 +791,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"blueprints",v:"2abeee3d53",b:"53564d50"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"blueprints",v:"2abeee3d53",b:"42b5da4a"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=2abeee3d53",10912158],["data/vault.js?v=2abeee3d53",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -2282,6 +2282,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-17','Combat and Party share hit points','Damage and healing on a player character in the Combat tracker now change their HP on the Party page and character sheet, and HP changed there shows up in Combat straight away.'],
   ['2026-10-17','Backups, imports, and combat fixes','Either backup file (from Tools or from Settings) now restores from either place. Importing a party asks before replacing the one on this device, can be undone, and skips anything that is not a character; a journal import skips anything that is not an entry. Searching the journal no longer wipes a half-written entry. Names with an apostrophe (Will-o\'-Wisp, Ma\'at) work on every button. Removing a combatant above the current turn keeps the turn on the right creature, and sending an encounter to Combat twice numbers the monsters on. Level, HP, and purse amounts on the Party page stay within sensible limits, a god cannot be added twice, and Esc closes the level-up window and the Player view. Giant animals no longer drop insect parts, and a forge design cannot take the name of a vault Blueprint.'],
   ['2026-10-17','A new Hidden classes page for the DM','Once unlocked, Hidden classes is a menu and a page: search, tabs for Unique, Epic, and Legendary, group by tier, Tower, basic class, or progenitor, and filters on the left; the chosen class on the right, with its own link, previous and next, who in your party holds it, and a Grant button. On phones the menu and the class take turns. Players who open the page see how hidden classes are earned instead.','hidden'],
   ['2026-10-17','Player or DM view','Tell FAND how you play (on Home, in the first-visit guide, or in Settings → How you play). DMs get a DM menu with hidden classes, session prep, encounters, combat, hooks, and Towers; players get their character, party, dice, and journal first. Home shows the pages your role uses most.','settings'],
@@ -4292,7 +4293,10 @@ function monCombatant(m,i){return {id:uid(),name:m.n+(i?' '+i:''),mon:m.n,init:0
 
 // ── Combat ────────────────────────────────────────────────────
 let CB=null;
-const saveCB=()=>store.set('combat',CB);
+// Player characters' HP lives on the Party page: Combat reads it when it draws and writes damage and healing back
+function cbPullHP(C){let ch=0;(C.list||[]).forEach(x=>{if(!x.pc)return;const c=PARTY.find(p=>p.id===x.pc);if(!c)return;const hp=Math.max(0,+c.hp||0),mx=+c.hpMax||x.max;if(x.hp!==hp||x.max!==mx){x.hp=hp;x.max=mx;ch=1}});return ch}
+function cbPushHP(C){let ch=0;(C.list||[]).forEach(x=>{if(!x.pc)return;const c=PARTY.find(p=>p.id===x.pc);if(c&&+c.hp!==x.hp){c.hp=x.hp;ch=1}});if(ch)saveParty()}
+const saveCB=()=>{store.set('combat',CB);cbPushHP(CB)};
 // ════════════════════════════════════════════════════════════════
 //  Adventure hooks: built from the gods, Runes, realms, monsters, and materials on this site
 // ════════════════════════════════════════════════════════════════
@@ -5373,10 +5377,10 @@ function pvClose(){if(PV_SECOND){location.href=pageUrl('combat');return}$('pv').
 window.addEventListener('storage',e=>{if(e.key==='fand.combat'&&!$('pv').hidden)pvRender();if(e.key==='fand.combat'&&TAB==='combat'&&$('pv').hidden)renderCombat()});
 function renderCombat(){
   setTimeout(wakeSync,0);if(PV_SECOND&&$('pv').hidden)setTimeout(pvOpen,0);
-  CB=store.get('combat',{round:1,turn:0,list:[]});
+  CB=store.get('combat',{round:1,turn:0,list:[]});if(cbPullHP(CB))store.set('combat',CB);
   const cur=CB.list[CB.turn];
   $('content').innerHTML=`<div class="page">${datalists()}
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Combat tracker</h3><p>Initiative, HP, and conditions. Damage applies FAND's flat AC automatically.</p></div>
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Combat tracker</h3><p>Initiative, HP, and conditions. Damage applies FAND's flat AC automatically, and player characters' HP stays in step with the Party page.</p></div>
     <div class="tool" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
       <span style="font-family:var(--serif);font-size:1.3rem;font-weight:700">Round ${CB.round}</span>
       ${cur?`<span class="b gold">Turn: ${esc(cur.name)}</span>`:''}
