@@ -442,6 +442,8 @@ svg.curve{width:100%;height:auto;margin-top:10px;display:block}
 .mh .ep{font-family:var(--serif);font-style:italic;color:var(--muted);margin-top:2px}
 .mh .badges{margin-top:10px}
 .mact{position:absolute;top:14px;right:14px;display:flex;gap:6px}
+.qa{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 14px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.qa-give{display:flex;gap:6px;align-items:center}.qa-give .sel{width:auto;max-width:180px}
 .mact .icon-btn{width:32px;height:32px}
 .mact .icon-btn.on{color:var(--gold);border-color:var(--gold)}
 .mb{padding:16px 22px 22px;display:flex;flex-direction:column;gap:16px}
@@ -779,7 +781,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"demons",v:"26cc659b8c",b:"4c8dc831"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"demons",v:"26cc659b8c",b:"76f49943"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script src="data/core.js?v=26cc659b8c"></script>
 <script src="data/vault.js?v=26cc659b8c"></script>
 <script>
@@ -915,11 +917,12 @@ function diceify(root){if(!root)return;const w=document.createTreeWalker(root,No
   ns.forEach(n=>{const f=document.createDocumentFragment();let last=0;const t=n.nodeValue;DICE_RX.lastIndex=0;let m;while((m=DICE_RX.exec(t))){f.append(t.slice(last,m.index));const sp=document.createElement('span');sp.className='dice';sp.textContent=m[0];sp.title='Click to roll';f.append(sp);last=m.index+m[0].length}f.append(t.slice(last));n.replaceWith(f)})}
 document.addEventListener('click',e=>{const d=e.target.closest('.dice');if(d){e.preventDefault();e.stopPropagation();rollShow(d.textContent)}},true);
 function diceLog(){const L=store.get('dicelog',[]);$('dl-log').innerHTML=L.length?L.map(x=>`<div style="display:flex;gap:8px;font-size:.88rem"><b style="width:44px;text-align:right">${x.t}</b><span class="mono">${esc(x.e)}</span><span style="color:var(--muted)">${x.r.join(', ')}${x.mod?(x.mod>0?' +':' ')+x.mod:''}</span></div>`).join(''):'<div class="note">No rolls yet.</div>'}
-// On the play pages, dice in freshly drawn content become clickable.
-let DICE_OBS=null;function diceWatch(){if(DICE_OBS)DICE_OBS.disconnect();if(!['party','forge','encounter','combat','hooks','craft','prep'].includes(TAB))return;diceify($('content'));DICE_OBS=new MutationObserver(()=>{DICE_OBS.disconnect();diceify($('content'));DICE_OBS.observe($('content'),{childList:true,subtree:true})});DICE_OBS.observe($('content'),{childList:true,subtree:true})}
+// On every page but the big lists (and Home), dice in freshly drawn content become clickable; list windows do it themselves.
+let DICE_OBS=null;function diceWatch(){if(DICE_OBS)DICE_OBS.disconnect();if(VIEWS[TAB]||TAB==='home')return;diceify($('content'));DICE_OBS=new MutationObserver(()=>{DICE_OBS.disconnect();diceify($('content'));DICE_OBS.observe($('content'),{childList:true,subtree:true})});DICE_OBS.observe($('content'),{childList:true,subtree:true})}
 // Deleting happens at once and the toast offers Undo for 6 seconds, instead of asking "Are you sure?" first.
-function undoToast(msg,undo){const t=$('toast');t.innerHTML=`<span>${esc(msg)}</span><button type="button">Undo</button>`;t.classList.add('show','act');clearTimeout(toast._t);
-  t.querySelector('button').onclick=()=>{t.classList.remove('show','act');clearTimeout(toast._t);undo();toast('Restored')};toast._t=setTimeout(()=>t.classList.remove('show','act'),6000)}
+function actToast(msg,label,fn){const t=$('toast');t.innerHTML=`<span>${esc(msg)}</span><button type="button">${esc(label)}</button>`;t.classList.add('show','act');clearTimeout(toast._t);
+  t.querySelector('button').onclick=()=>{t.classList.remove('show','act');clearTimeout(toast._t);fn()};toast._t=setTimeout(()=>t.classList.remove('show','act'),6000)}
+const undoToast=(msg,undo)=>actToast(msg,'Undo',()=>{undo();toast('Restored')});
 function toast(msg){const t=$('toast');t.textContent=msg;t.classList.remove('act');t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('show'),1800)}
 const store={get(k,d){try{const v=localStorage.getItem('fand.'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('fand.'+k,JSON.stringify(v))}catch(e){}cloudMark(k)}};
 
@@ -1629,6 +1632,19 @@ function step(d){const i=MODAL_LIST.indexOf(CUR);if(i<0)return;const x=MODAL_LIS
 // Recently viewed entries (this device), shown on Home and in the search box
 function recentAdd(x){if(!x||!x._t||x._t==='note'&&!x.n)return;const k=x._t+'|'+x.n;let r=store.get('recent',[]).filter(z=>z!==k);r.unshift(k);store.set('recent',r.slice(0,16))}
 function recentItems(){return store.get('recent',[]).map(k=>{const [t,...rest]=k.split('|'),n=rest.join('|'),T=TYPES[t];return T&&T.arr.find(y=>y.n===n)}).filter(Boolean)}
+// Quick actions in a window: a monster goes straight into the combat tracker or the encounter builder; a Blueprint or a
+// material goes to a character in the party.
+function modalQuick(x){const b=[];
+  if(x._t==='mon')b.push(`<button class="btn" type="button" onclick="quickCombat()">⚔ Add to combat</button>`,`<button class="btn" type="button" onclick="quickEnc()">🐉 Add to encounter</button>`);
+  if((x._t==='bp'||x._t==='mat')&&PARTY.length)b.push(`<span class="qa-give"><select class="sel" id="qa-to" aria-label="Character">${PARTY.map(c=>`<option value="${esc(c.id)}"${c.id===(SHEET_ID||PARTY_SEL)?' selected':''}>${esc(c.name||'Unnamed')}</option>`).join('')}</select><button class="btn" type="button" onclick="quickGive()">${x._t==='bp'?'Give':'Add to bag'}</button></span>`);
+  return b.length?`<div class="qa">${b.join('')}</div>`:''}
+function quickCombat(){const m=CUR;if(!m||m._t!=='mon')return;const C=TAB==='combat'&&CB?CB:store.get('combat',{round:1,turn:0,list:[]}),have=C.list.filter(x=>x.mon===m.n).length;C.list.push(monCombatant(m,have?have+1:0));store.set('combat',C);
+  if(TAB==='combat'){CB=C;renderCombat();toast(m.n+' added to combat')}else actToast(m.n+' added to combat'+(have?' ('+(have+1)+')':''),'Open',()=>go('combat'))}
+function quickEnc(){const m=CUR;if(!m||m._t!=='mon')return;const st=store.get('enc',{});st.list=st.list||[];const r=st.list.find(x=>x[0]===m.n);if(r)r[1]++;else st.list.push([m.n,1]);store.set('enc',st);
+  if(TAB==='encounter'){renderEncounter();toast(m.n+' added to the encounter')}else actToast(m.n+' added to the encounter','Open',()=>go('encounter'))}
+function quickGive(){const x=CUR,c=$('qa-to')&&PARTY.find(y=>y.id===$('qa-to').value);if(!x||!c)return;const who=c.name||'the character';
+  if(x._t==='bp'){c.gear=c.gear||[];c.gear.push(x.n);saveParty();toast(x.n+' given to '+who)}else{const before=((c.inv||[]).find(z=>lc(z[0])===lc(x.n))||[0,0])[1]||0;invAdd(c,x.n,1,true);saveParty();const after=((c.inv||[]).find(z=>lc(z[0])===lc(x.n))||[0,0])[1]||0;toast(after>before?x.n+' added to '+who+'\'s bag':who+'\'s bag is full')}
+  if(['sheet','party'].includes(TAB))renderTab()}
 function showModal(x){
   CUR=x;recentAdd(x);
   const M=MODAL[x._t](x);
@@ -1645,7 +1661,7 @@ function showModal(x){
         <button class="icon-btn" onclick="closeModal()" title="Close (Esc)" aria-label="Close">${ICON.x}</button>
       </div>
     </div>
-    <div class="mb">${M.body}</div>${nav}`;
+    <div class="mb">${modalQuick(x)}${M.body}</div>${nav}`;
   diceify($('modal'));
   const pb=$('pinBtn');if(pb)pb.onclick=()=>{togglePin(x);pb.classList.toggle('on');pb.innerHTML=isPinned(x)?ICON.starf:ICON.star;if(VIEWS[TAB])renderList();else if(TAB==='home')renderTab()};
   $('linkBtn').onclick=()=>{const u=location.href;(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>toast('Link copied'),()=>toast('Copy failed: '+u))};
