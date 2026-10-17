@@ -223,6 +223,41 @@ end $$;
 revoke execute on function public.fand_set_avatar(text) from public, anon;
 grant execute on function public.fand_set_avatar(text) to authenticated;
 
+-- handouts: spoiler-free cards the DM shares with the campaign (a monster's look, an item, a letter). Members read them;
+-- only the DM adds them (through fand_add_handout) or deletes them.
+create table if not exists public.campaign_handouts (
+  id uuid primary key default gen_random_uuid(),
+  campaign_id uuid not null references public.campaigns (id) on delete cascade,
+  title text not null check (char_length(title) between 1 and 120),
+  body text not null default '' check (char_length(body) <= 4000),
+  kind text not null default '' check (char_length(kind) <= 40),
+  created_at timestamptz not null default now()
+);
+create index if not exists campaign_handouts_campaign on public.campaign_handouts (campaign_id, created_at desc);
+alter table public.campaign_handouts enable row level security;
+drop policy if exists "members read" on public.campaign_handouts;
+drop policy if exists "dm deletes" on public.campaign_handouts;
+create policy "members read" on public.campaign_handouts for select to authenticated using (private.fand_is_member(campaign_id));
+create policy "dm deletes" on public.campaign_handouts for delete to authenticated using (private.fand_is_dm(campaign_id));
+revoke all on public.campaign_handouts from anon;
+revoke insert, update on public.campaign_handouts from authenticated;
+grant select, delete on public.campaign_handouts to authenticated;
+create or replace function public.fand_add_handout(p_campaign uuid, p_title text, p_body text, p_kind text) returns uuid
+language plpgsql security definer set search_path = '' as $$
+declare hid uuid;
+begin
+  if not private.fand_is_dm(p_campaign) then raise exception 'Only the DM can share handouts.'; end if;
+  insert into public.campaign_handouts (campaign_id, title, body, kind)
+    values (p_campaign, left(btrim(coalesce(p_title, '')), 120), left(coalesce(p_body, ''), 4000), left(coalesce(p_kind, ''), 40))
+    returning id into hid;
+  -- keep the newest 100 per campaign
+  delete from public.campaign_handouts where campaign_id = p_campaign and id in (
+    select id from public.campaign_handouts where campaign_id = p_campaign order by created_at desc offset 100);
+  return hid;
+end $$;
+revoke execute on function public.fand_add_handout(uuid, text, text, text) from public, anon;
+grant execute on function public.fand_add_handout(uuid, text, text, text) to authenticated;
+
 -- live updates: the party page hears about characters and members as they change
 do $$
 begin
@@ -232,6 +267,9 @@ begin
     end if;
     if not exists (select 1 from pg_publication_tables where pubname = 'supabase_realtime' and tablename = 'campaign_members') then
       alter publication supabase_realtime add table public.campaign_members;
+    end if;
+    if not exists (select 1 from pg_publication_tables where pubname = 'supabase_realtime' and tablename = 'campaign_handouts') then
+      alter publication supabase_realtime add table public.campaign_handouts;
     end if;
   end if;
 end $$;
