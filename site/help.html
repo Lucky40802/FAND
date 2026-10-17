@@ -132,6 +132,11 @@ html.standalone .top .backbtn{display:grid}
 .pf-tile:hover{border-color:var(--line3)}
 .pf-tile.on{border-color:var(--gold,#c9a54a);box-shadow:0 0 0 3px var(--goldbg,rgba(201,165,74,.25))}
 .pf-tile.up{border:2px dashed var(--line3);background:none}
+.acct-btn[data-sync]::after{content:'';position:absolute;top:3px;right:3px;width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 2px var(--bg2)}
+.acct-btn[data-sync="saving"]::after{background:var(--gold);animation:syncPulse 1s ease-in-out infinite}
+.acct-btn[data-sync="offline"]::after{background:var(--muted2)}
+.acct-btn[data-sync="err"]::after{background:var(--red,#d55)}
+@keyframes syncPulse{50%{opacity:.35}}
 .acct-btn.err::after{content:'';position:absolute;top:3px;right:3px;width:8px;height:8px;border-radius:50%;background:var(--red,#d55)}
 @media (max-width:900px){.acct-btn .acct-l{display:none}.acct-btn{width:36px;padding:0;justify-content:center}}
 .acct-btn[hidden]{display:none}
@@ -279,17 +284,33 @@ button.chip:hover,a.chip:hover{border-color:var(--acc);color:var(--text)}
 @media print{.sheet .sh-noprint,.sheet .sec-h,.ai-fab{display:none!important}.sheet .sh-page{display:block!important;break-after:page}.sheet .sh-page[hidden]{display:block!important}.sheet input,.sheet textarea,.sheet select{border:none;border-bottom:1px solid #999;border-radius:0}.sheet .sh-cols{grid-template-columns:1.15fr 1fr 1fr!important}}
 
 .dice{border-bottom:1px dashed var(--gold);cursor:pointer;white-space:nowrap}.dice:hover{background:var(--goldbg)}
-#dice-ov{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;background:rgba(10,8,20,.55);backdrop-filter:blur(2px);cursor:pointer}
-#dice-ov.on{display:flex}
-.dice-box{display:flex;flex-direction:column;align-items:center;gap:14px;padding:20px}
-.dice-row{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;max-width:90vw}
-.die{position:relative;width:96px;height:96px;filter:drop-shadow(0 8px 18px rgba(0,0,0,.45))}
+#dice-ov{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 60%,rgba(40,30,70,.55),rgba(6,5,14,.78));backdrop-filter:blur(3px);cursor:pointer;overflow:hidden}
+#dice-ov.on{display:flex;animation:dovIn .18s ease-out}
+@keyframes dovIn{from{opacity:0}to{opacity:1}}
+.dice-box{display:flex;flex-direction:column;align-items:center;gap:16px;padding:20px;position:relative}
+.dice-row{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;max-width:min(92vw,720px)}
+.die-slot{position:relative;width:96px;height:96px}
+.die-sh{position:absolute;left:12%;right:12%;bottom:-10px;height:16px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.55),transparent);pointer-events:none}
+.die{position:relative;width:96px;height:96px;filter:drop-shadow(0 6px 10px rgba(0,0,0,.35));will-change:transform}
 .die svg{width:100%;height:100%}
-.die span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font:700 1.9rem var(--serif);text-shadow:0 2px 4px rgba(0,0,0,.4)}
-#dice-ov.spin .die{animation:dieSpin .9s cubic-bezier(.2,.7,.3,1) var(--d) both}
-@keyframes dieSpin{0%{transform:translate(-60vw,-30vh) rotate(-540deg) scale(.4);opacity:0}60%{opacity:1}80%{transform:translate(0,0) rotate(12deg) scale(1.08)}100%{transform:none}}
-.dice-total{display:flex;flex-direction:column;align-items:center;color:#fff;background:rgba(0,0,0,.35);padding:10px 22px;border-radius:14px}
-.dice-total b{font:700 3rem var(--serif);line-height:1}.dice-total .dice-expr{font-size:.85rem;opacity:.8}.dice-total small{opacity:.85}
+.die span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font:700 1.9rem var(--serif);text-shadow:0 2px 4px rgba(0,0,0,.4);transition:filter .1s}
+.die.moving span{filter:blur(1.2px)}
+.die.landed span{animation:faceLand .32s cubic-bezier(.3,1.6,.5,1)}
+@keyframes faceLand{0%{transform:scale(.6)}100%{transform:scale(1)}}
+.die-slot.max .die{filter:drop-shadow(0 0 12px rgba(255,214,110,.9)) drop-shadow(0 6px 10px rgba(0,0,0,.35))}
+.die-slot.min .die{filter:drop-shadow(0 0 10px rgba(255,80,80,.75)) drop-shadow(0 6px 10px rgba(0,0,0,.35))}
+.die-ring{position:absolute;left:50%;top:50%;width:96px;height:96px;margin:-48px 0 0 -48px;border-radius:50%;border:3px solid rgba(255,220,140,.8);pointer-events:none;animation:dieRing .5s ease-out forwards}
+@keyframes dieRing{from{transform:scale(.6);opacity:.9}to{transform:scale(1.7);opacity:0}}
+.dice-total{display:flex;flex-direction:column;align-items:center;color:#fff;background:rgba(0,0,0,.4);padding:10px 24px;border-radius:14px;border:1px solid rgba(255,255,255,.08);opacity:0;transform:translateY(10px);transition:opacity .25s,transform .25s}
+.dice-total.show{opacity:1;transform:none}
+.dice-total b{font:700 3.2rem var(--serif);line-height:1;font-variant-numeric:tabular-nums}.dice-total .dice-expr{font-size:.85rem;opacity:.8}.dice-total small{opacity:.85;text-align:center;max-width:80vw}
+.dice-total.crit{border-color:rgba(255,214,110,.7);box-shadow:0 0 40px rgba(255,200,90,.45)}.dice-total.crit b{color:#ffd970;text-shadow:0 0 18px rgba(255,200,90,.8)}
+.dice-total.fumble{border-color:rgba(255,90,90,.6);animation:fumble .45s ease-in-out}.dice-total.fumble b{color:#ff8a8a}
+@keyframes fumble{0%,100%{transform:none}20%{transform:translateX(-8px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(3px)}}
+.dice-spark{position:absolute;width:7px;height:7px;border-radius:50%;background:#ffd970;box-shadow:0 0 8px #ffcf5a;pointer-events:none}
+.dice-acts{display:flex;gap:8px;align-items:center}
+.dice-acts button{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:6px 14px;font-size:.85rem}
+.dice-acts button:hover{background:rgba(255,255,255,.18)}
 .rtree{list-style:none;padding-left:16px;margin:0;border-left:1px solid var(--line)}.rtree li{margin:3px 0;font-size:.9rem}.rtree summary{cursor:pointer}.rtree>li>details>summary::marker{color:var(--gold)}
 @media (max-width:640px){.sec-h{flex-direction:column;align-items:flex-start;gap:4px}.tools .form{grid-template-columns:1fr 1fr!important}}
 .sec-h .btn{margin-left:auto}
@@ -486,6 +507,7 @@ details.fold>div{margin-top:10px}
 .pal-in svg{width:18px;height:18px;color:var(--muted);flex-shrink:0}
 .pal-in input{flex:1;background:none;border:0;outline:none;font-size:1.02rem}
 .pal-res{max-height:60vh;overflow-y:auto;padding:6px 0}
+.pal-hint{padding:8px 14px;font-size:.8rem;color:var(--muted)}.pal-hint code{background:var(--surf2);padding:1px 5px;border-radius:4px;font-size:.78rem}
 .pal-g{font-size:.66rem;text-transform:uppercase;letter-spacing:.14em;color:var(--muted2);padding:8px 16px 4px;font-weight:600}
 .pal-i{display:flex;width:100%;gap:10px;align-items:center;background:none;border:0;padding:7px 16px;text-align:left;font-size:.9rem;color:var(--text2)}
 .pal-i.sel{background:var(--accbg);color:var(--text)}
@@ -670,6 +692,67 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
 .skel{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;width:min(960px,100%);margin-top:18px}
 .skel i{height:74px;border-radius:12px;background:linear-gradient(90deg,var(--surf) 0%,var(--surf2) 50%,var(--surf) 100%);background-size:200% 100%;animation:skel 1.4s ease-in-out infinite;border:1px solid var(--line)}
 @keyframes skel{from{background-position:100% 0}to{background-position:-100% 0}}
+/* Notes and Compare */
+.mnote{margin:0 0 14px;border:1px dashed var(--line3);border-radius:10px;padding:8px 12px;background:var(--bg)}
+.mnote summary{cursor:pointer;color:var(--text2);font-size:.9rem}
+.mnote textarea{width:100%;max-width:none;margin-top:8px;resize:vertical;min-height:70px;font:inherit}
+.mnote small{color:var(--muted);font-size:.75rem}
+.ctray{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom));z-index:46;display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:center;max-width:calc(100vw - 24px);background:var(--surf);border:1px solid var(--line3);border-radius:14px;padding:8px 10px;box-shadow:var(--shadow)}
+.ctray[hidden]{display:none}
+.ctray .chip{display:inline-flex;align-items:center;gap:4px}.ctray .chip button{background:none;border:0;color:var(--muted);font-size:1rem;line-height:1;padding:0 2px}
+.ctab th{white-space:nowrap}.ctab td.cdiff{background:var(--accbg)}.ctab td.cbest{background:color-mix(in srgb,var(--green) 18%,transparent);font-weight:700}
+@media (max-width:640px){.ctray{bottom:calc(72px + env(safe-area-inset-bottom))}}
+/* Customise Home */
+.hedit-top{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px;position:sticky;top:0;z-index:3;background:var(--surf);box-shadow:0 6px 16px rgba(0,0,0,.12)}
+.hsec{border:1px dashed var(--line3);border-radius:12px;padding:8px 12px 4px;margin-bottom:12px}
+.hsec.off{opacity:.45}
+.hsec-bar{display:flex;gap:6px;align-items:center;margin-bottom:6px}.hsec-bar b{flex:1;font-family:var(--serif)}.hsec-bar .btn{padding:4px 10px;min-height:0}
+.hedit .hsec>*:not(.hsec-bar){pointer-events:none}
+/* Pull to refresh */
+.pull{height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--muted);font-size:.85rem;transition:height .15s;flex-shrink:0}
+.pull span{transition:transform .15s}.pull.ready span{transform:rotate(180deg);color:var(--acc2)}
+.pull.busy span{animation:spin .8s linear infinite}
+/* Play from the sheet */
+.sh-roll{font:inherit;font-weight:700;color:inherit;background:none;border:0;border-bottom:1px dashed var(--gold);padding:0 2px;cursor:pointer;border-radius:3px}
+.sh-roll:hover{background:var(--goldbg)}
+.sh-mod.sh-roll{display:block;margin:0 auto;border-bottom:1px dashed var(--gold)}
+.sh-big.sh-roll{display:block;width:100%;border:0}
+.hpq{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;justify-content:center}.hpq .btn{padding:4px 9px;min-height:0}.hpq .sel{width:76px;max-width:76px}
+.sh-conds{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}.sh-conds .chip{font-size:.72rem;padding:2px 8px}.sh-conds .chip.on{background:var(--red);color:#fff;border-color:var(--red)}
+@media print{.sh-roll{border:0}}
+/* Table screen */
+.tbl{position:fixed;inset:0;z-index:150;background:var(--bg);display:flex;flex-direction:column;padding:max(10px,env(safe-area-inset-top)) 14px max(14px,env(safe-area-inset-bottom));overflow-y:auto}
+.tbl[hidden]{display:none}
+.tbl-top{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+.tbl-tabs{display:flex;background:var(--surf);border:1px solid var(--line);border-radius:999px;padding:3px}.tbl-tabs button{border:0;background:none;padding:7px 14px;border-radius:999px;color:var(--text2);font-weight:600}.tbl-tabs button.on{background:var(--acc);color:#fff}
+.tbl-top .sel{max-width:200px}.tbl-name{font-family:var(--serif);font-size:1.1rem}
+.tbl-x{margin-left:auto;width:44px;height:44px;border-radius:50%;border:1px solid var(--line3);background:var(--surf);font-size:1.1rem}
+.tbl-body{display:grid;gap:14px;flex:1;align-content:start}
+.tbl-a,.tbl-b{display:flex;flex-direction:column;gap:12px;min-width:0}
+.tbl-hp{background:var(--surf);border:1px solid var(--line);border-radius:16px;padding:14px;text-align:center}
+.tbl-hpn b{font:700 clamp(3.5rem,16vw,6.5rem) var(--serif);line-height:1;font-variant-numeric:tabular-nums}.tbl-hpn span{font-size:1.4rem;color:var(--muted);margin-left:6px}
+.tbl-hp.mid .tbl-hpn b{color:var(--gold2)}.tbl-hp.low .tbl-hpn b{color:var(--red)}
+.tbl-tmp{color:var(--blue);font-weight:600}
+.tbl-bar{height:10px;border-radius:6px;background:var(--line);margin:10px 0;overflow:hidden}.tbl-bar i{display:block;height:100%;background:var(--green);transition:width .2s}.tbl-hp.mid .tbl-bar i{background:var(--gold)}.tbl-hp.low .tbl-bar i{background:var(--red)}
+.tbl-hpb{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}.tbl-hpb button,.tbl-amt button,.tbl-dice button,.tbl-stats button,.tbl-conds button{border:1px solid var(--line3);background:var(--surf2);color:var(--text);border-radius:12px;min-height:52px;font:600 1.05rem var(--sans)}
+.tbl-hpb button:active,.tbl-dice button:active{background:var(--accbg)}
+.tbl-amt{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) minmax(0,1fr);gap:6px;margin-top:6px}.tbl-amt input{min-width:0;width:100%;font-size:1.2rem;text-align:center;border:1px solid var(--line3);border-radius:12px;background:var(--bg);color:var(--text)}
+.tbl-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.tbl-stats>*{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:8px;text-align:center;display:flex;flex-direction:column}.tbl-stats small{color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em}.tbl-stats b{font:700 2rem var(--serif)}
+.tbl-conds{display:flex;flex-wrap:wrap;gap:6px}.tbl-conds button{min-height:40px;padding:0 12px;font-size:.85rem}.tbl-conds button.on{background:var(--red);color:#fff;border-color:var(--red)}
+.tbl-dice{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.tbl-dice button{min-height:64px;font-size:1.25rem}
+.tbl-round{font-family:var(--serif);font-size:1.3rem;color:var(--gold2)}
+.tbl-init{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}.tbl-init li{display:flex;gap:10px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surf);font-size:1.15rem}.tbl-init li.cur{border-color:var(--gold);background:var(--goldbg);box-shadow:0 0 0 2px var(--gold) inset;font-weight:700}.tbl-init li.down{opacity:.45;text-decoration:line-through}.tbl-init .n{flex:1}.tbl-init .i{color:var(--muted)}.tbl-init .h{font-variant-numeric:tabular-nums}
+.tbl-next{min-height:60px;border-radius:14px;border:0;background:var(--acc);color:#fff;font:700 1.2rem var(--sans)}
+.tbl-empty{padding:30px;text-align:center;color:var(--muted)}
+@media (min-width:760px),(orientation:landscape) and (min-width:560px){.tbl-body{grid-template-columns:1.2fr 1fr}}
+/* Handouts */
+.hov{position:fixed;inset:0;z-index:160;background:rgba(6,5,14,.7);display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(3px)}
+.hov[hidden]{display:none}
+.ho-card{max-width:560px;width:100%;max-height:90vh;overflow-y:auto;background:linear-gradient(160deg,#f6ecd2,#e9d8ad);color:#2b2112;border-radius:6px;padding:28px 30px 22px;box-shadow:0 20px 60px rgba(0,0,0,.5),inset 0 0 60px rgba(120,80,20,.25);font-family:var(--serif);border:1px solid #c9ad72}
+.ho-k{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:#7a5a20;font-family:var(--sans)}
+.ho-card h2{font-size:1.9rem;margin:4px 0 12px;color:#3a2a10}.ho-b{font-size:1.08rem;line-height:1.65}.ho-card .btn{margin-top:16px;background:#3a2a10;color:#f6ecd2;border-color:#3a2a10}
+.ho-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}.ho-item{display:flex;align-items:stretch;border:1px solid #c9ad72;border-radius:10px;background:linear-gradient(160deg,color-mix(in srgb,#f6ecd2 22%,var(--surf)),var(--surf))}
+.ho-open{flex:1;text-align:left;background:none;border:0;padding:10px 12px;display:flex;flex-direction:column;color:var(--text)}.ho-open small{color:var(--muted);font-size:.72rem}.ho-open b{font-family:var(--serif)}
 /* First-visit guide */
 .gd-bg{position:fixed;inset:0;z-index:90;background:transparent}
 .gd-bg.dim{background:rgba(5,4,12,.6)}
@@ -689,7 +772,7 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
 .mdrawer[hidden]{display:none}
 .md-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .md-h b{font-family:var(--serif);font-size:1.4rem}
-.md-quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px}
+.md-quick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px}
 .md-quick a{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;border:1px solid var(--line);border-radius:12px;background:var(--surf);color:var(--text);text-decoration:none;font-size:.82rem}
 .md-quick svg{width:22px;height:22px;color:var(--acc2)}
 .md-g h4{font-family:var(--sans);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:16px 0 6px}
@@ -791,7 +874,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"help",v:"4c16bda2b1",b:"6773361a"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"help",v:"4c16bda2b1",b:"9bfc0a0f"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=4c16bda2b1",10911773],["data/vault.js?v=4c16bda2b1",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -901,14 +984,49 @@ function setDiceSkin(id){const sk=dskById(id);store.set('diceskin',sk.id);toast(
   if(store.get('diceanim',true))diceOverlay({e:'d20 · '+sk.name,t:0,r:[DIE(20)],mod:0,preview:true},20)}
 function diceSkinGrid(k){k=k||'g';const cur=diceSkin().id,groups=[...new Set(DSK.map(x=>x.group))];
   return `<div class="dsk-grid" data-k="${k}">${groups.map(g=>`<div class="dsk-group"><div class="dsk-h">${esc(g)}</div><div class="dsk-row">${DSK.filter(x=>x.group===g).map(x=>{const d=dieSVG(20,x,k+x.id);return `<button type="button" class="dsk${x.id===cur?' on':''}" onclick="setDiceSkin('${x.id}')" aria-pressed="${x.id===cur}" title="${esc(x.name)}"><span class="dsk-die" style="${d.glow?`filter:drop-shadow(0 0 6px ${d.glow})`:''}">${d.svg}<b style="color:${d.ink};text-shadow:${d.sh}">20</b></span><small>${esc(x.name)}</small></button>`}).join('')}</div></div>`).join('')}</div>`}
+// The roll: each die is thrown in from the edge of the screen, tumbles, bounces twice on the table with a shadow beneath it,
+// and settles in its place; then the total counts up. Highest faces glow gold and 1s red; a natural 20 bursts, a natural
+// 1 shakes. Each bounce clacks (Web Audio, no files) and taps the phone; both can be turned off. Less motion: no throw.
+let DICE_AC=null;
+function diceClack(v){if(!store.get('dicesound',true))return;try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;DICE_AC=DICE_AC||new AC();const c=DICE_AC,t=c.currentTime,n=Math.floor(c.sampleRate*.05),buf=c.createBuffer(1,n,c.sampleRate),d=buf.getChannelData(0);
+  for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/n,6);const src=c.createBufferSource();src.buffer=buf;const f=c.createBiquadFilter();f.type='bandpass';f.frequency.value=1800+Math.random()*2200;f.Q.value=1.4;const g=c.createGain();g.gain.value=.5*v;src.connect(f).connect(g).connect(c.destination);src.start(t);
+  const o=c.createOscillator(),og=c.createGain();o.frequency.setValueAtTime(140,t);o.frequency.exponentialRampToValueAtTime(60,t+.06);og.gain.setValueAtTime(.25*v,t);og.gain.exponentialRampToValueAtTime(.001,t+.07);o.connect(og).connect(c.destination);o.start(t);o.stop(t+.08)}catch(e){}}
+// keyframes for one throw: flight in an arc from (dx,dy) to the slot, two bounces (squashing on each landing), a short slide, and a wobble
+function diceThrow(dx,dy,H,rot){const F=[],S=[],N=46,L1=.46,L2=.66,L3=.8;
+  for(let i=0;i<=N;i++){const t=i/N;let x,y,sq=0;
+    if(t<=L1){const u=t/L1;x=dx*(1-u)*(1-u*.25)+dx*.04*u;y=dy*(1-u)-H*4*u*(1-u)}
+    else if(t<=L2){const u=(t-L1)/(L2-L1);x=dx*.04*(1-u*.6);y=-H*.24*4*u*(1-u)}
+    else if(t<=L3){const u=(t-L2)/(L3-L2);x=dx*.016*(1-u*.7);y=-H*.07*4*u*(1-u)}
+    else{const u=(t-L3)/(1-L3);x=dx*.005*(1-u);y=0}
+    [L1,L2,L3].forEach(l=>{const dd=Math.abs(t-l);if(dd<.03)sq=Math.max(sq,(1-dd/.03)*(l===L1?.16:l===L2?.09:.04))});
+    const r=rot*Math.pow(1-Math.min(1,t/.86),2.2)+(t>.8?Math.sin((t-.8)*40)*6*(1-t)/.2:0);
+    F.push({offset:t,transform:`translate(${x.toFixed(1)}px,${y.toFixed(1)}px) rotate(${r.toFixed(1)}deg) scale(${(1+sq).toFixed(3)},${(1-sq).toFixed(3)})`});
+    const h=Math.max(0,-y)/Math.max(1,H),off=t<L1*.5?Math.min(1,t/(L1*.5)):1;S.push({offset:t,transform:`translate(${x.toFixed(1)}px,0) scale(${(1-h*.55).toFixed(3)})`,opacity:((1-h*.75)*off).toFixed(3)})}
+  return {F,S,hits:[L1,L2,L3]}}
 function diceOverlay(R,sides){
-  let ov=$('dice-ov');if(!ov){ov=document.createElement('div');ov.id='dice-ov';document.body.appendChild(ov);ov.onclick=()=>ov.classList.remove('on')}
-  const reduce=lessMotion(),shown=R.r.slice(0,12);
-  ov.innerHTML=`<div class="dice-box"><div class="dice-row">${shown.map((v,i)=>{const x=(R.sd&&R.sd[i])||sides,d=dieSVG(x,null,'ov'+i);return `<div class="die" style="--d:${i*60}ms${d.glow?`;filter:drop-shadow(0 0 14px ${d.glow}) drop-shadow(0 8px 18px rgba(0,0,0,.45))`:''}">${d.svg}<span data-final="${v}" data-sides="${x}" style="color:${d.ink};text-shadow:${d.sh}">${Math.abs(v)}</span></div>`}).join('')}${R.r.length>12?`<div class="note">+${R.r.length-12} more</div>`:''}</div>
-    <div class="dice-total"><span class="dice-expr">${esc(R.e)}</span><b>${R.preview?R.r[0]:R.t}</b><small>${R.r.join(' + ')}${R.mod?(R.mod>0?' + ':' − ')+Math.abs(R.mod):''}${sides===20&&R.r.length===1?(R.r[0]===20?' · natural 20!':R.r[0]===1?' · natural 1':''):''}</small></div><div class="note" style="color:#fff9">click anywhere to close</div></div>`;
-  ov.classList.add('on');ov.classList.toggle('spin',!reduce);
-  if(!reduce){const spans=[...ov.querySelectorAll('.die span')];const t0=performance.now();const tick=now=>{const k=(now-t0)/900;spans.forEach(sp=>{sp.textContent=k<1?1+Math.floor(Math.random()*(+sp.dataset.sides||sides)):Math.abs(+sp.dataset.final)});if(k<1)requestAnimationFrame(tick);else ov.classList.remove('spin')};requestAnimationFrame(tick)}
-  clearTimeout(diceOverlay.t);diceOverlay.t=setTimeout(()=>ov.classList.remove('on'),4500);
+  let ov=$('dice-ov');if(!ov){ov=document.createElement('div');ov.id='dice-ov';ov.setAttribute('role','dialog');ov.setAttribute('aria-label','Dice roll');document.body.appendChild(ov);ov.onclick=e=>{if(!e.target.closest('.dice-acts'))ov.classList.remove('on')}}
+  const reduce=lessMotion(),shown=R.r.slice(0,12),single20=!R.preview&&R.r.length===1&&(R.sd?R.sd[0]:sides)===20,crit=single20&&R.r[0]===20,fumble=single20&&R.r[0]===1;
+  ov.innerHTML=`<div class="dice-box"><div class="dice-row">${shown.map((v,i)=>{const x=(R.sd&&R.sd[i])||sides,d=dieSVG(x,null,'ov'+i),hi=!R.preview&&x>2&&Math.abs(v)===x,lo=!R.preview&&x>2&&Math.abs(v)===1;return `<div class="die-slot${hi?' max':lo?' min':''}"><div class="die-sh"></div><div class="die"${d.glow?` style="filter:drop-shadow(0 0 14px ${d.glow}) drop-shadow(0 6px 10px rgba(0,0,0,.35))"`:''}>${d.svg}<span data-final="${v}" data-sides="${x}" style="color:${d.ink};text-shadow:${d.sh}">${Math.abs(v)}</span></div></div>`}).join('')}${R.r.length>12?`<div class="note" style="color:#fff">+${R.r.length-12} more</div>`:''}</div>
+    <div class="dice-total${crit?' crit':fumble?' fumble':''}"><span class="dice-expr">${esc(R.e)}</span><b data-total="${R.preview?R.r[0]:R.t}">${R.preview?R.r[0]:R.t}</b><small>${R.r.join(' + ')}${R.mod?(R.mod>0?' + ':' − ')+Math.abs(R.mod):''}${crit?' · natural 20!':fumble?' · natural 1':''}</small></div>
+    <div class="dice-acts">${R.again?'<button type="button" data-again>🎲 Roll again</button>':''}<button type="button" data-snd aria-pressed="${store.get('dicesound',true)}" title="Dice sounds">${store.get('dicesound',true)?'🔊':'🔇'}</button></div><div class="note" style="color:#fff9;margin:0">tap anywhere to close</div></div>`;
+  const acts=ov.querySelector('.dice-acts');acts.onclick=e=>{if(e.target.closest('[data-again]')){R.again()}else if(e.target.closest('[data-snd]')){const v=!store.get('dicesound',true);store.set('dicesound',v);e.target.closest('[data-snd]').textContent=v?'🔊':'🔇';if(v)diceClack(.6)}};
+  ov.classList.add('on');clearTimeout(diceOverlay.t);(diceOverlay.timers||[]).forEach(clearTimeout);diceOverlay.timers=[];
+  const tot=ov.querySelector('.dice-total'),totB=tot.querySelector('b'),final=+totB.dataset.total;
+  const later=(f,ms)=>diceOverlay.timers.push(setTimeout(f,ms));
+  const finish=()=>{tot.classList.add('show');if(!reduce&&!R.preview&&Math.abs(final)>1){const t0=performance.now(),D=380;const step=now=>{const k=Math.min(1,(now-t0)/D);totB.textContent=Math.round(final*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(step)};totB.textContent='0';requestAnimationFrame(step)}
+    if(crit&&!reduce){const box=ov.querySelector('.dice-box');for(let i=0;i<22;i++){const sp=document.createElement('i');sp.className='dice-spark';box.appendChild(sp);const a=Math.random()*Math.PI*2,dist=90+Math.random()*120;sp.style.left='50%';sp.style.top='40%';sp.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${Math.cos(a)*dist}px,${Math.sin(a)*dist}px) scale(.2)`,opacity:0}],{duration:700+Math.random()*400,easing:'cubic-bezier(.2,.7,.3,1)',fill:'forwards'})}if(navigator.vibrate)try{navigator.vibrate([20,40,30])}catch(e){}}
+    diceOverlay.t=setTimeout(()=>ov.classList.remove('on'),5500)};
+  if(reduce||!ov.animate){finish();return}
+  const slots=[...ov.querySelectorAll('.die-slot')];let last=0;
+  slots.forEach((sl,i)=>{const die=sl.querySelector('.die'),sh=sl.querySelector('.die-sh'),sp=die.querySelector('span'),b=sl.getBoundingClientRect(),side=i%2?1:-1;
+    const dx=side*(innerWidth*.45+Math.random()*innerWidth*.2)+(b.left+b.width/2-innerWidth/2)*-.3,dy=innerHeight-b.top+60+Math.random()*80,H=Math.min(innerHeight*.32,180+Math.random()*90),rot=-side*(560+Math.random()*540);
+    const T=1050+Math.random()*250,delay=i*70+Math.random()*60,{F,S,hits}=diceThrow(dx,dy,H,rot);last=Math.max(last,delay+T);
+    die.animate(F,{duration:T,delay,easing:'linear',fill:'backwards'});sh.animate(S,{duration:T,delay,easing:'linear',fill:'backwards'});
+    die.classList.add('moving');const sides2=+sp.dataset.sides||sides,fin=Math.abs(+sp.dataset.final);
+    const fl=setInterval(()=>{sp.textContent=1+Math.floor(Math.random()*sides2)},70);diceOverlay.timers.push(fl);
+    hits.forEach((h,k)=>later(()=>{diceClack(k===0?1:k===1?.55:.25);if(k===0&&navigator.vibrate)try{navigator.vibrate(8)}catch(e){}},delay+T*h));
+    later(()=>{clearInterval(fl);sp.textContent=fin;die.classList.remove('moving');die.classList.add('landed');if(sl.classList.contains('max')||sl.classList.contains('min')){const r=document.createElement('div');r.className='die-ring';if(sl.classList.contains('min'))r.style.borderColor='rgba(255,100,100,.8)';sl.appendChild(r)}},delay+T*hits[2])});
+  later(finish,last-120);
 }
 // A mix of dice and numbers, like 2d6+1d8+3 or 4d6-1d4: each dice term is rolled with rollExpr (so the DM rig still applies)
 function rollMulti(e){const src=String(e||'').replace(/−/g,'-').replace(/\s+/g,'');if(!src)return null;const one=rollExpr(src);if(one)return one;
@@ -920,8 +1038,8 @@ function rollMulti(e){const src=String(e||'').replace(/−/g,'-').replace(/\s+/g
   if(!r.length)return null;
   if(tot){const lo=sd.reduce((a,x)=>a+(x>0?1:x),0),hi=sd.reduce((a,x)=>a+(x>0?x:-1),0),want=Math.max(lo,Math.min(hi,(+g.value||0)-mod));let left=want-lo;r=sd.map(x=>{if(x>0){const k=Math.min(x-1,left);left-=k;return 1+k}const k=Math.min(-x-1,left);left-=k;return x+k})}
   if($('dr-rig-state'))rigState();return {e:src.replace(/([+\-])/g,' $1 ').trim(),r,mod,t:r.reduce((a,b)=>a+b,0)+mod,sides:first,sd:sd.map(Math.abs)}}
-function rollShow(e){const R=rollMulti(e);if(!R){if(String(e||'').trim())toast('Not a roll: try 2d6+3');return}const log=store.get('dicelog',[]);log.unshift({e:R.e,t:R.t,r:R.r,mod:R.mod});store.set('dicelog',log.slice(0,50));
-  const sides=R.sides||+(/d(\d+)/i.exec(R.e)||[])[1]||20;if(store.get('diceanim',true))diceOverlay(R,sides);else toast(`🎲 ${R.e}: ${R.t}  (${R.r.join(' + ')}${R.mod?(R.mod>0?' + ':' − ')+Math.abs(R.mod):''})`);if($('dl-log'))diceLog()}
+function rollShow(e,label){const R=rollMulti(e);if(R&&label)R.e=label+' · '+R.e;if(!R){if(String(e||'').trim())toast('Not a roll: try 2d6+3');return}const log=store.get('dicelog',[]);log.unshift({e:R.e,t:R.t,r:R.r,mod:R.mod});store.set('dicelog',log.slice(0,50));
+  const sides=R.sides||+(/d(\d+)/i.exec(R.e)||[])[1]||20;if(store.get('diceanim',true))diceOverlay(Object.assign(R,{again:()=>rollShow(e,label)}),sides);else toast(`🎲 ${R.e}: ${R.t}  (${R.r.join(' + ')}${R.mod?(R.mod>0?' + ':' − ')+Math.abs(R.mod):''})`);if($('dl-log'))diceLog()}
 function diceify(root){if(!root)return;const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement.closest('input,textarea,select,button,a,.dice,script,style')?NodeFilter.FILTER_REJECT:(DICE_RX.lastIndex=0,DICE_RX.test(n.nodeValue))?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP});const ns=[];while(w.nextNode())ns.push(w.currentNode);
   ns.forEach(n=>{const f=document.createDocumentFragment();let last=0;const t=n.nodeValue;DICE_RX.lastIndex=0;let m;while((m=DICE_RX.exec(t))){f.append(t.slice(last,m.index));const sp=document.createElement('span');sp.className='dice';sp.textContent=m[0];sp.title='Click to roll';f.append(sp);last=m.index+m[0].length}f.append(t.slice(last));n.replaceWith(f)})}
 document.addEventListener('click',e=>{const d=e.target.closest('.dice');if(d){e.preventDefault();e.stopPropagation();rollShow(d.textContent)}},true);
@@ -1482,12 +1600,29 @@ function renderBnav(){const b=$('bnav');if(!b)return;const dm=role()==='dm',four
   b.innerHTML=[['home','Home','home'],['search','Search','search'],['dice','Dice','dice'],fourth,['menu','Menu','menu']].map(([id,l,ic])=>id==='search'?`<button type="button" onclick="openPalette()">${bIcon(ic)}<span>${l}</span></button>`:id==='menu'?`<button type="button" onclick="openMenuDrawer()" aria-haspopup="dialog">${bIcon(ic)}<span>${l}</span></button>`:`<a href="${pageUrl(id)}" data-tab="${id}"${TAB===id?' class="on" aria-current="page"':''}>${bIcon(ic)}<span>${l}</span></a>`).join('')}
 function openMenuDrawer(){const d=$('mdrawer'),u=typeof CL!=='undefined'&&CL.user;
   d.innerHTML=`<div class="md-h"><b>Menu</b><button type="button" class="icon-btn" onclick="closeMenuDrawer()" aria-label="Close menu">${ICON.x}</button></div>
-    <div class="md-quick"><a href="${pageUrl('account')}" data-tab="account">${bIcon('sheet')}<span>${u?'Your account':'Sign in'}</span></a><a href="${pageUrl('settings')}" data-tab="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg><span>Settings</span></a><a href="#" onclick="closeMenuDrawer();openQuick();return false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/></svg><span>Quick rules</span></a></div>
+    <div class="md-quick"><a href="${pageUrl('account')}" data-tab="account">${bIcon('sheet')}<span>${u?'Your account':'Sign in'}</span></a><a href="${pageUrl('settings')}" data-tab="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg><span>Settings</span></a><a href="#" onclick="closeMenuDrawer();openTable();return false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 12h8M12 8v8"/></svg><span>Table screen</span></a><a href="#" onclick="closeMenuDrawer();openQuick();return false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/></svg><span>Quick rules</span></a></div>
     ${navGroups().map(([g,ids])=>`<div class="md-g"><h4>${esc(g)}</h4><div class="md-grid">${ids.map(id=>{const t=TABS.find(x=>x[0]===id);return t?`<a href="${pageUrl(id)}" data-tab="${id}"${id===TAB?' class="on"':''}><b>${esc(t[1])}</b>${t[2]!=null?`<small>${fmt(t[2])}</small>`:''}</a>`:''}).join('')}</div></div>`).join('')}`;
   d.hidden=false;d.scrollTop=0;const f=d.querySelector('.md-h button');if(f)f.focus()}
 function closeMenuDrawer(){$('mdrawer').hidden=true}
 ['bnav','mdrawer'].forEach(id=>$(id).addEventListener('click',e=>{const a=e.target.closest('a[data-tab]');if(!a)return;closeMenuDrawer();if(SITE||e.ctrlKey||e.metaKey)return;e.preventDefault();go(a.dataset.tab)}));
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('mdrawer').hidden){closeMenuDrawer();e.stopPropagation()}},true);
+// Phone gestures: in a window, swipe left or right for the next or previous item and swipe down (from the top) to close it;
+// on a page, pull down from the top to refresh it (and sync, when signed in). Inputs and sideways-scrolling tables are left alone.
+(function(){const skip=t=>t.closest('input,textarea,select,.tablewrap,.dice-row,.hcx-list,[contenteditable]');
+  let g=null;const mb=$('mbg'),md=$('modal');
+  mb.addEventListener('touchstart',e=>{if(e.touches.length!==1||skip(e.target)){g=null;return}const t=e.touches[0];g={x:t.clientX,y:t.clientY,t:Date.now(),top:mb.scrollTop<=0,ax:null}},{passive:true});
+  mb.addEventListener('touchmove',e=>{if(!g)return;const t=e.touches[0],dx=t.clientX-g.x,dy=t.clientY-g.y;if(g.ax==null&&Math.hypot(dx,dy)>12)g.ax=Math.abs(dx)>Math.abs(dy)*1.3?'x':'y';
+    if(g.ax==='x'&&document.querySelector('#modal .mnav'))md.style.transform=`translateX(${dx*.35}px)`;else if(g.ax==='y'&&g.top&&dy>0){md.style.transform=`translateY(${dy*.5}px)`;md.style.opacity=String(Math.max(.4,1-dy/600))}},{passive:true});
+  mb.addEventListener('touchend',e=>{if(!g)return;const t=e.changedTouches[0],dx=t.clientX-g.x,dy=t.clientY-g.y,fast=Date.now()-g.t<700;md.style.transition='transform .18s,opacity .18s';md.style.transform='';md.style.opacity='';setTimeout(()=>{md.style.transition=''},200);
+    if(g.ax==='x'&&Math.abs(dx)>70&&fast&&document.querySelector('#modal .mnav')){const b=[...document.querySelectorAll('#modal .mnav .btn')][dx<0?1:0];if(b&&!b.disabled)step(dx<0?1:-1)}
+    else if(g.ax==='y'&&g.top&&dy>110)closeModal();g=null},{passive:true});
+  // pull to refresh
+  const C=$('content'),pull=document.createElement('div');pull.className='pull';pull.innerHTML='<span>↓</span><b>Pull to refresh</b>';C.parentNode.insertBefore(pull,C);let p=null;
+  C.addEventListener('touchstart',e=>{p=C.scrollTop<=0&&e.touches.length===1&&!skip(e.target)?{y:e.touches[0].clientY,d:0}:null},{passive:true});
+  C.addEventListener('touchmove',e=>{if(!p)return;p.d=Math.max(0,e.touches[0].clientY-p.y);if(C.scrollTop>0){p=null;pull.style.height='0';return}const h=Math.min(70,p.d*.45);pull.style.height=h+'px';pull.classList.toggle('ready',p.d>130);pull.querySelector('b').textContent=p.d>130?'Release to refresh':'Pull to refresh'},{passive:true});
+  C.addEventListener('touchend',()=>{if(!p)return;const go2=p.d>130;p=null;if(!go2){pull.style.height='0';return}pull.classList.add('busy');pull.querySelector('b').textContent='Refreshing…';
+    Promise.resolve(typeof CL!=='undefined'&&CL.user?clSyncNow(true):null).catch(()=>{}).then(()=>{renderTab();toast('Refreshed');pull.style.height='0';pull.classList.remove('busy','ready')})},{passive:true});
+})();
 function renderTab(){
   renderTabs();renderBnav();
   toggleDrawer(false);
@@ -1641,6 +1776,75 @@ function step(d){const i=MODAL_LIST.indexOf(CUR);if(i<0)return;const x=MODAL_LIS
 // Recently viewed entries (this device), shown on Home and in the search box
 function recentAdd(x){if(!x||!x._t||x._t==='note'&&!x.n)return;const k=x._t+'|'+x.n;let r=store.get('recent',[]).filter(z=>z!==k);r.unshift(k);store.set('recent',r.slice(0,16))}
 function recentItems(){return store.get('recent',[]).map(k=>{const [t,...rest]=k.split('|'),n=rest.join('|'),T=TYPES[t];return T&&T.arr.find(y=>y.n===n)}).filter(Boolean)}
+// Notes on anything: your own note on any monster, Blueprint, god, rule… shown in its window, found by search, and kept in your
+// account like the rest of your saved data.
+const noteOf=x=>(store.get('notes',{})[pinKey(x)]||{}).t||'';
+function noteHTML(x){const t=noteOf(x);return `<details class="mnote"${t?' open':''}><summary>📝 ${t?'Your note':'Add a note'}</summary><textarea class="sel" id="noteTxt" rows="3" placeholder="Only you see this. It's saved as you type.">${esc(t)}</textarea><small id="noteMsg"></small></details>`}
+function noteBind(x){const ta=$('noteTxt');if(!ta)return;let tm;ta.oninput=()=>{clearTimeout(tm);tm=setTimeout(()=>{const N=store.get('notes',{}),v=ta.value.trim(),k=pinKey(x);if(v)N[k]={t:v,at:Date.now()};else delete N[k];store.set('notes',N);$('noteMsg').textContent=v?'Saved':'Note removed';ta.closest('details').querySelector('summary').textContent='📝 '+(v?'Your note':'Add a note')},400)}}
+function noteItems(){return Object.entries(store.get('notes',{})).map(([k,v])=>{const [t,...r]=k.split('|'),T=TYPES[t],n=r.join('|');const x=T&&T.arr.find(y=>y.n===n);return x?{x,t:v.t,at:v.at||0}:null}).filter(Boolean).sort((a,b)=>b.at-a.at)}
+// Compare: up to 4 Blueprints, monsters, or materials side by side; the tray at the bottom collects them, the table shows
+// every stat with the cells that differ highlighted (and the highest number in a row marked).
+const CMP_TYPES={bp:[['Category','cat'],['Level','lv'],['Rarity','r'],['Grade','gr'],['Profession','pr'],['Damage',x=>x.dc?x.dc+(x.dm?' '+x.dm:''):''],['Armor Class','ac'],['Property','prop'],['Magic',x=>x.mg?'Yes':'']],
+  mon:[['Realm','realm'],['Grade','g'],['CR','cr'],['HP',x=>x.sb&&x.sb.hp],['AC',x=>x.sb&&x.sb.ac],['Body',x=>x.body],['Source','book'],['Homebrew',x=>x.hb?'Yes':'']],
+  mat:[['Realm','realm'],['Grade','g'],['Material Rank','rank'],['Item Level','il'],['Rarity','rar'],['Price (gp)','price'],['Type','ty'],['Property','prop'],['Use','use']]};
+let CMP=store.get('compare',[]);
+const cmpHas=x=>CMP.includes(pinKey(x));
+function cmpItems(){return CMP.map(k=>{const [t,...r]=k.split('|');return TYPES[t]&&TYPES[t].arr.find(y=>y.n===r.join('|'))}).filter(Boolean)}
+function cmpItemToggle(x){const k=pinKey(x);if(cmpHas(x))CMP=CMP.filter(y=>y!==k);else{const t=CMP[0]&&CMP[0].split('|')[0];if(t&&t!==x._t){CMP=[];toast('Compare holds one kind at a time: started a new comparison')}if(CMP.length>=4){toast('Compare holds up to 4: the oldest was taken out');CMP.shift()}CMP.push(k)}store.set('compare',CMP);cmpTray()}
+function cmpTray(){let t=$('ctray');if(!t){t=document.createElement('div');t.id='ctray';t.className='ctray';document.body.appendChild(t)}const L=cmpItems();t.hidden=!L.length;if(!L.length)return;
+  t.innerHTML=`<b>⚖ Compare</b>${L.map(x=>`<span class="chip">${esc(x.n.length>22?x.n.slice(0,21)+'…':x.n)}<button type="button" aria-label="Remove ${esc(x.n)}" data-crm="${esc(pinKey(x))}">×</button></span>`).join('')}<button class="btn primary" type="button" data-cgo ${L.length<2?'disabled title="Add at least 2"':''}>Compare ${L.length}</button><button class="btn" type="button" data-cclr>Clear</button>`;
+  t.onclick=e=>{const r=e.target.closest('[data-crm]');if(r){CMP=CMP.filter(y=>y!==r.dataset.crm);store.set('compare',CMP);cmpTray();const b=$('cmpBtn');if(b&&CUR)b.classList.toggle('on',cmpHas(CUR));return}if(e.target.closest('[data-cgo]'))openCompare();if(e.target.closest('[data-cclr]')){CMP=[];store.set('compare',CMP);cmpTray()}}}
+function openCompare(){const L=cmpItems();if(L.length<2)return;const F=CMP_TYPES[L[0]._t],val=(x,f)=>{const v=typeof f==='function'?f(x):x[f];return v==null?'':v};
+  const rows=F.map(([l,f])=>{const vs=L.map(x=>val(x,f));if(vs.every(v=>v===''))return '';const diff=new Set(vs.map(String)).size>1,nums=vs.map(v=>typeof v==='number'?v:/^\d+(\.\d+)?$/.test(String(v))?+v:null),mx=nums.every(n=>n!=null)?Math.max(...nums):null;
+    return `<tr><th>${l}</th>${vs.map((v,i)=>`<td class="${diff?'cdiff':''}${mx!=null&&diff&&nums[i]===mx?' cbest':''}">${esc(String(v))||'—'}</td>`).join('')}</tr>`}).join('');
+  $('qBox').innerHTML=`<div class="mh"><div class="kind">Compare ${L.length} ${esc(TYPES[L[0]._t].label)}</div><h2 id="qTitle">Side by side</h2><div class="mact"><button class="icon-btn" onclick="closeQuick()" aria-label="Close">${ICON.x}</button></div></div>
+    <div class="tablewrap"><table class="t ctab"><thead><tr><th></th>${L.map(x=>`<th><a href="#" data-cop="${esc(pinKey(x))}">${esc(x.n)}</a></th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div><p class="note">Highlighted cells differ; the highest number in a row is marked in green.</p>`;
+  $('qBox').style.maxWidth='min(1000px,96vw)';$('qbg').classList.add('open');
+  $('qBox').onclick=e=>{const a=e.target.closest('[data-cop]');if(!a)return;e.preventDefault();const x=L.find(y=>pinKey(y)===a.dataset.cop);closeQuick();if(x)openItem(x)}}
+// Handouts: a spoiler-free card the DM gives players: a monster's look (no stats or drops), an item, a god, a place, or a
+// letter written from scratch. Shown full-screen on this device, shared as a link (the card travels inside the link, so it
+// works for anyone), or sent into a campaign, where players see it on Home and get a message the moment it arrives.
+function hoText(x){const T=TYPES[x._t]||{label:''},cut=t=>{t=String(t||'').replace(/\s+/g,' ').trim();return t.length>600?t.slice(0,597)+'…':t};
+  if(x._t==='mon')return {t:x.n,k:'Creature',b:cut((x.txt?x.txt+' ':'')+(x.realm?'It is found in the '+x.realm+' Realm.':''))};
+  if(x._t==='bp')return {t:x.n,k:[x.cat,x.r].filter(Boolean).join(' · ')||'Item',b:cut(x.ds)};
+  if(x._t==='mat')return {t:x.n,k:[x.ty,x.realm&&x.realm+' Realm'].filter(Boolean).join(' · ')||'Material',b:cut(x.use||x.ds||'')};
+  if(x._t==='god')return {t:godKey(x),k:'God',b:cut(x.ds||x.title||'')};
+  return {t:x.n.split(' - ')[0],k:T.label||'',b:cut(x.ds||x.txt||x.md||'')}}
+const hoEnc=h=>btoa(unescape(encodeURIComponent(JSON.stringify({t:h.t,k:h.k||'',b:h.b||''})))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+function hoDec(c){try{const o=JSON.parse(decodeURIComponent(escape(atob(c.replace(/-/g,'+').replace(/_/g,'/')))));return o&&typeof o.t==='string'?{t:o.t.slice(0,120),k:String(o.k||'').slice(0,40),b:String(o.b||'').slice(0,4000)}:null}catch(e){return null}}
+const hoLink=h=>(SITE?new URL('index.html',location.href).href:location.href.split('#')[0])+'#handout='+hoEnc(h);
+const hoDMCamps=()=>typeof CL!=='undefined'&&CL.user?CL.camps.filter(k=>k.dm===CL.user.id):[];
+function openHandout(h){h=h||{t:'',k:'Letter',b:''};const camps=hoDMCamps();
+  $('qBox').innerHTML=`<div class="mh"><div class="kind">For your players</div><h2 id="qTitle">Handout</h2><div class="mact"><button class="icon-btn" onclick="closeQuick()" aria-label="Close">${ICON.x}</button></div></div>
+    <p class="note" style="margin-top:0">Players see only what is written here: change anything that would give too much away.</p>
+    <label class="note" style="display:block;margin:0 0 4px">Title</label><input class="sel" id="hoT" maxlength="120" value="${esc(h.t)}" style="max-width:none;width:100%">
+    <label class="note" style="display:block;margin:10px 0 4px">Kind <small>(shown above the title)</small></label><input class="sel" id="hoK" maxlength="40" value="${esc(h.k)}" style="max-width:none;width:100%">
+    <label class="note" style="display:block;margin:10px 0 4px">Text</label><textarea class="sel" id="hoB" rows="7" maxlength="4000" style="max-width:none;width:100%;resize:vertical;font:inherit">${esc(h.b)}</textarea>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="btn" type="button" data-ho="show">👁 Show on this screen</button><button class="btn" type="button" data-ho="link">🔗 Share link</button>
+      ${camps.length?`<span style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><select class="sel" id="hoC" style="width:auto">${camps.map(k=>`<option value="${esc(k.id)}">${esc(k.name)}</option>`).join('')}</select><button class="btn primary" type="button" data-ho="send">📜 Send to campaign</button></span>`:''}</div>
+    ${camps.length?'':`<p class="note">Run a campaign (Account → Campaigns) to send handouts straight to your players' screens.</p>`}<div class="okline" id="hoMsg"></div>`;
+  $('qBox').style.maxWidth='620px';$('qbg').classList.add('open');
+  const get=()=>({t:$('hoT').value.trim()||'Handout',k:$('hoK').value.trim(),b:$('hoB').value.trim()});
+  $('qBox').onclick=async e=>{const b=e.target.closest('[data-ho]');if(!b)return;const H=get();
+    if(b.dataset.ho==='show'){showHandout(H);return}
+    if(b.dataset.ho==='link'){const u=hoLink(H);try{if(navigator.share&&matchMedia('(pointer:coarse)').matches){await navigator.share({title:H.t,url:u});return}}catch(x){}(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>{$('hoMsg').textContent='Link copied: anyone who opens it sees this handout.'},()=>{$('hoMsg').textContent=u});return}
+    if(b.dataset.ho==='send'){b.disabled=true;const {error}=await CL.sb.rpc('fand_add_handout',{p_campaign:$('hoC').value,p_title:H.t,p_body:H.b,p_kind:H.k});b.disabled=false;
+      if(error){$('hoMsg').style.color='var(--red)';$('hoMsg').textContent=/function|schema cache|does not exist/i.test(error.message||'')?'Handouts need the latest database setup: run tools/cloud/schema.sql again in Supabase.':clMsg(error);return}
+      closeQuick();toast('Handout sent');hoLoad()}}}
+function showHandout(h){let v=$('hoView');if(!v){v=document.createElement('div');v.id='hoView';v.className='hov';v.setAttribute('role','dialog');v.setAttribute('aria-modal','true');document.body.appendChild(v);v.onclick=e=>{if(e.target===v||e.target.closest('[data-hox]'))v.hidden=true}}
+  v.innerHTML=`<div class="ho-card">${h.k?`<div class="ho-k">${esc(h.k)}</div>`:''}<h2>${esc(h.t)}</h2><div class="ho-b">${esc(h.b).replace(/\n/g,'<br>')}</div><button type="button" class="btn" data-hox>Close</button></div>`;v.hidden=false}
+function hoFromHash(){const m=/[#&]handout=([\w-]+)/.exec(location.hash);if(!m)return;const h=hoDec(m[1]);if(h)showHandout(h)}
+window.addEventListener('hashchange',hoFromHash);
+document.addEventListener('keydown',e=>{const v=$('hoView');if(e.key==='Escape'&&v&&!v.hidden){v.hidden=true;e.stopPropagation()}},true);
+// campaign handouts (needs the campaign_handouts table from schema.sql; without it this stays quiet)
+async function hoLoad(){if(typeof CL==='undefined'||!CL.user||!CL.sb||!CL.camps.length){if(typeof CL!=='undefined')CL.handouts=[];return}
+  const {data,error}=await CL.sb.from('campaign_handouts').select('id,campaign_id,title,body,kind,created_at').in('campaign_id',CL.camps.map(k=>k.id)).order('created_at',{ascending:false});
+  if(error){CL.handouts=[];return}CL.handouts=(data||[]).sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at))).slice(0,30);hoSubscribe();if(TAB==='home')renderHome()}
+function hoSubscribe(){if(CL.hochan){CL.sb.removeChannel(CL.hochan);CL.hochan=null}const ch=CL.sb.channel('fand-handouts');CL.camps.forEach(k=>ch.on('postgres_changes',{event:'*',schema:'public',table:'campaign_handouts',filter:'campaign_id=eq.'+k.id},hoEvent));CL.hochan=ch.subscribe()}
+function hoEvent(p){const r=p.new||{};if(p.eventType==='DELETE'){CL.handouts=(CL.handouts||[]).filter(x=>x.id!==(p.old||{}).id)}else if(r.id&&!(CL.handouts||[]).some(x=>x.id===r.id)){CL.handouts=[r].concat(CL.handouts||[]);const k=CL.camps.find(c=>c.id===r.campaign_id);if(!k||k.dm!==CL.user.id)actToast('New handout from your DM: '+r.title,'Open',()=>showHandout({t:r.title,k:r.kind,b:r.body}))}if(TAB==='home')renderHome()}
+async function hoDelete(id){const {error}=await CL.sb.from('campaign_handouts').delete().match({id});if(error){toast(clMsg(error));return}CL.handouts=CL.handouts.filter(x=>x.id!==id);if(TAB==='home')renderHome();toast('Handout removed')}
+function hoHomeHTML(){const L=typeof CL!=='undefined'&&CL.handouts||[],dm=hoDMCamps().length;if(!L.length&&!dm)return '';
+  return `<section class="sec"><div class="sec-h"><h3>Handouts</h3><p>${dm?'What you have shared with your players':'From your DM'}</p>${dm?'<button class="btn" type="button" onclick="openHandout()">📜 New handout</button>':''}</div>${L.length?`<div class="ho-list">${L.slice(0,8).map(h=>{const k=CL.camps.find(c=>c.id===h.campaign_id),mine=k&&k.dm===CL.user.id;return `<div class="ho-item"><button type="button" class="ho-open" onclick='showHandout(${esc(JSON.stringify({t:h.title,k:h.kind,b:h.body}))})'><small>${esc(h.kind||'Handout')}${k?' · '+esc(k.name):''}</small><b>${esc(h.title)}</b></button>${mine?`<button type="button" class="icon-btn" title="Remove for everyone" aria-label="Remove handout" onclick="hoDelete('${esc(h.id)}')">${ICON.x}</button>`:''}</div>`}).join('')}</div>`:'<div class="note">Nothing shared yet. Open any monster, item, or god and tap 📜, or write a new handout.</div>'}</section>`}
 // Quick actions in a window: a monster goes straight into the combat tracker or the encounter builder; a Blueprint or a
 // material goes to a character in the party.
 function modalQuick(x){const b=[];
@@ -1665,13 +1869,16 @@ function showModal(x){
       <h2 id="mtitle">${M.title}</h2>${M.ep?`<div class="ep">${M.ep}</div>`:''}
       ${M.badges?`<div class="badges">${M.badges}</div>`:''}
       <div class="mact">
+        <button class="icon-btn" id="hoBtn" title="Make a handout for players" aria-label="Make a handout">📜</button>
+        ${CMP_TYPES[x._t]?`<button class="icon-btn${cmpHas(x)?' on':''}" id="cmpBtn" title="Compare" aria-label="Add to compare">⚖</button>`:''}
         ${x._t!=='realm'?`<button class="icon-btn${isPinned(x)?' on':''}" id="pinBtn" title="Pin" aria-label="Pin">${isPinned(x)?ICON.starf:ICON.star}</button>`:''}
         <button class="icon-btn" id="linkBtn" title="Copy link" aria-label="Copy link">${ICON.link}</button>
         <button class="icon-btn" onclick="closeModal()" title="Close (Esc)" aria-label="Close">${ICON.x}</button>
       </div>
     </div>
-    <div class="mb">${modalQuick(x)}${M.body}</div>${nav}`;
+    <div class="mb">${modalQuick(x)}${noteHTML(x)}${M.body}</div>${nav}`;
   diceify($('modal'));
+  noteBind(x);$('hoBtn').onclick=()=>openHandout(hoText(x));const cb=$('cmpBtn');if(cb)cb.onclick=()=>{cmpItemToggle(x);cb.classList.toggle('on',cmpHas(x))};
   const pb=$('pinBtn');if(pb)pb.onclick=()=>{togglePin(x);pb.classList.toggle('on');pb.innerHTML=isPinned(x)?ICON.starf:ICON.star;if(VIEWS[TAB])renderList();else if(TAB==='home')renderTab()};
   $('linkBtn').onclick=()=>{const u=location.href;(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>toast('Link copied'),()=>toast('Copy failed: '+u))};
   $('mbg').classList.add('open');document.body.classList.add('mopen');$('mbg').scrollTop=0;
@@ -1980,10 +2187,33 @@ function closePalette(){$('pbg').classList.remove('open')}
 $('pbg').addEventListener('mousedown',e=>{if(e.target===$('pbg'))closePalette()});
 const PAL_ORDER=[['rune','Runes'],['note','Codex'],['bp','Blueprints'],['mat','Materials'],['mon','Bestiary'],['god','Gods'],['realm','Realms'],['sub','Subclasses'],['demon','Demons'],['patron','Patrons'],['spell','Spells']];
 function hl(s,q){const i=lc(s).indexOf(q);return i<0?esc(s):esc(s.slice(0,i))+'<mark>'+esc(s.slice(i,i+q.length))+'</mark>'+esc(s.slice(i+q.length))}
+// Smarter search: filters you can type (type:monster realm:Hell grade:5 lv:10 rarity:rare school:evocation cr:5), actions
+// ("roll 2d6+3", "new character", "dark theme"…), recent searches, and a "Did you mean" list when a typo finds nothing.
+const PAL_TYPES={monster:'mon',monsters:'mon',mon:'mon',creature:'mon',creatures:'mon',blueprint:'bp',blueprints:'bp',bp:'bp',item:'bp',items:'bp',material:'mat',materials:'mat',mat:'mat',god:'god',gods:'god',spell:'spell',spells:'spell',rune:'rune',runes:'rune',realm:'realm',realms:'realm',subclass:'sub',subclasses:'sub',sub:'sub',demon:'demon',demons:'demon',patron:'patron',patrons:'patron',note:'note',notes:'note',codex:'note'};
+function palParse(raw){const f={},rest=[];raw.split(/\s+/).forEach(w=>{const m=/^(type|is|realm|grade|g|lv|level|rarity|rar|school|cr):(.+)$/i.exec(w);if(!m){if(w)rest.push(w);return}const k=lc(m[1]),v=lc(m[2]);
+    if(k==='type'||k==='is'){if(PAL_TYPES[v])f.type=PAL_TYPES[v]}else if(k==='realm')f.realm=v;else if(k==='grade'||k==='g')f.g=+v;else if(k==='lv'||k==='level')f.lv=+v;else if(k==='rarity'||k==='rar')f.rar=v;else if(k==='school')f.sc=v;else f.cr=v});
+  if(Object.keys(f).length&&!f.type&&rest.length&&PAL_TYPES[lc(rest[0])])f.type=PAL_TYPES[lc(rest.shift())];
+  return {f,q:lc(rest.join(' ')),has:Object.keys(f).length>0}}
+const palGr=x=>x.gr?String(x.gr).split(' '):[];
+const palMatch=(x,f)=>(!f.realm||lc(x.realm||x.home||palGr(x)[0]||'').startsWith(f.realm))&&(!f.g||(x.g!=null?x.g:+palGr(x).pop())===f.g)&&(!f.lv||+x.lv===f.lv)&&(!f.rar||lc((x._t==='bp'?x.r:x.rar)||'').startsWith(f.rar))&&(!f.sc||lc(x.sc||'').startsWith(f.sc))&&(!f.cr||String(x.cr)===f.cr);
+function lev(a,b,max){if(Math.abs(a.length-b.length)>max)return max+1;let prev=Array.from({length:b.length+1},(_,i)=>i);for(let i=1;i<=a.length;i++){const cur=[i];let best=i;for(let j=1;j<=b.length;j++){cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));if(cur[j]<best)best=cur[j]}if(best>max)return max+1;prev=cur}return prev[b.length]}
+function palFuzzy(q){const max=q.length>7?2:1,out=[];PAL_ORDER.forEach(([t])=>{for(const x of TYPES[t].arr){const n=lc(x.n);let d=lev(n.slice(0,q.length),q,max);if(d>max)for(const w of n.split(/[^a-z0-9']+/)){if(w.length<3)continue;d=Math.min(d,lev(w,q,max),lev(w.slice(0,q.length),q,max));if(!d)break}if(d<=max)out.push([d,x])}});return out.sort((a,b)=>a[0]-b[0]||a[1].n.length-b[1].n.length).slice(0,8).map(r=>r[1])}
+const PAL_ACTIONS=[['📜 New handout','handout letter note players share',()=>openHandout()],['🎲 Table screen','table screen play big hp fullscreen',()=>openTable()],['✨ Build a new character','new character build make create hero',()=>charWizard()],['🌙 Dark theme','dark theme night',()=>{store.set('theme','dark');applyTheme('dark')}],['☀ Light theme','light theme day bright',()=>{store.set('theme','light');applyTheme('light')}],['⟳ Check for updates','update updates version newest refresh',()=>go('settings')],['❓ Help','help how faq trouble',()=>go('help')],['🧭 Show me around','tour guide welcome around',()=>openGuide(0)],['👤 Sign in','sign in login log account profile',()=>go('account')],['📖 Quick rules','quick rules conditions',()=>openQuick()],['🎲 Something random','random surprise',()=>randomItem(BPS.concat(MATS,MONSTERS,GODS))],['⚔ Combat tracker','combat initiative fight tracker',()=>go('combat')]];
+const PAL_DICE=/^(?:roll\s+)?(\d{0,2}d\d+(?:\s*[+\-−]\s*(?:\d{0,2}d\d+|\d+))*)$/i;
+function palActions(raw){let h='';const m=PAL_DICE.exec(raw),acts=[];if(m)acts.push(['🎲 Roll '+m[1],()=>rollShow(m[1])]);const q=lc(raw);if(q.length>=3)PAL_ACTIONS.forEach(([l,k,f])=>{if(k.split(' ').some(w=>w.startsWith(q))||k.includes(q))acts.push([l,f])});
+  if(acts.length){h+=`<div class="pal-g">Actions</div>`;acts.slice(0,4).forEach(([l,f])=>{PRES.push({run:f,act:1});h+=`<button class="pal-i" data-pi="${PRES.length-1}"><span>${esc(l)}</span><span class="r">action</span></button>`})}return h}
+function palFiltered(P){let h='';const types=P.f.type?[[P.f.type,(PAL_ORDER.find(o=>o[0]===P.f.type)||[0,TYPES[P.f.type].label])[1]]]:PAL_ORDER,lim=P.f.type?30:6,lab={realm:'realm',g:'grade',lv:'level',rar:'rarity',sc:'school',cr:'CR',type:'type'};
+  h+=`<div class="pal-hint">Filters: ${Object.entries(P.f).map(([k,v])=>`<span class="b ghost">${lab[k]} ${esc(k==='type'?TYPES[v].label:v)}</span>`).join(' ')}${P.q?` · “${esc(P.q)}”`:''}</div>`;let n=0;
+  types.forEach(([t,label])=>{const hits=TYPES[t].arr.filter(x=>palMatch(x,P.f)&&(!P.q||lc(x.n).includes(P.q)));if(!hits.length)return;n+=hits.length;h+=`<div class="pal-g">${label} <span class="r">${fmt(hits.length)}</span></div>`;hits.slice(0,lim).forEach(x=>{PRES.push({x});h+=palRow(x,P.q?hl(x.n,P.q):esc(x.n),PRES.length-1)})});
+  return n?h:h+`<div class="empty" style="padding:24px">Nothing matches these filters.</div>`}
+function palRemember(raw){if(!raw)return;const L=store.get('recentq',[]).filter(x=>x!==raw);L.unshift(raw);store.set('recentq',L.slice(0,8))}
 function paletteSearch(){
-  const q=lc($('pq').value.trim()).replace(/infinitas/g,'infinatas');
-  PRES=[];let h='';
-  if(!q){
+  const raw=$('pq').value.trim(),P=palParse(raw.replace(/infinitas/gi,'infinatas')),q=P.q;
+  PRES=[];let h=raw?palActions(raw):'';
+  if(P.has){h+=palFiltered(P)}
+  else if(!q){
+    const rq=store.get('recentq',[]);if(rq.length){h+=`<div class="pal-g">Recent searches</div>`;rq.slice(0,5).forEach(t=>{PRES.push({q:t});h+=`<button class="pal-i" data-pi="${PRES.length-1}"><span>🕘 ${esc(t)}</span><span class="r">search</span></button>`})}
+    h+=`<div class="pal-hint">Try <code>monster realm:Hell grade:5</code>, <code>rarity:legendary sword</code>, or <code>roll 2d6+3</code></div>`;
     const pins=pinnedItems().slice(0,8);
     const jump=TABS.filter(t=>t[0]!=='home');
     if(pins.length){h+=`<div class="pal-g">Pinned</div>`;pins.forEach(x=>{PRES.push({x});h+=palRow(x,esc(x.n),PRES.length-1)})}
@@ -2015,6 +2245,8 @@ function paletteSearch(){
     if(!SP.length&&META.counts.spells){PRES.push({tab:'spells',setup:{q:$('pq').value.trim()}});h+=`<div class="pal-g">Spells</div><button class="pal-i" data-pi="${PRES.length-1}">Search ${fmt(META.counts.spells)} spells for “${esc($('pq').value.trim())}”<span class="r">Spells page →</span></button>`}
     const tabs=TABS.filter(([,l])=>lc(l).includes(q));
     if(tabs.length){h+=`<div class="pal-g">Sections</div>`;tabs.forEach(([id,l])=>{PRES.push({tab:id});h+=`<button class="pal-i" data-pi="${PRES.length-1}">${l}<span class="r">section</span></button>`})}
+    {const ns=noteItems().filter(n=>lc(n.t).includes(q));if(ns.length){h+=`<div class="pal-g">Your notes</div>`;ns.slice(0,5).forEach(n=>{PRES.push({x:n.x});const i=lc(n.t).indexOf(q),snip=n.t.slice(Math.max(0,i-20),i+40);h+=`<button class="pal-i" data-pi="${PRES.length-1}"><span>📝 ${esc(n.x.n)}</span><span class="r">${hl(snip,q)}</span></button>`})}}
+    if(PRES.filter(r=>r.x).length<3&&q.length>=4){const dm=palFuzzy(q).filter(x=>!PRES.some(r=>r.x===x));if(dm.length){h+=`<div class="pal-g">Did you mean</div>`;dm.forEach(x=>{PRES.push({x});h+=palRow(x,esc(x.n),PRES.length-1)})}}
     if(!PRES.length)h=`<div class="empty" style="padding:30px">No matches for “${esc(q)}”</div>`;
   }
   $('pres').innerHTML=h;PSEL=0;palMark();
@@ -2025,7 +2257,7 @@ function palRow(x,label,i){
   return `<button class="pal-i" data-pi="${i}">${col?`<span class="sw" style="width:8px;height:8px;border-radius:50%;background:${col};flex-shrink:0"></span>`:''}<span>${label}</span><span class="r">${esc(sub)}</span></button>`;
 }
 function palMark(){$('pres').querySelectorAll('.pal-i').forEach(b=>b.classList.toggle('sel',+b.dataset.pi===PSEL));const s=$('pres').querySelector('.sel');if(s)s.scrollIntoView({block:'nearest'})}
-function palPick(i){const r=PRES[i];if(!r)return;closePalette();if(r.run){r.run();return}if(r.tool)store.set('tooltab',r.tool);if(r.focus)store.set('clsfocus',r.focus);if(r.place)store.set('placefocus',r.place);if(r.tab){go(r.tab,r.setup);if(r.focus&&TAB==='classes')renderClasses();return}const x=r.x;const tab=TYPES[x._t].tab;if(!SITE&&TAB!==tab){history.pushState(null,'',hashFor(tab));TAB=tab;renderTab()}LIST=VIEWS[TAB]?filtered():[];openItem(x)}
+function palPick(i){const r=PRES[i];if(!r)return;if(r.q){$('pq').value=r.q;paletteSearch();$('pq').focus();return}if(!r.act)palRemember($('pq').value.trim());closePalette();if(r.run){r.run();return}if(r.tool)store.set('tooltab',r.tool);if(r.focus)store.set('clsfocus',r.focus);if(r.place)store.set('placefocus',r.place);if(r.tab){go(r.tab,r.setup);if(r.focus&&TAB==='classes')renderClasses();return}const x=r.x;const tab=TYPES[x._t].tab;if(!SITE&&TAB!==tab){history.pushState(null,'',hashFor(tab));TAB=tab;renderTab()}LIST=VIEWS[TAB]?filtered():[];openItem(x)}
 let pTimer;$('pq').addEventListener('input',()=>{clearTimeout(pTimer);pTimer=setTimeout(paletteSearch,60)});
 $('pq').addEventListener('keydown',e=>{
   if(e.key==='ArrowDown'){PSEL=Math.min(PRES.length-1,PSEL+1);palMark();e.preventDefault()}
@@ -2077,28 +2309,41 @@ function homeRoleHTML(){const r=role();
   if(!r)return `<section class="sec"><div class="callout" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div style="flex:1;min-width:220px"><b>How do you use FAND?</b><br><span class="note" style="margin:0">FAND puts the pages you use most first: your character for players, the table tools for DMs. Change it any time in Settings.</span></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" type="button" onclick="setRole('player')">I'm a player</button><button class="btn primary" type="button" onclick="setRole('dm')">I'm the DM</button><button class="btn" type="button" onclick="setRole('both')">Both</button></div></div></section>`;
   if(r==='both')return '';
   return `<section class="sec"><div class="sec-h"><h3>${r==='dm'?'Your table':'Your character'}</h3><p>${ROLES[r]} view · <a href="${pageUrl('settings')}#set-play" data-go="settings">change</a></p></div><div class="qgrid">${ROLE_HOME[r].map(id=>{const t=TABS.find(x=>x[0]===id);return t?`<a class="qcard" href="${pageUrl(id)}" data-go="${id}"><b>${esc(t[1])}</b><small>${esc(NAV_BLURB[id]||'')}</small></a>`:''}).join('')}</div></section>`}
+// Customise Home: move sections up and down, or hide the ones you don't use
+let HOME_EDIT=false;
+const homeL=()=>Object.assign({order:[],hidden:[]},store.get('homelayout',{}));
+function homeLayout(S){const H=homeL(),ord=S.slice().sort((a,b)=>{const ia=H.order.indexOf(a[0]),ib=H.order.indexOf(b[0]);return (ia<0?99+S.indexOf(a):ia)-(ib<0?99+S.indexOf(b):ib)});
+  const body=ord.map(([k,l,f],i)=>{const hid=H.hidden.includes(k);if(hid&&!HOME_EDIT)return '';let h='';try{h=f()||''}catch(e){h=''}
+    return HOME_EDIT?`<div class="hsec${hid?' off':''}" data-hk="${k}"><div class="hsec-bar"><b>${esc(l)}</b><button type="button" class="btn" data-hmv="-1" ${i?'':'disabled'} aria-label="Move ${esc(l)} up">↑</button><button type="button" class="btn" data-hmv="1" ${i<ord.length-1?'':'disabled'} aria-label="Move ${esc(l)} down">↓</button><button type="button" class="btn${hid?' primary':''}" data-hhide>${hid?'Show':'Hide'}</button></div>${h||'<div class="note" style="padding:6px 0">(nothing to show here yet)</div>'}</div>`:h}).join('');
+  return (HOME_EDIT?`<div class="callout hedit-top"><b>Customise Home</b><span class="note" style="margin:0;flex:1">Move sections with ↑ ↓, hide what you don't use. Saved in your account.</span><button type="button" class="btn" data-hreset>Reset</button><button type="button" class="btn primary" data-hdone>Done</button></div>`:'')+body+(HOME_EDIT?'':`<div style="text-align:center;margin:18px 0 6px"><button type="button" class="btn" data-hedit>✎ Customise Home</button></div>`)}
+function homeBind(){const C=$('content');C.querySelectorAll('[data-hedit],[data-hdone],[data-hreset],[data-hmv],[data-hhide]').forEach(b=>b.onclick=()=>{const H=homeL(),k=(b.closest('[data-hk]')||{}).dataset;
+  if(b.dataset.hedit!=null)HOME_EDIT=true;else if(b.dataset.hdone!=null)HOME_EDIT=false;else if(b.dataset.hreset!=null){store.set('homelayout',{});HOME_EDIT=false;toast('Home reset')}
+  else{const keys=[...C.querySelectorAll('[data-hk]')].map(e=>e.dataset.hk);if(b.dataset.hmv){const i=keys.indexOf(k.hk),j=i+ +b.dataset.hmv;[keys[i],keys[j]]=[keys[j],keys[i]];H.order=keys}else{H.hidden=H.hidden.includes(k.hk)?H.hidden.filter(x=>x!==k.hk):H.hidden.concat(k.hk);H.order=keys}store.set('homelayout',H)}
+  const y=C.scrollTop;renderHome();C.scrollTop=y})}
 function renderHome(){
   const pins=pinnedItems();
   const homebrew=MONSTERS.filter(m=>m.hb).length;
   const fingers=GODS.reduce((a,g)=>a+(g.hand||[]).length,0);
   const stats=[['blueprints',BPS.length,'Blueprints'],['materials',MATS.length,'Graded materials'],['bestiary',MONSTERS.length,`Monsters · ${homebrew} homebrew · ${MONSTERS.filter(m=>m.myth).length} from myth`],['realms',REALMS.length,'Realm tiers'],['gods',GODS.length,`Gods · ${fingers} named Fingers`],['professions',10,'Professions'],['subclasses',SUBS.length,'Subclasses'],['spells',META.counts.spells,META.counts.spells<10000?'Spells from the vault':'Spells in the app']];
-  $('content').innerHTML=`<div class="page">
-    <section class="hero">
+  // every section of Home, in the order and with the sections chosen under Customise Home (Home layout, kept in your account)
+  const S=[
+    ['hero','Welcome and search',()=>`<section class="hero">
       <div class="badges" style="margin-bottom:12px"><span class="b gold">Version ${esc(META.version)}</span><span class="b ghost">Built ${esc(META.built)}</span></div>
       <h2>Fantasy and Numerous Disasters</h2><p style="font-family:var(--serif);font-style:italic;color:var(--gold2);margin:-4px 0 8px">The FAND compendium of Vestige</p>
       <p>Every Blueprint, material, monster, realm, and god in the FAND campaign, cross-linked. Click anything to see what it's made from, what drops it, and who wants it.</p>
       <button class="hero-search" onclick="openPalette()">${ICON.search.replace('<svg','<svg width="18" height="18"')}<span>Search everything…</span><kbd>Ctrl K</kbd></button>
       <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="randomItem(BPS.concat(MATS,MONSTERS,GODS))">🎲 Show me something random</button></div>
-    </section>
-    ${homeRoleHTML()}
-    <section class="sec"><div class="stats">${stats.map(([t,v,l])=>`<button class="stat" data-go="${t}"><span class="v">${fmt(v)}</span><span class="l">${l}</span></button>`).join('')}</div></section>
-    ${(()=>{const rec=recentItems().slice(0,10);return rec.length?`<section class="sec"><div class="sec-h"><h3>Recently viewed</h3><p>on this device · <a href="#" onclick="store.set('recent',[]);renderHome();return false">clear</a></p></div><div class="chips">${rec.map(x=>refChip(x,esc(x._t==='god'?godKey(x):x.n),{bp:'Blueprint',mat:'Material',mon:'Monster',god:'God',rune:'Rune',spell:'Spell',sub:'Subclass',realm:'Realm',demon:'Demon',patron:'Patron',note:'Note'}[x._t]||'')).join('')}</div></section>`:''})()}
-    ${pins.length?`<section class="sec"><div class="sec-h"><h3>Pinned</h3><p>${pins.length} saved on this device</p></div><div class="grid">${pins.slice(0,12).map(card).join('')}</div></section>`:''}
-    <section class="sec"><div class="callout" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div style="flex:1;min-width:220px"><b>New to FAND or to tabletop games?</b><br><span class="note" style="margin:0">Make a character from scratch in five simple steps. No rulebook needed.</span></div><button class="btn primary" type="button" onclick="charWizard()">✨ Build a character for me</button></div></section>
-    <section class="sec"><div class="sec-h"><h3>Latest changes</h3><p>What's new on the site · <a href="${pageUrl('about')}" data-go="about">all changes →</a></p></div><div style="display:flex;flex-direction:column;gap:8px">${SITE_CHANGES.slice(0,6).map(([d,t,x,pg])=>`<div class="callout" style="border-color:var(--gold)"><div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b>${pg?`<a href="${pageUrl(pg)}" data-go="${pg}">${esc(t)}</a>`:esc(t)}</b><small style="color:var(--muted)">${esc(d)}</small></div><div style="line-height:1.55;margin-top:2px">${esc(x)}</div></div>`).join('')}</div></section>
-    <section class="sec"><div class="sec-h"><h3>The realm ladder</h3><p>Eleven realms in ten tiers. Each tier's materials grade 1–10, giving Material Rank 1–100.</p><button class="btn" data-go="realms">All realms →</button></div>
-      <div class="ladder">${REALMS.map(r=>`<button class="rung" style="--rc:${r.color}" data-ref="${ref(r)}"><span class="tier">Tier ${r.tier} · Rank ${(r.tier-1)*10+1}–${r.tier*10}</span><span class="nm">${esc(r.n)}</span><span class="ln">${fmt(MATS.filter(m=>m.realm===r.n).length)} materials · ${fmt(MONSTERS.filter(m=>m.realm===r.n).length)} monsters</span></button>`).join('')}</div></section>
-    <section class="sec cols">
+    </section>`],
+    ['role','Your character or table',()=>homeRoleHTML()],
+    ['handouts','Handouts',()=>hoHomeHTML()],
+    ['stats','Counts',()=>`<section class="sec"><div class="stats">${stats.map(([t,v,l])=>`<button class="stat" data-go="${t}"><span class="v">${fmt(v)}</span><span class="l">${l}</span></button>`).join('')}</div></section>`],
+    ['recent','Recently viewed',()=>(()=>{const rec=recentItems().slice(0,10);return rec.length?`<section class="sec"><div class="sec-h"><h3>Recently viewed</h3><p>on this device · <a href="#" onclick="store.set('recent',[]);renderHome();return false">clear</a></p></div><div class="chips">${rec.map(x=>refChip(x,esc(x._t==='god'?godKey(x):x.n),{bp:'Blueprint',mat:'Material',mon:'Monster',god:'God',rune:'Rune',spell:'Spell',sub:'Subclass',realm:'Realm',demon:'Demon',patron:'Patron',note:'Note'}[x._t]||'')).join('')}</div></section>`:''})()],
+    ['pinned','Pinned',()=>pins.length?`<section class="sec"><div class="sec-h"><h3>Pinned</h3><p>${pins.length} saved on this device</p></div><div class="grid">${pins.slice(0,12).map(card).join('')}</div></section>`:''],
+    ['builder','Character builder',()=>`<section class="sec"><div class="callout" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div style="flex:1;min-width:220px"><b>New to FAND or to tabletop games?</b><br><span class="note" style="margin:0">Make a character from scratch in five simple steps. No rulebook needed.</span></div><button class="btn primary" type="button" onclick="charWizard()">✨ Build a character for me</button></div></section>`],
+    ['changes','Latest changes',()=>`<section class="sec"><div class="sec-h"><h3>Latest changes</h3><p>What's new on the site · <a href="${pageUrl('about')}" data-go="about">all changes →</a></p></div><div style="display:flex;flex-direction:column;gap:8px">${SITE_CHANGES.slice(0,6).map(([d,t,x,pg])=>`<div class="callout" style="border-color:var(--gold)"><div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b>${pg?`<a href="${pageUrl(pg)}" data-go="${pg}">${esc(t)}</a>`:esc(t)}</b><small style="color:var(--muted)">${esc(d)}</small></div><div style="line-height:1.55;margin-top:2px">${esc(x)}</div></div>`).join('')}</div></section>`],
+    ['ladder','The realm ladder',()=>`<section class="sec"><div class="sec-h"><h3>The realm ladder</h3><p>Eleven realms in ten tiers. Each tier's materials grade 1–10, giving Material Rank 1–100.</p><button class="btn" data-go="realms">All realms →</button></div>
+      <div class="ladder">${REALMS.map(r=>`<button class="rung" style="--rc:${r.color}" data-ref="${ref(r)}"><span class="tier">Tier ${r.tier} · Rank ${(r.tier-1)*10+1}–${r.tier*10}</span><span class="nm">${esc(r.n)}</span><span class="ln">${fmt(MATS.filter(m=>m.realm===r.n).length)} materials · ${fmt(MONSTERS.filter(m=>m.realm===r.n).length)} monsters</span></button>`).join('')}</div></section>`],
+    ['guide','Start here',()=>`<section class="sec cols">
       <div class="panel"><h4>Start here</h4><ul>
         <li><a href="${pageUrl('lore')}" data-go="lore">Lore</a>: Infinatas and Inane, the pantheons, the Runes, and the realms.</li>
         <li><a href="${pageUrl('rules')}" data-go="rules">Rules reference</a>: Armor Class, grading, refining, economy, travel, contracts.</li>
@@ -2115,9 +2360,11 @@ function renderHome(){
         <li><span class="vtag">1.17</span>Material Refining and Realm Travel.</li>
         <li><span class="vtag">1.15</span>God Roster: 70 gods, their Runes, Hands, and rivals.</li>
       </ul></div>
-    </section>
-    <section class="sec"><div class="panel"><h4>Still open</h4><p>More official subclasses from late books · placing the party in contracts, rivals, and materials · a god-wars timeline and adventure hooks · more damage-to-support spell conversions.</p></div></section>
-  </div>`;
+    </section>`],
+    ['open','Still open',()=>`<section class="sec"><div class="panel"><h4>Still open</h4><p>More official subclasses from late books · placing the party in contracts, rivals, and materials · a god-wars timeline and adventure hooks · more damage-to-support spell conversions.</p></div></section>`]
+  ];
+  $('content').innerHTML=`<div class="page${HOME_EDIT?' hedit':''}">${homeLayout(S)}</div>`;
+  homeBind();
 }
 
 // Realm map, from the vault's Realm Map note: places by Pressure (height), routes with how they are traveled.
@@ -2282,6 +2529,9 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-17','A better roll','Dice are now thrown onto the table: they tumble in from the edge of the screen, bounce twice with a shadow beneath them, and settle; then the total counts up. Highest faces glow gold and 1s red, a natural 20 bursts into sparks, a natural 1 shakes, and each bounce clacks (turn the sound off in Settings or with 🔊). Roll again repeats any roll.','dice'],
+  ['2026-10-17','At the table','The character sheet rolls any bonus you tap (abilities, saves, skills, initiative, attacks), has quick buttons for hit points, and condition chips. The new Table screen (from the sheet, Combat, the phone Menu, or search) shows big hit points, dice, and the initiative order, and keeps the screen awake. DMs can make handouts: tap 📜 on any monster, item, or god, edit what players may know, and show it, share it as a link, or send it to your campaign.','sheet'],
+  ['2026-10-17','Finding things faster','Search understands filters (monster realm:Hell grade:5, rarity:legendary sword), offers actions (roll 2d6+3, new character), remembers recent searches, and suggests close matches for typos. Every window has a note box for your own notes, and Blueprints, monsters, and materials can be compared side by side. On phones, swipe between items in a window, swipe down to close it, and pull down to refresh. Home can be rearranged, and the account button shows whether everything is synced.','home'],
   ['2026-10-17','A new Hidden classes page for the DM','Once unlocked, Hidden classes is a menu and a page: search, tabs for Unique, Epic, and Legendary, group by tier, Tower, basic class, or progenitor, and filters on the left; the chosen class on the right, with its own link, previous and next, who in your party holds it, and a Grant button. On phones the menu and the class take turns. Players who open the page see how hidden classes are earned instead.','hidden'],
   ['2026-10-17','Player or DM view','Tell FAND how you play (on Home, in the first-visit guide, or in Settings → How you play). DMs get a DM menu with hidden classes, session prep, encounters, combat, hooks, and Towers; players get their character, party, dice, and journal first. Home shows the pages your role uses most.','settings'],
   ['2026-10-17','Easier on phones','A bar at the bottom of phones holds Home, Search, Dice, your character (Combat for the DM), and Menu, a full page of every section. Pages show a progress bar while the compendium downloads on the first visit, and the page frame appears at once.','tools'],
@@ -2907,7 +3157,7 @@ function dpRoll(sp){if(!dpCount(sp))return null;const g=store.get('dicerig',null
   finally{if(g&&g.mode)store.set('dicerig',g.once?null:g);if($('dr-rig-state'))rigState()}}
 function dpLog(R){const sp=R.sp,log=store.get('dicelog',[]);log.unshift({e:dpLabel(sp),t:R.t,r:R.es.map(e=>e.drop?'('+e.v+')':e.v),mod:sp.mode==='succ'?0:sp.mod});store.set('dicelog',log.slice(0,50));if($('dl-log'))diceLog()}
 function dpShow(R){if(!R)return;DPOOL.last=R;dpLog(R);
-  const first=DP_SIDES.find(x=>R.sp.d[x])||20;if(store.get('diceanim',true))diceOverlay({e:dpLabel(R.sp),t:R.t,r:R.es.filter(e=>!e.drop).map(e=>e.v),sd:R.es.filter(e=>!e.drop).map(e=>e.x),mod:R.sp.mode==='succ'?0:R.sp.mod},first);dicePool()}
+  const first=DP_SIDES.find(x=>R.sp.d[x])||20;if(store.get('diceanim',true))diceOverlay({e:dpLabel(R.sp),t:R.t,r:R.es.filter(e=>!e.drop).map(e=>e.v),sd:R.es.filter(e=>!e.drop).map(e=>e.x),mod:R.sp.mode==='succ'?0:R.sp.mod,again:()=>dpShow(dpRoll(R.sp))},first);dicePool()}
 function dicePoolRoll(sp){dpShow(dpRoll(sp||dpSpec()))}
 // reroll one die of the last roll (Lucky, Portent, a bardic reroll...)
 function dpReroll(i){const R=DPOOL.last;if(!R||!R.es[i])return;const sp=R.sp,g=store.get('dicerig',null);if(g&&g.mode)store.set('dicerig',{...g,once:false});
@@ -3907,6 +4157,18 @@ function cwNextHTML(c){if(!c.wizNext)return '';return `<div class="cw-next sh-no
   <li><b>Subclass</b> at level 3, and <b>levels</b> come from big deeds: press ⬆ Level up when your DM says so.</li>
   <li>Not sure about a word? The <a href="${pageUrl('rules')}" data-go="rules">Rules</a> page explains FAND's changes to the usual game.</li></ul></div>`}
 
+// Play from the sheet: every bonus on page 1 (abilities, saves, skills, initiative, attacks) rolls when tapped; hit points have
+// quick buttons (damage takes temporary hit points first); conditions are chips you tap on and off.
+const d20x=v=>'1d20'+(v?(v>0?'+':'-')+Math.abs(v):'');
+const SHEET_CONDS=['Blinded','Charmed','Deafened','Frightened','Grappled','Incapacitated','Invisible','Paralyzed','Petrified','Poisoned','Prone','Restrained','Stunned','Unconscious'];
+function sheetHpQuick(c){const cs=Array.isArray(c.cond)?c.cond:[];return `<div class="hpq sh-noprint"><button type="button" class="btn" data-hpd="-5">−5</button><button type="button" class="btn" data-hpd="-1">−1</button><input class="sel" id="hpAmt" type="number" min="0" placeholder="amount" aria-label="Amount"><button type="button" class="btn" data-hpa="-">Damage</button><button type="button" class="btn" data-hpa="+">Heal</button><button type="button" class="btn" data-hpd="1">+1</button><button type="button" class="btn" data-hpd="5">+5</button></div>
+  <div class="sh-conds sh-noprint">${SHEET_CONDS.map(k=>`<button type="button" class="chip${cs.includes(k)?' on':''}" data-cond="${k}" title="${esc((typeof COND_TEXT!=='undefined'&&COND_TEXT[k])||k)}" aria-pressed="${cs.includes(k)}">${k}</button>`).join('')}</div>${cs.length?`<div class="note" style="margin:4px 0 0">${cs.map(k=>`<b>${k}</b>: ${esc((typeof COND_TEXT!=='undefined'&&COND_TEXT[k])||'')}`).join('<br>')}</div>`:''}`}
+function sheetHp(d){const c=sheetChar();if(!c||SHEET_BLANK)return;const max=+c.hpMax||0;let hp=+c.hp||0,tmp=+c.tempHp||0;
+  if(d<0){const take=Math.min(tmp,-d);tmp-=take;hp=Math.max(0,hp-(-d-take))}else hp=max?Math.min(max,hp+d):hp+d;
+  c.hp=hp;c.tempHp=tmp||'';saveParty();renderSheet();toast(d<0?`${-d} damage · ${hp}${max?' / '+max:''} HP`+(hp===0?' · down!':''):`+${d} HP · ${hp}${max?' / '+max:''}`);if(navigator.vibrate&&d<0)try{navigator.vibrate(15)}catch(e){}}
+document.addEventListener('click',e=>{if(TAB!=='sheet')return;const r=e.target.closest('[data-roll]');if(r&&r.closest('#content')){e.preventDefault();rollShow(r.dataset.roll,r.dataset.what);return}
+  const d=e.target.closest('[data-hpd]');if(d){sheetHp(+d.dataset.hpd);return}const a=e.target.closest('[data-hpa]');if(a){const v=Math.abs(+($('hpAmt')||{}).value||0);if(!v){toast('Type an amount first');return}sheetHp(a.dataset.hpa==='-'?-v:v);return}
+  const k=e.target.closest('[data-cond]');if(k&&k.closest('.sh-conds')){const c=sheetChar();const cs=Array.isArray(c.cond)?c.cond.slice():[];const i=cs.indexOf(k.dataset.cond);if(i<0)cs.push(k.dataset.cond);else cs.splice(i,1);c.cond=cs;saveParty();renderSheet()}});
 function renderSheet(){
   if(CW){renderCharWiz();return}
   {const pw=store.get('charwiz',0);if(pw){store.set('charwiz',0);charWizard(typeof pw==='object'?pw:null);return}}
@@ -3922,7 +4184,7 @@ function renderSheet(){
   const speedPen=s.drawback.filter(o=>/^Speed −(\d+)/.test(o.d)).reduce((a,o)=>a+(+o.d.match(/\d+/)[0]),0);
   const weapons=s.gear.filter(b=>(b.design&&b.design.dmg)||(b.dc&&b.dm&&!ARMOR_CATS.includes(b.cat)));
   const atkRow=b=>{const props=b.design?b.design.props:(genOf(b)&&BASES[genOf(b)].props)||'',fin=/Finesse/i.test(props),rng=/Ammunition|ranged/i.test(props)||['Bow'].includes(b.cat);const ab=rng?M('dex'):fin?Math.max(M('str'),M('dex')):M('str');const item=b.design&&b.design.atk!=null?b.design.atk:0;const dmg=b.design?b.design.dmg:`${b.dc} ${b.dm}`;
-    return `<tr><td><b>${esc(b.n)}</b></td><td class="num">${sgn(ab+pb+item)}</td><td>${esc(dmg.replace(/^(\d+d\d+)/,'$1'+(ab?(ab>0?' + ':' − ')+Math.abs(ab):'')))}</td></tr>`};
+    return `<tr><td><b>${esc(b.n)}</b></td><td class="num"><button class="sh-roll" type="button" data-roll="${d20x(ab+pb+item)}" data-what="${esc(b.n)} attack">${sgn(ab+pb+item)}</button></td><td>${esc(dmg.replace(/^(\d+d\d+)/,'$1'+(ab?(ab>0?' + ':' − ')+Math.abs(ab):'')))}</td></tr>`};
   const head=`<div class="sh-head"><div class="sh-name">${inp('name','Character name')}<div class="sh-lab">Character name</div></div>
     <div class="sh-hgrid">
       <div><select data-s="cls"><option value=""></option>${Object.keys(CLASS_DIE).sort().map(x=>`<option${x===c.cls?' selected':''}>${x}</option>`).join('')}</select><select data-s="sub" title="Subclass (chosen at level 3)"><option value="">Subclass…</option>${SUBS.filter(x=>x.par===c.cls).map(x=>`<option${x.n===c.sub?' selected':''}>${esc(x.n)}</option>`).join('')}</select>${inp('level','',`min="1" max="${MAX_LEVEL}" style="width:64px"`,'number')}<div class="sh-lab">Class &amp; level${si&&si.k>1?` · <b style="color:var(--gold2)">${esc(si.name)}</b>`:''}${c.cls2&&L2?` · ${esc(c.cls)} ${L1} / ${esc(si2&&si2.k>1?si2.name:c.cls2)} ${L2}`:''}</div></div>
@@ -3937,20 +4199,20 @@ function renderSheet(){
   // page 1, laid out like the classic 5e sheet (FAND's own boxes are on the FAND page)
   const core=`<div class="sh-cols">
     <div class="sh-col sh-c1">
-      <div class="sh-abil">${ABIL.map(([k,n])=>`<div class="sh-ab"><div class="sh-lab">${n}</div><div class="sh-mod">${sgn(M(k))}</div><input data-s="abil.${k}" type="number" min="1" max="999" value="${A[k]??10}" aria-label="${n} score"></div>`).join('')}</div>
+      <div class="sh-abil">${ABIL.map(([k,n])=>`<div class="sh-ab"><div class="sh-lab">${n}</div><button class="sh-roll" type="button" data-roll="${d20x(M(k))}" data-what="${n} check" class="sh-mod sh-roll">${sgn(M(k))}</button><input data-s="abil.${k}" type="number" min="1" max="999" value="${A[k]??10}" aria-label="${n} score"></div>`).join('')}</div>
       <div class="sh-col2">
         <div class="sh-row sh-ins">${chk('insp')}<span class="sh-lab" style="margin:0">Inspiration</span></div>
         <div class="sh-row sh-ins"><b class="sh-pill">${sgn(pb)}</b><span class="sh-lab" style="margin:0">Proficiency bonus</span></div>
-        <div class="sh-list">${ABIL.map(([k,n])=>`<label title="FAND: only class abilities and equipment add to a save${s.gb[k]?' · +'+s.gb[k]+' from gear':''}"><b>${sgn((+((c.saveB||{})[k])||0)+s.gb[k])}</b> ${n}${s.gb[k]?` <small style="color:var(--gold2)">+${s.gb[k]} gear</small>`:''} ${inp('saveB.'+k,'0','class="sh-mini" title="Bonus from class abilities (gear is added for you)"','number')}</label>`).join('')}<div class="sh-lab">Saving throws</div></div>
-        <div class="sh-list">${SKILLS.map(sk=>`<label title="FAND: no ability modifier; write the skill's bonus in (gear is added for you)"><b>${sgn(skillVal(sk))}</b> ${sk[1]} <small>(${sk[2].slice(0,3)})</small>${c.disSkill===sk[0]?' <small style="color:var(--red)" title="Disadvantage on these checks (background)">disadv.</small>':''}${s.gb[sk[0]]?` <small style="color:var(--gold2)">+${s.gb[sk[0]]} gear</small>`:''} ${inp('skillB.'+sk[0],'0','class="sh-mini" title="Skill bonus"','number')}</label>`).join('')}${(c.custom||[]).map((k,i)=>`<label><b>${sgn(+k.v||0)}</b> ${esc(k.n)} <small>(${(k.ab||'int').slice(0,3)})</small> ${inp('custom.'+i+'.v','0','class="sh-mini" title="Skill bonus"','number')}</label>`).join('')}<div class="sh-lab">Skills <small>(written in)</small></div></div>
+        <div class="sh-list">${ABIL.map(([k,n])=>`<label title="FAND: only class abilities and equipment add to a save${s.gb[k]?' · +'+s.gb[k]+' from gear':''}"><button class="sh-roll" type="button" data-roll="${d20x((+((c.saveB||{})[k])||0)+s.gb[k])}" data-what="${n} save">${sgn((+((c.saveB||{})[k])||0)+s.gb[k])}</button> ${n}${s.gb[k]?` <small style="color:var(--gold2)">+${s.gb[k]} gear</small>`:''} ${inp('saveB.'+k,'0','class="sh-mini" title="Bonus from class abilities (gear is added for you)"','number')}</label>`).join('')}<div class="sh-lab">Saving throws</div></div>
+        <div class="sh-list">${SKILLS.map(sk=>`<label title="FAND: no ability modifier; write the skill's bonus in (gear is added for you)"><button class="sh-roll" type="button" data-roll="${d20x(skillVal(sk))}" data-what="${esc(sk[1])}${c.disSkill===sk[0]?' (disadvantage)':''}">${sgn(skillVal(sk))}</button> ${sk[1]} <small>(${sk[2].slice(0,3)})</small>${c.disSkill===sk[0]?' <small style="color:var(--red)" title="Disadvantage on these checks (background)">disadv.</small>':''}${s.gb[sk[0]]?` <small style="color:var(--gold2)">+${s.gb[sk[0]]} gear</small>`:''} ${inp('skillB.'+sk[0],'0','class="sh-mini" title="Skill bonus"','number')}</label>`).join('')}${(c.custom||[]).map((k,i)=>`<label><button class="sh-roll" type="button" data-roll="${d20x(+k.v||0)}" data-what="${esc(k.n)}">${sgn(+k.v||0)}</button> ${esc(k.n)} <small>(${(k.ab||'int').slice(0,3)})</small> ${inp('custom.'+i+'.v','0','class="sh-mini" title="Skill bonus"','number')}</label>`).join('')}<div class="sh-lab">Skills <small>(written in)</small></div></div>
       </div>
       <div class="sh-span sh-row sh-ins"><b class="sh-pill">${10+skillVal(SKILLS.find(x=>x[0]==='perception'))}</b><span class="sh-lab" style="margin:0">Passive Wisdom (Perception)</span></div>
       <div class="sh-span">${box('Other proficiencies &amp; languages',ta('profs','Armor, weapons, tools, languages',6))}</div>
     </div>
     <div class="sh-col">
-      <div class="sh-trio">${box('Armor class',`<div class="sh-big">${s.ac}</div><small>armor ${s.armorAC}${s.conAC?' · CON '+sgn(s.conAC):''}${s.ct?' · contract +'+s.ct.ac:''}</small>`,'sh-shield')}${box('Initiative',`<div class="sh-big">${sgn((+c.initB||0)+s.gb.init)}</div><small>class ${inp('initB','0','class="sh-mini" style="width:44px" title="Initiative from class features"','number')}${s.gb.init?' · gear +'+s.gb.init:''}</small>`)}${box('Speed',`${inp('speed','30','style="width:60px;text-align:center"','number')}${speedPen?`<small style="color:var(--red)">−${speedPen} ft from armor</small>`:''}`)}</div>
-      <div class="sh-row sh-noprint" style="gap:6px"><button class="btn" type="button" onclick="sheetRest('short')" title="Get back one used spell slot of your choice (and Warlock pact slots)">☕ Short rest</button><button class="btn" type="button" onclick="sheetRest('long')" title="Full HP, all slots, half your hit dice back, death saves cleared">🌙 Long rest</button></div>
-      ${box('Current hit points',`<div class="sh-row sh-hpmax"><span>Hit Point Maximum</span>${inp('hpMax','','style="width:70px"','number')}</div><div class="sh-big">${inp('hp','','style="width:100%;text-align:center;font-size:1.6rem"','number')}</div>`)}
+      <div class="sh-trio">${box('Armor class',`<div class="sh-big">${s.ac}</div><small>armor ${s.armorAC}${s.conAC?' · CON '+sgn(s.conAC):''}${s.ct?' · contract +'+s.ct.ac:''}</small>`,'sh-shield')}${box('Initiative',`<button class="sh-roll" type="button" data-roll="${d20x((+c.initB||0)+s.gb.init)}" data-what="Initiative" class="sh-big sh-roll">${sgn((+c.initB||0)+s.gb.init)}</button><small>class ${inp('initB','0','class="sh-mini" style="width:44px" title="Initiative from class features"','number')}${s.gb.init?' · gear +'+s.gb.init:''}</small>`)}${box('Speed',`${inp('speed','30','style="width:60px;text-align:center"','number')}${speedPen?`<small style="color:var(--red)">−${speedPen} ft from armor</small>`:''}`)}</div>
+      <div class="sh-row sh-noprint" style="gap:6px"><button class="btn primary" type="button" onclick="TBL.id=sheetChar().id;openTable('char')" title="A full-screen view for play">🎲 Table screen</button><button class="btn" type="button" onclick="sheetRest('short')" title="Get back one used spell slot of your choice (and Warlock pact slots)">☕ Short rest</button><button class="btn" type="button" onclick="sheetRest('long')" title="Full HP, all slots, half your hit dice back, death saves cleared">🌙 Long rest</button></div>
+      ${box('Current hit points',`<div class="sh-row sh-hpmax"><span>Hit Point Maximum</span>${inp('hpMax','','style="width:70px"','number')}</div><div class="sh-big">${inp('hp','','style="width:100%;text-align:center;font-size:1.6rem"','number')}</div>${sheetHpQuick(c)}`)}
       ${box('Temporary hit points',inp('tempHp','','style="width:100%;text-align:center"','number'))}
       <div class="sh-trio" style="grid-template-columns:1fr 1fr">${box('Hit dice',`<div class="sh-row sh-hpmax"><span>Total</span><b>${L1}d${CLASS_DIE[c.cls]||8}${L2?` + ${L2}d${CLASS_DIE[c.cls2]||8}`:''}</b></div>${inp('hdUsed','used','style="width:60px"','number')}`)}${box('Death saves',`<div class="sh-row">Successes ${[0,1,2].map(i=>chk('ds.s'+i)).join('')}</div><div class="sh-row">Failures ${[0,1,2].map(i=>chk('ds.f'+i)).join('')}</div>`)}</div>
       ${box('Attacks &amp; spellcasting',`<table class="t sh-t"><thead><tr><th>Name</th><th class="num">Atk bonus</th><th>Damage/type</th></tr></thead><tbody>${weapons.map(atkRow).join('')||'<tr><td colspan="3" class="note">Equip weapons on the Party page or from the Forge.</td></tr>'}</tbody></table>${ta('atkNotes','Other attacks, spell attacks',3)}`)}
@@ -5329,10 +5591,37 @@ function mineBind(){const go=$('mn-go');if(go)go.onclick=()=>{const S=store.get(
 // the installed app has no browser Back button: this one steps back (closing an open window first), or goes Home
 function appBack(){if(history.length>1)history.back();else go('home')}
 if(navigator.standalone)document.documentElement.classList.add('standalone');
-// Keep screen on (Combat): a screen wake lock while the combat page is open and visible
+// Table screen: a full-screen view for the table. "Character": big hit points with quick damage and healing, AC, initiative,
+// conditions, and dice (with advantage). "Initiative": the combat tracker's order in big type, with Next turn. The screen
+// stays awake while it is open; on a phone held sideways the two halves sit side by side.
+const TBL={open:false,tab:'char',id:null};
+function openTable(tab){TBL.open=true;TBL.tab=tab||(CB&&CB.list&&CB.list.length&&role()==='dm'?'init':'char');TBL.id=TBL.id||SHEET_ID||PARTY_SEL||(PARTY[0]&&PARTY[0].id);let el=$('tbl');if(!el){el=document.createElement('div');el.id='tbl';el.className='tbl';el.setAttribute('role','dialog');el.setAttribute('aria-label','Table screen');document.body.appendChild(el)}
+  el.hidden=false;drawTable();wakeSync();try{if(matchMedia('(pointer:coarse)').matches&&document.documentElement.requestFullscreen)document.documentElement.requestFullscreen().catch(()=>{})}catch(e){}}
+function closeTable(){TBL.open=false;const el=$('tbl');if(el)el.hidden=true;wakeSync();try{if(document.fullscreenElement)document.exitFullscreen()}catch(e){}if(TAB==='sheet')renderSheet();if(TAB==='combat')renderCombat()}
+function drawTable(){const el=$('tbl');if(!el||!TBL.open)return;const c=PARTY.find(x=>x.id===TBL.id),C=store.get('combat',{round:1,turn:0,list:[]});
+  const charV=()=>{if(!c)return `<div class="tbl-empty">No characters yet. <a href="#" onclick="closeTable();charWizard();return false">Build one</a> or add one on the Party page.</div>`;const s=charStats(c),max=+c.hpMax||0,hp=+c.hp||0,pct=max?Math.max(0,Math.min(100,hp/max*100)):100,cs=Array.isArray(c.cond)?c.cond:[],init=(+c.initB||0)+(s.gb?s.gb.init:0);
+    return `<div class="tbl-hp${pct<=25?' low':pct<=50?' mid':''}"><div class="tbl-hpn"><b>${hp}</b>${max?`<span>/ ${max}</span>`:''}</div>${+c.tempHp?`<div class="tbl-tmp">+${+c.tempHp} temporary</div>`:''}<div class="tbl-bar"><i style="width:${pct}%"></i></div>
+      <div class="tbl-hpb"><button type="button" data-th="-10">−10</button><button type="button" data-th="-5">−5</button><button type="button" data-th="-1">−1</button><button type="button" data-th="1">+1</button><button type="button" data-th="5">+5</button><button type="button" data-th="10">+10</button></div>
+      <div class="tbl-amt"><input type="number" id="tblAmt" min="0" inputmode="numeric" placeholder="amount" aria-label="Amount"><button type="button" data-ta="-">Damage</button><button type="button" data-ta="+">Heal</button></div></div>
+      <div class="tbl-stats"><div><small>AC</small><b>${s.ac}</b></div><button type="button" data-tr="${d20x(init)}" data-tw="Initiative"><small>Initiative</small><b>${sgn(init)}</b></button><div><small>Speed</small><b>${esc(String(c.speed||30))}</b></div></div>
+      <div class="tbl-conds">${SHEET_CONDS.map(k=>`<button type="button" class="${cs.includes(k)?'on':''}" data-tc="${k}">${k}</button>`).join('')}</div>`};
+  const diceV=`<div class="tbl-dice">${[4,6,8,10,12,20,100].map(n=>`<button type="button" data-tr="1d${n}">d${n}</button>`).join('')}<button type="button" data-tadv="adv">d20 adv</button><button type="button" data-tadv="dis">d20 dis</button></div>`;
+  const initV=()=>C.list.length?`<div class="tbl-round">Round ${C.round}</div><ol class="tbl-init">${C.list.map((x,i)=>`<li class="${i===C.turn?'cur':''}${x.hp<=0?' down':''}"><span class="n">${esc(x.name)}</span><span class="i">${x.init}</span><span class="h">${x.hp}/${x.max}</span></li>`).join('')}</ol><button type="button" class="tbl-next" data-tnext>Next turn →</button>`:`<div class="tbl-empty">The combat tracker is empty. Add the party and monsters on the <a href="#" onclick="closeTable();go('combat');return false">Combat</a> page.</div>`;
+  el.innerHTML=`<div class="tbl-top"><div class="tbl-tabs"><button type="button" class="${TBL.tab==='char'?'on':''}" data-tt="char">Character</button><button type="button" class="${TBL.tab==='init'?'on':''}" data-tt="init">Initiative</button></div>${TBL.tab==='char'&&PARTY.length>1?`<select class="sel" id="tblWho" aria-label="Character">${PARTY.map(x=>`<option value="${esc(x.id)}"${x.id===TBL.id?' selected':''}>${esc(x.name||'Unnamed')}</option>`).join('')}</select>`:TBL.tab==='char'&&c?`<b class="tbl-name">${esc(c.name||'Unnamed')}</b>`:''}<button type="button" class="tbl-x" data-tx aria-label="Close table screen">✕</button></div>
+    <div class="tbl-body">${TBL.tab==='char'?`<div class="tbl-a">${charV()}</div><div class="tbl-b">${diceV}</div>`:`<div class="tbl-a">${initV()}</div><div class="tbl-b">${diceV}</div>`}</div>`;
+  el.onclick=e=>{const t=e.target;const q=a=>t.closest(a);
+    if(q('[data-tx]'))return closeTable();const tt=q('[data-tt]');if(tt){TBL.tab=tt.dataset.tt;return drawTable()}
+    const r=q('[data-tr]');if(r)return rollShow(r.dataset.tr,r.dataset.tw);const av=q('[data-tadv]');if(av){const R2=rollMulti('2d20'),a=R2.r[0],b=R2.r[1],k=av.dataset.tadv==='adv'?Math.max(a,b):Math.min(a,b);return diceOverlay({e:(av.dataset.tadv==='adv'?'Advantage':'Disadvantage')+' · 2d20 ('+a+', '+b+')',t:k,r:[k],sd:[20],mod:0},20)}
+    const h=q('[data-th]');if(h)return tblHp(+h.dataset.th);const ta=q('[data-ta]');if(ta){const v=Math.abs(+($('tblAmt')||{}).value||0);if(!v)return toast('Type an amount first');return tblHp(ta.dataset.ta==='-'?-v:v)}
+    const tc=q('[data-tc]');if(tc&&c){const cs=Array.isArray(c.cond)?c.cond.slice():[];const i=cs.indexOf(tc.dataset.tc);if(i<0)cs.push(tc.dataset.tc);else cs.splice(i,1);c.cond=cs;saveParty();return drawTable()}
+    if(q('[data-tnext]')){CB=store.get('combat',C);cbNext();return drawTable()}};
+  const w=$('tblWho');if(w)w.onchange=()=>{TBL.id=w.value;drawTable()}}
+function tblHp(d){const c=PARTY.find(x=>x.id===TBL.id);if(!c)return;const max=+c.hpMax||0;let hp=+c.hp||0,tmp=+c.tempHp||0;if(d<0){const take=Math.min(tmp,-d);tmp-=take;hp=Math.max(0,hp-(-d-take))}else hp=max?Math.min(max,hp+d):hp+d;c.hp=hp;c.tempHp=tmp||'';saveParty();drawTable();if(navigator.vibrate&&d<0)try{navigator.vibrate(15)}catch(e){}}
+document.addEventListener('keydown',e=>{if(TBL.open&&e.key==='Escape'&&!$('dice-ov')?.classList.contains('on')){closeTable();e.stopPropagation()}},true);
+// Keep screen on (Combat, the table screen): a screen wake lock while it is open and visible
 const WAKE={lock:null};
 function wakeSync(){
-  const want=TAB==='combat'&&store.get('wakelock',false)&&document.visibilityState==='visible'&&'wakeLock'in navigator;
+  const want=(TBL.open||TAB==='combat'&&store.get('wakelock',false))&&document.visibilityState==='visible'&&'wakeLock'in navigator;
   if(want&&!WAKE.lock)navigator.wakeLock.request('screen').then(l=>{WAKE.lock=l;l.addEventListener('release',()=>{WAKE.lock=null})}).catch(()=>{});
   else if(!want&&WAKE.lock){WAKE.lock.release().catch(()=>{});WAKE.lock=null}
 }
@@ -5374,6 +5663,7 @@ function renderCombat(){
       <button class="btn" onclick="cbAddCustom()">+ Custom</button>
       <label class="note" style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" id="cb-ac" ${CB.noAC?'':'checked'} onchange="CB.noAC=!this.checked;saveCB()"> Subtract AC from damage</label><label class="note" style="display:flex;gap:6px;align-items:center;margin:0">Damage type <select class="sel" style="padding:2px 6px" onchange="CB.dt=this.value;saveCB()"><option value="">—</option>${Object.keys(KILL_FX).map(t=>`<option${t===CB.dt?' selected':''}>${t}</option>`).join('')}</select></label>
       ${'wakeLock'in navigator?`<label class="note" style="display:flex;gap:6px;align-items:center;margin:0" title="Stops the phone or tablet from dimming and locking while this page is open"><input type="checkbox" id="cb-wake" ${store.get('wakelock',false)?'checked':''} onchange="store.set('wakelock',this.checked);wakeSync()"> Keep screen on</label>`:''}
+      <button class="btn primary" onclick="openTable('init')" title="A full-screen view for the table">🎲 Table screen</button>
       <button class="btn" onclick="const was=store.get('combat',null);store.set('combat',{round:1,turn:0,list:[]});renderCombat();undoToast('Combat cleared',()=>{store.set('combat',was);if(TAB==='combat')renderCombat()})">Clear</button>
     </div>
     <div class="tablewrap" style="margin-top:14px"><table class="t cbt"><thead><tr><th class="num">Init</th><th>Combatant</th><th class="num">AC</th><th>HP</th><th>Damage / heal</th><th>Conditions</th><th></th></tr></thead><tbody>
@@ -5798,7 +6088,8 @@ function renderSettings(){const k=getKey(),u=CL.user,dark=document.documentEleme
         <div class="set-row"><span>Text size<small>Makes every page's text bigger or smaller</small></span><div class="seg" style="flex-wrap:wrap">${TSCALES.map(([z,l])=>`<button type="button" class="${Math.abs(+store.get('tscale',1)-z)<.01?'on':''}" onclick="setComfort('tscale',${z})" style="font-size:${z}em">${l}</button>`).join('')}</div></div>
         <label class="set-row"><span>High contrast<small>Brighter text and stronger borders</small></span><input type="checkbox" ${store.get('contrast',false)?'checked':''} onchange="setComfort('contrast',this.checked)"></label>
         <label class="set-row"><span>Less motion<small>No sliding, fading, or tumbling dice${matchMedia('(prefers-reduced-motion: reduce)').matches?' (your device already asks for this)':''}</small></span><input type="checkbox" ${lessMotion()?'checked':''} onchange="setComfort('motion',this.checked?'reduce':'full')"></label>
-        <label class="set-row"><span>Rolling dice animation<small>Dice tumble across the screen when you roll</small></span><input type="checkbox" ${store.get('diceanim',true)?'checked':''} onchange="store.set('diceanim',this.checked);toast(this.checked?'Rolling dice on':'Rolling dice off')"></label>`)}
+        <label class="set-row"><span>Dice sounds<small>A clack each time a die hits the table</small></span><input type="checkbox" ${store.get('dicesound',true)?'checked':''} onchange="store.set('dicesound',this.checked);if(this.checked)diceClack(.7)"></label>
+        <label class="set-row"><span>Rolling dice animation<small>Dice are thrown onto the table, bounce, and settle when you roll</small></span><input type="checkbox" ${store.get('diceanim',true)?'checked':''} onchange="store.set('diceanim',this.checked);toast(this.checked?'Rolling dice on':'Rolling dice off')"></label>`)}
       ${setSec('ai','Assistant <em>Ask FAND</em>','The assistant answers from the compendium using Claude, through your own Anthropic API key.',`
         <div class="keyrow"><input class="sel" id="setKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-…" value="${esc(k)}" style="max-width:none;flex:1"><button class="btn" id="setShow" type="button">Show</button></div>
         <label class="note" style="display:flex;gap:8px;align-items:center;margin-top:8px;color:var(--text2)"><input type="checkbox" id="setRemember" ${!k||keyRemembered()?'checked':''}> Remember on this device</label>
@@ -5858,11 +6149,11 @@ window.addEventListener('resize',()=>{if(GSTEP>=0)guideDraw()});
 function guideAuto(){if(TAB!=='home'||store.get('guided',false)||navigator.webdriver||location.hash.length>2)return;let has=false;try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('fand.')&&!/^fand\.(theme|__)/.test(k)){has=true;break}}}catch(e){}if(has){store.set('guided',true);return}setTimeout(()=>{if(TAB==='home'&&GSTEP<0)openGuide(0)},600)}
 const HELP=[
   ['start','Getting started',`<p>FAND is the compendium of the FAND campaign: the world of Vestige and its rules, with tools for players and DMs. Nothing needs installing, and it works offline once a page has loaded.</p><p><button class="btn primary" type="button" onclick="openGuide(0)">Show me around</button> <a class="btn" href="${pageUrl('settings')}#set-play" data-go="settings">Player or DM view</a></p>`],
-  ['find','Finding things',`<ul><li><b>Search everything</b>: the search box at the top (or <kbd>Ctrl</kbd> <kbd>K</kbd>) finds Blueprints, materials, monsters, gods, Runes, spells, and rules.</li><li><b>Lists</b> (Blueprints, Bestiary, Spells, …) have filters; press <kbd>/</kbd> to type a filter and <kbd>←</kbd> <kbd>→</kbd> to step through results in a window.</li><li><b>Pins</b>: the ★ in any window pins it to Home. <b>Recently viewed</b> is on Home and in the search box.</li><li>Every window has a link you can copy and share.</li></ul>`],
+  ['find','Finding things',`<ul><li><b>Search everything</b>: the search box at the top (or <kbd>Ctrl</kbd> <kbd>K</kbd>) finds Blueprints, materials, monsters, gods, Runes, spells, and rules.</li><li><b>Lists</b> (Blueprints, Bestiary, Spells, …) have filters; press <kbd>/</kbd> to type a filter and <kbd>←</kbd> <kbd>→</kbd> to step through results in a window.</li><li><b>Filters in search</b>: <code>monster realm:Hell grade:5</code>, <code>rarity:legendary sword</code>, <code>spell school:evocation lv:3</code>. Type <code>roll 2d6+3</code> to roll.</li><li><b>Pins</b>: the ★ in any window pins it to Home. <b>Recently viewed</b> is on Home and in the search box. 📝 adds your own note to anything, and ⚖ compares Blueprints, monsters, or materials side by side.</li><li>Every window has a link you can copy and share.</li></ul>`],
   ['chars','Characters',`<ul><li><a href="#" onclick="charWizard();return false">Build a character</a> step by step, or fill in a blank sheet on the <a href="${pageUrl('sheet')}" data-go="sheet">Character sheet</a>.</li><li>The sheet works out hit points, armour, attacks, spells, and money; <b>Level up</b> asks only what changes.</li><li>The <a href="${pageUrl('party')}" data-go="party">Party</a> page holds every character on this device: gear, contracts, and inventory.</li><li>Deleted something by mistake? Press <b>Undo</b> in the message at the bottom (it stays for a few seconds).</li></ul>`],
-  ['dice','Dice',`<ul><li>Tap any dice written on a page, like 2d6 + 3, to roll it.</li><li>The <a href="${pageUrl('dice')}" data-go="dice">Dice</a> page has a dice pool (keep highest, advantage, exploding dice, successes), saved rolls, and 30 dice styles.</li><li><b>Exploding dice</b>: a die that rolls its highest face rolls again and adds.</li></ul>`],
+  ['dice','Dice',`<ul><li>Tap any dice written on a page, like 2d6 + 3, to roll it.</li><li>The <a href="${pageUrl('dice')}" data-go="dice">Dice</a> page has a dice pool (keep highest, advantage, exploding dice, successes), saved rolls, and 30 dice styles.</li><li><b>Exploding dice</b>: a die that rolls its highest face rolls again and adds.</li><li>On the character sheet, tap any bonus to roll it. <b>Table screen</b> (from the sheet or Combat) is a big, touch-friendly view for play.</li></ul>`],
   ['together','Playing together',`<ul><li><a href="${pageUrl('account')}" data-go="account">Sign in</a> with your email to keep your characters, journal, and settings on every device.</li><li>A DM can make a <b>campaign</b> and send an invite link; players who join share their characters with the DM.</li><li>Changes sync by themselves; Sync now in the account menu does it at once.</li></ul>`],
-  ['dm','For the DM',`<ul><li><a href="${pageUrl('prep')}" data-go="prep">Session prep</a>, <a href="${pageUrl('encounter')}" data-go="encounter">Encounters</a>, <a href="${pageUrl('combat')}" data-go="combat">Combat</a>, and <a href="${pageUrl('hooks')}" data-go="hooks">Hooks</a> run the table.</li><li><a href="${pageUrl('hidden')}" data-go="hidden">Hidden classes</a> are locked for the DM: unlock them to browse the menu, open any class, and grant it to a character.</li><li>Choose <b>DM</b> in Settings → How you play to put these first.</li></ul>`],
+  ['dm','For the DM',`<ul><li><a href="${pageUrl('prep')}" data-go="prep">Session prep</a>, <a href="${pageUrl('encounter')}" data-go="encounter">Encounters</a>, <a href="${pageUrl('combat')}" data-go="combat">Combat</a>, and <a href="${pageUrl('hooks')}" data-go="hooks">Hooks</a> run the table.</li><li><a href="${pageUrl('hidden')}" data-go="hidden">Hidden classes</a> are locked for the DM: unlock them to browse the menu, open any class, and grant it to a character.</li><li><b>Handouts</b>: tap 📜 on any monster, item, or god (or search "new handout"), edit what players may know, then show it, share the link, or send it to your campaign.</li><li>Choose <b>DM</b> in Settings → How you play to put these first.</li></ul>`],
   ['phone','Phones and offline',`<ul><li>On a phone, the bar at the bottom has Home, Search, Dice, your character, and Menu (every page).</li><li><b>Install</b>: in Settings → App, or your browser's "Add to Home Screen", gives FAND its own icon and window.</li><li>FAND keeps a copy of itself on the device, so it works without signal.</li></ul>`],
   ['settings','Settings',`<ul><li><a href="${pageUrl('settings')}" data-go="settings">Settings</a>: theme, text size, high contrast, less motion, dice style, the assistant's API key, backups, and the version.</li><li><b>Back up everything</b> downloads a file with all your saved data; Restore brings it back on any device.</li></ul>`],
   ['trouble','Something looks wrong',`<ul><li><b>A new change isn't showing.</b> A new version takes up to 10 minutes to reach everyone. Then use <a href="${pageUrl('settings')}#set-app" data-go="settings">Settings → App → Check for updates</a>, or close the tab and open it again. On a computer, <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>R</kbd> reloads everything.</li><li><b>My characters are missing on another device.</b> Sign in on both with the same email; or download a backup on one and restore it on the other.</li><li><b>The sign-in email doesn't arrive.</b> Check spam, wait a minute, and ask for a new code; use the newest code only.</li><li><b>Still stuck?</b> Clearing the site's data in your browser settings resets this device (sign in first so nothing is lost).</li></ul>`],
@@ -5892,7 +6183,7 @@ function openQuick(){
     </div>`;
   $('qbg').classList.add('open');
 }
-function closeQuick(){$('qbg').classList.remove('open')}
+function closeQuick(){$('qbg').classList.remove('open');$('qBox').style.maxWidth='640px';$('qBox').onclick=null}
 $('qbg').addEventListener('mousedown',e=>{if(e.target===$('qbg'))closeQuick()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('qbg').classList.contains('open'))closeQuick()});
 document.addEventListener('click',e=>{if(e.target.closest('#qBox [data-go]'))closeQuick()},true);
@@ -5908,7 +6199,7 @@ document.addEventListener('click',e=>{if(e.target.closest('#qBox [data-go]'))clo
 var CL={on:typeof CLOUD!=='undefined'&&!!(CLOUD&&CLOUD.url&&CLOUD.key),sb:null,user:null,avatars:{},ready:null,signing:null,camps:[],members:{},
   dirty:new Set(),cdirty:new Set(),cgone:[],timer:0,ctimer:0,rtimer:0,pushing:false,cpushing:false,err:'',last:0,touched:false,chan:null,step:'',email:'',hc:false,later:false};
 // kept on each device only: appearance, screen state (filters, searches, recently viewed), and the hidden-class locks
-const CL_LOCAL=new Set(['theme','wakelock','tooltab','viewmode','charwiz','jedit','clsfocus','placefocus','diceanim','recent','spells','hc','hclv','jq','magic','rmap','dpool','hcpat','hcpin','hcqm','hcguard','hclog','anthropicKey']);
+const CL_LOCAL=new Set(['recentq','theme','wakelock','tooltab','viewmode','charwiz','jedit','clsfocus','placefocus','diceanim','recent','spells','hc','hclv','jq','magic','rmap','dpool','hcpat','hcpin','hcqm','hcguard','hclog','anthropicKey']);
 const clSkip=k=>!k||k.startsWith('__')||CL_LOCAL.has(k);
 function clMeta(){if(!clMeta.m){try{clMeta.m=JSON.parse(localStorage.getItem('fand.__cloud')||'null')}catch(e){}if(!clMeta.m||typeof clMeta.m!=='object')clMeta.m={};clMeta.m.ts=clMeta.m.ts||{}}return clMeta.m}
 function clMetaSave(){try{localStorage.setItem('fand.__cloud',JSON.stringify(clMeta()))}catch(e){}}
@@ -5921,7 +6212,7 @@ function clMsg(e){const m=String(e&&(e.message||e.error_description||e.msg)||e||
   return m}
 // called by store.set: note when a key changed here, and send it to the account shortly
 function cloudMark(k){if(!CL||!CL.on||clSkip(k))return;clMeta().ts[k]=Date.now();clMetaSave();if(CL.user){CL.dirty.add(k);clSchedule()}}
-function clSchedule(){clearTimeout(CL.timer);CL.timer=setTimeout(()=>{cloudPush().catch(()=>{})},1200)}
+function clSchedule(){setTimeout(clDot,0);clearTimeout(CL.timer);CL.timer=setTimeout(()=>{cloudPush().catch(()=>{})},1200)}
 
 // ── the party, character by character ──
 var PH=null,PHC={};
@@ -5992,7 +6283,7 @@ async function campRefresh(){if(!CL.user)return;
   if(a.error)throw a.error;if(b.error)throw b.error;
   CL.camps=a.data||[];CL.members={};(b.data||[]).forEach(m=>(CL.members[m.campaign_id]||(CL.members[m.campaign_id]=[])).push(m));
   await clAvLoad([CL.user.id].concat((b.data||[]).map(m=>m.user_id)));
-  await campPull();campSubscribe();clStatus();clRerender()}
+  await campPull();campSubscribe();clStatus();clRerender();hoLoad().catch(()=>{})}
 // ── profile pictures: a small square image per account, seen by yourself and the people in your campaigns ──
 const CL_AV=/^data:image\/(webp|jpeg|png);base64,[A-Za-z0-9+/]+=*$/;
 const clAvOk=a=>typeof a==='string'&&a.length<200000&&CL_AV.test(a);
@@ -6163,7 +6454,11 @@ function clRestore(){const b=clBackup();if(!b||!b.data)return;
 function clStatusText(){if(!CL.user)return '';if(CL.err)return 'Not synced: '+esc(CL.err);if(navigator.onLine===false)return 'Offline. Changes are kept here and sent when you are back online.';
   if(CL.pushing||CL.dirty.size)return 'Saving…';if(!CL.last)return 'Connecting…';const s=Math.round((Date.now()-CL.last)/1000);
   return 'Synced '+(s<60?'just now':s<3600?Math.round(s/60)+' min ago':new Date(CL.last).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'}))+'.'}
-function clStatus(){if($('clStat'))$('clStat').innerHTML=clStatusText();clHeader()}
+function clStatus(){if($('clStat'))$('clStat').innerHTML=clStatusText();clHeader();clDot()}
+// the sync light on the account button: green synced, amber (pulsing) saving, grey offline, red not synced
+function syncState(){if(!CL||!CL.user)return '';if(CL.err)return 'err';if(navigator.onLine===false)return 'offline';if(CL.pushing||CL.dirty.size)return 'saving';return 'ok'}
+function clDot(){const b=$('acctBtn');if(!b)return;const st=syncState();if(!st){delete b.dataset.sync;return}b.dataset.sync=st;b.setAttribute('aria-description',clStatusText().replace(/<[^>]+>/g,''));b.title=(b.title||'').split(' · ')[0]+' · '+clStatusText().replace(/<[^>]+>/g,'')}
+addEventListener('offline',()=>clDot());
 // the account button in the top bar: Sign in, or your initial once signed in (a red dot when not synced)
 function clHeader(){const b=$('acctBtn');if(!b)return;if(!CL||!CL.on){b.hidden=true;return}b.hidden=false;
   if(CL.user||(clHasSession()&&!CL.err&&CL.ready)){const who=CL.user?(clMyName()||CL.user.email||'?'):'…',t=CL.user?'Signed in as '+(CL.user.email||who)+(CL.err?' (not synced: '+CL.err+')':''):'Signing in…';
@@ -6519,6 +6814,8 @@ if(!location.hash)history.replaceState(null,'',hashFor(SITE?SITE.page:'home'));
 cloudBoot();
 route();
 guideAuto();
+cmpTray();
+hoFromHash();
 // Home Screen app: the offline worker (sw.js) keeps every page and its data on the device. Site pages only, not FAND.html.
 if(SITE&&'serviceWorker'in navigator&&/^https?:$/.test(location.protocol)){
   const had=!!navigator.serviceWorker.controller;
