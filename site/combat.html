@@ -876,7 +876,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"combat",v:"2abeee3d53",b:"209a37c5"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"combat",v:"2abeee3d53",b:"5804d795"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=2abeee3d53",10912158],["data/vault.js?v=2abeee3d53",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -2530,6 +2530,8 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-17','Hand out Tower Cards','Each Magic Tower now lets you pick any character in the party and either take its card for them (spending a spell slot, as before) or give it at no cost: a card found in the realm, a reward, or a gift from the DM. The character sheet\'s Tower Cards box can add a card the DM handed over, and each tower lists who already holds its card.'],
+  ['2026-10-17','Forge with Grok','The Forge has a new Forge with Grok panel: describe the weapon you want, add your materials, and Grok (through your own xAI API key, added in Settings → Assistant) picks the design, places each material on a part, and names it with a short description. The Forge\'s own rules then work out the damage, rarity, and properties, and the weapon is saved as a Blueprint you can craft or equip.'],
   ['2026-10-17','What a spell does, in its own box','Spell lists (the Spells page, the character builder, and the level-up window) no longer print each spell\'s description underneath it. Open a spell (or tap ⓘ What it does in the builder and level-up lists) and its effect sits in a large box at the top of the window.'],
   ['2026-10-17','Combat and Party share hit points','Damage and healing on a player character in the Combat tracker now change their HP on the Party page and character sheet, and HP changed there shows up in Combat straight away.'],
   ['2026-10-17','A better roll','Dice are now thrown onto the table: they tumble in from the edge of the screen, bounce twice with a shadow beneath them, and settle; then the total counts up. Highest faces glow gold and 1s red, a natural 20 bursts into sparks, a natural 1 shakes, and each bounce clacks (turn the sound off in Settings or with 🔊). Roll again repeats any roll.','dice'],
@@ -3121,7 +3123,7 @@ function sbToolBind(){
   draw();
 }
 // whole-device backup: every fand.* setting except the DM lock, its log, the dice rig, and the assistant key
-const backupSkip=k=>/^fand\.(hc|dicerig|anthropicKey)/.test(k);
+const backupSkip=k=>/^fand\.(hc|dicerig|anthropicKey|grokKey)/.test(k);
 function backupSave(){
   const o={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('fand.')&&!backupSkip(k))o[k]=localStorage.getItem(k)}
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({fand:'backup',saved:new Date().toISOString(),data:o},null,1)],{type:'application/json'}));
@@ -3131,7 +3133,7 @@ function backupLoad(inp){
   const f=inp.files&&inp.files[0];if(!f)return;
   f.text().then(t=>{const j=JSON.parse(t);if(!j||j.fand!=='backup'||typeof j.data!=='object')throw 0;
     const D={};Object.keys(j.data).forEach(k=>{if(typeof j.data[k]==='string')D[k.startsWith('fand.')?k:'fand.'+k]=j.data[k]});j.data=D;// accepts the Settings backup too (keys without the fand. prefix)
-    const ks=Object.keys(D).filter(k=>/^fand\.[\w.-]{1,64}$/.test(k)&&!backupSkip(k)&&k!==KEY_NAME&&!k.startsWith('fand.__')&&k!=='fand.anthropicKey');
+    const ks=Object.keys(D).filter(k=>/^fand\.[\w.-]{1,64}$/.test(k)&&!backupSkip(k)&&k!==KEY_NAME&&!k.startsWith('fand.__')&&k!=='fand.anthropicKey'&&k!==GROK_KEY);
     if(!confirm('Restore '+ks.length+' saved items from '+(j.saved||j.at||'this file').slice(0,10)+'? Items in the file replace the ones on this device.'))return;
     ks.forEach(k=>{try{localStorage.setItem(k,j.data[k])}catch(e){}});toast('Backup restored');setTimeout(()=>location.reload(),600);
   }).catch(()=>toast('That file is not a FAND backup')).finally(()=>{inp.value=''});
@@ -4276,6 +4278,7 @@ function renderSheet(){
     ${schoolBox}
     ${CAST_ABIL[c.cls]||(c.towerCards||[]).length?`<div class="sh-box sh-noprint" style="margin-bottom:12px"><div class="sh-row" style="gap:8px;flex-wrap:wrap;align-items:baseline"><b>🎴 Tower Cards</b><span class="note" style="margin:0">Buy more spells at a Magic Tower. A card teleports you there once per long rest, for one hour, then back to where you used it.</span></div>
       ${(c.towerCards||[]).length?`<div class="chips" style="margin-top:6px">${c.towerCards.map((x,i)=>`<span class="chip${x.used?'':' on'}">${esc((MAGIC_TOWERS[x.t]||[x.t])[0])} <small>${esc(x.t)}</small> ${x.used?'<small>used: recharges on a long rest</small>':`<button class="btn" type="button" style="padding:0 8px;min-height:26px" onclick="towerCardUse(${i})">Teleport</button>`} <span style="cursor:pointer;color:var(--muted)" onclick="towerCardRm(${i})" title="Give up">✕</span></span>`).join('')}</div>`:'<p class="note" style="margin:6px 0 0">No cards yet. Find a tower in its realm (or ride on a friend\'s card), then pay one spell slot there for your own.</p>'}
+      ${(()=>{const left=Object.keys(MAGIC_TOWERS).filter(k=>!(c.towerCards||[]).some(x=>x.t===k));return left.length?`<div class="keyrow" style="margin-top:8px"><select class="sel" id="sh-tc" style="max-width:none;flex:1"><option value="">Add a card the DM gave you…</option>${left.map(k=>`<option value="${esc(k)}">${esc(MAGIC_TOWERS[k][0])} (${esc(k)})</option>`).join('')}</select><button class="btn" type="button" onclick="towerCardGive('${c.id}',$('sh-tc').value,1)">Add</button></div>`:''})()}
       <div class="note" style="margin:6px 0 0"><a href="${pageUrl('magic')}" data-go="magic">Open the Magic Towers</a> to buy spells or take a tower's card.</div></div>`:''}
     <div class="sh-spells">${[0,1,2,3,4,5,6,7,8,9].map(spellLv).join('')}</div>
     <div class="note">Spells from a deeper realm than this character's stage are marked; slots come from the vault's Spell Slots rules${slots&&slots.extra?`, with +${slots.extra} from class changes`:''}${slots&&slots.pen?`, minus ${slots.pen} for extra schools`:''}.</div>`;
@@ -5245,6 +5248,9 @@ function towerCardTake(id,school){const c=PARTY.find(x=>x.id===id);if(!c)return;
   if(sl){const tot=sl.pact?{[({'1st':1,'2nd':2,'3rd':3,'4th':4,'5th':5}[sl.lvl]||1)]:sl.n}:Object.fromEntries((sl.slots||[]).map((n,i)=>[i+1,n]));for(const lv of Object.keys(tot).map(Number).sort((a,b)=>a-b)){const u=c.slotUsed[lv]||{};for(let i=0;i<tot[lv];i++)if(!u[i]){u[i]=true;c.slotUsed[lv]=u;paid=lv;break}if(paid)break}}
   if(!paid&&!confirm('No unused spell slot is marked on the sheet. Take the card anyway (the DM checks the slot)?'))return;
   c.towerCards=(c.towerCards||[]).concat({t:school,used:0});saveParty();toast(`${c.name||'They'} hold${c.name?'s':''} the ${(MAGIC_TOWERS[school]||[school])[0]} card${paid?' (a level '+paid+' slot spent)':''}`);renderMagic()}
+// The DM hands a card to any character: found in the realm, a reward, or a gift (no spell slot is spent)
+function towerCardGive(id,school,fromSheet){const c=PARTY.find(x=>x.id===id);if(!c||!school)return;if((c.towerCards||[]).some(x=>x.t===school)){toast((c.name||'They')+' already hold'+(c.name?'s':'')+' that card');return}
+  c.towerCards=(c.towerCards||[]).concat({t:school,used:0});saveParty();toast(`${c.name||'They'} now hold${c.name?'s':''} the ${(MAGIC_TOWERS[school]||[school])[0]} card`);fromSheet?renderSheet():renderMagic()}
 function towerCardUse(i){const c=sheetChar(),x=(c.towerCards||[])[i];if(!x)return;if(x.used){toast('Already used: it recharges on a long rest');return}x.used=1;saveParty();toast(`Teleported to ${(MAGIC_TOWERS[x.t]||[x.t])[0]}: one hour, then back to where you stood`);renderSheet()}
 function towerCardRm(i){const c=sheetChar();if(!confirm('Give up this card?'))return;c.towerCards.splice(i,1);saveParty();renderSheet()}
 function renderMagic(){
@@ -5263,7 +5269,10 @@ function renderMagic(){
     <div class="chips" style="margin-bottom:12px">${schools.map(sc=>`<button class="chip${sc===school?' on':''}" data-mts="${esc(sc)}" style="${sc===school?'background:var(--goldbg);border-color:var(--gold)':''}">${esc((MAGIC_TOWERS[sc]||[sc])[0])} <small>${esc(sc)}</small></button>`).join('')}</div>
     <div class="panel" style="border-top:3px solid ${(REALM[trealm]||{}).color||'var(--gold)'}"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="margin:0;font-size:1.3rem;font-family:var(--serif)">${esc(tname)}</h4><span class="note" style="margin:0">${esc(school)} · ${REALM[trealm]?refChip(REALM[trealm],esc(realmLabel(trealm))):esc(trealm)} · ${list.length} spells</span></div>
       <p style="font-style:italic;color:var(--text2);margin:6px 0">${esc(tdesc)}</p>
-      <div class="callout" style="border-color:var(--acc);margin:8px 0">🎴 <b>Getting here.</b> Find the tower in the ${esc(trealm)} Realm, or teleport with <b>its Tower Card</b>. A card takes you here once per long rest; you have <b>one hour</b> at the tower, then you are sent back to where you used it. To get a card, come here and <b>pay one spell slot</b>, or ride along on someone else's card and buy your own while you are here.${who?`<div style="margin-top:6px">${(who.towerCards||[]).some(x=>x.t===school)?`<b>${esc(who.name||'They')} already holds this tower's card.</b>`:`<button class="btn" type="button" onclick="towerCardTake('${who.id}',${esc(JSON.stringify(school))})">🎴 Take this tower's card for ${esc(who.name||'them')} (spends a spell slot)</button>`}</div>`:''}</div>
+      <div class="callout" style="border-color:var(--acc);margin:8px 0">🎴 <b>Getting here.</b> Find the tower in the ${esc(trealm)} Realm, or teleport with <b>its Tower Card</b>. A card takes you here once per long rest; you have <b>one hour</b> at the tower, then you are sent back to where you used it. To get a card, come here and <b>pay one spell slot</b>, or ride along on someone else's card and buy your own while you are here.${(()=>{const pool=PARTY.filter(c=>!(c.towerCards||[]).some(x=>x.t===school)),held=PARTY.filter(c=>(c.towerCards||[]).some(x=>x.t===school));if(!PARTY.length)return '<div class="note" style="margin:6px 0 0">Add characters on the Party page to hand out this tower\'s card.</div>';
+      return `<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center">${pool.length?`<select class="sel" id="tc-who" style="max-width:200px">${pool.map(c=>`<option value="${c.id}"${who&&c.id===who.id?' selected':''}>${esc(c.name||'Unnamed')}${CASTER[c.cls]?'':' (not a caster)'}</option>`).join('')}</select>
+        <button class="btn" type="button" onclick="towerCardTake($('tc-who').value,${esc(JSON.stringify(school))})" title="At the tower: pay one spell slot">🎴 Take it (spends a spell slot)</button>
+        <button class="btn" type="button" onclick="towerCardGive($('tc-who').value,${esc(JSON.stringify(school))})" title="The DM gives the card: found, a reward, or a gift">🎁 Give it (no cost)</button>`:'<span class="note" style="margin:0">Everyone in the party holds this card.</span>'}</div>${held.length?`<div class="note" style="margin:6px 0 0">Held by: ${held.map(c=>esc(c.name||'Unnamed')).join(', ')}</div>`:''}`})()}</div>
       <div class="form" style="grid-template-columns:repeat(4,1fr);margin-top:8px">
         <label>Your rank<select id="mt-rank">${MT_RANKS.map(r=>`<option${r[0]===rk[0]?' selected':''}>${r[0]}</option>`).join('')}</select></label>
         <label>Buyer<select id="mt-who"><option value="">Anyone</option>${PARTY.map(c=>`<option value="${c.id}"${c.id===st.who?' selected':''}>${esc(c.name||'Unnamed')}${c.cls?' · '+esc(c.cls)+' '+(c.level||1):''}</option>`).join('')}</select></label>
@@ -6020,6 +6029,7 @@ function renderForge(){
     <div class="panel" style="margin-bottom:14px"><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px"><b style="font-family:var(--serif)">General Blueprints</b><input class="sel" id="fg-find" placeholder="Find a design…" value="${esc(FORGE.find||'')}" style="max-width:220px"><span class="note" style="margin:0">${GEN.length} designs; ${fmt([...byGen.values()].reduce((a,x)=>a+x.length,0))} vault Blueprints are versions of them.</span></div>
       ${BASE_GROUPS.map(gr=>{const items=GEN.filter(([n,b])=>b.group===gr&&(!q||lc(n).includes(q)));return items.length?`<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:6px 0"><span style="width:110px;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)">${esc(gr)}</span>${items.map(([k,b])=>`<button class="chip" style="padding:5px 11px${k===FORGE.base?';border-color:var(--gold);background:var(--goldbg);color:var(--text)':''}" data-base="${esc(k)}">${b.icon} ${esc(k)}${byGen.get(k)?` <small>${byGen.get(k).length}</small>`:''}</button>`).join('')}</div>`:''}).join('')}
     </div>
+    ${grokPanel()}
     ${compareHTML()}
     <div class="cols" style="align-items:start">
       <div class="panel" style="display:flex;flex-direction:column;gap:12px">
@@ -6046,13 +6056,14 @@ function renderForge(){
   </div>`;
   const C=$('content');
   C.querySelectorAll('[data-base]').forEach(el=>el.onclick=()=>{const old=BASES[FORGE.base],nb=BASES[el.dataset.base];const keep=FORGE.parts;FORGE.base=el.dataset.base;FORGE.parts=assignParts(FORGE.base,Object.values(keep).map(findMat).filter(Boolean).filter(m=>nb.slots.some(sl=>slotFit(sl,m).lv==='good')));FORGE.name='';saveForge();renderForge();if(innerWidth<=900){const w=document.querySelector('#content .cols');if(w)w.scrollIntoView({block:'start'})}});
-  C.querySelectorAll('[data-slot]').forEach(el=>el.addEventListener('change',()=>{FORGE.parts[el.dataset.slot]=el.value.trim();FORGE.name='';saveForge();setTimeout(renderForge)}));
+  C.querySelectorAll('[data-slot]').forEach(el=>el.addEventListener('change',()=>{FORGE.parts[el.dataset.slot]=el.value.trim();FORGE.name='';FORGE.lore='';saveForge();setTimeout(renderForge)}));
   C.querySelectorAll('[data-clear-slot]').forEach(el=>el.addEventListener('click',()=>{delete FORGE.parts[el.dataset.clearSlot];saveForge();renderForge()}));
   C.querySelectorAll('[data-pick]').forEach(el=>el.addEventListener('click',()=>{FORGE.parts[el.dataset.pick]=el.dataset.mat;FORGE.name='';saveForge();renderForge()}));
   C.querySelectorAll('[data-load-bp]').forEach(el=>el.addEventListener('click',()=>{const b=findBP(el.dataset.loadBp);if(b){FORGE.parts=assignParts(FORGE.base,b.mats.map(findMat).filter(Boolean));FORGE.name=b.n;saveForge();renderForge();$('content').scrollTop=0}}));
   $('fg-find').oninput=e=>{FORGE.find=e.target.value;const pos=e.target.selectionStart;renderForge();const f=$('fg-find');f.focus();f.setSelectionRange(pos,pos)};
   $('fg-all').onchange=e=>{FORGE.showAll=e.target.checked;saveForge();setTimeout(renderForge)};
   $('fg-realm').onchange=e=>{FORGE.realm=e.target.value;saveForge();renderForge()};
+  bindGrok();
   forgeOut();
 }
 function forgeOut(){
@@ -6069,14 +6080,76 @@ function forgeOut(){
     <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" ${ready?'':'disabled title="Fill every required part first"'} onclick="saveDesign()">Save design</button>${PARTY.length&&ready?`<select class="sel" id="fg-who">${PARTY.map(c=>`<option value="${c.id}">${esc(c.name||'Unnamed')}</option>`).join('')}</select><button class="btn" onclick="giveDesign()">Save and equip</button>`:''}<button class="btn" onclick="FORGE.parts={};FORGE.name='';saveForge();renderForge()">Clear parts</button></div>
   </div>`;
   $('fg-name').onchange=e=>{FORGE.name=e.target.value.trim();saveForge()};
+  if(FORGE.lore){const el=document.createElement('div');el.className='callout';el.style.borderColor='var(--acc)';el.innerHTML=`<b>✨ Grok's design</b>${FORGE.want?` <small style="color:var(--muted)">for “${esc(FORGE.want)}”</small>`:''}<div style="margin-top:6px">${esc(FORGE.lore)}</div>`;$('fg-out').firstElementChild.insertBefore(el,$('fg-out').firstElementChild.children[1])}
+}
+// ════════════════════════════════════════════════════════════════
+//  Forge with Grok: the player describes a weapon and adds materials; Grok picks the design, places each
+//  material on a part, and names it. FAND's own forge rules then work out the stats, so a Grok weapon is
+//  balanced like any other, and the result is saved as a design (a Blueprint) like one made by hand.
+// ════════════════════════════════════════════════════════════════
+let GROK=Object.assign({want:'',mats:[],msg:'',busy:false},store.get('grokforge',{}),{busy:false});
+const saveGrokState=()=>store.set('grokforge',{want:GROK.want,mats:GROK.mats});
+const GROK_MAX_MATS=8;
+const grokWeapons=()=>GEN.filter(([,b])=>b.dmg);
+function grokPanel(){const key=grokKey(),mats=GROK.mats.map(n=>findMat(n)).filter(Boolean);
+  return `<div class="panel" id="gk" style="margin-bottom:14px;border-color:var(--acc)">
+    <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><b style="font-family:var(--serif);font-size:1.15rem">✨ Forge with Grok</b><span class="note" style="margin:0">Describe a weapon, add your materials, and Grok designs its Blueprint. The stats follow the Forge's rules.</span></div>
+    <label class="note" style="display:block;margin:10px 0 0"><b>1. The weapon you want</b><textarea id="gk-want" rows="2" maxlength="400" placeholder="A long, curved blade that hums in the dark…" style="display:block;width:100%;margin-top:4px;background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:7px 9px;color:var(--text);font:inherit">${esc(GROK.want)}</textarea></label>
+    <div class="note" style="margin:10px 0 4px"><b>2. Your materials</b> (up to ${GROK_MAX_MATS})</div>
+    <div class="keyrow"><input class="sel" id="gk-mat" list="dl-mat" placeholder="Type a material…" style="max-width:none;flex:1"><button class="btn" type="button" id="gk-add">Add</button></div>
+    <div class="chips" style="margin-top:6px">${mats.length?mats.map((m,i)=>`<span class="chip">${refChip(m)} <small>${esc(m.gr||'')} · ${esc(CAT_NAME[matCode(m)]||'')}</small> <span style="cursor:pointer" data-gk-rm="${i}" title="Remove">✕</span></span>`).join(''):'<span class="note" style="margin:0">No materials yet. A weapon needs at least a hard main part (metal, bone, or stone) and something for the haft or hilt.</span>'}</div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px"><b class="note" style="margin:0">3.</b>
+      ${key?`<button class="btn primary" type="button" id="gk-go" ${GROK.busy?'disabled':''}>${GROK.busy?'Forging…':'Forge the Blueprint'}</button>`:`<span class="note" style="margin:0">Add your xAI API key in <a href="${pageUrl('settings')}" data-go="settings">Settings → Assistant</a> to forge with Grok.</span>`}
+      <span class="note" id="gk-msg" style="margin:0">${esc(GROK.msg||'')}</span></div>
+  </div>`}
+function bindGrok(){if(!$('gk'))return;
+  $('gk-want').oninput=e=>{GROK.want=e.target.value;saveGrokState()};
+  const add=()=>{const v=$('gk-mat').value.trim(),m=findMat(v);if(!v)return;if(!m){toast('No material named “'+v+'”');return}if(GROK.mats.length>=GROK_MAX_MATS){toast('Up to '+GROK_MAX_MATS+' materials');return}GROK.mats.push(m.n);saveGrokState();renderForge()};
+  $('gk-add').onclick=add;$('gk-mat').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();add()}};
+  $('gk').querySelectorAll('[data-gk-rm]').forEach(el=>el.onclick=()=>{GROK.mats.splice(+el.dataset.gkRm,1);saveGrokState();renderForge()});
+  if($('gk-go'))$('gk-go').onclick=grokForge;
+}
+function grokPrompt(want,mats){
+  const weapons=grokWeapons().map(([n,b])=>({design:n,group:b.group,damage:b.dmg.join(' '),properties:b.props||'',parts:b.slots.map(s=>({id:s.id,name:s.name,role:s.role,required:!s.optional,good:s.ok.map(c=>CAT_NAME[c]),poor:(s.weak||[]).map(c=>CAT_NAME[c]),why:s.why}))}));
+  const M=mats.map(m=>({name:m.n,category:CAT_NAME[matCode(m)]||'',grade:m.gr||'',itemLevel:m.il||1,property:m.pn||'',trait:m.tr?m.tr.n:'',about:String(m.ds||m.d||'').slice(0,200)}));
+  return [{role:'system',content:`You design weapons for FAND, a tabletop RPG. A weapon is one of the listed general designs, and each of its parts is made from one material. You never invent stats: the game works out damage, rarity, and properties from the design and the materials. Reply with JSON only, in this shape:
+{"design":"<one design name from the list>","parts":{"<part id>":"<material name>"},"name":"<a new, original name for the weapon>","lore":"<2 to 4 sentences: what it looks like and how each material shows in it, in plain English>","unused":["<materials you did not place>"]}
+Rules: choose the design closest to what the player asked for. Use only the player's materials, spelled exactly as given. Put a material only on a part whose good categories include it; use a poor fit only if nothing good is left; never use a wrong one. Fill every required part you can. A material can go on more than one part. The name must not be the plain design name.`},
+    {role:'user',content:JSON.stringify({request:want,materials:M,designs:weapons})}]}
+async function grokCall(messages,json){
+  const r=await fetch('https://api.x.ai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+grokKey()},body:JSON.stringify(Object.assign({model:grokModel(),messages,temperature:0.8},json?{response_format:{type:'json_object'}}:{}))});
+  if(!r.ok){let t='';try{const j=await r.json();t=(j.error&&(j.error.message||j.error))||j.message||''}catch(e){}const err=new Error(r.status===401||r.status===403?'xAI did not accept the key. Check it in Settings.':r.status===429?'xAI says too many requests or no credit left. Try again later.':'xAI error '+r.status+(t?': '+String(t).slice(0,160):''));err.status=r.status;throw err}
+  const j=await r.json();return String(((j.choices||[])[0]||{}).message?.content||'')}
+function grokParse(t){const s=String(t).replace(/^\s*```(?:json)?/i,'').replace(/```\s*$/,'').trim();const a=s.indexOf('{'),b=s.lastIndexOf('}');return JSON.parse(s.slice(a,b+1))}
+async function grokForge(){
+  const want=GROK.want.trim(),mats=GROK.mats.map(n=>findMat(n)).filter(Boolean);
+  if(!want){toast('Describe the weapon you want first');$('gk-want').focus();return}
+  if(!mats.length){toast('Add at least one material');$('gk-mat').focus();return}
+  GROK.busy=true;GROK.msg='Grok is designing your weapon…';renderForge();
+  try{
+    const msgs=grokPrompt(want,mats);let txt;
+    try{txt=await grokCall(msgs,true)}catch(e){if(e.status===400)txt=await grokCall(msgs,false);else throw e}
+    const o=grokParse(txt),W=new Map(grokWeapons().map(([n,b])=>[lc(n),[n,b]])),hit=W.get(lc(o.design||''));
+    if(!hit)throw new Error('Grok picked a design the Forge does not know ('+String(o.design||'none').slice(0,40)+'). Try again or reword the request.');
+    const [base,B]=hit,byName=new Map(mats.map(m=>[lc(m.n),m])),parts={};
+    Object.entries(o.parts||{}).forEach(([id,mn])=>{const sl=B.slots.find(s=>s.id===id||lc(s.name)===lc(id)),m=byName.get(lc(mn||''));if(sl&&m&&slotFit(sl,m).lv!=='wrong')parts[sl.id]=m.n});
+    if(!Object.keys(parts).length)throw new Error('None of these materials fit a '+base+'. Add a metal, bone, or stone for the main part.');
+    let name=String(o.name||'').replace(/\s+/g,' ').trim().slice(0,60)||base;if(BP_IDX.get(lc(name)))name+=' (forged)';
+    FORGE=Object.assign({},FORGE,{base,parts,name,lore:String(o.lore||'').replace(/\s+/g,' ').trim().slice(0,700),want});saveForge();
+    const miss=B.slots.filter(s=>!s.optional&&!parts[s.id]).map(s=>s.name);
+    GROK.busy=false;
+    if(miss.length){GROK.msg='Almost: still needs '+miss.join(', ')+'. Fill it below, then save.';renderForge()}
+    else{GROK.msg='';const d=saveDesign();GROK.msg=d?'Forged “'+d.n+'”. Its Blueprint is saved below and in Saved designs.':'';renderForge()}
+    $('fg-out')?.scrollIntoView({behavior:'smooth',block:'start'});
+  }catch(e){GROK.busy=false;GROK.msg=e instanceof SyntaxError?'Grok\'s answer could not be read. Try again.':(e.message||'Could not reach xAI')+'';if(/Failed to fetch|NetworkError|Load failed/i.test(GROK.msg))GROK.msg='Could not reach xAI (api.x.ai). Check your connection.';renderForge()}
 }
 function designFromForge(){
   const r=forgeResult();
-  return {n:FORGE.name||r.name,base:FORGE.base,parts:Object.assign({},FORGE.parts),ac:r.ac!=null?r.ac:null,dmg:r.damage?r.damage+' '+r.dtype:'',atk:r.attack!=null?r.attack:null,vers:r.vers||'',props:r.B.props||'',cat:r.B.cat,slot:r.B.slot||r.B.kind||'',mats:r.parts.filter(p=>p.m&&p.fit.lv!=='wrong').map(p=>p.m.n),pr:r.prof,il:r.il};
+  return {lore:FORGE.lore||'',want:FORGE.want||'',n:FORGE.name||r.name,base:FORGE.base,parts:Object.assign({},FORGE.parts),ac:r.ac!=null?r.ac:null,dmg:r.damage?r.damage+' '+r.dtype:'',atk:r.attack!=null?r.attack:null,vers:r.vers||'',props:r.B.props||'',cat:r.B.cat,slot:r.B.slot||r.B.kind||'',mats:r.parts.filter(p=>p.m&&p.fit.lv!=='wrong').map(p=>p.m.n),pr:r.prof,il:r.il};
 }
 function saveDesign(){const d=designFromForge();if(BP_IDX.get(lc(d.n))){toast('“'+d.n+'” is already a Blueprint in the vault: give your design another name');return null}const i=DESIGNS.findIndex(x=>x.n===d.n);if(i>=0)DESIGNS[i]=d;else DESIGNS.push(d);store.set('designs',DESIGNS);toast('Saved '+d.n);renderForge();return d}
 function giveDesign(){const d=saveDesign();if(!d)return;const c=PARTY.find(x=>x.id===$('fg-who')?.value)||PARTY[0];if(!c)return;c.gear=(c.gear||[]).concat(d.n);saveParty();toast(d.n+' equipped on '+(c.name||'character'))}
-function loadDesign(i){const d=DESIGNS[i];FORGE={base:BASES[d.base]?d.base:'Battleaxe',parts:Object.assign({},d.parts),name:d.n,showAll:FORGE.showAll,realm:FORGE.realm};saveForge();renderForge()}
+function loadDesign(i){const d=DESIGNS[i];FORGE={base:BASES[d.base]?d.base:'Battleaxe',parts:Object.assign({},d.parts),name:d.n,lore:d.lore||'',want:d.want||'',showAll:FORGE.showAll,realm:FORGE.realm};saveForge();renderForge()}
 // Saved designs act like Blueprints in the party tracker and crafting planner
 const _findBP=findBP;
 // a saved design wins over a vault Blueprint of the same name (new designs cannot take a vault name, older ones may have)
@@ -6086,6 +6159,11 @@ findBP=n=>{const d=DESIGNS.find(d=>lc(d.n)===lc(n||''));return d?{n:d.n,cat:d.ca
 //  Settings
 // ════════════════════════════════════════════════════════════════
 const KEY_NAME='fand.anthropicKey';
+// Grok (xAI) key for the Forge: kept in this browser only, like the Anthropic key
+const GROK_KEY='fand.grokKey',GROK_DEFAULT_MODEL='grok-4';
+function grokKey(){try{return localStorage.getItem(GROK_KEY)||''}catch(e){return ''}}
+function grokModel(){return store.get('grokModel','')||GROK_DEFAULT_MODEL}
+function saveGrok(k,model){try{if(k)localStorage.setItem(GROK_KEY,k);else localStorage.removeItem(GROK_KEY)}catch(e){}if(model!=null)store.set('grokModel',model&&model!==GROK_DEFAULT_MODEL?model:'')}
 function getKey(){try{return sessionStorage.getItem(KEY_NAME)||localStorage.getItem(KEY_NAME)||''}catch(e){return ''}}
 function keyRemembered(){try{return !!localStorage.getItem(KEY_NAME)}catch(e){return false}}
 function saveKey(k,remember){try{localStorage.removeItem(KEY_NAME);sessionStorage.removeItem(KEY_NAME);if(k)(remember?localStorage:sessionStorage).setItem(KEY_NAME,k)}catch(e){}AI.client=null}
@@ -6116,7 +6194,14 @@ function renderSettings(){const k=getKey(),u=CL.user,dark=document.documentEleme
         <label class="note" style="display:flex;gap:8px;align-items:center;margin-top:8px;color:var(--text2)"><input type="checkbox" id="setRemember" ${!k||keyRemembered()?'checked':''}> Remember on this device</label>
         <div id="setMsg" class="okline">${k?'A key is saved.':''}</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 10px"><button class="btn primary" type="button" id="setSave">Save key</button><button class="btn" type="button" id="setRemove" ${k?'':'disabled'}>Remove key</button></div>
-        <div class="note">The key is stored only in this browser (never in your account) and is sent only to Anthropic's API (api.anthropic.com). Usage is billed to your Anthropic account. Get a key at <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a>. On a shared computer, untick “Remember” so the key is forgotten when the tab closes.</div>`)}
+        <div class="note">The key is stored only in this browser (never in your account) and is sent only to Anthropic's API (api.anthropic.com). Usage is billed to your Anthropic account. Get a key at <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a>. On a shared computer, untick “Remember” so the key is forgotten when the tab closes.</div>
+        <h4 style="margin:18px 0 6px;font-family:var(--serif)">Forge with Grok</h4>
+        <p class="note" style="margin:0 0 8px">The Forge can design a weapon from your description and materials using Grok, through your own xAI API key.</p>
+        <div class="keyrow"><input class="sel" id="setGrok" type="password" autocomplete="off" spellcheck="false" placeholder="xai-…" value="${esc(grokKey())}" style="max-width:none;flex:1"><button class="btn" id="setGrokShow" type="button">Show</button></div>
+        <label class="note" style="display:flex;gap:8px;align-items:center;margin:8px 0 0">Model <input class="sel" id="setGrokModel" value="${esc(grokModel())}" style="max-width:200px" spellcheck="false"></label>
+        <div id="setGrokMsg" class="okline">${grokKey()?'A Grok key is saved.':''}</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 10px"><button class="btn primary" type="button" id="setGrokSave">Save Grok key</button><button class="btn" type="button" id="setGrokRemove" ${grokKey()?'':'disabled'}>Remove</button></div>
+        <div class="note">Like the Anthropic key, it is stored only in this browser (never in your account or backups) and is sent only to xAI's API (api.x.ai). Usage is billed to your xAI account. Get a key at <a href="https://console.x.ai" target="_blank" rel="noopener">console.x.ai</a>.</div>`)}
       ${setSec('data','Saved data','Everything FAND saves lives in this browser'+(u?' and in your account.':'. Sign in to keep it in an account too.'),`
         <div class="set-row"><span>Back up everything<small>A file with your characters, journal, plans, designs, dice, and settings</small></span><button class="btn" type="button" onclick="setExport()">Download backup</button></div>
         <div class="set-row"><span>Restore a backup<small>Replaces the same data on this device${u?' and in your account':''}</small></span><label class="btn" style="cursor:pointer">Choose file<input type="file" accept=".json,application/json" hidden onchange="setImport(this)"></label></div>
@@ -6130,14 +6215,18 @@ function renderSettings(){const k=getKey(),u=CL.user,dark=document.documentEleme
   if($('setShow')){$('setShow').onclick=()=>{const i=$('setKey');i.type=i.type==='password'?'text':'password';$('setShow').textContent=i.type==='password'?'Show':'Hide'};
     $('setSave').onclick=()=>{const v=$('setKey').value.trim();if(v&&!/^sk-ant-/.test(v)){$('setMsg').style.color='var(--red)';$('setMsg').textContent='That doesn\'t look like an Anthropic API key (they start with sk-ant-).';return}saveKey(v,$('setRemember').checked);toast(v?'API key saved':'API key removed');renderAI();renderSettings()};
     $('setKey').onkeydown=e=>{if(e.key==='Enter')$('setSave').click()};
+    $('setGrokShow').onclick=()=>{const i=$('setGrok');i.type=i.type==='password'?'text':'password';$('setGrokShow').textContent=i.type==='password'?'Show':'Hide'};
+    $('setGrokSave').onclick=()=>{const v=$('setGrok').value.trim();if(v&&!/^xai-/.test(v)){$('setGrokMsg').style.color='var(--red)';$('setGrokMsg').textContent='That doesn\'t look like an xAI API key (they start with xai-).';return}saveGrok(v,$('setGrokModel').value.trim());toast(v?'Grok key saved':'Grok key removed');renderSettings()};
+    $('setGrok').onkeydown=e=>{if(e.key==='Enter')$('setGrokSave').click()};
+    $('setGrokRemove').onclick=()=>{saveGrok('');toast('Grok key removed');renderSettings()};
     $('setRemove').onclick=()=>{saveKey('',false);toast('API key removed');renderAI();renderSettings()}}}
 function clearPins(){const was=[...PINS];PINS=new Set();store.set('pins',[]);renderSettings();undoToast('Pins cleared',()=>{PINS=new Set(was);store.set('pins',was);if(TAB==='settings')renderSettings()})}
 // backups: every key this site saves (never the API key or account bookkeeping)
-function setExport(){const data={};try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('fand.')&&k!==KEY_NAME&&!k.startsWith('fand.__'))data[k.slice(5)]=localStorage.getItem(k)}}catch(e){}
+function setExport(){const data={};try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('fand.')&&k!==KEY_NAME&&k!==GROK_KEY&&!k.startsWith('fand.__'))data[k.slice(5)]=localStorage.getItem(k)}}catch(e){}
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({fand:'backup',at:new Date().toISOString(),data},null,1)],{type:'application/json'}));a.download='FAND backup '+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();toast('Backup downloaded')}
 function setImport(inp){const f=inp.files&&inp.files[0];inp.value='';if(!f)return;f.text().then(async t=>{let o;try{o=JSON.parse(t)}catch(e){}if(!o||o.fand!=='backup'||!o.data||typeof o.data!=='object'){toast('That file is not a FAND backup');return}
   o.data=Object.fromEntries(Object.entries(o.data).map(([k,v])=>[k.startsWith('fand.')?k.slice(5):k,v]));// accepts the Tools backup too (keys with the fand. prefix)
-  const keys=Object.keys(o.data).filter(k=>/^[\w.-]{1,64}$/.test(k)&&!k.startsWith('__')&&k!=='anthropicKey');if(!confirm('Restore '+keys.length+' saved items from '+(o.at?new Date(o.at).toLocaleString():'this backup')+'? They replace the same items on this device'+(CL.user?' and in your account':'')+'.'))return;
+  const keys=Object.keys(o.data).filter(k=>/^[\w.-]{1,64}$/.test(k)&&!k.startsWith('__')&&k!=='anthropicKey'&&k!=='grokKey');if(!confirm('Restore '+keys.length+' saved items from '+(o.at?new Date(o.at).toLocaleString():'this backup')+'? They replace the same items on this device'+(CL.user?' and in your account':'')+'.'))return;
   const now=Date.now();keys.forEach(k=>{let v;try{v=JSON.parse(o.data[k])}catch(e){return}if(k==='party'&&Array.isArray(v))v=v.map(c=>Object.assign({},c,{_m:now}));store.set(k,v)});
   if(CL.user)try{await cloudPush()}catch(e){}toast('Backup restored');setTimeout(()=>location.reload(),400)})}
 // ════════════════════════════════════════════════════════════════
@@ -6221,7 +6310,7 @@ document.addEventListener('click',e=>{if(e.target.closest('#qBox [data-go]'))clo
 var CL={on:typeof CLOUD!=='undefined'&&!!(CLOUD&&CLOUD.url&&CLOUD.key),sb:null,user:null,avatars:{},ready:null,signing:null,camps:[],members:{},
   dirty:new Set(),cdirty:new Set(),cgone:[],timer:0,ctimer:0,rtimer:0,pushing:false,cpushing:false,err:'',last:0,touched:false,chan:null,step:'',email:'',hc:false,later:false};
 // kept on each device only: appearance, screen state (filters, searches, recently viewed), and the hidden-class locks
-const CL_LOCAL=new Set(['recentq','theme','wakelock','tooltab','viewmode','charwiz','jedit','clsfocus','placefocus','diceanim','recent','spells','hc','hclv','jq','magic','rmap','dpool','hcpat','hcpin','hcqm','hcguard','hclog','anthropicKey']);
+const CL_LOCAL=new Set(['recentq','theme','wakelock','tooltab','viewmode','charwiz','jedit','clsfocus','placefocus','diceanim','recent','spells','hc','hclv','jq','magic','rmap','dpool','hcpat','hcpin','hcqm','hcguard','hclog','anthropicKey','grokKey','grokModel']);
 const clSkip=k=>!k||k.startsWith('__')||CL_LOCAL.has(k);
 function clMeta(){if(!clMeta.m){try{clMeta.m=JSON.parse(localStorage.getItem('fand.__cloud')||'null')}catch(e){}if(!clMeta.m||typeof clMeta.m!=='object')clMeta.m={};clMeta.m.ts=clMeta.m.ts||{}}return clMeta.m}
 function clMetaSave(){try{localStorage.setItem('fand.__cloud',JSON.stringify(clMeta()))}catch(e){}}
