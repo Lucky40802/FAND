@@ -502,6 +502,7 @@ details.fold>div{margin-top:10px}
 .pal-in svg{width:18px;height:18px;color:var(--muted);flex-shrink:0}
 .pal-in input{flex:1;background:none;border:0;outline:none;font-size:1.02rem}
 .pal-res{max-height:60vh;overflow-y:auto;padding:6px 0}
+.pal-hint{padding:8px 14px;font-size:.8rem;color:var(--muted)}.pal-hint code{background:var(--surf2);padding:1px 5px;border-radius:4px;font-size:.78rem}
 .pal-g{font-size:.66rem;text-transform:uppercase;letter-spacing:.14em;color:var(--muted2);padding:8px 16px 4px;font-weight:600}
 .pal-i{display:flex;width:100%;gap:10px;align-items:center;background:none;border:0;padding:7px 16px;text-align:left;font-size:.9rem;color:var(--text2)}
 .pal-i.sel{background:var(--accbg);color:var(--text)}
@@ -807,7 +808,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"journal",v:"4c16bda2b1",b:"f9c66c06"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"journal",v:"4c16bda2b1",b:"24340bcc"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=4c16bda2b1",10911773],["data/vault.js?v=4c16bda2b1",1144011],["data/spells.js?v=4c16bda2b1",1127066]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -2031,10 +2032,33 @@ function closePalette(){$('pbg').classList.remove('open')}
 $('pbg').addEventListener('mousedown',e=>{if(e.target===$('pbg'))closePalette()});
 const PAL_ORDER=[['rune','Runes'],['note','Codex'],['bp','Blueprints'],['mat','Materials'],['mon','Bestiary'],['god','Gods'],['realm','Realms'],['sub','Subclasses'],['demon','Demons'],['patron','Patrons'],['spell','Spells']];
 function hl(s,q){const i=lc(s).indexOf(q);return i<0?esc(s):esc(s.slice(0,i))+'<mark>'+esc(s.slice(i,i+q.length))+'</mark>'+esc(s.slice(i+q.length))}
+// Smarter search: filters you can type (type:monster realm:Hell grade:5 lv:10 rarity:rare school:evocation cr:5), actions
+// ("roll 2d6+3", "new character", "dark theme"…), recent searches, and a "Did you mean" list when a typo finds nothing.
+const PAL_TYPES={monster:'mon',monsters:'mon',mon:'mon',creature:'mon',creatures:'mon',blueprint:'bp',blueprints:'bp',bp:'bp',item:'bp',items:'bp',material:'mat',materials:'mat',mat:'mat',god:'god',gods:'god',spell:'spell',spells:'spell',rune:'rune',runes:'rune',realm:'realm',realms:'realm',subclass:'sub',subclasses:'sub',sub:'sub',demon:'demon',demons:'demon',patron:'patron',patrons:'patron',note:'note',notes:'note',codex:'note'};
+function palParse(raw){const f={},rest=[];raw.split(/\s+/).forEach(w=>{const m=/^(type|is|realm|grade|g|lv|level|rarity|rar|school|cr):(.+)$/i.exec(w);if(!m){if(w)rest.push(w);return}const k=lc(m[1]),v=lc(m[2]);
+    if(k==='type'||k==='is'){if(PAL_TYPES[v])f.type=PAL_TYPES[v]}else if(k==='realm')f.realm=v;else if(k==='grade'||k==='g')f.g=+v;else if(k==='lv'||k==='level')f.lv=+v;else if(k==='rarity'||k==='rar')f.rar=v;else if(k==='school')f.sc=v;else f.cr=v});
+  if(Object.keys(f).length&&!f.type&&rest.length&&PAL_TYPES[lc(rest[0])])f.type=PAL_TYPES[lc(rest.shift())];
+  return {f,q:lc(rest.join(' ')),has:Object.keys(f).length>0}}
+const palGr=x=>x.gr?String(x.gr).split(' '):[];
+const palMatch=(x,f)=>(!f.realm||lc(x.realm||x.home||palGr(x)[0]||'').startsWith(f.realm))&&(!f.g||(x.g!=null?x.g:+palGr(x).pop())===f.g)&&(!f.lv||+x.lv===f.lv)&&(!f.rar||lc((x._t==='bp'?x.r:x.rar)||'').startsWith(f.rar))&&(!f.sc||lc(x.sc||'').startsWith(f.sc))&&(!f.cr||String(x.cr)===f.cr);
+function lev(a,b,max){if(Math.abs(a.length-b.length)>max)return max+1;let prev=Array.from({length:b.length+1},(_,i)=>i);for(let i=1;i<=a.length;i++){const cur=[i];let best=i;for(let j=1;j<=b.length;j++){cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));if(cur[j]<best)best=cur[j]}if(best>max)return max+1;prev=cur}return prev[b.length]}
+function palFuzzy(q){const max=q.length>7?2:1,out=[];PAL_ORDER.forEach(([t])=>{for(const x of TYPES[t].arr){const n=lc(x.n);let d=lev(n.slice(0,q.length),q,max);if(d>max)for(const w of n.split(/[^a-z0-9']+/)){if(w.length<3)continue;d=Math.min(d,lev(w,q,max),lev(w.slice(0,q.length),q,max));if(!d)break}if(d<=max)out.push([d,x])}});return out.sort((a,b)=>a[0]-b[0]||a[1].n.length-b[1].n.length).slice(0,8).map(r=>r[1])}
+const PAL_ACTIONS=[['✨ Build a new character','new character build make create hero',()=>charWizard()],['🌙 Dark theme','dark theme night',()=>{store.set('theme','dark');applyTheme('dark')}],['☀ Light theme','light theme day bright',()=>{store.set('theme','light');applyTheme('light')}],['⟳ Check for updates','update updates version newest refresh',()=>go('settings')],['❓ Help','help how faq trouble',()=>go('help')],['🧭 Show me around','tour guide welcome around',()=>openGuide(0)],['👤 Sign in','sign in login log account profile',()=>go('account')],['📖 Quick rules','quick rules conditions',()=>openQuick()],['🎲 Something random','random surprise',()=>randomItem(BPS.concat(MATS,MONSTERS,GODS))],['⚔ Combat tracker','combat initiative fight tracker',()=>go('combat')]];
+const PAL_DICE=/^(?:roll\s+)?(\d{0,2}d\d+(?:\s*[+\-−]\s*(?:\d{0,2}d\d+|\d+))*)$/i;
+function palActions(raw){let h='';const m=PAL_DICE.exec(raw),acts=[];if(m)acts.push(['🎲 Roll '+m[1],()=>rollShow(m[1])]);const q=lc(raw);if(q.length>=3)PAL_ACTIONS.forEach(([l,k,f])=>{if(k.split(' ').some(w=>w.startsWith(q))||k.includes(q))acts.push([l,f])});
+  if(acts.length){h+=`<div class="pal-g">Actions</div>`;acts.slice(0,4).forEach(([l,f])=>{PRES.push({run:f,act:1});h+=`<button class="pal-i" data-pi="${PRES.length-1}"><span>${esc(l)}</span><span class="r">action</span></button>`})}return h}
+function palFiltered(P){let h='';const types=P.f.type?[[P.f.type,(PAL_ORDER.find(o=>o[0]===P.f.type)||[0,TYPES[P.f.type].label])[1]]]:PAL_ORDER,lim=P.f.type?30:6,lab={realm:'realm',g:'grade',lv:'level',rar:'rarity',sc:'school',cr:'CR',type:'type'};
+  h+=`<div class="pal-hint">Filters: ${Object.entries(P.f).map(([k,v])=>`<span class="b ghost">${lab[k]} ${esc(k==='type'?TYPES[v].label:v)}</span>`).join(' ')}${P.q?` · “${esc(P.q)}”`:''}</div>`;let n=0;
+  types.forEach(([t,label])=>{const hits=TYPES[t].arr.filter(x=>palMatch(x,P.f)&&(!P.q||lc(x.n).includes(P.q)));if(!hits.length)return;n+=hits.length;h+=`<div class="pal-g">${label} <span class="r">${fmt(hits.length)}</span></div>`;hits.slice(0,lim).forEach(x=>{PRES.push({x});h+=palRow(x,P.q?hl(x.n,P.q):esc(x.n),PRES.length-1)})});
+  return n?h:h+`<div class="empty" style="padding:24px">Nothing matches these filters.</div>`}
+function palRemember(raw){if(!raw)return;const L=store.get('recentq',[]).filter(x=>x!==raw);L.unshift(raw);store.set('recentq',L.slice(0,8))}
 function paletteSearch(){
-  const q=lc($('pq').value.trim()).replace(/infinitas/g,'infinatas');
-  PRES=[];let h='';
-  if(!q){
+  const raw=$('pq').value.trim(),P=palParse(raw.replace(/infinitas/gi,'infinatas')),q=P.q;
+  PRES=[];let h=raw?palActions(raw):'';
+  if(P.has){h+=palFiltered(P)}
+  else if(!q){
+    const rq=store.get('recentq',[]);if(rq.length){h+=`<div class="pal-g">Recent searches</div>`;rq.slice(0,5).forEach(t=>{PRES.push({q:t});h+=`<button class="pal-i" data-pi="${PRES.length-1}"><span>🕘 ${esc(t)}</span><span class="r">search</span></button>`})}
+    h+=`<div class="pal-hint">Try <code>monster realm:Hell grade:5</code>, <code>rarity:legendary sword</code>, or <code>roll 2d6+3</code></div>`;
     const pins=pinnedItems().slice(0,8);
     const jump=TABS.filter(t=>t[0]!=='home');
     if(pins.length){h+=`<div class="pal-g">Pinned</div>`;pins.forEach(x=>{PRES.push({x});h+=palRow(x,esc(x.n),PRES.length-1)})}
@@ -2066,6 +2090,7 @@ function paletteSearch(){
     if(!SP.length&&META.counts.spells){PRES.push({tab:'spells',setup:{q:$('pq').value.trim()}});h+=`<div class="pal-g">Spells</div><button class="pal-i" data-pi="${PRES.length-1}">Search ${fmt(META.counts.spells)} spells for “${esc($('pq').value.trim())}”<span class="r">Spells page →</span></button>`}
     const tabs=TABS.filter(([,l])=>lc(l).includes(q));
     if(tabs.length){h+=`<div class="pal-g">Sections</div>`;tabs.forEach(([id,l])=>{PRES.push({tab:id});h+=`<button class="pal-i" data-pi="${PRES.length-1}">${l}<span class="r">section</span></button>`})}
+    if(PRES.filter(r=>r.x).length<3&&q.length>=4){const dm=palFuzzy(q).filter(x=>!PRES.some(r=>r.x===x));if(dm.length){h+=`<div class="pal-g">Did you mean</div>`;dm.forEach(x=>{PRES.push({x});h+=palRow(x,esc(x.n),PRES.length-1)})}}
     if(!PRES.length)h=`<div class="empty" style="padding:30px">No matches for “${esc(q)}”</div>`;
   }
   $('pres').innerHTML=h;PSEL=0;palMark();
@@ -2076,7 +2101,7 @@ function palRow(x,label,i){
   return `<button class="pal-i" data-pi="${i}">${col?`<span class="sw" style="width:8px;height:8px;border-radius:50%;background:${col};flex-shrink:0"></span>`:''}<span>${label}</span><span class="r">${esc(sub)}</span></button>`;
 }
 function palMark(){$('pres').querySelectorAll('.pal-i').forEach(b=>b.classList.toggle('sel',+b.dataset.pi===PSEL));const s=$('pres').querySelector('.sel');if(s)s.scrollIntoView({block:'nearest'})}
-function palPick(i){const r=PRES[i];if(!r)return;closePalette();if(r.run){r.run();return}if(r.tool)store.set('tooltab',r.tool);if(r.focus)store.set('clsfocus',r.focus);if(r.place)store.set('placefocus',r.place);if(r.tab){go(r.tab,r.setup);if(r.focus&&TAB==='classes')renderClasses();return}const x=r.x;const tab=TYPES[x._t].tab;if(!SITE&&TAB!==tab){history.pushState(null,'',hashFor(tab));TAB=tab;renderTab()}LIST=VIEWS[TAB]?filtered():[];openItem(x)}
+function palPick(i){const r=PRES[i];if(!r)return;if(r.q){$('pq').value=r.q;paletteSearch();$('pq').focus();return}if(!r.act)palRemember($('pq').value.trim());closePalette();if(r.run){r.run();return}if(r.tool)store.set('tooltab',r.tool);if(r.focus)store.set('clsfocus',r.focus);if(r.place)store.set('placefocus',r.place);if(r.tab){go(r.tab,r.setup);if(r.focus&&TAB==='classes')renderClasses();return}const x=r.x;const tab=TYPES[x._t].tab;if(!SITE&&TAB!==tab){history.pushState(null,'',hashFor(tab));TAB=tab;renderTab()}LIST=VIEWS[TAB]?filtered():[];openItem(x)}
 let pTimer;$('pq').addEventListener('input',()=>{clearTimeout(pTimer);pTimer=setTimeout(paletteSearch,60)});
 $('pq').addEventListener('keydown',e=>{
   if(e.key==='ArrowDown'){PSEL=Math.min(PRES.length-1,PSEL+1);palMark();e.preventDefault()}
@@ -5958,7 +5983,7 @@ document.addEventListener('click',e=>{if(e.target.closest('#qBox [data-go]'))clo
 var CL={on:typeof CLOUD!=='undefined'&&!!(CLOUD&&CLOUD.url&&CLOUD.key),sb:null,user:null,avatars:{},ready:null,signing:null,camps:[],members:{},
   dirty:new Set(),cdirty:new Set(),cgone:[],timer:0,ctimer:0,rtimer:0,pushing:false,cpushing:false,err:'',last:0,touched:false,chan:null,step:'',email:'',hc:false,later:false};
 // kept on each device only: appearance, screen state (filters, searches, recently viewed), and the hidden-class locks
-const CL_LOCAL=new Set(['theme','wakelock','tooltab','viewmode','charwiz','jedit','clsfocus','placefocus','diceanim','recent','spells','hc','hclv','jq','magic','rmap','dpool','hcpat','hcpin','hcqm','hcguard','hclog','anthropicKey']);
+const CL_LOCAL=new Set(['recentq','theme','wakelock','tooltab','viewmode','charwiz','jedit','clsfocus','placefocus','diceanim','recent','spells','hc','hclv','jq','magic','rmap','dpool','hcpat','hcpin','hcqm','hcguard','hclog','anthropicKey']);
 const clSkip=k=>!k||k.startsWith('__')||CL_LOCAL.has(k);
 function clMeta(){if(!clMeta.m){try{clMeta.m=JSON.parse(localStorage.getItem('fand.__cloud')||'null')}catch(e){}if(!clMeta.m||typeof clMeta.m!=='object')clMeta.m={};clMeta.m.ts=clMeta.m.ts||{}}return clMeta.m}
 function clMetaSave(){try{localStorage.setItem('fand.__cloud',JSON.stringify(clMeta()))}catch(e){}}
