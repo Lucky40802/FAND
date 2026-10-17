@@ -442,6 +442,8 @@ svg.curve{width:100%;height:auto;margin-top:10px;display:block}
 .mh .ep{font-family:var(--serif);font-style:italic;color:var(--muted);margin-top:2px}
 .mh .badges{margin-top:10px}
 .mact{position:absolute;top:14px;right:14px;display:flex;gap:6px}
+.qa{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 14px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.qa-give{display:flex;gap:6px;align-items:center}.qa-give .sel{width:auto;max-width:180px}
 .mact .icon-btn{width:32px;height:32px}
 .mact .icon-btn.on{color:var(--gold);border-color:var(--gold)}
 .mb{padding:16px 22px 22px;display:flex;flex-direction:column;gap:16px}
@@ -492,6 +494,9 @@ details.fold>div{margin-top:10px}
 .pal-foot{display:flex;gap:14px;padding:8px 16px;border-top:1px solid var(--line);font-size:.72rem;color:var(--muted)}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--surf3);border:1px solid var(--line3);color:var(--text);padding:8px 14px;border-radius:8px;font-size:.84rem;opacity:0;transition:all .2s;z-index:80;pointer-events:none}
 .toast.show{opacity:1;transform:translateX(-50%)}
+.toast.act{pointer-events:auto;display:flex;gap:14px;align-items:center;padding:8px 10px 8px 14px}
+.toast button{background:none;border:0;color:var(--gold2);font-weight:700;padding:4px 6px;border-radius:6px}
+.toast button:hover{background:var(--goldbg)}
 .upd{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--surf3);border:1px solid var(--gold,#c9a54a);color:var(--text);padding:10px 16px;border-radius:10px;font:inherit;font-size:.86rem;z-index:81;cursor:pointer;max-width:calc(100% - 32px)}
 .upd[hidden]{display:none}
 
@@ -621,8 +626,106 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   .b,.vtag,.sh-lab{font-size:11.5px}
   .modal .mbody,.modal{overscroll-behavior:contain}
 }
+/* Hidden classes: the menu and the chosen class */
+.hcx-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 12px}
+.hcx-tab{border:1px solid var(--line);background:var(--surf);border-radius:999px;padding:6px 12px;display:flex;gap:6px;align-items:center;color:var(--text2)}
+.hcx-tab i{width:9px;height:9px;border-radius:50%;background:var(--tc)}
+.hcx-tab.on{border-color:var(--tc);background:color-mix(in srgb,var(--tc) 14%,var(--surf));color:var(--text)}
+.hcx-layout{display:grid;grid-template-columns:minmax(260px,340px) minmax(0,1fr);gap:16px;align-items:start}
+.hcx-menu{position:sticky;top:0;background:var(--surf);border:1px solid var(--line);border-radius:12px;display:flex;flex-direction:column;max-height:calc(100vh - 150px);max-height:calc(100dvh - 150px);overflow:hidden}
+.hcx-mtop{padding:10px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.hcx-f>summary{font-size:.86rem}
+.hcx-f .sel{max-width:none;width:100%}
+.hcx-list{overflow-y:auto;padding:2px 6px 10px;flex:1;overscroll-behavior:contain}
+.hcx-g>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:8px;padding:9px 8px 4px;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);position:sticky;top:0;background:var(--surf);z-index:1}
+.hcx-g>summary::-webkit-details-marker{display:none}
+.hcx-g:not([open])>summary{border-bottom:1px solid var(--line)}
+.hcx-row{display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:none;border:0;border-radius:8px;padding:7px 8px;color:var(--text2)}
+.hcx-row:hover{background:var(--surf2);color:var(--text)}
+.hcx-row.on{background:var(--accbg);color:var(--text);box-shadow:inset 3px 0 0 var(--acc)}
+.hcx-row i{flex:0 0 8px;height:8px;border-radius:50%}
+.hcx-row span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hcx-row small{color:var(--muted);font-size:.72rem;white-space:nowrap;max-width:42%;overflow:hidden;text-overflow:ellipsis}
+.hcx-detail{background:var(--surf);border:1px solid var(--line);border-top:3px solid var(--tc,var(--line3));border-radius:12px;padding:16px 18px;min-width:0}
+.hcx-dnav{display:flex;gap:6px;align-items:center;margin-bottom:8px}
+.hcx-dnav .sp{flex:1}
+.hcx-dnav .icon-btn[disabled]{opacity:.35;cursor:default}
+.hcx-detail h2{font-size:1.7rem;margin:2px 0 8px;line-height:1.15}
+.hcx-kind{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--tc,var(--gold2))}
+.hcx-dm{margin:12px 0 4px;padding:10px 12px;border:1px dashed var(--line3);border-radius:10px;background:var(--bg);display:flex;flex-direction:column;gap:8px}
+.hcx-dm .keyrow{margin:0}
+.hcx-back{display:none}
+@media (max-width:800px){.hcx-layout{grid-template-columns:minmax(0,1fr)}.hcx-menu{position:static;max-height:none}.hcx-list{overflow:visible}.hcx-layout.d .hcx-menu,.hcx-layout:not(.d) .hcx-detail{display:none}.hcx-back{display:inline-flex}.hcx-detail{padding:14px}}
+/* Home: the pages your role uses most */
+.qgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.qcard{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surf);text-decoration:none;color:var(--text2);transition:border-color .15s,transform .15s}
+.qcard:hover{border-color:var(--acc);transform:translateY(-1px)}
+.qcard b{color:var(--text);font-family:var(--serif);font-size:1.05rem}
+.qcard small{font-size:.8rem;color:var(--muted);line-height:1.35}
+/* Loading: a progress bar while the data downloads (site pages), and placeholder cards */
+.boot{width:min(320px,80%);height:6px;border-radius:6px;background:var(--line);overflow:hidden;opacity:0;transition:opacity .2s}
+.boot.on{opacity:1}
+.boot i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--gold));border-radius:6px;transition:width .15s}
+.boot-s{font-family:var(--sans);font-style:normal;font-size:.78rem;color:var(--muted);text-align:center;max-width:420px;min-height:1em}
+.skel{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;width:min(960px,100%);margin-top:18px}
+.skel i{height:74px;border-radius:12px;background:linear-gradient(90deg,var(--surf) 0%,var(--surf2) 50%,var(--surf) 100%);background-size:200% 100%;animation:skel 1.4s ease-in-out infinite;border:1px solid var(--line)}
+@keyframes skel{from{background-position:100% 0}to{background-position:-100% 0}}
+/* First-visit guide */
+.gd-bg{position:fixed;inset:0;z-index:90;background:transparent}
+.gd-bg.dim{background:rgba(5,4,12,.6)}
+.gd-ring{position:fixed;z-index:91;border:3px solid var(--gold);border-radius:12px;box-shadow:0 0 0 9999px rgba(5,4,12,.6);pointer-events:none;transition:all .2s}
+.gd-ring[hidden]{display:none}
+.gd-card{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%);width:min(440px,calc(100vw - 24px));background:var(--surf);border:1px solid var(--line3);border-top:3px solid var(--gold);border-radius:14px;padding:16px 18px;z-index:92;box-shadow:var(--shadow)}
+.gd-card.top{bottom:auto;top:calc(16px + env(safe-area-inset-top))}
+.gd-card h3{font-size:1.3rem;margin:6px 0 6px}
+.gd-card p{color:var(--text2);line-height:1.55}
+.gd-dots{display:flex;gap:5px}.gd-dots i{width:7px;height:7px;border-radius:50%;background:var(--line3)}.gd-dots i.on{background:var(--gold);width:18px;border-radius:4px}
+.gd-roles{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.gd-foot{display:flex;gap:8px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.set-sec.help ul{padding-left:18px;line-height:1.65}.set-sec.help li{margin:3px 0}.set-sec.help p{margin:6px 0;line-height:1.6}
+/* Phones: the bottom bar and the Menu page */
+.bnav{display:none}
+.mdrawer{position:fixed;inset:0;z-index:75;background:var(--bg);overflow-y:auto;padding:max(12px,env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom));overscroll-behavior:contain}
+.mdrawer[hidden]{display:none}
+.md-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.md-h b{font-family:var(--serif);font-size:1.4rem}
+.md-quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px}
+.md-quick a{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;border:1px solid var(--line);border-radius:12px;background:var(--surf);color:var(--text);text-decoration:none;font-size:.82rem}
+.md-quick svg{width:22px;height:22px;color:var(--acc2)}
+.md-g h4{font-family:var(--sans);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:16px 0 6px}
+.md-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.md-grid a{display:flex;justify-content:space-between;align-items:baseline;gap:6px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surf);color:var(--text);text-decoration:none;min-width:0}
+.md-grid a b{font-weight:600;font-family:var(--sans);font-size:.92rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.md-grid a small{color:var(--muted);font-size:.72rem}
+.md-grid a.on{border-color:var(--acc);background:var(--accbg)}
+@media (max-width:640px){
+  .bnav{display:flex;flex-shrink:0;background:var(--bg2);border-top:1px solid var(--line);padding:4px 4px calc(4px + env(safe-area-inset-bottom));gap:2px}
+  .bnav a,.bnav button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:50px;padding:4px 2px;background:none;border:0;border-radius:10px;color:var(--muted);text-decoration:none;font-size:.68rem;-webkit-tap-highlight-color:transparent}
+  .bnav svg{width:22px;height:22px}
+  .bnav .on{color:var(--acc2);background:var(--accbg)}
+  .bnav a:active,.bnav button:active{background:var(--surf2)}
+  .tabs{display:none}
+  .ai-fab{bottom:calc(70px + env(safe-area-inset-bottom));right:14px}
+  .toast{bottom:calc(76px + env(safe-area-inset-bottom))}
+  .upd{bottom:calc(72px + env(safe-area-inset-bottom))}
+}
+@media print{.bnav,.mdrawer{display:none!important}}
+/* Comfort (Settings → Appearance): text size scales every rem; high contrast; less motion */
+:root{--ts:1}
+html{font-size:calc(100% * var(--ts))}
+body{font-size:calc(15px * var(--ts))}
+@media (max-width:640px){body{font-size:calc(14px * var(--ts))}}
+:root[data-contrast="high"]{--text:#ffffff;--text2:#ebe7f7;--muted:#c3bedb;--muted2:#a29dbd;--line:#4d4a6c;--line3:#706b98;--acc2:#ddd3ff;--gold2:#ffe39c}
+:root[data-theme="light"][data-contrast="high"]{--bg:#fffdf8;--surf:#ffffff;--text:#000000;--text2:#1c160c;--muted:#3f3526;--muted2:#5c503c;--line:#9c8d72;--line3:#6f6249;--acc:#4a2fb8;--acc2:#3b2496;--gold2:#5e4200}
+:root[data-contrast="high"] a{text-decoration-thickness:2px}
+:root[data-contrast="high"] :focus-visible{outline-width:3px}
+:root[data-motion="reduce"] *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
+<script>
+// Before anything is drawn: the saved theme, text size, contrast, and motion (so a page never flashes the wrong look)
+try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fand.'+k);return v==null?null:JSON.parse(v)},t=g('theme');d.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');var z=+g('tscale');if(z>=.8&&z<=1.6)d.style.setProperty('--ts',z);if(g('contrast'))d.dataset.contrast='high';if(g('motion')==='reduce')d.dataset.motion='reduce'}catch(e){}
+</script>
 </head>
 <body>
 
@@ -652,10 +755,12 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   <div class="scrim" id="scrim" onclick="toggleDrawer(false)"></div>
   <main class="main">
     <div class="ctrl" id="ctrl" hidden></div>
-    <div class="content" id="content"><div class="loading">Loading the compendium…</div></div>
+    <div class="content" id="content"><div class="loading">Loading the compendium…<div class="boot"><i id="bootbar"></i></div><small class="boot-s" id="boots"></small><div class="skel" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div>
   </main>
 </div>
 
+<nav class="bnav" id="bnav" aria-label="Quick navigation"></nav>
+<div class="mdrawer" id="mdrawer" role="dialog" aria-modal="true" aria-label="Menu" hidden></div>
 <div class="mbg" id="mbg" role="dialog" aria-modal="true" aria-labelledby="mtitle">
   <div class="modal" id="modal"></div>
 </div>
@@ -671,7 +776,7 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   </div>
 </div>
 <div class="toast" id="toast"></div>
-<button class="upd" id="upd" hidden onclick="location.reload()">A new version of FAND is ready. Tap to load it.</button>
+<button class="upd" id="upd" hidden onclick="forceUpdate()">A new version of FAND is ready. Tap to load it.</button>
 <button class="upd" id="cloudupd" hidden onclick="location.reload()">Newer data from your account is ready. Tap to load it.</button>
 <button class="ai-fab" id="aiFab" onclick="toggleAI(true)" aria-label="Ask the FAND assistant">✦ <span>Ask FAND</span></button>
 <aside class="ai" id="ai" aria-label="FAND assistant">
@@ -686,10 +791,9 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"professions",v:"4c16bda2b1"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
-<script src="data/core.js?v=4c16bda2b1"></script>
-<script src="data/vault.js?v=4c16bda2b1"></script>
-<script>
+<script>const SITE={page:"professions",v:"4c16bda2b1",b:"e0ae3d05"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>(function(){var F=[["data/core.js?v=4c16bda2b1",10911773],["data/vault.js?v=4c16bda2b1",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
+<script type="text/x-fand" id="fand-app">
 'use strict';
 // ════════════════════════════════════════════════════════════════
 //  Helpers
@@ -799,7 +903,7 @@ function diceSkinGrid(k){k=k||'g';const cur=diceSkin().id,groups=[...new Set(DSK
   return `<div class="dsk-grid" data-k="${k}">${groups.map(g=>`<div class="dsk-group"><div class="dsk-h">${esc(g)}</div><div class="dsk-row">${DSK.filter(x=>x.group===g).map(x=>{const d=dieSVG(20,x,k+x.id);return `<button type="button" class="dsk${x.id===cur?' on':''}" onclick="setDiceSkin('${x.id}')" aria-pressed="${x.id===cur}" title="${esc(x.name)}"><span class="dsk-die" style="${d.glow?`filter:drop-shadow(0 0 6px ${d.glow})`:''}">${d.svg}<b style="color:${d.ink};text-shadow:${d.sh}">20</b></span><small>${esc(x.name)}</small></button>`}).join('')}</div></div>`).join('')}</div>`}
 function diceOverlay(R,sides){
   let ov=$('dice-ov');if(!ov){ov=document.createElement('div');ov.id='dice-ov';document.body.appendChild(ov);ov.onclick=()=>ov.classList.remove('on')}
-  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,shown=R.r.slice(0,12);
+  const reduce=lessMotion(),shown=R.r.slice(0,12);
   ov.innerHTML=`<div class="dice-box"><div class="dice-row">${shown.map((v,i)=>{const x=(R.sd&&R.sd[i])||sides,d=dieSVG(x,null,'ov'+i);return `<div class="die" style="--d:${i*60}ms${d.glow?`;filter:drop-shadow(0 0 14px ${d.glow}) drop-shadow(0 8px 18px rgba(0,0,0,.45))`:''}">${d.svg}<span data-final="${v}" data-sides="${x}" style="color:${d.ink};text-shadow:${d.sh}">${Math.abs(v)}</span></div>`}).join('')}${R.r.length>12?`<div class="note">+${R.r.length-12} more</div>`:''}</div>
     <div class="dice-total"><span class="dice-expr">${esc(R.e)}</span><b>${R.preview?R.r[0]:R.t}</b><small>${R.r.join(' + ')}${R.mod?(R.mod>0?' + ':' − ')+Math.abs(R.mod):''}${sides===20&&R.r.length===1?(R.r[0]===20?' · natural 20!':R.r[0]===1?' · natural 1':''):''}</small></div><div class="note" style="color:#fff9">click anywhere to close</div></div>`;
   ov.classList.add('on');ov.classList.toggle('spin',!reduce);
@@ -822,9 +926,13 @@ function diceify(root){if(!root)return;const w=document.createTreeWalker(root,No
   ns.forEach(n=>{const f=document.createDocumentFragment();let last=0;const t=n.nodeValue;DICE_RX.lastIndex=0;let m;while((m=DICE_RX.exec(t))){f.append(t.slice(last,m.index));const sp=document.createElement('span');sp.className='dice';sp.textContent=m[0];sp.title='Click to roll';f.append(sp);last=m.index+m[0].length}f.append(t.slice(last));n.replaceWith(f)})}
 document.addEventListener('click',e=>{const d=e.target.closest('.dice');if(d){e.preventDefault();e.stopPropagation();rollShow(d.textContent)}},true);
 function diceLog(){const L=store.get('dicelog',[]);$('dl-log').innerHTML=L.length?L.map(x=>`<div style="display:flex;gap:8px;font-size:.88rem"><b style="width:44px;text-align:right">${x.t}</b><span class="mono">${esc(x.e)}</span><span style="color:var(--muted)">${x.r.join(', ')}${x.mod?(x.mod>0?' +':' ')+x.mod:''}</span></div>`).join(''):'<div class="note">No rolls yet.</div>'}
-// On the play pages, dice in freshly drawn content become clickable.
-let DICE_OBS=null;function diceWatch(){if(DICE_OBS)DICE_OBS.disconnect();if(!['party','forge','encounter','combat','hooks','craft','prep'].includes(TAB))return;diceify($('content'));DICE_OBS=new MutationObserver(()=>{DICE_OBS.disconnect();diceify($('content'));DICE_OBS.observe($('content'),{childList:true,subtree:true})});DICE_OBS.observe($('content'),{childList:true,subtree:true})}
-function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('show'),1800)}
+// On every page but the big lists (and Home), dice in freshly drawn content become clickable; list windows do it themselves.
+let DICE_OBS=null;function diceWatch(){if(DICE_OBS)DICE_OBS.disconnect();if(VIEWS[TAB]||TAB==='home')return;diceify($('content'));DICE_OBS=new MutationObserver(()=>{DICE_OBS.disconnect();diceify($('content'));DICE_OBS.observe($('content'),{childList:true,subtree:true})});DICE_OBS.observe($('content'),{childList:true,subtree:true})}
+// Deleting happens at once and the toast offers Undo for 6 seconds, instead of asking "Are you sure?" first.
+function actToast(msg,label,fn){const t=$('toast');t.innerHTML=`<span>${esc(msg)}</span><button type="button">${esc(label)}</button>`;t.classList.add('show','act');clearTimeout(toast._t);
+  t.querySelector('button').onclick=()=>{t.classList.remove('show','act');clearTimeout(toast._t);fn()};toast._t=setTimeout(()=>t.classList.remove('show','act'),6000)}
+const undoToast=(msg,undo)=>actToast(msg,'Undo',()=>{undo();toast('Restored')});
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.remove('act');t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('show'),1800)}
 const store={get(k,d){try{const v=localStorage.getItem('fand.'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('fand.'+k,JSON.stringify(v))}catch(e){}cloudMark(k)}};
 
 // ════════════════════════════════════════════════════════════════
@@ -1280,9 +1388,9 @@ const TABS=[
   ['realms','Realms',REALMS.length],['gods','Gods',GODS.length],['runes','Runes',RUNES.length],['professions','Professions',Object.keys(PROFS).length],
   ['spells','Spells',META.counts.spells],['magic','Magic Towers',21],['classes','Classes',Object.keys(typeof STAGES!=='undefined'?STAGES:{}).length],['subclasses','Subclasses',SUBS.length],['demons','Demons',DEMONS.length],['patrons','Patrons',PATRONS.length],
   ['forge','Forge'],['craft','Craft'],['party','Party'],['sheet','Character sheet'],['encounter','Encounters'],['hooks','Hooks'],['prep','Session prep'],['journal','Journal'],['hidden','Hidden classes'],['towers','Towers'],['combat','Combat'],
-  ['rules','Rules'],['dice','Dice'],['tools','Tools'],['about','About'],['account','Account'],['settings','Settings'],
+  ['rules','Rules'],['dice','Dice'],['tools','Tools'],['about','About'],['help','Help'],['account','Account'],['settings','Settings'],
 ];
-const PAGES={account:()=>renderAccount(),settings:()=>renderSettings(),home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,dice:()=>renderDice(),about:renderAbout,lore:()=>renderLore(),forge:()=>renderForge(),craft:()=>renderCraft(),party:()=>renderParty(),sheet:()=>renderSheet(),encounter:()=>renderEncounter(),hooks:()=>renderHooks(),magic:()=>renderMagic(),classes:()=>renderClasses(),prep:()=>renderPrep(),journal:()=>renderJournal(),hidden:()=>renderHidden(),towers:()=>renderTowers(),combat:()=>renderCombat()};
+const PAGES={help:()=>renderHelp(),account:()=>renderAccount(),settings:()=>renderSettings(),home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,dice:()=>renderDice(),about:renderAbout,lore:()=>renderLore(),forge:()=>renderForge(),craft:()=>renderCraft(),party:()=>renderParty(),sheet:()=>renderSheet(),encounter:()=>renderEncounter(),hooks:()=>renderHooks(),magic:()=>renderMagic(),classes:()=>renderClasses(),prep:()=>renderPrep(),journal:()=>renderJournal(),hidden:()=>renderHidden(),towers:()=>renderTowers(),combat:()=>renderCombat()};
 
 // ════════════════════════════════════════════════════════════════
 //  State & routing
@@ -1328,12 +1436,24 @@ const NAV_GROUPS=[
   ['Items & Crafting',['blueprints','forge','craft','professions']],
   ['Magic & Classes',['classes','subclasses','hidden','spells','magic']],
   ['Play',['prep','sheet','party','journal','encounter','hooks','combat','dice','tools']],
-  ['Reference',['rules','about','account','settings']],
+  ['Reference',['rules','help','about','account','settings']],
 ];
-const NAV_BLURB={account:'Sign in, your profile and picture, sync, and campaigns',settings:'Appearance, the assistant\'s API key, and your saved data',magic:'The Magic Towers: one for each school of magic, where spells are taught and sold',classes:'Every class and subclass with its class changes, II to V, levels 1 to 100',sheet:'Create a character on a full sheet worked out with FAND\'s rules',hidden:'Unique, Epic, and Legendary classes unlocked through quests and Towers',towers:'Up to five Towers in every realm, grown from unclaimed Runes',journal:'Session notes that link to the world',hooks:'Story starters from the gods, Runes, and monsters',lore:'Infinatas, the gods, and the history of Vestige',realms:'The eleven realms and their coin',gods:'Pantheons, Runes, Hands, and rivals',runes:'Every Law, its lineage, and its progenitor',demons:'Archdevils, demon princes, and corruptions',patrons:'Warlock patrons',codex:'Every note from the Obsidian vault',bestiary:'Monsters with stat blocks, lore, and drops',materials:'Graded materials, traits, and prices',blueprints:'Ready-made designs for every profession',forge:'General Blueprints: pick a material for every part',craft:'Plan what to gather and buy',professions:'The ten professions and their specialties',spells:'Spells by school, tier, and class',subclasses:'Official and homebrew subclasses',party:'Characters, gear, contracts, and money',encounter:'Balanced fights by realm and level',combat:'Initiative, HP, and flat AC',dice:'Roll dice, build pools, and save your rolls',tools:'Calculators and converters',rules:'Rules summaries',about:'What FAND has, version by version'};
-function navGroupOf(t){const g=NAV_GROUPS.find(([,ids])=>ids.includes(t));return g?g[0]:null}
+const NAV_BLURB={help:'How to use FAND, and what to do when something looks wrong',prep:'Plan a session: the party, a Tower floor, encounters, and hooks',account:'Sign in, your profile and picture, sync, and campaigns',settings:'Appearance, the assistant\'s API key, and your saved data',magic:'The Magic Towers: one for each school of magic, where spells are taught and sold',classes:'Every class and subclass with its class changes, II to V, levels 1 to 100',sheet:'Create a character on a full sheet worked out with FAND\'s rules',hidden:'Unique, Epic, and Legendary classes unlocked through quests and Towers',towers:'Up to five Towers in every realm, grown from unclaimed Runes',journal:'Session notes that link to the world',hooks:'Story starters from the gods, Runes, and monsters',lore:'Infinatas, the gods, and the history of Vestige',realms:'The eleven realms and their coin',gods:'Pantheons, Runes, Hands, and rivals',runes:'Every Law, its lineage, and its progenitor',demons:'Archdevils, demon princes, and corruptions',patrons:'Warlock patrons',codex:'Every note from the Obsidian vault',bestiary:'Monsters with stat blocks, lore, and drops',materials:'Graded materials, traits, and prices',blueprints:'Ready-made designs for every profession',forge:'General Blueprints: pick a material for every part',craft:'Plan what to gather and buy',professions:'The ten professions and their specialties',spells:'Spells by school, tier, and class',subclasses:'Official and homebrew subclasses',party:'Characters, gear, contracts, and money',encounter:'Balanced fights by realm and level',combat:'Initiative, HP, and flat AC',dice:'Roll dice, build pools, and save your rolls',tools:'Calculators and converters',rules:'Rules summaries',about:'What FAND has, version by version'};
+// Player or DM (Settings, or the first-visit guide): which pages FAND puts first in the menu, on Home, and in the phone bar.
+// A DM gets a DM group (hidden classes, session prep, encounters, combat, hooks, Towers); a player gets the Play pages that
+// matter at the table first and no Hidden classes entry (the list is the DM's). 'Both' leaves everything as it is.
+const ROLES={player:'Player',dm:'Dungeon Master',both:'Both'};
+const role=()=>{const r=store.get('role','');return ROLES[r]?r:''};
+const DM_PAGES=['hidden','prep','encounter','combat','hooks','towers'],PLAYER_FIRST=['sheet','party','dice','journal'];
+function navGroups(){const r=role();
+  if(r==='dm')return [['DM',DM_PAGES]].concat(NAV_GROUPS.map(([g,ids])=>[g,ids.filter(id=>!DM_PAGES.includes(id)||id==='towers')]));
+  if(r==='player')return NAV_GROUPS.map(([g,ids])=>[g,(g==='Play'?PLAYER_FIRST.filter(x=>ids.includes(x)).concat(ids.filter(x=>!PLAYER_FIRST.includes(x))):ids).filter(x=>x!=='hidden')]);
+  return NAV_GROUPS}
+function setRole(r){store.set('role',ROLES[r]?r:'');renderTabs();if(typeof renderBnav==='function')renderBnav();if(['home','settings','hidden','help'].includes(TAB))renderTab();
+  toast(r==='dm'?'DM view: your table tools come first':r==='player'?'Player view: your character comes first':'Showing every page')}
+function navGroupOf(t){const g=navGroups().find(([,ids])=>ids.includes(t));return g?g[0]:null}
 function openNav(g,btn){
-  const pop=$('navpop'),grp=NAV_GROUPS.find(x=>x[0]===g);if(!grp)return;
+  const pop=$('navpop'),grp=navGroups().find(x=>x[0]===g);if(!grp)return;
   if(pop.classList.contains('open')&&pop.dataset.g===g){closeNav();return}
   pop.dataset.g=g;
   pop.innerHTML=grp[1].map(id=>{const t=TABS.find(x=>x[0]===id);if(!t)return '';return `<a href="${pageUrl(id)}" data-tab="${id}" role="menuitem" class="${id===TAB?'on':''}"><span><b>${t[1]}</b><small>${esc(NAV_BLURB[id]||'')}</small></span>${t[2]!=null?`<span class="n">${fmt(t[2])}</span>`:''}</a>`}).join('');
@@ -1346,7 +1466,7 @@ $('navpop').addEventListener('click',e=>{const a=e.target.closest('a[data-tab]')
 window.addEventListener('resize',closeNav);
 function renderTabs(){
   const cur=navGroupOf(TAB);
-  $('tabs').innerHTML=`<a class="tab${TAB==='home'?' on':''}" href="${pageUrl('home')}" data-tab="home">Home</a>`+NAV_GROUPS.map(([g,ids])=>{const n=ids.reduce((a,id)=>{const t=TABS.find(x=>x[0]===id);return a+(t&&t[2]||0)},0);return `<span class="navg"><button class="tab${g===cur?' on':''}" data-group="${esc(g)}" aria-haspopup="menu" aria-expanded="false">${g}${g===cur?`<span class="n">· ${(TABS.find(t=>t[0]===TAB)||[])[1]||''}</span>`:''}<span class="car">▾</span></button></span>`}).join('');
+  $('tabs').innerHTML=`<a class="tab${TAB==='home'?' on':''}" href="${pageUrl('home')}" data-tab="home">Home</a>`+navGroups().map(([g,ids])=>{const n=ids.reduce((a,id)=>{const t=TABS.find(x=>x[0]===id);return a+(t&&t[2]||0)},0);return `<span class="navg"><button class="tab${g===cur?' on':''}" data-group="${esc(g)}" aria-haspopup="menu" aria-expanded="false">${g}${g===cur?`<span class="n">· ${(TABS.find(t=>t[0]===TAB)||[])[1]||''}</span>`:''}<span class="car">▾</span></button></span>`}).join('');
   const on=$('tabs').querySelector('.tab.on');if(on){const T=$('tabs'),r=on.getBoundingClientRect(),tr=T.getBoundingClientRect();if(r.right>tr.right||r.left<tr.left)T.scrollLeft+=r.left-tr.left-16}
 }
 function renderTabs_flat(){
@@ -1355,8 +1475,21 @@ function renderTabs_flat(){
 }
 $('tabs').addEventListener('click',e=>{const g=e.target.closest('[data-group]');if(g){e.preventDefault();openNav(g.dataset.group,g);return}const b=e.target.closest('.tab');if(!b||SITE||e.ctrlKey||e.metaKey||e.shiftKey)return;e.preventDefault();go(b.dataset.tab)});
 
+// Phones: a bar at the bottom with Home, Search, Dice, your character (the DM gets Combat), and Menu (every page).
+const BNAV_ICON={home:'<path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>',dice:'<path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 2v6M3 7l9 5 9-5M12 12v10"/>',sheet:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',combat:'<path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2"/><path d="M9.5 6.5L18 3h3v3l-3.5 8.5"/>',menu:'<path d="M4 6h16M4 12h16M4 18h16"/>'};
+const bIcon=k=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${BNAV_ICON[k]}</svg>`;
+function renderBnav(){const b=$('bnav');if(!b)return;const dm=role()==='dm',fourth=dm?['combat','Combat','combat']:['sheet','Character','sheet'];
+  b.innerHTML=[['home','Home','home'],['search','Search','search'],['dice','Dice','dice'],fourth,['menu','Menu','menu']].map(([id,l,ic])=>id==='search'?`<button type="button" onclick="openPalette()">${bIcon(ic)}<span>${l}</span></button>`:id==='menu'?`<button type="button" onclick="openMenuDrawer()" aria-haspopup="dialog">${bIcon(ic)}<span>${l}</span></button>`:`<a href="${pageUrl(id)}" data-tab="${id}"${TAB===id?' class="on" aria-current="page"':''}>${bIcon(ic)}<span>${l}</span></a>`).join('')}
+function openMenuDrawer(){const d=$('mdrawer'),u=typeof CL!=='undefined'&&CL.user;
+  d.innerHTML=`<div class="md-h"><b>Menu</b><button type="button" class="icon-btn" onclick="closeMenuDrawer()" aria-label="Close menu">${ICON.x}</button></div>
+    <div class="md-quick"><a href="${pageUrl('account')}" data-tab="account">${bIcon('sheet')}<span>${u?'Your account':'Sign in'}</span></a><a href="${pageUrl('settings')}" data-tab="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg><span>Settings</span></a><a href="#" onclick="closeMenuDrawer();openQuick();return false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/></svg><span>Quick rules</span></a></div>
+    ${navGroups().map(([g,ids])=>`<div class="md-g"><h4>${esc(g)}</h4><div class="md-grid">${ids.map(id=>{const t=TABS.find(x=>x[0]===id);return t?`<a href="${pageUrl(id)}" data-tab="${id}"${id===TAB?' class="on"':''}><b>${esc(t[1])}</b>${t[2]!=null?`<small>${fmt(t[2])}</small>`:''}</a>`:''}).join('')}</div></div>`).join('')}`;
+  d.hidden=false;d.scrollTop=0;const f=d.querySelector('.md-h button');if(f)f.focus()}
+function closeMenuDrawer(){$('mdrawer').hidden=true}
+['bnav','mdrawer'].forEach(id=>$(id).addEventListener('click',e=>{const a=e.target.closest('a[data-tab]');if(!a)return;closeMenuDrawer();if(SITE||e.ctrlKey||e.metaKey)return;e.preventDefault();go(a.dataset.tab)}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('mdrawer').hidden){closeMenuDrawer();e.stopPropagation()}},true);
 function renderTab(){
-  renderTabs();
+  renderTabs();renderBnav();
   toggleDrawer(false);
   $('content').dataset.tab=TAB;
   document.title=(TABS.find(t=>t[0]===TAB)||[])[1]+' · FAND';
@@ -1508,6 +1641,19 @@ function step(d){const i=MODAL_LIST.indexOf(CUR);if(i<0)return;const x=MODAL_LIS
 // Recently viewed entries (this device), shown on Home and in the search box
 function recentAdd(x){if(!x||!x._t||x._t==='note'&&!x.n)return;const k=x._t+'|'+x.n;let r=store.get('recent',[]).filter(z=>z!==k);r.unshift(k);store.set('recent',r.slice(0,16))}
 function recentItems(){return store.get('recent',[]).map(k=>{const [t,...rest]=k.split('|'),n=rest.join('|'),T=TYPES[t];return T&&T.arr.find(y=>y.n===n)}).filter(Boolean)}
+// Quick actions in a window: a monster goes straight into the combat tracker or the encounter builder; a Blueprint or a
+// material goes to a character in the party.
+function modalQuick(x){const b=[];
+  if(x._t==='mon')b.push(`<button class="btn" type="button" onclick="quickCombat()">⚔ Add to combat</button>`,`<button class="btn" type="button" onclick="quickEnc()">🐉 Add to encounter</button>`);
+  if((x._t==='bp'||x._t==='mat')&&PARTY.length)b.push(`<span class="qa-give"><select class="sel" id="qa-to" aria-label="Character">${PARTY.map(c=>`<option value="${esc(c.id)}"${c.id===(SHEET_ID||PARTY_SEL)?' selected':''}>${esc(c.name||'Unnamed')}</option>`).join('')}</select><button class="btn" type="button" onclick="quickGive()">${x._t==='bp'?'Give':'Add to bag'}</button></span>`);
+  return b.length?`<div class="qa">${b.join('')}</div>`:''}
+function quickCombat(){const m=CUR;if(!m||m._t!=='mon')return;const C=TAB==='combat'&&CB?CB:store.get('combat',{round:1,turn:0,list:[]}),have=C.list.filter(x=>x.mon===m.n).length;C.list.push(monCombatant(m,have?have+1:0));store.set('combat',C);
+  if(TAB==='combat'){CB=C;renderCombat();toast(m.n+' added to combat')}else actToast(m.n+' added to combat'+(have?' ('+(have+1)+')':''),'Open',()=>go('combat'))}
+function quickEnc(){const m=CUR;if(!m||m._t!=='mon')return;const st=store.get('enc',{});st.list=st.list||[];const r=st.list.find(x=>x[0]===m.n);if(r)r[1]++;else st.list.push([m.n,1]);store.set('enc',st);
+  if(TAB==='encounter'){renderEncounter();toast(m.n+' added to the encounter')}else actToast(m.n+' added to the encounter','Open',()=>go('encounter'))}
+function quickGive(){const x=CUR,c=$('qa-to')&&PARTY.find(y=>y.id===$('qa-to').value);if(!x||!c)return;const who=c.name||'the character';
+  if(x._t==='bp'){c.gear=c.gear||[];c.gear.push(x.n);saveParty();toast(x.n+' given to '+who)}else{const before=((c.inv||[]).find(z=>lc(z[0])===lc(x.n))||[0,0])[1]||0;invAdd(c,x.n,1,true);saveParty();const after=((c.inv||[]).find(z=>lc(z[0])===lc(x.n))||[0,0])[1]||0;toast(after>before?x.n+' added to '+who+'\'s bag':who+'\'s bag is full')}
+  if(['sheet','party'].includes(TAB))renderTab()}
 function showModal(x){
   CUR=x;recentAdd(x);
   const M=MODAL[x._t](x);
@@ -1524,7 +1670,7 @@ function showModal(x){
         <button class="icon-btn" onclick="closeModal()" title="Close (Esc)" aria-label="Close">${ICON.x}</button>
       </div>
     </div>
-    <div class="mb">${M.body}</div>${nav}`;
+    <div class="mb">${modalQuick(x)}${M.body}</div>${nav}`;
   diceify($('modal'));
   const pb=$('pinBtn');if(pb)pb.onclick=()=>{togglePin(x);pb.classList.toggle('on');pb.innerHTML=isPinned(x)?ICON.starf:ICON.star;if(VIEWS[TAB])renderList();else if(TAB==='home')renderTab()};
   $('linkBtn').onclick=()=>{const u=location.href;(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>toast('Link copied'),()=>toast('Copy failed: '+u))};
@@ -1901,12 +2047,36 @@ document.addEventListener('keydown',e=>{
 //  Theme
 // ════════════════════════════════════════════════════════════════
 function applyTheme(t){document.documentElement.dataset.theme=t;$('themeBtn').innerHTML=t==='light'?ICON.moon:ICON.sun;$('themeBtn').title=t==='light'?'Dark theme':'Light theme'}
+// Comfort settings: text size (80% to 160%), high contrast, and less motion. Unlike the theme, they follow your account.
+const TSCALES=[[.9,'Small'],[1,'Normal'],[1.12,'Large'],[1.25,'Larger'],[1.4,'Largest']];
+const lessMotion=()=>document.documentElement.dataset.motion==='reduce'||(store.get('motion','')!=='full'&&matchMedia('(prefers-reduced-motion: reduce)').matches);
+function applyComfort(){const d=document.documentElement,z=+store.get('tscale',1);d.style.setProperty('--ts',z>=.8&&z<=1.6?z:1);if(store.get('contrast',false))d.dataset.contrast='high';else delete d.dataset.contrast;if(store.get('motion','')==='reduce')d.dataset.motion='reduce';else delete d.dataset.motion}
+function setComfort(k,v){store.set(k,v);applyComfort();if(TAB==='settings')renderSettings()}
+// Updates: the site loads its newest pages whenever it is online; this asks the server for this page directly and compares
+// build stamps, so "is my copy the newest?" has an answer. GitHub can take up to 10 minutes to hand out a new version.
+let UPD_AT=0;
+async function newestBuild(){const r=await fetch(location.pathname+'?fresh='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error(r.status);const m=/,b:"([0-9a-f]+)"/.exec(await r.text());return m?m[1]:null}
+async function checkUpdate(quiet){if(!SITE||!SITE.b)return;UPD_AT=Date.now();const out=$('updMsg'),btn=$('updBtn');if(btn){btn.disabled=true;btn.textContent='Checking…'}
+  let b=null,err=false;try{b=await newestBuild()}catch(e){err=true}
+  const newer=b&&b!==SITE.b;if(newer)$('upd').hidden=false;
+  if(btn){btn.disabled=false;btn.textContent='Check for updates'}
+  if(out)out.innerHTML=err?'Couldn\'t reach the site. You may be offline; this device still has its saved copy.':newer?'A newer version is out. <button class="btn primary" type="button" onclick="forceUpdate()">Load it now</button>':'You have the newest version.';
+  if(!quiet&&!out)toast(err?'Couldn\'t check for updates':newer?'A newer version is ready':'You have the newest version')}
+async function forceUpdate(){try{const rg=navigator.serviceWorker&&await navigator.serviceWorker.getRegistration();if(rg)await rg.update()}catch(e){}
+  try{const ks=await caches.keys();await Promise.all(ks.filter(k=>k.startsWith('fand-')).map(k=>caches.delete(k)))}catch(e){}location.reload()}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&navigator.onLine&&Date.now()-UPD_AT>15*60e3)checkUpdate(true)});
 function toggleTheme(){const t=document.documentElement.dataset.theme==='light'?'dark':'light';store.set('theme',t);applyTheme(t)}
-applyTheme(store.get('theme',matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'));
+applyTheme(store.get('theme',matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'));applyComfort();
 
 // ════════════════════════════════════════════════════════════════
 //  Pages
 // ════════════════════════════════════════════════════════════════
+// Home's first section: the pages a player or a DM reaches for most, or (before they choose) the question.
+const ROLE_HOME={player:['sheet','party','dice','spells','journal','rules'],dm:['prep','encounter','combat','hidden','bestiary','hooks']};
+function homeRoleHTML(){const r=role();
+  if(!r)return `<section class="sec"><div class="callout" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div style="flex:1;min-width:220px"><b>How do you use FAND?</b><br><span class="note" style="margin:0">FAND puts the pages you use most first: your character for players, the table tools for DMs. Change it any time in Settings.</span></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" type="button" onclick="setRole('player')">I'm a player</button><button class="btn primary" type="button" onclick="setRole('dm')">I'm the DM</button><button class="btn" type="button" onclick="setRole('both')">Both</button></div></div></section>`;
+  if(r==='both')return '';
+  return `<section class="sec"><div class="sec-h"><h3>${r==='dm'?'Your table':'Your character'}</h3><p>${ROLES[r]} view · <a href="${pageUrl('settings')}#set-play" data-go="settings">change</a></p></div><div class="qgrid">${ROLE_HOME[r].map(id=>{const t=TABS.find(x=>x[0]===id);return t?`<a class="qcard" href="${pageUrl(id)}" data-go="${id}"><b>${esc(t[1])}</b><small>${esc(NAV_BLURB[id]||'')}</small></a>`:''}).join('')}</div></section>`}
 function renderHome(){
   const pins=pinnedItems();
   const homebrew=MONSTERS.filter(m=>m.hb).length;
@@ -1920,6 +2090,7 @@ function renderHome(){
       <button class="hero-search" onclick="openPalette()">${ICON.search.replace('<svg','<svg width="18" height="18"')}<span>Search everything…</span><kbd>Ctrl K</kbd></button>
       <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="randomItem(BPS.concat(MATS,MONSTERS,GODS))">🎲 Show me something random</button></div>
     </section>
+    ${homeRoleHTML()}
     <section class="sec"><div class="stats">${stats.map(([t,v,l])=>`<button class="stat" data-go="${t}"><span class="v">${fmt(v)}</span><span class="l">${l}</span></button>`).join('')}</div></section>
     ${(()=>{const rec=recentItems().slice(0,10);return rec.length?`<section class="sec"><div class="sec-h"><h3>Recently viewed</h3><p>on this device · <a href="#" onclick="store.set('recent',[]);renderHome();return false">clear</a></p></div><div class="chips">${rec.map(x=>refChip(x,esc(x._t==='god'?godKey(x):x.n),{bp:'Blueprint',mat:'Material',mon:'Monster',god:'God',rune:'Rune',spell:'Spell',sub:'Subclass',realm:'Realm',demon:'Demon',patron:'Patron',note:'Note'}[x._t]||'')).join('')}</div></section>`:''})()}
     ${pins.length?`<section class="sec"><div class="sec-h"><h3>Pinned</h3><p>${pins.length} saved on this device</p></div><div class="grid">${pins.slice(0,12).map(card).join('')}</div></section>`:''}
@@ -2111,6 +2282,10 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-17','A new Hidden classes page for the DM','Once unlocked, Hidden classes is a menu and a page: search, tabs for Unique, Epic, and Legendary, group by tier, Tower, basic class, or progenitor, and filters on the left; the chosen class on the right, with its own link, previous and next, who in your party holds it, and a Grant button. On phones the menu and the class take turns. Players who open the page see how hidden classes are earned instead.','hidden'],
+  ['2026-10-17','Player or DM view','Tell FAND how you play (on Home, in the first-visit guide, or in Settings → How you play). DMs get a DM menu with hidden classes, session prep, encounters, combat, hooks, and Towers; players get their character, party, dice, and journal first. Home shows the pages your role uses most.','settings'],
+  ['2026-10-17','Easier on phones','A bar at the bottom of phones holds Home, Search, Dice, your character (Combat for the DM), and Menu, a full page of every section. Pages show a progress bar while the compendium downloads on the first visit, and the page frame appears at once.','tools'],
+  ['2026-10-17','Help, a guide, Undo, and comfort settings','A new Help page explains everything, including what to do when a change doesn\'t show yet, and a short guide shows newcomers around. Deleting a character, a journal entry, or a hidden class from a character now has Undo. Settings has text size, high contrast, less motion, the version, and Check for updates. A monster\'s window can add it to combat or an encounter, an item\'s window can give it to a character, and dice on every page can be tapped to roll.','help'],
   ['2026-10-17','Every people in full, and 55 more','Every playable people now has a full profile like the 5e books: size, creature type, speed, darkvision and other senses, languages, age, height and weight, a description, its place in Vestige, and every trait in plain English. Open it from the character builder (ⓘ Full profile), the search bar, the new Playable peoples list on the Classes page, or the People box on the sheet. 55 more official peoples join the list (Variant Human, Custom Lineage, the dragonborn and tiefling variants, giant-ancestry goliaths, dragonmarks, shifter types, Kender, and peoples from the Magic: The Gathering worlds), and every people now has set ability bonuses.','classes'],
   ['2026-10-17','Resonance songs','The Resonance school gains 36 Bard spells named after famous songs from every genre, from Hound Dog and Für Elise to Bohemian Rhapsody, Hotel California, and Ode to Joy.','spells'],
   ['2026-10-17','A fairer character builder','Rolling for scores allows one reroll, then the scores are final. A background that starts you in a profession gives one trained skill instead of two. Spell choices show what each spell does, kit items you leave out give their price back, and there are 36 more backgrounds.','sheet'],
@@ -2271,7 +2446,7 @@ function renderAbout(){
     ['Tools','This website and FAND.html; a GitHub repo with generator and check scripts.','tools'],
   ];
   $('content').innerHTML=`<div class="page">
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">About FAND</h3><p>Everything built in the FAND vault since the Patch Notes began. Current version: <b>${esc(META.version)}</b>.</p></div>
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">About FAND</h3><p>Everything built in the FAND vault since the Patch Notes began. Current version: <b>${esc(META.version)}</b>${SITE&&SITE.b?` (build ${esc(SITE.b)}) · <a href="#" onclick="checkUpdate();return false">check for updates</a>`:''}.</p></div>
     <section class="sec">${appHTML()}</section>
     <section class="sec">${cosmologyHTML()}</section>
     <section class="sec"><div class="sec-h"><h3>At a glance</h3></div><div class="tablewrap"><table class="t"><thead><tr><th>Area</th><th>Now</th></tr></thead><tbody>${G.map(([a,t,l])=>`<tr><td style="white-space:nowrap;font-weight:600">${l?`<a href="${pageUrl(l)}" data-go="${l}" style="text-decoration:none">${a}</a>`:a}</td><td>${t}</td></tr>`).join('')}</tbody></table></div></section>
@@ -3105,6 +3280,10 @@ let findBP=n=>BP_IDX.get(lc(n||''));
 const godByKey=n=>GOD_IDX.get(lc(n||''));
 let PARTY=store.get('party',[]);
 const saveParty=()=>{partyStamp();store.set('party',PARTY)};
+function partyDelete(id){const i=PARTY.findIndex(x=>x.id===id),c=PARTY[i];if(!c)return;PARTY.splice(i,1);PARTY_SEL=null;saveParty();renderParty();undoToast((c.name||'Character')+' deleted',()=>{partyRestore(c,i);PARTY_SEL=c.id;if(TAB==='party')renderParty()})}
+// Undo a deleted character: put it back where it was and forget its deletion marker (so other devices keep it too)
+function partyRestore(c,i){try{const g=store.get('partygone',{});if(g[c.id]){delete g[c.id];store.set('partygone',g)}}catch(e){}if(typeof CL!=='undefined'&&CL.cgone)CL.cgone=CL.cgone.filter(x=>x[1]!==c.id);
+  PARTY.splice(Math.max(0,Math.min(i,PARTY.length)),0,c);saveParty()}
 function datalists(){
   if($('dl-bp'))return '';
   return `<datalist id="dl-bp">${BPS.map(b=>`<option value="${esc(b.n)}">`).join('')}</datalist>
@@ -3337,7 +3516,7 @@ function sheetHcGrant(){if(!HC)return;const c=sheetChar(),x=HC.find(y=>lc(y.n)==
 function sheetHcFuse(k){if(!HC)return;const c=sheetChar(),x=HC[k],list=hcList(c);if(!x||!x.combo)return;const parts=list.filter(h=>x.combo.includes(h.n));if(parts.length<x.combo.length)return;
   if(!confirm('Fuse '+x.combo.join(' + ')+' into '+x.n+'? The three classes become one.'))return;const lv0=Math.min(...parts.map(h=>h.lv0));
   c.hcls=list.filter(h=>!x.combo.includes(h.n)).concat(hcEntry(x,lv0));saveParty();hcLog(true,'fused '+x.n+' for '+(c.name||'a character'));toast(x.n+' formed');renderSheet()}
-function sheetHcRemove(i){if(!HC)return;const c=sheetChar(),list=hcList(c),h=list[i];if(!h||!confirm('Remove '+h.n+' from this character?'))return;hcLog(true,'removed '+h.n+' from '+(c.name||'a character'));c.hcls=list.filter((_,j)=>j!==i);saveParty();renderSheet()}
+function sheetHcRemove(i){if(!HC)return;const c=sheetChar(),list=hcList(c),h=list[i];if(!h)return;hcLog(true,'removed '+h.n+' from '+(c.name||'a character'));c.hcls=list.filter((_,j)=>j!==i);saveParty();renderSheet();undoToast(h.n+' removed',()=>{c.hcls=list;saveParty();hcLog(true,'put back '+h.n+' on '+(c.name||'a character'));if(TAB==='sheet')renderSheet()})}
 function sheetHcGrow(i){const c=sheetChar(),list=hcList(c),h=list[i];if(!h)return;const n=hcSteady(hcLevelAt(+c.level||1,h.lv0)),p=n-(h.ga||0);if(p<=0)return;if(h.grow){c.abil=c.abil||{};Object.entries(h.grow).forEach(([k,v])=>{c.abil[k]=(+c.abil[k]||10)+v*p})}h.ga=n;c.hcls=list;saveParty();renderSheet();toast(h.grow?'Hidden class growth added':'Points marked as spent')}
 function sheetGrow(){const c=sheetChar(),L=+c.level||1,L2=c.cls2?Math.max(0,Math.min(L-1,+c.lv2||0)):0,n=steadyCount(L-L2),p=n-(c.growApplied||0),n2=c.cls2?steadyCount(L2):0,p2=n2-(c.growApplied2||0);if((p<=0||!CLASS_MAIN[c.cls])&&(p2<=0||!CLASS_MAIN[c.cls2]))return;c.abil=c.abil||{};if(p>0&&CLASS_MAIN[c.cls]){Object.entries(growthOf(c.cls)).forEach(([k,v])=>{c.abil[k]=(+c.abil[k]||10)+v*p});c.growApplied=n}if(p2>0&&CLASS_MAIN[c.cls2]){Object.entries(growthOf(c.cls2)).forEach(([k,v])=>{c.abil[k]=(+c.abil[k]||10)+v*p2});c.growApplied2=n2}saveParty();renderSheet();toast('Steady Growth added')}
 // Share a character: the whole sheet packed into a link (compressed, base64url) that opens this page on another device and
@@ -3921,7 +4100,7 @@ function lvlApply(){const c=lvlChar();if(!c)return;const hp=+LVL.hp||0;if(hp>0){
   LVL.sp.forEach(n=>{const x=SP.find(y=>y.n===n);if(!x)return;c.spells=c.spells||{};(c.spells[x.lv]=c.spells[x.lv]||[]).push(n)});
   saveParty();const done=[hp>0?'+'+hp+' HP':'',LVL.sub,LVL.sp.length?LVL.sp.length+' new spell'+(LVL.sp.length>1?'s':''):''].filter(Boolean).join(', ');LVL=null;renderLvl();
   if(TAB==='sheet')renderSheet();else if(TAB==='party')renderParty();toast(`${c.name||'Character'} is level ${c.level}${done?': '+done:''}`)}
-function sheetDelete(){const c=sheetChar();if(!c)return;if(!confirm(`Delete ${c.name||'this character'}? This can't be undone.`))return;PARTY=PARTY.filter(x=>x.id!==c.id);if(PARTY_SEL===c.id)PARTY_SEL=null;SHEET_ID=PARTY[0]?PARTY[0].id:null;saveParty();toast((c.name||'Character')+' deleted');renderSheet()}
+function sheetDelete(){const c=sheetChar();if(!c)return;const i=PARTY.indexOf(c);PARTY=PARTY.filter(x=>x.id!==c.id);if(PARTY_SEL===c.id)PARTY_SEL=null;SHEET_ID=PARTY[0]?PARTY[0].id:null;saveParty();renderSheet();undoToast((c.name||'Character')+' deleted',()=>{partyRestore(c,i);SHEET_ID=c.id;if(TAB==='sheet')renderSheet()})}
 function sheetGear(act,i){const c=sheetChar();if(!c)return;c.gear=c.gear||[];if(act==='rm')c.gear.splice(i,1);else{const v=$('gear-n').value.trim(),b=findBP(v);if(!b){toast('No Blueprint named “'+v+'”');return}c.gear.push(b.n);const k=(c.inv||[]).findIndex(z=>lc(z[0])===lc(b.n));if(k>=0){c.inv[k][1]=(+c.inv[k][1]||0)-1;if(c.inv[k][1]<=0)c.inv.splice(k,1)}}saveParty();renderSheet()}
 function sheetSkillAdd(){const c=sheetChar(),n=$('sk-new').value.trim();if(!n)return;c.custom=(c.custom||[]).concat({n,ab:$('sk-ab').value,prof:false});saveParty();renderSheet()}
 function sheetInvAdd(){const c=sheetChar(),n=$('inv-n').value.trim(),q=Math.max(1,+$('inv-q').value||1);if(!n)return;invAdd(c,n,q);saveParty();renderSheet()}
@@ -3990,7 +4169,7 @@ function charEditor(c){
       <div class="full"><div class="note" style="margin:0 0 4px">More contracts (a character can serve several gods; a conflict of interest forces a choice)</div>${(c.extra||[]).map((x,i)=>`<span class="chip"${x.how?` title="${esc(ctWay(x.how))}"`:''}>${esc(x.god)} · ${esc(x.rank||'Minor')} <span style="cursor:pointer" onclick="rmContract('${c.id}',${i})" title="Remove">✕</span></span>`).join(' ')}
         <span class="keyrow" style="margin-top:4px"><select class="sel" id="xc-god"><option value="">Add a god…</option>${GODS.map(g=>`<option value="${esc(godKey(g))}">${esc(godKey(g))}</option>`).join('')}</select><select class="sel" id="xc-rank">${CONTRACT_RANKS.map(r=>`<option>${r}</option>`).join('')}</select>${ctWayOpts('','xc-how')}<button class="btn" type="button" onclick="addContract('${c.id}')">Add</button></span></div>
       <label class="full">Notes<textarea data-k="notes" rows="3" style="background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:7px 9px;color:var(--text);font:inherit">${esc(c.notes||'')}</textarea></label></div>
-    <div style="display:flex;justify-content:space-between"><button class="btn" onclick="if(confirm('Delete this character?')){PARTY=PARTY.filter(x=>x.id!=='${c.id}');PARTY_SEL=null;saveParty();renderParty()}">Delete character</button><span style="display:flex;gap:8px"><button class="btn primary" onclick="(()=>{const d=prompt('What did they accomplish to earn this level?','');if(d===null)return;levelUp(PARTY.find(x=>x.id==='${c.id}'),d.trim()||'Accomplishment');renderParty()})()">⬆ Level up</button><button class="btn" onclick="go('craft')">Crafting planner →</button></span></div>
+    <div style="display:flex;justify-content:space-between"><button class="btn" onclick="partyDelete('${c.id}')">Delete character</button><span style="display:flex;gap:8px"><button class="btn primary" onclick="(()=>{const d=prompt('What did they accomplish to earn this level?','');if(d===null)return;levelUp(PARTY.find(x=>x.id==='${c.id}'),d.trim()||'Accomplishment');renderParty()})()">⬆ Level up</button><button class="btn" onclick="go('craft')">Crafting planner →</button></span></div>
    </div>
    <div style="display:flex;flex-direction:column;gap:14px">
     <div class="panel">${kv([['AC',`${s.ac} <small style="font-weight:400;color:var(--muted)">(armor ${s.armorAC}${s.conAC?', CON '+sgn(s.conAC):''}${s.ct?', contract +'+s.ct.ac:''}${s.ac-s.armorAC-s.conAC-(s.ct?s.ct.ac:0)?', other '+(s.ac-s.armorAC-s.conAC-(s.ct?s.ct.ac:0)):''})</small>`],['HP',`${c.hp??'?'} / ${c.hpMax??'?'}`],['Class stage',c.cls?(()=>{const si=stageInfo(c.cls,+c.level||1);return `<b>${esc(si.name)}</b>${si.k>1?` <small style="font-weight:400;color:var(--muted)">${ORDN(si.k)} change of ${esc(c.cls)}</small>`:''}<br><small style="font-weight:400;color:var(--muted)">Can use spells from: ${si.realms.map(esc).join(', ')}${si.k<10?` · next change at level ${stageStart(si.k+1)}`:''}</small>`})():''],['Spell slots',(()=>{const r=slotsFor(c.cls,+c.level||1);return !r?'':r.pact?`${r.n} × ${esc(r.lvl)}-level (short rest)`:r.slots.map((k,i)=>k?`${['1st','2nd','3rd','4th','5th','6th','7th','8th','9th'][i]} ${k}`:'').filter(Boolean).join(' · ')||'none yet'})()],['Armor drawbacks',s.drawback.length?`<ul style="margin:0;padding-left:16px;font-weight:400">${s.drawback.map(o=>`<li>${esc(o.d)} <small style="color:var(--muted)">(${esc(o.from.join(', '))})</small></li>`).join('')}</ul>`:'None'],['Contract',s.god?refChip(s.god,esc(godKey(s.god)))+(s.ct?' · '+esc(s.ct.r):''):'None']])}
@@ -4169,7 +4348,7 @@ function renderJournal(){
   const save=J2=>{store.set('journal',J2);renderJournal()};
   $('jn-add').onclick=()=>{const t=$('jn-t').value.trim(),b=$('jn-b').value.trim();if(!t&&!b)return;const ed=store.get('jedit',null),J2=store.get('journal',[]),e={t:t||'Session '+(J2.length+1),d:$('jn-d').value,body:b};if(ed!=null&&J2[ed]){J2[ed]=e;store.set('jedit',null)}else J2.push(e);save(J2)};
   $('jn-q').oninput=e=>{store.set('jq',e.target.value);const pos=e.target.selectionStart;renderJournal();const f=$('jn-q');f.focus();f.setSelectionRange(pos,pos)};
-  $('content').querySelectorAll('[data-jdel]').forEach(b=>b.onclick=()=>{if(confirm('Delete this entry?')){const J2=store.get('journal',[]);J2.splice(+b.dataset.jdel,1);save(J2)}});
+  $('content').querySelectorAll('[data-jdel]').forEach(b=>b.onclick=()=>{const J2=store.get('journal',[]),k=+b.dataset.jdel,[x]=J2.splice(k,1);save(J2);undoToast('Entry deleted',()=>{const J3=store.get('journal',[]);J3.splice(k,0,x);save(J3)})});
   $('content').querySelectorAll('[data-jedit]').forEach(b=>b.onclick=()=>{const e=store.get('journal',[])[+b.dataset.jedit];store.set('jedit',+b.dataset.jedit);$('jn-t').value=e.t;$('jn-d').value=e.d||'';$('jn-b').value=e.body;$('jn-add').textContent='Save changes';$('content').scrollTop=0;$('jn-b').focus()});
   $('jn-exp').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(store.get('journal',[]),null,1)],{type:'application/json'}));a.download='FAND journal.json';a.click()};
   $('jn-imp').onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{try{const d=JSON.parse(t);if(!Array.isArray(d))throw 0;save(store.get('journal',[]).concat(d));toast('Imported '+d.length+' entries')}catch(err){toast('That file is not a FAND journal')}})};
@@ -4329,10 +4508,13 @@ const hcTrack=c=>[...(c.features||[]).slice(0,3).map((f,i)=>[HC_TRACK[i]||HC_TRA
   ...[2,3,4,5].map(k=>[stageStart(k),'Class change: '+c.n+' '+ROMAN[k-1],`The class turns with you into ${c.n} ${ROMAN[k-1]}: every limited-use feature gains ${k-1} extra use${k>2?'s':''}, and its dice keep pace with your character level.`])];
 const hcLevelAt=(L,lv0)=>Math.max(1,Math.min(HC_MAX,(+L||1)-(+lv0||1)+1));
 const hcSteady=hl=>{let n=0;for(let l=2;l<=hl;l++)if(isSteady(l))n++;return n};
-function hcCard(c,open){
-  const tier=HC_TIERS.find(t=>t[0]===c.tier)||HC_TIERS[1],pr=c.prog&&RUNE_IDX.get(lc(c.prog));
-  return `<details class="panel" ${open?'open':''} style="border-left:3px solid ${tier[2]};padding:12px 14px" id="hc-${pid(c.n)}"><summary style="cursor:pointer;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;list-style:none"><b style="font-family:var(--serif);font-size:1.12rem">${esc(c.n)}</b><span class="b" style="color:${tier[2]}">${esc(c.tier)}</span>${c.base&&c.base!=='Any'?`<span class="b ghost">${esc(c.base)}${c.sub?' · '+esc(c.sub):''}</span>`:''}${c.prog?`<span class="b ghost">follows ${esc(c.prog)}${c.rune?' · '+esc(c.rune)+' Rune':''}</span>`:''}<span class="note" style="margin:0 0 0 auto">${c.combo?'Fusion of '+c.combo.length+' Epic classes':c.corpse?'In a predecessor\'s corpse':esc(towerOf(c.tower).name)+' · floor '+hcFloor(c)}</span></summary>
-    ${c.notice?`<div class="mono" style="margin-top:8px;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--gold2);font-size:.85rem">${esc(c.notice)}</div>`:''}
+const hcTierOf=c=>HC_TIERS.find(t=>t[0]===c.tier)||HC_TIERS[1];
+const hcBadges=c=>`<span class="b" style="color:${hcTierOf(c)[2]}">${esc(c.tier)}</span>${c.base&&c.base!=='Any'?`<span class="b ghost">${esc(c.base)}${c.sub?' · '+esc(c.sub):''}</span>`:''}${c.prog?`<span class="b ghost">follows ${esc(c.prog)}${c.rune?' · '+esc(c.rune)+' Rune':''}</span>`:''}`;
+const hcWhere=c=>c.combo?'Fusion of '+c.combo.length+' Epic classes':c.corpse?'In a predecessor\'s corpse':towerOf(hcTower(c)).name+' · floor '+hcFloor(c);
+// a hidden class's full write-up (the detail pane of the Hidden classes page)
+function hcBody(c){
+  const pr=c.prog&&RUNE_IDX.get(lc(c.prog));
+  return `    ${c.notice?`<div class="mono" style="margin-top:8px;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--gold2);font-size:.85rem">${esc(c.notice)}</div>`:''}
     <div style="margin-top:8px;line-height:1.6">${esc(c.blurb||'')}</div>
     ${kv([['Requires',esc(c.requires||'')],['Unlock',esc(c.unlock||'')],c.combo?['Fusion',`${c.combo.map(n=>{const x=(HC||[]).find(y=>y.n===n);return x?`<a href="#hc-${pid(n)}">${esc(n)}</a>${x.corpse?' <small style="color:var(--muted)">(corpse)</small>':''}`:esc(n)}).join(' + ')}<br><small style="color:var(--muted)">A character who holds all of them can fuse them into this class (on the character sheet).</small>`]:c.corpse?['Where',`${esc(c.corpse)}${/Riverend/.test(c.corpse)?` <a href="${pageUrl('realms')}" data-go="realms">(map)</a>`:''}<br><small style="color:var(--muted)">Not in any Tower: claimed from the body of the class's last holder.</small>`]:['Tower',`<a href="${pageUrl('towers')}#tw-${pid(hcTower(c))}" data-go="towers">${esc(towerOf(hcTower(c)).name)}</a> (${esc(c.tower)} Realm), floor ${hcFloor(c)} of ${towerOf(c.tower).floors}: a level ${towerStart(c.tower)+Math.floor((hcFloor(c)-1)/10)} floor, so the climb itself needs a party of about that level`],c.prog?['Progenitor',pr?refChip(pr,esc(c.prog)):esc(c.prog)]:null,c.base?['Basic class',`<a href="#" data-go="subclasses" data-setup='${esc(JSON.stringify({side:c.base}))}'>${esc(c.base)}</a>`]:null].filter(Boolean))}
     <div class="note" style="margin:8px 0 0">A <b>bonus class</b>: held alongside the holder's own class and subclass. It starts at class level 1 when unlocked and gains a level each time its holder levels up, up to ${HC_MAX}, turning into II, III, IV and V every 20 class levels like every class.</div>
@@ -4344,28 +4526,92 @@ function hcCard(c,open){
     ${c.tier==='Legendary'&&!c.combo?`<div class="note" style="margin:8px 0 0">✦ Besides its own Tower, this class's trial can wait in a secret room on any floor of any Tower whose level is ${hcReqLevel(c)} or more (${Math.round(LEG_TRIAL[0]*100)}% a floor, ${Math.round(LEG_TRIAL[1]*100)}% on boss floors), apart from the floor's mission; whoever finds the room and passes it earns the class.</div>`:''}
     ${hcGrowthText(c)?`<div class="note" style="margin:8px 0 0;color:var(--text2)"><b>Steady Growth:</b> ${esc(hcGrowthText(c))} on each of its own Steady Growth levels (class levels 2, 4, 6–9, 11–14, 16–19 of every 20), on top of the holder's own class.</div>`:''}
     ${c.cost?`<div class="callout" style="border-color:var(--red);margin-top:8px"><b>The price:</b> ${esc(c.cost)}</div>`:''}
-    ${c.secret?`<details class="fold" style="margin-top:8px"><summary>DM only: the hidden condition</summary><div class="note" style="margin:4px 0 0">${esc(c.secret)}</div></details>`:''}</details>`;
+    ${c.secret?`<details class="fold" style="margin-top:8px"><summary>DM only: the hidden condition</summary><div class="note" style="margin:4px 0 0">${esc(c.secret)}</div></details>`:''}`;
 }
+function hcCard(c,open){return `<details class="panel" ${open?'open':''} style="border-left:3px solid ${hcTierOf(c)[2]};padding:12px 14px" id="hc-${pid(c.n)}"><summary style="cursor:pointer;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;list-style:none"><b style="font-family:var(--serif);font-size:1.12rem">${esc(c.n)}</b>${hcBadges(c)}<span class="note" style="margin:0 0 0 auto">${esc(hcWhere(c))}</span></summary>${hcBody(c)}</details>`}
+// The Hidden classes page, once unlocked: a menu of every class on the left (search, tier tabs, grouping, filters) and the
+// chosen class on the right, with the DM's tools (who holds it, grant it to a character). On phones the two take turns.
+const HCX_GROUPS={tier:['Tier',c=>c.tier],tower:['Tower',c=>c.combo?'Fused Legendaries':c.corpse?'Corpse classes':c.tower+' Realm'],base:['Basic class',c=>c.base&&c.base!=='Any'?c.base:'Any class'],prog:['Progenitor',c=>c.prog||'No progenitor'],az:['A to Z',c=>/[A-Z]/.test((c.n[0]||'').toUpperCase())?c.n[0].toUpperCase():'#']};
+const hcSt=()=>Object.assign({tier:'',q:'',base:'',sub:'',tower:'',prog:'',group:'tier',sel:''},store.get('hc',{}));
+function hcSet(o){store.set('hc',Object.assign(hcSt(),o))}
+function hcFiltered(){const st=hcSt(),q=lc(st.q||'');return (HC||[]).filter(c=>(!st.tier||c.tier===st.tier)&&(!st.base||c.base===st.base)&&(!st.sub||c.sub===st.sub)&&(!st.tower||c.tower===st.tower)&&(!st.prog||c.prog===st.prog)&&(!q||lc([c.n,c.was,c.base,c.sub,c.prog,c.rune,c.blurb,c.tower,c.corpse].join(' ')).includes(q)))}
+function hcGroups(C){const st=hcSt(),g=HCX_GROUPS[st.group]||HCX_GROUPS.tier,m=new Map();C.forEach(c=>{const k=g[1](c);if(!m.has(k))m.set(k,[]);m.get(k).push(c)});
+  const order=st.group==='tier'?HC_TIERS.map(t=>t[0]):st.group==='tower'?REALMS.map(r=>r.n+' Realm').concat(['Corpse classes','Fused Legendaries']):[...m.keys()].sort((a,b)=>a.localeCompare(b));
+  return order.filter(k=>m.has(k)).map(k=>[k,m.get(k).sort(byName)])}
+function hcListHTML(C){const st=hcSt(),gs=hcGroups(C),meta=c=>st.group==='tower'?(c.base&&c.base!=='Any'?c.base:c.tier):c.combo?'fusion':c.corpse?'corpse':c.tower;
+  return gs.length?gs.map(([k,cs])=>{const tc=st.group==='tier'?hcTierOf(cs[0])[2]:'';return `<details class="hcx-g" open><summary><span${tc?` style="color:${tc}"`:''}>${esc(k)}</span><span>${cs.length}</span></summary>${cs.map(c=>`<button type="button" class="hcx-row${c.n===st.sel?' on':''}" data-hci="${HC.indexOf(c)}"><i style="background:${hcTierOf(c)[2]}"></i><span>${esc(c.n)}</span><small>${esc(meta(c)||'')}</small></button>`).join('')}</details>`}).join('')
+    :`<div class="empty" style="padding:24px 10px">No hidden classes match.${st.q||st.base||st.tower||st.prog||st.tier?' <a href="#" data-hcx-clear>Clear the search and filters</a>':''}</div>`}
+const hcHolders=c=>PARTY.filter(ch=>hcList(ch).some(h=>h.n===c.n));
+function hcDetailHTML(c,C){const tier=hcTierOf(c),k=C.indexOf(c),held=hcHolders(c),free=PARTY.filter(ch=>!held.includes(ch));
+  return `<div class="hcx-dnav"><button type="button" class="btn hcx-back" data-hcx-back>← All hidden classes</button><span class="sp"></span>${k>=0?`<span class="note" style="margin:0">${k+1} of ${C.length}</span><button type="button" class="icon-btn" data-hcx-step="-1" aria-label="Previous hidden class" title="Previous (↑)" ${k<1?'disabled':''}>‹</button><button type="button" class="icon-btn" data-hcx-step="1" aria-label="Next hidden class" title="Next (↓)" ${k>=C.length-1?'disabled':''}>›</button>`:''}<button type="button" class="icon-btn" data-hcx-link aria-label="Copy a link to this class" title="Copy link">${ICON.link}</button></div>
+    <div class="hcx-kind">${esc(c.tier)} hidden class</div><h2>${esc(c.n)}</h2><div class="badges" style="display:flex;gap:6px;flex-wrap:wrap">${hcBadges(c)}</div><div class="note" style="margin:6px 0 0">${esc(hcWhere(c))}</div>
+    <div class="hcx-dm"><div><b>Held by</b> ${held.length?held.map(ch=>`<span class="b ghost">${esc(ch.name||'Unnamed')} · level ${+ch.level||1}</span>`).join(' '):'<span class="note" style="margin:0">no one in your party</span>'}${c.tier==='Unique'&&held.length?' <span class="b gold">Unique: taken</span>':''}</div>
+      ${free.length?`<div class="keyrow"><select class="sel" id="hcx-to" aria-label="Character to grant this class to">${free.map(ch=>`<option value="${esc(ch.id)}">${esc(ch.name||'Unnamed')} (level ${+ch.level||1})</option>`).join('')}</select><button type="button" class="btn" data-hcx-grant="${HC.indexOf(c)}">Grant</button></div>`:PARTY.length?'':`<div class="note" style="margin:0">Add characters on the <a href="${pageUrl('party')}" data-go="party">Party</a> page to grant them hidden classes.</div>`}</div>
+    ${hcBody(c)}`}
+function hcOverviewHTML(){const held=PARTY.map(ch=>[ch,hcList(ch)]).filter(([,l])=>l.length);
+  return `<div class="hcx-kind" style="color:var(--gold2)">Hidden classes</div><h2 style="margin-bottom:10px">Choose a class from the menu</h2>
+    <div class="cols" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px">${HC_TIERS.map(([t,,col])=>`<button type="button" class="stat" data-hct="${t}" style="border-top:3px solid ${col}"><span class="v" style="color:${col}">${fmt(HC.filter(c=>c.tier===t).length)}</span><span class="l">${t}</span></button>`).join('')}</div>
+    <div class="blk"><h4>Your party's hidden classes</h4></div>${held.length?`<div class="mlist">${held.map(([ch,l])=>`<div style="padding:4px 0"><b>${esc(ch.name||'Unnamed')}</b> <small style="color:var(--muted)">level ${+ch.level||1}</small> ${l.map(h=>{const x=HC.find(y=>y.n===h.n);return x?`<a href="#" class="chip" data-hci="${HC.indexOf(x)}">${esc(h.n)}</a>`:`<span class="chip">${esc(h.n)}</span>`}).join(' ')}</div>`).join('')}</div>`:'<div class="note">No one in your party holds a hidden class yet. Open a class and use Grant, or grant one on the character sheet.</div>'}
+    <div class="note" style="margin-top:12px">Tips: type in the search box to find a class, a subclass, a Rune, or a progenitor; <kbd>↑</kbd> <kbd>↓</kbd> step through the list; Group by sorts the menu by tier, Tower, basic class, or progenitor.</div>`}
+function hcxPaint(){const C=hcFiltered(),st=hcSt();if($('hcx-list'))$('hcx-list').innerHTML=hcListHTML(C);if($('hcx-n'))$('hcx-n').textContent=C.length+' of '+HC.length;
+  const c=st.sel&&HC.find(x=>x.n===st.sel),d=$('hcx-detail');if(!d)return;d.style.setProperty('--tc',c?hcTierOf(c)[2]:'var(--line3)');d.innerHTML=c?hcDetailHTML(c,C):hcOverviewHTML();diceify(d);
+  $('hcx').classList.toggle('d',!!c)}
+function hcxShow(i,scroll){const c=HC[i];if(!c)return;hcSet({sel:c.n});if(SITE)history.replaceState(null,'','#hc-'+pid(c.n));
+  const d=$('hcx-detail');d.style.setProperty('--tc',hcTierOf(c)[2]);d.innerHTML=hcDetailHTML(c,hcFiltered());diceify(d);$('hcx').classList.add('d');
+  $('hcx-list').querySelectorAll('.hcx-row').forEach(b=>b.classList.toggle('on',+b.dataset.hci===i));const row=$('hcx-list').querySelector('.hcx-row.on');if(row&&scroll!==false)row.scrollIntoView({block:'nearest'});
+  if(matchMedia('(max-width:800px)').matches)$('content').scrollTop=0;else d.scrollIntoView({block:'nearest'})}
+function hcxStep(n){const C=hcFiltered(),st=hcSt(),gs=hcGroups(C).flatMap(g=>g[1]),k=gs.findIndex(c=>c.n===st.sel),nx=gs[k<0?(n>0?0:gs.length-1):Math.max(0,Math.min(gs.length-1,k+n))];if(nx)hcxShow(HC.indexOf(nx))}
+function hcGrantTo(i){const c=HC[i],ch=$('hcx-to')&&PARTY.find(x=>x.id===$('hcx-to').value);if(!c||!ch)return;const list=hcList(ch),held=hcHolders(c);if(list.some(h=>h.n===c.n)){toast('Already held');return}
+  if(c.tier==='Unique'&&held.length&&!confirm(c.n+' is Unique and '+(held[0].name||'another character')+' already holds it. Grant it anyway?'))return;
+  ch.hcls=list.concat(hcEntry(c,Math.max(1,+ch.level||1)));saveParty();hcLog(true,'granted '+c.n+' to '+(ch.name||'a character'));toast(c.n+' granted to '+(ch.name||'the character'));hcxShow(i,false)}
 async function renderHidden(){
   await hcAuto();
-  const st=Object.assign({tier:'',q:'',base:'',sub:'',tower:'',prog:'',shown:30},store.get('hc',{})),q=lc(st.q||''),ALL=HC||[],C=ALL.filter(c=>(!st.tier||c.tier===st.tier)&&(!st.base||c.base===st.base)&&(!st.sub||c.sub===st.sub)&&(!st.tower||c.tower===st.tower)&&(!st.prog||c.prog===st.prog)&&(!q||lc([c.n,c.was,c.base,c.sub,c.prog,c.rune,c.blurb,c.tower].join(' ')).includes(q)));
-  $('content').innerHTML=`<div class="page">
+  const st=hcSt(),ALL=HC||[],dm=role()==='dm',player=role()==='player';
+  const tiers=`<div class="hcx-tabs" role="tablist" aria-label="Tiers">${[['','All',ALL.length||Object.values(HIDDEN.counts||{}).reduce((a,b)=>a+b,0),'var(--acc)']].concat(HC_TIERS.map(([t,,col])=>[t,t,HC?ALL.filter(c=>c.tier===t).length:(HIDDEN.counts||{})[t]||0,col])).map(([v,l,n,col])=>`<button type="button" role="tab" aria-selected="${st.tier===v}" class="hcx-tab${st.tier===v?' on':''}" style="--tc:${col}" data-hct="${v}"><i></i>${l} <span class="b ghost">${fmt(n)}</span></button>`).join('')}</div>`;
+  const about=`<div class="cols" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-bottom:14px">${HC_TIERS.map(([t,d,col])=>`<div class="panel" style="border-top:3px solid ${col}"><b style="font-family:var(--serif);font-size:1.15rem;color:${col}">${t}</b> <span class="b ghost">${HC?ALL.filter(c=>c.tier===t).length:(HIDDEN.counts||{})[t]||0}</span><div style="margin-top:4px;font-size:.88rem;color:var(--text2)">${esc(d)}</div></div>`).join('')}</div>`;
+  const lock=quickModes().length&&!PAT_SKIP&&window.crypto&&crypto.subtle?patLockHTML():hcLockHTML();
+  if(!HC){$('content').innerHTML=`<div class="page">
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Hidden classes</h3><p>Beyond the basic classes are hidden classes. No one picks them at character creation: they are unlocked only through quests and by climbing the <a href="${pageUrl('towers')}" data-go="towers">Towers</a> that stand in every realm.</p></div>
-    <div class="cols" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-bottom:14px">${HC_TIERS.map(([t,d,col])=>`<button class="panel" style="text-align:left;cursor:pointer;border-top:3px solid ${col};${st.tier===t?'background:var(--goldbg)':''}" data-hct="${t}"><b style="font-family:var(--serif);font-size:1.15rem;color:${col}">${t}</b> <span class="b ghost">${HC?HC.filter(c=>c.tier===t).length:(HIDDEN.counts||{})[t]||0}</span><div style="margin-top:4px;font-size:.88rem;color:var(--text2)">${esc(d)}</div></button>`).join('')}</div>
-    ${!HC?(quickModes().length&&!PAT_SKIP&&window.crypto&&crypto.subtle?patLockHTML():hcLockHTML()):`<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px"><input class="sel" id="hc-q" placeholder="Find a hidden class, a subclass, a Rune, a progenitor…" value="${esc(st.q||'')}" style="max-width:300px;flex:1"><label class="note" style="margin:0;display:flex;gap:6px;align-items:center" title="Show every class's numbers at this character level: dice grow every 10 levels, and at 21, 41, 61, and 81 the class turns II to V">At level <input class="sel" id="hc-lv" type="number" min="1" max="100" placeholder="as written" value="${store.get('hclv',0)||''}" style="width:96px"></label>
-      ${(()=>{const sel=(k,label,vals)=>`<select class="sel" data-hcf="${k}"><option value="">${label}</option>${vals.map(v=>`<option${v===st[k]?' selected':''}>${esc(v)}</option>`).join('')}</select>`,u=f=>[...new Set(ALL.map(f).filter(Boolean))].sort();return sel('base','Any class',u(c=>c.base).filter(x=>x!=='Any'))+(st.base?sel('sub','Any '+st.base+' subclass',u(c=>c.base===st.base?c.sub:'')):'')+sel('tower','Any Tower',REALMS.map(r=>r.n).filter(r=>ALL.some(c=>c.tower===r)))+sel('prog','Any progenitor',u(c=>c.prog))})()}${st.tier?`<button class="btn" data-hct="">Show all tiers</button>`:''}<span class="note" style="margin:0">${C.length} shown</span></div>
-    ${ALL.length?`<div style="display:flex;flex-direction:column;gap:10px">${C.slice(0,st.shown).map(c=>hcCard(c,false)).join('')}</div>${C.length>st.shown?`<div style="text-align:center;margin-top:12px"><button class="btn" id="hc-more">Show more (${fmt(C.length-st.shown)} left)</button></div>`:''}${!C.length?'<div class="empty">No hidden classes match.</div>':''}`:'<div class="empty">No hidden classes yet.</div>'}`}
-    ${HC?`<details class="fold" style="margin-top:14px"><summary>DM rules: classes outside the Towers</summary><ul class="note" style="margin:6px 0 0;padding-left:18px;line-height:1.6"><li><b>Corpse classes.</b> Some Epic classes wait in no Tower: they are claimed from the body of their last holder, wherever that holder fell. Their card says where.</li><li><b>Fused Legendaries.</b> Some Legendary classes are made from Epic classes. A character holding every part can fuse them on the character sheet (DM only); the parts become one class that keeps the highest class level among them.</li><li>Neither kind drops from a Tower floor, appears in a Tower's list, or waits in a secret room. None of this is shown to players anywhere on the site.</li></ul></details>`+patSetHTML()+cloudHcHTML()+hcLogHTML():''}
+    ${about}
+    ${player?`<div class="callout" style="margin-bottom:12px"><b>Looking for a hidden class?</b> The list is kept by your DM. Climb the <a href="${pageUrl('towers')}" data-go="towers">Towers</a>, follow rumours, and finish quests; when you earn one, your DM grants it on your <a href="${pageUrl('sheet')}" data-go="sheet">character sheet</a>, where its features appear.</div><details class="fold"><summary>I'm the DM: unlock the list</summary>${lock}</details>`:lock}
   </div>`;
-  if(!HC){if($('hc-pat')||$('hc-pin'))patLockBind(renderHidden);else hcBindLock(renderHidden);$('content').querySelectorAll('[data-hct]').forEach(b=>b.onclick=()=>{});return}
-  patSetBind();
-  $('content').querySelectorAll('[data-hct]').forEach(b=>b.onclick=()=>{const s2=store.get('hc',{});s2.tier=s2.tier===b.dataset.hct?'':b.dataset.hct;s2.shown=30;store.set('hc',s2);renderHidden()});
-  $('content').querySelectorAll('[data-hcf]').forEach(el=>el.onchange=()=>{const s2=store.get('hc',{});s2[el.dataset.hcf]=el.value;if(el.dataset.hcf==='base')s2.sub='';s2.shown=30;store.set('hc',s2);renderHidden()});
-  if($('hc-more'))$('hc-more').onclick=()=>{const s2=store.get('hc',{});s2.shown=(s2.shown||30)+60;store.set('hc',s2);const y=$('content').scrollTop;renderHidden().then(()=>{$('content').scrollTop=y})};
-  if($('hc-lv'))$('hc-lv').onchange=()=>{const v=Math.max(0,Math.min(MAX_LEVEL,+$('hc-lv').value||0));store.set('hclv',v);renderHidden()};
-  $('hc-q').oninput=e=>{const s2=store.get('hc',{});s2.q=e.target.value;s2.shown=30;store.set('hc',s2);const pos=e.target.selectionStart;renderHidden();const f=$('hc-q');f.focus();f.setSelectionRange(pos,pos)};
-  const h=location.hash.match(/#hc-([\w-]+)/);if(h&&$('hc-'+h[1])){$('hc-'+h[1]).open=true;$('hc-'+h[1]).scrollIntoView()}
-  diceify($('content'));
+    if($('hc-pat')||$('hc-pin'))patLockBind(renderHidden);else hcBindLock(renderHidden);return}
+  const h=location.hash.match(/#hc-([\w-]+)/);if(h){const x=ALL.find(c=>pid(c.n)===h[1]);if(x&&x.n!==st.sel){hcSet({sel:x.n,tier:st.tier&&st.tier!==x.tier?'':st.tier});return renderHidden()}}
+  const sel=(k,label,vals)=>`<select class="sel" data-hcf="${k}" aria-label="${esc(label)}"><option value="">${label}</option>${vals.map(v=>`<option${v===st[k]?' selected':''}>${esc(v)}</option>`).join('')}</select>`,u=f=>[...new Set(ALL.map(f).filter(Boolean))].sort();
+  const nf=['base','tower','prog'].filter(k=>st[k]).length;
+  $('content').innerHTML=`<div class="page">
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Hidden classes ${dm?'<span class="b gold" style="vertical-align:middle">DM</span>':''}</h3><p>Every hidden class in Vestige: where it waits, what it asks, and what it grants. Players never see this list. <a href="#" data-hcx-lock>Lock it again</a></p></div>
+    ${tiers}
+    <div class="hcx-layout${st.sel&&ALL.some(c=>c.n===st.sel)?' d':''}" id="hcx">
+      <aside class="hcx-menu" aria-label="Hidden class menu"><div class="hcx-mtop">
+        <input class="sel" id="hc-q" type="search" placeholder="Find a class, subclass, Rune, progenitor…" value="${esc(st.q||'')}" style="max-width:none" autocomplete="off">
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><label class="note" style="margin:0;display:flex;gap:6px;align-items:center">Group by <select class="sel" data-hcf="group" style="width:auto">${Object.entries(HCX_GROUPS).map(([k,[l]])=>`<option value="${k}"${st.group===k?' selected':''}>${l}</option>`).join('')}</select></label><span class="note" style="margin:0 0 0 auto" id="hcx-n"></span></div>
+        <details class="fold hcx-f"${nf?' open':''}><summary>Filters${nf?` <span class="b gold">${nf}</span>`:''}</summary><div style="display:flex;flex-direction:column;gap:6px;margin-top:6px">${sel('base','Any basic class',u(c=>c.base).filter(x=>x!=='Any'))}${st.base?sel('sub','Any '+st.base+' subclass',u(c=>c.base===st.base?c.sub:'')):''}${sel('tower','Any Tower realm',REALMS.map(r=>r.n).filter(r=>ALL.some(c=>c.tower===r)))}${sel('prog','Any progenitor',u(c=>c.prog))}
+          <label class="note" style="margin:0;display:flex;gap:6px;align-items:center" title="Show every class's numbers at this character level: dice grow every 10 levels, and at 21, 41, 61, and 81 the class turns II to V">Numbers at level <input class="sel" id="hc-lv" type="number" min="1" max="100" placeholder="as written" value="${store.get('hclv',0)||''}" style="width:96px"></label>${nf?'<button type="button" class="btn" data-hcx-clear>Clear filters</button>':''}</div></details>
+      </div><div class="hcx-list" id="hcx-list"></div></aside>
+      <section class="hcx-detail" id="hcx-detail" aria-live="polite"></section>
+    </div>
+    <details class="fold" style="margin-top:14px"><summary>About the tiers</summary><div style="margin-top:8px">${about}</div></details>
+    <details class="fold" style="margin-top:14px"><summary>DM rules: classes outside the Towers</summary><ul class="note" style="margin:6px 0 0;padding-left:18px;line-height:1.6"><li><b>Corpse classes.</b> Some Epic classes wait in no Tower: they are claimed from the body of their last holder, wherever that holder fell. Their card says where.</li><li><b>Fused Legendaries.</b> Some Legendary classes are made from Epic classes. A character holding every part can fuse them on the character sheet (DM only); the parts become one class that keeps the highest class level among them.</li><li>Neither kind drops from a Tower floor, appears in a Tower's list, or waits in a secret room. None of this is shown to players anywhere on the site.</li></ul></details>${patSetHTML()+cloudHcHTML()+hcLogHTML()}
+  </div>`;
+  hcxPaint();patSetBind();
+  const root=$('content');
+  root.onclick=e=>{const t=e.target;
+    const r=t.closest('[data-hci]');if(r){e.preventDefault();hcxShow(+r.dataset.hci);return}
+    const tb=t.closest('[data-hct]');if(tb){hcSet({tier:tb.dataset.hct});renderHidden();return}
+    if(t.closest('[data-hcx-back]')){hcSet({sel:''});if(SITE)history.replaceState(null,'',location.pathname+location.search);hcxPaint();return}
+    const s=t.closest('[data-hcx-step]');if(s){hcxStep(+s.dataset.hcxStep);return}
+    if(t.closest('[data-hcx-link]')){const url=location.href.split('#')[0]+'#hc-'+pid(hcSt().sel);(navigator.clipboard?navigator.clipboard.writeText(url):Promise.reject()).then(()=>toast('Link copied'),()=>toast(url));return}
+    const g=t.closest('[data-hcx-grant]');if(g){hcGrantTo(+g.dataset.hcxGrant);return}
+    if(t.closest('[data-hcx-clear]')){e.preventDefault();hcSet({q:'',base:'',sub:'',tower:'',prog:'',tier:''});renderHidden();return}
+    if(t.closest('[data-hcx-lock]')){e.preventDefault();HC=null;try{sessionStorage.removeItem('fand.hc')}catch(x){}hcLog(true,'locked again');toast('Hidden classes locked');renderHidden();return}
+    const a=t.closest('a[href^="#hc-"]');if(a){const x=ALL.find(c=>'#hc-'+pid(c.n)===a.getAttribute('href'));if(x){e.preventDefault();hcxShow(ALL.indexOf(x))}}};
+  root.querySelectorAll('[data-hcf]').forEach(el=>el.onchange=()=>{const o={[el.dataset.hcf]:el.value};if(el.dataset.hcf==='base')o.sub='';hcSet(o);renderHidden()});
+  if($('hc-lv'))$('hc-lv').onchange=()=>{const v=Math.max(0,Math.min(MAX_LEVEL,+$('hc-lv').value||0));store.set('hclv',v);hcxPaint()};
+  let qt=0;$('hc-q').oninput=e=>{clearTimeout(qt);qt=setTimeout(()=>{hcSet({q:e.target.value});hcxPaint()},120)};
+  $('hc-q').onkeydown=e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();hcxStep(e.key==='ArrowDown'?1:-1)}else if(e.key==='Enter'){const r=$('hcx-list').querySelector('.hcx-row');if(r&&!hcSt().sel)hcxShow(+r.dataset.hci)}};
+  $('hcx-list').onkeydown=e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();hcxStep(e.key==='ArrowDown'?1:-1);const r=$('hcx-list').querySelector('.hcx-row.on');if(r)r.focus()}};
+  const on=$('hcx-list').querySelector('.hcx-row.on');if(on)on.scrollIntoView({block:'center'});
 }
 // Tower trials (campaign owner's rules): every floor is one level (the Milestone Spire's floor 5 is level 5, with grade-5
 // guardians), every 10th floor has a boss, a conquered boss floor lets the party teleport to it, and a party above
@@ -5124,7 +5370,7 @@ function renderCombat(){
       <button class="btn" onclick="cbAddCustom()">+ Custom</button>
       <label class="note" style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" id="cb-ac" ${CB.noAC?'':'checked'} onchange="CB.noAC=!this.checked;saveCB()"> Subtract AC from damage</label><label class="note" style="display:flex;gap:6px;align-items:center;margin:0">Damage type <select class="sel" style="padding:2px 6px" onchange="CB.dt=this.value;saveCB()"><option value="">—</option>${Object.keys(KILL_FX).map(t=>`<option${t===CB.dt?' selected':''}>${t}</option>`).join('')}</select></label>
       ${'wakeLock'in navigator?`<label class="note" style="display:flex;gap:6px;align-items:center;margin:0" title="Stops the phone or tablet from dimming and locking while this page is open"><input type="checkbox" id="cb-wake" ${store.get('wakelock',false)?'checked':''} onchange="store.set('wakelock',this.checked);wakeSync()"> Keep screen on</label>`:''}
-      <button class="btn" onclick="if(confirm('Clear the combat?')){store.set('combat',{round:1,turn:0,list:[]});renderCombat()}">Clear</button>
+      <button class="btn" onclick="const was=store.get('combat',null);store.set('combat',{round:1,turn:0,list:[]});renderCombat();undoToast('Combat cleared',()=>{store.set('combat',was);if(TAB==='combat')renderCombat()})">Clear</button>
     </div>
     <div class="tablewrap" style="margin-top:14px"><table class="t cbt"><thead><tr><th class="num">Init</th><th>Combatant</th><th class="num">AC</th><th>HP</th><th>Damage / heal</th><th>Conditions</th><th></th></tr></thead><tbody>
     ${CB.list.length?CB.list.map((x,i)=>{const m=x.mon&&MON_IDX.get(lc(x.mon)),pct=x.max?Math.max(0,Math.min(100,x.hp/x.max*100)):0,down=x.hp<=0;
@@ -5534,7 +5780,7 @@ function openAccount(){go('account')}
 function closeSettings(){}
 const setSec=(id,title,sub,body)=>`<section class="panel set-sec" id="set-${id}"><h3>${title}</h3>${sub?`<p class="note" style="margin:2px 0 12px">${sub}</p>`:''}${body}</section>`;
 function renderSettings(){const k=getKey(),u=CL.user,dark=document.documentElement.dataset.theme!=='light';
-  const nav=[['account','Account'],['look','Appearance'],['ai','Assistant'],['data','Saved data'],['app','App']];
+  const nav=[['account','Account'],['play','How you play'],['look','Appearance'],['ai','Assistant'],['data','Saved data'],['app','App']];
   $('content').innerHTML=`<div class="page set-wrap">
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Settings</h3><p>How FAND looks and behaves on this device, the assistant's key, and your saved data.</p></div>
     <div class="set-layout"><nav class="set-nav" aria-label="Settings sections">${nav.map(([id,l])=>`<a href="#" onclick="document.getElementById('set-${id}').scrollIntoView({behavior:'smooth'});return false">${l}</a>`).join('')}</nav>
@@ -5542,8 +5788,12 @@ function renderSettings(){const k=getKey(),u=CL.user,dark=document.documentEleme
       ${setSec('account','Account',CL.on?'Your characters and saved data follow your account to every device.':'',!CL.on?`<div class="note">Accounts aren't switched on for this copy of FAND.</div>`
         :u?`<div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">${clAvHTML(u.id,clMyName()||u.email,56)}<div style="flex:1;min-width:160px"><b style="display:block">${esc(clMyName()||'No name yet')}</b><small style="color:var(--muted)">${esc(u.email||'')}</small><div class="note" id="clStat" style="margin:2px 0 0">${clStatusText()}</div></div><button class="btn primary" type="button" onclick="openAccount()">Your account</button><button class="btn" type="button" onclick="cloudSignOut()">Sign out</button></div>`
         :`<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span style="flex:1;min-width:200px">You're not signed in. Signed in, your characters, journal, and the rest are kept in your account, and you can play in your DM's campaign.</span><button class="btn primary" type="button" onclick="openAccount()">Sign in</button></div>`)}
+      ${setSec('play','How you play','FAND puts the pages you use most first: in the menu, on Home, and in the bar at the bottom of phones.',`<div class="set-row"><span>I mostly use FAND as<small>${role()==='dm'?'DM: a DM menu with hidden classes, session prep, encounters, combat, hooks, and Towers':role()==='player'?'Player: your character, party, dice, and journal first; the hidden class list stays with the DM':'Every page in its usual place'}</small></span><div class="seg">${Object.entries(ROLES).map(([k,l])=>`<button type="button" class="${(role()||'both')===k?'on':''}" onclick="setRole('${k}')">${k==='dm'?'DM':l}</button>`).join('')}</div></div>`)}
       ${setSec('look','Appearance','',`<div class="set-row"><span>Theme</span><div class="seg"><button type="button" class="${dark?'on':''}" onclick="store.set('theme','dark');applyTheme('dark');renderSettings()">Dark</button><button type="button" class="${!dark?'on':''}" onclick="store.set('theme','light');applyTheme('light');renderSettings()">Light</button></div></div>
         <div class="set-row" style="display:block"><span style="display:block;margin-bottom:8px">Dice style<small>${esc(diceSkin().name)} · ${DSK.length} styles to choose from</small></span>${diceSkinGrid('st')}</div>
+        <div class="set-row"><span>Text size<small>Makes every page's text bigger or smaller</small></span><div class="seg" style="flex-wrap:wrap">${TSCALES.map(([z,l])=>`<button type="button" class="${Math.abs(+store.get('tscale',1)-z)<.01?'on':''}" onclick="setComfort('tscale',${z})" style="font-size:${z}em">${l}</button>`).join('')}</div></div>
+        <label class="set-row"><span>High contrast<small>Brighter text and stronger borders</small></span><input type="checkbox" ${store.get('contrast',false)?'checked':''} onchange="setComfort('contrast',this.checked)"></label>
+        <label class="set-row"><span>Less motion<small>No sliding, fading, or tumbling dice${matchMedia('(prefers-reduced-motion: reduce)').matches?' (your device already asks for this)':''}</small></span><input type="checkbox" ${lessMotion()?'checked':''} onchange="setComfort('motion',this.checked?'reduce':'full')"></label>
         <label class="set-row"><span>Rolling dice animation<small>Dice tumble across the screen when you roll</small></span><input type="checkbox" ${store.get('diceanim',true)?'checked':''} onchange="store.set('diceanim',this.checked);toast(this.checked?'Rolling dice on':'Rolling dice off')"></label>`)}
       ${setSec('ai','Assistant <em>Ask FAND</em>','The assistant answers from the compendium using Claude, through your own Anthropic API key.',`
         <div class="keyrow"><input class="sel" id="setKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-…" value="${esc(k)}" style="max-width:none;flex:1"><button class="btn" id="setShow" type="button">Show</button></div>
@@ -5554,15 +5804,18 @@ function renderSettings(){const k=getKey(),u=CL.user,dark=document.documentEleme
       ${setSec('data','Saved data','Everything FAND saves lives in this browser'+(u?' and in your account.':'. Sign in to keep it in an account too.'),`
         <div class="set-row"><span>Back up everything<small>A file with your characters, journal, plans, designs, dice, and settings</small></span><button class="btn" type="button" onclick="setExport()">Download backup</button></div>
         <div class="set-row"><span>Restore a backup<small>Replaces the same data on this device${u?' and in your account':''}</small></span><label class="btn" style="cursor:pointer">Choose file<input type="file" accept=".json,application/json" hidden onchange="setImport(this)"></label></div>
-        <div class="set-row"><span>Pins<small>${PINS.size} pinned item${PINS.size===1?'':'s'}</small></span><button class="btn" type="button" onclick="if(confirm('Remove all pins?')){PINS=new Set();store.set('pins',[]);toast('Pins cleared');renderSettings()}">Clear pins</button></div>
+        <div class="set-row"><span>Pins<small>${PINS.size} pinned item${PINS.size===1?'':'s'}</small></span><button class="btn" type="button" onclick="clearPins()">Clear pins</button></div>
         <div class="set-row"><span>Assistant chat<small>The conversation in this tab</small></span><button class="btn" type="button" onclick="newChat();toast('Chat cleared')">Clear chat</button></div>`)}
       ${setSec('app','App','',`<div class="set-row"><span>Install FAND<small>Its own window, the Start menu, and offline play</small></span><button class="btn" type="button" onclick="installApp()">Install</button></div>
-        <div class="note">Version ${esc(String(META.version||''))}${META.built?' · built '+esc(META.built):''}. FAND keeps a copy of itself for offline play and loads the newest version whenever you're online.</div>`)}
+        <div class="set-row"><span>Version<small>${esc(String(META.version||''))}${META.built?' · built '+esc(META.built):''}${SITE&&SITE.b?' · build '+esc(SITE.b):''}</small></span>${SITE&&SITE.b?'<button class="btn" type="button" id="updBtn" onclick="checkUpdate()">Check for updates</button>':''}</div>
+        <div class="okline" id="updMsg" style="min-height:0"></div>
+        <div class="note">${SITE?'FAND keeps a copy of itself for offline play and loads the newest version whenever you\'re online. A new version can take up to 10 minutes to reach everyone after it is published; if a change still doesn\'t show, use Check for updates.':'This is the single-file version (FAND.html): download it again from the website for the newest version.'}</div>`)}
     </div></div></div>`;
   if($('setShow')){$('setShow').onclick=()=>{const i=$('setKey');i.type=i.type==='password'?'text':'password';$('setShow').textContent=i.type==='password'?'Show':'Hide'};
     $('setSave').onclick=()=>{const v=$('setKey').value.trim();if(v&&!/^sk-ant-/.test(v)){$('setMsg').style.color='var(--red)';$('setMsg').textContent='That doesn\'t look like an Anthropic API key (they start with sk-ant-).';return}saveKey(v,$('setRemember').checked);toast(v?'API key saved':'API key removed');renderAI();renderSettings()};
     $('setKey').onkeydown=e=>{if(e.key==='Enter')$('setSave').click()};
     $('setRemove').onclick=()=>{saveKey('',false);toast('API key removed');renderAI();renderSettings()}}}
+function clearPins(){const was=[...PINS];PINS=new Set();store.set('pins',[]);renderSettings();undoToast('Pins cleared',()=>{PINS=new Set(was);store.set('pins',was);if(TAB==='settings')renderSettings()})}
 // backups: every key this site saves (never the API key or account bookkeeping)
 function setExport(){const data={};try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('fand.')&&k!==KEY_NAME&&!k.startsWith('fand.__'))data[k.slice(5)]=localStorage.getItem(k)}}catch(e){}
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({fand:'backup',at:new Date().toISOString(),data},null,1)],{type:'application/json'}));a.download='fand-backup-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();toast('Backup downloaded')}
@@ -5570,6 +5823,53 @@ function setImport(inp){const f=inp.files&&inp.files[0];inp.value='';if(!f)retur
   const keys=Object.keys(o.data).filter(k=>/^[\w.-]{1,64}$/.test(k)&&!k.startsWith('__')&&k!=='anthropicKey');if(!confirm('Restore '+keys.length+' saved items from '+(o.at?new Date(o.at).toLocaleString():'this backup')+'? They replace the same items on this device'+(CL.user?' and in your account':'')+'.'))return;
   const now=Date.now();keys.forEach(k=>{let v;try{v=JSON.parse(o.data[k])}catch(e){return}if(k==='party'&&Array.isArray(v))v=v.map(c=>Object.assign({},c,{_m:now}));store.set(k,v)});
   if(CL.user)try{await cloudPush()}catch(e){}toast('Backup restored');setTimeout(()=>location.reload(),400)})}
+// ════════════════════════════════════════════════════════════════
+//  First-visit guide and Help
+// ════════════════════════════════════════════════════════════════
+// Five short steps the first time someone opens Home (skippable; replay it from Help). Each step can point at a part of
+// the screen: the first one of its targets that is visible gets a gold ring.
+const GUIDE=[
+  {t:'Welcome to FAND',b:'The compendium for Fantasy and Numerous Disasters: every Blueprint, material, monster, realm, god, and rule of Vestige, with tools for the table. How do you mostly use it?',role:true},
+  {t:'Search everything',b:'Find any Blueprint, monster, spell, god, or rule from any page. On a computer, press Ctrl K.',at:['.search-btn','#bnav button:nth-child(2)']},
+  {t:'Make a character',b:'The character builder walks you through it in a few steps, then your sheet does the maths: hit points, armour, spells, and gear.',act:['Build a character',()=>charWizard()]},
+  {t:'Roll dice anywhere',b:'Tap any dice like 2d6 + 3 on a page to roll it. The Dice page has a dice pool, saved rolls, and 30 dice styles.',at:['#bnav a[data-tab="dice"]']},
+  {t:'Your account and settings',b:'Sign in to keep your characters on every device and join your DM\'s campaign. Settings has the theme, text size, and more; Help is in the menu under Reference.',at:['#acctBtn:not([hidden])','.top .icon-btn[aria-label="Settings"]']},
+];
+let GSTEP=-1;
+function openGuide(k){GSTEP=k||0;if(!$('gd')){document.body.insertAdjacentHTML('beforeend','<div class="gd-bg" id="gd-bg"></div><div class="gd-ring" id="gd-ring" hidden></div><div class="gd-card" id="gd" role="dialog" aria-modal="true" aria-labelledby="gd-t"></div>');$('gd-bg').onclick=()=>closeGuide()}guideDraw()}
+function guideDraw(){const g=GUIDE[GSTEP],last=GSTEP===GUIDE.length-1,r=role();
+  $('gd').innerHTML=`<div class="gd-dots" aria-hidden="true">${GUIDE.map((_,i)=>`<i class="${i===GSTEP?'on':''}"></i>`).join('')}</div><h3 id="gd-t">${esc(g.t)}</h3><p>${esc(g.b)}</p>
+    ${g.role?`<div class="gd-roles">${[['player','I\'m a player'],['dm','I\'m the DM'],['both','Both']].map(([k,l])=>`<button type="button" class="btn${r===k?' primary':''}" data-gr="${k}">${l}</button>`).join('')}</div>`:''}
+    <div class="gd-foot"><button type="button" class="btn" data-gx>${last?'Close':'Skip'}</button><span style="flex:1"></span>${GSTEP?'<button type="button" class="btn" data-gp>Back</button>':''}${g.act?`<button type="button" class="btn" data-ga>${esc(g.act[0])}</button>`:''}<button type="button" class="btn primary" data-gn>${last?'Done':'Next'}</button></div>`;
+  const ring=$('gd-ring'),el=(g.at||[]).map(q=>document.querySelector(q)).find(e=>e&&e.offsetParent!==null&&e.getBoundingClientRect().width);
+  if(el){const b=el.getBoundingClientRect();Object.assign(ring.style,{left:(b.left-6)+'px',top:(b.top-6)+'px',width:(b.width+12)+'px',height:(b.height+12)+'px'});ring.hidden=false;$('gd-bg').classList.remove('dim');
+    $('gd').classList.toggle('top',b.top>innerHeight/2)}else{ring.hidden=true;$('gd-bg').classList.add('dim');$('gd').classList.remove('top')}
+  $('gd').onclick=e=>{const t=e.target;if(t.closest('[data-gx]'))closeGuide();else if(t.closest('[data-gp]')){GSTEP--;guideDraw()}else if(t.closest('[data-gn]')){if(last)closeGuide();else{GSTEP++;guideDraw()}}
+    else if(t.closest('[data-ga]')){closeGuide();g.act[1]()}else{const b=t.closest('[data-gr]');if(b){store.set('role',b.dataset.gr);renderTabs();renderBnav();if(TAB==='home')renderHome();GSTEP++;guideDraw()}}};
+  const f=$('gd').querySelector('[data-gn]');if(f)f.focus()}
+function closeGuide(){store.set('guided',true);['gd','gd-bg','gd-ring'].forEach(id=>{const e=$(id);if(e)e.remove()});GSTEP=-1}
+document.addEventListener('keydown',e=>{if(GSTEP<0)return;if(e.key==='Escape'){closeGuide();e.stopPropagation()}else if(e.key==='ArrowRight'&&GSTEP<GUIDE.length-1){GSTEP++;guideDraw()}else if(e.key==='ArrowLeft'&&GSTEP>0){GSTEP--;guideDraw()}},true);
+window.addEventListener('resize',()=>{if(GSTEP>=0)guideDraw()});
+// first visit: only on Home, only for someone with nothing saved yet (and never for browser automation)
+function guideAuto(){if(TAB!=='home'||store.get('guided',false)||navigator.webdriver||location.hash.length>2)return;let has=false;try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('fand.')&&!/^fand\.(theme|__)/.test(k)){has=true;break}}}catch(e){}if(has){store.set('guided',true);return}setTimeout(()=>{if(TAB==='home'&&GSTEP<0)openGuide(0)},600)}
+const HELP=[
+  ['start','Getting started',`<p>FAND is the compendium of the FAND campaign: the world of Vestige and its rules, with tools for players and DMs. Nothing needs installing, and it works offline once a page has loaded.</p><p><button class="btn primary" type="button" onclick="openGuide(0)">Show me around</button> <a class="btn" href="${pageUrl('settings')}#set-play" data-go="settings">Player or DM view</a></p>`],
+  ['find','Finding things',`<ul><li><b>Search everything</b>: the search box at the top (or <kbd>Ctrl</kbd> <kbd>K</kbd>) finds Blueprints, materials, monsters, gods, Runes, spells, and rules.</li><li><b>Lists</b> (Blueprints, Bestiary, Spells, …) have filters; press <kbd>/</kbd> to type a filter and <kbd>←</kbd> <kbd>→</kbd> to step through results in a window.</li><li><b>Pins</b>: the ★ in any window pins it to Home. <b>Recently viewed</b> is on Home and in the search box.</li><li>Every window has a link you can copy and share.</li></ul>`],
+  ['chars','Characters',`<ul><li><a href="#" onclick="charWizard();return false">Build a character</a> step by step, or fill in a blank sheet on the <a href="${pageUrl('sheet')}" data-go="sheet">Character sheet</a>.</li><li>The sheet works out hit points, armour, attacks, spells, and money; <b>Level up</b> asks only what changes.</li><li>The <a href="${pageUrl('party')}" data-go="party">Party</a> page holds every character on this device: gear, contracts, and inventory.</li><li>Deleted something by mistake? Press <b>Undo</b> in the message at the bottom (it stays for a few seconds).</li></ul>`],
+  ['dice','Dice',`<ul><li>Tap any dice written on a page, like 2d6 + 3, to roll it.</li><li>The <a href="${pageUrl('dice')}" data-go="dice">Dice</a> page has a dice pool (keep highest, advantage, exploding dice, successes), saved rolls, and 30 dice styles.</li><li><b>Exploding dice</b>: a die that rolls its highest face rolls again and adds.</li></ul>`],
+  ['together','Playing together',`<ul><li><a href="${pageUrl('account')}" data-go="account">Sign in</a> with your email to keep your characters, journal, and settings on every device.</li><li>A DM can make a <b>campaign</b> and send an invite link; players who join share their characters with the DM.</li><li>Changes sync by themselves; Sync now in the account menu does it at once.</li></ul>`],
+  ['dm','For the DM',`<ul><li><a href="${pageUrl('prep')}" data-go="prep">Session prep</a>, <a href="${pageUrl('encounter')}" data-go="encounter">Encounters</a>, <a href="${pageUrl('combat')}" data-go="combat">Combat</a>, and <a href="${pageUrl('hooks')}" data-go="hooks">Hooks</a> run the table.</li><li><a href="${pageUrl('hidden')}" data-go="hidden">Hidden classes</a> are locked for the DM: unlock them to browse the menu, open any class, and grant it to a character.</li><li>Choose <b>DM</b> in Settings → How you play to put these first.</li></ul>`],
+  ['phone','Phones and offline',`<ul><li>On a phone, the bar at the bottom has Home, Search, Dice, your character, and Menu (every page).</li><li><b>Install</b>: in Settings → App, or your browser's "Add to Home Screen", gives FAND its own icon and window.</li><li>FAND keeps a copy of itself on the device, so it works without signal.</li></ul>`],
+  ['settings','Settings',`<ul><li><a href="${pageUrl('settings')}" data-go="settings">Settings</a>: theme, text size, high contrast, less motion, dice style, the assistant's API key, backups, and the version.</li><li><b>Back up everything</b> downloads a file with all your saved data; Restore brings it back on any device.</li></ul>`],
+  ['trouble','Something looks wrong',`<ul><li><b>A new change isn't showing.</b> A new version takes up to 10 minutes to reach everyone. Then use <a href="${pageUrl('settings')}#set-app" data-go="settings">Settings → App → Check for updates</a>, or close the tab and open it again. On a computer, <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>R</kbd> reloads everything.</li><li><b>My characters are missing on another device.</b> Sign in on both with the same email; or download a backup on one and restore it on the other.</li><li><b>The sign-in email doesn't arrive.</b> Check spam, wait a minute, and ask for a new code; use the newest code only.</li><li><b>Still stuck?</b> Clearing the site's data in your browser settings resets this device (sign in first so nothing is lost).</li></ul>`],
+  ['keys','Keyboard shortcuts',`<div class="tablewrap"><table class="t"><tbody>${[['Ctrl K','Search everything'],['/','Filter the current list'],['← →','Previous and next in a window'],['↑ ↓','Step through the Hidden classes menu'],['Esc','Close a window, the menu, or the guide']].map(([k,d])=>`<tr><td style="white-space:nowrap"><kbd>${k}</kbd></td><td>${d}</td></tr>`).join('')}</tbody></table></div>`],
+];
+function renderHelp(){
+  $('content').innerHTML=`<div class="page set-wrap">
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Help</h3><p>How to use FAND, and what to do when something looks wrong.</p></div>
+    <div class="set-layout"><nav class="set-nav" aria-label="Help sections">${HELP.map(([id,t])=>`<a href="#" onclick="document.getElementById('help-${id}').scrollIntoView({behavior:'smooth'});return false">${t}</a>`).join('')}</nav>
+    <div class="set-main">${HELP.map(([id,t,b])=>`<section class="panel set-sec help" id="help-${id}"><h3>${t}</h3>${b}</section>`).join('')}</div></div></div>`;
+  diceify($('content'))}
 // Quick rules: the rules a table checks mid-session, one tap from any page (works offline like the rest of the app)
 const COND_TEXT={Blinded:'Cannot see. Attacks against it have advantage; its own attacks have disadvantage; checks that need sight fail.',Charmed:'Cannot attack the charmer or target it with harm. The charmer has advantage on social checks with it.',Deafened:'Cannot hear; checks that need hearing fail.',Frightened:'Disadvantage on checks and attacks while the source of its fear is in sight; cannot willingly move closer to it.',Grappled:'Speed 0. Ends if the grappler is incapacitated or the two are pulled apart.',Incapacitated:'No actions and no reactions.',Invisible:'Cannot be seen without magic or a special sense. Its attacks have advantage; attacks against it have disadvantage.',Paralyzed:'Incapacitated and cannot move or speak. Fails Strength and Dexterity saves. Attacks against it have advantage, and a hit from within 5 feet is a critical hit.',Petrified:'Turned to stone: incapacitated, unaware, resistant to all damage, and immune to poison and disease.',Poisoned:'Disadvantage on attack rolls and ability checks.',Prone:'Can only crawl; standing costs half its speed. Disadvantage on its attacks. Attacks from within 5 feet have advantage, from farther away disadvantage.',Restrained:'Speed 0. Disadvantage on its attacks and Dexterity saves; attacks against it have advantage.',Stunned:'Incapacitated, cannot move, speaks only haltingly. Fails Strength and Dexterity saves; attacks against it have advantage.',Unconscious:'Incapacitated, drops what it holds and falls prone. Fails Strength and Dexterity saves; attacks have advantage, and a hit from within 5 feet is a critical hit.',Exhaustion:'Levels stack. 1: disadvantage on checks. 2: speed halved. 3: disadvantage on attacks and saves. 4: hit point maximum halved. 5: speed 0. 6: death.',Concentrating:'Keeps a spell going. Taking damage calls for a Constitution save, DC 10 or half the damage, whichever is higher; failing ends the spell.'};
 function openQuick(){
@@ -6214,6 +6514,7 @@ async function ask(){
 if(!location.hash)history.replaceState(null,'',hashFor(SITE?SITE.page:'home'));
 cloudBoot();
 route();
+guideAuto();
 // Home Screen app: the offline worker (sw.js) keeps every page and its data on the device. Site pages only, not FAND.html.
 if(SITE&&'serviceWorker'in navigator&&/^https?:$/.test(location.protocol)){
   const had=!!navigator.serviceWorker.controller;
