@@ -808,8 +808,11 @@ site['data/vault-details.js'] = lit('VAULT_DETAILS') + '\n';
 var DATA_V = require('crypto').createHash('sha1').update(Object.keys(site).filter(function (k) { return /^data\//.test(k); }).sort().map(function (k) { return site[k]; }).join('')).digest('hex').slice(0, 10);
 // where the site lives (GitHub Pages): used for canonical links, sharing previews, and the sitemap search engines read
 var SITE_URL = 'https://lucky40802.github.io/FAND/site/';
+// this build's stamp (the app and its data together): Settings → App shows it, and "Check for updates" compares it with
+// the newest page on the server
+var BUILD_ID = require('crypto').createHash('sha1').update(tpl + DATA_V).digest('hex').slice(0, 8);
 PAGES.forEach(function (pg) {
-  var tags = '<script>const SITE={page:' + JSON.stringify(pg) + ',v:' + JSON.stringify(DATA_V) + '};' + cloudLine + '</script>\n<script src="data/core.js?v=' + DATA_V + '"></script>\n<script src="data/vault.js?v=' + DATA_V + '"></script>' + (pg === 'spells' || pg === 'sheet' || pg === 'tools' || pg === 'magic' || pg === 'journal' ? '\n<script src="data/spells.js?v=' + DATA_V + '"></script>' : '');
+  var tags = '<script>const SITE={page:' + JSON.stringify(pg) + ',v:' + JSON.stringify(DATA_V) + ',b:' + JSON.stringify(BUILD_ID) + '};' + cloudLine + '</script>\n<script src="data/core.js?v=' + DATA_V + '"></script>\n<script src="data/vault.js?v=' + DATA_V + '"></script>' + (pg === 'spells' || pg === 'sheet' || pg === 'tools' || pg === 'magic' || pg === 'journal' ? '\n<script src="data/spells.js?v=' + DATA_V + '"></script>' : '');
   var html = tpl.split('<!--__DATA__-->').join(tags);
   var info = PAGE_INFO[pg];
   html = html.replace('<title>FAND · Fantasy and Numerous Disasters</title>', '<title>' + (pg === 'home' ? 'FAND · Fantasy and Numerous Disasters' : info[0] + ' · FAND') + '</title>')
@@ -864,6 +867,8 @@ site['sw.js'] = [
   'self.addEventListener("fetch",e=>{const r=e.request;if(r.method!=="GET")return;const u=new URL(r.url);if(u.origin!==location.origin)return;',
   '  // pages and anything unversioned: the network first (always the newest site when online), the saved copy offline;',
   '  // versioned data (?v=build) never changes, so the saved copy is used first',
+  '  // "Check for updates" asks the server directly (?fresh=…): never answered or kept by the worker',
+  '  if(u.searchParams.has("fresh"))return;',
   '  const page=r.mode==="navigate",fixed=u.searchParams.has("v");',
   '  if(fixed)return e.respondWith(caches.open(CACHE).then(c=>c.match(r).then(hit=>hit||fetch(r).then(res=>{if(res.ok)c.put(r,res.clone());return res}))));',
   '  e.respondWith(fetch(r,{cache:"no-cache"}).then(res=>{if(res.ok){const cp=res.clone();caches.open(CACHE).then(c=>c.put(page?new Request(u.pathname.split("/").pop()||"index.html"):r,cp))}return res}).catch(()=>caches.open(CACHE).then(c=>c.match(r,{ignoreSearch:page}).then(hit=>hit||(page?c.match("index.html"):Response.error())))));',

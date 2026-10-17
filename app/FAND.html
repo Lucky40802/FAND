@@ -641,8 +641,22 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
 .qcard:hover{border-color:var(--acc);transform:translateY(-1px)}
 .qcard b{color:var(--text);font-family:var(--serif);font-size:1.05rem}
 .qcard small{font-size:.8rem;color:var(--muted);line-height:1.35}
+/* Comfort (Settings → Appearance): text size scales every rem; high contrast; less motion */
+:root{--ts:1}
+html{font-size:calc(100% * var(--ts))}
+body{font-size:calc(15px * var(--ts))}
+@media (max-width:640px){body{font-size:calc(14px * var(--ts))}}
+:root[data-contrast="high"]{--text:#ffffff;--text2:#ebe7f7;--muted:#c3bedb;--muted2:#a29dbd;--line:#4d4a6c;--line3:#706b98;--acc2:#ddd3ff;--gold2:#ffe39c}
+:root[data-theme="light"][data-contrast="high"]{--bg:#fffdf8;--surf:#ffffff;--text:#000000;--text2:#1c160c;--muted:#3f3526;--muted2:#5c503c;--line:#9c8d72;--line3:#6f6249;--acc:#4a2fb8;--acc2:#3b2496;--gold2:#5e4200}
+:root[data-contrast="high"] a{text-decoration-thickness:2px}
+:root[data-contrast="high"] :focus-visible{outline-width:3px}
+:root[data-motion="reduce"] *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
+<script>
+// Before anything is drawn: the saved theme, text size, contrast, and motion (so a page never flashes the wrong look)
+try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fand.'+k);return v==null?null:JSON.parse(v)},t=g('theme');d.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');var z=+g('tscale');if(z>=.8&&z<=1.6)d.style.setProperty('--ts',z);if(g('contrast'))d.dataset.contrast='high';if(g('motion')==='reduce')d.dataset.motion='reduce'}catch(e){}
+</script>
 </head>
 <body>
 
@@ -691,7 +705,7 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   </div>
 </div>
 <div class="toast" id="toast"></div>
-<button class="upd" id="upd" hidden onclick="location.reload()">A new version of FAND is ready. Tap to load it.</button>
+<button class="upd" id="upd" hidden onclick="forceUpdate()">A new version of FAND is ready. Tap to load it.</button>
 <button class="upd" id="cloudupd" hidden onclick="location.reload()">Newer data from your account is ready. Tap to load it.</button>
 <button class="ai-fab" id="aiFab" onclick="toggleAI(true)" aria-label="Ask the FAND assistant">✦ <span>Ask FAND</span></button>
 <aside class="ai" id="ai" aria-label="FAND assistant">
@@ -871,7 +885,7 @@ function diceSkinGrid(k){k=k||'g';const cur=diceSkin().id,groups=[...new Set(DSK
   return `<div class="dsk-grid" data-k="${k}">${groups.map(g=>`<div class="dsk-group"><div class="dsk-h">${esc(g)}</div><div class="dsk-row">${DSK.filter(x=>x.group===g).map(x=>{const d=dieSVG(20,x,k+x.id);return `<button type="button" class="dsk${x.id===cur?' on':''}" onclick="setDiceSkin('${x.id}')" aria-pressed="${x.id===cur}" title="${esc(x.name)}"><span class="dsk-die" style="${d.glow?`filter:drop-shadow(0 0 6px ${d.glow})`:''}">${d.svg}<b style="color:${d.ink};text-shadow:${d.sh}">20</b></span><small>${esc(x.name)}</small></button>`}).join('')}</div></div>`).join('')}</div>`}
 function diceOverlay(R,sides){
   let ov=$('dice-ov');if(!ov){ov=document.createElement('div');ov.id='dice-ov';document.body.appendChild(ov);ov.onclick=()=>ov.classList.remove('on')}
-  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,shown=R.r.slice(0,12);
+  const reduce=lessMotion(),shown=R.r.slice(0,12);
   ov.innerHTML=`<div class="dice-box"><div class="dice-row">${shown.map((v,i)=>{const x=(R.sd&&R.sd[i])||sides,d=dieSVG(x,null,'ov'+i);return `<div class="die" style="--d:${i*60}ms${d.glow?`;filter:drop-shadow(0 0 14px ${d.glow}) drop-shadow(0 8px 18px rgba(0,0,0,.45))`:''}">${d.svg}<span data-final="${v}" data-sides="${x}" style="color:${d.ink};text-shadow:${d.sh}">${Math.abs(v)}</span></div>`}).join('')}${R.r.length>12?`<div class="note">+${R.r.length-12} more</div>`:''}</div>
     <div class="dice-total"><span class="dice-expr">${esc(R.e)}</span><b>${R.preview?R.r[0]:R.t}</b><small>${R.r.join(' + ')}${R.mod?(R.mod>0?' + ':' − ')+Math.abs(R.mod):''}${sides===20&&R.r.length===1?(R.r[0]===20?' · natural 20!':R.r[0]===1?' · natural 1':''):''}</small></div><div class="note" style="color:#fff9">click anywhere to close</div></div>`;
   ov.classList.add('on');ov.classList.toggle('spin',!reduce);
@@ -1985,8 +1999,26 @@ document.addEventListener('keydown',e=>{
 //  Theme
 // ════════════════════════════════════════════════════════════════
 function applyTheme(t){document.documentElement.dataset.theme=t;$('themeBtn').innerHTML=t==='light'?ICON.moon:ICON.sun;$('themeBtn').title=t==='light'?'Dark theme':'Light theme'}
+// Comfort settings: text size (80% to 160%), high contrast, and less motion. Unlike the theme, they follow your account.
+const TSCALES=[[.9,'Small'],[1,'Normal'],[1.12,'Large'],[1.25,'Larger'],[1.4,'Largest']];
+const lessMotion=()=>document.documentElement.dataset.motion==='reduce'||(store.get('motion','')!=='full'&&matchMedia('(prefers-reduced-motion: reduce)').matches);
+function applyComfort(){const d=document.documentElement,z=+store.get('tscale',1);d.style.setProperty('--ts',z>=.8&&z<=1.6?z:1);if(store.get('contrast',false))d.dataset.contrast='high';else delete d.dataset.contrast;if(store.get('motion','')==='reduce')d.dataset.motion='reduce';else delete d.dataset.motion}
+function setComfort(k,v){store.set(k,v);applyComfort();if(TAB==='settings')renderSettings()}
+// Updates: the site loads its newest pages whenever it is online; this asks the server for this page directly and compares
+// build stamps, so "is my copy the newest?" has an answer. GitHub can take up to 10 minutes to hand out a new version.
+let UPD_AT=0;
+async function newestBuild(){const r=await fetch(location.pathname+'?fresh='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error(r.status);const m=/,b:"([0-9a-f]+)"/.exec(await r.text());return m?m[1]:null}
+async function checkUpdate(quiet){if(!SITE||!SITE.b)return;UPD_AT=Date.now();const out=$('updMsg'),btn=$('updBtn');if(btn){btn.disabled=true;btn.textContent='Checking…'}
+  let b=null,err=false;try{b=await newestBuild()}catch(e){err=true}
+  const newer=b&&b!==SITE.b;if(newer)$('upd').hidden=false;
+  if(btn){btn.disabled=false;btn.textContent='Check for updates'}
+  if(out)out.innerHTML=err?'Couldn\'t reach the site. You may be offline; this device still has its saved copy.':newer?'A newer version is out. <button class="btn primary" type="button" onclick="forceUpdate()">Load it now</button>':'You have the newest version.';
+  if(!quiet&&!out)toast(err?'Couldn\'t check for updates':newer?'A newer version is ready':'You have the newest version')}
+async function forceUpdate(){try{const rg=navigator.serviceWorker&&await navigator.serviceWorker.getRegistration();if(rg)await rg.update()}catch(e){}
+  try{const ks=await caches.keys();await Promise.all(ks.filter(k=>k.startsWith('fand-')).map(k=>caches.delete(k)))}catch(e){}location.reload()}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&navigator.onLine&&Date.now()-UPD_AT>15*60e3)checkUpdate(true)});
 function toggleTheme(){const t=document.documentElement.dataset.theme==='light'?'dark':'light';store.set('theme',t);applyTheme(t)}
-applyTheme(store.get('theme',matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'));
+applyTheme(store.get('theme',matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'));applyComfort();
 
 // ════════════════════════════════════════════════════════════════
 //  Pages
@@ -2358,7 +2390,7 @@ function renderAbout(){
     ['Tools','This website and FAND.html; a GitHub repo with generator and check scripts.','tools'],
   ];
   $('content').innerHTML=`<div class="page">
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">About FAND</h3><p>Everything built in the FAND vault since the Patch Notes began. Current version: <b>${esc(META.version)}</b>.</p></div>
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">About FAND</h3><p>Everything built in the FAND vault since the Patch Notes began. Current version: <b>${esc(META.version)}</b>${SITE&&SITE.b?` (build ${esc(SITE.b)}) · <a href="#" onclick="checkUpdate();return false">check for updates</a>`:''}.</p></div>
     <section class="sec">${appHTML()}</section>
     <section class="sec">${cosmologyHTML()}</section>
     <section class="sec"><div class="sec-h"><h3>At a glance</h3></div><div class="tablewrap"><table class="t"><thead><tr><th>Area</th><th>Now</th></tr></thead><tbody>${G.map(([a,t,l])=>`<tr><td style="white-space:nowrap;font-weight:600">${l?`<a href="${pageUrl(l)}" data-go="${l}" style="text-decoration:none">${a}</a>`:a}</td><td>${t}</td></tr>`).join('')}</tbody></table></div></section>
@@ -5627,6 +5659,9 @@ function renderSettings(){const k=getKey(),u=CL.user,dark=document.documentEleme
       ${setSec('play','How you play','FAND puts the pages you use most first: in the menu, on Home, and in the bar at the bottom of phones.',`<div class="set-row"><span>I mostly use FAND as<small>${role()==='dm'?'DM: a DM menu with hidden classes, session prep, encounters, combat, hooks, and Towers':role()==='player'?'Player: your character, party, dice, and journal first; the hidden class list stays with the DM':'Every page in its usual place'}</small></span><div class="seg">${Object.entries(ROLES).map(([k,l])=>`<button type="button" class="${(role()||'both')===k?'on':''}" onclick="setRole('${k}')">${k==='dm'?'DM':l}</button>`).join('')}</div></div>`)}
       ${setSec('look','Appearance','',`<div class="set-row"><span>Theme</span><div class="seg"><button type="button" class="${dark?'on':''}" onclick="store.set('theme','dark');applyTheme('dark');renderSettings()">Dark</button><button type="button" class="${!dark?'on':''}" onclick="store.set('theme','light');applyTheme('light');renderSettings()">Light</button></div></div>
         <div class="set-row" style="display:block"><span style="display:block;margin-bottom:8px">Dice style<small>${esc(diceSkin().name)} · ${DSK.length} styles to choose from</small></span>${diceSkinGrid('st')}</div>
+        <div class="set-row"><span>Text size<small>Makes every page's text bigger or smaller</small></span><div class="seg" style="flex-wrap:wrap">${TSCALES.map(([z,l])=>`<button type="button" class="${Math.abs(+store.get('tscale',1)-z)<.01?'on':''}" onclick="setComfort('tscale',${z})" style="font-size:${z}em">${l}</button>`).join('')}</div></div>
+        <label class="set-row"><span>High contrast<small>Brighter text and stronger borders</small></span><input type="checkbox" ${store.get('contrast',false)?'checked':''} onchange="setComfort('contrast',this.checked)"></label>
+        <label class="set-row"><span>Less motion<small>No sliding, fading, or tumbling dice${matchMedia('(prefers-reduced-motion: reduce)').matches?' (your device already asks for this)':''}</small></span><input type="checkbox" ${lessMotion()?'checked':''} onchange="setComfort('motion',this.checked?'reduce':'full')"></label>
         <label class="set-row"><span>Rolling dice animation<small>Dice tumble across the screen when you roll</small></span><input type="checkbox" ${store.get('diceanim',true)?'checked':''} onchange="store.set('diceanim',this.checked);toast(this.checked?'Rolling dice on':'Rolling dice off')"></label>`)}
       ${setSec('ai','Assistant <em>Ask FAND</em>','The assistant answers from the compendium using Claude, through your own Anthropic API key.',`
         <div class="keyrow"><input class="sel" id="setKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-…" value="${esc(k)}" style="max-width:none;flex:1"><button class="btn" id="setShow" type="button">Show</button></div>
@@ -5640,7 +5675,9 @@ function renderSettings(){const k=getKey(),u=CL.user,dark=document.documentEleme
         <div class="set-row"><span>Pins<small>${PINS.size} pinned item${PINS.size===1?'':'s'}</small></span><button class="btn" type="button" onclick="if(confirm('Remove all pins?')){PINS=new Set();store.set('pins',[]);toast('Pins cleared');renderSettings()}">Clear pins</button></div>
         <div class="set-row"><span>Assistant chat<small>The conversation in this tab</small></span><button class="btn" type="button" onclick="newChat();toast('Chat cleared')">Clear chat</button></div>`)}
       ${setSec('app','App','',`<div class="set-row"><span>Install FAND<small>Its own window, the Start menu, and offline play</small></span><button class="btn" type="button" onclick="installApp()">Install</button></div>
-        <div class="note">Version ${esc(String(META.version||''))}${META.built?' · built '+esc(META.built):''}. FAND keeps a copy of itself for offline play and loads the newest version whenever you're online.</div>`)}
+        <div class="set-row"><span>Version<small>${esc(String(META.version||''))}${META.built?' · built '+esc(META.built):''}${SITE&&SITE.b?' · build '+esc(SITE.b):''}</small></span>${SITE&&SITE.b?'<button class="btn" type="button" id="updBtn" onclick="checkUpdate()">Check for updates</button>':''}</div>
+        <div class="okline" id="updMsg" style="min-height:0"></div>
+        <div class="note">${SITE?'FAND keeps a copy of itself for offline play and loads the newest version whenever you\'re online. A new version can take up to 10 minutes to reach everyone after it is published; if a change still doesn\'t show, use Check for updates.':'This is the single-file version (FAND.html): download it again from the website for the newest version.'}</div>`)}
     </div></div></div>`;
   if($('setShow')){$('setShow').onclick=()=>{const i=$('setKey');i.type=i.type==='password'?'text':'password';$('setShow').textContent=i.type==='password'?'Show':'Hide'};
     $('setSave').onclick=()=>{const v=$('setKey').value.trim();if(v&&!/^sk-ant-/.test(v)){$('setMsg').style.color='var(--red)';$('setMsg').textContent='That doesn\'t look like an Anthropic API key (they start with sk-ant-).';return}saveKey(v,$('setRemember').checked);toast(v?'API key saved':'API key removed');renderAI();renderSettings()};
