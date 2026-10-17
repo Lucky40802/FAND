@@ -743,7 +743,18 @@ D.SUBSTAGES = {};
   });
   log.push('subclass changes: ' + n + ' subclasses, II-V each');
 })();
-var CORE = ['BPS', 'MATS', 'MONSTERS', 'SUBS', 'GODS', 'DEMONS', 'PATRONS', 'MAT_FX', 'HIDDEN', 'STAGES', 'SUBSTAGES', 'PROF_STAGES'];
+// ---- playable peoples (data/peoples/*.json): a full 5e-style profile for each people, and new peoples (new.json)
+(function () {
+  var dir = path.join(__dirname, '..', 'data', 'peoples'), info = {}, extra = [];
+  if (fs.existsSync(dir)) fs.readdirSync(dir).filter(function (f) { return /\.json$/.test(f); }).sort().forEach(function (f) {
+    var d = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'));
+    if (Array.isArray(d)) d.forEach(function (r) { if (!r || !r.name) return; extra.push([r.name, r.short || '', r.bonus || {}, r.speed || 30, r.traitsShort || '', r.group || 'More peoples']); if (r.profile) info[r.name] = r.profile; });
+    else Object.keys(d).forEach(function (k) { info[k] = d[k]; });
+  });
+  D.PEOPLES = { info: info, extra: extra };
+  log.push('peoples: ' + Object.keys(info).length + ' profiles, ' + extra.length + ' new peoples');
+})();
+var CORE = ['BPS', 'MATS', 'MONSTERS', 'SUBS', 'GODS', 'DEMONS', 'PATRONS', 'MAT_FX', 'HIDDEN', 'STAGES', 'SUBSTAGES', 'PROF_STAGES', 'PEOPLES'];
 var metaLine = 'const META=' + JSON.stringify(META) + ';';
 var VENDOR = fs.readFileSync(path.join(__dirname, '..', 'app', 'vendor', 'anthropic.js'), 'utf8');
 // Accounts and campaigns (Supabase): on when tools/cloud/config.json has the project's URL and public key (see the README).
