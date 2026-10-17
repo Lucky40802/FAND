@@ -658,6 +658,19 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
 .qcard:hover{border-color:var(--acc);transform:translateY(-1px)}
 .qcard b{color:var(--text);font-family:var(--serif);font-size:1.05rem}
 .qcard small{font-size:.8rem;color:var(--muted);line-height:1.35}
+/* First-visit guide */
+.gd-bg{position:fixed;inset:0;z-index:90;background:transparent}
+.gd-bg.dim{background:rgba(5,4,12,.6)}
+.gd-ring{position:fixed;z-index:91;border:3px solid var(--gold);border-radius:12px;box-shadow:0 0 0 9999px rgba(5,4,12,.6);pointer-events:none;transition:all .2s}
+.gd-ring[hidden]{display:none}
+.gd-card{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%);width:min(440px,calc(100vw - 24px));background:var(--surf);border:1px solid var(--line3);border-top:3px solid var(--gold);border-radius:14px;padding:16px 18px;z-index:92;box-shadow:var(--shadow)}
+.gd-card.top{bottom:auto;top:calc(16px + env(safe-area-inset-top))}
+.gd-card h3{font-size:1.3rem;margin:6px 0 6px}
+.gd-card p{color:var(--text2);line-height:1.55}
+.gd-dots{display:flex;gap:5px}.gd-dots i{width:7px;height:7px;border-radius:50%;background:var(--line3)}.gd-dots i.on{background:var(--gold);width:18px;border-radius:4px}
+.gd-roles{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.gd-foot{display:flex;gap:8px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.set-sec.help ul{padding-left:18px;line-height:1.65}.set-sec.help li{margin:3px 0}.set-sec.help p{margin:6px 0;line-height:1.6}
 /* Phones: the bottom bar and the Menu page */
 .bnav{display:none}
 .mdrawer{position:fixed;inset:0;z-index:75;background:var(--bg);overflow-y:auto;padding:max(12px,env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom));overscroll-behavior:contain}
@@ -766,7 +779,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"rules",v:"26cc659b8c",b:"9b5c2ff6"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"rules",v:"26cc659b8c",b:"4c8dc831"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script src="data/core.js?v=26cc659b8c"></script>
 <script src="data/vault.js?v=26cc659b8c"></script>
 <script>
@@ -1363,9 +1376,9 @@ const TABS=[
   ['realms','Realms',REALMS.length],['gods','Gods',GODS.length],['runes','Runes',RUNES.length],['professions','Professions',Object.keys(PROFS).length],
   ['spells','Spells',META.counts.spells],['magic','Magic Towers',21],['classes','Classes',Object.keys(typeof STAGES!=='undefined'?STAGES:{}).length],['subclasses','Subclasses',SUBS.length],['demons','Demons',DEMONS.length],['patrons','Patrons',PATRONS.length],
   ['forge','Forge'],['craft','Craft'],['party','Party'],['sheet','Character sheet'],['encounter','Encounters'],['hooks','Hooks'],['prep','Session prep'],['journal','Journal'],['hidden','Hidden classes'],['towers','Towers'],['combat','Combat'],
-  ['rules','Rules'],['dice','Dice'],['tools','Tools'],['about','About'],['account','Account'],['settings','Settings'],
+  ['rules','Rules'],['dice','Dice'],['tools','Tools'],['about','About'],['help','Help'],['account','Account'],['settings','Settings'],
 ];
-const PAGES={account:()=>renderAccount(),settings:()=>renderSettings(),home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,dice:()=>renderDice(),about:renderAbout,lore:()=>renderLore(),forge:()=>renderForge(),craft:()=>renderCraft(),party:()=>renderParty(),sheet:()=>renderSheet(),encounter:()=>renderEncounter(),hooks:()=>renderHooks(),magic:()=>renderMagic(),classes:()=>renderClasses(),prep:()=>renderPrep(),journal:()=>renderJournal(),hidden:()=>renderHidden(),towers:()=>renderTowers(),combat:()=>renderCombat()};
+const PAGES={help:()=>renderHelp(),account:()=>renderAccount(),settings:()=>renderSettings(),home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,dice:()=>renderDice(),about:renderAbout,lore:()=>renderLore(),forge:()=>renderForge(),craft:()=>renderCraft(),party:()=>renderParty(),sheet:()=>renderSheet(),encounter:()=>renderEncounter(),hooks:()=>renderHooks(),magic:()=>renderMagic(),classes:()=>renderClasses(),prep:()=>renderPrep(),journal:()=>renderJournal(),hidden:()=>renderHidden(),towers:()=>renderTowers(),combat:()=>renderCombat()};
 
 // ════════════════════════════════════════════════════════════════
 //  State & routing
@@ -1411,9 +1424,9 @@ const NAV_GROUPS=[
   ['Items & Crafting',['blueprints','forge','craft','professions']],
   ['Magic & Classes',['classes','subclasses','hidden','spells','magic']],
   ['Play',['prep','sheet','party','journal','encounter','hooks','combat','dice','tools']],
-  ['Reference',['rules','about','account','settings']],
+  ['Reference',['rules','help','about','account','settings']],
 ];
-const NAV_BLURB={account:'Sign in, your profile and picture, sync, and campaigns',settings:'Appearance, the assistant\'s API key, and your saved data',magic:'The Magic Towers: one for each school of magic, where spells are taught and sold',classes:'Every class and subclass with its class changes, II to V, levels 1 to 100',sheet:'Create a character on a full sheet worked out with FAND\'s rules',hidden:'Unique, Epic, and Legendary classes unlocked through quests and Towers',towers:'Up to five Towers in every realm, grown from unclaimed Runes',journal:'Session notes that link to the world',hooks:'Story starters from the gods, Runes, and monsters',lore:'Infinatas, the gods, and the history of Vestige',realms:'The eleven realms and their coin',gods:'Pantheons, Runes, Hands, and rivals',runes:'Every Law, its lineage, and its progenitor',demons:'Archdevils, demon princes, and corruptions',patrons:'Warlock patrons',codex:'Every note from the Obsidian vault',bestiary:'Monsters with stat blocks, lore, and drops',materials:'Graded materials, traits, and prices',blueprints:'Ready-made designs for every profession',forge:'General Blueprints: pick a material for every part',craft:'Plan what to gather and buy',professions:'The ten professions and their specialties',spells:'Spells by school, tier, and class',subclasses:'Official and homebrew subclasses',party:'Characters, gear, contracts, and money',encounter:'Balanced fights by realm and level',combat:'Initiative, HP, and flat AC',dice:'Roll dice, build pools, and save your rolls',tools:'Calculators and converters',rules:'Rules summaries',about:'What FAND has, version by version'};
+const NAV_BLURB={help:'How to use FAND, and what to do when something looks wrong',prep:'Plan a session: the party, a Tower floor, encounters, and hooks',account:'Sign in, your profile and picture, sync, and campaigns',settings:'Appearance, the assistant\'s API key, and your saved data',magic:'The Magic Towers: one for each school of magic, where spells are taught and sold',classes:'Every class and subclass with its class changes, II to V, levels 1 to 100',sheet:'Create a character on a full sheet worked out with FAND\'s rules',hidden:'Unique, Epic, and Legendary classes unlocked through quests and Towers',towers:'Up to five Towers in every realm, grown from unclaimed Runes',journal:'Session notes that link to the world',hooks:'Story starters from the gods, Runes, and monsters',lore:'Infinatas, the gods, and the history of Vestige',realms:'The eleven realms and their coin',gods:'Pantheons, Runes, Hands, and rivals',runes:'Every Law, its lineage, and its progenitor',demons:'Archdevils, demon princes, and corruptions',patrons:'Warlock patrons',codex:'Every note from the Obsidian vault',bestiary:'Monsters with stat blocks, lore, and drops',materials:'Graded materials, traits, and prices',blueprints:'Ready-made designs for every profession',forge:'General Blueprints: pick a material for every part',craft:'Plan what to gather and buy',professions:'The ten professions and their specialties',spells:'Spells by school, tier, and class',subclasses:'Official and homebrew subclasses',party:'Characters, gear, contracts, and money',encounter:'Balanced fights by realm and level',combat:'Initiative, HP, and flat AC',dice:'Roll dice, build pools, and save your rolls',tools:'Calculators and converters',rules:'Rules summaries',about:'What FAND has, version by version'};
 // Player or DM (Settings, or the first-visit guide): which pages FAND puts first in the menu, on Home, and in the phone bar.
 // A DM gets a DM group (hidden classes, session prep, encounters, combat, hooks, Towers); a player gets the Play pages that
 // matter at the table first and no Hidden classes entry (the list is the DM's). 'Both' leaves everything as it is.
@@ -5705,6 +5718,53 @@ function setImport(inp){const f=inp.files&&inp.files[0];inp.value='';if(!f)retur
   const keys=Object.keys(o.data).filter(k=>/^[\w.-]{1,64}$/.test(k)&&!k.startsWith('__')&&k!=='anthropicKey');if(!confirm('Restore '+keys.length+' saved items from '+(o.at?new Date(o.at).toLocaleString():'this backup')+'? They replace the same items on this device'+(CL.user?' and in your account':'')+'.'))return;
   const now=Date.now();keys.forEach(k=>{let v;try{v=JSON.parse(o.data[k])}catch(e){return}if(k==='party'&&Array.isArray(v))v=v.map(c=>Object.assign({},c,{_m:now}));store.set(k,v)});
   if(CL.user)try{await cloudPush()}catch(e){}toast('Backup restored');setTimeout(()=>location.reload(),400)})}
+// ════════════════════════════════════════════════════════════════
+//  First-visit guide and Help
+// ════════════════════════════════════════════════════════════════
+// Five short steps the first time someone opens Home (skippable; replay it from Help). Each step can point at a part of
+// the screen: the first one of its targets that is visible gets a gold ring.
+const GUIDE=[
+  {t:'Welcome to FAND',b:'The compendium for Fantasy and Numerous Disasters: every Blueprint, material, monster, realm, god, and rule of Vestige, with tools for the table. How do you mostly use it?',role:true},
+  {t:'Search everything',b:'Find any Blueprint, monster, spell, god, or rule from any page. On a computer, press Ctrl K.',at:['.search-btn','#bnav button:nth-child(2)']},
+  {t:'Make a character',b:'The character builder walks you through it in a few steps, then your sheet does the maths: hit points, armour, spells, and gear.',act:['Build a character',()=>charWizard()]},
+  {t:'Roll dice anywhere',b:'Tap any dice like 2d6 + 3 on a page to roll it. The Dice page has a dice pool, saved rolls, and 30 dice styles.',at:['#bnav a[data-tab="dice"]']},
+  {t:'Your account and settings',b:'Sign in to keep your characters on every device and join your DM\'s campaign. Settings has the theme, text size, and more; Help is in the menu under Reference.',at:['#acctBtn:not([hidden])','.top .icon-btn[aria-label="Settings"]']},
+];
+let GSTEP=-1;
+function openGuide(k){GSTEP=k||0;if(!$('gd')){document.body.insertAdjacentHTML('beforeend','<div class="gd-bg" id="gd-bg"></div><div class="gd-ring" id="gd-ring" hidden></div><div class="gd-card" id="gd" role="dialog" aria-modal="true" aria-labelledby="gd-t"></div>');$('gd-bg').onclick=()=>closeGuide()}guideDraw()}
+function guideDraw(){const g=GUIDE[GSTEP],last=GSTEP===GUIDE.length-1,r=role();
+  $('gd').innerHTML=`<div class="gd-dots" aria-hidden="true">${GUIDE.map((_,i)=>`<i class="${i===GSTEP?'on':''}"></i>`).join('')}</div><h3 id="gd-t">${esc(g.t)}</h3><p>${esc(g.b)}</p>
+    ${g.role?`<div class="gd-roles">${[['player','I\'m a player'],['dm','I\'m the DM'],['both','Both']].map(([k,l])=>`<button type="button" class="btn${r===k?' primary':''}" data-gr="${k}">${l}</button>`).join('')}</div>`:''}
+    <div class="gd-foot"><button type="button" class="btn" data-gx>${last?'Close':'Skip'}</button><span style="flex:1"></span>${GSTEP?'<button type="button" class="btn" data-gp>Back</button>':''}${g.act?`<button type="button" class="btn" data-ga>${esc(g.act[0])}</button>`:''}<button type="button" class="btn primary" data-gn>${last?'Done':'Next'}</button></div>`;
+  const ring=$('gd-ring'),el=(g.at||[]).map(q=>document.querySelector(q)).find(e=>e&&e.offsetParent!==null&&e.getBoundingClientRect().width);
+  if(el){const b=el.getBoundingClientRect();Object.assign(ring.style,{left:(b.left-6)+'px',top:(b.top-6)+'px',width:(b.width+12)+'px',height:(b.height+12)+'px'});ring.hidden=false;$('gd-bg').classList.remove('dim');
+    $('gd').classList.toggle('top',b.top>innerHeight/2)}else{ring.hidden=true;$('gd-bg').classList.add('dim');$('gd').classList.remove('top')}
+  $('gd').onclick=e=>{const t=e.target;if(t.closest('[data-gx]'))closeGuide();else if(t.closest('[data-gp]')){GSTEP--;guideDraw()}else if(t.closest('[data-gn]')){if(last)closeGuide();else{GSTEP++;guideDraw()}}
+    else if(t.closest('[data-ga]')){closeGuide();g.act[1]()}else{const b=t.closest('[data-gr]');if(b){store.set('role',b.dataset.gr);renderTabs();renderBnav();if(TAB==='home')renderHome();GSTEP++;guideDraw()}}};
+  const f=$('gd').querySelector('[data-gn]');if(f)f.focus()}
+function closeGuide(){store.set('guided',true);['gd','gd-bg','gd-ring'].forEach(id=>{const e=$(id);if(e)e.remove()});GSTEP=-1}
+document.addEventListener('keydown',e=>{if(GSTEP<0)return;if(e.key==='Escape'){closeGuide();e.stopPropagation()}else if(e.key==='ArrowRight'&&GSTEP<GUIDE.length-1){GSTEP++;guideDraw()}else if(e.key==='ArrowLeft'&&GSTEP>0){GSTEP--;guideDraw()}},true);
+window.addEventListener('resize',()=>{if(GSTEP>=0)guideDraw()});
+// first visit: only on Home, only for someone with nothing saved yet (and never for browser automation)
+function guideAuto(){if(TAB!=='home'||store.get('guided',false)||navigator.webdriver||location.hash.length>2)return;let has=false;try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('fand.')&&!/^fand\.(theme|__)/.test(k)){has=true;break}}}catch(e){}if(has){store.set('guided',true);return}setTimeout(()=>{if(TAB==='home'&&GSTEP<0)openGuide(0)},600)}
+const HELP=[
+  ['start','Getting started',`<p>FAND is the compendium of the FAND campaign: the world of Vestige and its rules, with tools for players and DMs. Nothing needs installing, and it works offline once a page has loaded.</p><p><button class="btn primary" type="button" onclick="openGuide(0)">Show me around</button> <a class="btn" href="${pageUrl('settings')}#set-play" data-go="settings">Player or DM view</a></p>`],
+  ['find','Finding things',`<ul><li><b>Search everything</b>: the search box at the top (or <kbd>Ctrl</kbd> <kbd>K</kbd>) finds Blueprints, materials, monsters, gods, Runes, spells, and rules.</li><li><b>Lists</b> (Blueprints, Bestiary, Spells, …) have filters; press <kbd>/</kbd> to type a filter and <kbd>←</kbd> <kbd>→</kbd> to step through results in a window.</li><li><b>Pins</b>: the ★ in any window pins it to Home. <b>Recently viewed</b> is on Home and in the search box.</li><li>Every window has a link you can copy and share.</li></ul>`],
+  ['chars','Characters',`<ul><li><a href="#" onclick="charWizard();return false">Build a character</a> step by step, or fill in a blank sheet on the <a href="${pageUrl('sheet')}" data-go="sheet">Character sheet</a>.</li><li>The sheet works out hit points, armour, attacks, spells, and money; <b>Level up</b> asks only what changes.</li><li>The <a href="${pageUrl('party')}" data-go="party">Party</a> page holds every character on this device: gear, contracts, and inventory.</li><li>Deleted something by mistake? Press <b>Undo</b> in the message at the bottom (it stays for a few seconds).</li></ul>`],
+  ['dice','Dice',`<ul><li>Tap any dice written on a page, like 2d6 + 3, to roll it.</li><li>The <a href="${pageUrl('dice')}" data-go="dice">Dice</a> page has a dice pool (keep highest, advantage, exploding dice, successes), saved rolls, and 30 dice styles.</li><li><b>Exploding dice</b>: a die that rolls its highest face rolls again and adds.</li></ul>`],
+  ['together','Playing together',`<ul><li><a href="${pageUrl('account')}" data-go="account">Sign in</a> with your email to keep your characters, journal, and settings on every device.</li><li>A DM can make a <b>campaign</b> and send an invite link; players who join share their characters with the DM.</li><li>Changes sync by themselves; Sync now in the account menu does it at once.</li></ul>`],
+  ['dm','For the DM',`<ul><li><a href="${pageUrl('prep')}" data-go="prep">Session prep</a>, <a href="${pageUrl('encounter')}" data-go="encounter">Encounters</a>, <a href="${pageUrl('combat')}" data-go="combat">Combat</a>, and <a href="${pageUrl('hooks')}" data-go="hooks">Hooks</a> run the table.</li><li><a href="${pageUrl('hidden')}" data-go="hidden">Hidden classes</a> are locked for the DM: unlock them to browse the menu, open any class, and grant it to a character.</li><li>Choose <b>DM</b> in Settings → How you play to put these first.</li></ul>`],
+  ['phone','Phones and offline',`<ul><li>On a phone, the bar at the bottom has Home, Search, Dice, your character, and Menu (every page).</li><li><b>Install</b>: in Settings → App, or your browser's "Add to Home Screen", gives FAND its own icon and window.</li><li>FAND keeps a copy of itself on the device, so it works without signal.</li></ul>`],
+  ['settings','Settings',`<ul><li><a href="${pageUrl('settings')}" data-go="settings">Settings</a>: theme, text size, high contrast, less motion, dice style, the assistant's API key, backups, and the version.</li><li><b>Back up everything</b> downloads a file with all your saved data; Restore brings it back on any device.</li></ul>`],
+  ['trouble','Something looks wrong',`<ul><li><b>A new change isn't showing.</b> A new version takes up to 10 minutes to reach everyone. Then use <a href="${pageUrl('settings')}#set-app" data-go="settings">Settings → App → Check for updates</a>, or close the tab and open it again. On a computer, <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>R</kbd> reloads everything.</li><li><b>My characters are missing on another device.</b> Sign in on both with the same email; or download a backup on one and restore it on the other.</li><li><b>The sign-in email doesn't arrive.</b> Check spam, wait a minute, and ask for a new code; use the newest code only.</li><li><b>Still stuck?</b> Clearing the site's data in your browser settings resets this device (sign in first so nothing is lost).</li></ul>`],
+  ['keys','Keyboard shortcuts',`<div class="tablewrap"><table class="t"><tbody>${[['Ctrl K','Search everything'],['/','Filter the current list'],['← →','Previous and next in a window'],['↑ ↓','Step through the Hidden classes menu'],['Esc','Close a window, the menu, or the guide']].map(([k,d])=>`<tr><td style="white-space:nowrap"><kbd>${k}</kbd></td><td>${d}</td></tr>`).join('')}</tbody></table></div>`],
+];
+function renderHelp(){
+  $('content').innerHTML=`<div class="page set-wrap">
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Help</h3><p>How to use FAND, and what to do when something looks wrong.</p></div>
+    <div class="set-layout"><nav class="set-nav" aria-label="Help sections">${HELP.map(([id,t])=>`<a href="#" onclick="document.getElementById('help-${id}').scrollIntoView({behavior:'smooth'});return false">${t}</a>`).join('')}</nav>
+    <div class="set-main">${HELP.map(([id,t,b])=>`<section class="panel set-sec help" id="help-${id}"><h3>${t}</h3>${b}</section>`).join('')}</div></div></div>`;
+  diceify($('content'))}
 // Quick rules: the rules a table checks mid-session, one tap from any page (works offline like the rest of the app)
 const COND_TEXT={Blinded:'Cannot see. Attacks against it have advantage; its own attacks have disadvantage; checks that need sight fail.',Charmed:'Cannot attack the charmer or target it with harm. The charmer has advantage on social checks with it.',Deafened:'Cannot hear; checks that need hearing fail.',Frightened:'Disadvantage on checks and attacks while the source of its fear is in sight; cannot willingly move closer to it.',Grappled:'Speed 0. Ends if the grappler is incapacitated or the two are pulled apart.',Incapacitated:'No actions and no reactions.',Invisible:'Cannot be seen without magic or a special sense. Its attacks have advantage; attacks against it have disadvantage.',Paralyzed:'Incapacitated and cannot move or speak. Fails Strength and Dexterity saves. Attacks against it have advantage, and a hit from within 5 feet is a critical hit.',Petrified:'Turned to stone: incapacitated, unaware, resistant to all damage, and immune to poison and disease.',Poisoned:'Disadvantage on attack rolls and ability checks.',Prone:'Can only crawl; standing costs half its speed. Disadvantage on its attacks. Attacks from within 5 feet have advantage, from farther away disadvantage.',Restrained:'Speed 0. Disadvantage on its attacks and Dexterity saves; attacks against it have advantage.',Stunned:'Incapacitated, cannot move, speaks only haltingly. Fails Strength and Dexterity saves; attacks against it have advantage.',Unconscious:'Incapacitated, drops what it holds and falls prone. Fails Strength and Dexterity saves; attacks have advantage, and a hit from within 5 feet is a critical hit.',Exhaustion:'Levels stack. 1: disadvantage on checks. 2: speed halved. 3: disadvantage on attacks and saves. 4: hit point maximum halved. 5: speed 0. 6: death.',Concentrating:'Keeps a spell going. Taking damage calls for a Constitution save, DC 10 or half the damage, whichever is higher; failing ends the spell.'};
 function openQuick(){
@@ -6349,6 +6409,7 @@ async function ask(){
 if(!location.hash)history.replaceState(null,'',hashFor(SITE?SITE.page:'home'));
 cloudBoot();
 route();
+guideAuto();
 // Home Screen app: the offline worker (sw.js) keeps every page and its data on the device. Site pages only, not FAND.html.
 if(SITE&&'serviceWorker'in navigator&&/^https?:$/.test(location.protocol)){
   const had=!!navigator.serviceWorker.controller;
