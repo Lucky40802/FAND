@@ -664,9 +664,9 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
   <div class="set" id="setBox"></div>
 </div>
 
-<script>const SITE={page:"forge",v:"22db7761a9"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
-<script src="data/core.js?v=22db7761a9"></script>
-<script src="data/vault.js?v=22db7761a9"></script>
+<script>const SITE={page:"forge",v:"6c4b63a46f"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script src="data/core.js?v=6c4b63a46f"></script>
+<script src="data/vault.js?v=6c4b63a46f"></script>
 <script>
 'use strict';
 // ════════════════════════════════════════════════════════════════
@@ -775,12 +775,14 @@ const COSMOLOGY=[
   ['Infinatas','The creator of all things and the highest being in existence. Infinatas cares for one thing only: balance, and keeps it through creation.'],
   ['The cycle','Infinatas cannot stay dead. If he is killed, Inane takes over and destroys everything, what is left of Infinatas included, until nothing remains. Only then does Infinatas return, and he creates everything again.'],
   ['Inane','Infinatas\'s split personality. Inane also keeps balance, but through destruction. To the gods, Inane was an unknown entity.'],
+  ['Isorropía','Infinatas\'s third personality. It keeps balance by changing things: it made a vessel of its own and walks the realm, adding new things to it. This is how FAND changes. Infinatas and Inane share one vessel; Isorropía has its own.'],
+  ['Who keeps which Rune','Balance belongs to Infinatas and Destruction to Inane: the gods who hold them hold only a share. The Runes of creation keep their holders, but Isorropía holds a fragment of each to keep them in balance. Space is Infinatas\'s alone.'],
   ['The fall of the gods\' world','The gods\' own world eroded away because of Inane.'],
   ['The gods in Vestige','Infinatas allowed the other gods to come to this realm, but only under strict regulation.'],
 ];
 function cosmologyHTML(compact){
   return `<div class="panel" style="border-color:var(--gold);background:radial-gradient(120% 140% at 0% 0%,var(--goldbg),transparent 60%),var(--surf)">
-    <h4 style="font-size:1.2rem">Cosmology: Infinatas and Inane</h4>
+    <h4 style="font-size:1.2rem">Cosmology: Infinatas, Inane, and Isorropía</h4>
     <div style="display:grid;grid-template-columns:${compact?'1fr':'repeat(auto-fill,minmax(240px,1fr))'};gap:12px;margin-top:8px">${COSMOLOGY.map(([h,t])=>`<div><b style="font-family:var(--serif);color:var(--gold2)">${esc(h)}</b><p style="font-size:.86rem;color:var(--text2);margin-top:2px">${esc(t)}</p></div>`).join('')}</div></div>`;
 }
 const localPrice=(gpv,realm)=>{const c=CURRENCY[realm];if(!c||!c.coin||!gpv||c.gp===1)return '';const v=gpv/c.gp;return (v%1?v.toFixed(1):fmt(v))+' '+(v===1?c.coin.toLowerCase():c.pl)};
@@ -886,6 +888,12 @@ BPS.forEach(b=>{const m=/fragment of ([A-Z][\w' -]*?) directly/.exec(b.ds||'');c
   (b.mats||[]).forEach(n=>{const f=/^Fragment of (.+)$/.exec(n);if(f){if(!RUNE_BP.has(f[1]))RUNE_BP.set(f[1],[]);RUNE_BP.get(f[1]).push(b)}})});
 // a Rune note's frontmatter can name a holder who is not a god (Space: Infinatas alone)
 const runeHolder=r=>r.note&&r.note.fm&&r.note.fm.holder||'';
+// Above the gods (campaign lore): Balance belongs to Infinatas, Destruction to Inane, and Isorropía (Infinatas's third
+// personality, in a vessel of its own) keeps a fragment of every Rune of creation.
+const CREATION_RUNES=['Creation','Origin','Rebirth','the Original'];
+function runeAbove(r){if(r.n==='Balance')return ['Infinatas','Balance belongs to Infinatas. The gods who hold it hold only a share he allows.'];
+  if(r.n==='Destruction')return ['Inane','Destruction belongs to Inane, Infinatas\'s other self. The gods who hold it hold only what Inane has not taken back.'];
+  if(CREATION_RUNES.includes(r.n)||(r.lin&&r.lin.chain.some(c=>c.n==='Creation')&&r.n!=='Destruction'))return ['Isorropía','Its holders keep it, but Isorropía, Infinatas\'s third personality, holds a fragment of it to keep it in balance.'];return null}
 const RUNES=(()=>{const names=new Set([...RUNE_GODS.keys(),...RUNE_BP.keys()]);NOTES.filter(n=>/(^|\/)Runes(\/|$)/i.test(n.f)).forEach(n=>names.add(n.n));
   return [...names].sort().map(n=>{const gods=RUNE_GODS.get(n)||[];const note=NOTES.find(x=>lc(x.n)===lc(n)&&/(^|\/)Runes(\/|$)/i.test(x.f))||null;const fig=runeFigure(n,gods);
     // The vault comes first: a Rune note's frontmatter can set progenitor, progenitorTitle, progenitorForm, progenitorNature,
@@ -1685,8 +1693,8 @@ const MODAL={
     const f=r.fig,rivals=r.contested?r.gods.map(godKey):[];
     const remains=f.remains&&findMat(f.remains);
     return {title:'ᚱ '+esc(r.n),ep:'Progenitor: '+esc(f.name)+', '+esc(f.title),kind:'Rune · '+esc(r.cat),strip:r.contested?'var(--red)':'',
-      badges:`<span class="b acc">${esc(r.cat)}</span>${r.contested?'<span class="b red">Contested</span>':''}${runeHolder(r)?`<span class="b gold">Held by ${esc(runeHolder(r))}</span>`:r.gods.length?'':'<span class="b ghost">Unclaimed</span>'}`,
-      body:(r.note?`<div class="prose vault" style="font-family:var(--sans);font-size:.92rem">${mdVault(r.note.md)}</div>`:'')
+      badges:`${runeAbove(r)?`<span class="b gold">${esc(runeAbove(r)[0])}</span>`:''}<span class="b acc">${esc(r.cat)}</span>${r.contested?'<span class="b red">Contested</span>':''}${runeHolder(r)?`<span class="b gold">Held by ${esc(runeHolder(r))}</span>`:r.gods.length?'':'<span class="b ghost">Unclaimed</span>'}`,
+      body:(runeAbove(r)?`<div class="callout" style="border-color:var(--gold)"><b>Above the gods: ${esc(runeAbove(r)[0])}.</b> ${esc(runeAbove(r)[1])}</div>`:'')+(r.note?`<div class="prose vault" style="font-family:var(--sans);font-size:.92rem">${mdVault(r.note.md)}</div>`:'')
         +(()=>{const ore=MATS.find(m=>m.rune===r.n);return ore?`<div class="callout" style="border-color:var(--acc)">ᚱ <b>Its ore:</b> ${refChip(ore,esc(ore.n),esc(ore.gr))}<div style="margin-top:4px">${esc((ore.rfx||ore.tr||{}).t||'')}</div><div class="note" style="margin:4px 0 0">Mined where this Rune's power pools; set into gear, it gives this effect.</div></div>`:''})()
         +((r.lin&&(r.lin.chain.length>1||r.vprog||r.lin.origin))?`<div class="callout" style="border-color:var(--green)"><b>Lineage, from the vault</b><div class="chips" style="margin-top:6px">${r.lin.chain.map(c=>{const x=RUNE_IDX.get(lc(c.n));return x?refChip(x,'ᚱ '+esc(c.n)):`<span class="chip">${esc(c.n)}</span>`}).join(' <span style="color:var(--muted)">←</span> ')}${r.vprog&&!r.lin.chain.some(c=>lc(c.n)===lc(r.vprog))?` <span style="color:var(--muted)">←</span> ${RUNE_IDX.get(lc(r.vprog))?refChip(RUNE_IDX.get(lc(r.vprog)),esc(r.vprog)):`<span class="chip">${esc(r.vprog)}</span>`}`:''}</div>${r.vprog?`<div style="margin-top:8px"><b>Progenitor:</b> ${esc(r.vprog)}${PROG_STATUS[r.vprog]?' · '+esc(PROG_STATUS[r.vprog]):''}</div>`:''}${r.lin.origin?`<div style="margin-top:8px">${esc(r.lin.origin)}.</div>`:''}</div>`:'')
         +(!f.special&&(r.vprog||(r.note&&r.lin&&r.lin.origin))?'<details class="fold"><summary>Website-generated progenitor (not in the vault)</summary><div>':'')+`<div class="callout" style="border-color:var(--gold)"><b>${!f.special&&(r.vprog||(r.note&&r.lin&&r.lin.origin))?'Suggested progenitor':f.special?'Behind this Rune':'The progenitor'}: ${esc(f.name)}</b>, ${esc(f.title)}<div style="margin-top:6px">${esc(f.form)}</div></div>`
@@ -2014,6 +2022,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-17','Isorropía','The cosmology has a third personality of Infinatas: Isorropía, who left in a vessel of its own to change the realm (this is how FAND changes). Balance now belongs to Infinatas and Destruction to Inane, with the gods holding only a share, and Isorropía keeps a fragment of every Rune of creation. Each of those Runes says so in its window.','lore'],
   ['2026-10-17','Tools, carrying, and bags','Scavenging now needs the right tool for each part: bare hands take only feathers, hair, and loose scales; blood needs a Blood Kit, bone a saw, essences a spirit jar. Tools from Fine (+1) to Primordial (+5) add to the roll, and digging a vein needs a pick. Characters carry 20 items, not counting equipped gear, with new pouches, packs, chests, and vaults to hold more. The Bag of Holding (a Fragment of Time and a Fragment of Space; the Space Rune is held by Infinatas alone) grows with every further Fragment of Space. Its cousins: the Bag of Void, a portable trash can, and the Bag of Devotion, which gives what goes in to a god.','rules'],
   ['2026-10-17','Forges for every Blueprint','Every Blueprint now needs a forge: the workshop its profession uses, of grade I to V, set by its rarity, its materials\' realm, and its level. Higher grades burn that realm\'s fuel. The grade shows in each Blueprint\'s window, on the Forge page, and in the Craft planner, where a Your forge choice gives disadvantage one grade short and blocks it two short. The Rules page explains where to find each grade.','rules'],
   ['2026-10-17','Better on phones','The site now fits narrow phones exactly instead of zooming out slightly, and window close buttons are no longer cut off. Tapping a text box or dropdown no longer makes iPhones zoom in. Chips, checkboxes, buttons, and map pins are bigger and easier to tap, and rows of controls wrap instead of squashing.','tools'],
