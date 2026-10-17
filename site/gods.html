@@ -687,6 +687,16 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
 .skel{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;width:min(960px,100%);margin-top:18px}
 .skel i{height:74px;border-radius:12px;background:linear-gradient(90deg,var(--surf) 0%,var(--surf2) 50%,var(--surf) 100%);background-size:200% 100%;animation:skel 1.4s ease-in-out infinite;border:1px solid var(--line)}
 @keyframes skel{from{background-position:100% 0}to{background-position:-100% 0}}
+/* Notes and Compare */
+.mnote{margin:0 0 14px;border:1px dashed var(--line3);border-radius:10px;padding:8px 12px;background:var(--bg)}
+.mnote summary{cursor:pointer;color:var(--text2);font-size:.9rem}
+.mnote textarea{width:100%;max-width:none;margin-top:8px;resize:vertical;min-height:70px;font:inherit}
+.mnote small{color:var(--muted);font-size:.75rem}
+.ctray{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom));z-index:46;display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:center;max-width:calc(100vw - 24px);background:var(--surf);border:1px solid var(--line3);border-radius:14px;padding:8px 10px;box-shadow:var(--shadow)}
+.ctray[hidden]{display:none}
+.ctray .chip{display:inline-flex;align-items:center;gap:4px}.ctray .chip button{background:none;border:0;color:var(--muted);font-size:1rem;line-height:1;padding:0 2px}
+.ctab th{white-space:nowrap}.ctab td.cdiff{background:var(--accbg)}.ctab td.cbest{background:color-mix(in srgb,var(--green) 18%,transparent);font-weight:700}
+@media (max-width:640px){.ctray{bottom:calc(72px + env(safe-area-inset-bottom))}}
 /* First-visit guide */
 .gd-bg{position:fixed;inset:0;z-index:90;background:transparent}
 .gd-bg.dim{background:rgba(5,4,12,.6)}
@@ -808,7 +818,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"gods",v:"4c16bda2b1",b:"24340bcc"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"gods",v:"4c16bda2b1",b:"ab48e02d"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=4c16bda2b1",10911773],["data/vault.js?v=4c16bda2b1",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -1693,6 +1703,31 @@ function step(d){const i=MODAL_LIST.indexOf(CUR);if(i<0)return;const x=MODAL_LIS
 // Recently viewed entries (this device), shown on Home and in the search box
 function recentAdd(x){if(!x||!x._t||x._t==='note'&&!x.n)return;const k=x._t+'|'+x.n;let r=store.get('recent',[]).filter(z=>z!==k);r.unshift(k);store.set('recent',r.slice(0,16))}
 function recentItems(){return store.get('recent',[]).map(k=>{const [t,...rest]=k.split('|'),n=rest.join('|'),T=TYPES[t];return T&&T.arr.find(y=>y.n===n)}).filter(Boolean)}
+// Notes on anything: your own note on any monster, Blueprint, god, rule… shown in its window, found by search, and kept in your
+// account like the rest of your saved data.
+const noteOf=x=>(store.get('notes',{})[pinKey(x)]||{}).t||'';
+function noteHTML(x){const t=noteOf(x);return `<details class="mnote"${t?' open':''}><summary>📝 ${t?'Your note':'Add a note'}</summary><textarea class="sel" id="noteTxt" rows="3" placeholder="Only you see this. It's saved as you type.">${esc(t)}</textarea><small id="noteMsg"></small></details>`}
+function noteBind(x){const ta=$('noteTxt');if(!ta)return;let tm;ta.oninput=()=>{clearTimeout(tm);tm=setTimeout(()=>{const N=store.get('notes',{}),v=ta.value.trim(),k=pinKey(x);if(v)N[k]={t:v,at:Date.now()};else delete N[k];store.set('notes',N);$('noteMsg').textContent=v?'Saved':'Note removed';ta.closest('details').querySelector('summary').textContent='📝 '+(v?'Your note':'Add a note')},400)}}
+function noteItems(){return Object.entries(store.get('notes',{})).map(([k,v])=>{const [t,...r]=k.split('|'),T=TYPES[t],n=r.join('|');const x=T&&T.arr.find(y=>y.n===n);return x?{x,t:v.t,at:v.at||0}:null}).filter(Boolean).sort((a,b)=>b.at-a.at)}
+// Compare: up to 4 Blueprints, monsters, or materials side by side; the tray at the bottom collects them, the table shows
+// every stat with the cells that differ highlighted (and the highest number in a row marked).
+const CMP_TYPES={bp:[['Category','cat'],['Level','lv'],['Rarity','r'],['Grade','gr'],['Profession','pr'],['Damage',x=>x.dc?x.dc+(x.dm?' '+x.dm:''):''],['Armor Class','ac'],['Property','prop'],['Magic',x=>x.mg?'Yes':'']],
+  mon:[['Realm','realm'],['Grade','g'],['CR','cr'],['HP',x=>x.sb&&x.sb.hp],['AC',x=>x.sb&&x.sb.ac],['Body',x=>x.body],['Source','book'],['Homebrew',x=>x.hb?'Yes':'']],
+  mat:[['Realm','realm'],['Grade','g'],['Material Rank','rank'],['Item Level','il'],['Rarity','rar'],['Price (gp)','price'],['Type','ty'],['Property','prop'],['Use','use']]};
+let CMP=store.get('compare',[]);
+const cmpHas=x=>CMP.includes(pinKey(x));
+function cmpItems(){return CMP.map(k=>{const [t,...r]=k.split('|');return TYPES[t]&&TYPES[t].arr.find(y=>y.n===r.join('|'))}).filter(Boolean)}
+function cmpItemToggle(x){const k=pinKey(x);if(cmpHas(x))CMP=CMP.filter(y=>y!==k);else{const t=CMP[0]&&CMP[0].split('|')[0];if(t&&t!==x._t){CMP=[];toast('Compare holds one kind at a time: started a new comparison')}if(CMP.length>=4){toast('Compare holds up to 4: the oldest was taken out');CMP.shift()}CMP.push(k)}store.set('compare',CMP);cmpTray()}
+function cmpTray(){let t=$('ctray');if(!t){t=document.createElement('div');t.id='ctray';t.className='ctray';document.body.appendChild(t)}const L=cmpItems();t.hidden=!L.length;if(!L.length)return;
+  t.innerHTML=`<b>⚖ Compare</b>${L.map(x=>`<span class="chip">${esc(x.n.length>22?x.n.slice(0,21)+'…':x.n)}<button type="button" aria-label="Remove ${esc(x.n)}" data-crm="${esc(pinKey(x))}">×</button></span>`).join('')}<button class="btn primary" type="button" data-cgo ${L.length<2?'disabled title="Add at least 2"':''}>Compare ${L.length}</button><button class="btn" type="button" data-cclr>Clear</button>`;
+  t.onclick=e=>{const r=e.target.closest('[data-crm]');if(r){CMP=CMP.filter(y=>y!==r.dataset.crm);store.set('compare',CMP);cmpTray();const b=$('cmpBtn');if(b&&CUR)b.classList.toggle('on',cmpHas(CUR));return}if(e.target.closest('[data-cgo]'))openCompare();if(e.target.closest('[data-cclr]')){CMP=[];store.set('compare',CMP);cmpTray()}}}
+function openCompare(){const L=cmpItems();if(L.length<2)return;const F=CMP_TYPES[L[0]._t],val=(x,f)=>{const v=typeof f==='function'?f(x):x[f];return v==null?'':v};
+  const rows=F.map(([l,f])=>{const vs=L.map(x=>val(x,f));if(vs.every(v=>v===''))return '';const diff=new Set(vs.map(String)).size>1,nums=vs.map(v=>typeof v==='number'?v:/^\d+(\.\d+)?$/.test(String(v))?+v:null),mx=nums.every(n=>n!=null)?Math.max(...nums):null;
+    return `<tr><th>${l}</th>${vs.map((v,i)=>`<td class="${diff?'cdiff':''}${mx!=null&&diff&&nums[i]===mx?' cbest':''}">${esc(String(v))||'—'}</td>`).join('')}</tr>`}).join('');
+  $('qBox').innerHTML=`<div class="mh"><div class="kind">Compare ${L.length} ${esc(TYPES[L[0]._t].label)}</div><h2 id="qTitle">Side by side</h2><div class="mact"><button class="icon-btn" onclick="closeQuick()" aria-label="Close">${ICON.x}</button></div></div>
+    <div class="tablewrap"><table class="t ctab"><thead><tr><th></th>${L.map(x=>`<th><a href="#" data-cop="${esc(pinKey(x))}">${esc(x.n)}</a></th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div><p class="note">Highlighted cells differ; the highest number in a row is marked in green.</p>`;
+  $('qBox').style.maxWidth='min(1000px,96vw)';$('qbg').classList.add('open');
+  $('qBox').onclick=e=>{const a=e.target.closest('[data-cop]');if(!a)return;e.preventDefault();const x=L.find(y=>pinKey(y)===a.dataset.cop);closeQuick();if(x)openItem(x)}}
 // Quick actions in a window: a monster goes straight into the combat tracker or the encounter builder; a Blueprint or a
 // material goes to a character in the party.
 function modalQuick(x){const b=[];
@@ -1717,13 +1752,15 @@ function showModal(x){
       <h2 id="mtitle">${M.title}</h2>${M.ep?`<div class="ep">${M.ep}</div>`:''}
       ${M.badges?`<div class="badges">${M.badges}</div>`:''}
       <div class="mact">
+        ${CMP_TYPES[x._t]?`<button class="icon-btn${cmpHas(x)?' on':''}" id="cmpBtn" title="Compare" aria-label="Add to compare">⚖</button>`:''}
         ${x._t!=='realm'?`<button class="icon-btn${isPinned(x)?' on':''}" id="pinBtn" title="Pin" aria-label="Pin">${isPinned(x)?ICON.starf:ICON.star}</button>`:''}
         <button class="icon-btn" id="linkBtn" title="Copy link" aria-label="Copy link">${ICON.link}</button>
         <button class="icon-btn" onclick="closeModal()" title="Close (Esc)" aria-label="Close">${ICON.x}</button>
       </div>
     </div>
-    <div class="mb">${modalQuick(x)}${M.body}</div>${nav}`;
+    <div class="mb">${modalQuick(x)}${noteHTML(x)}${M.body}</div>${nav}`;
   diceify($('modal'));
+  noteBind(x);const cb=$('cmpBtn');if(cb)cb.onclick=()=>{cmpItemToggle(x);cb.classList.toggle('on',cmpHas(x))};
   const pb=$('pinBtn');if(pb)pb.onclick=()=>{togglePin(x);pb.classList.toggle('on');pb.innerHTML=isPinned(x)?ICON.starf:ICON.star;if(VIEWS[TAB])renderList();else if(TAB==='home')renderTab()};
   $('linkBtn').onclick=()=>{const u=location.href;(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>toast('Link copied'),()=>toast('Copy failed: '+u))};
   $('mbg').classList.add('open');document.body.classList.add('mopen');$('mbg').scrollTop=0;
@@ -2090,6 +2127,7 @@ function paletteSearch(){
     if(!SP.length&&META.counts.spells){PRES.push({tab:'spells',setup:{q:$('pq').value.trim()}});h+=`<div class="pal-g">Spells</div><button class="pal-i" data-pi="${PRES.length-1}">Search ${fmt(META.counts.spells)} spells for “${esc($('pq').value.trim())}”<span class="r">Spells page →</span></button>`}
     const tabs=TABS.filter(([,l])=>lc(l).includes(q));
     if(tabs.length){h+=`<div class="pal-g">Sections</div>`;tabs.forEach(([id,l])=>{PRES.push({tab:id});h+=`<button class="pal-i" data-pi="${PRES.length-1}">${l}<span class="r">section</span></button>`})}
+    {const ns=noteItems().filter(n=>lc(n.t).includes(q));if(ns.length){h+=`<div class="pal-g">Your notes</div>`;ns.slice(0,5).forEach(n=>{PRES.push({x:n.x});const i=lc(n.t).indexOf(q),snip=n.t.slice(Math.max(0,i-20),i+40);h+=`<button class="pal-i" data-pi="${PRES.length-1}"><span>📝 ${esc(n.x.n)}</span><span class="r">${hl(snip,q)}</span></button>`})}}
     if(PRES.filter(r=>r.x).length<3&&q.length>=4){const dm=palFuzzy(q).filter(x=>!PRES.some(r=>r.x===x));if(dm.length){h+=`<div class="pal-g">Did you mean</div>`;dm.forEach(x=>{PRES.push({x});h+=palRow(x,esc(x.n),PRES.length-1)})}}
     if(!PRES.length)h=`<div class="empty" style="padding:30px">No matches for “${esc(q)}”</div>`;
   }
@@ -5967,7 +6005,7 @@ function openQuick(){
     </div>`;
   $('qbg').classList.add('open');
 }
-function closeQuick(){$('qbg').classList.remove('open')}
+function closeQuick(){$('qbg').classList.remove('open');$('qBox').style.maxWidth='640px';$('qBox').onclick=null}
 $('qbg').addEventListener('mousedown',e=>{if(e.target===$('qbg'))closeQuick()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('qbg').classList.contains('open'))closeQuick()});
 document.addEventListener('click',e=>{if(e.target.closest('#qBox [data-go]'))closeQuick()},true);
@@ -6594,6 +6632,7 @@ if(!location.hash)history.replaceState(null,'',hashFor(SITE?SITE.page:'home'));
 cloudBoot();
 route();
 guideAuto();
+cmpTray();
 // Home Screen app: the offline worker (sw.js) keeps every page and its data on the device. Site pages only, not FAND.html.
 if(SITE&&'serviceWorker'in navigator&&/^https?:$/.test(location.protocol)){
   const had=!!navigator.serviceWorker.controller;
