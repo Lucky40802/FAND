@@ -315,6 +315,10 @@ log.push('material origins: ' + JSON.stringify(orgCount) + ', unique traits on '
   log.push('rune stones: +' + added + ' new ores, ' + joined + ' existing materials became Rune stones');
 })();
 
+// where each trait works (data/traits.js scope): 'w' a weapon, 'a' armor or a shield, none: anything equipped
+(function () { var n = { w: 0, a: 0 }; D.MATS.forEach(function (m) { [m.tr, m.rfx].forEach(function (t) { if (!t) return; var k = TR.scope(t.t); if (k) { t.s = k; n[k]++; } else delete t.s; }); });
+  log.push('trait scopes: ' + n.w + ' weapon-only, ' + n.a + ' armor-only'); })();
+
 // ---- habitats (data/habitat.json): where each gathered material forms or grows, how to collect it, and whether a
 // mine shaft can reach it. Written for every ore, gem, stone, plant, and essence that is not taken from a corpse.
 (function () {
@@ -403,7 +407,8 @@ var SB = require(path.join(__dirname, '..', 'data', 'statblock.js'));
 var matByName = {}; D.MATS.forEach(function (m) { matByName[m.n.toLowerCase()] = m; });
 D.MONSTERS.forEach(function (mon) {
   var best = null;
-  (mon.drops || []).forEach(function (d) { var x = matByName[d[0].toLowerCase()]; if (x && x.tr && (!best || (x.rank || 0) > (best.rank || 0))) best = x; });
+  // the signature comes from the best drop whose trait is something a creature can do (not a crafting use like potions)
+  (mon.drops || []).forEach(function (d) { var x = matByName[d[0].toLowerCase()]; if (x && x.tr && !TR.craftOnly(x.tr.t) && (!best || (x.rank || 0) > (best.rank || 0))) best = x; });
   mon.sb = SB.statblock(mon, mon.body, best);
 });
 log.push('stat blocks: ' + D.MONSTERS.filter(function (m) { return m.sb; }).length);
