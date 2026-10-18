@@ -92,7 +92,7 @@ FAND's AI features use [Groq](https://groq.com). By default **Forge with Groq** 
 1. Run `tools/cloud/schema.sql` again (it adds a private `fand_private` schema the website can't reach, with a per-account daily counter).
 2. In the **SQL Editor**, run the `vault.create_secret` lines from `tools/cloud/ai-keys.sql` with your real keys (from console.groq.com, starting `gsk_`): `fand_groq_key` for the Forge, `fand_sort_key` for filing new designs on the Blueprints page, and `fand_chat_key` for the chat assistant (stored for later; the assistant still uses each player's own Anthropic key). Keys are kept encrypted in Supabase Vault. Never put a real key in this repository.
 3. Under **Edge Functions**, create a function named `forge` and paste `tools/cloud/functions/forge/index.ts` (or `supabase functions deploy forge` with the CLI). If calls fail with *Invalid JWT*, turn off **Verify JWT** for it: the function checks the sign-in itself.
-4. Optional, under the function's **Secrets**: `FORGE_DAILY_LIMIT` (default 20), `SORT_DAILY_LIMIT` (default 60), `GROQ_MODEL` and `SORT_MODEL` (default `llama-3.3-70b-versatile`).
+4. Optional, under the function's **Secrets**: `FORGE_DAILY_LIMIT` (default 20), `SORT_DAILY_LIMIT` (default 60), `GROQ_MODEL` and `SORT_MODEL` (default `openai/gpt-oss-120b`).
 
 Players who add their own key in Settings keep using it, with no daily limit.
 

@@ -6462,13 +6462,28 @@ function bindGroq(){if(!$('gk'))return;
   $('gk').querySelectorAll('[data-gk-rm]').forEach(el=>el.onclick=()=>{GROQ.mats.splice(+el.dataset.gkRm,1);saveGroqState();renderForge()});
   if($('gk-go'))$('gk-go').onclick=groqForge;
 }
+// Groq's free tier allows about 8,000 tokens a minute, so the prompt stays small: only the designs that fit the
+// request (by its words, the Forge's own name keywords, and the kind of item), each in one compact line.
+const CAT_SHORT={O:'Metal',W:'Wood',G:'Gem',S:'Stone',F:'Hide',B:'Bone',L:'Organ',E:'Essence',K:'Mechanism',U:'Supply'};
+const designKind=b=>b.dmg&&!b.focus?'weapon':b.focus?'focus':b.shield?'shield':'armor';
+function groqPick(want,n){const q=lc(want),words=q.split(/[^a-z]+/).filter(w=>w.length>2).map(w=>w.replace(/(es|s)$/,''));
+  const kindHit={weapon:/weapon|sword|blade|axe|spear|bow|dagger|knife|hammer|mace|club|whip|lance|pike|glaive|halberd|trident|sling|dart|crossbow|scythe|sickle|flail|maul|rapier|scimitar|katana/,
+    armor:/armou?r|helm|helmet|cuirass|breastplate|mail|plate|boots|gauntlet|glove|cloak|pauldron|barding|robe|hat|hood/,shield:/shield|buckler/,focus:/focus|spell|magic|wand|staff|orb|amulet|ring|rod|talisman|totem|charm|arcane|cast/};
+  const sc=([n,b])=>{let v=0;const k=designKind(b),t=lc(n+' '+b.cat+' '+b.group+' '+(b.props||''));
+    if(kindHit[k].test(q))v+=3;if(new RegExp('\\b'+lc(n).replace(/[^a-z ]/g,'')+'s?\\b').test(q))v+=10;
+    const gk=GEN_KEYS.find(x=>x[0]===n);if(gk&&gk[1].test(q))v+=8;words.forEach(w=>{if(t.includes(w))v+=2});return v};
+  const all=groqWeapons(),ranked=all.map(x=>[x,sc(x)]).sort((a,b)=>b[1]-a[1]);
+  const top=ranked[0][1]>0?ranked.filter(x=>x[1]>0).slice(0,n).map(x=>x[0]):[];
+  // nothing in the request points anywhere: a spread of common designs
+  return top.length?top:all.filter(([nm])=>['Longsword','Battleaxe','Spear','Dagger','Warhammer','Shortbow','Cuirass','Helm','Shield','Staff','Wand','Amulet'].includes(nm))}
 function groqPrompt(want,mats){
-  const weapons=groqWeapons().map(([n,b])=>({design:n,group:b.group,kind:b.dmg&&!b.focus?'weapon':b.focus?'spellcasting focus':b.shield?'shield':'armor',damage:b.dmg?b.dmg.join(' '):'',slot:b.slot||b.kind||'',properties:b.props||'',parts:b.slots.map(s=>({id:s.id,name:s.name,role:s.role,required:!s.optional,good:s.ok.map(c=>CAT_NAME[c]),poor:(s.weak||[]).map(c=>CAT_NAME[c]),why:s.why}))}));
-  const M=mats.map(m=>({name:m.n,category:CAT_NAME[matCode(m)]||'',grade:m.gr||'',itemLevel:m.il||1,property:m.pn||'',trait:m.tr?m.tr.n:'',about:String(m.ds||m.d||'').slice(0,200)}));
-  return [{role:'system',content:`You design items for FAND, a tabletop RPG: weapons, armor, shields, and spellcasting focuses. An item is one of the listed general designs, and each of its parts is made from one material. You never invent stats: the game works out damage, AC, focus bonuses, rarity, and properties from the design and the materials; describe any special wish of the player in the lore only. Reply with JSON only, in this shape:
-{"design":"<one design name from the list>","parts":{"<part id>":"<material name>"},"name":"<a new, original name for the item>","lore":"<2 to 4 sentences: what it looks like and how each material shows in it, in plain English>","unused":["<materials you did not place>"]}
-Rules: choose the design closest to what the player asked for. Use only the player's materials, spelled exactly as given. Put a material only on a part whose good categories include it; use a poor fit only if nothing good is left; never use a wrong one. Fill every required part you can. A material can go on more than one part. The name must not be the plain design name.`},
-    {role:'user',content:JSON.stringify({request:want,materials:M,designs:weapons})}]}
+  const part=s=>`${s.id}(${s.role==='primary'?'main':s.role==='structure'?'structure':'extra'}${s.optional?', optional':''}): ${s.only?'Everchanging Substance only':s.ok.map(c=>CAT_SHORT[c]).join('/')+((s.weak||[]).length?'; poor '+s.weak.map(c=>CAT_SHORT[c]).join('/'):'')}`;
+  const D=groqPick(want,12).map(([n,b])=>`${n} [${designKind(b)}${b.dmg?', '+b.dmg.join(' '):''}${b.slot?', '+b.slot:''}] parts: ${b.slots.map(part).join('; ')}`).join('\n');
+  const M=mats.map(m=>`${m.n} | ${CAT_SHORT[matCode(m)]||''} | ${m.gr||''} | item level ${m.il||1}${m.pn?' | property '+m.pn:''}${m.tr?' | trait '+m.tr.n:''}`).join('\n');
+  return [{role:'system',content:`You design items for FAND, a tabletop RPG: weapons, armor, shields, and spellcasting focuses. An item is one of the listed designs, and each part is made from one material. Never invent stats: the game works out damage, AC, focus bonuses, rarity, and properties; describe any special wish of the player in the lore only. Reply with JSON only:
+{"design":"<a design name from the list>","parts":{"<part id>":"<material name>"},"name":"<a new, original name>","lore":"<2 to 4 plain sentences: how it looks and how each material shows>","unused":["<materials not placed>"]}
+Rules: pick the design closest to the request. Use only the player's materials, spelled exactly. A material goes only on a part that lists its category (a poor one only if nothing else fits). Fill every part that is not optional if you can. A material may go on several parts. The name must not be the plain design name.`},
+    {role:'user',content:`Request: ${want}\n\nMaterials (name | category | grade | item level | property | trait):\n${M}\n\nDesigns:\n${D}`}]}
 // ════════════════════════════════════════════════════════════════
 //  Material picker (the Forge): a dropdown of vault materials, best fits first. Whatever is typed is corrected to
 //  the closest real material, so a made-up name never reaches a design. Artifacts can be broken down into a part:
@@ -6538,11 +6553,11 @@ async function groqPickModel(){try{const r=await fetch('https://api.groq.com/ope
   for(const rx of [/gpt-oss-120b/i,/llama-4-maverick/i,/llama-3\.3-70b/i,/kimi-k2/i,/qwen3/i,/llama-4-scout/i,/gpt-oss-20b/i,/llama/i]){const f=ids.find(i=>rx.test(i));if(f)return f}return ids[0]||''}catch(e){return ''}}
 async function groqCall(messages,json){
   if(!groqKey())return aiServer('forge',messages);
-  const call=model=>fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+groqKey()},body:JSON.stringify(Object.assign({model,messages,temperature:0.8},json?{response_format:{type:'json_object'}}:{}))});
+  const call=model=>fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+groqKey()},body:JSON.stringify(Object.assign({model,messages,temperature:0.8,max_completion_tokens:1500},/gpt-oss/i.test(model)?{reasoning_effort:'low'}:{},json?{response_format:{type:'json_object'}}:{}))});
   let model=GROQ_AUTO||groqModel(),r=await call(model);
   // Groq retires models over time: when this one is gone, use the best chat model the key can reach
   if(r.status===404||r.status===400&&/model_not_found|decommissioned|does not exist/i.test(await r.clone().text())){const m=await groqPickModel();if(m&&m!==model){GROQ_AUTO=m;r=await call(m)}}
-  if(!r.ok){let t='';try{const j=await r.json();t=(j.error&&(j.error.message||j.error))||j.message||''}catch(e){}const err=new Error(r.status===401||r.status===403?'Groq did not accept the key. Check it in Settings.':r.status===429?'Groq says too many requests or no credit left. Try again later.':'Groq error '+r.status+(t?': '+String(t).slice(0,160):''));err.status=r.status;throw err}
+  if(!r.ok){let t='';try{const j=await r.json();t=(j.error&&(j.error.message||j.error))||j.message||''}catch(e){}const err=new Error(r.status===401||r.status===403?'Groq did not accept the key. Check it in Settings.':r.status===429?'Groq says too many requests or no credit left. Try again later.':r.status===413?'That request was too large for Groq\'s per-minute limit. Try fewer materials, or wait a minute.':'Groq error '+r.status+(t?': '+String(t).slice(0,160):''));err.status=r.status;throw err}
   const j=await r.json();return String(((j.choices||[])[0]||{}).message?.content||'')}
 function groqParse(t){const s=String(t).replace(/^\s*```(?:json)?/i,'').replace(/```\s*$/,'').trim();const a=s.indexOf('{'),b=s.lastIndexOf('}');return JSON.parse(s.slice(a,b+1))}
 async function groqForge(){
@@ -6593,7 +6608,7 @@ function designSortRules(d){const V=BPS.slice(0,BP_VAULT),pr=d.pr||'Blacksmithin
 // specialty, and item type chosen from the ones the Blueprint library already uses, plus a short description
 async function designAISort(d,loud){const site=CL.on&&CL.user&&CL.sb,own=!!groqKey();if(!site&&!own){if(loud)toast('Filing by AI needs you signed in, or your own Groq key in Settings');return}
   const V=BPS.slice(0,BP_VAULT),profs={};V.forEach(b=>{if(!b.pr)return;const p=profs[b.pr]||(profs[b.pr]={});if(b.sp&&b.sp!==b.pr)p[b.sp]=(p[b.sp]||0)+1});
-  const P=Object.fromEntries(Object.entries(profs).map(([p,sp])=>[p,Object.entries(sp).sort((a,b)=>b[1]-a[1]).slice(0,30).map(x=>x[0])])),cats=[...new Set(V.map(b=>b.cat).filter(Boolean))];
+  const P=Object.fromEntries(Object.entries(profs).map(([p,sp])=>[p,Object.entries(sp).sort((a,b)=>b[1]-a[1]).slice(0,12).map(x=>x[0])])),cats=[...new Set(V.map(b=>b.cat).filter(Boolean))];
   const msgs=[{role:'system',content:`You file new item Blueprints in the Blueprint library of FAND, a tabletop RPG. Reply with JSON only: {"pr":"<profession>","sp":"<specialty>","cat":"<item type>","ds":"<description>"}
 Rules: pr must be one of the given professions, the one that would craft this item. sp must be one of that profession's specialties, or "" if none fits. cat must be one of the given item types. ds is one or two sentences in plain English describing the item and what its materials give it; no numbers or game stats.`},
     {role:'user',content:JSON.stringify({item:{name:d.n,design:d.base,type:d.cat,damage:d.dmg||'',ac:d.ac,properties:[d.props,d.prop].filter(Boolean).join('; '),materials:d.mats,rarity:d.r,itemLevel:d.il,craftedWith:d.pr,lore:d.lore||''},professions:P,itemTypes:cats})}];
@@ -6608,7 +6623,7 @@ function designResort(n){const d=DESIGNS.find(x=>x.n===n);if(!d)return;d.sort=de
 // ════════════════════════════════════════════════════════════════
 const KEY_NAME='fand.anthropicKey';
 // Groq (Groq) key for the Forge: kept in this browser only, like the Anthropic key
-const GROQ_KEY='fand.groqKey',GROQ_DEFAULT_MODEL='llama-3.3-70b-versatile';
+const GROQ_KEY='fand.groqKey',GROQ_DEFAULT_MODEL='openai/gpt-oss-120b';
 function groqKey(){try{return localStorage.getItem(GROQ_KEY)||''}catch(e){return ''}}
 function groqModel(){return store.get('groqModel','')||GROQ_DEFAULT_MODEL}
 function saveGroq(k,model){try{if(k)localStorage.setItem(GROQ_KEY,k);else localStorage.removeItem(GROQ_KEY)}catch(e){}if(model!=null)store.set('groqModel',model&&model!==GROQ_DEFAULT_MODEL?model:'')}

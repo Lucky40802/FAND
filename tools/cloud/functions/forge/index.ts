@@ -8,8 +8,8 @@ import postgres from 'npm:postgres@3.4.5';
 const DB_URL = Deno.env.get('SUPABASE_DB_URL') || '';
 const sql = postgres(DB_URL || 'postgres://missing', { prepare: false, max: 1 });
 const KINDS: Record<string, { limit: number; model: string; what: string }> = {
-  forge: { limit: Number(Deno.env.get('FORGE_DAILY_LIMIT') || 20), model: Deno.env.get('GROQ_MODEL') || 'llama-3.3-70b-versatile', what: 'forges' },
-  sort: { limit: Number(Deno.env.get('SORT_DAILY_LIMIT') || 60), model: Deno.env.get('SORT_MODEL') || Deno.env.get('GROQ_MODEL') || 'llama-3.3-70b-versatile', what: 'Blueprint filings' },
+  forge: { limit: Number(Deno.env.get('FORGE_DAILY_LIMIT') || 20), model: Deno.env.get('GROQ_MODEL') || 'openai/gpt-oss-120b', what: 'forges' },
+  sort: { limit: Number(Deno.env.get('SORT_DAILY_LIMIT') || 60), model: Deno.env.get('SORT_MODEL') || Deno.env.get('GROQ_MODEL') || 'openai/gpt-oss-120b', what: 'Blueprint filings' },
 };
 // Groq retires models over time: when the configured one is gone, ask Groq which models this key can use and pick
 // the best general chat model (remembered until the function restarts)
@@ -50,7 +50,7 @@ Deno.serve(async (req) => {
   const kind = body.kind || 'forge', K = KINDS[kind], messages = body.messages;
   if (!K || !Array.isArray(messages) || !messages.length || messages.length > 4 ||
       messages.some((m) => !m || !['system', 'user'].includes(m.role) || typeof m.content !== 'string') ||
-      JSON.stringify(messages).length > 150000) return out(400, { error: 'Bad request' });
+      JSON.stringify(messages).length > 40000) return out(400, { error: 'Bad request' });
 
   let key: string;
   try {
@@ -70,7 +70,8 @@ Deno.serve(async (req) => {
   const call = (model: string, json: boolean) => fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + key },
-    body: JSON.stringify({ model, messages, temperature: kind === 'sort' ? 0.3 : 0.8, ...(json ? { response_format: { type: 'json_object' } } : {}) }),
+    // a short reply cap: Groq counts the reserved reply against the per-minute token limit
+    body: JSON.stringify({ model, messages, temperature: kind === 'sort' ? 0.3 : 0.8, max_completion_tokens: kind === 'sort' ? 600 : 1500, ...(/gpt-oss/i.test(model) ? { reasoning_effort: 'low' } : {}), ...(json ? { response_format: { type: 'json_object' } } : {}) }),
   });
   let model = AUTO_MODEL || K.model, r = await call(model, true), text = r.ok ? '' : await r.text();
   if (!r.ok && modelGone(r.status, text)) { // the model was retired or is not on this account: switch to one that is
@@ -81,7 +82,7 @@ Deno.serve(async (req) => {
   if (!r.ok) {
     console.error('Groq', r.status, model, text.slice(0, 400));
     let why = ''; try { why = JSON.parse(text).error.message || ''; } catch { /* not JSON */ }
-    return out(502, { error: r.status === 429 ? 'Groq is busy or over its limit. Try again in a minute.' : r.status === 401 ? 'Groq did not accept the site\'s key: check it in Supabase Vault.' : `Groq returned an error (${r.status})${why ? ': ' + why.slice(0, 200) : ''}.` });
+    return out(502, { error: r.status === 429 ? 'Groq is busy or over its limit. Try again in a minute.' : r.status === 401 ? 'Groq did not accept the site\'s key: check it in Supabase Vault.' : r.status === 413 ? 'That request was too large for Groq\'s per-minute limit. Try fewer materials, or wait a minute.' : `Groq returned an error (${r.status})${why ? ': ' + why.slice(0, 200) : ''}.` });
   }
   const j = await r.json();
   try { await sql`select fand_private.ai_used(${user.id}::uuid, ${kind})`; } catch (e) { console.error('ai_used', e); }
