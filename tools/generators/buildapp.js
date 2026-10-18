@@ -697,6 +697,9 @@ log.push('class stages: ' + Object.keys(D.STAGES).length + ' classes, changes II
     if (v && v.md) v.md.split('\n').forEach(function (l) { var m = /^\|\s*(\d+)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|/.exec(l); if (m && +m[1] <= 20) rows.push([+m[1], m[2], m[3]]); });
     if (rows.length) { s.lv = rows; nv++; } else if (extra[s.n]) { s.lv = extra[s.n]; s.lvSite = 1; ne++; }
   });
+  // fuller descriptions written for the site (data/sub-desc.json) replace a subclass's one-line summary
+  var df = path.join(__dirname, '..', 'data', 'sub-desc.json'), desc = fs.existsSync(df) ? JSON.parse(fs.readFileSync(df, 'utf8')) : {};
+  D.SUBS.forEach(function (s) { if (desc[s.n]) { s.ds = desc[s.n]; s.dsSite = 1; } });
   log.push('subclass levels 3-20: ' + nv + ' from the vault, ' + ne + ' written for the site, ' + D.SUBS.filter(function (s) { return !s.lv; }).length + ' missing');
 })();
 // Profession stages II-V (data/prof-stages.json): like class changes, every 20 profession levels, past the vault's 1-20.
