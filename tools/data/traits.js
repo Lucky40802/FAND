@@ -80,7 +80,7 @@ var ABILITIES = [
     defense: ['Acid-Proof', ["While equipped, acid damage you take is reduced by {P}, and your gear can't be corroded.", "While equipped, you resist acid damage and your gear can't be corroded.", "While equipped, you resist acid damage and your gear can't be corroded."]],
     offense: ['Dissolving', 'A weapon with this material deals +{P}d6 acid damage and lowers the target\'s AC by 1 until repaired.'] },
   { re: /dragon|wyvern|drake|wyrm|draconic/i, label: 'Draconic',
-    defense: ['Dragon-Hide', ["While equipped, damage of the dragon's element that you take is reduced by {P}.", "While equipped, you resist one damage type of the dragon's element.", "While equipped, you gain +{B} AC and resist one damage type of the dragon's element."]],
+    defense: ['Dragon-Hide', ["While equipped, damage of the dragon's element that you take is reduced by {P}.", "While equipped, you resist one damage type of the dragon's element.", "Armor or a shield with this material gives +{B} AC and resistance to one damage type of the dragon's element."]],
     offense: ['Frightful Presence', ["Once per long rest, when you hit a creature with a weapon with this material, it makes a Wisdom save (DC {DC}) or is frightened of you until the end of your next turn.", "Once per long rest, when you hit with a weapon with this material, each enemy within 15 ft makes a Wisdom save (DC {DC}) or is frightened of you until the end of your next turn.", "Once per long rest, when you hit with a weapon with this material, each enemy within 30 ft makes a Wisdom save (DC {DC}) or is frightened of you for 1 minute."]],
     vital: ['Dragon-Blood', ["While equipped, you have advantage on saves against being frightened.", "While equipped, you have advantage on saves against being frightened and +{P2} maximum hit points.", "While equipped, you have advantage on saves against being frightened and +{P5} maximum hit points."]],
     sense: ['Dragon-Sight', ["While equipped, you have darkvision out to 30 ft.", "While equipped, you have darkvision out to {FT} ft.", "While equipped, you have blindsight out to 10 ft and darkvision out to {FT} ft."]] },
@@ -125,12 +125,12 @@ var ABILITIES = [
     sense: ['Night Eyes', 'While equipped, you have darkvision out to {FT} ft.'] },
   { re: /scorpion|wasp|bee\b|hornet|centipede|crawler|ankheg|insect|beetle|mantis/i, label: 'Venomous Hunter',
     offense: ['Paralytic Venom', ["A creature hit by a weapon with this material makes a Constitution save (DC {DC}) or is poisoned until the end of its next turn.", "A creature hit by a weapon with this material makes a Constitution save (DC {DC}) or is poisoned for 1 minute.", "A creature hit by a weapon with this material makes a Constitution save (DC {DC}) or is poisoned for 1 minute; while poisoned this way it is also paralyzed if it fails by 5 or more."]],
-    defense: ['Chitin Plating', 'While equipped, you gain +{B} AC against ranged attacks.'] },
+    defense: ['Chitin Plating', 'Armor or a shield with this material gives +{B} AC against ranged attacks.'] },
   { re: /mole|bulette|purple worm|umber hulk|burrow|tunnel|xorn|rock crawler|earth|galeb|dao/i, label: 'Burrower',
     sense: ['Tremorsense', ["While equipped, you have advantage on checks to notice creatures moving on the ground within 30 ft.", "While equipped, you have tremorsense out to 10 ft while you touch the ground.", "While equipped, you have tremorsense out to {B0} ft while you touch the ground."]],
     move: ['Earth-Glide', ["While equipped, rubble and loose sand don't slow you.", "While equipped, you can burrow through loose earth and sand at half your walking speed.", "While equipped, you can burrow through loose earth and sand at half your walking speed."]] },
   { re: /turtle|tortoise|crab|crustac|shell|armadillo|ankylo/i, label: 'Shelled',
-    defense: ['Shell Guard', 'While equipped, you can use your reaction to gain +{P} AC against one attack, and you have advantage on saves against being pushed or knocked prone.'] },
+    defense: ['Shell Guard', 'While you wear armor or hold a shield with this material, you can use your reaction to gain +{P} AC against one attack, and you have advantage on saves against being pushed or knocked prone.'] },
   { re: /horse|elk|deer|stag|antelope|camel|axe beak|gazelle/i, label: 'Swift',
     move: ['Fleet-Footed', ["While equipped, your walking speed increases by 5 ft.", "While equipped, your walking speed increases by {MV} ft and difficult terrain costs you no extra movement on open ground.", "While equipped, your walking speed increases by {MV} ft and difficult terrain costs you no extra movement on open ground."]] },
   { re: /frog|toad|bullywug|grung|kangaroo|grasshopper/i, label: 'Leaper',
@@ -138,7 +138,7 @@ var ABILITIES = [
   { re: /\bape\b|gorilla|bear|giant|ogre|troll|owlbear|sasquatch|baboon|monkey/i, label: 'Mighty',
     offense: ['Crushing Blow', 'A weapon with this material deals +{P}d4 damage, and on a hit you can push the target 5 ft away from you.'],
     vital: ['Brute Strength', ["While equipped, you have advantage on Strength (Athletics) checks to grapple.", "While equipped, you count as one size larger for carrying capacity and have advantage on Strength (Athletics) checks to climb or grapple.", "While equipped, you count as one size larger for carrying capacity and have advantage on Strength (Athletics) checks to climb or grapple."]],
-    defense: ['Thick Hide', 'While equipped, you gain +{B} AC.'] },
+    defense: ['Thick Hide', 'Armor or a shield with this material gives +{B} AC.'] },
   { re: /golem|construct|modron|clockwork|animated|automaton/i, label: 'Construct',
     defense: ['Unyielding', ["While equipped, you have advantage on saves against being charmed or poisoned.", "While equipped, you can't be poisoned, and you have advantage on saves against being charmed or stunned.", "While equipped, you can't be charmed or poisoned, and you have advantage on saves against being stunned."]] },
   { re: /fey|faerie|fairy|pixie|sprite|dryad|satyr|hag|eladrin|quickling|redcap|moon|twilight|wisp/i, label: 'Fey',
@@ -165,7 +165,7 @@ var GENERIC = {
   wing: ['Featherfall', 'While equipped, you fall slowly enough to take no falling damage from {FT} ft or less.'],
   leg: ['Sure-Footed', 'While equipped, your speed increases by 5 ft and you have advantage on saves against being knocked prone.'],
   hide: ['Weathered', ["While equipped, you have advantage on saves against one kind of extreme weather (heat or cold, chosen when crafted).", "While equipped, you ignore the effects of one kind of extreme weather (heat or cold, chosen when crafted).", "While equipped, you ignore the effects of extreme heat and cold and gain +{B} to Constitution saves against exhaustion."]],
-  scale: ['Hardened Scales', 'While equipped, you gain +{B} AC against one damage type of your choice (chosen when crafted).'],
+  scale: ['Hardened Scales', 'Armor or a shield with this material gives +{B} AC against one damage type of your choice (chosen when crafted).'],
   bone: ['Bone-Strong', ["Items with this material have advantage on checks to avoid being Damaged.", "Items with this material are hard to break: they can't be Damaged by nonmagical means, and you have +{B} to saves against being pushed.", "Items with this material are hard to break: they can't be Damaged by nonmagical means, and you have +{B} to saves against being pushed."]],
   heart: ['Stout Heart', ["While equipped, you gain +{P2} maximum hit points.", "While equipped, you gain +{P2} maximum hit points.", "While equipped, you gain +{P5} maximum hit points."]],
   blood: ['Vital Blood', 'Potions and salves made with this material restore +{P} extra hit points.'],
@@ -212,6 +212,16 @@ function fill(s, P) {
     .replace(/\{HJ\}/g, 5 + P * 2).replace(/\{SL\}/g, Math.min(9, B)).replace(/\{DC\}/g, 10 + B * 2)
     .replace(/\{P\}/g, P).replace(/\{B\}/g, B).replace(/\b1 hit points\b/g, '1 hit point');
 }
+var PART_WORDS = new RegExp(PARTS.map(function (p) { return p[0].source.replace(/^\\b\(|\)\\b$/g, ''); }).join('|').replace(/^/, '\\b(').replace(/$/, ')\\b'), 'gi');
+// where a trait works: 'w' only from a weapon, 'a' only from armor or a shield, '' from anything equipped (or used in crafting)
+function scope(t) {
+  t = String(t || '');
+  if (/^(A weapon|Weapons? (coated )?with this material|When you hit with a weapon)|hit (it )?(by|with) a weapon (coated )?with this material|with a weapon (coated )?with this material/i.test(t) && !/^(Armor|While you wear)/.test(t)) return 'w';
+  if (/^(Armor or a shield with this material|While you wear armor or hold a shield|Armor with this material|Damaged armor with this material)/i.test(t)) return 'a';
+  return '';
+}
+// a trait that is about crafting (potions, food, how items mend) rather than something a creature could do
+function craftOnly(t) { return /^(Potions|Poisons|Food|Items with this material|Items made with it|Weapons and shields made with it|Brewed|Seals and binds|Damaged armor)/i.test(String(t || '')); }
 function part(name) { for (var i = 0; i < PARTS.length; i++) if (PARTS[i][0].test(name)) return { p: PARTS[i][1], k: PARTS[i][2] }; return null; }
 var ORDER = { sense: ['sense', 'mind', 'offense', 'move', 'vital', 'defense'], mind: ['mind', 'sense', 'vital', 'offense', 'defense', 'move'],
   offense: ['offense', 'vital', 'defense', 'move', 'sense', 'mind'], move: ['move', 'defense', 'sense', 'vital', 'offense', 'mind'],
@@ -225,9 +235,12 @@ function trait(m, creature, typeCode) {
   if (isCreature) {
     var who = creature ? creature.n : '';
     var hay = (who + ' ' + (creature && creature.txt || '') + ' ' + name);
-    var ab = null;
-    for (var i = 0; i < ABILITIES.length; i++) if (ABILITIES[i].re.test(who) || ABILITIES[i].re.test(name)) { ab = ABILITIES[i]; break; }
-    if (!ab) for (var j = 0; j < ABILITIES.length; j++) if (ABILITIES[j].re.test(hay)) { ab = ABILITIES[j]; break; }
+    // the creature decides first; the material's own name only counts without its body-part words, so a baboon's bone or
+    // blood doesn't read as undead ("bone") or a vampire ("blood")
+    var ab = null, bare = name.replace(PART_WORDS, ' ').replace(/\s+/g, ' ').trim();
+    for (var i = 0; i < ABILITIES.length; i++) if (who && ABILITIES[i].re.test(who)) { ab = ABILITIES[i]; break; }
+    if (!ab && !who) for (var i2 = 0; i2 < ABILITIES.length; i2++) if (bare && ABILITIES[i2].re.test(bare)) { ab = ABILITIES[i2]; break; }
+    if (!ab && creature && creature.txt) for (var j = 0; j < ABILITIES.length; j++) if (ABILITIES[j].re.test(creature.txt)) { ab = ABILITIES[j]; break; }
     var kind = pt ? pt.k : (t === 'E' ? 'mind' : t === 'L' ? 'vital' : 'defense');
     var pick = null;
     if (pt && pt.p === 'venom' && !(ab && ab.offense && /poison|venom/i.test(ab.offense[1]))) ab = null;
@@ -243,4 +256,4 @@ function trait(m, creature, typeCode) {
   }
   return { org: KIND[t] || 'Mineral', origin: m.where || '', name: '', text: BASIC[t] || BASIC.O };
 }
-module.exports = { trait: trait, part: part };
+module.exports = { trait: trait, part: part, scope: scope, craftOnly: craftOnly };
