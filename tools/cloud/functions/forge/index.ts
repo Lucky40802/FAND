@@ -5,7 +5,8 @@
 // The browser sends the prompt and gets back the reply text.
 import postgres from 'npm:postgres@3.4.5';
 
-const sql = postgres(Deno.env.get('SUPABASE_DB_URL')!, { prepare: false, max: 1 });
+const DB_URL = Deno.env.get('SUPABASE_DB_URL') || '';
+const sql = postgres(DB_URL || 'postgres://missing', { prepare: false, max: 1 });
 const KINDS: Record<string, { limit: number; model: string; what: string }> = {
   forge: { limit: Number(Deno.env.get('FORGE_DAILY_LIMIT') || 20), model: Deno.env.get('GROQ_MODEL') || 'llama-3.3-70b-versatile', what: 'forges' },
   sort: { limit: Number(Deno.env.get('SORT_DAILY_LIMIT') || 60), model: Deno.env.get('SORT_MODEL') || Deno.env.get('GROQ_MODEL') || 'llama-3.3-70b-versatile', what: 'Blueprint filings' },
@@ -45,7 +46,11 @@ Deno.serve(async (req) => {
     if (m.includes('daily limit')) return out(429, { error: `That's today's ${K.limit} ${K.what} for this account. Try again tomorrow.` });
     if (m.includes('no key')) return out(503, { error: 'This site has no Groq key for that yet. Add your own in Settings.' });
     console.error('ai_key', m);
-    return out(500, { error: 'The FAND server had a problem. Try again.' });
+    // say which setup step is missing (these messages name database objects only, never a key)
+    if (/fand_private|does not exist/i.test(m)) return out(500, { error: 'Server setup: run tools/cloud/schema.sql in the Supabase SQL Editor, then try again.' });
+    if (/vault/i.test(m)) return out(500, { error: 'Server setup: Supabase Vault is not available to the function (' + m.slice(0, 120) + ').' });
+    if (/connect|ECONN|timeout|password|SUPABASE_DB_URL/i.test(m)) return out(500, { error: 'Server setup: the function could not reach the database (' + m.slice(0, 120) + ').' });
+    return out(500, { error: 'The FAND server had a problem: ' + m.slice(0, 160) });
   }
 
   const call = (json: boolean) => fetch('https://api.groq.com/openai/v1/chat/completions', {
