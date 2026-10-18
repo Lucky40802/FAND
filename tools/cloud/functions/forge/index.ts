@@ -11,6 +11,20 @@ const KINDS: Record<string, { limit: number; model: string; what: string }> = {
   forge: { limit: Number(Deno.env.get('FORGE_DAILY_LIMIT') || 20), model: Deno.env.get('GROQ_MODEL') || 'llama-3.3-70b-versatile', what: 'forges' },
   sort: { limit: Number(Deno.env.get('SORT_DAILY_LIMIT') || 60), model: Deno.env.get('SORT_MODEL') || Deno.env.get('GROQ_MODEL') || 'llama-3.3-70b-versatile', what: 'Blueprint filings' },
 };
+// Groq retires models over time: when the configured one is gone, ask Groq which models this key can use and pick
+// the best general chat model (remembered until the function restarts)
+let AUTO_MODEL = '';
+const MODEL_PREF = [/gpt-oss-120b/i, /llama-4-maverick/i, /llama-3\.3-70b/i, /kimi-k2/i, /qwen3/i, /llama-4-scout/i, /gpt-oss-20b/i, /llama/i];
+async function pickModel(key: string): Promise<string> {
+  const r = await fetch('https://api.groq.com/openai/v1/models', { headers: { Authorization: 'Bearer ' + key } });
+  if (!r.ok) return '';
+  const ids: string[] = ((await r.json()).data || []).filter((m: { active?: boolean }) => m.active !== false).map((m: { id: string }) => m.id)
+    .filter((id: string) => !/whisper|tts|guard|playai|orpheus|distil|compound|vision/i.test(id));
+  for (const rx of MODEL_PREF) { const f = ids.find((i) => rx.test(i)); if (f) return f; }
+  return ids[0] || '';
+}
+const modelGone = (status: number, text: string) => status === 404 || /model_not_found|decommissioned|does not exist|not supported/i.test(text);
+
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -53,16 +67,21 @@ Deno.serve(async (req) => {
     return out(500, { error: 'The FAND server had a problem: ' + m.slice(0, 160) });
   }
 
-  const call = (json: boolean) => fetch('https://api.groq.com/openai/v1/chat/completions', {
+  const call = (model: string, json: boolean) => fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + key },
-    body: JSON.stringify({ model: K.model, messages, temperature: kind === 'sort' ? 0.3 : 0.8, ...(json ? { response_format: { type: 'json_object' } } : {}) }),
+    body: JSON.stringify({ model, messages, temperature: kind === 'sort' ? 0.3 : 0.8, ...(json ? { response_format: { type: 'json_object' } } : {}) }),
   });
-  let r = await call(true);
-  if (r.status === 400) r = await call(false); // a model without JSON mode
+  let model = AUTO_MODEL || K.model, r = await call(model, true), text = r.ok ? '' : await r.text();
+  if (!r.ok && modelGone(r.status, text)) { // the model was retired or is not on this account: switch to one that is
+    const m = await pickModel(key);
+    if (m && m !== model) { console.log('Groq model', model, 'unavailable; using', m); AUTO_MODEL = model = m; r = await call(model, true); text = r.ok ? '' : await r.text(); }
+  }
+  if (!r.ok && r.status === 400) { r = await call(model, false); text = r.ok ? '' : await r.text(); } // a model without JSON mode
   if (!r.ok) {
-    console.error('Groq', r.status, (await r.text()).slice(0, 400));
-    return out(502, { error: r.status === 429 ? 'Groq is busy or over its limit. Try again in a minute.' : `Groq returned an error (${r.status}).` });
+    console.error('Groq', r.status, model, text.slice(0, 400));
+    let why = ''; try { why = JSON.parse(text).error.message || ''; } catch { /* not JSON */ }
+    return out(502, { error: r.status === 429 ? 'Groq is busy or over its limit. Try again in a minute.' : r.status === 401 ? 'Groq did not accept the site\'s key: check it in Supabase Vault.' : `Groq returned an error (${r.status})${why ? ': ' + why.slice(0, 200) : ''}.` });
   }
   const j = await r.json();
   try { await sql`select fand_private.ai_used(${user.id}::uuid, ${kind})`; } catch (e) { console.error('ai_used', e); }

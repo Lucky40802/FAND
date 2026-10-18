@@ -885,7 +885,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"hooks",v:"45be78bbd7",b:"ba735b2b"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"hooks",v:"45be78bbd7",b:"71067928"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=45be78bbd7",11007340],["data/vault.js?v=45be78bbd7",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -6439,17 +6439,17 @@ const mcHTML=(key,val,ph)=>`<div class="mc"><input class="sel" data-mc="${esc(ke
 let _arts=null;
 function artifacts(){if(!_arts)_arts=BPS.slice(0,BP_VAULT).filter(b=>(b.mg||b.r==='Artifact')&&artTraits(b).length);return _arts}
 function artTraits(b){const out=[],seen=new Set();(b.mats||[]).forEach(n=>{const m=MAT_IDX.get(lc(n));if(!m)return;
-  if(m.tr&&!seen.has(m.tr.n)){seen.add(m.tr.n);out.push({k:'tr',n:m.tr.n,t:m.tr.t||'',from:m.n})}
+  if(m.tr&&!seen.has(m.tr.n)){seen.add(m.tr.n);out.push({k:'tr',n:m.tr.n,t:m.tr.t||'',tr:m.tr,from:m.n})}
   if(m.pn&&!seen.has(m.pn)){seen.add(m.pn);out.push({k:'pn',n:m.pn,t:m.prop||'',pot:m.pot,from:m.n})}});return out}
 const artBase=b=>(b.mats||[]).map(n=>MAT_IDX.get(lc(n))).filter(Boolean).sort((a,c)=>(c.rank||0)-(a.rank||0))[0];
-// "Artifact: <Blueprint> (<trait>)": the trait is chosen once, when the artifact is picked
+// "Artifact: <Blueprint> (<trait>)": the trait is chosen once, when the artifact is picked; a trait keeps its scope (weapon, armor, or worn)
 function artPick(b){const T=artTraits(b);if(!T.length)return '';return `Artifact: ${b.n} (${T[Math.floor(Math.random()*T.length)].n})`}
 const _artCache=new Map();
 function artMat(name){if(_artCache.has(name))return _artCache.get(name);const x=/^Artifact: (.+) \(([^()]+)\)$/.exec(name||'');let v;
   const b=x&&BP_IDX.get(lc(x[1])),base=b&&artBase(b),t=b&&artTraits(b).find(t=>t.n===x[2]);
   if(base&&t){v={n:name,art:b.n,baseN:base.n,tc:matCode(base),ty:base.ty,realm:base.realm,gr:base.gr,tier:base.tier,g:base.g,rank:base.rank,il:Math.max(base.il||1,+b.lv||1),rar:b.r,price:0,_t:'bp',_i:b._i,
     ds:`The ${b.n}, broken down at the forge. It counts as ${base.n} and passes on one of its ${t.k==='tr'?'traits':'properties'}: ${t.n}.`};
-    if(t.k==='tr')v.tr={n:t.n,t:t.t,a:b.n};else{v.pn=t.n;v.pot=t.pot;v.prop=t.t}}
+    if(t.k==='tr')v.tr=Object.assign({},t.tr,{a:b.n});else{v.pn=t.n;v.pot=t.pot;v.prop=t.t}}
   _artCache.set(name,v);return v}
 // closest real material (or an artifact by its name) to what was typed; '' when nothing is close
 function mcCorrect(text,o){const q=lc(String(text||'').trim());if(!q)return '';
@@ -6492,9 +6492,16 @@ async function aiServer(kind,messages){
   const {data,error}=await CL.sb.functions.invoke('forge',{body:{kind,messages}});
   if(error){let t='';try{t=(await error.context.json()).error}catch(e){}const err=new Error(t||(/Failed to send|fetch/i.test(error.message||'')?'Could not reach the FAND server.':'The FAND server had a problem. Try again.'));err.status=error.context&&error.context.status;throw err}
   return String((data&&data.content)||'')}
+let GROQ_AUTO='';
+async function groqPickModel(){try{const r=await fetch('https://api.groq.com/openai/v1/models',{headers:{Authorization:'Bearer '+groqKey()}});if(!r.ok)return '';
+  const ids=((await r.json()).data||[]).filter(m=>m.active!==false).map(m=>m.id).filter(id=>!/whisper|tts|guard|playai|orpheus|distil|compound|vision/i.test(id));
+  for(const rx of [/gpt-oss-120b/i,/llama-4-maverick/i,/llama-3\.3-70b/i,/kimi-k2/i,/qwen3/i,/llama-4-scout/i,/gpt-oss-20b/i,/llama/i]){const f=ids.find(i=>rx.test(i));if(f)return f}return ids[0]||''}catch(e){return ''}}
 async function groqCall(messages,json){
   if(!groqKey())return aiServer('forge',messages);
-  const r=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+groqKey()},body:JSON.stringify(Object.assign({model:groqModel(),messages,temperature:0.8},json?{response_format:{type:'json_object'}}:{}))});
+  const call=model=>fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+groqKey()},body:JSON.stringify(Object.assign({model,messages,temperature:0.8},json?{response_format:{type:'json_object'}}:{}))});
+  let model=GROQ_AUTO||groqModel(),r=await call(model);
+  // Groq retires models over time: when this one is gone, use the best chat model the key can reach
+  if(r.status===404||r.status===400&&/model_not_found|decommissioned|does not exist/i.test(await r.clone().text())){const m=await groqPickModel();if(m&&m!==model){GROQ_AUTO=m;r=await call(m)}}
   if(!r.ok){let t='';try{const j=await r.json();t=(j.error&&(j.error.message||j.error))||j.message||''}catch(e){}const err=new Error(r.status===401||r.status===403?'Groq did not accept the key. Check it in Settings.':r.status===429?'Groq says too many requests or no credit left. Try again later.':'Groq error '+r.status+(t?': '+String(t).slice(0,160):''));err.status=r.status;throw err}
   const j=await r.json();return String(((j.choices||[])[0]||{}).message?.content||'')}
 function groqParse(t){const s=String(t).replace(/^\s*```(?:json)?/i,'').replace(/```\s*$/,'').trim();const a=s.indexOf('{'),b=s.lastIndexOf('}');return JSON.parse(s.slice(a,b+1))}
