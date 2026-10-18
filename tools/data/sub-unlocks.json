@@ -24,6 +24,11 @@
  "Warchanter": [
   [
    3,
+   "Bonus Proficiencies",
+   "You gain proficiency with medium armor, shields, and martial weapons, and with war drums and war horns. A war drum or war horn counts as a musical instrument for your Bard features and can be your spellcasting focus."
+  ],
+  [
+   3,
    "Battle Hymn",
    "As a bonus action, expend a use of Bardic Inspiration to begin a war chant for 1 minute. Allies within 30 feet who can hear you add 1d4 to weapon damage rolls and have advantage on saves against being frightened."
   ],
@@ -31,6 +36,11 @@
    6,
    "War Drums",
    "You can attack twice when you take the Attack action. While you chant, an ally within 30 feet who reduces a creature to 0 hit points can use its reaction to move half its speed without provoking opportunity attacks."
+  ],
+  [
+   10,
+   "Marching Cadence",
+   "Your chant carries further and drives the march. While you chant, its range becomes 60 feet, and you and allies in range have +10 feet of speed. Once per short or long rest, you can begin Battle Hymn without expending Bardic Inspiration."
   ],
   [
    14,
