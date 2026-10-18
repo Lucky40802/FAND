@@ -275,20 +275,23 @@ begin
 end $$;
 
 -- ── site-provided AI keys (optional) ─────────────────────────────
--- The Forge (Grok) and, later, the chat assistant (Claude) can use keys the site owner provides instead of each
+-- The Forge, Blueprint filing, and (later) the chat assistant can use Groq keys the site owner provides instead of each
 -- player's own. The keys live encrypted in Supabase Vault; add or change them with the commands in ai-keys.sql.
 -- Only the database owner (used by the `forge` Edge Function) can read them: the fand_private schema is not exposed
 -- to the website, and its functions are revoked from every website role. Each signed-in account gets a daily limit.
+--   kind   'forge' → fand_groq_key    'sort' → fand_sort_key    'chat' → fand_chat_key
 create schema if not exists fand_private;
 revoke all on schema fand_private from public, anon, authenticated;
 
 create table if not exists fand_private.ai_usage (
   user_id uuid not null references auth.users (id) on delete cascade,
-  kind text not null check (kind in ('forge', 'chat')),
+  kind text not null,
   day date not null default current_date,
   n int not null default 0,
   primary key (user_id, kind, day)
 );
+alter table fand_private.ai_usage drop constraint if exists ai_usage_kind_check;
+alter table fand_private.ai_usage add constraint ai_usage_kind_check check (kind in ('forge', 'sort', 'chat'));
 alter table fand_private.ai_usage enable row level security;
 revoke all on fand_private.ai_usage from public, anon, authenticated;
 
@@ -296,7 +299,7 @@ revoke all on fand_private.ai_usage from public, anon, authenticated;
 create or replace function fand_private.ai_key(p_user uuid, p_kind text, p_limit int) returns text
 language plpgsql security definer set search_path = '' as $$
 declare used int; k text;
-  nm text := case p_kind when 'forge' then 'fand_grok_key' when 'chat' then 'fand_claude_key' end;
+  nm text := case p_kind when 'forge' then 'fand_groq_key' when 'sort' then 'fand_sort_key' when 'chat' then 'fand_chat_key' end;
 begin
   if nm is null then raise exception 'fand: unknown kind %', p_kind; end if;
   select u.n into used from fand_private.ai_usage u where u.user_id = p_user and u.kind = p_kind and u.day = current_date;
