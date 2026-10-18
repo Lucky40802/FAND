@@ -307,4 +307,4 @@ function statblock(m, body, bestDrop) {
     tr: traits, ac2: actions, lg: legendary
   };
 }
-module.exports = { statblock: statblock, GRADE_CR: GRADE_CR };
+module.exports = { statblock: statblock, GRADE_CR: GRADE_CR, XP: XP };
