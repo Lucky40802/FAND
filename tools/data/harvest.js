@@ -105,8 +105,13 @@ var P = {
   meat: ['Meat', 'U', -2, 'Rations, stews, and feasts (Cooking)'],
   liver: ['Liver', 'L', 0, 'Tonics, antidotes, and fortune rites'],
   tongue: ['Tongue', 'L', 0, 'Charms of speech and truth-telling'],
-  wing: ['Wing', 'F', 0, 'Gliders, fans, and charms of flight']
+  wing: ['Wing', 'F', 0, 'Gliders, fans, and charms of flight'],
+  everchange: ['Everchanging Substance', 'E', 1, 'Shapeshifting weapons: set in a weapon\'s Everchanging core, it lets the weapon change between forms']
 };
+// Creatures that change their shape (by name, or by what their lore says they do) also leave an Everchanging Substance
+var SHIFT_NAME = /mimic|doppelganger|changeling|shape-?chang|shape-?shift|lycanthrop|\bwere(wolf|rat|bear|tiger|boar|raven|shark)|kitsune|huli jing|kumiho|skinwalker|selkie|aswang|kelpie|each-uisge|pooka|p[uú]ca|bakeneko|tanuki|proteus|faceless|skin-?thief/i;
+var SHIFT_TXT = /shapechanger|change shape|changes? (its|their) (form|shape)|assumes? the (form|shape)|polymorph|takes? the (form|shape)|shape-?shift/i;
+function shifter(m) { return SHIFT_NAME.test(m.n) || SHIFT_TXT.test((m.txt || '') + ' ' + (m.ds || '') + ' ' + JSON.stringify(m.sb || {})); }
 
 var BODY = {
   beast: ['hide', 'fang', 'claw', 'bone', 'heart', 'blood', 'eye', 'sinew', 'fat', 'marrow', 'skull', 'tooth', 'meat', 'liver', 'tongue'],
@@ -138,7 +143,7 @@ var YIELD = {
   Membrane: '2*', 'Grave Dust': '3*', Ectoplasm: '2*', 'Soul Shard': 1, Shroud: 1, Core: 1, Plating: '6*', Gear: '8*', 'Rune Shard': 2, Joint: 4,
   'Binding Wire': '4*', Residue: '4*', Nucleus: 1, Acid: '3*', Slime: '4*', Essence: '2*', Shard: '3*', Mote: '4*', Ash: '4*',
   'Brimstone Gland': 1, 'Halo Shard': 1, Tear: 2, Bark: '4*', Sap: '3*', Seed: 2, Root: '4*', Leaf: '10*', Heartwood: 1, 'Spore Sac': '3*',
-  'Wing Dust': '2*', Petal: '8*', Tusk: 2, Hoof: 4, Meat: '4*', Liver: 1, Tongue: 1, Wing: 2
+  'Wing Dust': '2*', Petal: '8*', Tusk: 2, Hoof: 4, Meat: '4*', Liver: 1, Tongue: 1, Wing: 2, 'Everchanging Substance': 1
 };
 var SIZE = { Tiny: 0.25, Small: 0.5, Medium: 1, Large: 2, Huge: 4, Gargantuan: 8 };
 // qty(dropName, monsterName, size): the part is the drop's name after the monster's (or its last word)
@@ -180,7 +185,8 @@ function parts(m) {
   if (kind === 'beast' && /horse|elk|deer|stag|goat|ram\b|bull|bison|camel|antelope|moose/i.test(m.n)) { list.splice(1, 1, 'horn'); list.splice(2, 0, 'hoof'); }
   if (kind === 'beast' && /wolf|bear|ape|lion|tiger|panther|fox|cat\b|leopard|badger|hyena|jackal|baboon|weasel|rat\b|mastiff|dog/i.test(m.n)) list[0] = 'pelt';
   if (/owlbear/i.test(m.n)) { kind = 'beast'; list = ['pelt', 'beak', 'claw', 'feather', 'bone', 'heart', 'blood', 'eye', 'sinew', 'fat']; }
+  if (shifter(m)) list.push('everchange');
   var count = 6 + hash(m.n) % 5;
   return { kind: kind, count: count, parts: list.map(function (k) { return P[k]; }) };
 }
-module.exports = { parts: parts, plan: plan, qty: qty, YIELD: YIELD, SIZE: SIZE };
+module.exports = { parts: parts, plan: plan, qty: qty, shifter: shifter, YIELD: YIELD, SIZE: SIZE };
