@@ -885,7 +885,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"party",v:"45be78bbd7",b:"a580175c"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"party",v:"45be78bbd7",b:"fa7a2cc9"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=45be78bbd7",11007340],["data/vault.js?v=45be78bbd7",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -1147,7 +1147,7 @@ const deref=r=>{const [t,i]=String(r).split(':');return TYPES[t]&&TYPES[t].arr[+
 
 const MAT_IDX=new Map();MATS.forEach(m=>MAT_IDX.set(lc(m.n),m));
 const MON_IDX=new Map();MONSTERS.forEach(m=>MON_IDX.set(lc(m.n),m));
-{const get=MON_IDX.get.bind(MON_IDX);MON_IDX.get=k=>get(k)||(/, \w+ champion$/.test(k)?champFromName(k,get):undefined)}
+{const get=MON_IDX.get.bind(MON_IDX);MON_IDX.get=k=>get(k)||(/, \w+ champion( · | ✦ |$)/.test(k)?champFromName(k,get):undefined)}
 const godKey=g=>g.n.split(' - ')[0].trim();
 const godTitle=g=>{const p=g.n.split(' - ');return p.slice(1).join(' - ')};
 const GOD_IDX=new Map();GODS.forEach(g=>GOD_IDX.set(lc(godKey(g)),g));
@@ -2082,7 +2082,8 @@ const MODAL={
   },
   mon(m){
     const realm=REALM[m.realm];
-    if(CHAMP_NEXT&&CHAMP_NEXT.base===m.n){CHAMP_SEL=CHAMP_NEXT.cls;CHAMP_NEXT=null}else if(CHAMP_FOR!==m.n)CHAMP_SEL='';CHAMP_FOR=m.n;
+    if(CHAMP_NEXT&&CHAMP_NEXT.base===m.n){CHAMP_SEL=CHAMP_NEXT.cls;CHAMP_SUB=CHAMP_NEXT.sub||'';CHAMP_HC=CHAMP_NEXT.hc||'';CHAMP_NEXT=null}else if(CHAMP_FOR!==m.n){CHAMP_SEL='';CHAMP_SUB='';CHAMP_HC=''}CHAMP_FOR=m.n;
+    if(m.sb&&!HC&&HIDDEN.lock&&!CHAMP_HC_TRIED){CHAMP_HC_TRIED=true;hcAuto().then(()=>{if(HC&&CUR===m)champRefresh()}).catch(()=>{})}
     let drops='';
     if(m.drops&&m.drops.length)drops=`<div class="mlist">${m.drops.map(([n,gr,q])=>{const x=findMat(n);return x?`<button data-ref="${ref(x)}"><span class="sw" style="width:9px;height:9px;border-radius:50%;background:${rcol(x.realm)}"></span>${esc(n)} <b>×${q||1}</b> <span class="x">${esc(gr)}${x.tr?' · ◆ '+esc(x.tr.n):x.pn?' · '+esc(x.pn):''}</span><span class="r">${x.price?gp(x.price):'not sold'}</span></button>`:`<button disabled>${esc(n)} <span class="x">${esc(gr)}</span></button>`}).join('')}</div>`;
     const sugg=!drops?suggestDrops(m,4):[];
@@ -2092,8 +2093,8 @@ const MODAL={
         +`<div class="prose">${esc(m.txt||m.ds)}</div>`
         +(m.gb?`<div class="note"><b>God-beast.</b> A creature on the level of the gods (CR 26+). Its corpse counts as level ${corpseLv(m)} for raising the dead, so only a necromancer near that level has a real chance. Fighting one is a campaign event: expect a lair, legendary actions, and a god who wants it bound or freed.</div>`:'')
         +((m.rel||[]).length?blk('Related',`<div class="mlist">${m.rel.map(n=>{const x=MON_IDX.get(lc(n)),g=!x&&godByKey(n);return x?`<button data-ref="${ref(x)}"><span class="sw" style="width:9px;height:9px;border-radius:50%;background:${rcol(x.realm)}"></span>${esc(x.n)} <span class="x">CR ${esc(x.cr||'?')} · ${esc(x.realm)}</span><span class="r">${x.gb?'God-beast':/spawn|young|calf|fledgling|whelp|brood/i.test(x.n)?'Spawn':'Kin'}</span></button>`:g?`<button data-ref="${ref(g)}"><span class="sw" style="width:9px;height:9px;border-radius:50%;background:var(--gold2)"></span>${esc(g.n)} <span class="x">God</span><span class="r">Bound by myth</span></button>`:`<button disabled>${esc(n)}</button>`}).join('')}</div><div class="note">Parents, spawn, kin and the gods tied to this creature in its myths.</div>`,m.rel.length+' links'):'')
-        +(m.sb?`<div class="champ-pick"><label>★ Champion <select class="sel" id="mon-champ" onchange="champPick(this.value)"><option value="">None (a normal ${esc(m.n.toLowerCase())})</option>${champClasses().map(c=>`<option${c===CHAMP_SEL?' selected':''}>${c}</option>`).join('')}</select></label><span class="note" style="margin:0">A champion has trained in a class: half again the hit points, better armor and aim, the class's features, and more XP. Add to combat or an encounter adds the one shown.</span></div>`:'')
-        +`<div id="mon-sb">${sbHTML(CHAMP_SEL&&m.sb?champion(m,CHAMP_SEL):m)}</div>`
+        +(m.sb?`<div class="champ-pick" id="mon-champ-box">${champPickerHTML(m)}</div>`:'')
+        +`<div id="mon-sb">${sbHTML(CHAMP_SEL&&m.sb?champion(m,CHAMP_SEL,champOpts()):m)}</div>`
         +`<div class="lore">${monsterLore(m).map(([h,t])=>`<h5>${esc(h)}</h5><p>${linkNames(esc(t),m)}</p>`).join('')}</div>`
         +((m.drops||[]).length?`<div><button class="btn primary" type="button" onclick="scavPop(${esc(JSON.stringify(m.n))})">🔪 Scavenge a corpse</button> <span class="note" style="margin:0">Opens the Scavenging rolls for one ${esc(m.n)} corpse.</span></div>`:'')
         +blk('Drops',drops+`<div class="note">×N is how many one corpse holds (${esc(m.sb&&m.sb.sz||'Medium')} body). Scavenging DC ${scavBase(m)}: meet it to take 1 part, +1 part for every 2 points above it; each new try on the same corpse adds ${SCAV_STEP} to the DC. These counts are for a whole corpse: the killing blow's damage type can ruin some parts (bludgeoning crushes bone, fire burns hide, poison taints organs).</div>`,(m.drops||[]).length+' parts · '+(m.drops||[]).reduce((a,d)=>a+(d[2]||1),0)+' pieces per corpse')
@@ -2550,6 +2551,7 @@ function renderRules(){
 
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-18','Champions with subclasses and hidden classes','A champion can now take a subclass of its class (its features at the champion\'s level), and, once the Hidden classes list is unlocked, a hidden class too: its features at class levels 1, 7 and 14, three quarters more hit points, and one more CR step. Choose them under ★ Champion in a monster\'s Bestiary window or in the stat block creator; the ★ in Encounters now usually picks a subclass as well.','bestiary'],
   ['2026-10-18','Champion enemies','Any monster can be a champion: one that has trained in a class. Pick a class in a monster\'s Bestiary window to see its champion stat block (half again the hit points, better armor, +2 to hit and to its save DCs, the class\'s features and spells at a level set by its challenge, and more XP). Encounters can lead with a champion or turn any monster into one (★), champions go to the combat tracker like any monster, and the stat block creator can give a named monster or boss a class.','bestiary'],
   ['2026-10-18','Creatures fight like themselves','Bats fly and hunt by echolocation, horses kick with their hooves, wolves knock you prone and use Pack Tactics, spiders spin webs, snakes constrict or poison, sharks only swim, and kobolds, lizardfolk, merfolk, and other people fight with weapons. Over 150 kinds of creature now have their own attacks, speeds, senses, and traits, and giant animals (Giant Goat, Giant Bat) are animals, not giants.','bestiary'],
   ['2026-10-18','Material traits make sense','A material trait now works only in the kind of item it is for: Baboon Hide\'s Thick Hide (+1 AC) works in armor or a shield, not in a club, and weapon traits work only in weapons. The item and Forge windows show any trait that is not active in that item. Traits also come from their own creature: a Baboon Bone no longer gets an undead trait just because it is a bone.','materials'],
@@ -3237,7 +3239,7 @@ function sbMake(o){
   const mat=o.mat&&findMat(o.mat);
   const m={n:name,txt,cr,g,tier:realm.tier,realm:realm.n};
   m.sb=SBGEN.statblock(m,body,mat&&mat.tr?mat:null);
-  if(o.kind!=='npc'&&o.champ&&CLASS_DIE[o.champ]){const c=champion(m,o.champ,true);m.sb=c.sb;m.champ=c.champ}
+  if(o.kind!=='npc'&&o.champ&&CLASS_DIE[o.champ]){const c=champion(m,o.champ,{fresh:true,sub:o.champSub,hc:o.champHc});m.sb=c.sb;m.champ=c.champ}
   const sb=m.sb,tr=sb.tr=(sb.tr||[]).slice(),ac2=sb.ac2=(sb.ac2||[]).slice();
   // NPC: class features, spellcasting, contract
   if(o.kind==='npc'&&o.cls){
@@ -3301,34 +3303,58 @@ const CHAMP_FEATS={
   Artificer:[[3,'Eldritch Cannon','As an action it creates a small cannon that, on its turn, blasts a 15-foot cone (DC {DC} Dexterity save, 2d8 fire damage) or heals an ally 1d8 hit points.'],[7,'Flash of Genius','When it or an ally within 30 feet makes a check or save, it can add +{MOD} with its reaction.']]
 };
 const CHAMP_CACHE=new Map();
-function champion(m,cls,fresh){
-  if(!m||!m.sb||!CLASS_DIE[cls])return m;const key=m.n+'|'+cls;if(!fresh&&CHAMP_CACHE.has(key))return CHAMP_CACHE.get(key);
-  const L=champLevel(m),b=JSON.parse(JSON.stringify(m.sb)),R=rng32(hashStr(key)),abIdx={str:0,dex:1,con:2,int:3,wis:4,cha:5};
-  const name=m.n+', '+cls+' Champion',main=(CLASS_MAIN[cls]||[]).concat(CAST_ABIL[cls]?[CAST_ABIL[cls]]:[]);
+// o: {sub: a subclass of cls, hc: a hidden class, fresh: skip the cache}. A subclass needs class level 3, so it lifts the
+// champion to at least level 3. A hidden class is a bonus class held alongside (its level is the champion's level): its
+// features at class levels 1, 7 and 14, one more CR step, and a quarter more hit points. A hidden class shows only once
+// the Hidden classes list is unlocked; until then it is named but sealed.
+function champion(m,cls,o){
+  o=o===true?{fresh:true}:o||{};
+  if(!m||!m.sb||!CLASS_DIE[cls])return m;const S=o.sub?SUBS.find(x=>x.n===o.sub&&x.par===cls):null,H=o.hc&&HC?HC.find(x=>x.n===o.hc):null;
+  const key=[m.n,cls,S?S.n:'',o.hc||'',H?1:0].join('|');if(!o.fresh&&CHAMP_CACHE.has(key))return CHAMP_CACHE.get(key);
+  const L=Math.max(champLevel(m),S?3:1),b=JSON.parse(JSON.stringify(m.sb)),R=rng32(hashStr(key)),abIdx={str:0,dex:1,con:2,int:3,wis:4,cha:5};
+  const name=m.n+', '+cls+' Champion'+(S?' · '+S.n:'')+(o.hc?' ✦ '+o.hc:''),main=(CLASS_MAIN[cls]||[]).concat(CAST_ABIL[cls]?[CAST_ABIL[cls]]:[]);
   [...new Set(main)].forEach(k=>{const i=abIdx[k];b.ab[i]=Math.min(30,Math.max(b.ab[i]+2,14+Math.floor(L/4)))});
   const md=i=>Math.floor((b.ab[i]-10)/2),key1=abIdx[CAST_ABIL[cls]||(CLASS_MAIN[cls]||['str'])[0]],mod=md(key1);
-  b.hp=Math.round(b.hp*1.5);b.hd+=', ×1.5 for a champion';b.ac+=({Fighter:2,Paladin:2,Cleric:2}[cls]||1);
-  const steps=2+Math.floor(L/6),ci=CR_STEPS.indexOf(String(b.cr));b.cr=CR_STEPS[Math.min(CR_STEPS.length-1,(ci<0?4:ci)+steps)];b.xp=SBGEN.XP[b.cr]||b.xp;
+  b.hp=Math.round(b.hp*(o.hc?1.75:1.5));b.hd+=o.hc?', ×1.75 for a champion with a hidden class':', ×1.5 for a champion';b.ac+=({Fighter:2,Paladin:2,Cleric:2}[cls]||1);
+  const steps=2+Math.floor(L/6)+(o.hc?1:0),ci=CR_STEPS.indexOf(String(b.cr));b.cr=CR_STEPS[Math.min(CR_STEPS.length-1,(ci<0?4:ci)+steps)];b.xp=SBGEN.XP[b.cr]||b.xp;
   const c=crNum(b.cr);b.pb=c<1?2:2+Math.floor((c-1)/4);const dc=8+b.pb+mod;
   const up=t=>String(t).replace(/([+−-])(\d+) to hit/g,(a,s,n)=>sgn((s==='+'?1:-1)*+n+2)+' to hit').replace(/DC (\d+)/g,(a,n)=>'DC '+(+n+2));
   b.ac2=b.ac2.map(([n,t])=>[n,up(t)]);b.tr=b.tr.map(([n,t])=>[n,up(t)]);if(b.lg)b.lg=b.lg.map(([n,t])=>[n,up(t)]);
   if(cls==='Monk'&&L>=2)b.sp=b.sp.replace(/^(\d+) ft\./,(a,n)=>(+n+(L<6?10:L<10?15:20))+' ft.');
   if(cls==='Ranger'&&!b.ac2.some(a=>/^Ranged/.test(a[1]))){const hit=b.pb+md(1)+2,dmg=Math.max(1,4+md(1));b.ac2.push(['Longbow',`Ranged Weapon Attack: ${sgn(hit)} to hit, range 150/600 ft., one target. Hit: ${dmg} (1d8 ${md(1)>=0?'+':'−'} ${Math.abs(md(1))}) piercing damage.`])}
   const fill=t=>t.replace(/\{DC\}/g,dc).replace(/\{MOD\}/g,Math.max(1,mod)).replace(/\{L5\}/g,5*L).replace(/\{L2\}/g,2*L).replace(/\{L\}/g,L);
-  const feats=[['Champion ('+cls+' '+L+')',`This ${m.n.toLowerCase()} has trained as a level ${L} ${cls}. It is stronger than others of its kind: half again the hit points, better armor, and +2 to hit and to its save DCs (all included above). Its corpse gives one extra roll of drops.`]];
+  const feats=[['Champion ('+cls+' '+L+(S?', '+S.n:'')+')',`This ${m.n.toLowerCase()} has trained as a level ${L} ${cls}${S?' ('+S.n+')':''}${o.hc?', and holds the hidden class '+o.hc:''}. It is stronger than others of its kind: ${o.hc?'three quarters more':'half again the'} hit points, better armor, and +2 to hit and to its save DCs (all included above). Its corpse gives one extra roll of drops.`]];
   const cf=classCF(cls,L);if(cf)feats.push([cf[0],fill(cf[1])]);
   (CHAMP_FEATS[cls]||[]).forEach(([lv,n,t])=>{if(lv<=L&&!(/^Extra Attack/.test(n)&&(CHAMP_FEATS[cls]||[]).some(f=>/^Extra Attack \(/.test(f[1])&&f[0]<=L&&f[0]>lv)))feats.push([n,fill(t)])});
   const ca=CAST_ABIL[cls],slots=ca&&slotsFor(cls,L);
   if(ca&&slots)feats.push(['Spellcasting',`It casts spells as a level ${L} ${cls} (spell save DC ${dc}, ${sgn(b.pb+mod)} to hit with spell attacks). ${slots.pact?`It has ${slots.n} pact slots of ${slots.lvl} level (short rest).`:'Slots: '+slots.slots.map((k,j)=>k?`${ORDN(j+1)} ${k}`:'').filter(Boolean).join(', ')+'.'}${npcSpells(cls,stageOf(L),slots,R,null,realmPow(m.realm))}`]);
+  // a subclass's levels 3-20 are on the subclass itself (lv); a champion never passes level 20
+  if(S){const sn=S.n,fs=(S.lv||[]).filter(f=>f[0]<=L);if(!fs.length)feats.push(['Subclass: '+sn,String(S.ds||'').replace(/\s*\([^()]*\)\s*$/,'')]);fs.forEach(f=>feats.push([f[1]+' ('+sn+')',up(f[2])]))}
+  if(o.hc&&!H)feats.push(['✦ Hidden class: '+o.hc,'Sealed. Unlock the Hidden classes page to see what this class gives it.']);
+  if(H){feats.push(['✦ Hidden class: '+H.n+' ('+H.tier+')',(H.blurb||'')+(H.tier==='Unique'&&hcHolders(H).length?' Unique: '+hcHolders(H).map(ch=>ch.name||'someone').join(', ')+' already holds it, so this champion took it from them or is its rightful holder.':'')]);
+    hcTrack(H).filter(([lv])=>lv<=L).forEach(([lv,n,t])=>feats.push(['✦ '+n+' ('+H.n+')',up(hcScale(t,L))]))}
   b.tr=feats.concat(b.tr);
-  const out=Object.assign({},m,{n:name,sb:b,champ:{base:m.n,cls,L}});if(!fresh)CHAMP_CACHE.set(key,out);return out;
+  const out=Object.assign({},m,{n:name,sb:b,champ:{base:m.n,cls,L,sub:S?S.n:'',hc:o.hc||''}});if(!o.fresh)CHAMP_CACHE.set(key,out);return out;
 }
-function champFromName(k,get){const r=/^(.*), (\w+) champion$/.exec(k);if(!r)return undefined;const base=get(r[1]),cls=champClasses().find(c=>lc(c)===r[2]);return base&&cls?champion(base,cls):undefined}
-const champRandom=m=>champion(m,champClasses()[Math.floor(Math.random()*champClasses().length)]);
-// the Bestiary window remembers which class it shows for the monster that is open
-let CHAMP_FOR=null,CHAMP_SEL='',CHAMP_NEXT=null;
-function champPick(v){CHAMP_SEL=v;const m=CUR,el=$('mon-sb');if(!m||!el)return;el.innerHTML=sbHTML(v?champion(m,v):m);diceify(el)}
-const champCur=()=>CUR&&CUR._t==='mon'&&CHAMP_SEL&&CHAMP_FOR===CUR.n?champion(CUR,CHAMP_SEL):CUR;
+// "Wolf, Rogue Champion · Assassin ✦ Some Hidden Class", looked up in lower case
+function champFromName(k,get){const r=/^(.*), (\w+) champion(?: · (.*?))?(?: ✦ (.*))?$/.exec(k);if(!r)return undefined;const base=get(r[1]),cls=champClasses().find(c=>lc(c)===r[2]);if(!base||!cls)return undefined;
+  const sub=r[3]&&SUBS.find(x=>lc(x.n)===r[3]&&x.par===cls),h=r[4]&&(HC&&HC.find(x=>lc(x.n)===r[4])),hc=r[4]?(h?h.n:r[4].replace(/\b\w/g,x=>x.toUpperCase())):'';
+  return champion(base,cls,{sub:sub?sub.n:'',hc})}
+const champSubs=cls=>SUBS.filter(x=>x.par===cls).sort(byName);
+const champHCs=cls=>(HC||[]).filter(h=>!h.base||h.base==='Any'||h.base===cls).sort((a,b)=>HC_TIERS.findIndex(t=>t[0]===a.tier)-HC_TIERS.findIndex(t=>t[0]===b.tier)||byName(a,b));
+// a random class, and usually one of its subclasses (hidden classes are the DM's own choice, never random)
+const champRandom=m=>{const cs=champClasses(),cls=cs[Math.floor(Math.random()*cs.length)],ss=champSubs(cls);return champion(m,cls,{sub:ss.length&&Math.random()<.7?ss[Math.floor(Math.random()*ss.length)].n:''})};
+// the Bestiary window remembers which class, subclass, and hidden class it shows for the monster that is open
+let CHAMP_FOR=null,CHAMP_SEL='',CHAMP_SUB='',CHAMP_HC='',CHAMP_NEXT=null,CHAMP_HC_TRIED=false;
+const champOpts=()=>({sub:CHAMP_SUB,hc:CHAMP_HC});
+function champPickerHTML(m){const cls=CHAMP_SEL,lockLink=!HC&&HIDDEN.lock&&role()!=='player';
+  return `<label>★ Champion <select class="sel" id="mon-champ" onchange="champPick('cls',this.value)"><option value="">None (a normal ${esc(m.n.toLowerCase())})</option>${champClasses().map(c=>`<option${c===cls?' selected':''}>${c}</option>`).join('')}</select></label>
+    ${cls?`<label>Subclass <select class="sel" id="mon-champ-sub" onchange="champPick('sub',this.value)"><option value="">None</option>${champSubs(cls).map(x=>`<option${x.n===CHAMP_SUB?' selected':''}>${esc(x.n)}</option>`).join('')}</select></label>`:''}
+    ${cls&&HC?`<label>✦ Hidden class <select class="sel" id="mon-champ-hc" onchange="champPick('hc',this.value)"><option value="">None</option>${champHCs(cls).map(x=>`<option value="${esc(x.n)}"${x.n===CHAMP_HC?' selected':''}>${esc(x.n)} (${esc(x.tier)})</option>`).join('')}</select></label>`:cls&&lockLink?`<a href="${pageUrl('hidden')}" data-go="hidden" class="note" style="margin:0">🔒 Unlock hidden classes to give it one</a>`:''}
+    <span class="note" style="margin:0;flex-basis:100%">A champion has trained in a class: tougher, sharper, the class's features (and its subclass's), and more XP. Add to combat or an encounter adds the one shown.</span>`}
+function champRefresh(){const m=CUR,box=$('mon-champ-box'),el=$('mon-sb');if(!m||!box||!el)return;box.innerHTML=champPickerHTML(m);el.innerHTML=sbHTML(champCur());diceify(el)}
+function champPick(f,v){if(f==='cls'){CHAMP_SEL=v;if(!champSubs(v).some(x=>x.n===CHAMP_SUB))CHAMP_SUB='';if(CHAMP_HC&&!champHCs(v).some(x=>x.n===CHAMP_HC))CHAMP_HC=''}else if(f==='sub')CHAMP_SUB=v;else CHAMP_HC=v;champRefresh()}
+const champCur=()=>CUR&&CUR._t==='mon'&&CHAMP_SEL&&CHAMP_FOR===CUR.n?champion(CUR,CHAMP_SEL,champOpts()):CUR;
 function openChamp(n){const c=MON_IDX.get(lc(n));if(!c)return;if(c.champ){CHAMP_NEXT=c.champ;openItem(MON_IDX.get(lc(c.champ.base)))}else openItem(c)}
 document.addEventListener('click',e=>{const el=e.target.closest('[data-champ]');if(!el||e.target.closest('[onclick]:not([data-champ])'))return;e.preventDefault();openChamp(el.dataset.champ)});
 // each class's signature feature at level L, as a stat block trait
@@ -3358,7 +3384,7 @@ function sbToolHTML(){
       <label>Kind<select id="sbt-kind">${[['npc','NPC'],['named','Named monster'],['boss','Boss']].map(([k,l])=>`<option value="${k}"${k===o.kind?' selected':''}>${l}</option>`).join('')}</select></label>
       <label>Name<input id="sbt-name" value="${esc(o.name||'')}" placeholder="Leave empty to roll one"></label>
       <label>Realm<select id="sbt-realm">${REALMS.map(r=>`<option${r.n===o.realm?' selected':''}>${esc(r.n)}</option>`).join('')}</select></label>
-      ${o.kind==='npc'?`<label>Class<select id="sbt-cls">${Object.keys(CLASS_DIE).sort().map(c=>`<option${c===o.cls?' selected':''}>${c}</option>`).join('')}</select></label><label>Subclass<select id="sbt-sub"><option value="">None (or below level 3)</option>${SUBS.filter(x=>x.par===o.cls).sort(byName).map(x=>`<option${x.n===o.sub?' selected':''}>${esc(x.n)}</option>`).join('')}</select></label><label>Level<input id="sbt-level" type="number" min="1" max="${MAX_LEVEL}" value="${o.level}"></label>`:`<label>Body<select id="sbt-body">${SB_BODIES.filter(b=>b!=='humanoid').map(b=>`<option${b===o.body?' selected':''}>${b}</option>`).join('')}<option${o.body==='humanoid'?' selected':''}>humanoid</option></select></label><label>Challenge<input id="sbt-cr" value="${esc(o.cr||'8')}" placeholder="e.g. 8"></label><label>★ Champion class<select id="sbt-champ"><option value="">None</option>${champClasses().map(c=>`<option${c===o.champ?' selected':''}>${c}</option>`).join('')}</select></label>`}
+      ${o.kind==='npc'?`<label>Class<select id="sbt-cls">${Object.keys(CLASS_DIE).sort().map(c=>`<option${c===o.cls?' selected':''}>${c}</option>`).join('')}</select></label><label>Subclass<select id="sbt-sub"><option value="">None (or below level 3)</option>${SUBS.filter(x=>x.par===o.cls).sort(byName).map(x=>`<option${x.n===o.sub?' selected':''}>${esc(x.n)}</option>`).join('')}</select></label><label>Level<input id="sbt-level" type="number" min="1" max="${MAX_LEVEL}" value="${o.level}"></label>`:`<label>Body<select id="sbt-body">${SB_BODIES.filter(b=>b!=='humanoid').map(b=>`<option${b===o.body?' selected':''}>${b}</option>`).join('')}<option${o.body==='humanoid'?' selected':''}>humanoid</option></select></label><label>Challenge<input id="sbt-cr" value="${esc(o.cr||'8')}" placeholder="e.g. 8"></label><label>★ Champion class<select id="sbt-champ"><option value="">None</option>${champClasses().map(c=>`<option${c===o.champ?' selected':''}>${c}</option>`).join('')}</select></label>${o.champ?`<label>Champion subclass<select id="sbt-champsub"><option value="">None</option>${champSubs(o.champ).map(x=>`<option${x.n===o.champSub?' selected':''}>${esc(x.n)}</option>`).join('')}</select></label>${HC?`<label>✦ Hidden class<select id="sbt-champhc"><option value="">None</option>${champHCs(o.champ).map(x=>`<option value="${esc(x.n)}"${x.n===o.champHc?' selected':''}>${esc(x.n)} (${esc(x.tier)})</option>`).join('')}</select></label>`:''}`:''}`}
       <label>God contract<select id="sbt-god"><option value="">None</option>${GODS.map(g=>`<option${godKey(g)===o.god?' selected':''}>${esc(godKey(g))}</option>`).join('')}</select></label>
       <label>Rank<select id="sbt-rank">${CONTRACT_RANKS.map(r=>`<option${r===o.rank?' selected':''}>${r}</option>`).join('')}</select></label>
       <label>Signature material<input id="sbt-mat" list="dl-mat" value="${esc(o.mat||'')}" placeholder="optional: its trait becomes theirs"></label>
@@ -3374,9 +3400,9 @@ function sbToolBind(){
     $('sbt-saved').querySelectorAll('[data-sbload]').forEach(b=>b.onclick=()=>{store.set('sbt',Object.assign({},saved[+b.dataset.sbload]));$('t-sb').outerHTML=sbToolHTML();sbToolBind()});
     sbToolBind.cur=x};
   const save=()=>{const s2=get(),k=$('sbt-kind').value;const kindChanged=k!==s2.kind;Object.assign(s2,{kind:k,name:$('sbt-name').value.trim(),realm:$('sbt-realm').value,god:$('sbt-god').value,rank:$('sbt-rank').value,mat:$('sbt-mat').value.trim()});
-    let clsChanged=false;if($('sbt-cls')){clsChanged=$('sbt-cls').value!==s2.cls;Object.assign(s2,{cls:$('sbt-cls').value,sub:clsChanged?'':$('sbt-sub').value,level:Math.max(1,Math.min(MAX_LEVEL,+$('sbt-level').value||1))})}if($('sbt-body'))Object.assign(s2,{body:$('sbt-body').value,champ:$('sbt-champ').value,cr:$('sbt-cr').value.trim()||'8'});
-    store.set('sbt',s2);if(kindChanged||clsChanged){$('t-sb').outerHTML=sbToolHTML();sbToolBind()}else draw()};
-  ['sbt-kind','sbt-name','sbt-realm','sbt-cls','sbt-sub','sbt-level','sbt-body','sbt-cr','sbt-champ','sbt-god','sbt-rank','sbt-mat'].forEach(i=>{if($(i))$(i).addEventListener('change',save)});
+    let clsChanged=false;if($('sbt-cls')){clsChanged=$('sbt-cls').value!==s2.cls;Object.assign(s2,{cls:$('sbt-cls').value,sub:clsChanged?'':$('sbt-sub').value,level:Math.max(1,Math.min(MAX_LEVEL,+$('sbt-level').value||1))})}let champChanged=false;if($('sbt-body')){champChanged=$('sbt-champ').value!==(s2.champ||'');Object.assign(s2,{champSub:champChanged?'':($('sbt-champsub')||{}).value||'',champHc:champChanged?'':($('sbt-champhc')||{}).value||''})}if($('sbt-body'))Object.assign(s2,{body:$('sbt-body').value,champ:$('sbt-champ').value,cr:$('sbt-cr').value.trim()||'8'});
+    store.set('sbt',s2);if(kindChanged||clsChanged||champChanged){$('t-sb').outerHTML=sbToolHTML();sbToolBind()}else draw()};
+  ['sbt-kind','sbt-name','sbt-realm','sbt-cls','sbt-sub','sbt-level','sbt-body','sbt-cr','sbt-champ','sbt-champsub','sbt-champhc','sbt-god','sbt-rank','sbt-mat'].forEach(i=>{if($(i))$(i).addEventListener('change',save)});
   $('sbt-roll').onclick=()=>{const s2=get();s2.seed=(Math.random()*2**31)|0;s2.name='';s2.note='';store.set('sbt',s2);$('sbt-name').value='';draw()};
   $('sbt-save').onclick=()=>{const s2=get(),x=sbToolBind.cur;s2.name=x.m.n;const L=store.get('npcs',[]).filter(n=>n.name!==s2.name);L.push(s2);store.set('npcs',L.slice(-30));store.set('sbt',s2);$('sbt-name').value=s2.name;toast('Saved '+s2.name);draw()};
   $('sbt-combat').onclick=()=>{const x=sbToolBind.cur;const C=store.get('combat',{round:1,turn:0,list:[]});C.list.push({id:uid(),name:x.m.n,init:1+Math.floor(Math.random()*20),dex:0,hp:x.m.sb.hp,max:x.m.sb.hp,ac:x.m.sb.ac,cond:[]});store.set('combat',C);toast(x.m.n+' added to the combat tracker')};
