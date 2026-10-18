@@ -6,6 +6,16 @@
    "As a bonus action, coat a weapon in plague for 1 minute. A creature you hit makes a Constitution save or becomes infected, taking 1d6 poison damage at the start of its turns, repeating the save each turn. Proficiency bonus uses per long rest."
   ],
   [
+   3,
+   "Tools of the Trade",
+   "You gain proficiency with the herbalism kit and the poisoner's kit. If you already have one of these proficiencies, you gain proficiency with one other type of artisan's tools of your choice."
+  ],
+  [
+   3,
+   "Plague Doctor Spells",
+   "You always have certain spells prepared once you reach certain artificer levels, as follows (artificer level: spells). 3rd level: detect poison and disease and inflict wounds. 5th level: protection from poison and ray of enfeeblement. 9th level: stinking cloud and bestow curse. 13th level: blight and death ward. 17th level: contagion and cloudkill. They count as artificer spells for you but do not count against the number of spells you prepare."
+  ],
+  [
    5,
    "Miasma Mask",
    "You gain resistance to poison damage and advantage on saves against disease. Once per turn, when you hit an infected creature with a weapon or spell, it takes an extra 1d8 poison damage."
@@ -55,9 +65,19 @@
    "You learn spare the dying. When a creature you can see within 60 feet drops to 0 hit points, use your reaction to let an ally within 30 feet of it regain 1d8 plus your Wisdom modifier hit points. Wisdom modifier uses per long rest."
   ],
   [
+   3,
+   "Gravecaller Spells",
+   "You always have certain spells prepared once you reach certain cleric levels, as follows (cleric level: spells). 3rd level: false life, sanctuary, gentle repose and ray of enfeeblement. 5th level: speak with dead and vampiric touch. 7th level: blight and death ward. 9th level: antilife shell and raise dead. They count as cleric spells for you but do not count against the number of spells you prepare."
+  ],
+  [
    6,
    "Channel Divinity: Path Both Ways",
    "As an action, choose a creature within 30 feet. A dying ally stabilizes and regains 2d8 hit points, or a hostile creature makes a Charisma save or takes 2d8 necrotic damage and has its speed halved until your next turn."
+  ],
+  [
+   8,
+   "Grave Touch",
+   "Once on each of your turns when you hit a creature with a weapon attack, you can deal an extra 1d8 necrotic damage to it, and it cannot regain hit points until the start of your next turn. When you reach 14th level, the extra damage increases to 2d8."
   ],
   [
    17,
@@ -72,9 +92,19 @@
    "As a bonus action, inscribe a rune on an ally within 30 feet for 1 minute. A ward rune grants 1d6 temporary hit points each turn; a smite rune adds 1d6 radiant damage to weapon hits. Wisdom modifier uses per long rest."
   ],
   [
+   3,
+   "Rune Priest Spells",
+   "You always have certain spells prepared once you reach certain cleric levels, as follows (cleric level: spells). 3rd level: alarm, shield of faith, arcane lock and magic weapon. 5th level: glyph of warding and protection from energy. 7th level: guardian of faith and stone shape. 9th level: hallow and wall of force. They count as cleric spells for you but do not count against the number of spells you prepare."
+  ],
+  [
    6,
    "Channel Divinity: Glyph Snare",
    "As an action, carve a trigger rune on a surface within 30 feet. The first hostile creature to enter its square makes a Dexterity save, taking 3d8 radiant damage and being restrained until its next turn on a failure, or half on a success."
+  ],
+  [
+   8,
+   "Runic Cantrips",
+   "You add your Wisdom modifier to the damage you deal with any cleric cantrip. When a cantrip of yours damages a creature that is within 10 feet of one of your runes, it also takes 1d4 extra radiant damage."
   ],
   [
    17,
@@ -87,6 +117,11 @@
    3,
    "Tempest Mantle",
    "You learn shocking grasp and always have thunderwave prepared. As a bonus action, expend a use of Wild Shape to wreathe yourself in storm for 1 minute; creatures that hit you with melee attacks take 1d8 lightning damage."
+  ],
+  [
+   3,
+   "Storm Caller Spells",
+   "You always have certain spells prepared once you reach certain druid levels, as follows (druid level: spells). 3rd level: feather fall, fog cloud, gust of wind and shatter. 5th level: call lightning and lightning bolt. 7th level: conjure minor elementals and ice storm. 9th level: cone of cold and conjure elemental. They count as druid spells for you but do not count against the number of spells you prepare."
   ],
   [
    6,
@@ -111,6 +146,11 @@
    "After a long rest, roll two d20s and record them as omens. Once per turn, you can replace an attack roll, saving throw or ability check made by you or a creature you can see with an omen, before the roll."
   ],
   [
+   3,
+   "Oracle Spells",
+   "You always have certain spells prepared once you reach certain druid levels, as follows (druid level: spells). 3rd level: detect magic, speak with animals, augury and locate animals or plants. 5th level: clairvoyance and plant growth. 7th level: divination and locate creature. 9th level: commune with nature and scrying. They count as druid spells for you but do not count against the number of spells you prepare."
+  ],
+  [
    6,
    "Voice of the Wild",
    "You can cast speak with animals and speak with plants without spell slots. Beasts and plants nearby warn you of danger: you cannot be surprised, and you add your Wisdom modifier to initiative rolls."
@@ -131,6 +171,11 @@
    3,
    "Abyssal Brand",
    "As a bonus action, ignite your weapon with abyssal flame for 1 minute. Your weapon hits deal an extra 1d6 fire damage, and once per turn a hit grants you temporary hit points equal to your Constitution modifier. Proficiency bonus uses per long rest."
+  ],
+  [
+   3,
+   "Dread Bearing",
+   "You gain proficiency in Intimidation, or in Deception if you are already proficient. While your Abyssal Brand burns, you have advantage on Charisma (Intimidation) checks made against creatures that can see you."
   ],
   [
    7,
@@ -160,6 +205,11 @@
    "As a bonus action, study a creature within 60 feet for 1 minute. You learn its damage vulnerabilities, resistances and immunities, and your first weapon hit against it each turn deals an extra 1d8 damage. Proficiency bonus uses per long rest."
   ],
   [
+   3,
+   "Cold Professional",
+   "You gain proficiency with the poisoner's kit and in your choice of Insight or Investigation. By spending 1 minute examining a corpse, you learn how the creature died and roughly how long ago."
+  ],
+  [
    7,
    "Anatomist",
    "You gain proficiency in Medicine, or expertise if already proficient. When you score a critical hit, the target makes a Constitution save or its speed is halved until the end of its next turn."
@@ -185,6 +235,11 @@
    3,
    "Martial Hex",
    "As a bonus action, hex a creature within 30 feet for 1 minute. Your weapon hits against it deal an extra 1d6 necrotic damage, and it has disadvantage on checks with one ability you choose. Proficiency bonus uses per long rest."
+  ],
+  [
+   3,
+   "Whispers of the Pact",
+   "You learn your choice of the minor illusion or thaumaturgy cantrip, and Charisma is your spellcasting ability for it. You also gain proficiency in Arcana or Religion, your choice."
   ],
   [
    7,
@@ -280,6 +335,11 @@
    "As a bonus action, choose a creature within 30 feet that has not seen you attack. For 1 minute, your first hit against it each turn deals an extra 2d6 necrotic damage, and you have advantage on Deception checks against it."
   ],
   [
+   3,
+   "Oathbreaker Spells",
+   "You always have certain spells prepared once you reach certain paladin levels, as follows (paladin level: spells). 3rd level: charm person and disguise self. 5th level: darkness and suggestion. 9th level: bestow curse and fear. 13th level: confusion and dominate beast. 17th level: dominate person and seeming. They count as paladin spells for you but do not count against the number of spells you prepare."
+  ],
+  [
    7,
    "Aura of Faithlessness",
    "Hostile creatures within 10 feet of you subtract 1d4 from saves against being charmed or frightened, and you and allies in the aura cannot be charmed. The aura grows to 30 feet at 18th level."
@@ -300,6 +360,11 @@
    3,
    "Briar Skin",
    "As a bonus action, sprout thorns for 1 minute. A creature that hits you with a melee attack takes 1d6 piercing damage, and once per turn your weapon hits deal an extra 1d6 piercing damage. Wisdom modifier uses per long rest."
+  ],
+  [
+   3,
+   "Thornwalker Spells",
+   "You always have certain spells prepared once you reach certain ranger levels, as follows (ranger level: spells). 3rd level: entangle and goodberry. 5th level: barkskin and protection from poison. 9th level: plant growth and protection from energy. 13th level: blight and freedom of movement. 17th level: insect plague and tree stride. They count as ranger spells for you but do not count against the number of spells you prepare."
   ],
   [
    7,
@@ -324,6 +389,11 @@
    "Once per turn when you deal Sneak Attack damage, you can lose 5 hit points to add 2d6 necrotic damage. As a bonus action, you can lose 5 hit points to move 15 feet without provoking opportunity attacks."
   ],
   [
+   3,
+   "Blood Reader",
+   "You gain proficiency in Medicine. As an action, you can taste a drop of a creature's fresh blood to learn its creature type and whether it is poisoned, diseased or under a curse."
+  ],
+  [
    9,
    "Crimson Lash",
    "As an action, lose 5 hit points to lash blood at a creature within 30 feet. It makes a Dexterity save, taking 3d6 necrotic damage and being restrained until the end of its next turn on a failure, or half on a success."
@@ -344,6 +414,11 @@
    3,
    "Guided Chaos",
    "When you cast a sorcerer spell of 1st level or higher, you can spend 1 sorcery point and roll a d4: 1 push a target 10 feet, 2 gain 1d8 temporary hit points, 3 add 1d6 force damage, 4 teleport 15 feet."
+  ],
+  [
+   3,
+   "Chaos Shaper Spells",
+   "You learn additional spells when you reach certain sorcerer levels, as follows (sorcerer level: spells). 3rd level: color spray, grease, blur and mirror image. 5th level: blink and hypnotic pattern. 7th level: confusion and polymorph. 9th level: animate objects and mislead. They count as sorcerer spells for you but do not count against your number of spells known."
   ],
   [
    6,
@@ -368,6 +443,11 @@
    "Choose a dragon ancestor and its damage type. Your hit point maximum increases by 1 per sorcerer level, while unarmored your AC increases by 1 as scales spread over your skin, and you can speak, read and write Draconic."
   ],
   [
+   3,
+   "Hoard Sense",
+   "You gain proficiency in your choice of History or Intimidation. By touching an object for 1 minute, you learn whether it contains gold, silver, gems or other precious materials, and roughly what it is worth."
+  ],
+  [
    6,
    "Elemental Affinity",
    "When you cast a spell that deals your ancestry's damage type, add your Charisma modifier to one damage roll. You can also spend 1 sorcery point to gain resistance to that type for 1 hour."
@@ -388,6 +468,11 @@
    3,
    "Earthsense",
    "The ground reports to you: you gain tremorsense out to 30 feet. You learn mold earth, and once per turn you can spend 1 sorcery point to add 1d8 bludgeoning damage to a spell that deals damage."
+  ],
+  [
+   3,
+   "Gnome Spells",
+   "You learn additional spells when you reach certain sorcerer levels, as follows (sorcerer level: spells). 3rd level: longstrider, shield, locate object and spider climb. 5th level: meld into stone and protection from energy. 7th level: stone shape and stoneskin. 9th level: passwall and wall of stone. They count as sorcerer spells for you but do not count against your number of spells known."
   ],
   [
    6,
@@ -412,6 +497,11 @@
    "You learn fire bolt. When you cast a spell that deals fire damage, add your Charisma modifier to one damage roll. You have resistance to fire damage from any source other than your own spells, which cannot harm you."
   ],
   [
+   3,
+   "Ignis Spells",
+   "You learn additional spells when you reach certain sorcerer levels, as follows (sorcerer level: spells). 3rd level: burning hands, shield, heat metal and scorching ray. 5th level: daylight and fireball. 7th level: fire shield and wall of fire. 9th level: conjure elemental and flame strike. They count as sorcerer spells for you but do not count against your number of spells known."
+  ],
+  [
    6,
    "Hearth Aura",
    "A constant warmth surrounds you within 10 feet: nonmagical ice and frost melt, allies have advantage on saves against extreme cold, and a creature that starts its turn grappling you takes 1d8 fire damage."
@@ -432,6 +522,11 @@
    3,
    "Reflective Ward",
    "When a creature you can see targets you with an attack or spell, you can use your reaction and spend 1 sorcery point to gain +2 AC and advantage on saves against that attack or spell."
+  ],
+  [
+   3,
+   "Mirror Spells",
+   "You learn additional spells when you reach certain sorcerer levels, as follows (sorcerer level: spells). 3rd level: shield, silent image, blur and mirror image. 5th level: counterspell and major image. 7th level: dimension door and greater invisibility. 9th level: mislead and seeming. They count as sorcerer spells for you but do not count against your number of spells known."
   ],
   [
    6,
@@ -456,6 +551,11 @@
    "You can fall as slowly as you wish and take no damage from falling. You learn gust, and once per turn when you cast a spell that deals damage, you can push one target 10 feet."
   ],
   [
+   3,
+   "Sylph Spells",
+   "You learn additional spells when you reach certain sorcerer levels, as follows (sorcerer level: spells). 3rd level: feather fall, fog cloud, gust of wind and levitate. 5th level: fly and wind wall. 7th level: conjure minor elementals and freedom of movement. 9th level: conjure elemental and telekinesis. They count as sorcerer spells for you but do not count against your number of spells known."
+  ],
+  [
    6,
    "Child of the Winds",
    "After a long rest, choose a wind child: north grants cold resistance, south fire resistance, east lightning resistance, west +10 feet speed. You can spend 1 sorcery point to add 1d8 thunder damage to a spell."
@@ -476,6 +576,11 @@
    3,
    "Undine's Gift",
    "You can breathe water, see clearly underwater, and gain a swimming speed equal to your walking speed. When you cast a spell of 1st level or higher, you or an ally within 30 feet regains 1d4 plus your Charisma modifier hit points."
+  ],
+  [
+   3,
+   "Undine Spells",
+   "You learn additional spells when you reach certain sorcerer levels, as follows (sorcerer level: spells). 3rd level: cure wounds, fog cloud, lesser restoration and misty step. 5th level: water breathing and water walk. 7th level: control water and ice storm. 9th level: cone of cold and conjure elemental. They count as sorcerer spells for you but do not count against your number of spells known."
   ],
   [
    6,
@@ -564,6 +669,11 @@
    3,
    "Star Chart",
    "When you cast a spell of 1st level or higher, choose a star: Comet adds 1d6 radiant damage to one target, Moon heals a creature within 30 feet for 1d6, or Pole Star adds 2 to a concentration save. Intelligence modifier uses per long rest."
+  ],
+  [
+   3,
+   "Star Reader",
+   "You gain proficiency with navigator's tools. While you can see the night sky, you always know which way is north and the time until sunrise, and you can never become lost when travelling by the stars."
   ],
   [
    6,
