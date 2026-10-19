@@ -697,6 +697,11 @@ log.push('class stages: ' + Object.keys(D.STAGES).length + ' classes, changes II
     if (v && v.md) v.md.split('\n').forEach(function (l) { var m = /^\|\s*(\d+)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|/.exec(l); if (m && +m[1] <= 20) rows.push([+m[1], m[2], m[3]]); });
     if (rows.length) { s.lv = rows; nv++; } else if (extra[s.n]) { s.lv = extra[s.n]; s.lvSite = 1; ne++; }
   });
+  // features the site adds to vault subclasses (data/sub-extra.json), shown with a marker; the vault pages are unchanged
+  var xf = path.join(__dirname, '..', 'data', 'sub-extra.json'), xadd = fs.existsSync(xf) ? JSON.parse(fs.readFileSync(xf, 'utf8')) : {};
+  D.SUBS.forEach(function (s) { if (!xadd[s.n] || !s.lv) return; var have = {}; s.lv.forEach(function (x) { have[x[0] + '|' + x[1]] = 1; });
+    var add = xadd[s.n].filter(function (x) { return !have[x[0] + '|' + x[1]]; }).map(function (x) { return [x[0], x[1], x[2], 1]; });
+    s.lv = s.lv.concat(add).map(function (x, i) { return [x, i]; }).sort(function (a, b) { return a[0][0] - b[0][0] || a[1] - b[1]; }).map(function (p) { return p[0]; }); });
   // fuller descriptions written for the site (data/sub-desc.json) replace a subclass's one-line summary
   var df = path.join(__dirname, '..', 'data', 'sub-desc.json'), desc = fs.existsSync(df) ? JSON.parse(fs.readFileSync(df, 'utf8')) : {};
   D.SUBS.forEach(function (s) { if (desc[s.n]) { s.ds = desc[s.n]; s.dsSite = 1; } });
