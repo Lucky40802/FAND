@@ -115,6 +115,10 @@ STARTER.forEach(function (x) {
   NEW.push(b);
 });
 
+// the Back piece of the iron set (Iron Armour, Helm, Gauntlets, Greaves, Pauldrons), so a full set of iron gear reaches
+// the 10 AC the Armor Class rules promise (Body 4, Head 2, Hands 1, Feet 1, Shoulders 1, Back 1)
+NEW.push({ n: 'Iron Mantle', cat: 'Armor', lv: 1, pr: 'Blacksmithing', sp: 'Blacksmithing', r: 'Common', mats: ['Iron'], slot: 'Back', ac: '1',
+  ds: 'A short cape of riveted iron scales hung from the shoulders, guarding the back and the spine. It completes a set of iron armour.' });
 NEW.forEach(function (b) { if (b.n === "Explorer's Pack") b.gp = 10; if (b.n === 'Backpack') b.gp = 2; });
 
 module.exports = {
