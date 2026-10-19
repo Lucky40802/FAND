@@ -1,0 +1,304 @@
+{
+ "Aether Engineer": [
+  [
+   3,
+   "Aether Tools",
+   "You gain proficiency with tinker's tools and glassblower's tools. If you already have one of them, you gain proficiency with another artisan's tool of your choice. You can use these tools to craft a small aether vane that shows wind direction and the nearest drop of 10 feet or more within 60 feet."
+  ],
+  [
+   3,
+   "Aether Engineer Spells",
+   "You always have certain spells prepared after you reach particular levels in this class, and they don't count against your prepared spells: 3rd level feather fall and jump, 5th level levitate and gust of wind, 9th level fly and wind wall, 13th level freedom of movement and dimension door, 17th level telekinesis and conjure elemental."
+  ]
+ ],
+ "Ashen Commander": [
+  [
+   3,
+   "Voice of Embers",
+   "You gain proficiency in Intimidation or Persuasion (your choice). Your shouted commands can be clearly heard by allies up to 300 feet away, even over the noise of battle, fire, or wind."
+  ],
+  [
+   18,
+   "Undying Embers",
+   "When you or an ally you can see within 30 feet would drop to 0 hit points, you can use your reaction to have that creature drop to 1 hit point instead. Flames then burst from them, and each enemy of your choice within 10 feet takes 4d10 fire damage. Once you use this feature, you can't do so again until you finish a short or long rest."
+  ]
+ ],
+ "Astral Domain": [
+  [
+   3,
+   "Astral Domain Spells",
+   "You always have certain spells prepared, and they don't count against the number of cleric spells you prepare. At 3rd level you gain faerie fire, guiding bolt, moonbeam, and see invisibility. At 5th level you gain blink and daylight. At 7th level you gain banishment and dimension door. At 9th level you gain planar binding and teleportation circle."
+  ],
+  [
+   17,
+   "Celestial Ascension",
+   "As an action, you take on a body of living starlight for 1 minute. During that time you have a flying speed of 60 feet and can hover, you can use Starlight Ward without spending its use, and whenever you cast a cleric spell of 1st level or higher, you can deal 2d8 radiant damage to one creature or restore 2d8 hit points to one creature within 30 feet. Once you use this feature, you can't do so again until you finish a long rest."
+  ]
+ ],
+ "Beast Lord": [
+  [
+   3,
+   "Beast Lord Spells",
+   "You learn certain spells when you reach the levels below, and they don't count against the number of ranger spells you know. At 3rd level you learn animal friendship and speak with animals. At 5th level you learn animal messenger and enhance ability. At 9th level you learn conjure animals and haste. At 13th level you learn dominate beast and giant insect. At 17th level you learn awaken and commune with nature."
+  ]
+ ],
+ "Blood Titan": [
+  [
+   3,
+   "Iron Blood",
+   "You gain proficiency in Athletics. In addition, when you spend Hit Dice to regain hit points during a short rest, you regain extra hit points equal to your Constitution modifier for each die spent."
+  ]
+ ],
+ "Celestial Ruin": [
+  [
+   3,
+   "Fallen Star Spells",
+   "You learn certain spells when you reach particular levels in this class, and they don't count against your spells known: 3rd level guiding bolt, faerie fire, moonbeam, and see invisibility, 5th level daylight and sending, 7th level guardian of faith and banishment, 9th level flame strike and dispel evil and good."
+  ],
+  [
+   18,
+   "Avatar of the Fallen Star",
+   "As a bonus action, you can spend 5 sorcery points to take a meteoric form for 1 minute. While in this form you have a flying speed of 60 feet, you shed bright light in a 30-foot radius, and once per turn when you deal damage with a spell, one target takes an extra 2d10 radiant damage."
+  ]
+ ],
+ "Champion": [
+  [
+   3,
+   "Seasoned Endurance",
+   "You gain proficiency in the Athletics skill, or another skill from the fighter list if you already have it. You also have advantage on Constitution saving throws made to avoid exhaustion from forced marches, hunger, thirst, or extreme heat and cold."
+  ]
+ ],
+ "Chronomancer": [
+  [
+   3,
+   "Sense of the Hour",
+   "You always know the exact time and how long ago the sun rose or set. You also can't be surprised while you are conscious, and you add your Intelligence modifier to your initiative rolls."
+  ]
+ ],
+ "Circle of Rot": [
+  [
+   3,
+   "Circle of Rot Spells",
+   "You always have certain spells prepared after you reach particular levels in this class, and they don't count against the number of spells you prepare. You gain fog cloud, inflict wounds, blindness/deafness, and gentle repose at 3rd level, speak with dead and stinking cloud at 5th, blight and giant insect at 7th, and cloudkill and insect plague at 9th."
+  ]
+ ],
+ "Circle of the Eclipse": [
+  [
+   3,
+   "Eclipse Spells",
+   "You always have certain spells prepared, and they don't count against the number of druid spells you prepare. At 3rd level you gain faerie fire, sleep, darkness, and moonbeam. At 5th level you gain blink and daylight. At 7th level you gain blight and greater invisibility. At 9th level you gain dispel evil and good and flame strike."
+  ]
+ ],
+ "Circle of the Sea": [
+  [
+   3,
+   "Circle of the Sea Spells",
+   "You always have certain spells prepared after you reach particular levels in this class: 3rd level fog cloud, thunderwave, gust of wind, and shatter, 5th level lightning bolt and water breathing, 7th level control water and ice storm, 9th level conjure elemental and cone of cold."
+  ]
+ ],
+ "College of Ash": [
+  [
+   3,
+   "Keeper of Rites",
+   "You gain proficiency in the Religion skill and in one of the following: Medicine, History, or a musical instrument of your choice. You also know the proper funeral rites of most cultures, and you can tell how long ago a corpse died and roughly what killed it with a minute of study."
+  ]
+ ],
+ "College of Dance": [
+  [
+   3,
+   "Stage Presence",
+   "You gain proficiency in Acrobatics and Performance. In addition, standing up from prone costs you only 5 feet of movement."
+  ]
+ ],
+ "College of Dreams": [
+  [
+   3,
+   "Sleepwalker's Lore",
+   "You gain proficiency in Insight, and you can't be put to sleep by magic. You need only 4 hours of sleep to gain the benefits of a long rest, and you can stay aware of your surroundings while you sleep."
+  ]
+ ],
+ "College of Echoing Chants": [
+  [
+   3,
+   "Trained Voice",
+   "You gain proficiency in the Performance skill and with one musical instrument of your choice. You can also cast the message cantrip at will without using a spell slot, and your whispers carry up to 240 feet when spoken inside a cave, hall, or other enclosed space."
+  ]
+ ],
+ "Flame Domain": [
+  [
+   3,
+   "Flame Domain Spells",
+   "You always have certain spells prepared after you reach particular levels in this class, and they don't count against the number of spells you prepare. You gain burning hands, guiding bolt, flaming sphere, and scorching ray at 3rd level, daylight and fireball at 5th, fire shield and wall of fire at 7th, and flame strike and greater restoration at 9th."
+  ],
+  [
+   17,
+   "Living Pyre",
+   "Fire damage from your cleric spells and Kindling Touch ignores resistance, and creatures immune to fire take half damage instead. You also gain immunity to fire damage, and once per long rest when you drop to 0 hit points, you instead drop to 1 hit point and each creature of your choice within 10 feet of you takes 4d10 fire damage."
+  ]
+ ],
+ "Hunter": [
+  [
+   3,
+   "Hunter's Eye",
+   "As a bonus action, you study one creature you can see within 60 feet. You learn whether it has any damage resistances, immunities, or vulnerabilities, and you have advantage on the next Wisdom (Survival) check you make to track it within the next 24 hours. You can use this feature a number of times equal to your Wisdom modifier (minimum 1), and you regain all uses when you finish a long rest."
+  ]
+ ],
+ "Iron Vanguard": [
+  [
+   3,
+   "Shieldwall Drill",
+   "You gain proficiency in your choice of Athletics or Intimidation. In addition, you can don or doff heavy armor in half the normal time, and you can don a shield as part of the same action."
+  ],
+  [
+   18,
+   "Living Rampart",
+   "While you are conscious and not incapacitated, allies within 10 feet of you have resistance to bludgeoning, piercing, and slashing damage from nonmagical attacks. When you use Bulwark Step, you can also make one weapon attack against the attacker as part of the same reaction."
+  ]
+ ],
+ "Moon Hunter": [
+  [
+   3,
+   "Moon Hunter Spells",
+   "You always have certain spells prepared after you reach particular levels in this class, and they don't count against your spells known: 3rd level faerie fire and protection from evil and good, 5th level moonbeam and darkvision, 9th level daylight and remove curse, 13th level locate creature and banishment, 17th level hold monster and dispel evil and good."
+  ]
+ ],
+ "Nightblade": [
+  [
+   3,
+   "Shadow Sight",
+   "You gain darkvision out to 60 feet, or your existing darkvision increases by 30 feet. You also gain proficiency in the Stealth skill, or in Perception if you already have Stealth."
+  ]
+ ],
+ "Oath of Ash": [
+  [
+   3,
+   "Oath of Ash Spells",
+   "You always have certain spells prepared after you reach particular levels in this class: 3rd level burning hands and hellish rebuke, 5th level scorching ray and heat metal, 9th level fireball and protection from energy, 13th level wall of fire and fire shield, 17th level flame strike and cloudkill."
+  ]
+ ],
+ "Oath of Eternity": [
+  [
+   3,
+   "Oath Spells",
+   "You always have certain spells prepared after you reach particular paladin levels, and they don't count against the number of spells you prepare. You gain heroism and sanctuary at 3rd level, aid and lesser restoration at 5th, beacon of hope and revivify at 9th, death ward and stoneskin at 13th, and greater restoration and raise dead at 17th."
+  ]
+ ],
+ "Oath of Silence": [
+  [
+   3,
+   "Oath of Silence Spells",
+   "You always have certain spells prepared after you reach particular levels in this class: 3rd level disguise self and silent image, 5th level silence and pass without trace, 9th level nondetection and counterspell, 13th level greater invisibility and locate creature, 17th level hold monster and modify memory."
+  ]
+ ],
+ "Path of Ruin": [
+  [
+   3,
+   "Wrecker's Eye",
+   "You gain proficiency with mason's tools and have advantage on Strength checks made to break objects, doors, or walls. Your weapon attacks deal double damage to objects and structures."
+  ]
+ ],
+ "Path of the Berserker": [
+  [
+   3,
+   "Battle Hunger",
+   "You have advantage on Wisdom (Perception) checks to notice hostile creatures and on initiative rolls while you are not wearing heavy armor. When you roll initiative and are not raging, you can move up to half your speed toward a hostile creature you can see as part of the roll."
+  ]
+ ],
+ "Path of the World Tree": [
+  [
+   3,
+   "Whispers of the Roots",
+   "You gain proficiency in one of the following skills of your choice: Nature, Survival, or Animal Handling. In addition, while you touch a living tree you can spend 1 minute listening to it to learn whether any Medium or larger creature has passed within 30 feet of it in the last 24 hours."
+  ]
+ ],
+ "Rune Sage": [
+  [
+   3,
+   "Runic Script",
+   "You gain proficiency with calligrapher's supplies. In addition, copying a wizard spell into your spellbook takes you half the usual time and gold."
+  ]
+ ],
+ "Runesmith": [
+  [
+   3,
+   "Runecarver's Training",
+   "You gain proficiency with jeweler's tools and calligrapher's supplies. If you already have one of these, you gain proficiency with another artisan's tool of your choice. You can etch a nonmagical rune of warning or ownership onto an object in 1 minute, and you always know the direction to any of your runes within 1 mile."
+  ],
+  [
+   3,
+   "Runesmith Spells",
+   "You always have certain spells prepared, and they don't count against the number of artificer spells you prepare. At 3rd level you gain identify and shield. At 5th level you gain arcane lock and magic weapon. At 9th level you gain glyph of warding and protection from energy. At 13th level you gain fire shield and stoneskin. At 17th level you gain legend lore and wall of force."
+  ]
+ ],
+ "Shade Walker": [
+  [
+   3,
+   "Eyes of Dusk",
+   "You gain darkvision out to 60 feet. If you already have darkvision, its range increases by 30 feet."
+  ]
+ ],
+ "Soul Mechanist": [
+  [
+   3,
+   "Tools of the Trade",
+   "You gain proficiency with tinker's tools and calligrapher's supplies, which you use to etch binding sigils into metal. If you already have one of these proficiencies, you gain proficiency with another artisan's tools of your choice."
+  ],
+  [
+   3,
+   "Soul Mechanist Spells",
+   "You always have certain spells prepared after you reach particular levels in this class, and they don't count against the number of spells you prepare. You gain false life and unseen servant at 3rd level, gentle repose and spiritual weapon at 5th, speak with dead and spirit guardians at 9th, arcane eye and death ward at 13th, and animate objects and contact other plane at 17th."
+  ]
+ ],
+ "Soul Thief": [
+  [
+   3,
+   "Soul Appraisal",
+   "As a bonus action, you study one creature you can see within 30 feet. You learn whether its current hit points are above or below half of its maximum, and you learn one skill or tool it is proficient with, if it has any."
+  ]
+ ],
+ "Storm Reaver": [
+  [
+   3,
+   "Storm Sense",
+   "You always know what the weather will be like within 5 miles for the next 24 hours. While you are raging, your walking speed increases by 10 feet as the wind pushes at your back."
+  ]
+ ],
+ "Void Knight": [
+  [
+   3,
+   "Touch of the Void",
+   "You gain proficiency in Arcana and learn one language of your choice. You can sense when a creature teleports or a portal opens within 60 feet of you, and you know the direction of that event."
+  ],
+  [
+   18,
+   "Heart of the Void",
+   "Once on each of your turns, you can teleport up to 15 feet to an unoccupied space you can see without using Void Step. In addition, when you are reduced to 0 hit points but not killed outright, you can fold out of reality and drop to 1 hit point instead, reappearing in an unoccupied space within 30 feet. Once you use this second benefit, you can't do so again until you finish a long rest."
+  ]
+ ],
+ "Void Scholar": [
+  [
+   3,
+   "Measured Emptiness",
+   "You can cast detect magic as a ritual without preparing it, and when you do, you also sense any portals, teleportation effects, or extradimensional spaces within range. You also learn one of these cantrips of your choice, which counts as a wizard cantrip for you: mage hand, minor illusion, or blade ward."
+  ]
+ ],
+ "Void Stalker": [
+  [
+   3,
+   "Void Stalker Spells",
+   "You learn certain spells when you reach the levels below, and they don't count against the number of ranger spells you know. At 3rd level you learn detect evil and good and protection from evil and good. At 5th level you learn misty step and see invisibility. At 9th level you learn blink and dispel magic. At 13th level you learn banishment and dimension door. At 17th level you learn dispel evil and good and planar binding."
+  ]
+ ],
+ "Voidborn": [
+  [
+   3,
+   "Void Spells",
+   "You learn additional spells when you reach certain levels in this class, and they don't count against your number of sorcerer spells known. You learn magic missile, shield, darkness, and misty step at 3rd level, blink and counterspell at 5th, banishment and black tentacles at 7th, and telekinesis and wall of force at 9th."
+  ],
+  [
+   18,
+   "Heart of Nothing",
+   "As an action, you can spend 6 sorcery points to open the Void inside you for 1 minute. While it is open, you are immune to force damage, and each hostile creature that starts its turn within 15 feet of you must make a Constitution saving throw against your spell save DC, taking 4d10 force damage on a failure or half as much on a success. Creatures that take this damage can't regain hit points until the start of their next turn."
+  ]
+ ]
+}
