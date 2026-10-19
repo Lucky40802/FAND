@@ -702,6 +702,11 @@ log.push('class stages: ' + Object.keys(D.STAGES).length + ' classes, changes II
   D.SUBS.forEach(function (s) { if (!xadd[s.n] || !s.lv) return; var have = {}; s.lv.forEach(function (x) { have[x[0] + '|' + x[1]] = 1; });
     var add = xadd[s.n].filter(function (x) { return !have[x[0] + '|' + x[1]]; }).map(function (x) { return [x[0], x[1], x[2], 1]; });
     s.lv = s.lv.concat(add).map(function (x, i) { return [x, i]; }).sort(function (a, b) { return a[0][0] - b[0][0] || a[1] - b[1]; }).map(function (p) { return p[0]; }); });
+  // homebrew vault subclasses moved onto their class's usual feature levels (data/sub-relevel.json: old level -> new),
+  // keeping the features in order; the vault pages are unchanged
+  var rf = path.join(__dirname, '..', 'data', 'sub-relevel.json'), rel = fs.existsSync(rf) ? JSON.parse(fs.readFileSync(rf, 'utf8')) : {};
+  D.SUBS.forEach(function (s) { var m = rel[s.n]; if (!m || !s.lv) return;
+    s.lv = s.lv.map(function (x, i) { var y = x.slice(); if (m[x[0]]) y[0] = m[x[0]]; return [y, i]; }).sort(function (a, b) { return a[0][0] - b[0][0] || a[1] - b[1]; }).map(function (p) { return p[0]; }); s.lvMoved = 1; });
   // fuller descriptions written for the site (data/sub-desc.json) replace a subclass's one-line summary
   var df = path.join(__dirname, '..', 'data', 'sub-desc.json'), desc = fs.existsSync(df) ? JSON.parse(fs.readFileSync(df, 'utf8')) : {};
   D.SUBS.forEach(function (s) { if (desc[s.n]) { s.ds = desc[s.n]; s.dsSite = 1; } });
