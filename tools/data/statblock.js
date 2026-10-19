@@ -249,9 +249,9 @@ function statblock(m, body, bestDrop) {
   // AC scales through the realms as player damage does (deeper-realm materials hit harder): half the CR, natural armor,
   // +1 for each realm tier past the Human Realm, and +1 for every 5 grades within the realm.
   var tierBonus = Math.max(0, (m.tier || 1) - 1), gradeBonus = Math.floor((m.g || 1) / 5);
-  // CON adds its modifier to AC, as for characters (campaign owner's rule): at most +5 per stage (the realm's tier / 2,
-  // rounded up), and a negative modifier lowers it, never below 0.
-  var conAC = Math.min(mods[2], 5 * Math.max(1, Math.ceil((m.tier || 1) / 2)));
+  // CON adds its modifier to AC once (×1), as for characters (campaign owner's rule): no cap, and a negative modifier
+  // lowers it, never below 0.
+  var conAC = mods[2];
   var ac = Math.max(0, Math.floor(c / 2) + (plan.acBonus || 0) + (/scale|shell|carapace|plate|armor|armou?red/i.test(m.txt || '') ? 2 : 0) + tierBonus + gradeBonus + conAC);
   // attacks
   var pri = Math.max(mods[0], mods[1]), hit = prof + pri;
