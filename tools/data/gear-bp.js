@@ -76,6 +76,9 @@ var STARTER = [
   ['Warhammer', 'Hammer', '1d8', 'Bludgeoning', 'Blacksmithing', ['Iron', 'Oak']], ['Whip', 'Dagger', '1d4', 'Slashing', 'Tailoring', ['Leather']],
   ['Hand Crossbow', 'Bow', '1d6', 'Piercing', 'Carving', ['Oak', 'Iron']], ['Heavy Crossbow', 'Bow', '1d10', 'Piercing', 'Carving', ['Oak', 'Iron']],
   ['Longbow', 'Bow', '1d8', 'Piercing', 'Carving', ['Yew', 'Leather']],
+  // tools that are weapons too (each has a general Blueprint in the Forge)
+  ['Shovel', 'Hammer', '1d8', 'Bludgeoning', 'Blacksmithing', ['Iron', 'Oak'], { ds: 'A spade on a long handle. It digs a trench or a grave, and swings for 1d8 bludgeoning damage.' }],
+  ['Pickaxe', 'Hammer', '1d8', 'Piercing', 'Blacksmithing', ['Iron', 'Oak'], { ds: 'A miner\'s pick. It digs ore, gems, and stone from a vein, and swings two-handed for 1d8 piercing damage.' }],
   // armor: FAND armor adds a little AC to a base of 0
   ['Padded Armor', 'Armor', '', '', 'Tailoring', ['Leather'], { slot: 'Body', ac: '1' }], ['Leather Armor', 'Armor', '', '', 'Tailoring', ['Leather'], { slot: 'Body', ac: '2' }],
   ['Studded Leather', 'Armor', '', '', 'Tailoring', ['Leather', 'Iron'], { slot: 'Body', ac: '2' }], ['Hide Armor', 'Armor', '', '', 'Tailoring', ['Leather'], { slot: 'Body', ac: '3' }],
@@ -104,7 +107,7 @@ var STARTER_GP = { Club: 0.1, Dagger: 2, Greatclub: 0.2, Handaxe: 5, Javelin: 0.
   Shortbow: 25, Sling: 0.1, Battleaxe: 10, Flail: 10, Glaive: 20, Greataxe: 30, Greatsword: 50, Halberd: 20, Lance: 10, Longsword: 15, Maul: 10, Morningstar: 15, Pike: 5, Rapier: 25,
   Scimitar: 25, Shortsword: 10, Trident: 5, 'War Pick': 5, Warhammer: 15, Whip: 2, 'Hand Crossbow': 75, 'Heavy Crossbow': 50, Longbow: 50, 'Padded Armor': 5, 'Leather Armor': 10,
   'Studded Leather': 45, 'Hide Armor': 10, 'Chain Shirt': 50, 'Scale Mail': 50, 'Ring Mail': 30, Breastplate: 400, 'Chain Mail': 75, 'Half Plate': 750, 'Splint Armor': 200,
-  'Plate Armor': 1500, Shield: 10, 'Wooden Shield': 10, Arrows: 1, Bolts: 1, 'Arcane Focus': 10, 'Holy Symbol': 5, 'Druidic Focus': 1, Spellbook: 50, "Thieves' Tools": 25, Lute: 35,
+  'Plate Armor': 1500, Shovel: 2, Pickaxe: 2, Shield: 10, 'Wooden Shield': 10, Arrows: 1, Bolts: 1, 'Arcane Focus': 10, 'Holy Symbol': 5, 'Druidic Focus': 1, Spellbook: 50, "Thieves' Tools": 25, Lute: 35,
   "Dungeoneer's Pack": 12, "Burglar's Pack": 16, "Priest's Pack": 19, "Scholar's Pack": 40, "Entertainer's Pack": 40, "Diplomat's Pack": 39 };
 STARTER.forEach(function (x) {
   var e = x[6] || {}, b = { n: x[0], cat: x[1], lv: 1, pr: x[4], sp: x[4], r: 'Common', mats: x[5], starter: 1, dc: x[2], dm: x[3],
@@ -115,11 +118,16 @@ STARTER.forEach(function (x) {
   NEW.push(b);
 });
 
+// the Back piece of the iron set (Iron Armour, Helm, Gauntlets, Greaves, Pauldrons), so a full set of iron gear reaches
+// the 10 AC the Armor Class rules promise (Body 4, Head 2, Hands 1, Feet 1, Shoulders 1, Back 1)
+NEW.push({ n: 'Iron Mantle', cat: 'Armor', lv: 1, pr: 'Blacksmithing', sp: 'Blacksmithing', r: 'Common', mats: ['Iron'], slot: 'Back', ac: '1',
+  ds: 'A short cape of riveted iron scales hung from the shoulders, guarding the back and the spine. It completes a set of iron armour.' });
 NEW.forEach(function (b) { if (b.n === "Explorer's Pack") b.gp = 10; if (b.n === 'Backpack') b.gp = 2; });
 
 module.exports = {
   NEW: NEW,
   TOOLS: {
+    Pickaxe: { mine: 1 },
     "Harvester's Knife": { kit: ['cover', 'meat', 'fat', 'other'] },
     'Gutting Hook': { kit: ['organ', 'eye', 'brain', 'meat', 'other'] },
     'Hide Scraper': { kit: ['cover'] },
