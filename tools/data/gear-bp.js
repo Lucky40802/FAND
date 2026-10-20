@@ -77,7 +77,7 @@ var STARTER = [
   ['Hand Crossbow', 'Bow', '1d6', 'Piercing', 'Carving', ['Oak', 'Iron']], ['Heavy Crossbow', 'Bow', '1d10', 'Piercing', 'Carving', ['Oak', 'Iron']],
   ['Longbow', 'Bow', '1d8', 'Piercing', 'Carving', ['Yew', 'Leather']],
   // tools that are weapons too (each has a general Blueprint in the Forge)
-  ['Shovel', 'Hammer', '1d6', 'Bludgeoning', 'Blacksmithing', ['Iron', 'Oak'], { ds: 'A spade on a long handle. It digs a trench or a grave, and in a pinch it swings for 1d6 bludgeoning damage (1d8 with both hands).' }],
+  ['Shovel', 'Hammer', '1d8', 'Bludgeoning', 'Blacksmithing', ['Iron', 'Oak'], { ds: 'A spade on a long handle. It digs a trench or a grave, and swings for 1d8 bludgeoning damage.' }],
   ['Pickaxe', 'Hammer', '1d8', 'Piercing', 'Blacksmithing', ['Iron', 'Oak'], { ds: 'A miner\'s pick. It digs ore, gems, and stone from a vein, and swings two-handed for 1d8 piercing damage.' }],
   // armor: FAND armor adds a little AC to a base of 0
   ['Padded Armor', 'Armor', '', '', 'Tailoring', ['Leather'], { slot: 'Body', ac: '1' }], ['Leather Armor', 'Armor', '', '', 'Tailoring', ['Leather'], { slot: 'Body', ac: '2' }],
