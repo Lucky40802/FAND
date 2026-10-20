@@ -774,8 +774,15 @@ D.SUBSTAGES = {};
     if (Array.isArray(d)) d.forEach(function (r) { if (!r || !r.name) return; extra.push([r.name, r.short || '', r.bonus || {}, r.speed || 30, r.traitsShort || '', r.group || 'More peoples']); if (r.profile) info[r.name] = r.profile; });
     else Object.keys(d).forEach(function (k) { info[k] = d[k]; });
   });
+  // profession bonuses (data/people-prof.json): +1 to one profession's rolls, shown as a trait on the profile
+  var pf = path.join(__dirname, '..', 'data', 'people-prof.json'), np = 0;
+  if (fs.existsSync(pf)) { var PP = JSON.parse(fs.readFileSync(pf, 'utf8'));
+    Object.keys(info).forEach(function (n) { var p = PP.names[n]; if (!p) (PP.patterns || []).some(function (r) { if (new RegExp(r[0]).test(n)) { p = r[1]; return true; } return false; }); if (!p) return;
+      var o = info[n]; o.prof = {}; o.prof[p] = 1; np++;
+      o.traits = (o.traits || []).filter(function (t) { return t[0] !== 'Born to the Trade'; }).concat([['Born to the Trade', p === '*' ? 'Your people take to any work: you add +1 to the rolls of the profession you start with (crafting, scavenging, mining, and its other checks).' : 'Your people have a knack for ' + p + ': you add +1 to ' + p + ' rolls' + (p === 'Scavenging' ? ' (taking parts from a corpse)' : p === 'Harvesting' ? ' (gathering and mining)' : ' (crafting its Blueprints and its other checks)') + ', even before you take up the profession.']]); });
+  }
   D.PEOPLES = { info: info, extra: extra };
-  log.push('peoples: ' + Object.keys(info).length + ' profiles, ' + extra.length + ' new peoples');
+  log.push('peoples: ' + Object.keys(info).length + ' profiles, ' + extra.length + ' new peoples, ' + np + ' with a profession bonus');
 })();
 // base class features by level 1-20 (data/class-prog.json): the level-up checklist and the sheet's class features
 (function () { var f = path.join(__dirname, '..', 'data', 'class-prog.json'); D.CLASS_PROG = fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, 'utf8')) : {}; })();

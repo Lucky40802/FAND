@@ -1,0 +1,22 @@
+{
+  "_note": "Profession bonuses by people (campaign owner's request: orcs get +1 to Scavenging, and other peoples a similar bonus). Each people adds +1 to one profession's rolls (crafting, scavenging, mining, and the sheet's profession bonus). '*' means the profession the character starts with. Exact names first; 'patterns' cover the many subraces.",
+  "names": {
+    "Human": "*", "Variant Human": "*", "Custom Lineage": "*", "Half-Elf": "*", "Aquatic Half-Elf": "Navigation", "Godspawn": "*",
+    "Orc": "Scavenging", "Half-Orc": "Scavenging", "Bugbear": "Scavenging", "Kenku": "Scavenging", "Lizardfolk": "Scavenging", "Leonin": "Scavenging", "Dhampir": "Scavenging", "Hollowborn": "Scavenging", "Edgeborn": "Scavenging", "Khenra": "Scavenging", "Vampire (Zendikar)": "Scavenging",
+    "High Elf": "Enchanting", "Wood Elf": "Carving", "Dark Elf": "Alchemy", "Sea Elf": "Navigation", "Shadow Elf": "Alchemy", "Astral Elf": "Navigation", "Eladrin": "Enchanting", "Pallid Elf": "Enchanting",
+    "Hill Dwarf": "Cooking", "Mountain Dwarf": "Blacksmithing", "Deep Dwarf": "Engineering",
+    "Lightfoot Halfling": "Cooking", "Stout Halfling": "Harvesting", "Ghostwise Halfling": "Harvesting", "Lotusden Halfling": "Alchemy", "Kender": "Scavenging",
+    "Rock Gnome": "Engineering", "Forest Gnome": "Alchemy", "Deep Gnome": "Harvesting", "Autognome": "Engineering",
+    "Dragonborn": "Blacksmithing", "Aasimar": "Alchemy", "Firbolg": "Harvesting", "Goliath": "Harvesting", "Tabaxi": "Navigation", "Triton": "Navigation", "Tortle": "Navigation",
+    "Goblin": "Engineering", "Hobgoblin": "Blacksmithing", "Kobold": "Engineering", "Yuan-ti": "Alchemy",
+    "Air Genasi": "Navigation", "Earth Genasi": "Harvesting", "Fire Genasi": "Blacksmithing", "Water Genasi": "Navigation",
+    "Aarakocra": "Navigation", "Aven": "Navigation", "Centaur": "Navigation", "Minotaur": "Navigation", "Satyr": "Cooking", "Fairy": "Enchanting", "Harengon": "Harvesting", "Owlin": "Navigation",
+    "Changeling": "Tailoring", "Shifter": "Scavenging", "Warforged": "Engineering", "Kalashtar": "Enchanting", "Githyanki": "Blacksmithing", "Githzerai": "Navigation",
+    "Loxodon": "Carving", "Vedalken": "Engineering", "Simic Hybrid": "Alchemy", "Locathah": "Harvesting", "Verdan": "Alchemy", "Grung": "Alchemy",
+    "Giff": "Engineering", "Hadozee": "Navigation", "Plasmoid": "Alchemy", "Thri-kreen": "Harvesting", "Hexblood": "Enchanting", "Reborn": "Alchemy",
+    "Aetherborn": "Enchanting", "Kor": "Navigation", "Merfolk": "Navigation", "Siren": "Navigation", "Naga (Amonkhet)": "Alchemy",
+    "Hellbound": "Blacksmithing", "Haloed": "Enchanting", "Chaosborn": "Alchemy", "Abyssal Deepkin": "Harvesting", "Lawbound": "Engineering", "Starwalker": "Navigation", "Mistborn": "Navigation", "Firstblood": "Harvesting", "Runeborn": "Enchanting",
+    "Mark of Detection": "Alchemy", "Mark of Finding": "Scavenging", "Mark of Handling": "Harvesting", "Mark of Healing": "Alchemy", "Mark of Hospitality": "Cooking", "Mark of Making": "Blacksmithing", "Mark of Passage": "Navigation", "Mark of Scribing": "Enchanting", "Mark of Sentinel": "Blacksmithing", "Mark of Shadow": "Tailoring", "Mark of Storm": "Navigation", "Mark of Warding": "Engineering"
+  },
+  "patterns": [["Dragonborn$", "Blacksmithing"], ["Tiefling", "Enchanting"], ["Goliath$", "Harvesting"], ["Shifter$", "Scavenging"]]
+}
