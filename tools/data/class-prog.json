@@ -1,0 +1,1318 @@
+{
+ "Artificer": [
+  [
+   1,
+   "Magical Tinkering",
+   "Touch a Tiny nonmagical object to give it a light, a short message, a smell or sound, or an image. Max objects equals your Int modifier (min 1)."
+  ],
+  [
+   1,
+   "Spellcasting",
+   "Prepare and cast artificer spells with Intelligence as a half caster, using thieves' tools or artisan's tools as your focus."
+  ],
+  [
+   2,
+   "Infuse Item",
+   "Learn 4 infusions and infuse up to 2 objects after a long rest. Infusions known and active items both grow at levels 6, 10, 14, and 18."
+  ],
+  [
+   3,
+   "Subclass",
+   "Choose your Artificer Specialist."
+  ],
+  [
+   3,
+   "The Right Tool for the Job",
+   "With thieves' tools or artisan's tools in hand, spend 1 hour (can be during a rest) to magically create one set of artisan's tools."
+  ],
+  [
+   4,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   6,
+   "Tool Expertise",
+   "Your proficiency bonus is doubled for any ability check that uses a tool you are proficient with."
+  ],
+  [
+   7,
+   "Flash of Genius",
+   "Reaction: add your Int modifier to an ability check or save made by you or a creature you see within 30 ft. Uses equal Int modifier per long rest."
+  ],
+  [
+   8,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   10,
+   "Magic Item Adept",
+   "Attune to up to 4 magic items. Crafting common or uncommon magic items takes a quarter of the time and half the gold."
+  ],
+  [
+   11,
+   "Spell-Storing Item",
+   "After a long rest, store a 1st- or 2nd-level artificer spell (1 action) in a weapon or focus. It can be cast from it twice your Int modifier times."
+  ],
+  [
+   12,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   14,
+   "Magic Item Savant",
+   "Attune to up to 5 magic items and ignore all class, race, spell, and level requirements for attuning to or using them."
+  ],
+  [
+   16,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   18,
+   "Magic Item Master",
+   "Attune to up to 6 magic items at once."
+  ],
+  [
+   19,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   20,
+   "Soul of Artifice",
+   "Gain +1 to all saves per attuned item. When dropped to 0 HP but not killed, use your reaction to end one infusion and drop to 1 HP instead."
+  ]
+ ],
+ "Barbarian": [
+  [
+   1,
+   "Rage (2 uses)",
+   "Bonus action for 1 minute: advantage on Str checks and saves, bonus Str melee damage, resistance to weapon damage. No heavy armor. 2 per long rest."
+  ],
+  [
+   1,
+   "Unarmored Defense",
+   "Without armor, your AC equals 10 + Dex modifier + Con modifier. You can still use a shield."
+  ],
+  [
+   2,
+   "Reckless Attack",
+   "On your first attack of a turn, gain advantage on Str melee attacks this turn, but attacks against you have advantage until your next turn."
+  ],
+  [
+   2,
+   "Danger Sense",
+   "Advantage on Dex saves against effects you can see, such as traps and spells, unless you are blinded, deafened, or incapacitated."
+  ],
+  [
+   3,
+   "Subclass",
+   "Choose your Primal Path."
+  ],
+  [
+   3,
+   "Rage (3 uses)",
+   "You can now rage 3 times per long rest."
+  ],
+  [
+   4,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   5,
+   "Extra Attack",
+   "Attack twice instead of once when you take the Attack action on your turn."
+  ],
+  [
+   5,
+   "Fast Movement",
+   "Your speed increases by 10 ft while you are not wearing heavy armor."
+  ],
+  [
+   6,
+   "Rage (4 uses)",
+   "You can now rage 4 times per long rest."
+  ],
+  [
+   7,
+   "Feral Instinct",
+   "Advantage on initiative rolls. If surprised, you can still act on your first turn as long as you enter a rage first."
+  ],
+  [
+   8,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   9,
+   "Brutal Critical (1 die)",
+   "Roll one extra weapon damage die when you score a critical hit with a melee attack."
+  ],
+  [
+   9,
+   "Rage Damage +3",
+   "Your rage damage bonus increases to +3."
+  ],
+  [
+   11,
+   "Relentless Rage",
+   "If you drop to 0 HP while raging, make a DC 10 Con save to drop to 1 HP instead. The DC rises by 5 each use and resets after a rest."
+  ],
+  [
+   12,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   12,
+   "Rage (5 uses)",
+   "You can now rage 5 times per long rest."
+  ],
+  [
+   13,
+   "Brutal Critical (2 dice)",
+   "Roll two extra weapon damage dice on a melee critical hit."
+  ],
+  [
+   15,
+   "Persistent Rage",
+   "Your rage ends early only if you fall unconscious or choose to end it."
+  ],
+  [
+   16,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   16,
+   "Rage Damage +4",
+   "Your rage damage bonus increases to +4."
+  ],
+  [
+   17,
+   "Brutal Critical (3 dice)",
+   "Roll three extra weapon damage dice on a melee critical hit."
+  ],
+  [
+   17,
+   "Rage (6 uses)",
+   "You can now rage 6 times per long rest."
+  ],
+  [
+   18,
+   "Indomitable Might",
+   "If your total for a Strength check is lower than your Strength score, use the score instead."
+  ],
+  [
+   19,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   20,
+   "Primal Champion",
+   "Your Strength and Constitution each increase by 4, and their maximum becomes 24."
+  ],
+  [
+   20,
+   "Rage (unlimited)",
+   "You can rage an unlimited number of times."
+  ]
+ ],
+ "Bard": [
+  [
+   1,
+   "Spellcasting",
+   "Cast bard spells with Charisma from a list of spells known, using a musical instrument as a focus. You can cast bard rituals."
+  ],
+  [
+   1,
+   "Bardic Inspiration (d6)",
+   "Bonus action: give a creature within 60 ft a d6 to add to one check, attack, or save within 10 minutes. Uses equal Cha modifier per long rest."
+  ],
+  [
+   2,
+   "Jack of All Trades",
+   "Add half your proficiency bonus, rounded down, to any ability check that does not already use your proficiency bonus."
+  ],
+  [
+   2,
+   "Song of Rest (d6)",
+   "Allies who spend Hit Dice to heal during your short rest regain an extra 1d6 HP."
+  ],
+  [
+   3,
+   "Subclass",
+   "Choose your Bard College."
+  ],
+  [
+   3,
+   "Expertise",
+   "Choose 2 skills you are proficient in. Your proficiency bonus is doubled for checks with them."
+  ],
+  [
+   4,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   5,
+   "Bardic Inspiration (d8)",
+   "Your Bardic Inspiration die becomes a d8."
+  ],
+  [
+   5,
+   "Font of Inspiration",
+   "You regain all Bardic Inspiration uses on a short or long rest."
+  ],
+  [
+   6,
+   "Countercharm",
+   "Action: until the end of your next turn, you and allies within 30 ft who can hear you get advantage on saves against charm and fear."
+  ],
+  [
+   8,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   9,
+   "Song of Rest (d8)",
+   "Song of Rest healing becomes 1d8."
+  ],
+  [
+   10,
+   "Bardic Inspiration (d10)",
+   "Your Bardic Inspiration die becomes a d10."
+  ],
+  [
+   10,
+   "Expertise",
+   "Choose 2 more proficient skills to gain double proficiency bonus."
+  ],
+  [
+   10,
+   "Magical Secrets",
+   "Learn 2 spells from any class's spell list. They count as bard spells for you."
+  ],
+  [
+   12,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   13,
+   "Song of Rest (d10)",
+   "Song of Rest healing becomes 1d10."
+  ],
+  [
+   14,
+   "Magical Secrets",
+   "Learn 2 more spells from any class's spell list."
+  ],
+  [
+   15,
+   "Bardic Inspiration (d12)",
+   "Your Bardic Inspiration die becomes a d12."
+  ],
+  [
+   16,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   17,
+   "Song of Rest (d12)",
+   "Song of Rest healing becomes 1d12."
+  ],
+  [
+   18,
+   "Magical Secrets",
+   "Learn 2 more spells from any class's spell list."
+  ],
+  [
+   19,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   20,
+   "Superior Inspiration",
+   "When you roll initiative with no Bardic Inspiration uses left, you regain one use."
+  ]
+ ],
+ "Cleric": [
+  [
+   1,
+   "Spellcasting",
+   "Prepare spells each day from the full cleric list using Wisdom, with a holy symbol as your focus. You can cast cleric rituals."
+  ],
+  [
+   2,
+   "Channel Divinity (1/rest)",
+   "Channel divine power for Turn Undead or another granted effect, once per short or long rest."
+  ],
+  [
+   2,
+   "Turn Undead",
+   "Action: undead within 30 ft that see or hear you make a Wis save or are turned for 1 minute or until they take damage."
+  ],
+  [
+   3,
+   "Subclass",
+   "Choose your Divine Domain."
+  ],
+  [
+   4,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   5,
+   "Destroy Undead (CR 1/2)",
+   "Undead of CR 1/2 or lower that fail the save against your Turn Undead are destroyed instantly."
+  ],
+  [
+   6,
+   "Channel Divinity (2/rest)",
+   "You can use Channel Divinity twice between rests."
+  ],
+  [
+   8,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   8,
+   "Destroy Undead (CR 1)",
+   "Turn Undead now destroys undead of CR 1 or lower that fail the save."
+  ],
+  [
+   10,
+   "Divine Intervention",
+   "Action: roll d100 and if you roll your cleric level or lower, your deity helps. After success, wait 7 days, otherwise retry after a long rest."
+  ],
+  [
+   11,
+   "Destroy Undead (CR 2)",
+   "Turn Undead now destroys undead of CR 2 or lower that fail the save."
+  ],
+  [
+   12,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   14,
+   "Destroy Undead (CR 3)",
+   "Turn Undead now destroys undead of CR 3 or lower that fail the save."
+  ],
+  [
+   16,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   17,
+   "Destroy Undead (CR 4)",
+   "Turn Undead now destroys undead of CR 4 or lower that fail the save."
+  ],
+  [
+   18,
+   "Channel Divinity (3/rest)",
+   "You can use Channel Divinity three times between rests."
+  ],
+  [
+   19,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   20,
+   "Divine Intervention Improvement",
+   "Your call for Divine Intervention now succeeds automatically, no roll needed."
+  ]
+ ],
+ "Druid": [
+  [
+   1,
+   "Druidic",
+   "You know the secret Druidic language and can leave hidden messages in it that only those who know it notice."
+  ],
+  [
+   1,
+   "Spellcasting",
+   "Prepare spells each day from the full druid list using Wisdom, with a druidic focus. You can cast druid rituals."
+  ],
+  [
+   2,
+   "Wild Shape",
+   "Action: become a beast you have seen, up to CR 1/4 with no fly or swim speed. 2 uses per short or long rest, lasts half your level in hours."
+  ],
+  [
+   3,
+   "Subclass",
+   "Choose your Druid Circle."
+  ],
+  [
+   4,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   4,
+   "Wild Shape (CR 1/2)",
+   "You can Wild Shape into beasts up to CR 1/2, including ones with a swimming speed but not flying."
+  ],
+  [
+   8,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   8,
+   "Wild Shape (CR 1)",
+   "You can Wild Shape into beasts up to CR 1, including ones with a flying speed."
+  ],
+  [
+   12,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   16,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   18,
+   "Timeless Body",
+   "You age only 1 year for every 10 years that pass."
+  ],
+  [
+   18,
+   "Beast Spells",
+   "You can cast spells while in Wild Shape using verbal and somatic components, but you cannot supply material components."
+  ],
+  [
+   19,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   20,
+   "Archdruid",
+   "Use Wild Shape without limit. Ignore verbal, somatic, and costless unconsumed material components of druid spells in any form."
+  ]
+ ],
+ "Fighter": [
+  [
+   1,
+   "Fighting Style",
+   "Choose a combat specialty such as Archery, Defense, Dueling, Great Weapon Fighting, Protection, or Two-Weapon Fighting."
+  ],
+  [
+   1,
+   "Second Wind",
+   "Bonus action: regain 1d10 + your fighter level in HP. Once per short or long rest."
+  ],
+  [
+   2,
+   "Action Surge (one use)",
+   "Take one extra action on your turn. Once per short or long rest."
+  ],
+  [
+   3,
+   "Subclass",
+   "Choose your Martial Archetype."
+  ],
+  [
+   4,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   5,
+   "Extra Attack",
+   "Attack twice instead of once when you take the Attack action on your turn."
+  ],
+  [
+   6,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   8,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   9,
+   "Indomitable (one use)",
+   "Reroll a failed saving throw and use the new roll. Once per long rest."
+  ],
+  [
+   11,
+   "Extra Attack (2)",
+   "Attack three times when you take the Attack action."
+  ],
+  [
+   12,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   13,
+   "Indomitable (two uses)",
+   "You can use Indomitable twice per long rest."
+  ],
+  [
+   14,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   16,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   17,
+   "Action Surge (two uses)",
+   "You can use Action Surge twice per short or long rest, but only once per turn."
+  ],
+  [
+   17,
+   "Indomitable (three uses)",
+   "You can use Indomitable three times per long rest."
+  ],
+  [
+   19,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   20,
+   "Extra Attack (3)",
+   "Attack four times when you take the Attack action."
+  ]
+ ],
+ "Monk": [
+  [
+   1,
+   "Unarmored Defense",
+   "Without armor or a shield, your AC equals 10 + Dex modifier + Wis modifier."
+  ],
+  [
+   1,
+   "Martial Arts (d4)",
+   "Unarmed or with monk weapons and no armor: use Dex, deal a d4 or weapon die, and make an unarmed strike as a bonus action after attacking."
+  ],
+  [
+   2,
+   "Ki",
+   "Gain ki points equal to your monk level, regained on a short or long rest. Spend them on Flurry of Blows, Patient Defense, and Step of the Wind."
+  ],
+  [
+   2,
+   "Unarmored Movement (+10 ft)",
+   "Your speed increases by 10 ft while you wear no armor and carry no shield."
+  ],
+  [
+   3,
+   "Subclass",
+   "Choose your Monastic Tradition."
+  ],
+  [
+   3,
+   "Deflect Missiles",
+   "Reaction: cut ranged weapon damage by 1d10 + Dex modifier + monk level. If reduced to 0, you can catch it and throw it back for 1 ki."
+  ],
+  [
+   4,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   4,
+   "Slow Fall",
+   "Reaction: reduce falling damage you take by 5 times your monk level."
+  ],
+  [
+   5,
+   "Extra Attack",
+   "Attack twice instead of once when you take the Attack action on your turn."
+  ],
+  [
+   5,
+   "Stunning Strike",
+   "When you hit with a melee weapon attack, spend 1 ki to force a Con save or the target is stunned until the end of your next turn."
+  ],
+  [
+   5,
+   "Martial Arts (d6)",
+   "Your Martial Arts damage die becomes a d6."
+  ],
+  [
+   6,
+   "Ki-Empowered Strikes",
+   "Your unarmed strikes count as magical for overcoming resistance and immunity."
+  ],
+  [
+   6,
+   "Unarmored Movement (+15 ft)",
+   "Your unarmored speed bonus increases to 15 ft."
+  ],
+  [
+   7,
+   "Evasion",
+   "When a Dex save would halve damage, you take none on a success and only half on a failure."
+  ],
+  [
+   7,
+   "Stillness of Mind",
+   "Use your action to end one effect on yourself that is making you charmed or frightened."
+  ],
+  [
+   8,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   9,
+   "Unarmored Movement Improvement",
+   "On your turn you can move along vertical surfaces and across liquids without falling during the move."
+  ],
+  [
+   10,
+   "Purity of Body",
+   "You are immune to disease and poison."
+  ],
+  [
+   10,
+   "Unarmored Movement (+20 ft)",
+   "Your unarmored speed bonus increases to 20 ft."
+  ],
+  [
+   11,
+   "Martial Arts (d8)",
+   "Your Martial Arts damage die becomes a d8."
+  ],
+  [
+   12,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   13,
+   "Tongue of the Sun and Moon",
+   "You understand all spoken languages, and any creature that knows a language understands what you say."
+  ],
+  [
+   14,
+   "Diamond Soul",
+   "Gain proficiency in all saving throws. Spend 1 ki to reroll a failed save and take the new result."
+  ],
+  [
+   14,
+   "Unarmored Movement (+25 ft)",
+   "Your unarmored speed bonus increases to 25 ft."
+  ],
+  [
+   15,
+   "Timeless Body",
+   "You no longer suffer the frailty of old age, cannot be aged magically, and need no food or water."
+  ],
+  [
+   16,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   17,
+   "Martial Arts (d10)",
+   "Your Martial Arts damage die becomes a d10."
+  ],
+  [
+   18,
+   "Empty Body",
+   "Action: spend 4 ki to turn invisible for 1 minute with resistance to all damage but force, or 8 ki to cast astral projection on yourself."
+  ],
+  [
+   18,
+   "Unarmored Movement (+30 ft)",
+   "Your unarmored speed bonus increases to 30 ft."
+  ],
+  [
+   19,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   20,
+   "Perfect Self",
+   "When you roll initiative with no ki points left, you regain 4 ki points."
+  ]
+ ],
+ "Paladin": [
+  [
+   1,
+   "Divine Sense",
+   "Action: sense celestials, fiends, and undead within 60 ft until your next turn ends. Uses equal 1 + Cha modifier per long rest."
+  ],
+  [
+   1,
+   "Lay on Hands",
+   "Heal from a pool of 5 times your paladin level in HP per long rest by touch as an action, or spend 5 to cure a disease or poison."
+  ],
+  [
+   2,
+   "Fighting Style",
+   "Choose a combat specialty: Defense, Dueling, Great Weapon Fighting, or Protection."
+  ],
+  [
+   2,
+   "Spellcasting",
+   "Prepare paladin spells each day using Charisma as a half caster, with a holy symbol as your focus."
+  ],
+  [
+   2,
+   "Divine Smite",
+   "On a melee weapon hit, spend a spell slot for +2d8 radiant, +1d8 per slot level above 1st (max 5d8), +1d8 more versus undead or fiends."
+  ],
+  [
+   3,
+   "Subclass",
+   "Choose your Sacred Oath."
+  ],
+  [
+   3,
+   "Divine Health",
+   "You are immune to disease."
+  ],
+  [
+   4,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   5,
+   "Extra Attack",
+   "Attack twice instead of once when you take the Attack action on your turn."
+  ],
+  [
+   6,
+   "Aura of Protection",
+   "While you are conscious, you and allies within 10 ft add your Cha modifier (min +1) to saving throws."
+  ],
+  [
+   8,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   10,
+   "Aura of Courage",
+   "While you are conscious, you and allies within 10 ft cannot be frightened."
+  ],
+  [
+   11,
+   "Improved Divine Smite",
+   "All your melee weapon hits deal an extra 1d8 radiant damage."
+  ],
+  [
+   12,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   14,
+   "Cleansing Touch",
+   "Action: end one spell on yourself or a willing creature you touch. Uses equal your Cha modifier (min 1) per long rest."
+  ],
+  [
+   16,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   18,
+   "Aura Improvements",
+   "Your paladin auras now reach 30 ft instead of 10 ft."
+  ],
+  [
+   19,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ]
+ ],
+ "Ranger": [
+  [
+   1,
+   "Favored Enemy",
+   "Pick a creature type (or two humanoid races). Gain advantage on Survival to track them and Int checks to recall facts, plus one of their languages."
+  ],
+  [
+   1,
+   "Natural Explorer",
+   "Pick a favored terrain. Double proficiency on related Int and Wis checks, and travel there is faster and safer for your group."
+  ],
+  [
+   2,
+   "Fighting Style",
+   "Choose a combat specialty: Archery, Defense, Dueling, or Two-Weapon Fighting."
+  ],
+  [
+   2,
+   "Spellcasting",
+   "Cast ranger spells with Wisdom from a list of spells known as a half caster."
+  ],
+  [
+   3,
+   "Subclass",
+   "Choose your Ranger Archetype."
+  ],
+  [
+   3,
+   "Primeval Awareness",
+   "Action: spend a spell slot to sense aberrations, celestials, dragons, elementals, fey, fiends, or undead nearby for 1 minute per slot level."
+  ],
+  [
+   4,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   5,
+   "Extra Attack",
+   "Attack twice instead of once when you take the Attack action on your turn."
+  ],
+  [
+   6,
+   "Favored Enemy Improvement",
+   "Choose one more favored enemy and learn one more associated language."
+  ],
+  [
+   6,
+   "Natural Explorer Improvement",
+   "Choose one more favored terrain."
+  ],
+  [
+   8,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   8,
+   "Land's Stride",
+   "Nonmagical difficult terrain costs no extra movement, plants do not hinder you, and you have advantage on saves against magical plants."
+  ],
+  [
+   10,
+   "Natural Explorer Improvement",
+   "Choose one more favored terrain."
+  ],
+  [
+   10,
+   "Hide in Plain Sight",
+   "Spend 1 minute making camouflage. While you stay still against a solid surface, you gain +10 to Stealth checks."
+  ],
+  [
+   12,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   14,
+   "Favored Enemy Improvement",
+   "Choose one more favored enemy and learn one more associated language."
+  ],
+  [
+   14,
+   "Vanish",
+   "Hide as a bonus action, and you cannot be tracked by nonmagical means unless you allow it."
+  ],
+  [
+   16,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   18,
+   "Feral Senses",
+   "Attacking creatures you cannot see has no disadvantage, and you sense unhidden invisible creatures within 30 ft."
+  ],
+  [
+   19,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   20,
+   "Foe Slayer",
+   "Once on each of your turns, add your Wis modifier to an attack roll or damage roll against a favored enemy."
+  ]
+ ],
+ "Rogue": [
+  [
+   1,
+   "Expertise",
+   "Choose 2 skills (or 1 skill and thieves' tools) you are proficient in. Your proficiency bonus is doubled for them."
+  ],
+  [
+   1,
+   "Sneak Attack (1d6)",
+   "Once per turn, deal +1d6 with a finesse or ranged weapon hit if you have advantage or an ally is next to the target and you lack disadvantage."
+  ],
+  [
+   1,
+   "Thieves' Cant",
+   "You know the secret mix of jargon and signs that rogues use to pass hidden messages."
+  ],
+  [
+   2,
+   "Cunning Action",
+   "Take the Dash, Disengage, or Hide action as a bonus action on each of your turns."
+  ],
+  [
+   3,
+   "Subclass",
+   "Choose your Roguish Archetype."
+  ],
+  [
+   3,
+   "Sneak Attack (2d6)",
+   "Your Sneak Attack damage increases to 2d6."
+  ],
+  [
+   4,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   5,
+   "Uncanny Dodge",
+   "Reaction: halve the damage from an attack that hits you, if you can see the attacker."
+  ],
+  [
+   5,
+   "Sneak Attack (3d6)",
+   "Your Sneak Attack damage increases to 3d6."
+  ],
+  [
+   6,
+   "Expertise",
+   "Choose 2 more proficiencies to gain double proficiency bonus."
+  ],
+  [
+   7,
+   "Evasion",
+   "When a Dex save would halve damage, you take none on a success and only half on a failure."
+  ],
+  [
+   7,
+   "Sneak Attack (4d6)",
+   "Your Sneak Attack damage increases to 4d6."
+  ],
+  [
+   8,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   9,
+   "Sneak Attack (5d6)",
+   "Your Sneak Attack damage increases to 5d6."
+  ],
+  [
+   10,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   11,
+   "Reliable Talent",
+   "On ability checks that use your proficiency bonus, treat any d20 roll of 9 or lower as a 10."
+  ],
+  [
+   11,
+   "Sneak Attack (6d6)",
+   "Your Sneak Attack damage increases to 6d6."
+  ],
+  [
+   12,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   13,
+   "Sneak Attack (7d6)",
+   "Your Sneak Attack damage increases to 7d6."
+  ],
+  [
+   14,
+   "Blindsense",
+   "If you can hear, you know where any hidden or invisible creature within 10 ft of you is."
+  ],
+  [
+   15,
+   "Slippery Mind",
+   "You gain proficiency in Wisdom saving throws."
+  ],
+  [
+   15,
+   "Sneak Attack (8d6)",
+   "Your Sneak Attack damage increases to 8d6."
+  ],
+  [
+   16,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   17,
+   "Sneak Attack (9d6)",
+   "Your Sneak Attack damage increases to 9d6."
+  ],
+  [
+   18,
+   "Elusive",
+   "No attack roll has advantage against you while you are not incapacitated."
+  ],
+  [
+   19,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   19,
+   "Sneak Attack (10d6)",
+   "Your Sneak Attack damage increases to 10d6."
+  ],
+  [
+   20,
+   "Stroke of Luck",
+   "Turn a missed attack into a hit, or treat a failed ability check as a 20. Once per short or long rest."
+  ]
+ ],
+ "Sorcerer": [
+  [
+   1,
+   "Spellcasting",
+   "Cast sorcerer spells with Charisma from a list of spells known, using an arcane focus."
+  ],
+  [
+   2,
+   "Font of Magic",
+   "Gain sorcery points equal to your level, regained on a long rest. Convert them into spell slots or turn slots back into points."
+  ],
+  [
+   3,
+   "Subclass",
+   "Choose your Sorcerous Origin."
+  ],
+  [
+   3,
+   "Metamagic",
+   "Learn 2 Metamagic options, like Quickened or Twinned Spell, and spend sorcery points to alter spells. Usually one option per spell."
+  ],
+  [
+   4,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   8,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   10,
+   "Metamagic (+1)",
+   "Learn one more Metamagic option."
+  ],
+  [
+   12,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   16,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   17,
+   "Metamagic (+1)",
+   "Learn one more Metamagic option."
+  ],
+  [
+   19,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   20,
+   "Sorcerous Restoration",
+   "Regain 4 spent sorcery points whenever you finish a short rest."
+  ]
+ ],
+ "Warlock": [
+  [
+   1,
+   "Pact Magic",
+   "Cast warlock spells with Charisma from spells known. Your few slots are always your highest level and return on a short or long rest."
+  ],
+  [
+   2,
+   "Eldritch Invocations",
+   "Learn 2 invocations that grant lasting powers or spells. You can swap one each time you gain a warlock level."
+  ],
+  [
+   3,
+   "Subclass",
+   "Choose your Otherworldly Patron."
+  ],
+  [
+   3,
+   "Pact Boon",
+   "Your patron grants a gift: Pact of the Chain (familiar), Pact of the Blade (summoned weapon), or Pact of the Tome (extra cantrips)."
+  ],
+  [
+   4,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   5,
+   "Eldritch Invocations (+1)",
+   "Learn one more Eldritch Invocation."
+  ],
+  [
+   7,
+   "Eldritch Invocations (+1)",
+   "Learn one more Eldritch Invocation."
+  ],
+  [
+   8,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   9,
+   "Eldritch Invocations (+1)",
+   "Learn one more Eldritch Invocation."
+  ],
+  [
+   11,
+   "Mystic Arcanum (6th level)",
+   "Pick a 6th-level warlock spell to cast once per long rest without using a spell slot."
+  ],
+  [
+   12,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   12,
+   "Eldritch Invocations (+1)",
+   "Learn one more Eldritch Invocation."
+  ],
+  [
+   13,
+   "Mystic Arcanum (7th level)",
+   "Pick a 7th-level warlock spell to cast once per long rest without using a spell slot."
+  ],
+  [
+   15,
+   "Mystic Arcanum (8th level)",
+   "Pick an 8th-level warlock spell to cast once per long rest without using a spell slot."
+  ],
+  [
+   15,
+   "Eldritch Invocations (+1)",
+   "Learn one more Eldritch Invocation."
+  ],
+  [
+   16,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   17,
+   "Mystic Arcanum (9th level)",
+   "Pick a 9th-level warlock spell to cast once per long rest without using a spell slot."
+  ],
+  [
+   18,
+   "Eldritch Invocations (+1)",
+   "Learn one more Eldritch Invocation."
+  ],
+  [
+   19,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   20,
+   "Eldritch Master",
+   "Spend 1 minute pleading with your patron to regain all Pact Magic slots. Once per long rest."
+  ]
+ ],
+ "Wizard": [
+  [
+   1,
+   "Spellcasting",
+   "Cast wizard spells with Intelligence from a spellbook of six 1st-level spells, preparing Int modifier + level daily. Rituals cast from the book."
+  ],
+  [
+   1,
+   "Arcane Recovery",
+   "Once per day on a short rest, regain spell slots totaling up to half your wizard level (rounded up), none 6th level or higher."
+  ],
+  [
+   3,
+   "Subclass",
+   "Choose your Arcane Tradition."
+  ],
+  [
+   4,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   8,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   12,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   16,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   18,
+   "Spell Mastery",
+   "Pick a 1st-level and a 2nd-level spell from your spellbook. Cast them at their lowest level without spending a slot."
+  ],
+  [
+   19,
+   "Ability Score Improvement",
+   "Raise one ability score by 2 or two scores by 1 (max 20), or take a feat if your table allows feats."
+  ],
+  [
+   20,
+   "Signature Spells",
+   "Two 3rd-level spells are always prepared. Cast each once at 3rd level without a slot, regained on a short or long rest."
+  ]
+ ]
+}

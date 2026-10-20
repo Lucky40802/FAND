@@ -777,7 +777,9 @@ D.SUBSTAGES = {};
   D.PEOPLES = { info: info, extra: extra };
   log.push('peoples: ' + Object.keys(info).length + ' profiles, ' + extra.length + ' new peoples');
 })();
-var CORE = ['BPS', 'MATS', 'MONSTERS', 'SUBS', 'GODS', 'DEMONS', 'PATRONS', 'MAT_FX', 'HIDDEN', 'STAGES', 'SUBSTAGES', 'PROF_STAGES', 'PEOPLES'];
+// base class features by level 1-20 (data/class-prog.json): the level-up checklist and the sheet's class features
+(function () { var f = path.join(__dirname, '..', 'data', 'class-prog.json'); D.CLASS_PROG = fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, 'utf8')) : {}; })();
+var CORE = ['BPS', 'MATS', 'MONSTERS', 'SUBS', 'GODS', 'DEMONS', 'PATRONS', 'MAT_FX', 'HIDDEN', 'STAGES', 'SUBSTAGES', 'PROF_STAGES', 'PEOPLES', 'CLASS_PROG'];
 var metaLine = 'const META=' + JSON.stringify(META) + ';';
 var VENDOR = fs.readFileSync(path.join(__dirname, '..', 'app', 'vendor', 'anthropic.js'), 'utf8');
 // Accounts and campaigns (Supabase): on when tools/cloud/config.json has the project's URL and public key (see the README).
