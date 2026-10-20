@@ -1,0 +1,235 @@
+{
+ "Alchemist": {
+  "3|Experimental Elixir": "After a long rest, make one random elixir (more at higher levels); spend a spell slot to make extra ones and pick their effect. Unused elixirs fade at your next long rest.",
+  "9|Restorative Reagents": "Drinking your elixirs also grants temporary hit points. Cast lesser restoration without a slot a number of times equal to your Intelligence modifier per long rest."
+ },
+ "Arcane Archer": {
+  "7|Curving Shot": "When you miss with a magic arrow, use a bonus action to reroll the attack against a different target within 60 ft of the first."
+ },
+ "Arcane Trickster": {
+  "17|Spell Thief": "Reaction when a spell targets you: the caster must save or the spell fails against you and you can cast it for 8 hours while they can't. Once per long rest."
+ },
+ "Armorer": {
+  "15|Perfected Armor": "Guardian: reaction to pull a creature within 30 ft up to 25 ft toward you (Str save) and attack it, Int mod times per long rest. Infiltrator: targets your launcher hits glow; the next attack on them has advantage and +1d6 lightning."
+ },
+ "Artillerist": {
+  "3|Eldritch Cannon": "Action: build a Small or Tiny cannon (flamethrower, force ballista, or protector) for 1 hour; bonus action to fire it. Once per long rest free, or spend a spell slot."
+ },
+ "Banneret": {
+  "15|Bulwark": "When you use Indomitable to reroll a failed Intelligence, Wisdom, or Charisma save, one ally within 60 ft who failed against the same effect can reroll too."
+ },
+ "Battle Master": {
+  "3|Combat Superiority": "Learn three maneuvers and gain four d8 superiority dice (regained on a short or long rest). Spend a die to fuel a maneuver; what the die adds depends on the maneuver."
+ },
+ "Battle Smith": {
+  "9|Arcane Jolt": "Once per turn when your magic weapon or defender hits, deal 2d6 extra force damage or heal a creature within 30 ft of the target for 2d6. Usable Int mod times per long rest."
+ },
+ "Beast Master": {
+  "3|Ranger's Companion": "Gain a Medium or smaller beast companion (CR 1/4 or lower). It acts on your turn; you must use your action to command it to attack, otherwise it takes the Dodge action."
+ },
+ "Bladesinging": {
+  "2|Bladesong": "Bonus action, 1 minute, no medium/heavy armor or shield: add Intelligence to AC and concentration saves, +10 ft speed, advantage on Acrobatics. Uses equal to proficiency bonus per long rest.",
+  "10|Song of Defense": "While Bladesong is active, use your reaction and a spell slot to reduce damage you take by 5 times the slot level.",
+  "14|Song of Victory": "After you use your action to cast a spell, make one weapon attack as a bonus action."
+ },
+ "Cavalier": {
+  "3|Unwavering Mark": "Hitting a creature marks it until your next turn; while within 5 ft of you it has disadvantage attacking others. If it damages someone else, make a bonus-action punishing attack (Strength mod times per long rest).",
+  "7|Warding Maneuver": "Reaction when you or a creature within 5 ft is hit: add 1d8 to its AC against that attack; if it still hits, the damage is halved. Uses equal to Constitution modifier per long rest."
+ },
+ "Chronurgy Magic": {
+  "6|Momentary Stasis": "Action: a Large or smaller creature within 60 ft that fails a Con save is incapacitated with speed 0 until the end of your next turn. Int mod times per long rest."
+ },
+ "Circle of Dreams": {
+  "10|Hidden Paths": "Bonus action: teleport yourself up to 60 ft, or use an action to teleport a willing creature you touch up to 30 ft. Uses equal to Wisdom modifier per long rest."
+ },
+ "Circle of Wildfire": {
+  "10|Cauterizing Flames": "When a creature dies near you or your spirit, a flame lingers for a minute; when someone enters it, use your reaction to heal or burn them. Uses equal to proficiency bonus per long rest.",
+  "14|Blazing Revival": "When you drop to 0 HP with your spirit nearby, sacrifice it to regain half your hit points and stand up. Once per long rest."
+ },
+ "Circle of the Shepherd": {
+  "2|Spirit Totem": "Bonus action: summon a spirit with a 30 ft aura for 1 minute, once per short or long rest (Bear: temp HP and Strength advantage; Hawk: reaction to grant attack advantage; Unicorn: bonus healing and detection)."
+ },
+ "Clockwork Soul": {
+  "1|Restore Balance": "Reaction: stop a creature within 60 ft from rolling with advantage or disadvantage on a d20. Proficiency bonus times per long rest.",
+  "14|Trance of Order": "Bonus action, for 1 minute: attacks against you can't have advantage, and your d20 rolls of 9 or lower count as 10. Once per long rest, or again for 5 sorcery points."
+ },
+ "College of Creation": {
+  "3|Performance of Creation": "Action: conjure a nonmagical item of limited value and size that lasts hours equal to your proficiency bonus. Once per long rest, or spend a 2nd-level or higher slot.",
+  "6|Animating Performance": "Action: animate a Large or smaller nonmagical object into a dancing construct for 1 hour; command it with your bonus action. Once per long rest, or spend a 3rd-level or higher slot."
+ },
+ "College of Eloquence": {
+  "3|Unsettling Words": "Bonus action: spend a Bardic Inspiration die on a creature within 60 ft; it subtracts the roll from its next saving throw before your next turn starts.",
+  "6|Universal Speech": "Action: up to Cha mod creatures within 60 ft understand you, whatever language you speak, for 1 hour. Once per long rest, or again by spending a spell slot.",
+  "14|Infectious Inspiration": "When a creature within 60 ft succeeds using your Inspiration die, use your reaction to give another creature a free Inspiration die. Cha mod times per long rest."
+ },
+ "College of Glamour": {
+  "3|Mantle of Inspiration": "Bonus action, spend a Bardic Inspiration die: a few creatures within 60 ft gain temporary hit points and can each use their reaction to move without provoking opportunity attacks.",
+  "3|Enthralling Performance": "After a 1-minute performance, a few humanoids who watched must pass a Wisdom save or be charmed for an hour and admire you. Once per short or long rest.",
+  "14|Unbreakable Majesty": "Bonus action, 1 minute: the first time each turn a creature attacks you, it must pass a Charisma save or pick a new target. Once per short or long rest."
+ },
+ "College of Whispers": {
+  "14|Shadow Lore": "Action: a creature within 30 ft must pass a Wisdom save or believe you know its darkest secret; charmed for 8 hours, it obeys you but won't fight or risk its life. Once per long rest."
+ },
+ "Drakewarden": {
+  "7|Bond of Fang and Scale": "The drake grows to Medium, gains a flying speed, and its bite deals extra damage. You can ride it, but it can't fly while you're riding (until 15th level).",
+  "11|Drake's Breath": "Action: you or the drake exhale a 30 ft cone of elemental damage (Dexterity save). Once per long rest, or spend a 3rd-level or higher slot."
+ },
+ "Echo Knight": {
+  "10|Shadow Martyr": "Reaction: teleport your echo next to an ally who is being attacked, and the attack targets the echo instead. Once per short or long rest."
+ },
+ "Fey Wanderer": {
+  "7|Beguiling Twist": "Advantage on saves against being charmed or frightened. When you or a creature within 120 ft succeeds on such a save, use your reaction to try to charm or frighten another creature (Wis save) for 1 minute.",
+  "11|Fey Reinforcements": "You always know summon fey and can cast it once per long rest without a slot or material component; you may drop concentration, but then it lasts only 1 minute."
+ },
+ "Forge Domain": {
+  "2|Channel Divinity: Artisan's Blessing": "Hour-long ritual to craft a metal item worth up to 100 gp; you must use up metal of equal value."
+ },
+ "Graviturgy Magic": {
+  "6|Gravity Well": "When you cast a spell on a creature, you can move it 5 ft if it's willing, you hit it with a spell attack, or it fails the spell's save.",
+  "10|Violent Attraction": "Reaction: add 1d10 to a weapon hit, or 2d10 to falling damage, for a creature within 60 ft. Uses equal to Intelligence modifier per long rest.",
+  "14|Event Horizon": "Action, concentration up to 1 minute: a 30 ft aura where enemies take force damage and are stopped or slowed (Strength save). Once per long rest, or spend a 3rd-level or higher slot."
+ },
+ "Horizon Walker": {
+  "3|Planar Warrior": "Bonus action: choose a creature within 30 ft. Your next weapon hit on it this turn deals all force damage plus 1d8 force (2d8 at 11th level)."
+ },
+ "Lunar Sorcery": {
+  "1|Lunar Embodiment": "You always know the spells of all three phases (Full, New, Crescent Moon). Pick a phase after a long rest; once per long rest, cast that phase's 1st-level spell without a slot.",
+  "1|Moon Fire": "Learn sacred flame; when you cast it you can target two creatures within 5 ft of each other instead of one.",
+  "6|Lunar Boons": "When you cast a spell of the schools tied to your current phase, metamagic on it costs 1 fewer sorcery point. Proficiency bonus times per long rest.",
+  "6|Waxing and Waning": "Bonus action: spend 1 sorcery point to switch to a different lunar phase."
+ },
+ "Monster Slayer": {
+  "11|Magic-User's Nemesis": "Reaction: a creature within 60 ft casting a spell or teleporting must pass a Wisdom save or it fails. Once per short or long rest.",
+  "15|Slayer's Counter": "Reaction when your prey forces you to save: make one weapon attack against it; on a hit, you automatically succeed on the save."
+ },
+ "Oath of Glory": {
+  "15|Glorious Defense": "Reaction when you or a creature within 10 ft is hit: add your Charisma modifier to its AC; if the attack misses, you can attack the attacker. Charisma mod uses per long rest.",
+  "20|Living Legend": "Bonus action, 1 minute: advantage on Charisma checks, turn a missed weapon attack into a hit once per turn, and reroll failed saves as a reaction. Once per long rest or spend a 5th-level slot."
+ },
+ "Oath of Redemption": {
+  "20|Emissary of Redemption": "Resistance to damage from other creatures, and creatures that hit you take radiant damage equal to half the damage you take. You lose this against a creature you attack or harm until a long rest."
+ },
+ "Oath of Vengeance": {
+  "20|Avenging Angel": "Action, 1 hour: grow wings to fly, and emit a 30 ft aura that can frighten enemies. Once per long rest."
+ },
+ "Oath of the Crown": {
+  "3|Channel Divinity: Champion Challenge": "Bonus action: creatures of your choice within 30 ft must pass a Wisdom save or be unable to willingly move more than 30 ft away from you.",
+  "20|Exalted Champion": "Action, 1 hour: resist nonmagical weapon damage, and give allies advantage on death saves and you and allies advantage on Wisdom saves. Once per long rest."
+ },
+ "Oath of the Watchers": {
+  "15|Vigilant Rebuke": "Reaction: when you or a creature within 30 ft succeeds on an Int, Wis, or Cha save, deal 2d8 + Cha mod force damage to whoever forced the save."
+ },
+ "Oathbreaker": {
+  "20|Dread Lord": "Action, 1 minute: an aura of gloom damages frightened enemies, hides you and allies in shadow, and lets you attack with shadows as a bonus action. Once per long rest."
+ },
+ "Order of Scribes": {
+  "2|Awakened Spellbook": "When casting with a slot, swap the damage type for another type found in a same-level spell in your book. Once per long rest, cast a ritual at normal speed.",
+  "10|Master Scrivener": "After a long rest, create a scroll of a 1st- or 2nd-level spell from your book, cast one level higher; it fades at your next long rest.",
+  "14|One with the Word": "Reaction: prevent all damage you take; your book then loses spells (3d6 total levels) for 1d6 long rests. Once per long rest."
+ },
+ "Path of Wild Magic": {
+  "6|Bolstering Magic": "Action: touch a creature to give it +1d3 on attacks and checks for 10 minutes, or let it regain a spell slot of level 1d3. Uses equal to proficiency bonus per long rest.",
+  "10|Unstable Backlash": "When you take damage or fail a save while raging, use your reaction to roll a new Wild Surge effect, replacing the current one."
+ },
+ "Path of the Beast": {
+  "10|Infectious Fury": "When you hit with a natural weapon, force a Wisdom save: on a failure the target uses its reaction to attack a creature you choose, or takes 2d12 psychic. Proficiency bonus times per long rest.",
+  "14|Call the Hunt": "When you rage, choose up to Con mod allies within 30 ft: each deals +1d6 damage once per turn during the rage, and you gain 5 temp HP per ally. Proficiency bonus times per long rest."
+ },
+ "Path of the Giant": {
+  "3|Giant's Havoc": "While raging, your reach grows by 5 ft and you become Large if smaller. Thrown weapon attacks using Strength add your Rage damage bonus.",
+  "10|Mighty Impel": "Bonus action while raging: move a Medium or smaller creature within reach to a space up to 30 ft away (Strength save if unwilling). It may fall and take damage."
+ },
+ "Path of the Storm Herald": {
+  "14|Raging Storm": "Sea: when you hit a creature in your aura with an attack, use your reaction to force a Strength save; on a failure it is knocked prone."
+ },
+ "Path of the Totem Warrior": {
+  "6|Aspect of the Beast": "A permanent perk matching the totem (Bear: double carrying capacity and advantage on Strength checks to push, pull, lift, or break; Eagle: see clearly up to a mile; Wolf: track fast, travel stealthily at normal pace).",
+  "14|Totemic Attunement": "A stronger rage benefit (Bear: hostile creatures next to you have disadvantage attacking others; Eagle: fly while raging but you fall if you end your turn airborne; Wolf: bonus action to knock a Large-or-smaller creature you hit prone)."
+ },
+ "Path of the Zealot": {
+  "3|Warrior of the Gods": "If a spell would bring you back to life (not as undead), its caster needs no material components for it.",
+  "10|Zealous Presence": "Bonus action: up to ten creatures within 60 ft that can hear you gain advantage on attack rolls and saves until the start of your next turn. Once per long rest."
+ },
+ "Peace Domain": {
+  "1|Emboldening Bond": "Action: bond up to proficiency bonus creatures for 10 minutes; once per turn, a bonded creature near another can add a d4 to an attack, check, or save. Proficiency bonus uses per long rest."
+ },
+ "Phantom": {
+  "3|Whispers of the Dead": "Gain one skill or tool proficiency of your choice; after a short or long rest you can swap it for a different one.",
+  "3|Wails from the Grave": "After a Sneak Attack, a second creature within 30 ft takes necrotic damage from half your Sneak Attack dice. Uses equal to proficiency bonus per long rest.",
+  "13|Ghost Walk": "Bonus action, 10 minutes: hover with a 10 ft fly speed, attacks against you have disadvantage, and you can pass through objects. Once per long rest or destroy a soul trinket."
+ },
+ "Psi Warrior": {
+  "15|Bulwark of Force": "Bonus action: you and up to Int mod creatures within 30 ft gain half cover for 1 minute. Once per long rest, or again by spending a psionic die.",
+  "18|Telekinetic Master": "Cast telekinesis without a slot once per long rest (or by spending a psionic die); while concentrating on it, make one weapon attack as a bonus action each turn."
+ },
+ "Rune Knight": {
+  "3|Giant's Might": "Bonus action, 1 minute: become Large, gain advantage on Strength checks and saves, and deal extra weapon damage once per turn. Uses equal to proficiency bonus per long rest.",
+  "7|Runic Shield": "Reaction when a creature you can see within 60 ft is hit: force the attacker to reroll. Uses equal to proficiency bonus per long rest."
+ },
+ "Samurai": {
+  "18|Strength Before Death": "When reduced to 0 HP but not killed, use your reaction to delay falling unconscious and take an extra turn immediately. Once per long rest."
+ },
+ "School of Conjuration (Wizard)": {
+  "6|Benign Transposition": "Action: teleport up to 30 ft, or swap places with a willing Small or Medium creature. Usable again after a long rest or casting a conjuration spell."
+ },
+ "School of Illusion (Wizard)": {
+  "10|Illusory Self": "Reaction: an illusory duplicate makes one attack against you automatically miss. Once per short or long rest."
+ },
+ "Soulknife": {
+  "13|Psychic Veil": "Action: turn invisible for up to an hour; it ends early if you deal damage or force a save. Once per long rest, or spend a Psionic die.",
+  "17|Rend Mind": "When you Sneak Attack with a psychic blade, the target must pass a Wisdom save or be stunned for up to a minute. Once per long rest, or spend 3 Psionic dice."
+ },
+ "Swarmkeeper": {
+  "7|Writhing Tide": "Bonus action: gain a 10 ft flying speed and can hover for 1 minute. Proficiency bonus times per long rest.",
+  "15|Swarming Dispersal": "Reaction when you take damage: gain resistance to it and teleport up to 30 ft. Proficiency bonus times per long rest."
+ },
+ "Tempest Domain": {
+  "1|Wrath of the Storm": "Reaction when a creature within 5 ft hits you: it takes 2d8 lightning or thunder damage (half on a Dexterity save). Uses equal to Wisdom modifier per long rest."
+ },
+ "The Archfey (Patron)": {
+  "1|Fey Presence": "Action: creatures in a 10 ft cube from you must pass a Wisdom save or be charmed or frightened until your next turn ends. Once per short or long rest.",
+  "6|Misty Escape": "Reaction when damaged: teleport 60 ft and turn invisible until your next turn (ends if you attack or cast). Once per short or long rest."
+ },
+ "The Fathomless (Patron)": {
+  "10|Grasping Tentacles": "Always have Evard's black tentacles and cast it free once per long rest. Casting it gives you temp HP, and damage can't break your concentration on it."
+ },
+ "The Genie (Patron)": {
+  "6|Elemental Gift": "Resistance to your genie's damage type. Bonus action: gain a 30 ft flying speed for 10 minutes, proficiency bonus times per long rest.",
+  "14|Limited Wish": "Action: cast any spell of 6th level or lower with a 1-action casting time, from any class list, without components. After use, you can't do it again until you finish 1d4 long rests."
+ },
+ "The Great Old One (Patron)": {
+  "6|Entropic Ward": "Reaction: impose disadvantage on an attack against you; if it misses, gain advantage on your next attack against it. Once per short or long rest.",
+  "14|Create Thrall": "Action: charm an incapacitated humanoid you touch until the curse is removed or you make a new thrall; you can talk to it telepathically."
+ },
+ "The Hexblade (Patron)": {
+  "1|Hexblade's Curse": "Bonus action: curse a creature within 30 ft for 1 minute: +prof bonus damage, crits on 19-20, and you heal when it dies. Once per short or long rest.",
+  "1|Hex Warrior": "Medium armor, shields, and martial weapons. After a long rest, pick one one-handed weapon (or your pact weapon) to attack with using Charisma.",
+  "10|Armor of Hexes": "When the target of your Hexblade's Curse hits you, use your reaction to roll a d6; on a 4 or higher the attack misses.",
+  "_ds": "A pact with a mysterious entity from the Shadowfell that speaks through sentient magic weapons. (Xanathar's Guide to Everything)"
+ },
+ "The Undead (Patron)": {
+  "1|Form of Dread": "Bonus action, 1 minute: gain temporary hit points, immunity to fear, and a hit that can frighten once per turn. Uses equal to proficiency bonus per long rest.",
+  "6|Grave Touched": "You don't need to eat, drink, or breathe. Once per turn change a hit's damage to necrotic; in Form of Dread, also add one extra damage die.",
+  "10|Necrotic Husk": "Necrotic resistance (immunity in Form of Dread). Once per long rest, when dropped to 0 HP, drop to 1 instead and burst in necrotic energy, gaining a level of exhaustion."
+ },
+ "The Undying (Patron)": {
+  "6|Defy Death": "When you succeed on a death save or stabilize someone with spare the dying, regain 1d8 + Con mod hit points. Once per long rest.",
+  "14|Indestructible Life": "Bonus action: regain 1d8 + warlock level hit points and reattach a severed body part. Once per short or long rest."
+ },
+ "Trickery Domain": {
+  "6|Channel Divinity: Cloak of Shadows": "Action: become invisible until the end of your next turn, or until you attack or cast a spell."
+ },
+ "Way of the Ascendant Dragon": {
+  "3|Draconic Disciple": "Change unarmed strike damage to an element; learn Draconic. Once per long rest, use your reaction to reroll a failed Intimidation or Persuasion check.",
+  "3|Breath of the Dragon": "Replace an attack with an elemental breath (cone or line, Dexterity save). Uses equal to proficiency bonus per long rest, or spend 2 ki.",
+  "17|Ascendant Aspect": "Breath of the Dragon grows stronger, you gain 10 ft blindsight, and activating Aspect of the Wyrm also blasts nearby creatures with elemental damage."
+ },
+ "Way of the Astral Self": {
+  "3|Arms of the Astral Self": "Bonus action, 1 ki: spectral arms for 10 minutes that hit nearby foes on arrival, give +5 ft reach, use Wisdom for unarmed strikes, and let you use Wisdom for Strength checks and saves.",
+  "6|Visage of the Astral Self": "Bonus action, 1 ki: an astral face for 10 minutes giving 120 ft darkvision (even in magical darkness), advantage on Insight and Intimidation, and a voice you can whisper to one creature or project 600 ft.",
+  "11|Body of the Astral Self": "With both arms and visage active: use your reaction to reduce acid, cold, fire, force, lightning, or thunder damage by 1d10 + Wis, and once per turn add a martial arts die to an astral arm hit."
+ },
+ "Way of the Drunken Master": {
+  "6|Tipsy Sway": "Spend 1 ki as a reaction when a creature misses you in melee to make the attack hit another creature within 5 ft of you. Standing up from prone costs only 5 ft."
+ }
+}

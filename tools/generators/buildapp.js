@@ -697,6 +697,11 @@ log.push('class stages: ' + Object.keys(D.STAGES).length + ' classes, changes II
     if (v && v.md) v.md.split('\n').forEach(function (l) { var m = /^\|\s*(\d+)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|/.exec(l); if (m && +m[1] <= 20) rows.push([+m[1], m[2], m[3]]); });
     if (rows.length) { s.lv = rows; nv++; } else if (extra[s.n]) { s.lv = extra[s.n]; s.lvSite = 1; ne++; }
   });
+  // corrected summaries for published subclasses (data/sub-fix.json, keyed "level|feature"; "_ds" fixes the description),
+  // checked against the books; the vault pages are unchanged
+  var ff = path.join(__dirname, '..', 'data', 'sub-fix.json'), fix = fs.existsSync(ff) ? JSON.parse(fs.readFileSync(ff, 'utf8')) : {};
+  D.SUBS.forEach(function (s) { var f = fix[s.n]; if (!f) return; if (f._ds) s.ds = f._ds;
+    (s.lv || []).forEach(function (x) { var t = f[x[0] + '|' + x[1]]; if (t) x[2] = t; }); });
   // features the site adds to vault subclasses (data/sub-extra.json), shown with a marker; the vault pages are unchanged
   var xf = path.join(__dirname, '..', 'data', 'sub-extra.json'), xadd = fs.existsSync(xf) ? JSON.parse(fs.readFileSync(xf, 'utf8')) : {};
   D.SUBS.forEach(function (s) { if (!xadd[s.n] || !s.lv) return; var have = {}; s.lv.forEach(function (x) { have[x[0] + '|' + x[1]] = 1; });
