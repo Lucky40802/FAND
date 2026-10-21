@@ -1,4 +1,13 @@
 {
   "_note": "Hand-picked god contract materials that replace the automatic choice. Key: the god's name (before ' - '); value: rank -> material name.",
-  "Arawn": { "Minor": "Kingsbane Mushroom" }
+  "Arawn": {
+    "Minor": "Kingsbane Mushroom"
+  },
+  "Herobrine": {
+    "Minor": "Coal",
+    "Major": "Emerald"
+  },
+  "Arceus": {
+    "Major": "Ballstone"
+  }
 }
