@@ -1,0 +1,238 @@
+[
+ {
+  "n": "Herobrine - The Removed",
+  "grp": "Minecraft Pantheon",
+  "myth": "A pale figure with empty white eyes who was struck from the world in every update yet is still glimpsed at the edge of render distance, building perfect tunnels and tree-less trees no mortal hand could make. Scholars agree he does not exist, and every one of them has stopped mining at night.",
+  "runes": ["Pickaxe", "Deletion", "Fear"],
+  "home": "Void",
+  "wants": "A torch placed in every tunnel you dig, at least one block you mined left for him, and his name never said in a patch note",
+  "sig": ["Obsidian", "Diamond", "Void-Eye Obsidian"],
+  "relic": "The Original Pickaxe",
+  "seated": 5,
+  "pop": 1,
+  "hand": [
+   "Steve, the first player, who has punched more trees than any druid alive and still refuses to explain where he keeps eight hundred blocks of cobblestone",
+   "Alex, Steve's rival, faster to every diamond and quietly sure the 1st Finger's seat should have been hers",
+   "Jesse of the Order of the Stone, a builder-hero who has saved the world so many times they now do it between lunch and supper",
+   "The Wandering Trader, who sells one emerald's worth of goods for forty and is followed everywhere by two llamas with a grudge",
+   "The Creeper, a silent green servant who loves hugs and has never been invited back to a party"
+  ]
+ },
+ {
+  "n": "Arceus - The Original One",
+  "grp": "Pokemon Pantheon",
+  "myth": "Said to have hatched from an egg in the void and shaped the world with a thousand arms, Arceus made Time, Space, and the Reverse World from its own body and then slept for an age. It holds eighteen Plates, one for each kind of creature, and changes its nature by holding a different one.",
+  "runes": ["Creation", "Origin", "Supreme"],
+  "home": "Heaven",
+  "wants": "Respect for every creature you catch, tame, or bind, and every Plate you find brought to its altar unbroken",
+  "sig": ["Celestial Gold", "Godplate", "Genesis Crystal"],
+  "relic": "The Master Ball",
+  "seated": 4,
+  "pop": 1,
+  "hand": [
+   "Ash Ketchum, a trainer from Pallet Town who has been ten years old for longer than most elves live",
+   "Red, a champion who has not said a single word in thirty years and still wins every fight on a mountaintop",
+   "Cynthia, a champion and scholar of the old myths, feared by every challenger who reaches the end of the league",
+   "Professor Oak, who hands out the first creature to every young hero and still cannot remember his own grandson's name"
+  ]
+ },
+ {
+  "n": "Dialga - Lord of Time",
+  "grp": "Pokemon Pantheon",
+  "myth": "A steel dragon born of Arceus whose heartbeat makes time move forward. When it roars, the clock stops for everyone but it, and when it is angry whole cities wake to find it is suddenly last week.",
+  "runes": ["Time", "Tempo", "Time Duration"],
+  "home": "Outer Realm",
+  "wants": "No time travel without its leave, every broken clock you find repaired, and a long rest never skipped",
+  "sig": ["Diamond", "Chronomancy Shard", "Hourstone"],
+  "relic": "Adamant Orb",
+  "seated": 2,
+  "pop": 1,
+  "hand": [
+   "Lucas, a young trainer from Twinleaf Town who has been late for nothing in his life",
+   "Dawn, a contest star who keeps a pocket watch that runs a little faster than everyone else's"
+  ]
+ },
+ {
+  "n": "Palkia - Lord of Space",
+  "grp": "Pokemon Pantheon",
+  "myth": "A pearl-scaled dragon born of Arceus that holds space together and pulls it apart as it pleases. Ask a temple of Palkia where something is and the priests will say it is exactly where it was, which is not where you are.",
+  "runes": ["Spatial", "Dimension"],
+  "home": "Outer Realm",
+  "wants": "Your bag kept tidy, no portal opened without its leave, and room always made for a stranger",
+  "sig": ["Astral Pearl", "Rift Metal", "Astral Bronze"],
+  "relic": "Lustrous Orb",
+  "seated": 2,
+  "pop": 1,
+  "hand": [
+   "Barry, a rival who is always in a hurry and threatens to fine anyone who makes him wait",
+   "Professor Rowan, a stern old scholar who measures distance in steps and has walked all of them"
+  ]
+ },
+ {
+  "n": "Giratina - Lord of the Reverse World",
+  "grp": "Pokemon Pantheon",
+  "myth": "The third dragon Arceus made, banished to a world turned inside out for being too violent. There, up is sideways and water falls into the sky, and Giratina watches the world through every shadow and mirror.",
+  "runes": ["Reverse", "Shadow", "Gravity"],
+  "home": "Abyss",
+  "wants": "One shadow left unlit in every home, no mirror broken on purpose, and the banished never mocked",
+  "sig": ["Platinum", "Reversestone", "Keystone Platinum"],
+  "relic": "Griseous Orb",
+  "seated": 3,
+  "pop": 1,
+  "hand": [
+   "Cyrus, a cold leader who wanted to unmake the world and remake it without feelings, and is still working on it",
+   "Volo, a smiling merchant from long ago who helps every hero and plans to betray all of them",
+   "Charon, a scientist who leads a gang of failed villains and has never once been caught paying for anything"
+  ]
+ },
+ {
+  "n": "Groudon - Lord of the Land",
+  "grp": "Pokemon Pantheon",
+  "myth": "A red titan that raised the continents from the sea and dries the oceans with its glare. It sleeps in a cave of magma and wakes only to quarrel with Kyogre, which it has never once beaten for good.",
+  "runes": ["Land", "Lava", "Terraformation"],
+  "home": "Inner Realm",
+  "wants": "More land than sea in every map you draw, a fire kept burning on every long rest, and no boat ever praised in its temples",
+  "sig": ["Ruby", "Magma Crystal", "Bloodfire Ruby"],
+  "relic": "Red Orb",
+  "seated": 3,
+  "pop": 1,
+  "hand": [
+   "Maxie, leader of Team Magma, who wants to make the land bigger and has never asked the fish",
+   "Tabitha, Maxie's loudest admin, who laughs at the end of every sentence",
+   "Courtney, a quiet admin who analyses every hero she meets and finds most of them lacking"
+  ]
+ },
+ {
+  "n": "Kyogre - Lord of the Sea",
+  "grp": "Pokemon Pantheon",
+  "myth": "A blue titan that filled the oceans with endless rain and swallows coastlines when it stirs. It sleeps in a cave beneath the sea and wakes only to quarrel with Groudon over whether the world should be wet or dry.",
+  "runes": ["Water", "Rain", "Terraformation"],
+  "home": "Inner Realm",
+  "wants": "More sea than land in every map you draw, a cup of water poured out before each meal, and Groudon's followers splashed on sight",
+  "sig": ["Sapphire", "Kraken Ink", "Tidestone"],
+  "relic": "Blue Orb",
+  "seated": 3,
+  "pop": 1,
+  "hand": [
+   "Archie, leader of Team Aqua, who wants to make the sea bigger and has never asked the farmers",
+   "Matt, Archie's biggest admin, who shouts every sentence and lifts boulders for fun",
+   "Shelly, a sharp-tongued admin who tells every hero that she was just about to win"
+  ]
+ },
+ {
+  "n": "Rayquaza - Lord of the Sky",
+  "grp": "Pokemon Pantheon",
+  "myth": "A green sky dragon that lives above the clouds and eats meteors. When Groudon and Kyogre fight, Rayquaza comes down and roars until both go back to sleep, then flies off without explaining itself.",
+  "runes": ["Sky", "Storm", "Balance"],
+  "home": "Heaven",
+  "wants": "Every quarrel between two of its fellow gods' followers broken up, no tower climbed without its leave, and falling stars left where they land",
+  "sig": ["Emerald", "Dragonscale", "Empyrean Feather"],
+  "relic": "Jade Orb",
+  "seated": 3,
+  "pop": 1,
+  "hand": [
+   "Zinnia, a draconid storyteller who will do anything to protect the sky and keeps a tiny dragon named Aster",
+   "Brendan, a young trainer who climbed the Sky Pillar in a knitted hat",
+   "May, a young trainer who climbed it faster and has the rival's medal to prove it"
+  ]
+ },
+ {
+  "n": "Lugia - Guardian of the Seas",
+  "grp": "Pokemon Pantheon",
+  "myth": "A silver-winged diver that sleeps in the deepest trench because a single beat of its wings can blow down a city. It surfaces only to calm a storm that has gone on too long, and sailors swear they hear it sing before the waves go still.",
+  "runes": ["Wave", "Air", "Balance"],
+  "home": "Abyss",
+  "wants": "Silence kept at sea when the storm is worst, every shipwreck's survivors helped ashore, and no bell rung for no reason",
+  "sig": ["Silver", "Astral Silver", "Lightless-leviathan Scale"],
+  "relic": "Silver Wing",
+  "seated": 2,
+  "pop": 1,
+  "hand": [
+   "Silver, a red-haired rival who stole his first creature from a lab and has been apologising to it ever since",
+   "Kris, a young trainer from New Bark Town who heard Lugia sing and never got the tune out of her head"
+  ]
+ },
+ {
+  "n": "Ho-Oh - Lord of Rainbows",
+  "grp": "Pokemon Pantheon",
+  "myth": "A rainbow-feathered bird that flies over the world trailing seven colours. When a tower it loved burned down, it raised three beasts from the ashes and then left in a sulk, and it only returns to those of pure heart.",
+  "runes": ["Rebirth", "Fire", "Resurrection"],
+  "home": "Heaven",
+  "wants": "A rainbow followed whenever you see one, every burned building helped to be rebuilt, and no feather sold for gold",
+  "sig": ["Gold", "Halo Gold", "Phoenix Feather"],
+  "relic": "Rainbow Wing",
+  "seated": 3,
+  "pop": 1,
+  "hand": [
+   "Ethan, a young trainer from New Bark Town who keeps his cap on backwards and his heart pure on purpose",
+   "Eusine, a mystic who has chased one of Ho-Oh's three beasts for ten years and been ignored by it for all ten",
+   "Morty, a gym leader who saw Ho-Oh in a dream and has dressed like a ghost ever since"
+  ]
+ },
+ {
+  "n": "Mew - The Ancestor",
+  "grp": "Pokemon Pantheon",
+  "myth": "A small pink cat-like spirit said to carry the blood of every creature that has ever lived. It can turn into anything it likes, mostly uses that power to play hide and seek, and has never once been found by a scholar who was looking for it.",
+  "runes": ["Origin", "Shape-shifter", "Happiness"],
+  "home": "Mysterious Realm",
+  "wants": "A game played with every child you meet, no creature caged for study, and a joke told on every long rest",
+  "sig": ["Mimic Hide", "Prismatic Tourmaline", "Wild Magic Prismastone"],
+  "relic": "The Old Sea Map",
+  "seated": 2,
+  "pop": 1,
+  "hand": [
+   "Misty, a gym leader of the water who has spent years asking a certain trainer to pay for her bicycle",
+   "Brock, a gym leader of the stone who cooks for every traveller and falls in love with every nurse"
+  ]
+ },
+ {
+  "n": "Mewtwo - The Made",
+  "grp": "Pokemon Pantheon",
+  "myth": "A clone of Mew grown in a laboratory by men who wanted the strongest creature alive and got it. It destroyed the laboratory, asked why it was born, did not like any of the answers, and now hides in a cave and fights anyone who comes in.",
+  "runes": ["Clone", "Mind", "Rebellion"],
+  "home": "Chaos Realm",
+  "wants": "No living thing made or copied by magic without its consent, every lab freed, and the question why am I here answered honestly when asked",
+  "sig": ["Null Alloy", "Psionic Mindgem", "Clonestone"],
+  "relic": "Armour of the Made",
+  "seated": 4,
+  "pop": 1,
+  "hand": [
+   "Giovanni, the boss of Team Rocket, who paid for Mewtwo's making and now works for it out of fear and pride",
+   "Jessie, a Team Rocket agent who recites a long motto before every crime and fails all of them",
+   "James, Jessie's partner, who gives away his last coin to strangers and collects bottle caps",
+   "Meowth, a talking cat who taught himself to speak and has regretted it in every fight since"
+  ]
+ },
+ {
+  "n": "Xerneas - Lord of Life",
+  "grp": "Pokemon Pantheon",
+  "myth": "A great stag with antlers like a rainbow tree that gives eternal life by touch. When its time is done it turns into a tree and sleeps for a thousand years, which makes it the easiest god in the world to find and the hardest to wake.",
+  "runes": ["Life", "Forest", "Regeneration"],
+  "home": "Mysterious Realm",
+  "wants": "A tree planted for every one you cut, every wounded creature healed when you can, and Yveltal's name spoken only in a whisper",
+  "sig": ["Fairy Ring Puffball", "Lifestone", "Eclipse Bloom"],
+  "relic": "Antler of the Living Tree",
+  "seated": 2,
+  "pop": 1,
+  "hand": [
+   "Calem, a quiet trainer from Vaniville Town who is better dressed than any noble",
+   "Serena, a trainer and performer who has changed her outfit forty times since this sentence began"
+  ]
+ },
+ {
+  "n": "Yveltal - Lord of Destruction",
+  "grp": "Pokemon Pantheon",
+  "myth": "A great red-and-black bird that drains the life of everything below it when its time is done, then wraps itself into a cocoon to sleep for a thousand years. Its followers say it does not destroy, it only tidies up.",
+  "runes": ["Death", "Destruction", "Lifesteal"],
+  "home": "Hell",
+  "wants": "The dying given a quick end, no undead raised to cheat its harvest, and Xerneas's followers kept at arm's length",
+  "sig": ["Death Kiss Eye", "Deathstone", "Death Slaad Eye"],
+  "relic": "Cocoon of Destruction",
+  "seated": 2,
+  "pop": 1,
+  "hand": [
+   "Lysandre, a red-maned noble who wants a beautiful world and is willing to end this one to get it",
+   "Xerosic, Lysandre's scientist, who builds a weapon of mass destruction and calls it a hobby"
+  ]
+ }
+]
