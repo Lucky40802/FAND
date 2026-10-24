@@ -264,6 +264,19 @@ button.chip:hover,a.chip:hover{border-color:var(--acc);color:var(--text)}
 .fg-reveal{font-family:var(--serif);letter-spacing:.3em;color:var(--gold2);font-size:.8rem;text-transform:uppercase}
 .fg-ws{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}.fg-wscard{border:1px solid var(--line);background:var(--surf);border-radius:9px;padding:10px 12px}
 @media (prefers-reduced-motion: reduce){.fg-anvil.hit,.fg-made{animation:none}}
+/* dark mode is the Hell Forge: crimson and black, lava from below */
+.page.forge{--red:#ff5a4a}
+.page.forge::before{background:radial-gradient(ellipse at 50% 125%,#7a1404 0%,#3a0905 30%,#1a0605 60%,#0a0303 100%)}
+.fg-heaven{display:none}.fg-hero-sub{font-family:var(--serif);letter-spacing:.2em;text-transform:uppercase;font-size:.72rem;color:var(--gold2);opacity:.85}
+/* light mode is the Heaven Forge: white marble and gold, sunlight from above */
+:root[data-theme="light"] .page.forge{--bg:#fbf7ec;--bg2:#f6efdc;--surf:rgba(255,253,246,.88);--surf2:rgba(250,244,228,.92);--surf3:rgba(243,233,206,.95);--line:#e2d3a8;--line3:#cdb77a;
+  --text:#2b2416;--text2:#4f4430;--muted:#86744f;--muted2:#a8976f;--acc:#b07d14;--acc2:#8c6209;--accbg:rgba(176,125,20,.12);--gold:#a7780f;--gold2:#7e5a06;--goldbg:rgba(167,120,15,.12);--red:#b8402f;--green:#2f8f57;--blue:#2f6fb3}
+:root[data-theme="light"] .page.forge::before{background:radial-gradient(ellipse at 50% -15%,#fff6cf 0%,#fdf3d6 25%,#f4f1ea 55%,#e8eef8 100%)}
+:root[data-theme="light"] .fg-hell{display:none}:root[data-theme="light"] .fg-heaven{display:inline}
+:root[data-theme="light"] .fg-hero-t{background:linear-gradient(180deg,#fffbe6,#e8b84a 55%,#9c6b0a);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 30px rgba(255,214,120,.55)}
+:root[data-theme="light"] .fg-anvil{background:radial-gradient(circle,rgba(255,226,140,.6),transparent 70%)}
+:root[data-theme="light"] .fg-spark{background:#fff3c4;box-shadow:0 0 6px #f1c24a}
+:root[data-theme="light"] .fg-made{box-shadow:0 0 40px rgba(240,200,90,.35)}
 .hero{position:relative;border:1px solid var(--line);border-radius:16px;padding:34px 30px;overflow:hidden;background:radial-gradient(120% 140% at 0% 0%,var(--accbg),transparent 55%),radial-gradient(90% 120% at 100% 100%,var(--goldbg),transparent 60%),var(--surf)}
 .hero h2{font-size:2.1rem;line-height:1.1;margin-bottom:8px}
 .hero p{color:var(--text2);max-width:640px}
@@ -911,7 +924,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"patrons",v:"b52fdbc563",b:"116e8f18"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"patrons",v:"b52fdbc563",b:"487d3db8"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=b52fdbc563",11094090],["data/vault.js?v=b52fdbc563",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -6785,7 +6798,7 @@ function renderForge(){
   const B=BASES[FORGE.base],q=lc((FORGE.find||'').trim()),byGen=BP_BY_GEN();
   const INV=invIndex(),invN=invMats(INV).length;
   $('content').innerHTML=`<div class="page forge">${datalists()}<div class="fg-bgwrap" aria-hidden="true"><canvas id="fg-fx"></canvas></div>
-    <div class="fg-hero"><div class="fg-hero-t">⚒ The Forge</div><p>Bring your party's materials to the anvil. Choose a design, set a material in each part, and see how high the item will reach and what forge it needs. Strike three times, and if the roll holds, the item is yours: only then is it fully revealed.</p>
+    <div class="fg-hero"><div class="fg-hero-t"><span class="fg-hell">🔥 The Hell Forge</span><span class="fg-heaven">☀ The Heaven Forge</span></div><div class="fg-hero-sub"><span class="fg-hell">Hellfire and brimstone: the dark-mode forge</span><span class="fg-heaven">Sunlight and gold: the light-mode forge</span></div><p>Bring your party's materials to the anvil. Choose a design, set a material in each part, and see how high the item will reach and what forge it needs. Strike three times, and if the roll holds, the item is yours: only then is it fully revealed.</p>
       <div class="fg-hero-s"><span>🧺 ${invN} kind${invN===1?'':'s'} of material in the party's packs</span><span>⚒ ${PARTY.filter(c=>c.prof).length} crafter${PARTY.filter(c=>c.prof).length===1?'':'s'}</span><span>📜 ${DESIGNS.filter(d=>d.forged).length} forged so far</span></div></div>
     ${invN?'':`<div class="callout" style="border-color:var(--gold)">The party's inventories hold no materials yet. Materials come only from your characters' packs: add them on the <a href="${pageUrl('party')}" data-go="party">Party page</a> or the character sheet, or bring them back from a hunt.</div>`}
     <details class="panel" style="margin-bottom:14px"><summary style="cursor:pointer;font-family:var(--serif);font-weight:700">How the Forge works</summary><p class="note" style="margin:8px 0 0">Every Blueprint is a general design: an Axe, a Longsword, a Helm. Choose the material for each part (the head, the haft, the grip) and the finished item takes something from each: the main part sets the damage or AC, the structure sets the Accuracy and how well it holds together, and every part adds its property and trait. Each part only takes certain kinds of material; the wrong kind brings heavy penalties, and a wrong main part makes the item useless.</p></details>
@@ -7083,11 +7096,14 @@ function forgeFx(){const cv=$('fg-fx');if(!cv||!cv.getContext)return;const x=cv.
   const make=fresh=>({x:Math.random()*W,y:fresh?Math.random()*H:H+Math.random()*40*dpr,r:(Math.random()*1.8+.6)*dpr,vy:-(Math.random()*.9+.35)*dpr,vx:(Math.random()-.5)*.35*dpr,life:Math.random()*.5+.5,h:18+Math.random()*28,w:Math.random()*6});
   for(let i=0;i<(still?40:110);i++)P.push(make(true));
   const draw=ts=>{if(!cv.isConnected)return;const r=cv.getBoundingClientRect();if(Math.round(r.width*dpr)!==W||Math.round(r.height*dpr)!==H)size();x.clearRect(0,0,W,H);
-    const g=x.createRadialGradient(W/2,H*1.08,0,W/2,H*1.08,H);g.addColorStop(0,'rgba(255,128,40,.38)');g.addColorStop(.45,'rgba(170,48,12,.14)');g.addColorStop(1,'rgba(0,0,0,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
-    const fl=.5+.5*Math.sin((ts||0)/700);x.fillStyle=`rgba(255,90,20,${.05+.04*fl})`;x.fillRect(0,H*.82,W,H*.18);
-    x.shadowColor='rgba(255,140,40,.9)';x.shadowBlur=8*dpr;
-    P.forEach(p=>{if(!still){p.y+=p.vy;p.x+=p.vx+Math.sin(p.y/(60*dpr)+p.w)*.3*dpr;p.life-=.0016}if(p.y<-10||p.life<=0)Object.assign(p,make(false));
-      x.beginPath();x.fillStyle=`hsla(${p.h},100%,${58+p.r*3}%,${Math.max(0,Math.min(1,p.life))})`;x.arc(p.x,p.y,p.r,0,Math.PI*2);x.fill()});
+    const heaven=document.documentElement.dataset.theme==='light',fl=.5+.5*Math.sin((ts||0)/700);
+    if(heaven){const g=x.createRadialGradient(W/2,-H*.1,0,W/2,-H*.1,H*1.1);g.addColorStop(0,'rgba(255,236,160,.55)');g.addColorStop(.5,'rgba(255,246,210,.18)');g.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
+      x.save();x.globalAlpha=.08+.04*fl;x.fillStyle='#fff3c0';for(let k=0;k<5;k++){const bx=W*(.15+k*.18);x.beginPath();x.moveTo(bx-30*dpr,0);x.lineTo(bx+30*dpr,0);x.lineTo(bx+140*dpr,H);x.lineTo(bx+40*dpr,H);x.closePath();x.fill()}x.restore();
+      x.shadowColor='rgba(255,215,110,.9)';x.shadowBlur=10*dpr}
+    else{const g=x.createRadialGradient(W/2,H*1.08,0,W/2,H*1.08,H);g.addColorStop(0,'rgba(255,90,30,.45)');g.addColorStop(.45,'rgba(150,20,8,.18)');g.addColorStop(1,'rgba(0,0,0,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
+      x.fillStyle=`rgba(220,40,10,${.07+.05*fl})`;x.fillRect(0,H*.82,W,H*.18);x.shadowColor='rgba(255,90,30,.95)';x.shadowBlur=8*dpr}
+    P.forEach(p=>{if(!still){p.y+=p.vy*(heaven?.55:1);p.x+=p.vx+Math.sin(p.y/(60*dpr)+p.w)*(heaven?.6:.3)*dpr;p.life-=.0016}if(p.y<-10||p.life<=0)Object.assign(p,make(false));
+      const a=Math.max(0,Math.min(1,p.life));x.beginPath();x.fillStyle=heaven?`hsla(${44+p.h/6},90%,${70+p.r*4}%,${a*.9})`:`hsla(${p.h-12},100%,${52+p.r*3}%,${a})`;x.arc(p.x,p.y,p.r*(heaven?1.2:1),0,Math.PI*2);x.fill()});
     x.shadowBlur=0;if(!still)requestAnimationFrame(draw)};requestAnimationFrame(draw)}
 // ── the forge panel before the item exists: the estimate, the powers to keep, and the hammer ──
 let FF={who:'',smith:'',strikes:0,res:null,made:''};
