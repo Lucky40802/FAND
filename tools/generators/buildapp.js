@@ -394,13 +394,6 @@ log.push('material origins: ' + JSON.stringify(orgCount) + ', unique traits on '
   log.push('tools and storage: +' + added + ' blueprints, ' + tagged + ' existing tagged, ' + G.FRAGMENTS.length + ' rune fragments');
 })();
 
-// ---- contract spells (data/god-spells.json): one spell of each level 0-9 per god, chosen from the site's spells to fit
-// the god's Runes; a contract's rank decides how many of them its holder gets.
-(function () {
-  var f = path.join(__dirname, '..', 'data', 'god-spells.json'); if (!fs.existsSync(f)) return;
-  var G = JSON.parse(fs.readFileSync(f, 'utf8')), n = 0; D.GODS.forEach(function (g) { if (G[g.n]) { g.csp = G[g.n]; n++; } });
-  log.push('contract spells: ' + n + ' of ' + D.GODS.length + ' gods');
-})();
 
 // ---- stat blocks (data/statblock.js): generated in the Monster Manual layout, not copied from any book
 var SB = require(path.join(__dirname, '..', 'data', 'statblock.js'));
@@ -436,7 +429,7 @@ D.PATRONS = dropConnections(D.PATRONS, 'patrons');
       var key = String(g.n || '').split(' - ')[0].trim().toLowerCase(); if (!key || have[key]) return;
       var hand = (g.hand || []).slice(0, 5), seated = Math.min(5, g.seated != null ? g.seated : hand.length);
       g.ds = g.myth + ' \u2014 In FAND: Runes: ' + (g.runes || []).join(', ') + '. Home realm: ' + g.home + '. Wants: ' + g.wants + '. Signature materials: ' + (g.sig || []).join(', ') + '. Finger relic: ' + g.relic + '. Hand: ' + seated + ' of 5 seated' + (seated ? ' (' + hand.slice(0, seated).map(function (n, i) { return ord[i] + ' Finger: ' + n; }).join('; ') + ')' : '') + '.';
-      D.GODS.push({ n: g.n, grp: g.grp, ds: g.ds, site: 1 }); have[key] = 1; added++;
+      D.GODS.push({ n: g.n, grp: g.grp, ds: g.ds, site: 1, pop: g.pop ? 1 : undefined }); have[key] = 1; added++;
     });
   });
   log.push('gods added to complete the pantheons: +' + added);
@@ -458,6 +451,14 @@ D.GODS.forEach(function (g) {
     if (hm) { g.seated = +hm[1]; g.hand = hm[2] ? hm[2].split(/;\s*/).map(function (s) { return s.replace(/^\d\w\w Finger:\s*/, ''); }) : []; }
   }
 });
+
+// ---- contract spells (data/god-spells.json): one spell of each level 0-9 per god, chosen from the site's spells to fit
+// the god's Runes; a contract's rank decides how many of them its holder gets.
+(function () {
+  var f = path.join(__dirname, '..', 'data', 'god-spells.json'); if (!fs.existsSync(f)) return;
+  var G = JSON.parse(fs.readFileSync(f, 'utf8')), n = 0; D.GODS.forEach(function (g) { if (G[g.n]) { g.csp = G[g.n]; n++; } });
+  log.push('contract spells: ' + n + ' of ' + D.GODS.length + ' gods');
+})();
 
 // ---- More materials for every god (website addition). The vault gives each god three signature materials (Normal, Senior,
 // Apostle). The site adds one for each other rank that names a material (Minor, Major, and a Finger material above the
@@ -774,8 +775,15 @@ D.SUBSTAGES = {};
     if (Array.isArray(d)) d.forEach(function (r) { if (!r || !r.name) return; extra.push([r.name, r.short || '', r.bonus || {}, r.speed || 30, r.traitsShort || '', r.group || 'More peoples']); if (r.profile) info[r.name] = r.profile; });
     else Object.keys(d).forEach(function (k) { info[k] = d[k]; });
   });
+  // profession bonuses (data/people-prof.json): +1 to one profession's rolls, shown as a trait on the profile
+  var pf = path.join(__dirname, '..', 'data', 'people-prof.json'), np = 0;
+  if (fs.existsSync(pf)) { var PP = JSON.parse(fs.readFileSync(pf, 'utf8'));
+    Object.keys(info).forEach(function (n) { var p = PP.names[n]; if (!p) (PP.patterns || []).some(function (r) { if (new RegExp(r[0]).test(n)) { p = r[1]; return true; } return false; }); if (!p) return;
+      var o = info[n]; o.prof = {}; o.prof[p] = 1; np++;
+      o.traits = (o.traits || []).filter(function (t) { return t[0] !== 'Born to the Trade'; }).concat([['Born to the Trade', p === '*' ? 'Your people take to any work: you add +1 to the rolls of the profession you start with (crafting, scavenging, mining, and its other checks).' : 'Your people have a knack for ' + p + ': you add +1 to ' + p + ' rolls' + (p === 'Scavenging' ? ' (taking parts from a corpse)' : p === 'Harvesting' ? ' (gathering and mining)' : ' (crafting its Blueprints and its other checks)') + ', even before you take up the profession.']]); });
+  }
   D.PEOPLES = { info: info, extra: extra };
-  log.push('peoples: ' + Object.keys(info).length + ' profiles, ' + extra.length + ' new peoples');
+  log.push('peoples: ' + Object.keys(info).length + ' profiles, ' + extra.length + ' new peoples, ' + np + ' with a profession bonus');
 })();
 // base class features by level 1-20 (data/class-prog.json): the level-up checklist and the sheet's class features
 (function () { var f = path.join(__dirname, '..', 'data', 'class-prog.json'); D.CLASS_PROG = fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, 'utf8')) : {}; })();
