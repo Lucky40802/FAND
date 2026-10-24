@@ -318,3 +318,34 @@ $$;
 
 revoke all on function fand_private.ai_key(uuid, text, int) from public, anon, authenticated;
 revoke all on function fand_private.ai_used(uuid, text) from public, anon, authenticated;
+
+-- ── the Workshop: Blueprints players forge ───────────────────────
+-- Every forged Blueprint is saved here by its maker. A shared one anyone can read, signed in or not; a private one
+-- only its maker. Only the maker can add, change, share, or delete their own. `data` is the Blueprint itself.
+create table if not exists public.blueprints (
+  id uuid primary key default gen_random_uuid(),
+  owner uuid not null default auth.uid() references auth.users (id) on delete cascade,
+  maker text not null default '' check (char_length(maker) <= 80),
+  name text not null check (char_length(name) between 1 and 120),
+  base text not null default '' check (char_length(base) <= 60),
+  data jsonb not null check (octet_length(data::text) < 60000),
+  shared boolean not null default false,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (owner, name)
+);
+create index if not exists blueprints_shared_idx on public.blueprints (shared, updated_at desc);
+alter table public.blueprints enable row level security;
+drop policy if exists "shared or own read" on public.blueprints;
+create policy "shared or own read" on public.blueprints for select to anon, authenticated
+  using (shared or owner = (select auth.uid()));
+drop policy if exists "own insert" on public.blueprints;
+create policy "own insert" on public.blueprints for insert to authenticated with check (owner = (select auth.uid()));
+drop policy if exists "own update" on public.blueprints;
+create policy "own update" on public.blueprints for update to authenticated
+  using (owner = (select auth.uid())) with check (owner = (select auth.uid()));
+drop policy if exists "own delete" on public.blueprints;
+create policy "own delete" on public.blueprints for delete to authenticated using (owner = (select auth.uid()));
+revoke all on public.blueprints from anon;
+grant select on public.blueprints to anon;
+grant select, insert, update, delete on public.blueprints to authenticated;
