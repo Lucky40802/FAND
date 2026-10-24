@@ -533,6 +533,17 @@ D.GODS.forEach(function (g) {
   log.push('god materials: +' + added + ' (rank materials for Minor, Major, and Finger, and a six-material temple stock per god)');
 })();
 
+// ---- Audit fix: a few vault Blueprints (siege weapons, glyphs) put their damage type in the dice field and the dice only
+// in the description. Move the type to its own field and take the dice from the description when it names them.
+(function () {
+  var TYPES = /^(Acid|Bludgeoning|Cold|Fire|Force|Lightning|Necrotic|Piercing|Poison|Psychic|Radiant|Slashing|Thunder|Variable)$/i, n = 0;
+  D.BPS.forEach(function (b) {
+    if (!b.dc || /^\d+d\d+/.test(b.dc) || !TYPES.test(b.dc)) return;
+    var type = b.dc, m = /(\d+d\d+)/.exec(b.ds || '');
+    b.dm = b.dm || (type === 'Variable' ? '' : type); b.dc = m ? m[1] : ''; n++;
+  });
+  log.push('blueprints with the damage type in the dice field fixed: ' + n);
+})();
 // ---- Audit fixes: duplicate names make the second entry unreachable (links and search find the first)
 (function () {
   var seen = {}, dropped = 0, renamed = 0;
