@@ -885,7 +885,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"codex",v:"d502597640",b:"04af93e3"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"codex",v:"d502597640",b:"48bdd533"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=d502597640",11154104],["data/vault.js?v=d502597640",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -2109,7 +2109,7 @@ const MODAL={
         +`<div id="mon-sb">${sbHTML(CHAMP_SEL&&m.sb?champion(m,CHAMP_SEL,champOpts()):m)}</div>`
         +`<div class="lore">${monsterLore(m).map(([h,t])=>`<h5>${esc(h)}</h5><p>${linkNames(esc(t),m)}</p>`).join('')}</div>`
         +((m.drops||[]).length?`<div><button class="btn primary" type="button" onclick="scavPop(${esc(JSON.stringify(m.n))})">🔪 Scavenge a corpse</button> <span class="note" style="margin:0">Opens the Scavenging rolls for one ${esc(m.n)} corpse.</span></div>`:'')
-        +blk('Drops',drops+`<div class="note">×N is how many one corpse holds (${esc(m.sb&&m.sb.sz||'Medium')} body). Scavenging DC ${scavBase(m)}: meet it to take 1 part, +1 part for every 2 points above it; each new try on the same corpse adds ${SCAV_STEP} to the DC. These counts are for a whole corpse: the killing blow's damage type can ruin some parts (bludgeoning crushes bone, fire burns hide, poison taints organs).</div>`,(m.drops||[]).length+' parts · '+(m.drops||[]).reduce((a,d)=>a+(d[2]||1),0)+' pieces per corpse')
+        +blk('Drops',drops+`<div class="note">×N is how many one corpse holds (${esc(m.sb&&m.sb.sz||'Medium')} body). Scavenging DC ${scavBase(m)}: meet it to take 1 part, +1 part for every 2 points above it; each new try on the same corpse adds ${scavStep(m)} to the DC (bigger bodies climb more slowly: Tiny and Small +5, Medium +4, Large +3, Huge +2, Gargantuan +1). These counts are for a whole corpse: the killing blow's damage type can ruin some parts (bludgeoning crushes bone, fire burns hide, poison taints organs).</div>`,(m.drops||[]).length+' parts · '+(m.drops||[]).reduce((a,d)=>a+(d[2]||1),0)+' pieces per corpse')
         +(sugg.length?blk('Suggested drops',`<div class="chips">${sugg.map(x=>matChip(x.n,x.gr)).join('')}</div><div class="note">This official monster's drops are listed on the ${esc(m.realm)} Bestiary page in the vault. These are same-realm materials near its grade, as a starting point.</div>`):'')
         +(realm?`<div><button class="btn" data-ref="${ref(realm)}">Open the ${esc(m.realm)} realm →</button></div>`:'')};
   },
@@ -2587,7 +2587,10 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-24','Big corpses are easier to scavenge again','Each new try on a corpse used to add 5 to the Scavenging DC whatever its size. A big body has places nobody has worked yet, so its DC now climbs more slowly: Tiny and Small +5 per try, Medium +4, Large +3, Huge +2, Gargantuan +1. The Bestiary and the scavenging panel (combat tracker and Tools page) show the step for each corpse.'],
   ['2026-10-24','Champions: Accuracy and Dodge','Champion enemies now get +2 Dodge as well as +2 Accuracy. Every stat block shows an Accuracy line (its weapon attacks) next to Dodge, the champion picker shows the champion\'s Accuracy and Dodge against the normal monster\'s, and the combat tracker uses the champion\'s Dodge.'],
+  ['2026-10-24','The Forge, for real','The Forge can now forge an item, not just design it. Pick a character and roll against the design\'s DC: beat it by 5 for Fine, by 10 for Masterwork, miss by 1–3 for Flawed, and a natural 1 ruins a material. A d100 quirk follows (on 50 or less nothing happens; above that the metal may sing, a Rune may scar it, or a god may notice). Forged items go on the character\'s gear with their materials used, and the sheet\'s new Forged items box tracks rune sockets (opposing Laws make an item unstable) and growth marks that wake the item at 3, 7, 12, and 20. Also new on the Forge page: material combos to discover, a master smith in every realm, and a weekly commission board.'],
+  ['2026-10-24','The Twenty-One','The Lore page has a new section for Infinatas\'s twenty-one Balance Keepers: heroes past the level cap at level 999, to be revealed one by one.'],
   ['2026-10-24','A hit deals damage minus AC','When an attack beats the target\'s Dodge, the target takes the damage minus their AC, and nothing if their AC is as high as the damage. The old rule that at least a quarter of every hit always got through is gone. The combat tracker, the Damage vs. Armor Class tool, the Rules page, and the quick rules all use it.'],
   ['2026-10-24','Accuracy against Dodge','The attack bonus is now called Accuracy, and Defense is replaced by a Dodge roll. Every attack is an opposed roll: the attacker rolls d20 + Accuracy, the target rolls d20 + Dodge (its DEX modifier), and whoever rolls higher wins (a tie is a miss). Stat blocks, the character sheet (with a Dodge roll button), the Party page, the Forge, and the combat tracker (a Dodge column with a roll button) all use the new words.'],
   ['2026-10-23','Defense: what an attack must beat','Since AC only reduces damage, attack rolls had no number to beat. Now an attack hits when d20 + its attack bonus meets or beats the target\'s Defense, 10 + its DEX modifier (a natural 20 always hits and crits, a natural 1 always misses). So a +6 attack against Defense 12 hits on a 6 or more. Defense is shown on every stat block, the character sheet, the Party page, and in a Def column on the combat tracker.'],
@@ -2832,17 +2835,23 @@ function renderAbout(){
 }
 
 // ── Lore ──────────────────────────────────────────────────────
+// the twenty-one heroes who keep Infinatas's balance: named NPCs, each past the level cap at 999.
+// Their names and stories are the campaign owner's to reveal; fill an entry's n and t as they are decided.
+const BALANCE_KEEPERS=Array.from({length:21},()=>({n:'',t:''}));
+function balanceKeepersHTML(){return `<p>Infinatas does not keep the balance alone. Twenty-one heroes serve as his <b>Balance Keepers</b>: mortals who broke through the level cap and now stand at <b>level 999</b>, far beyond the level 100 any other mortal can reach. They answer to no god and hold no contract. They step in only when the balance itself is at stake, and they leave the rest of Vestige to the gods and the mortals who live in it.</p>
+  <div class="mlist" style="margin-top:10px">${BALANCE_KEEPERS.map((k,i)=>`<div style="padding:6px 10px;border:1px ${k.n?'solid var(--gold)':'dashed var(--line)'};border-radius:8px"><b>${['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX','XXI'][i]}. ${k.n?esc(k.n):'<span style="color:var(--muted)">Not yet revealed</span>'}</b> <small style="color:var(--muted)">level 999</small>${k.t?`<div style="font-size:.84rem">${esc(k.t)}</div>`:''}</div>`).join('')}</div>`}
 function renderLore(){
   const pantheons={};GODS.forEach(g=>{(pantheons[g.grp]=pantheons[g.grp]||[]).push(g)});
   const runes=[...RUNE_GODS].sort((a,b)=>b[1].length-a[1].length||a[0].localeCompare(b[0]));
   const prog=MATS.filter(m=>m.pn==='Progenitor Piece');
   const groups=(arr)=>{const o={};arr.forEach(e=>{(o[e.grp]=o[e.grp]||[]).push(e)});return o};
-  const toc=[['cosmos','Infinatas and Inane'],['timeline','Timeline'],['tree','Rune family tree'],['wars','The god wars'],['towers','Towers and hidden classes'],['pantheons','The pantheons'],['runes','Runes'],['realms','The realms'],['progenitors','The progenitors'],['powers','Other powers'],['contracts','Contracts and the Hand']];
+  const toc=[['cosmos','Infinatas and Inane'],['keepers','The Twenty-One'],['timeline','Timeline'],['tree','Rune family tree'],['wars','The god wars'],['towers','Towers and hidden classes'],['pantheons','The pantheons'],['runes','Runes'],['realms','The realms'],['progenitors','The progenitors'],['powers','Other powers'],['contracts','Contracts and the Hand']];
   const sec=(id,title,body,sub)=>`<section class="rule" id="lore-${id}"><h3>${title}</h3>${sub?`<div class="src">${sub}</div>`:''}${body}</section>`;
   $('content').innerHTML=`<div class="page">
     <section class="hero" style="margin-bottom:18px"><h2>The Lore of Vestige</h2><p>What is known of the powers that shape FAND: the being above the gods, the gods who came here as refugees, the Runes they fight over, and the realms they rule.</p></section>
     <div class="rules"><nav class="toc">${toc.map(([id,t])=>`<a href="#lore-${id}" onclick="document.getElementById('lore-${id}').scrollIntoView();return false">${t}</a>`).join('')}</nav><div>
     ${sec('cosmos','Infinatas and Inane',cosmologyHTML(true)+`<p style="margin-top:12px">Above every god stands <b>Infinatas</b>, the creator of all things, whose only concern is balance. Infinatas keeps it by creating. <b>Inane</b>, Infinatas's other self, keeps the same balance by destroying. The gods did not know what Inane was; they only saw their world wear away until nothing was left. Infinatas let them into this realm, but the gods of Vestige are guests, and they live by Infinatas's rules.</p><p><b>Infinatas cannot stay dead.</b> If he is ever killed, Inane takes over and destroys everything, what remains of Infinatas included, until nothing is left. Only then does Infinatas return, and he creates everything again. Killing the creator does not end him; it ends the world.</p>${noteByName('Infinatas')||noteByName('Infinitas')?`<p class="note">Read the full vault entry: <a href="#" data-ref="${ref(noteByName('Infinatas')||noteByName('Infinitas'))}">Infinatas</a>.</p>`:''}<p class="note">Infinatas has its own Rune page and Blueprints in the vault, such as <a href="#" data-ref="${ref(BPS.find(b=>/^Infinatas's/.test(b.n))||BPS[0])}">${esc((BPS.find(b=>/^Infinatas's/.test(b.n))||{}).n||'')}</a>.</p>`)}
+    ${sec('keepers','The Twenty-One: Infinatas\'s Balance Keepers',balanceKeepersHTML(),'Named NPCs, still to be revealed')}
     ${sec('timeline','Timeline',`<ol style="padding-left:20px;display:flex;flex-direction:column;gap:8px">
       <li><b>The beginning.</b> Infinatas creates all things.</li><li><b>Before the gods came.</b> Infinatas keeps the balance of this realm through creation.</li>
       <li><b>The erosion.</b> The gods' own world erodes away, worn down by Inane, an entity the gods cannot name.</li>
@@ -4674,6 +4683,7 @@ function renderSheet(){
   const gearPg=`<div class="sh-cols" style="grid-template-columns:1fr 1fr">
     <div class="sh-col">
       ${box('Equipped',`<div class="note" style="margin:0 0 6px">Equipped items don't count toward carrying. Worn storage adds room.</div><ul class="sh-ul">${(c.gear||[]).map((n,i)=>{const b=findBP(n);return `<li>${b?refChip(b,esc(n),esc(b.cat)+(b.cap&&b.carry?' +'+(b.cap+(b.grow?b.grow*(+c.spaceFrags||0):0))+' room':'')):gearChip(n)} <small class="sh-where">${esc(wornOn(gearItem(n)||n))}</small> <span class="sh-noprint" style="cursor:pointer;color:var(--muted)" onclick="sheetGear('rm',${i})" title="Unequip (back to the bag)">✕</span></li>`}).join('')||'<li class="note">Nothing equipped yet.</li>'}</ul>${gearClashHTML(c)}<div class="sh-row sh-noprint" style="margin-top:4px">${gearDatalist(c)}<input class="sel" id="gear-n" list="dl-gear" placeholder="Equip anything: a Blueprint, material, or item…" style="flex:1;min-width:0"><button class="btn" type="button" onclick="sheetGear('add')">Equip</button></div>${datalists()}`)}
+      ${forgedHTML(c)?box('Forged items',forgedHTML(c)):''}
       ${box('Purse',(()=>{const cr=REALMS.filter(r=>CURRENCY[r.n]&&CURRENCY[r.n].coin),co=c.coins||{},small=(+co.cp||0)/100+(+co.sp||0)/10+(+co.ep||0)/2+(+co.gp||0)+(+co.pp||0)*10;return `<div class="sh-lab" style="text-align:left;margin:0">Common coins</div><div class="sh-coins" style="flex-direction:row;flex-wrap:wrap;gap:6px;margin-bottom:6px">${['cp','sp','ep','gp','pp'].map(k=>`<label><span>${k.toUpperCase()}</span>${inp('coins.'+k,'0','class="sh-mini"','number')}</label>`).join('')}</div><div class="sh-lab" style="text-align:left;margin:0">Realm money</div><div class="sh-purse">${cr.map(r=>`<label title="${esc(CURRENCY[r.n].what||'')}"><span>${esc(CURRENCY[r.n].coin)} <small>${esc(r.n)} · ${gp(CURRENCY[r.n].gp)}</small></span>${inp('purse.'+r.n,'0','class="sh-mini"','number')}</label>`).join('')}</div><div class="sh-row" style="justify-content:space-between;border-top:1px solid var(--line);padding-top:4px"><span class="note" style="margin:0">Worth in all</span><b>${gp(Math.round((s.purseGp+small)*100)/100)}</b></div><div class="note sh-noprint" style="margin:0">Each realm mints its own money; prices on the site are in gp. Money is worth most in its own realm (see Economy on the Rules page).</div>`})())}
     </div>
     <div class="sh-col">
@@ -5929,11 +5939,15 @@ function godWarsHTML(){
   <p class="note">The vault lists the god wars as still to be written. This section only arranges what the vault already says (who holds which Rune); the battles themselves are yours to tell. <a href="${pageUrl('hooks')}" data-go="hooks">Roll a Rune-feud adventure hook →</a></p>`;
 }
 // Scavenging a corpse (campaign rules). DC = 10 + the monster's grade + 5 for each realm tier above Human. Meeting the DC
-// takes 1 part, and every 2 points above it takes 1 more. Each new try on a corpse that has already been scavenged adds
-// 5 to the DC. A corpse holds a set number of each part (by body plan and size), and what is taken is gone. A natural 1
+// takes 1 part, and every 2 points above it takes 1 more. Each new try on a corpse that has already been scavenged raises
+// the DC by a step that depends on the corpse's size (campaign owner's rule): a big body has untouched places left to
+// work, so its DC climbs more slowly (Tiny and Small +5, Medium +4, Large +3, Huge +2, Gargantuan +1). A corpse holds a set number of each part (by body plan and size), and what is taken is gone. A natural 1
 // spoils the soft parts (blood, organs, essences). Without the Scavenging profession, or below the stage the realm
 // needs, the roll is at disadvantage. The same panel serves the combat tracker and the Tools page.
 const SCAV_STEP=5;
+const SCAV_SIZE_STEP={Tiny:5,Small:5,Medium:4,Large:3,Huge:2,Gargantuan:1};
+const scavSize=m=>m&&m.sb&&m.sb.sz||'Medium';
+const scavStep=m=>SCAV_SIZE_STEP[scavSize(m)]||4;
 // gathering (ores, gems, stone, plants, essences): the same DC as a corpse of that grade and realm; search time grows with the grade
 const gatherDC=m=>10+(m.g||1)+realmDC((REALM[m.realm]||{}).tier);
 const gatherHours=m=>{const h=(m.g||1)*((REALM[m.realm]||{}).tier||1);return h<24?h+' hour'+(h>1?'s':''):Math.round(h/8)+' days'};
@@ -5977,7 +5991,7 @@ function scavTool(k,n){const C=SCAV[k],S=C.get();if(!S)return;const L=S.tools!=n
 const scavNew=(m,kt)=>{const left={},lost={};(m.drops||[]).forEach(d=>{const q=d[2]||1,f=q*killShare(d[0],kt),keep=Math.min(q,Math.floor(f)+(Math.random()<f%1?1:0));left[d[0]]=keep;if(keep<q)lost[d[0]]=q-keep});
   return {mon:m.n,kt:kt||'',left,lost,tries:0,who:'',picks:0,basket:{},res:''}};
 const scavBase=m=>10+(m.g||1)+realmDC((REALM[m.realm]||{}).tier);
-const scavDC=(m,S)=>scavBase(m)+SCAV_STEP*(S.tries||0);
+const scavDC=(m,S)=>scavBase(m)+scavStep(m)*(S.tries||0);
 // The rollers default to someone with the base profession (level 1, stage I): trained, +0. Pick "no training" for disadvantage.
 const BASE_SCAV={name:'A base Scavenger',prof:'Scavenging',profLv:1},BASE_MINE={name:'A base miner',prof:'Harvesting',profLv:1};
 const workerOf=(id,base)=>id==='none'?null:(PARTY.find(c=>c.id===id)||base);
@@ -6006,7 +6020,7 @@ function scavHTML(k,title){try{return scavHTML0(k,title)}catch(e){console.error(
   return `<div class="panel"><b>This corpse could not be opened</b><div class="note">Its saved state was damaged, so it has been cleared. Open the corpse again to start fresh.</div><button class="btn" onclick="SCAV.${k}.close()">Close</button></div>`}}
 function scavHTML0(k,title){const C=SCAV[k],S=scavFix(C,C.get(),scavMon(C.get())),m=scavMon(S);if(!m)return '';
   const who=workerOf(S.who,BASE_SCAV),ok=scavTrained(who,m),dc=scavDC(m,S),tools=heldTools(who,S,[BASE_KIT]),tb=toolBonus(tools,m.realm),parts=Object.entries(S.left),remain=parts.filter(([n])=>canTake(n,tools)).reduce((a,[,q])=>a+q,0),inB=Object.values(S.basket||{}).reduce((a,b)=>a+b,0),tier=(REALM[m.realm]||{}).tier||1;
-  return `<div class="panel" style="border-color:var(--gold)"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="margin:0;font-size:1.15rem">🔪 ${title}</h4><span class="note" style="margin:0">Scavenging DC <b>${dc}</b> (10 + grade ${m.g}${realmDC(tier)?' + '+realmDC(tier)+' for the '+esc(m.realm):''}${S.tries?` + ${SCAV_STEP*S.tries} for ${S.tries} earlier ${S.tries>1?'tries':'try'}`:''}) · ${remain} part${remain===1?'':'s'} left</span><button class="btn" style="margin-left:auto" onclick="SCAV.${k}.close()">Close</button></div>
+  return `<div class="panel" style="border-color:var(--gold)"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="margin:0;font-size:1.15rem">🔪 ${title}</h4><span class="note" style="margin:0">Scavenging DC <b>${dc}</b> (10 + grade ${m.g}${realmDC(tier)?' + '+realmDC(tier)+' for the '+esc(m.realm):''}${S.tries?` + ${scavStep(m)*S.tries} for ${S.tries} earlier ${S.tries>1?'tries':'try'}, +${scavStep(m)} each for a ${scavSize(m).toLowerCase()} corpse`:''}) · ${remain} part${remain===1?'':'s'} left</span><button class="btn" style="margin-left:auto" onclick="SCAV.${k}.close()">Close</button></div>
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0"><label class="note" style="margin:0">Scavenger <select class="sel" onchange="scavSet('${k}','who',this.value)"><option value="">A base Scavenger (Scavenging 1, +0)</option><option value="none"${S.who==='none'?' selected':''}>Someone with no training (+0, disadvantage)</option>${PARTY.map(c=>`<option value="${c.id}"${c.id===S.who?' selected':''}>${esc(c.name||'Unnamed')}${lc(c.prof||'')==='scavenging'?` (Scavenging ${+c.profLv||0}, +${scavBonus(c)})`:' (+0, no Scavenging)'}</option>`).join('')}</select></label>
     <button class="btn primary" onclick="scavRoll('${k}')"${S.picks||!remain?' disabled':''}>🎲 Roll Scavenging</button>${!ok?`<span class="b gold">At disadvantage: no Scavenging profession, or below stage ${tierStage(tier)} (level ${stageStart(tierStage(tier))}+) for ${esc(m.realm)} corpses</span>`:''}</div>
     <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:0 0 8px"><span class="note" style="margin:0">Tools${tb?` (+${tb})`:''}:</span>${who&&who.id?(tools.length?tools.map(t=>refChip(t,esc(t.n),t.kb?'+'+t.kb:'')).join(''):'<span class="b gold">Bare hands only: nothing in their gear or pack</span>')+'<span class="note" style="margin:0">from their gear and pack</span>':TOOL_PICKS.map(n=>`<button class="chip${tools.some(t=>t.n===n)?' on':''}" type="button" onclick="scavTool('${k}',${esc(JSON.stringify(n))})">${tools.some(t=>t.n===n)?'✓ ':''}${esc(n)}</button>`).join('')}</div>
@@ -6016,7 +6030,7 @@ function scavHTML0(k,title){const C=SCAV[k],S=scavFix(C,C.get(),scavMon(C.get())
       ${inB?`<div class="chips" style="margin-top:6px">${Object.entries(S.basket).filter(([,q])=>q).map(([n,q])=>`<button class="chip" style="border-color:var(--green)" onclick="scavPick('${k}',${esc(JSON.stringify(n))},-1)" title="Put back">${q}× ${esc(n)} ✕</button>`).join('')}</div>`:''}
       <div style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">${PARTY.length?`<select class="sel" id="scav-to-${k}">${PARTY.map(c=>`<option value="${c.id}"${c.id===S.who?' selected':''}>${esc(c.name||'Unnamed')}</option>`).join('')}</select>`:''}<button class="btn primary" onclick="scavTake('${k}')"${inB?'':' disabled'}>${PARTY.length?'Add to their materials':'Take them'}</button><button class="btn" onclick="scavSet('${k}','picks',0)">Leave the rest</button></div></div>`:''}
     <div class="tablewrap" style="margin-top:8px"><table class="t"><thead><tr><th>Part</th><th>Kind</th><th>Needs</th><th class="num">Left</th><th class="num">Lost${S.kt?' to '+esc(S.kt):''}</th><th class="num">Per corpse</th></tr></thead><tbody>${(m.drops||[]).map(d=>{const x=findMat(d[0]),lo=(S.lost||{})[d[0]]||0;return `<tr${S.left[d[0]]?'':' style="opacity:.45"'}><td>${x?`<a href="#" data-ref="${ref(x)}">${esc(d[0])}</a>`:esc(d[0])} <small style="color:var(--muted)">${esc(d[1])}</small></td><td>${scavSoft(d[0])?'soft':'hard'}</td><td>${partBare(d[0])?'<small>bare hands</small>':(t=>t?`<small style="color:var(--green)">✓ ${esc(t.n)}</small>`:`<small style="color:var(--red)">✗ ${esc(KIND_TOOL[PART_KIND(d[0])]||'a tool')}</small>`)(toolKind(tools,PART_KIND(d[0])))}</td><td class="num">${S.left[d[0]]||0}</td><td class="num"${lo?' style="color:var(--red)"':''}>${lo?'−'+lo:''}</td><td class="num">${d[2]||1}</td></tr>`}).join('')}</tbody></table></div>
-    <div class="note">Meet the DC to take 1 part; every 2 points above the DC takes 1 more. Bare hands take only loose parts (feathers, hair, fur, scales, leaves); hide, bone, meat, and organs need a knife, saw, or field kit, blood needs a Blood Kit, venom a venom extractor, and essences a spirit jar. The best tool's bonus adds to the roll. Each new try on this corpse adds ${SCAV_STEP} to the DC. A natural 1 spoils the soft parts (blood, organs, essences). The killing blow's damage type decides what is left (bludgeoning crushes bone, slashing cuts the hide, fire burns it, poison taints the organs, cold keeps everything). Parts must be taken within a day of death.</div>${raiseHTML(k)}</div>`}
+    <div class="note">Meet the DC to take 1 part; every 2 points above the DC takes 1 more. Bare hands take only loose parts (feathers, hair, fur, scales, leaves); hide, bone, meat, and organs need a knife, saw, or field kit, blood needs a Blood Kit, venom a venom extractor, and essences a spirit jar. The best tool's bonus adds to the roll. Each new try on this corpse adds ${scavStep(m)} to the DC (${scavSize(m)} body: Tiny and Small +5, Medium +4, Large +3, Huge +2, Gargantuan +1). A natural 1 spoils the soft parts (blood, organs, essences). The killing blow's damage type decides what is left (bludgeoning crushes bone, slashing cuts the hide, fire burns it, poison taints the organs, cold keeps everything). Parts must be taken within a day of death.</div>${raiseHTML(k)}</div>`}
 function scavKill(k,kt){const C=SCAV[k],S=C.get(),m=scavMon(S);if(!m||S.tries)return;const N=scavNew(m,kt);N.who=S.who;C.set(N);C.render()}
 function scavSet(k,f,v){const C=SCAV[k],S=C.get();if(!S)return;S[f]=v;if(f==='picks'&&!v)S.basket={};C.set(S);C.render()}
 function scavRoll(k){const C=SCAV[k],S=C.get(),m=scavMon(S);if(!m||S.picks)return;const who=workerOf(S.who,BASE_SCAV),ok=scavTrained(who,m),tools=heldTools(who,S,[BASE_KIT]),b=scavBonus(who)+toolBonus(tools,m.realm),dc=scavDC(m,S);
@@ -6024,7 +6038,7 @@ function scavRoll(k){const C=SCAV[k],S=C.get(),m=scavMon(S);if(!m||S.picks)retur
   let msg;if(d===1&&S.kt!=='Cold'){Object.keys(S.left).forEach(n=>{if(scavSoft(n))S.left[n]=0});S.picks=0;msg='<span style="color:var(--red)">Natural 1: the soft parts (blood, organs, essences) spoil.</span>'}
   else if(d===1){S.picks=0;msg='<span style="color:var(--gold2)">Natural 1: nothing this time, but the frozen soft parts keep.</span>'}
   else{S.picks=Math.min(remain,scavPicks(tot,dc));msg=S.picks?`<span style="color:var(--green)">Success: ${S.picks} part${S.picks>1?'s':''}${tot>dc+1?` (${tot-dc} over the DC)`:''}.</span>`:'<span style="color:var(--gold2)">Failure: nothing comes away cleanly.</span>'}
-  S.res=`<b>${d}${!ok?` <small>(${r1}, ${r2}, disadvantage)</small>`:''} + ${b} = ${tot}</b> vs DC ${dc}: ${msg} The next try is DC ${dc+SCAV_STEP}.`;C.set(S);C.render()}
+  S.res=`<b>${d}${!ok?` <small>(${r1}, ${r2}, disadvantage)</small>`:''} + ${b} = ${tot}</b> vs DC ${dc}: ${msg} The next try is DC ${dc+scavStep(m)}.`;C.set(S);C.render()}
 function scavPick(k,n,dq){const C=SCAV[k],S=C.get();if(!S||!S.picks)return;S.basket=S.basket||{};const inB=Object.values(S.basket).reduce((a,b)=>a+b,0),cur=S.basket[n]||0;
   if(dq>0&&(inB>=S.picks||cur>=(S.left[n]||0)))return;S.basket[n]=Math.max(0,cur+dq);C.set(S);C.render()}
 function scavTake(k){const C=SCAV[k],S=C.get();if(!S)return;const got=Object.entries(S.basket||{}).filter(([,q])=>q>0);if(!got.length)return;const to=$('scav-to-'+k),c=to&&PARTY.find(z=>z.id===to.value);
@@ -6570,7 +6584,7 @@ function slotFit(slot,m){
   return {lv:'good',c};
 }
 const PENALTY={
-  primary:{wrong:'Useless: damage drops to 1d2 (armor gives 0 AC, a focus gives no bonus), −5 Accuracy, the item breaks on a roll of 1–5, and this material\'s property and trait don\'t work.',poor:'Poor fit: −1 to attack rolls (−1 AC for armor), no damage bonus from this part, the item breaks on a natural 1, and the property works at half Potency.'},
+  primary:{wrong:'Useless: damage drops to 1d2 (armor gives 0 AC, a focus gives no bonus), −5 Accuracy, the item breaks on a roll of 1–5, and this material\'s property and trait don\'t work.',poor:'Poor fit: −1 Accuracy (−1 AC for armor), no damage bonus from this part, the item breaks on a natural 1, and the property works at half Potency.'},
   structure:{wrong:'Falls apart: −3 Accuracy (−2 AC), the item breaks on a natural 1–3, and this material\'s property doesn\'t work.',poor:'Poor fit: no Accuracy from this part, and the item breaks on a natural 1.'},
   minor:{wrong:'Wasted: this part gives nothing, and the item has −1 Accuracy.',poor:'Weak fit: this part\'s property works at half Potency.'}
 };
@@ -6770,6 +6784,7 @@ function renderForge(){
       </div>
       <div id="fg-out"></div>
     </div>
+    ${forgeExtrasHTML()}
     ${byGen.get(FORGE.base)?`<section class="sec"><div class="sec-h"><h3>${esc(FORGE.base)} Blueprints in the vault</h3><p>${byGen.get(FORGE.base).length} named versions of this design. Open one to load its materials here.</p></div><div class="chips">${byGen.get(FORGE.base).slice(0,40).map(b=>`<button class="chip" data-load-bp="${esc(b.n)}">${esc(b.n)} <small>Lv ${b.lv}</small></button>`).join('')}${byGen.get(FORGE.base).length>40?`<button class="chip" data-go="blueprints" data-setup='${esc(JSON.stringify({f:{gen:FORGE.base}}))}'>All ${byGen.get(FORGE.base).length} →</button>`:''}</div></section>`:''}
     ${DESIGNS.length?`<section class="sec"><div class="sec-h"><h3>Saved designs</h3><p>${DESIGNS.length} on this device. They can be equipped on the Party page.</p></div><div class="chips">${DESIGNS.map((d,i)=>`<span class="chip" style="padding:5px 10px"><a href="#" onclick="loadDesign(${i});return false" style="color:var(--text);text-decoration:none"><b>${esc(d.n)}</b></a> <small>${esc(d.base)}${d.ac!=null?' · AC '+d.ac:''}${d.dmg?' · '+esc(d.dmg):''}</small> <span style="cursor:pointer" onclick="designDelete(${i})" title="Delete">✕</span></span>`).join('')}</div></section>`:''}
   </div>`;
@@ -6792,6 +6807,147 @@ function renderForge(){
   bindGroq();
   forgeOut();
 }
+// ════════════════════════════════════════════════════════════════
+//  Forging for real: a crafter (or a hired master smith) rolls against the design's DC, the margin sets its
+//  quality, a quirk may take hold, and the finished item goes onto the character's gear with its materials used.
+//  A forged item is its own design record (d.forged), so its quality, rune sockets, and growth stay with it.
+// ════════════════════════════════════════════════════════════════
+const FQ=[['Flawed','−1 Accuracy (armor and shields: −1 AC), and it breaks on a natural 1.',-1,0],['Standard','Made just as designed.',0,0],
+  ['Fine','+1 Accuracy (armor and shields: +1 AC).',1,0],['Masterwork','+1 Accuracy and +1 damage (armor and shields: +1 AC), and one more rune socket.',1,1]];
+const fqOf=n=>FQ.find(q=>q[0]===n)||FQ[1];
+// the quirk table: half the time nothing happens; above that, small things are common and a god's notice is rare
+const FQUIRKS=[[51,62,'The metal sings','It rings like a bell when struck. +1 damage (armor and shields: +1 AC).',{dmg:1}],
+  [63,70,'Never tarnishes','Rust, rot, and acid never mar it.'],[71,77,'Feather-light','It weighs half as much as it should.'],
+  [78,83,'Forge-warm','It stays warm to the touch and sheds dim light in 5 feet at will.'],
+  [84,88,'Rune-scar','A Rune brushed it as it cooled: it has one more rune socket.',{sock:1}],
+  [89,93,'A Rune\'s power gets in','Its strongest property counts as 1 Potency higher.'],
+  [94,96,'It remembers','+1 Accuracy against the first kind of creature it kills. Write that kind down.'],
+  [97,100,'A god notices','',{god:1}]];
+const godShort=g=>String(g.n||'').split(' - ')[0];
+const godRunes=g=>Array.isArray(g.runes)?g.runes.join(', '):String(g.runes||'their Runes');
+function fqQuirk(){const d=1+Math.floor(Math.random()*100),q=FQUIRKS.find(x=>d>=x[0]&&d<=x[1]);if(!q)return {d,n:'',t:'Nothing unusual happens.'};
+  const o={d,n:q[2],t:q[3],fx:q[4]||{}};if(o.fx.god&&GODS.length){const g=GODS[Math.floor(Math.random()*GODS.length)];o.god=godShort(g);
+    o.t=`${o.god} marks it with their sign. Once per long rest, add 1d6 to a roll that fits ${godRunes(g)}. ${o.god} now knows the smith's name, and may come asking.`}return o}
+// rune sockets: from the main material's grade (5+, 8+, 10), plus Masterwork and a Rune-scar; at most 4
+const sockBase=m=>{const g=+(m&&m.g)||0;return g>=10?3:g>=8?2:g>=5?1:0};
+const RUNE_DMG={Fire:'fire',Lava:'fire',Heat:'fire',Frost:'cold',Ice:'cold',Snow:'cold',Hail:'cold',Lightning:'lightning',Storm:'lightning',Electric:'lightning',Poison:'poison',Plague:'poison',Light:'radiant',Sun:'radiant',Holy:'radiant',Dark:'necrotic',Death:'necrotic',Night:'necrotic',Shadow:'necrotic',Air:'thunder',Sky:'thunder',Typhoon:'thunder',Water:'cold',Tide:'cold',Earth:'bludgeoning',Metal:'piercing',Iron:'piercing',Blade:'slashing',Psychic:'psychic',Mental:'psychic',Gravity:'force',Space:'force'};
+// two Laws that fight each other: socketed together, the item turns unstable
+const RUNE_OPP=[['Fire','Water'],['Air','Earth'],['Light','Dark'],['Life','Death'],['Creation','Destruction'],['Order','Chaos'],['Day','Night'],['Sun','Moon'],['Heal','Hurt'],['Frost','Heat'],['Hope','Despair'],['Love','Hate'],['Yin','Yang'],['Beginning','End'],['Mercy','Punish'],['Truth','Lies']];
+const runeFx=(n,weapon)=>{const t=RUNE_DMG[n];return t?(weapon?`+1d4 ${t} damage on a hit.`:`Once per long rest, halve the damage of one ${t} hit.`):`Once per short rest, add 1d4 to an attack, check, or save that the ${n} Law fits (the DM's call).`};
+const runeClash=runes=>RUNE_OPP.filter(([a,b])=>runes.includes(a)&&runes.includes(b));
+// growth: marks for big deeds, and what the item wakes into at 3, 7, 12, and 20
+const FGROW=[[3,'Named','It earns a name of its own. +1 Accuracy (armor and shields: +1 AC).',{atk:1}],[7,'Awakened','Its strongest property counts as 1 Potency higher.'],
+  [12,'Bonded','It answers only to you: call it to your hand from up to 30 feet as a bonus action, and no one else can use its properties.'],[20,'Legend','+1 damage (armor and shields: +1 AC), and the DM writes the legend people tell about it.',{dmg:1}]];
+const FMARK_WHY=['Beat a boss','Cleared a Tower floor','Finished a god\'s task','A deed the bards sing about','Other (the DM\'s call)'];
+const bumpDmg=(s,n)=>{const m=/^(\S+)(?: \+ (\d+))?(.*)$/.exec(s||'');if(!m)return s;const v=(+m[2]||0)+n;return m[1]+(v?' + '+v:'')+m[3]};
+// +n to attack (or AC when it has no attack), +n damage (or AC when it deals none)
+function fBump(d,{atk,dmg}){if(atk){if(d.atk!=null)d.atk+=atk;else if(d.ac!=null)d.ac=Math.max(0,d.ac+atk)}if(dmg){if(d.dmg)d.dmg=bumpDmg(d.dmg,dmg);else if(d.ac!=null)d.ac=Math.max(0,d.ac+dmg)}
+  (d.forms||[]).forEach(f=>{if(atk&&f.atk!=null)f.atk+=atk;if(dmg&&f.dmg)f.dmg=bumpDmg(f.dmg,dmg)})}
+// material combos: two properties in one item unlock something neither has alone
+const FCOMBOS=[['Burning','Freezing','Steam Burst','Fire and frost clash in it: once per short rest, on a hit, scalding steam deals 2d6 fire damage and blinds the target until the end of its next turn.'],
+  ['Stormcharged','Tidal','Thunderstorm','Once per long rest, call a 20-foot storm on a point within 60 feet: 3d8 lightning damage, Dexterity save for half.'],
+  ['Holy','Necromantic','Twilight Edge','Its hits deal radiant or necrotic damage, whichever the target resists less. Cursed: undead and celestials can always sense where it is.'],
+  ['Lifedrinking','Regenerating','Bloodloop','When it drains life, you also end being poisoned or bleeding.'],
+  ['Venomous','Corrosive','Rotting Venom','A creature it poisons also takes −1 AC until the end of the fight.'],
+  ['Shadowed','Hushed','Silent Night','In dim light or darkness, creatures more than 30 feet away cannot see you.'],
+  ['Blinking','Displacement','Phase Step','Once per short rest, when you are hit, teleport 15 feet; the hit deals half damage.'],
+  ['Mighty','Hardened','Juggernaut','You cannot be pushed or knocked prone while you wield or wear it.'],
+  ['Keen-Eyed','Farreaching','Hawk\'s Reach','Ranged attacks with it ignore half and three-quarters cover; a reach weapon gains 5 more feet of reach.'],
+  ['Psychic','Mind Blast','Mindbreaker','Once per long rest, on a hit, the target makes an Intelligence save or is stunned until the end of its next turn.'],
+  ['Gravitic','Earthbound','Worldweight','Once per short rest, on a hit, the target\'s speed drops to 0 until the end of its next turn.'],
+  ['Skyborne','Quickening','Windrunner','+10 feet of speed, and you can run across water and webs without sinking or sticking.'],
+  ['Lawful','Chaotic','Paradox','Roll a d6 each dawn: 1–3, reroll any 1s on its damage; 4–6, roll its damage twice and take either.'],
+  ['Warding','Steadfast','Bulwark','+1 to every saving throw while you wield or wear it, on top of each property.'],
+  ['Living','Shapeshifting','Wildgrowth','It slowly regrows when damaged, and once per long rest it can become any simple tool for 10 minutes.'],
+  ['Burning','Stormcharged','Plasma Edge','Its fire and lightning damage ignore resistance (not immunity).'],
+  ['Divine Spark','Purifying','Sanctified','Fiends and undead it hits cannot regain hit points until the start of your next turn.'],
+  ['Fortunate','Timebound','Second Chance','Once per long rest, reroll a missed attack with it, or a failed save while you wear it.']];
+const forgeCombos=r=>{const P=new Set((r.props||[]).filter(p=>!p.half).map(p=>p.m.pn));return FCOMBOS.filter(([a,b])=>P.has(a)&&P.has(b))};
+let COMBOS_FOUND=store.get('combos',[]);
+function combosNote(list){let n=0;list.forEach(c=>{if(!COMBOS_FOUND.includes(c[2])){COMBOS_FOUND.push(c[2]);n++}});if(n){store.set('combos',COMBOS_FOUND);toast('✦ Combo found: '+list.map(c=>c[2]).join(', '))}}
+// master smiths: one in every realm; each can forge up to its grade, for a fee or a task
+const SMITHS={Human:['Bram Ashdown','the Ironhand of Vestige\'s towns',1,'Clear the bandits from his ore road'],Mysterious:['Nim of the Lanterns','who forges only by lantern-light',2,'Bring back a lantern from a Mysterious ruin'],
+  Hell:['Varka Cinderoath','a contract smith of Hell\'s halls',3,'Sign one small clause in Varka\'s favour'],Heaven:['Seraphine Dawnanvil','who quenches steel in morning light',3,'Escort a pilgrim to a cloud shrine'],
+  Chaos:['Ott the Unsteady','whose work is never the same twice',3,'Fetch a stone that has stayed one shape for a year'],Abyss:['Morrow Deephammer','who works at the bottom of the Abyss',4,'Hunt the beast that ate his last apprentice'],
+  'Inner Realm':['Ilse Quietflame','who forges without a sound',4,'Carry a message no one else may hear'],'Outer Realm':['Kestrel Starwright','who works fallen stars',4,'Catch a falling star before it lands'],
+  Void:['The Hollow Smith','who has no face and takes a memory as payment',5,'Give up one memory the DM chooses'],'Inner Void':['Ash-That-Remains','what is left of a god\'s smith',5,'Recover a tool from a dead god\'s forge'],
+  Primordial:['Orrun','the last apprentice of the progenitor Gnome',5,'Prove your work: show Orrun a Masterwork you made yourself']};
+const smithFee=g=>50*Math.pow(3,g-1);
+const smithBonus=g=>6+g*3;
+// the commission board: a week's orders from people who want something made
+const FC_CLIENTS=['Captain Mirelle Vance','Old Tobin the miller','Sister Aldra','Lord Pell of the river towns','Hessa the hunter','Guildmaster Quorr','the twins Lio and Lia','Brother Kael','Madam Ivette','Ranger Dask','a masked buyer','Warden Holt'];
+function fcBoard(){const wk=Math.floor(Date.now()/(7*864e5)),R=(i=>()=>{i=(i*16807)%2147483647;return i/2147483647})(wk*97+13),W=GEN.filter(([,b])=>b.dmg||b.armor||b.shield).map(([k])=>k);
+  return Array.from({length:5},(_,i)=>{const base=W[Math.floor(R()*W.length)],q=['Standard','Standard','Fine','Fine','Masterwork'][Math.floor(R()*5)],rz=REALMS[Math.min(REALMS.length-1,Math.floor(R()*R()*6))];
+    return {id:wk+'-'+i,client:FC_CLIENTS[Math.floor(R()*FC_CLIENTS.length)],base,q,realm:rz.n,tier:rz.tier||1,gp:({Standard:40,Fine:90,Masterwork:220})[q]*(rz.tier||1)}})}
+let FCOMM=store.get('commissions',[]);
+const saveComm=()=>store.set('commissions',FCOMM);
+const fqRank=n=>FQ.findIndex(q=>q[0]===n);
+function fcTake(id){const o=fcBoard().find(x=>x.id===id);if(!o||FCOMM.some(x=>x.id===id))return;FCOMM.push(Object.assign({},o,{took:Date.now()}));saveComm();toast('Taken: '+o.base+' for '+o.client);renderForge()}
+function fcDrop(id){FCOMM=FCOMM.filter(x=>x.id!==id);saveComm();renderForge()}
+function fcBoardHTML(){const B=fcBoard();return `<section class="sec"><div class="sec-h"><h3>📜 Commission board</h3><p>This week's orders. Take one, forge it to the quality asked with materials from its realm or deeper, and deliver it from the Forge for the reward. A delivered commission counts as a profession milestone (tell your DM). New orders every week.</p></div>
+  <div class="tablewrap"><table class="t"><thead><tr><th>Client</th><th>Wants</th><th>Quality</th><th>Materials from</th><th class="num">Reward</th><th></th></tr></thead><tbody>${B.map(o=>{const t=FCOMM.find(x=>x.id===o.id);return `<tr><td>${esc(o.client)}</td><td><b>${esc(o.base)}</b></td><td>${esc(o.q)}+</td><td>${esc(o.realm)} or deeper</td><td class="num">${o.gp} gp</td><td>${t?(t.done?'<span class="b green">Delivered</span>':`<button class="btn" onclick="fcDrop('${o.id}')">Drop</button>`):`<button class="btn" onclick="fcTake('${o.id}')">Take</button>`}</td></tr>`}).join('')}</tbody></table></div>
+  ${FCOMM.filter(x=>!x.done&&!B.some(o=>o.id===x.id)).length?`<p class="note">Still open from earlier weeks: ${FCOMM.filter(x=>!x.done&&!B.some(o=>o.id===x.id)).map(x=>`${esc(x.base)} for ${esc(x.client)} (${x.gp} gp) <a href="#" onclick="fcDrop('${x.id}');return false">drop</a>`).join(' · ')}</p>`:''}</section>`}
+// the open commissions a forged item would satisfy
+const fcMatch=(base,q,tier)=>FCOMM.filter(x=>!x.done&&x.base===base&&fqRank(q)>=fqRank(x.q)&&tier>=x.tier);
+// the design as a Blueprint for the crafting check (its rarity, materials, profession, and item level)
+function forgeBP(r){return {n:r.name,r:r.rar||'Common',mats:[...new Set(r.parts.filter(p=>p.m&&p.fit.lv!=='wrong').map(p=>p.m.n))],pr:r.prof,sp:r.realmSpec||'',lv:Math.max(1,r.il||1)}}
+// what the forge uses: each part's material times its quantity, and how many the crafter has
+function forgeNeeds(r,c){const need={};r.parts.forEach(p=>{if(p.m&&p.fit.lv!=='wrong')need[p.m.n]=(need[p.m.n]||0)+(p.s.qty||1)});
+  return Object.entries(need).map(([n,q])=>{const row=((c&&c.inv)||[]).find(x=>lc(x[0])===lc(n));return {n,q,have:row?+row[1]||0:0}})}
+let FF={who:'',smith:'',res:null};
+function forgeItHTML(r,ready){if(!ready)return '';const B=r.B,c=PARTY.find(x=>x.id===FF.who)||null,b=forgeBP(r),chk=c?craftCheck(b,c):null,F=forgeReq(b),need=forgeNeeds(r,c),sm=FF.smith&&SMITHS[FF.smith],smOk=sm&&sm[2]>=F.g;
+  const res=FF.res,top=r.strongest,tier=top?((REALM[top.realm]||{}).tier||1):1,combos=forgeCombos(r);
+  return `<div class="callout" style="border-color:var(--gold)"><b>🔥 Forge it</b> <small style="color:var(--muted)">roll for it, and the finished item goes on the character's gear</small>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px">${PARTY.length?`<label class="note" style="margin:0">Whose materials and gear <select class="sel" id="ff-who"><option value="">Choose…</option>${PARTY.map(x=>`<option value="${x.id}"${x.id===FF.who?' selected':''}>${esc(x.name||'Unnamed')}${x.prof?' ('+esc(x.prof)+' '+(+x.profLv||0)+')':''}</option>`).join('')}</select></label>`:'<span class="note" style="margin:0">Add a character on the Party page first.</span>'}
+      <label class="note" style="margin:0">Forged by <select class="sel" id="ff-smith"><option value="">That character</option>${REALMS.filter(z=>SMITHS[z.n]).map(z=>{const s=SMITHS[z.n];return `<option value="${esc(z.n)}"${FF.smith===z.n?' selected':''}${s[2]<F.g?' disabled':''}>${esc(s[0])} (${esc(z.n)}, grade ${ROMAN[s[2]-1]})</option>`}).join('')}</select></label></div>
+    <div class="note" style="margin:6px 0 0">Needs a grade ${ROMAN[F.g-1]} forge (${esc(F.name)}). ${sm?`<b>${esc(sm[0])}</b>, ${esc(sm[1])}, forges it in the ${esc(FF.smith)} for <b>${smithFee(sm[2])} gp</b>, or for a task instead: <i>${esc(sm[3])}</i>. A master smith never ruins your materials and never makes a Flawed item.`:chk?`${chk.blocked?`<span style="color:var(--red)"><b>Can't forge:</b> ${esc(chk.blocked)}</span>`:`d20 + ${chk.bonus} vs <b>DC ${chk.dc}</b>${chk.dis.length?` at disadvantage (${esc(chk.dis.join('; '))})`:''}. Time: ${esc(chk.time)}.`}`:'Choose a character to see the roll.'}</div>
+    ${c?`<div class="note" style="margin:6px 0 0">Materials used: ${need.map(x=>`${esc(x.n)} ×${x.q} <span style="color:var(--${x.have>=x.q?'green':'red'})">(has ${x.have})</span>`).join(', ')}</div>`:''}
+    ${c&&!res?`<div style="margin-top:8px">${sm?(smOk?`<button class="btn primary" onclick="forgeRoll()">🔨 Have ${esc(sm[0])} forge it</button>`:''):!chk.blocked?`<button class="btn primary" onclick="forgeRoll()">🎲 Roll to forge</button>`:''}</div>`:''}
+    ${res?`<div style="margin-top:8px">${res.html}</div>`:''}
+    <div class="note" style="margin:8px 0 0">Beat the DC by 5 for <b>Fine</b>, by 10 (or roll a natural 20) for <b>Masterwork</b>. Miss by 1–3 and it is still made, but <b>Flawed</b>. Miss by more and nothing is lost: try again. A natural 1 ruins one of the materials. Then roll a d100 for a quirk: on 50 or less nothing happens.</div>
+    ${combos.length?'':''}</div>`}
+function forgeRoll(){const r=forgeResult(),c=PARTY.find(x=>x.id===FF.who);if(!c)return;const b=forgeBP(r),sm=FF.smith&&SMITHS[FF.smith];let d,tot,dc,q,line,r2;
+  if(sm){d=1+Math.floor(Math.random()*20);dc=craftCheck(b,c).dc;tot=d+smithBonus(sm[2]);const m=tot-dc;q=d===20||m>=10?'Masterwork':m>=5?'Fine':'Standard';line=`${esc(sm[0])} rolls <b>${d} + ${smithBonus(sm[2])} = ${tot}</b> vs DC ${dc}.`}
+  else{const chk=craftCheck(b,c);if(chk.blocked){toast("Can't forge: "+chk.blocked);return}const r1=1+Math.floor(Math.random()*20);r2=1+Math.floor(Math.random()*20);d=chk.dis.length?Math.min(r1,r2):r1;tot=d+chk.bonus;dc=chk.dc;const m=tot-dc;
+    line=`<b>${d}${chk.dis.length?` <small>(${r1}, ${r2})</small>`:''} + ${chk.bonus} = ${tot}</b> vs DC ${dc}.`;
+    if(d===1){const ms=forgeNeeds(r,c).filter(x=>x.have>0),lost=ms.length?ms[Math.floor(Math.random()*ms.length)].n:'';FF.res={ruin:lost,html:`${line} <span style="color:var(--red)"><b>Natural 1:</b> the forging fails${lost?` and the <b>${esc(lost)}</b> is ruined`:''}.</span> ${lost?`<button class="btn" onclick="forgeRuin()">Remove the ruined material</button>`:''} <button class="btn" onclick="FF.res=null;forgeOut()">Try again</button>`};forgeOut();return}
+    q=d===20||m>=10?'Masterwork':m>=5?'Fine':m>=0?'Standard':m>=-3?'Flawed':''}
+  if(!q){FF.res={html:`${line} <span style="color:var(--gold2)"><b>It doesn't take.</b> Nothing is lost; try again.</span> <button class="btn" onclick="FF.res=null;forgeOut()">Try again</button>`};forgeOut();return}
+  const qk=fqQuirk(),Q=fqOf(q);FF.res={q,quirk:qk,html:`${line} <b style="color:var(--${q==='Flawed'?'red':q==='Standard'?'text':'green'})">${q}</b>: ${esc(Q[1])}<br>Quirk (d100 <b>${qk.d}</b>): ${qk.n?`<b>${esc(qk.n)}.</b> `:''}${esc(qk.t)}
+    <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" onclick="forgeKeep()">Use the materials and add it to ${esc(c.name||'their')} gear</button>${fcMatch(FORGE.base,q,r.strongest?((REALM[r.strongest.realm]||{}).tier||1):1).map(o=>`<button class="btn" onclick="forgeKeep('${o.id}')">Deliver to ${esc(o.client)} for ${o.gp} gp</button>`).join('')}</div>`};forgeOut()}
+function forgeRuin(){const c=PARTY.find(x=>x.id===FF.who),n=FF.res&&FF.res.ruin;if(!c||!n)return;c.inv=(c.inv||[]).map(([x,k])=>lc(x)===lc(n)?[x,Math.max(0,(+k||0)-1)]:[x,k]).filter(([,k])=>k>0);saveParty();FF.res=null;toast('Ruined: '+n);forgeOut()}
+// keep the forged item (or deliver it for a commission): use the materials, write its record, pay any fee
+function forgeKeep(commId){const r=forgeResult(),c=PARTY.find(x=>x.id===FF.who),res=FF.res;if(!c||!res||!res.q)return;const need=forgeNeeds(r,c);
+  if(need.some(x=>x.have<x.q)&&!confirm('Some materials are missing from '+(c.name||'their')+' inventory. Forge anyway (only if the DM agrees), using what is there?'))return;
+  const sm=FF.smith&&SMITHS[FF.smith];if(sm){c.coins=c.coins||{};const fee=smithFee(sm[2]);if((+c.coins.gp||0)>=fee)c.coins.gp=(+c.coins.gp||0)-fee;else if(!confirm(`${c.name||'They'} has less than ${fee} gp. Pay with the task instead (${sm[3]})?`))return}
+  need.forEach(x=>{c.inv=(c.inv||[]).map(([n,k])=>lc(n)===lc(x.n)?[n,Math.max(0,(+k||0)-x.q)]:[n,k]).filter(([,k])=>k>0)});
+  if(commId){const o=FCOMM.find(x=>x.id===commId);if(o){o.done=Date.now();o.by=c.name||'';saveComm();c.coins=c.coins||{};c.coins.gp=(+c.coins.gp||0)+o.gp;saveParty();FF.res=null;toast(`Delivered to ${o.client}: +${o.gp} gp`);renderForge();return}}
+  const d=designFromForge(),prim=r.parts.find(p=>p.s.role==='primary');let n=d.n,i=2;while(findBP(n))n=d.n+' ('+(i++)+')';d.n=n;
+  const Q=fqOf(res.q);fBump(d,{atk:Q[2],dmg:Q[3]});if(res.quirk.fx&&res.quirk.fx.dmg)fBump(d,{dmg:res.quirk.fx.dmg});
+  d.forged={q:res.q,by:sm?sm[0]:(c.name||''),on:new Date().toISOString().slice(0,10),quirk:res.quirk.n?{n:res.quirk.n,t:res.quirk.t,god:res.quirk.god||''}:null,
+    sockets:Math.min(4,sockBase(prim&&prim.m)+(res.q==='Masterwork'?1:0)+(res.quirk.fx&&res.quirk.fx.sock?1:0)),runes:[],marks:0,log:[],flawed:res.q==='Flawed'};
+  d.sort=designSortRules(d);DESIGNS.push(d);store.set('designs',DESIGNS);designPlace();c.gear=(c.gear||[]).concat(d.n);saveParty();FF.res=null;toast(d.n+' forged: '+res.q+', on '+(c.name||'their')+' gear');renderForge()}
+// the forged-item panel on the character sheet: quality, quirk, rune sockets, and growth
+const forgedOf=n=>DESIGNS.find(d=>d&&d.n===n&&d.forged)||null;
+function forgedSave(){store.set('designs',DESIGNS);designPlace();saveParty();renderSheet()}
+function forgedRune(n,i,v){const d=forgedOf(n);if(!d)return;const F=d.forged;F.runes=F.runes||[];if(v)F.runes[i]=v;else F.runes.splice(i,1);F.runes=F.runes.filter(Boolean);const cl=runeClash(F.runes);if(cl.length)toast('Unstable: '+cl.map(x=>x.join(' and ')).join(', ')+' fight inside it');forgedSave()}
+function forgedMark(n){const d=forgedOf(n);if(!d)return;const why=prompt('What did it do? ('+FMARK_WHY.join(', ')+')',FMARK_WHY[0]);if(why==null)return;const F=d.forged,was=F.marks||0;F.marks=was+1;F.log=(F.log||[]).concat([[new Date().toISOString().slice(0,10),why.slice(0,80)]]);
+  FGROW.filter(g=>g[0]>was&&g[0]<=F.marks).forEach(g=>{if(g[3])fBump(d,g[3]);toast(`${d.n} is ${g[1]}! ${g[2]}`)});forgedSave()}
+function forgedHTML(c){const L=(c.gear||[]).map(forgedOf).filter((d,i,a)=>d&&a.indexOf(d)===i);if(!L.length)return '';const rn=RUNES.map(x=>x.n).sort();
+  return L.map(d=>{const F=d.forged,wep=!!d.dmg,cl=runeClash(F.runes||[]),next=FGROW.find(g=>g[0]>(F.marks||0)),got=FGROW.filter(g=>g[0]<=(F.marks||0));
+    return `<div style="border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin:0 0 8px"><div style="display:flex;gap:6px;flex-wrap:wrap;align-items:baseline"><b>${esc(d.n)}</b><span class="b ${F.q==='Masterwork'?'gold':F.q==='Flawed'?'red':'ghost'}">${esc(F.q)}</span><small style="color:var(--muted)">forged by ${esc(F.by||'?')} · ${esc(F.on||'')}</small></div>
+      <div class="note" style="margin:4px 0 0">${esc(fqOf(F.q)[1])}${F.quirk?` <b>${esc(F.quirk.n)}:</b> ${esc(F.quirk.t)}`:''}${(d.combos||[]).length?` <b>Combos:</b> ${d.combos.map(esc).join(', ')}.`:''}</div>
+      ${F.sockets?`<div style="margin-top:6px"><small><b>Rune sockets (${(F.runes||[]).length} of ${F.sockets})</b> · a rune must be found or earned first</small>${(F.runes||[]).map((x,i)=>`<div class="note" style="margin:2px 0 0">◆ <b>${esc(x)}</b>: ${esc(runeFx(x,wep))} <a href="#" onclick="forgedRune(${esc(JSON.stringify(d.n))},${i},'');return false">remove</a></div>`).join('')}
+        ${(F.runes||[]).length<F.sockets?`<select class="sel" style="max-width:240px;margin-top:4px" onchange="forgedRune(${esc(JSON.stringify(d.n))},${(F.runes||[]).length},this.value)"><option value="">Fit a rune…</option>${rn.map(x=>`<option>${esc(x)}</option>`).join('')}</select>`:''}
+        ${cl.length?`<div style="color:var(--red);font-size:.82rem;margin-top:4px"><b>Unstable:</b> ${cl.map(x=>x.join(' and ')).join('; ')} fight inside it. It breaks on a natural 1, and after each long rest roll a d20: on a 1, one rune cracks and is lost.</div>`:''}</div>`:'<div class="note" style="margin:4px 0 0">No rune sockets (its main material is below grade 5).</div>'}
+      <div style="margin-top:6px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><small><b>Growth:</b> ${F.marks||0} mark${(F.marks||0)===1?'':'s'}${got.length?' · '+got.map(g=>esc(g[1])).join(', '):''}${next?` · next: <b>${esc(next[1])}</b> at ${next[0]}`:''}</small><button class="btn" style="padding:2px 8px" onclick="forgedMark(${esc(JSON.stringify(d.n))})">+ Mark</button></div>
+      ${got.length?`<div class="note" style="margin:2px 0 0">${got.map(g=>`<b>${esc(g[1])}:</b> ${esc(g[2])}`).join(' ')}</div>`:''}</div>`}).join('')}
+// the Forge page's own sections: combos found, the master smiths, and the commission board
+function forgeExtrasHTML(){return `<section class="sec"><div class="sec-h"><h3>✦ Material combos</h3><p>Two properties in one item can unlock something neither has alone (at full Potency, so not from an extra part or a poor fit). Found ${COMBOS_FOUND.length} of ${FCOMBOS.length}.</p></div>
+    <div class="mlist">${FCOMBOS.map(([a,b,n,t])=>COMBOS_FOUND.includes(n)?`<div style="padding:6px 10px;border:1px solid var(--gold);border-radius:8px"><b>✦ ${esc(n)}</b> <small>${esc(a)} + ${esc(b)}</small><div style="font-size:.82rem">${esc(t)}</div></div>`:`<div style="padding:6px 10px;border:1px dashed var(--line);border-radius:8px;color:var(--muted)"><b>???</b> <small>${esc(a)} + ???</small></div>`).join('')}</div></section>
+  <section class="sec"><div class="sec-h"><h3>⚒ Master smiths</h3><p>One famous smith in every realm. Each can forge items above your own forge's grade, up to their own, for a fee or a task. Choose one under <b>Forge it</b>.</p></div>
+    <div class="tablewrap"><table class="t"><thead><tr><th>Realm</th><th>Smith</th><th>Forge grade</th><th class="num">Fee</th><th>Or a task</th></tr></thead><tbody>${REALMS.filter(z=>SMITHS[z.n]).map(z=>{const s=SMITHS[z.n];return `<tr><td>${esc(z.n)}</td><td><b>${esc(s[0])}</b><br><small style="color:var(--muted)">${esc(s[1])}</small></td><td>${ROMAN[s[2]-1]}</td><td class="num">${smithFee(s[2])} gp</td><td>${esc(s[3])}</td></tr>`}).join('')}</tbody></table></div></section>
+  ${fcBoardHTML()}`}
 function forgeOut(){
   const r=forgeResult(),B=r.B;
   const formGap=r.forms?everResults(r.forms).filter(x=>x&&x.missing.length):[],ready=r.parts.every(p=>p.s.optional||p.m)&&!formGap.length,bad=r.notes.some(n=>n[1]==='wrong');
@@ -6805,9 +6961,13 @@ function forgeOut(){
     ${r.notes.length?`<div class="callout" style="border-color:var(--red);background:color-mix(in srgb,var(--red) 8%,transparent)"><b style="color:var(--red)">Penalties</b><ul style="margin:6px 0 0 18px">${r.notes.map(([s,lv,t,why])=>`<li><b>${esc(s)}</b> (${lv==='wrong'?'wrong material':lv==='poor'?'poor fit':'too weak'}): ${why?esc(why)+' ':''}${lv==='weak'?t:esc(t)}</li>`).join('')}</ul></div>`:''}
     ${r.props.length?`<div><div class="blk"><h4>Properties from every part</h4></div><div class="mlist">${r.props.map(p=>`<button data-ref="${ref(p.m)}" style="flex-direction:column;align-items:flex-start"><span><b>✧ ${esc(p.m.pn)}</b> <span class="x">${esc(p.s.name)} · ${esc(p.m.n)}${p.half?' · half Potency':''}</span></span><span style="font-size:.8rem">${esc((p.m.prop||'').replace(/^[^:]+:\s*/,''))}</span></button>`).join('')}</div></div>`:''}
     ${r.traits.length?`<div><div class="blk"><h4>Traits when equipped</h4></div>${trListHTML(r.traits.map(t=>t.m),gearKind(BASES[FORGE.base]),m=>{const t=r.traits.find(x=>x.m===m);return esc(t.s.name)+' · '+esc(m.n)})}</div>`:''}
+    ${(()=>{const cb=forgeCombos(r);combosNote(cb);return cb.length?`<div><div class="blk"><h4>✦ Combos</h4></div>${cb.map(([a,b,n,t])=>`<div class="note" style="margin:0 0 4px"><b>${esc(n)}</b> <small>(${esc(a)} + ${esc(b)})</small>: ${esc(t)}</div>`).join('')}</div>`:''})()}
     <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" ${ready?'':`disabled title="${formGap.length?'Add the missing materials for form '+formGap.map(x=>x.i+2).join(', '):'Fill every required part first'}"`} onclick="saveDesign()">Save design</button>${PARTY.length&&ready?`<select class="sel" id="fg-who">${PARTY.map(c=>`<option value="${c.id}">${esc(c.name||'Unnamed')}</option>`).join('')}</select><button class="btn" onclick="giveDesign()">Save and equip</button>`:''}<button class="btn" onclick="FORGE.parts={};FORGE.name='';saveForge();renderForge()">Clear parts</button></div>
+    ${forgeItHTML(r,ready)}
   </div>`;
   $('fg-name').onchange=e=>{FORGE.name=e.target.value.trim();saveForge()};
+  if($('ff-who'))$('ff-who').onchange=e=>{FF.who=e.target.value;FF.res=null;forgeOut()};
+  if($('ff-smith'))$('ff-smith').onchange=e=>{FF.smith=e.target.value;FF.res=null;forgeOut()};
   if(FORGE.lore){const el=document.createElement('div');el.className='callout';el.style.borderColor='var(--acc)';el.innerHTML=`<b>✨ Groq's design</b>${FORGE.want?` <small style="color:var(--muted)">for “${esc(FORGE.want)}”</small>`:''}<div style="margin-top:6px">${esc(FORGE.lore)}</div>`;$('fg-out').firstElementChild.insertBefore(el,$('fg-out').firstElementChild.children[1])}
 }
 // ════════════════════════════════════════════════════════════════
@@ -6962,7 +7122,7 @@ async function groqForge(){
 function designFromForge(){
   const r=forgeResult();
   return {lore:FORGE.lore||'',want:FORGE.want||'',n:FORGE.name||r.name,base:FORGE.base,parts:Object.assign({},FORGE.parts),ac:r.ac!=null?r.ac:null,dmg:r.damage?r.damage+' '+r.dtype:'',atk:r.attack!=null?r.attack:null,vers:r.vers||'',props:r.B.props||'',cat:r.B.cat,slot:r.B.slot||r.B.kind||'',mats:[...new Set(r.parts.filter(p=>p.m&&p.fit.lv!=='wrong').map(p=>p.m.n).concat(r.forms?everResults(r.forms).filter(Boolean).flatMap(x=>x.added.map(m=>m.n)):[]))],pr:r.prof,il:r.il,r:r.rar||'Common',gr:((r.parts.find(p=>p.s.role==='primary')||{}).m||{}).gr||'',prop:[...new Set(r.props.map(p=>p.m.pn).filter(Boolean))].concat(r.forms?[`Everchanging (${r.forms} forms)`]:[]).join(', '),
-    forms:r.forms?[{n:FORGE.base,dmg:(r.damage||'')+' '+(r.dtype||''),atk:r.attack,props:r.B.props||''}].concat(everResults(r.forms).filter(x=>x&&!x.missing.length).map(x=>({n:x.e.base,dmg:(x.r.damage||'')+' '+(x.r.dtype||''),atk:x.r.attack,props:x.e.G.props||'',parts:Object.assign({},x.e.own)}))):null,formMax:r.forms||0};
+    combos:forgeCombos(r).map(x=>x[2]),forms:r.forms?[{n:FORGE.base,dmg:(r.damage||'')+' '+(r.dtype||''),atk:r.attack,props:r.B.props||''}].concat(everResults(r.forms).filter(x=>x&&!x.missing.length).map(x=>({n:x.e.base,dmg:(x.r.damage||'')+' '+(x.r.dtype||''),atk:x.r.attack,props:x.e.G.props||'',parts:Object.assign({},x.e.own)}))):null,formMax:r.forms||0};
 }
 const vaultBP=n=>{const b=BP_IDX.get(lc(n||''));return b&&!b.design?b:null};
 function saveDesign(){const d=designFromForge();if(vaultBP(d.n)){toast('“'+d.n+'” is already a Blueprint in the vault: give your design another name');return null}d.sort=designSortRules(d);const i=DESIGNS.findIndex(x=>x.n===d.n);if(i>=0)DESIGNS[i]=d;else DESIGNS.push(d);store.set('designs',DESIGNS);designPlace();toast('Saved '+d.n+': filed under '+d.sort.pr+(d.sort.sp?' → '+d.sort.sp:''));renderForge();designAISort(d);return d}
