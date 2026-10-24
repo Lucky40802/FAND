@@ -823,7 +823,7 @@ log.push('accounts: ' + (CLOUD ? 'on (' + CLOUD.url + ')' : 'off (no url and key
 var noScriptEnd = function (js) { return js.replace(/<\/(script)/gi, '<\\/$1'); };
 var single = '<script>\n' + noScriptEnd(VENDOR) + '\n</script>\n' + (SUPA ? '<script>\n' + noScriptEnd(SUPA) + '\n</script>\n' : '') + '<script>\nconst SITE=null;\n' + cloudLine + '\n' + ['BPS', 'SPELLS', 'VAULT', 'VAULT_DETAILS'].concat(CORE.slice(1)).map(lit).join('\n') + '\n' + metaLine + '\n</script>';
 var out = tpl.split('<!--__DATA__-->').join(single);
-var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'magic', 'classes', 'subclasses', 'demons', 'patrons', 'forge', 'craft', 'party', 'sheet', 'encounter', 'prep', 'hooks', 'journal', 'hidden', 'towers', 'combat', 'rules', 'dice', 'tools', 'about', 'help', 'account', 'settings'];
+var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'magic', 'classes', 'subclasses', 'demons', 'patrons', 'forge', 'workshop', 'craft', 'party', 'sheet', 'encounter', 'prep', 'hooks', 'journal', 'hidden', 'towers', 'combat', 'rules', 'dice', 'tools', 'about', 'help', 'account', 'settings'];
 var site = {};
 var PAGE_INFO = {
   home: ['Home', 'FAND (Fantasy and Numerous Disasters) campaign compendium: Blueprints, materials, monsters, realms, gods, spells, rules, and table tools for the world of Vestige.'],
@@ -842,6 +842,7 @@ var PAGE_INFO = {
   rules: ['Rules', 'Rules summaries for Armor Class, material grading, properties, refining, economy, professions, realm travel, god contracts, classes, spells, and monster stats.'],
   dice: ['Dice', 'A dice roller for the table: any roll, mixed dice pools, saved rolls, and your roll history.'],
   tools: ['Tools', 'Table tools: mine shafts, scavenging, damage vs. AC, material grade, refining, encounters, treasure, currency, and realm Pressure.'],
+  workshop: ['Workshop', 'Blueprints forged by players in the FAND Forge: browse shared designs by name, design, or maker.'],
   forge: ['Forge', 'General Blueprints for every weapon, armor piece, shield, and focus: choose a material for each part (head, haft, grip) and see the finished item, with heavy penalties for the wrong materials.'],
   craft: ['Crafting planner', 'Plan a Blueprint: every material, where to get it, what it costs, and what your crafter is missing.'],
   party: ['Party', 'Track each character: god contract, rivals, gear and traits, materials, money, and realm Pressure.'],
