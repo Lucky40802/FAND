@@ -1,4 +1,7 @@
-// Material properties. P = Potency (1-10) = max(1, floor(Item Level / 5)); B = ceil(P / 2) (1-5).
+// Material properties. Potency (1-50) = the material's Item Level, +5 at grade 9 and +10 at grade 10 (website rule: the
+// scale was widened from 1-10 so each 5 points is a step). Rank = Potency / 5, rounded down (1-10): the numbers in a
+// property's text use the rank (P = rank, B = ceil(rank / 2)), so balance is the same as on the old 1-10 scale. Every
+// 5 Potency (5, 10, ... 50) also unlocks the next step of the property's family ladder (MS below), shown on its page.
 var R = require('./realms.js');
 var A = {
   shape: ['Shapeshifting', 'The item can switch between {P1} forms you design (for example sword, spear, whip, shield) as a bonus action. Each form uses its own weapon die or AC.'],
@@ -80,7 +83,22 @@ var A = {
   songbound: ['Songbound', 'An instrument or weapon of it hums a war-song: allies within 15 ft gain +1 Accuracy while you are not incapacitated. At Potency 6+, also +1 damage.'],
   stormcall: ['Stormcaller', 'Once per long rest, call a storm over a 100-ft area for 10 minutes: heavy rain, high wind, and once per round a lightning strike for {P}d8 (Dexterity save DC {DC}).'],
   mirror: ['Mirrorbound', 'Once per long rest, step into a mirror, still water, or polished metal and out of another within 1 mile that you have seen.'],
-  supply: ['—', 'Supply: used up in crafting; no property.']
+  supply: ['—', 'Supply: used up in crafting; no property.'],
+  thorn: ['Thorned', 'Armor: a creature that hits you with a melee attack takes {P}d4 piercing damage. Weapon: +{B} damage, and a hit leaves a bleeding wound (1 damage at the start of each of the target\'s turns until healed).'],
+  amber: ['Preserving', 'Food, potions, and bodies kept with it never spoil or decay. Once per long rest, stabilize a dying creature by touch. Worn: advantage on saves against petrification and magical aging.'],
+  salt: ['Purging', 'Weapon: +{P}d4 damage, doubled against oozes, plants, and slugs. Worn: advantage on saves against being charmed by fey, and you can\'t be possessed.'],
+  glass: ['Prismatic', 'Weapon: on a critical hit, the target is blinded until the end of its next turn. Armor: +{B} AC against rays and beams, and once per long rest a ray spell that misses you reflects back at its caster.'],
+  ash: ['Ashen', 'Once per short rest, raise a 10-ft cloud of ash around you: the area is heavily obscured for 1 minute and creatures that start their turn in it (except you) make a Constitution save (DC {DC}) or cough and lose their reaction.'],
+  root: ['Rooted', 'Worn: you can\'t be pushed, pulled, or knocked prone while you stand on natural ground. Regain {P} extra hit points when you finish a short rest outdoors.'],
+  bloom: ['Blossoming', 'Focus: +{B} to healing spells. Once per long rest, a healing spell cast through it also ends one condition (blinded, deafened, frightened, poisoned, or paralyzed).'],
+  fungus: ['Mycelial', 'Once per long rest, release spores in a 15-ft radius: creatures other than you and your allies make a Constitution save (DC {DC}) or are poisoned and confused (they move in a random direction) for 1 round.'],
+  clock: ['Clockwork', 'Once per long rest, after initiative is rolled, swap your initiative with a willing ally\'s. Mechanisms built with it never jam, and you add +{B} to Engineering checks.'],
+  bell: ['Tolling', 'Once per short rest, ring it as an action: undead and fiends within 30 ft make a Wisdom save (DC {DC}) or are turned (they must move away from you) for 1 minute or until they take damage.'],
+  sand: ['Shifting Sands', 'Weapon: a hit halves the target\'s speed until the start of your next turn. Once per short rest, blast a 15-ft cone of sand: Constitution save (DC {DC}) or blinded for 1 round.'],
+  clay: ['Moulded', 'Once per long rest, reshape the item into any simple tool or weapon of its size for 1 hour. Armor: resistance to bludgeoning damage while you haven\'t moved this turn.'],
+  smoke: ['Smoky', 'Once per short rest, as a bonus action, turn to smoke until the end of your turn: you can pass through gaps an inch wide, and opportunity attacks against you miss.'],
+  oil: ['Slick', 'Weapon: can\'t be disarmed, and once per short rest you can set it alight for 1 minute (+{P}d4 fire damage). Worn: advantage on checks to escape grapples and restraints.'],
+  seed: ['Sprouting', 'Once per long rest, plant it: in 1 round a thicket of thorns fills a 10-ft square for 10 minutes. It is difficult terrain, and enemies that enter it take {P}d6 piercing damage.']
 };
 // ordered rules: first match wins
 var RULES = [
@@ -130,6 +148,11 @@ var RULES = [
   [/Song|Lyre|Harp|Bard|Chorus|Nightingale|Lark/, 'songbound'],
   [/Thunderbird|Storm Giant|Stormcaller|Tempest/, 'stormcall'],
   [/Hoof|Hooves|Stride|Horse|Stag|Elk|Deer|Hare|Rabbit|Antelope|Gazelle|Camel|Pony|Unicorn Leg/, 'stride'],
+  [/Thorn|Bramble|Briar|Cactus|Nettle/, 'thorn'], [/Amber|Resin|\bSap\b|Honey|Beeswax|\bWax\b/, 'amber'], [/Salt|Brine|Natron/, 'salt'],
+  [/Glass|Prism|Quartz/, 'glass'], [/\bAsh\b|Ashbone|Soot/, 'ash'], [/Root|Tuber|Rhizome|Mandrake/, 'root'],
+  [/Bloom|Flower|Petal|Blossom|Lily|Rose\b|Lotus|Orchid/, 'bloom'], [/Mushroom|Fung|Mold\b|Myconid|Puffball|Toadstool|Truffle/, 'fungus'],
+  [/Clock|Gear|Cog\b|Spring\b|Gyro/, 'clock'], [/\bBell\b|Chime|Gong/, 'bell'], [/Sand\b|Dune|Dust\b/, 'sand'], [/Clay|\bMud\b|Silt|Loam/, 'clay'],
+  [/Smoke|Haze/, 'smoke'], [/\bOil\b|Tallow|Grease|\bTar\b|\bPitch\b/, 'oil'], [/Seed|Acorn|\bPod\b|\bNut\b/, 'seed'],
   [/Water|Tide|Sea |Sea$|Marid|Coral|Pearl|Kraken|Shark|Deepmaw|Leviathan|Serpent Scale|Merrow|Sahuagin|Kelp|Drowned|Fathom|Dragon Turtle|Octopus|Whale|Eel/, 'water'],
   [/Earth|Xorn|Galeb|Dao|Zaratan|Golem|Gargoyle|Tremor|Purple Worm|Umber Hulk|Ankheg|Kruthik/, 'earth'],
   [/Feather|Wing|Roc |Roc$|Griffon|Hippogriff|Peryton|Sky|Cloud|Air|Aarakocra|Stormhawk|Down|Pteranodon|Quetzal|Vulture|Eagle|Owl|Hawk|Bat /, 'flight'],
@@ -200,13 +223,148 @@ function key(name, t, c) {
   if (REALM_DEFAULT[c] && /[BLEF]/.test(t)) return REALM_DEFAULT[c];
   return TYPE_DEFAULT[t] || 'metal';
 }
-function potency(c, g) { return Math.min(10, Math.max(1, Math.floor(R.level(c, g) / 5)) + (g === 10 ? 2 : g === 9 ? 1 : 0)); }
+function potency(c, g) { return Math.min(50, Math.max(1, R.level(c, g) + (g === 10 ? 10 : g === 9 ? 5 : 0))); }
+function rank(pot) { return Math.min(10, Math.max(1, Math.floor((+pot || 0) / 5))); }
+// thresholds written on the old 1-10 scale ("At Potency 6+") are shown on the 1-50 scale
+function potText(s) { return String(s).replace(/Potency (\d+)(\+|\b)/g, function (a, n, plus) { return +n <= 10 ? 'Potency ' + (+n * 5) + plus : a; }); }
 function fill(s, P) {
   var B = Math.ceil(P / 2);
-  return s.replace(/\{P1\}/g, P + 1).replace(/\{B1\}/g, B + 1).replace(/\{P2\}/g, P * 2).replace(/\{P5\}/g, P * 5).replace(/\{P10\}/g, P * 10)
+  return potText(s).replace(/\{P1\}/g, P + 1).replace(/\{B1\}/g, B + 1).replace(/\{P2\}/g, P * 2).replace(/\{P5\}/g, P * 5).replace(/\{P10\}/g, P * 10)
     .replace(/\{DC\}/g, 10 + B * 2).replace(/\{P\}/g, P).replace(/\{B\}/g, B);
 }
+
+// ---- every 5 Potency: what each step adds, by family. {E} is the property's element, {N} its name. The rank's numbers
+// (the property's own text) rise at every step as well; these lines are what is new at that step.
+var MS = {
+  elem: ['Armor of it gives resistance to {E} damage; a weapon adds its {E} dice to every hit.',
+    'Its {E} damage ignores resistance to {E} that comes from nonmagical sources.',
+    'Once per short rest, on a hit, the target takes the same {E} damage again at the start of its next turn.',
+    'A critical hit triples the {E} dice instead of doubling them.',
+    'When you dodge an attack that carries {E} damage, you take none of its other effects either.',
+    'Once per long rest, release a 15-ft burst of {E}: rank d6 {E} damage, Dexterity save for half.',
+    'Its {E} damage ignores all resistance to {E}.',
+    'Armor of it gives immunity to {E} damage.',
+    'The burst recharges on a short rest and reaches 30 ft.',
+    'Once per long rest, a hit makes the target vulnerable to {E} damage for 1 minute.'],
+  save: ['The bonus applies to the saves and rolls it names.',
+    'Once per long rest, reroll one failed roll it covers.',
+    'The reroll recharges on a short rest.',
+    'Allies within 5 ft gain +1 to the rolls it covers.',
+    'Once per long rest, turn a failed roll it covers into a success.',
+    'The ally bonus reaches 10 ft and becomes +2.',
+    'Advantage on the saves it covers against spells of 3rd level or lower.',
+    'Turning a failure into a success recharges on a short rest.',
+    'Advantage on the saves it covers against spells of 6th level or lower.',
+    'Once per long rest, when you or an ally within 10 ft fails a roll it covers, it succeeds instead.'],
+  skill: ['The bonus applies to the skills it names.',
+    'Once per long rest, treat a d20 roll of 9 or lower on one of its skills as a 10.',
+    'Once per short rest, roll one of its skills with advantage.',
+    'Anyone who helps you with one of its skills adds +2 to your roll.',
+    'Every d20 roll of 9 or lower on its skills counts as a 10.',
+    'Advantage twice per short rest instead of once.',
+    'Allies within 10 ft gain +1 to its skills.',
+    'Once per long rest, treat a d20 roll of 14 or lower on one of its skills as a 15.',
+    'Pick one of its skills: you always roll it with advantage.',
+    'Once per day, succeed on one check with its skills, whatever the DC.'],
+  focus: ['Spells cast through it gain the bonus.',
+    'Once per long rest, regain one expended 1st-level spell slot.',
+    'Once per long rest, cast one spell of level up to half the rank through it without a slot.',
+    'Spells cast through it ignore half cover and three-quarters cover.',
+    'Its bonus to spell attacks and DCs rises by 1.',
+    'Once per long rest, a spell cast through it can\'t be countered or dispelled.',
+    'On a short rest, regain one expended spell slot of 3rd level or lower.',
+    'Once per long rest, roll the maximum on every die of one spell cast through it.',
+    'Its bonus to spell attacks and DCs rises by 1 more.',
+    'Once per long rest, cast a spell through it as if from a slot two levels higher.'],
+  weapon: ['A weapon of it carries the property on every hit.',
+    '+1 Accuracy with it.',
+    'Once per short rest, a hit deals the maximum on its weapon dice.',
+    'It scores a critical hit on a roll one lower than before.',
+    '+2 Accuracy with it (instead of +1).',
+    'Once per short rest, when you miss with it, roll the Accuracy again.',
+    'Its hits ignore 5 more AC.',
+    'A critical hit with it stuns the target until the end of its next turn (Constitution save, DC 10 + rank, ends it).',
+    '+3 Accuracy with it (instead of +2).',
+    'Once per long rest, a hit whose Accuracy beats the Dodge by 10 or more deals triple damage.'],
+  armor: ['Worn, it gives its protection.',
+    '+1 Dodge while worn.',
+    'Once per short rest, reduce the damage of one hit by twice the rank.',
+    'Resistance to one damage type, chosen when the item is made.',
+    '+2 Dodge while worn (instead of +1).',
+    'The damage reduction works once per round instead of once per short rest.',
+    'Advantage on Dodge rolls against ranged attacks.',
+    'Resistance to a second damage type, chosen when the item is made.',
+    '+3 Dodge while worn (instead of +2).',
+    'Once per long rest, a hit that beat your Dodge misses instead.'],
+  move: ['Its movement power works.',
+    '+5 ft speed.',
+    'Difficult terrain costs you no extra movement.',
+    'Once per short rest, Dash as a bonus action.',
+    '+10 ft speed (instead of +5).',
+    'Opportunity attacks against you have disadvantage.',
+    'A climb speed equal to your walking speed.',
+    '+15 ft speed (instead of +10).',
+    'Once per long rest, teleport up to 60 ft as a bonus action.',
+    'Once per day, a 10-minute ritual takes you to any place you have seen in the same realm.'],
+  charges: ['Its power can be used as written.',
+    'Its limited-use power gains 1 more use per rest.',
+    'Its save DC rises by 1.',
+    'You can use its power as a bonus action instead of an action.',
+    'Its limited-use power gains 1 more use per rest (2 extra).',
+    'Its range or area doubles.',
+    'Its save DC rises by 1 more.',
+    'A power used once per long rest now recharges on a short rest.',
+    'Its limited-use power gains 1 more use per rest (3 extra).',
+    'Once per day, use its power without spending a use; creatures roll their save against it with disadvantage.'],
+  sense: ['Its senses work while you hold or wear it.',
+    'Darkvision gains 30 ft of range (or you gain darkvision 30 ft).',
+    'Advantage on Perception checks to notice hidden creatures.',
+    'You see invisible creatures and objects within 30 ft.',
+    'Blindsight 10 ft.',
+    'You can\'t be surprised while conscious.',
+    'Truesight 30 ft.',
+    'Blindsight 30 ft.',
+    'Truesight 60 ft.',
+    'Once per day, scry on any creature you have seen for 10 minutes.'],
+  relic: ['The relic stirs: the DM designs its power.',
+    'The relic speaks once a day, in dreams or a voice only you hear.',
+    'Its power gains 1 more use per long rest.',
+    'Anyone who sees it knows what it is and who it belongs to.',
+    'It can\'t be destroyed by anything less than a god or its Law.',
+    'Its power gains 1 more use per long rest (2 extra).',
+    'You can call it to your hand from anywhere in the same realm.',
+    'Its power works as a bonus action.',
+    'The god or progenitor it came from takes notice of you.',
+    'The DM grants the relic a second legendary power.']
+};
+var FAM = {
+  fire: ['elem', 'fire'], cold: ['elem', 'cold'], storm: ['elem', 'lightning'], acid: ['elem', 'acid'], poison: ['elem', 'poison'], radiant: ['elem', 'radiant'],
+  shadow: ['elem', 'necrotic'], psychic: ['elem', 'psychic'], mindblast: ['elem', 'psychic'], sound: ['elem', 'thunder'], holyhorn: ['elem', 'radiant'],
+  wild: ['elem', 'random-type'], core: ['elem', 'elemental'], water: ['elem', 'cold'],
+  warding: ['save'], steadfast: ['save'], clarity: ['save'], quick: ['save'], alert: ['save'], hoard: ['save'], time: ['charges'],
+  keen: ['skill'], hush: ['skill'], tongue: ['skill'], lore: ['skill'], wildwise: ['skill'], mighty: ['skill'], heir: ['skill'], clock: ['charges'],
+  sovereign: ['focus'], necro: ['focus'], gem: ['focus'], nature: ['focus'], truename: ['focus'], bloom: ['focus'],
+  sharp: ['weapon'], blood: ['weapon'], souldrink: ['weapon'], giantfell: ['weapon'], wyrmbane: ['weapon'], foeglow: ['weapon'], oathkeeper: ['weapon'],
+  emberglass: ['weapon'], bind: ['weapon'], petrify: ['weapon'], gravity: ['weapon'], fiend: ['weapon'], returning: ['weapon'], mech: ['weapon'],
+  salt: ['weapon'], glass: ['weapon'], sand: ['weapon'], oil: ['weapon'], metal: ['weapon'], null: ['weapon'],
+  hard: ['armor'], stone: ['armor'], supple: ['armor'], starsilver: ['armor'], heartwood: ['armor'], invuln: ['armor'], displace: ['armor'],
+  thorn: ['armor'], root: ['armor'], regen: ['armor'], clay: ['armor'], amber: ['armor'],
+  flight: ['move'], blink: ['move'], stride: ['move'], earth: ['sense'], far: ['move'], mirror: ['move'], smoke: ['move'], shape: ['charges'],
+  sight: ['sense'],
+  eyeray: ['charges'], rebirth: ['charges'], luck: ['charges'], law: ['charges'], fey: ['charges'], ink: ['charges'], unseen: ['charges'],
+  wardrune: ['charges'], songbound: ['charges'], stormcall: ['charges'], ash: ['charges'], fungus: ['charges'], bell: ['charges'], seed: ['charges'],
+  progenitor: ['relic'], divine: ['relic']
+};
+var FAM_NAME = { elem: 'Elemental', save: 'Saving throws', skill: 'Skills', focus: 'Spell focus', weapon: 'Weapon', armor: 'Armor and toughness', move: 'Movement', charges: 'Limited-use power', sense: 'Senses', relic: 'Relic' };
+// a property's page: its family, its text at each step, and what each step adds
+function ladder(k) {
+  var f = FAM[k] || ['charges'], m = MS[f[0]], e = f[1] || '', out = [];
+  for (var r = 1; r <= 10; r++) out.push({ pot: r * 5, rank: r, text: fill(A[k][1], r), add: m[r - 1].replace(/\{E\}/g, e).replace(/\{N\}/g, A[k][0]) });
+  return { fam: f[0], famName: FAM_NAME[f[0]], el: e, steps: out };
+}
 module.exports = {
-  A: A, RULES: RULES, REALM_DEFAULT: REALM_DEFAULT, TYPE_DEFAULT: TYPE_DEFAULT, potency: potency,
-  prop: function (name, t, c, g) { var k = key(name, t, c), P = potency(c, g); return { k: k, name: A[k][0], text: fill(A[k][1], P), P: P }; }
+  A: A, RULES: RULES, REALM_DEFAULT: REALM_DEFAULT, TYPE_DEFAULT: TYPE_DEFAULT, potency: potency, rank: rank, potText: potText, ladder: ladder, FAM: FAM, FAM_NAME: FAM_NAME,
+  keyOf: function (name) { for (var k in A) if (A[k][0] === name) return k; return null; },
+  fillAt: function (k, pot) { return fill(A[k][1], rank(pot)); },
+  prop: function (name, t, c, g) { var k = key(name, t, c), P = potency(c, g); return { k: k, name: A[k][0], text: fill(A[k][1], rank(P)), P: P }; }
 };

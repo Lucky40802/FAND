@@ -37,6 +37,7 @@ function jsonAt(s) {
   return { v: JSON.parse(t.slice(s, j + 1)), end: j };
 }
 var D = {};
+var PR0 = require(path.join(__dirname, '..', 'data', 'properties.js'));
 ['BPS', 'SPELLS', 'MATS', 'MONSTERS', 'SUBS', 'GODS', 'DEMONS', 'PATRONS', 'MAT_FX'].forEach(function (k) {
   D[k] = span(k); if (!D[k]) throw new Error('missing ' + k + ' in ' + IN);
 });
@@ -100,6 +101,11 @@ D.MATS.forEach(function (m) {
   }
   var pm = /\(Potency (\d+)\)/.exec(m.prop || ''); if (pm) m.pot = +pm[1];
   if (m.prop) m.pn = m.prop.split(' (Potency')[0];
+  if (pm && g) {
+    var pk = PR0.keyOf(m.pn);
+    if (pk) { m.pot = PR0.potency(g.c, g.g); m.prop = m.pn + ' (Potency ' + m.pot + '): ' + PR0.fillAt(pk, m.pot); }
+    else { m.pot = Math.min(50, m.pot * 5); m.prop = PR0.potText(m.prop.replace(/\(Potency \d+\)/, '(Potency ' + m.pot + ')')); }
+  }
   if (a) {
     joined++;
     m.ty = R.TYPES[ty] || m.cat;
@@ -807,7 +813,16 @@ D.SUBSTAGES = {};
 })();
 // base class features by level 1-20 (data/class-prog.json): the level-up checklist and the sheet's class features
 (function () { var f = path.join(__dirname, '..', 'data', 'class-prog.json'); D.CLASS_PROG = fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, 'utf8')) : {}; })();
-var CORE = ['BPS', 'MATS', 'MONSTERS', 'SUBS', 'GODS', 'DEMONS', 'PATRONS', 'MAT_FX', 'HIDDEN', 'STAGES', 'SUBSTAGES', 'PROF_STAGES', 'PEOPLES', 'CLASS_PROG'];
+// ---- property pages (website addition): every material property, its family, its text at each 5 Potency, and how many
+// materials carry it
+(function () {
+  var cnt = {}; D.MATS.forEach(function (m) { if (m.pn) cnt[m.pn] = (cnt[m.pn] || 0) + 1; });
+  D.PROPS = Object.keys(PR0.A).filter(function (k) { return k !== 'supply'; }).map(function (k) {
+    var L = PR0.ladder(k); return { k: k, n: PR0.A[k][0], t: PR0.potText(PR0.A[k][1]), fam: L.famName, el: L.el, steps: L.steps, mats: cnt[PR0.A[k][0]] || 0 };
+  });
+  log.push('property pages: ' + D.PROPS.length + ' (' + D.PROPS.filter(function (x) { return x.mats; }).length + ' carried by materials)');
+})();
+var CORE = ['BPS', 'MATS', 'MONSTERS', 'SUBS', 'GODS', 'DEMONS', 'PATRONS', 'MAT_FX', 'HIDDEN', 'STAGES', 'SUBSTAGES', 'PROF_STAGES', 'PEOPLES', 'CLASS_PROG', 'PROPS'];
 var metaLine = 'const META=' + JSON.stringify(META) + ';';
 var VENDOR = fs.readFileSync(path.join(__dirname, '..', 'app', 'vendor', 'anthropic.js'), 'utf8');
 // Accounts and campaigns (Supabase): on when tools/cloud/config.json has the project's URL and public key (see the README).
@@ -823,11 +838,12 @@ log.push('accounts: ' + (CLOUD ? 'on (' + CLOUD.url + ')' : 'off (no url and key
 var noScriptEnd = function (js) { return js.replace(/<\/(script)/gi, '<\\/$1'); };
 var single = '<script>\n' + noScriptEnd(VENDOR) + '\n</script>\n' + (SUPA ? '<script>\n' + noScriptEnd(SUPA) + '\n</script>\n' : '') + '<script>\nconst SITE=null;\n' + cloudLine + '\n' + ['BPS', 'SPELLS', 'VAULT', 'VAULT_DETAILS'].concat(CORE.slice(1)).map(lit).join('\n') + '\n' + metaLine + '\n</script>';
 var out = tpl.split('<!--__DATA__-->').join(single);
-var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'magic', 'classes', 'subclasses', 'demons', 'patrons', 'forge', 'workshop', 'craft', 'party', 'sheet', 'encounter', 'prep', 'hooks', 'journal', 'hidden', 'towers', 'combat', 'rules', 'dice', 'tools', 'about', 'help', 'account', 'settings'];
+var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'properties', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'magic', 'classes', 'subclasses', 'demons', 'patrons', 'forge', 'workshop', 'craft', 'party', 'sheet', 'encounter', 'prep', 'hooks', 'journal', 'hidden', 'towers', 'combat', 'rules', 'dice', 'tools', 'about', 'help', 'account', 'settings'];
 var site = {};
 var PAGE_INFO = {
   home: ['Home', 'FAND (Fantasy and Numerous Disasters) campaign compendium: Blueprints, materials, monsters, realms, gods, spells, rules, and table tools for the world of Vestige.'],
   blueprints: ['Blueprints', D.BPS.length.toLocaleString('en-US') + ' craftable Blueprints across ten professions, with materials, rarity, damage, AC, and properties.'],
+  properties: ['Properties', 'Every material property in FAND: what Potency (1-50) means, what each property does at every rank, what it gains every 5 Potency, and which materials carry it.'],
   materials: ['Materials', D.MATS.length.toLocaleString('en-US') + ' graded materials from eleven realms, with rank, Item Level, property, Potency, price, and sources.'],
   bestiary: ['Bestiary', D.MONSTERS.length.toLocaleString('en-US') + ' monsters across eleven realms, with grades, habitats, and drops.'],
   realms: ['Realms', 'The eleven realms of Vestige in ten tiers: their monsters, materials, gathering, and gods.'],
