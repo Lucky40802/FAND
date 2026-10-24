@@ -200,6 +200,26 @@ log.push('harvest parts: +' + genAdded + ' materials (now ' + D.MATS.length + ')
   log.push('gathered materials (ores, herbs, fauna): +' + added);
 })();
 
+// ---- alloys, the base ores they need, and more herbs (data/alloys.js): an alloy keeps its recipe for the Smelter
+(function () {
+  var A; try { A = require(path.join(__dirname, '..', 'data', 'alloys.js')); } catch (e) { if (e.code !== 'MODULE_NOT_FOUND') throw e; return; }
+  var have = {}; D.MATS.forEach(function (m) { have[m.n.toLowerCase()] = 1; });
+  var add = function (name, realm, g, tc, extra) {
+    var c = CODE[realm]; if (!c || have[name.toLowerCase()]) return 0; g = Math.max(1, Math.min(10, +g || 1));
+    var pr = PR.prop(name, tc, c, g);
+    var ex = Object.assign({ n: name, realm: realm, gr: realm + ' ' + g, prop: pr.k === 'supply' ? '' : pr.name + ' (Potency ' + pr.P + '): ' + pr.text, tc: tc,
+      tier: R.tier(c), g: g, rank: R.rank(c, g), il: R.level(c, g), rar: rarity(c, g), price: price(c, g, tc), ty: R.TYPES[tc], site: 1 }, extra);
+    if (pr.k !== 'supply') { ex.pot = pr.P; ex.pn = pr.name; }
+    D.MATS.push(ex); have[name.toLowerCase()] = 1; return 1;
+  };
+  var n = 0;
+  A.ores.forEach(function (r) { n += add(r[0], r[1], r[2], 'O', { ds: r[3], where: r[4], by: 'Harvesting (Mining)', gath: 'ore' }); });
+  A.alloys.forEach(function (r) { n += add(r[0], r[1], r[2], 'O', { ds: r[4] + ' ' + r[5], where: 'Smelted from ' + r[3].join(', '), by: 'Blacksmithing (Smelting)', recipe: r[3].slice(), alloy: 1 }); });
+  A.herbs.forEach(function (r) { n += add(r[0], r[1], r[2], 'W', { ds: r[3], where: r[4], by: 'Harvesting (Foraging)', gath: 'herb', alch: r[5] }); });
+  D.MATS.sort(function (a, b) { return a.n < b.n ? -1 : a.n > b.n ? 1 : 0; });
+  log.push('alloys, base ores, and herbs: +' + n);
+})();
+
 // ---- filling gaps. Every generated value is marked (dsg, mi) so the site can say it was written by the site,
 // and it is only ever written where the vault left the field empty.
 var gap = { mon: 0, part: 0, bpMats: 0, bpDs: 0 };

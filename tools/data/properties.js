@@ -143,6 +143,10 @@ var TYPE_DEFAULT = { O: 'metal', W: 'nature', G: 'gem', S: 'stone', F: 'supple',
 
 // materials made for one property (saving throws and initiative, which only gear and class can raise): name -> property
 var NAMED = {
+  // alloys named for the tales (data/alloys.js)
+  'Starsilver': 'starsilver', 'Mirrorbronze': 'mirror', 'Dragon-Hoard Gold': 'hoard', 'Emberglass': 'emberglass', 'Songsteel': 'songbound',
+  'Pactsteel': 'oathkeeper', 'Dawnsteel': 'radiant', 'Thunder Brass': 'stormcall', 'Moon-Steel': 'starsilver', 'Bell Metal': 'songbound',
+  'Speculum Metal': 'mirror', 'Sterling Silver': 'starsilver', 'Rustless Steel': 'hard', 'Corinthian Bronze': 'heir',
   'Wardleaf': 'warding', 'Ironheart Ore': 'steadfast', 'Quickhare Hide': 'quick',
   'Clearwater Lotus': 'clarity', 'Wardsilver': 'warding', 'Startle-Moth Silk': 'alert',
   'Cinderwake Moss': 'alert', 'Oathiron': 'steadfast', 'Imp-Quill Skink Hide': 'quick',
