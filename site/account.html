@@ -924,7 +924,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"account",v:"b52fdbc563",b:"115ce0d8"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"account",v:"b52fdbc563",b:"456fa8c4"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=b52fdbc563",11094090],["data/vault.js?v=b52fdbc563",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -6562,6 +6562,132 @@ GEN.push(
   FOC('Drum','🥁','Instrument','Bardic spellcasting focus; heard 300 feet away',[Object.assign(P.cover(1,['F']),{name:'Drumhead'}),Object.assign(P.haft('Shell'),{role:'structure',ok:['W','B','O']}),Object.assign(P.heart('Resonance stone'),{optional:true,role:'minor'})]),
   FOC('Harp','🎼','Instrument','Bardic spellcasting focus; two-handed when played',[Object.assign(P.haft('Frame',2),{role:'primary',ok:['W','B','O']}),Object.assign(P.string(),{name:'Strings'}),Object.assign(P.heart('Resonance stone'),{optional:true,role:'minor'})]),
   FOC('War Horn','📯','Instrument','Bardic spellcasting focus; heard a mile away',[{name:'Horn',role:'primary',qty:1,kind:'shaft',ok:['B','O','W'],ideal:{B:/horn|tusk|shell/i},why:'A hollow horn, tusk, or shell, or brass.'},Object.assign(P.heart('Resonance stone'),{optional:true,role:'minor'})])
+);
+// Still more general Blueprints, from the great lists of historical weapons, armour pieces, shields, farm tools, and
+// workshop tools: everything a realm's smiths could make with what Vestige knows. What is too advanced for them (guns,
+// cannon) becomes an Arcane version: a spark core does what powder would.
+const P_BARREL=(q)=>({name:'Barrel',role:'primary',qty:q||2,kind:'blunt',ok:['O'],weak:['B','W'],why:'A tube of metal that can take the spark-core\'s blast. Bone or hardwood bursts after a few shots.'});
+const P_SPARK=()=>({name:'Spark core',role:'minor',qty:1,kind:'focus',ok:['E','G'],why:'An essence or a charged gem: it does what powder would, a burst of force behind the shot. Without it the weapon is a club.'});
+const S_GUN=(q)=>[P_BARREL(q),Object.assign(P.stock(),{why:'Wood, metal, or bone to hold and brace it.'}),Object.assign(P.trigger(),{name:'Lock'}),P_SPARK()];
+const TOOL=(icon,cat,n,dmg,type,props,slots,extra)=>W_('Tools and farm weapons',icon,cat,n,dmg,type,props,slots,extra);
+GEN.push(
+  // swords and long knives
+  W_('Martial melee','⚔','Sword','Arming Sword','1d8','slashing','Versatile (1d10)',S_BLADE(3)),
+  W_('Martial melee','⚔','Sword','Messer','1d8','slashing','Light; a hit after a parry deals +1',S_BLADE(2)),
+  W_('Martial melee','⚔','Sword','Kriegsmesser','2d6','slashing','Heavy, two-handed',S_BLADE(4)),
+  W_('Martial melee','⚔','Sword','Backsword','1d8','slashing','Versatile (1d10)',S_BLADE(3)),
+  W_('Martial melee','⚔','Sword','Spatha','1d8','slashing','Versatile (1d10); +1 Accuracy when mounted',S_BLADE(3)),
+  W_('Martial melee','⚔','Sword','Xiphos','1d6','piercing','Finesse, light',S_BLADE(2)),
+  W_('Martial melee','⚔','Sword','Kopis','1d8','slashing','Forward-weighted: +1 damage on a charge',S_BLADE(3)),
+  W_('Martial melee','⚔','Sword','Falcata','1d8','slashing','Cleaves: on a critical hit, roll the damage dice three times',S_BLADE(3)),
+  W_('Martial melee','⚔','Sword','Talwar','1d8','slashing','Finesse',S_BLADE(3)),
+  W_('Martial melee','⚔','Sword','Shamshir','1d8','slashing','Finesse; +1 damage when mounted',S_BLADE(3)),
+  W_('Martial melee','⚔','Sword','Kilij','1d8','slashing','Finesse, versatile (1d10)',S_BLADE(3)),
+  W_('Martial melee','⚔','Sword','Yatagan','1d6','slashing','Finesse, light',S_BLADE(2)),
+  W_('Martial melee','⚔','Sword','Kampilan','1d10','slashing','Two-handed, heavy',S_BLADE(4)),
+  W_('Martial melee','⚔','Sword','Ninjato','1d6','slashing','Finesse, light; +1 to Stealth while sheathed on your back',S_BLADE(2)),
+  W_('Martial melee','⚔','Sword','Dadao','1d10','slashing','Heavy, versatile (1d12)',S_BLADE(4)),
+  W_('Martial melee','⚔','Sword','Miao Dao','1d8','slashing','Finesse, two-handed, reach',S_BLADE(3)),
+  W_('Martial melee','🪝','Sword','Hook Sword','1d6','slashing','Finesse; pairs can be hooked together for reach; a hit can disarm (Strength save DC 10)',S_BLADE(2)),
+  W_('Martial melee','🗡','Dagger','Butterfly Sword','1d6','slashing','Finesse, light; used in pairs',S_KNIFE(1)),
+  W_('Martial melee','🗡','Dagger','Swordbreaker','1d4','piercing','Finesse, light; once per round, a parry can trap a blade (disarm, Strength save DC 12)',S_KNIFE(1)),
+  W_('Martial melee','🗡','Dagger','Rondel Dagger','1d4','piercing','Finesse, light; ignores 1 AC',S_KNIFE(1)),
+  W_('Martial melee','🗡','Dagger','Baselard','1d6','piercing','Finesse, light',S_KNIFE(1)),
+  W_('Martial melee','🗡','Dagger','Cinquedea','1d6','slashing','Finesse, light',S_KNIFE(2)),
+  W_('Martial melee','🗡','Dagger','Misericorde','1d4','piercing','Finesse, light; +2 damage against a prone or grappled creature',S_KNIFE(1)),
+  W_('Simple melee','🗡','Dagger','Dirk','1d4','piercing','Finesse, light, thrown (20/60)',S_KNIFE(1)),
+  W_('Simple melee','🗡','Dagger','Seax','1d6','slashing','Light',S_KNIFE(1)),
+  W_('Simple melee','🗡','Dagger','Hunting Knife','1d4','slashing','Light; also skins and butchers',S_KNIFE(1)),
+  W_('Martial melee','🗡','Dagger','Karambit','1d4','slashing','Finesse, light; can\'t be disarmed',S_KNIFE(1)),
+  W_('Simple ranged','🗡','Dagger','Kunai','1d4','piercing','Finesse, light, thrown (20/60); also a climbing spike',S_KNIFE(1),{ranged:'20/60 ft.'}),
+  W_('Martial melee','🗡','Dagger','Kris','1d4','piercing','Finesse, light; a wavy blade: +1 damage on a critical hit',S_KNIFE(1)),
+  W_('Martial melee','🗡','Dagger','Jambiya','1d4','piercing','Finesse, light',S_KNIFE(1)),
+  W_('Martial melee','🗡','Dagger','Push Dagger','1d4','piercing','Light; can\'t be disarmed',S_FIST(P.edge('Blade',1))),
+  // axes
+  W_('Martial melee','🪓','Axe','Bearded Axe','1d8','slashing','Versatile (1d10); a hit can hook a shield aside (the target loses its shield AC until its turn)',S_AXE(2)),
+  W_('Martial melee','🪓','Axe','Dane Axe','1d12','slashing','Heavy, two-handed',S_AXE(3,2)),
+  W_('Martial ranged','🪓','Axe','Francisca','1d6','slashing','Thrown (20/60); a hit on a shield-bearer can knock the shield aside',S_AXE(1),{ranged:'20/60 ft.'}),
+  W_('Martial melee','🪓','Axe','Labrys','1d10','slashing','Heavy, two-handed',S_AXE(3,2)),
+  W_('Martial melee','🪓','Axe','Sagaris','1d6','slashing','Light; also pierces (choose the damage type)',S_AXE(1)),
+  W_('Martial melee','🪓','Axe','Broad Axe','1d10','slashing','Heavy, two-handed; also shapes timber',S_AXE(3,2)),
+  W_('Martial ranged','🪓','Axe','Hurlbat','1d6','slashing','Thrown (20/60); always lands blade-first',S_AXE(1),{ranged:'20/60 ft.'}),
+  // polearms and spears
+  W_('Martial melee','🔱','Spear','Pollaxe','1d10','slashing','Heavy, reach, two-handed; can also pierce or bludgeon',S_POLE(P.axehead(2),2)),
+  W_('Martial melee','🔱','Spear','Voulge','1d10','slashing','Heavy, reach, two-handed',S_POLE(P.axehead(2),2)),
+  W_('Martial melee','🔱','Spear','Fauchard','1d8','slashing','Heavy, reach, two-handed',S_POLE(P.edge('Blade',2),2)),
+  W_('Martial melee','🔱','Spear','Guisarme','2d4','slashing','Heavy, reach, two-handed; a hit can pull a mounted rider off (Strength save DC 12)',S_POLE(P.edge('Hook blade',2),2)),
+  W_('Martial melee','🔱','Spear','Ranseur','2d4','piercing','Heavy, reach, two-handed; a hit can disarm',S_POLE(P.point(2),2)),
+  W_('Martial melee','🔱','Spear','Spetum','1d8','piercing','Heavy, reach, two-handed',S_POLE(P.point(2),2)),
+  W_('Martial melee','🔱','Spear','Spontoon','1d8','piercing','Reach, two-handed',S_POLE(P.point(1),2)),
+  W_('Martial melee','🔱','Spear','Corseque','1d8','piercing','Heavy, reach, two-handed',S_POLE(P.point(2),2)),
+  W_('Martial melee','🔱','Spear','Boar Spear','1d8','piercing','Versatile (1d10); its crossbar stops a charging foe at the end of the spear',S_POINT(2,'Head',2)),
+  W_('Martial melee','🔱','Spear','Sarissa','1d10','piercing','Heavy, reach (15 ft.), two-handed',S_POLE(P.point(1),3)),
+  W_('Martial melee','🔱','Spear','Ji','1d10','piercing','Heavy, reach, two-handed; also slashes',S_POLE(P.edge('Blade and point',2),2)),
+  W_('Martial melee','🔱','Spear','Yari','1d8','piercing','Reach, two-handed',S_POLE(P.point(1),2)),
+  W_('Martial melee','🔱','Spear','Monk\'s Spade','1d8','slashing','Reach, two-handed; also digs',S_POLE(Object.assign({},SPADE,{qty:2}),2)),
+  W_('Martial melee','🔱','Spear','Military Fork','1d8','piercing','Reach, two-handed',S_POLE(P.point(2),2)),
+  W_('Martial melee','🔱','Spear','Swordstaff','1d10','slashing','Heavy, reach, two-handed',S_POLE(P.edge('Blade',2),2)),
+  W_('Martial melee','🔱','Spear','Bec de Corbin','1d8','piercing','Heavy, reach, two-handed; ignores 1 AC',S_POLE(P.point(2),2)),
+  W_('Martial ranged','🔱','Spear','Pilum','1d6','piercing','Thrown (30/90); a hit on a shield bends into it (the shield gives no AC until pulled out, an action)',S_POINT(1,'Head',2),{ranged:'30/90 ft.'}),
+  W_('Simple ranged','🔱','Spear','Plumbata','1d4','piercing','Thrown (30/90); weighted dart',S_POINT(1,'Head'),{ranged:'30/90 ft.'}),
+  // blunt
+  W_('Simple melee','🏏','Hammer','Cudgel','1d4','bludgeoning','Light',S_BLUNT(1)),
+  W_('Simple melee','🏏','Hammer','Shillelagh','1d6','bludgeoning','Versatile (1d8)',S_BLUNT(1)),
+  W_('Simple melee','🏏','Hammer','Knobkerrie','1d6','bludgeoning','Thrown (20/60)',S_BLUNT(1),{ranged:'20/60 ft.'}),
+  W_('Simple melee','🏏','Hammer','Mere','1d6','bludgeoning','Light; a flat club of stone or bone',[Object.assign(P.blunt(1),{ok:['S','B','O']}),P.grip()]),
+  W_('Martial melee','🏏','Hammer','Taiaha','1d8','bludgeoning','Versatile (1d10), finesse',S_BLUNT(1,2)),
+  W_('Martial melee','🔨','Hammer','Flanged Mace','1d8','bludgeoning','Ignores 1 AC',S_BLUNT(2)),
+  W_('Martial melee','🔨','Hammer','Horseman\'s Pick','1d8','piercing','+1 damage when mounted; ignores 1 AC',S_BLUNT(2)),
+  W_('Martial melee','🔨','Hammer','Goedendag','1d8','bludgeoning','Versatile (1d10); also pierces with its spike',S_BLUNT(2,2)),
+  W_('Martial melee','⛓','Hammer','Two-Handed Flail','1d10','bludgeoning','Heavy, two-handed',S_CHAIN(P.blunt(3))),
+  W_('Martial melee','🏏','Hammer','War Club','1d8','bludgeoning','Versatile (1d10)',S_BLUNT(2)),
+  // bows and shooters
+  W_('Martial ranged','🏹','Bow','Yumi','1d8','piercing','Ammunition (150/600), heavy, two-handed; can be shot from horseback',S_BOW(3),{ranged:'150/600 ft.'}),
+  W_('Martial ranged','🏹','Bow','Horse Bow','1d6','piercing','Ammunition (80/320), two-handed; no penalty when mounted',S_BOW(2),{ranged:'80/320 ft.'}),
+  W_('Martial ranged','🏹','Bow','Arbalest','1d12','piercing','Ammunition (120/480), heavy, loading, two-handed',S_XBOW(3),{ranged:'120/480 ft.'}),
+  W_('Martial ranged','🏹','Bow','Gastraphetes','1d10','piercing','Ammunition (80/320), heavy, loading, two-handed; braced against the belly to draw',S_XBOW(2),{ranged:'80/320 ft.'}),
+  W_('Simple ranged','🏹','Bow','Pellet Bow','1d4','bludgeoning','Ammunition (30/120), two-handed; shoots stones',S_BOW(1),{ranged:'30/120 ft.'}),
+  W_('Simple ranged','🪢','Staff','Lasso','1','bludgeoning','Thrown (15 ft.); a Large or smaller creature hit is restrained (Strength or Dexterity check DC 12 to escape)',[Object.assign(P.string(),{name:'Rope',role:'primary'})],{ranged:'15 ft.'}),
+  // arcane versions of what the realms can't yet build
+  W_('Arcane ranged','🔫','Bow','Arcane Arquebus','1d10','piercing','Ammunition (80/320), loading, two-handed; a spark core does what powder would',S_GUN(2),{ranged:'80/320 ft.'}),
+  W_('Arcane ranged','🔫','Bow','Arcane Musket','1d12','piercing','Ammunition (100/400), loading, two-handed',S_GUN(3),{ranged:'100/400 ft.'}),
+  W_('Arcane ranged','🔫','Bow','Arcane Pistol','1d8','piercing','Ammunition (30/90), loading, light',S_GUN(1),{ranged:'30/90 ft.'}),
+  W_('Arcane ranged','🔫','Bow','Arcane Blunderbuss','2d6','piercing','Ammunition (15/60), loading, two-handed; hits every creature in a 15-ft. cone (Dexterity save for half)',S_GUN(3),{ranged:'15/60 ft.'}),
+  W_('Arcane ranged','💥','Hammer','Arcane Hand Cannon','2d8','bludgeoning','Ammunition (60/240), heavy, loading, two-handed',S_GUN(4),{ranged:'60/240 ft.'}),
+  W_('Arcane ranged','🔥','Spear','Arcane Fire Lance','2d6','fire','Ammunition (10 ft. cone), loading, reach; spits fire, then fights as a spear (1d8 piercing)',[P.point(1),Object.assign(P_BARREL(1),{name:'Fire tube',role:'structure'}),P.haft('Shaft',2),P_SPARK()]),
+  W_('Arcane ranged','🔫','Bow','Arcane Repeater','1d8','piercing','Ammunition (80/320), two-handed; holds 6 shots',S_GUN(2).concat([Object.assign(P.trigger(),{name:'Cylinder'})]),{ranged:'80/320 ft.'}),
+  // farm and workshop tools that can fight
+  TOOL('⛏','Hammer','Hoe','1d4','slashing','Two-handed; tills an acre a day',[Object.assign({},SPADE,{name:'Blade',qty:1}),P.haft('Handle',2),P.grip()]),
+  TOOL('⛏','Hammer','Mattock','1d8','piercing','Heavy, two-handed; breaks stone and roots',[P.axehead(2),P.haft('Handle',2),P.grip()]),
+  TOOL('🧹','Hammer','Rake','1d4','piercing','Two-handed, reach',[Object.assign(P.point(1),{name:'Tines'}),P.haft('Handle',2),P.grip()]),
+  TOOL('🪝','Axe','Pruning Hook','1d6','slashing','Reach, two-handed',S_POLE(P.edge('Hook',1),2)),
+  TOOL('🔪','Dagger','Hay Knife','1d6','slashing','Two-handed; cuts hay and thatch',S_KNIFE(2)),
+  TOOL('⛓','Hammer','Threshing Flail','1d6','bludgeoning','Two-handed',S_CHAIN(Object.assign(P.blunt(1),{ok:['W','O','B']}))),
+  TOOL('🔱','Spear','Winnowing Fork','1d4','piercing','Two-handed, reach',S_POLE(Object.assign(P.point(1),{name:'Tines',ok:['W','O','B']}),2)),
+  TOOL('🪓','Axe','Adze','1d6','slashing','Light; shapes timber and hollows logs',S_AXE(1)),
+  TOOL('🔪','Dagger','Drawknife','1d4','slashing','Light; shaves wood',S_KNIFE(1)),
+  TOOL('🪓','Axe','Froe','1d4','bludgeoning','Splits shingles and staves',S_AXE(1)),
+  TOOL('⛏','Spear','Dibber','1d4','piercing','Light; plants seeds',[Object.assign(P.point(1),{ok:['W','O','B','S']}),P.grip()]),
+  TOOL('🔨','Hammer','Smith\'s Hammer','1d6','bludgeoning','Light; a blacksmith\'s tool (+1 to Blacksmithing checks made with it)',S_BLUNT(1)),
+  TOOL('🔨','Hammer','Mallet','1d4','bludgeoning','Light',S_BLUNT(1)),
+  TOOL('🪚','Sword','Saw','1d4','slashing','Two-handed; cuts timber',[Object.assign(P.edge('Toothed blade',2),{ok:['O']}),P.hilt()]),
+  TOOL('🔧','Dagger','Chisel','1d4','piercing','Light; carves stone and wood',S_KNIFE(1)),
+  TOOL('🔧','Dagger','Awl','1d4','piercing','Light; punches leather',S_KNIFE(1)),
+  TOOL('🔧','Hammer','Tongs','1d4','bludgeoning','Light; a hit can grab (grapple, Strength check DC 10)',[Object.assign(P.edge('Jaws',1),{kind:'blunt',ok:['O']}),P.hilt()]),
+  TOOL('🔧','Spear','Auger','1d4','piercing','Two-handed; bores holes',[Object.assign(P.point(1),{ok:['O']}),P.haft('Handle')]),
+  TOOL('🪣','Hammer','Trowel','1d4','slashing','Light; lays mortar',[Object.assign({},SPADE,{name:'Blade',qty:1}),P.grip()]),
+  TOOL('🏮','Hammer','Lantern Staff','1d6','bludgeoning','Two-handed; sheds light in a 20-ft. radius',[P.haft('Staff',2),Object.assign(P.heart('Lantern stone'),{optional:true,role:'minor'})]),
+  // armour pieces from the great harnesses
+  AR('Great Helm','Head','⛑',2,['O']),AR('Bascinet','Head','⛑',2,['O']),AR('Sallet','Head','⛑',2,['O']),AR('Barbute','Head','⛑',2,['O']),AR('Armet','Head','⛑',2,['O']),
+  AR('Kettle Hat','Head','⛑',2,['O','B']),AR('Spangenhelm','Head','⛑',2,['O','B']),AR('Nasal Helm','Head','⛑',2,['O']),AR('Morion','Head','⛑',2,['O']),AR('Burgonet','Head','⛑',2,['O']),
+  AR('Gorget','Shoulders','🛡',1,['O','B']),AR('Bevor','Shoulders','🛡',1,['O']),AR('Besagews','Shoulders','🛡',1,['O','B']),
+  AR('Haubergeon','Body','🛡',4,['O']),AR('Jack of Plates','Body','🛡',4,['O','F']),AR('Cuir Bouilli','Body','🧥',4,['F']),AR('Coat of Plates','Body','🛡',4,['O','F']),AR('Surcoat','Body','👘',4,['F']),
+  AR('Vambraces','Hands','🧤',1,['O','B']),AR('Rerebraces','Hands','🧤',1,['O','B']),AR('Couters','Hands','🧤',1,['O']),AR('Mitten Gauntlets','Hands','🧤',1,['O']),
+  AR('Cuisses','Feet','🥾',1,['O','B','F']),AR('Poleyns','Feet','🥾',1,['O']),AR('Tassets','Feet','🥾',1,['O','B']),AR('Sabatons','Feet','🥾',1,['O']),
+  AR('Tabard','Back','👘',1,['F']),
+  // shields of many lands
+  SH('Aspis','Shield',3),SH('Scutum','Tower',4),SH('Parma','Buckler',1),SH('Pelta','Shield',2),SH('Wicker Shield','Shield',2),SH('Hide Shield','Shield',2),
+  SH('Adarga','Shield',2),SH('Rotella','Shield',3),SH('Bouche Shield','Shield',3),SH('Lantern Shield','Buckler',2),SH('Mantlet','Tower',6)
 );
 const BASES=Object.fromEntries(GEN);
 // the Staff is a weapon and a focus, built outside W_: it gets the Everchanging core too
