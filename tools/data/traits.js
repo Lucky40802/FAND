@@ -3,7 +3,7 @@
 //   (a hawk's eye sharpens sight; a troll's blood regenerates; a basilisk's eye petrifies).
 // - Plants get a small herbal effect from what the plant is known for.
 // - Ores, stones, gems, supplies, and crafted goods are basic: no trait beyond their property.
-// Numbers scale with Potency (P, 1-10), matching data/properties.js.
+// Numbers scale with the Potency rank (P = Potency / 5, 1-10), matching data/properties.js.
 // trait(material, creature) -> { org, origin, name, text } ; creature = { n, txt } or null.
 
 // ---- body parts: which kind of effect a part carries
@@ -241,7 +241,22 @@ var PLANTS = [
   [/clover|four-leaf|lucky/i, 'Luckleaf', 'Carried, once per long rest you can reroll one die and keep the better result.'],
   [/fern|fernseed|bracken/i, 'Fernseed', 'Eaten at midnight, it makes you invisible for 1 minute; carried, you always find the hidden path out of a forest.'],
   [/kingsfoil|athel|starleaf|waybread|elf-?bread|lembas/i, 'Kingsfoil', 'Crushed into warm water, it heals {P5} hit points and ends one poison or the cold of a wraith\'s wound.'],
-  [/hazel|wisdom|sage/i, 'Hazel of Knowing', 'Eaten, it gives +{B} to Intelligence checks for 1 hour; staves of it point toward water or lost things.']
+  [/hazel|wisdom|sage/i, 'Hazel of Knowing', 'Eaten, it gives +{B} to Intelligence checks for 1 hour; staves of it point toward water or lost things.'],
+  // more plant traits (website addition): for plants the list above didn't cover. Checked after it, so no plant's
+  // earlier trait changes.
+  [/ghost|soul|spirit/i, 'Spirit-Touched', 'Weapons and foci made with it strike incorporeal creatures as if they were solid, and a focus of it adds +{B} to spells against spirits and undead.'],
+  [/dread|ebon|umbral/i, 'Gloomgrowth', 'Worn, it gives advantage on Stealth checks in dim light or darkness; a weapon of it frightens a creature it critically hits (Wisdom save, DC {DC}).'],
+  [/blood|ichor/i, 'Bloodsap', 'Potions made with it also give {P} temporary hit points; a weapon of it heals you 1 hit point whenever it kills a creature.'],
+  [/light|dawn|halo|angel|gloria|lantern/i, 'Radiant Bloom', 'It glows like a torch on command. Potions made with it end blindness, and a focus of it adds +{B} to radiant spell damage.'],
+  [/law|oath|ledger|ward|unshaken/i, 'Oathgrowth', 'Carried, it gives advantage on saves against being charmed or compelled; a promise made with a hand on it can\'t be broken without the maker knowing.'],
+  [/drown|kelp|wrack|sargasso|pearlweed|algae|trench/i, 'Sea Growth', 'Eaten, it lets you breathe underwater for {P} × 10 minutes; armor lined with it gives a swim speed of 20 ft.'],
+  [/chang|shift|trickster|\bmad\b|entropy|unravel|unbeing|collapse|comet|astral/i, 'Wild Growth', 'Brewed, the drinker can change their appearance (as disguise self) for 1 hour; once per long rest, a focus of it lets you roll twice on the wild magic table and pick one result.'],
+  [/yarrow|comfrey|feverfew|ginseng|st\.? john|valerian|thyme|herb|wort|hearthleaf|mallow/i, 'Field Remedy', 'Potions and poultices made with it restore +{P} hit points and end one disease or poison; carried, it gives advantage on Medicine checks.'],
+  [/seed|grass|horizon/i, 'First Growth', 'Planted, it grows into a full plant in a day. Potions made with it remove one level of exhaustion, and a focus of it adds +{B} to druid and ranger spell DCs.'],
+  [/lily|rose|orchid|petal|myrrh/i, 'Fragrant Bloom', 'Burned or worn, its scent gives creatures within 10 ft disadvantage on Insight checks against you and you +{B} to Persuasion.'],
+  [/lichen|morel|puffball|hellebore|belladonna|ivy/i, 'Wild Herb', 'Brewed, a draught gives advantage on saves against poison for 1 hour; once, a weapon coated with it deals +{P}d4 poison damage on a hit.'],
+  [/thistle|dandelion|storm/i, 'Windborne Seed', 'Carried, once per long rest you can fall slowly (60 ft per round) for 1 minute; brewed, a draught gives advantage on one Dexterity save.'],
+  [/wood|pine|yew|flax/i, 'Seasoned Grain', 'Bows, staffs, and shields made with it can\'t be broken by nonmagical means, and the item mends itself overnight.']
 ];
 
 var BASIC = {
@@ -285,7 +300,8 @@ var ORDER = { sense: ['sense', 'mind', 'offense', 'move', 'vital', 'defense'], m
   defense: ['defense', 'vital', 'move', 'offense', 'sense', 'mind'], vital: ['vital', 'defense', 'offense', 'mind', 'move', 'sense'] };
 
 function trait(m, creature, typeCode) {
-  var P = m.pot || 1, name = m.n, t = typeCode || '';
+  // the trait's numbers use the Potency rank (Potency / 5, 1-10), as property texts do
+  var P = Math.min(10, Math.max(1, Math.floor((m.pot || 0) / 5))), name = m.n, t = typeCode || '';
   var pt = part(name);
   var isCreature = !!creature || ((t === 'B' || t === 'L') && !!pt) || (t === 'F' && !!pt && pt.p === 'hide') || (t === 'E' && !!creature);
   if (t === 'U') return { org: 'Supply', origin: '', name: '', text: BASIC.U };
