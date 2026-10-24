@@ -235,6 +235,25 @@ textarea{min-height:80px;resize:vertical}
 .notes div{background:var(--sunk);border-radius:12px;padding:14px 16px;font-size:.92rem}
 .notes b{display:block;margin-bottom:4px}
 .dsec{margin-top:40px;display:grid;gap:14px}
+.hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+.track{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0}
+.track span{padding:4px 10px;border-radius:999px;border:1px solid var(--line);font-size:.84rem;color:var(--muted)}
+.track span.done{border-color:var(--resin);color:var(--ink);background:color-mix(in srgb,var(--resin) 12%,transparent)}
+.track span.now{background:var(--resin);border-color:var(--resin);color:var(--resin-ink);font-weight:600}
+.recent{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.setup{display:grid;gap:14px;margin-bottom:24px;border:2px solid var(--amber)}
+.setup ol{margin:0;padding-left:1.2em;display:grid;gap:10px}
+.check{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.check li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.check li::before{content:"";width:18px;height:18px;border-radius:50%;border:2px solid var(--line);margin-top:3px}
+.check li.ok::before{background:var(--ok);border-color:var(--ok)}
+.code{font-family:var(--mono);font-size:.82rem;background:var(--sunk);border-radius:8px;padding:10px 12px;overflow-x:auto;white-space:pre}
+.team{display:grid;gap:8px}
+.team .mem{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--sunk);border-radius:10px;padding:10px 12px}
+.team .mem b{flex:1 1 200px;min-width:0;overflow-wrap:anywhere;font-weight:600}
+.team select{width:auto;padding:6px 10px}
+#teamForm input{width:auto;min-width:0}
+#teamForm select{width:auto}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-size:.92rem;z-index:20;max-width:calc(100% - 32px)}
 
 footer{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);font-size:.9rem}
@@ -260,6 +279,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
       <a href="#pricing">Prices</a>
       <a href="#build">Build yours</a>
       <a href="#checkout">Order &amp; pay <span class="badge" id="cartBadge" hidden>0</span></a>
+      <a href="#track">Track order</a>
       <a href="#dashboard" class="team" id="dashLink" hidden>Dashboard</a>
     </nav>
   </div>
@@ -441,6 +461,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
             </select>
             <span class="hint">Only for orders with a fixed price. Record part payments from the dashboard.</span>
           </div>
+          <div class="hp" aria-hidden="true"><label for="poWebsite">Leave this empty</label><input type="text" id="poWebsite" tabindex="-1" autocomplete="off"></div>
           <div id="poMsg" hidden></div>
           <div class="row">
             <button class="btn" id="poSubmit" type="submit">Place order</button>
@@ -448,6 +469,26 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
           </div>
         </form>
         <div class="paycard" id="payNow" hidden aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="track">
+    <div class="wrap po">
+      <div class="head" style="margin:0">
+        <p class="eyebrow">Already ordered?</p>
+        <h2>Check your order</h2>
+        <p class="lede">Enter your order reference and the phone, email or Instagram you ordered with to see where it's up to and what's left to pay.</p>
+        <div id="recent" hidden><span class="muted" style="font-size:.9rem">Your orders on this device</span><div class="recent" id="recentList"></div></div>
+      </div>
+      <div style="display:grid;gap:16px;min-width:0">
+        <form class="panel" id="trackForm" novalidate>
+          <div class="field"><label for="trRef">Order reference</label><input type="text" id="trRef" placeholder="RSN-XXXXX" autocapitalize="characters" spellcheck="false"></div>
+          <div class="field"><label for="trContact">Phone, email or Instagram you ordered with</label><input type="text" id="trContact"></div>
+          <div id="trMsg" hidden></div>
+          <div class="row"><button class="btn" type="submit" id="trBtn">Check order</button></div>
+        </form>
+        <div class="paycard" id="trResult" hidden aria-live="polite"></div>
       </div>
     </div>
   </section>
@@ -482,9 +523,30 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
         </form>
         <div id="siMsg" hidden></div>
       </div>
-      <div class="empty" id="notStaff" hidden>You're signed in, but this email isn't on the Resinate team list. An editor can add it to the <b>resinate_staff</b> table in Supabase. <button class="btn small ghost" type="button" id="signOut2">Sign out</button></div>
+      <div class="panel setup" id="setupBox" hidden>
+        <p class="eyebrow" style="color:var(--amber)">Connect the database</p>
+        <h3>Finish connecting Resinate to Supabase</h3>
+        <p class="muted">The page reached your Supabase project, but the Resinate tables aren't there yet. Customers can browse, but orders can't be saved until you do this once:</p>
+        <ol>
+          <li><a id="sqlEditorLink" href="https://supabase.com/dashboard" target="_blank" rel="noopener">Open the SQL Editor</a> for your project and start a new query.</li>
+          <li><button class="btn small" type="button" id="copySetupSql">Copy the setup SQL</button> and paste it in. <span class="muted">(Or open <a href="https://github.com/Lucky40802/FAND/blob/main/tools/cloud/resinate.sql" target="_blank" rel="noopener">tools/cloud/resinate.sql</a> and copy it from there.)</span></li>
+          <li>Press <b>Run</b>, then come back and reload this page.</li>
+        </ol>
+        <p class="muted" style="font-size:.88rem">Connected project: <span id="projRef"></span>. To use a different Supabase project, change <code>supabaseUrl</code> and <code>supabaseKey</code> in <code>resinate/config.js</code>.</p>
+      </div>
+      <div class="panel" id="notStaff" hidden>
+        <h3>You're not on the team list yet</h3>
+        <p class="muted">You're signed in as <b id="nsEmail"></b>, but that email isn't in <b>resinate_staff</b>. If someone else runs Resinate, ask an editor to add you from the dashboard's Team section.</p>
+        <p class="muted">Setting Resinate up yourself? Run this once in your project's <a id="sqlEditorLink2" href="https://supabase.com/dashboard" target="_blank" rel="noopener">SQL Editor</a> to make yourself the first editor, then reload:</p>
+        <div class="code" id="nsSql"></div>
+        <div class="row"><button class="btn small" type="button" data-copy="nsSql">Copy</button><button class="btn small ghost" type="button" id="signOut2">Sign out</button></div>
+      </div>
       <div class="empty" id="noCloud" hidden>The order system couldn't be reached, so the dashboard can't load. Check your connection and reload the page.</div>
       <div id="dashBody" hidden>
+        <div class="panel setup" id="startBox" hidden style="border-color:var(--resin)">
+          <div class="row" style="justify-content:space-between"><h3>Getting started</h3><button class="btn small ghost" type="button" id="startHide">Hide</button></div>
+          <ul class="check" id="startList"></ul>
+        </div>
         <div class="kpis">
           <div class="kpi"><b id="kPaid">$0.00</b><span>Money received</span></div>
           <div class="kpi"><b id="kOwed">$0.00</b><span>Still owed on priced orders</span></div>
@@ -564,6 +626,23 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
             <div id="priceMsg" hidden></div>
             <div class="row"><button class="btn" type="submit">Save prices</button><button class="btn ghost" type="button" id="priceReset">Undo changes</button></div>
           </form>
+        </div>
+
+        <div class="dsec" id="teamSec" hidden>
+          <div class="head" style="margin:0">
+            <p class="eyebrow">Editors only</p>
+            <h3>Team</h3>
+            <p class="lede">People who can open this dashboard. They sign in with the email listed here. Staff take orders and record payments; editors can also change prices, payment details, photos and this list.</p>
+          </div>
+          <div class="panel">
+            <div class="team" id="teamList"></div>
+            <form class="row" id="teamForm" novalidate>
+              <input type="text" id="tmEmail" inputmode="email" placeholder="teammate@example.com" aria-label="Teammate's email" style="flex:1 1 220px">
+              <select id="tmRole" aria-label="Role"><option value="staff">Staff</option><option value="editor">Editor</option></select>
+              <button class="btn small" type="submit">Add to team</button>
+            </form>
+            <div id="tmMsg" hidden></div>
+          </div>
         </div>
 
         <div class="dsec" id="settingsSec" hidden>
@@ -871,6 +950,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
         (hasPay() ? kvHtml(payRows(ref),"pn")+'<p class="muted">Use the reference in the payment description so we can match it.'+(pay.note?" "+esc(pay.note):"")+'</p>'
                   : '<p>Reference: <b id="pnRef">'+esc(ref)+'</b> <button type="button" class="copy" data-copy="pnRef">Copy</button></p><p class="muted">We\'ll send our payment details when we confirm your order.</p>')+ask;
     }
+    if(!paidMethod && ref.indexOf("?")<0) box.innerHTML += '<p class="muted" style="font-size:.9rem">You can check this order anytime under <a href="#track">Track order</a>.</p>';
     box.scrollIntoView({block:"nearest"});
   }
 
@@ -886,7 +966,8 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
     var name=$("poName").value.trim(), contact=$("poContact").value.trim();
     if(!cart.length){ showMsg("poMsg","err","Your order is empty. Build a piece and press Add to order first."); return; }
     if(!name || !contact){ showMsg("poMsg","err","Add a name and a way to contact you so we can confirm your order."); (name?$("poContact"):$("poName")).focus(); return; }
-    if(!sb){ offlineOrder("Online ordering isn't available right now."); return; }
+    if($("poWebsite").value){ showPayNow("RSN-?????", name, null, ""); return; } // a bot filled the hidden field
+    if(!sb || dbState==="missing"){ offlineOrder("Online ordering isn't available right now."); return; }
     var q = quoteCart(cart);
     var fixed = !q.open.length && q.lo===q.hi;
     var paidMethod = canSave ? $("poPaid").value : "";
@@ -905,6 +986,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
       }
       return sb.from("resinate_orders").update(patch).eq("ref", row.ref).then(function(u){ return {row:row, patched:!u.error && !!patch.payments}; });
     }).then(function(r){
+      if(!canSave) rememberOrder(r.row.ref, contact);
       showPayNow(r.row.ref, name, r.row.price, r.patched ? paidMethod : "");
       cart = []; saveDraft(); renderCart(); $("added").hidden = true;
       $("poName").value=""; $("poContact").value=""; $("poNotes").value=""; $("poPaid").value="";
@@ -913,6 +995,58 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
       offlineOrder("Your order didn't go through ("+errText(err)+").");
     }).then(function(){ $("poSubmit").disabled=false; });
   });
+
+  // ---- track an order ----
+  var TRACK_STEPS = ["New","Confirmed","Making","Ready","Collected"];
+  var TRACK_TEXT = {New:"We've got your order and will confirm it soon.", Confirmed:"Your order is confirmed.", Making:"We're pouring and curing your pieces.", Ready:"Your order is ready to collect!", Collected:"Collected. Enjoy your pieces!", Cancelled:"This order was cancelled. Get in touch if that's a surprise."};
+  function myOrders(){ try{ var a = JSON.parse(localStorage.getItem("resinate-mine")||"[]"); return Array.isArray(a) ? a : []; }catch(e){ return []; } }
+  function rememberOrder(ref, contact){
+    var a = myOrders().filter(function(o){ return o.ref!==ref; }); a.unshift({ref:ref, contact:contact, at:Date.now()});
+    try{ localStorage.setItem("resinate-mine", JSON.stringify(a.slice(0,8))); }catch(e){}
+    renderRecent();
+  }
+  function renderRecent(){
+    var a = myOrders();
+    $("recent").hidden = !a.length;
+    $("recentList").innerHTML = a.map(function(o,i){
+      return '<button type="button" class="copy" data-recent="'+i+'">'+esc(o.ref)+' · '+esc(new Date(o.at).toLocaleDateString(undefined,{day:"numeric",month:"short"}))+'</button>';
+    }).join("");
+  }
+  $("recentList").addEventListener("click", function(e){
+    var b = e.target.closest("[data-recent]"); if(!b) return;
+    var o = myOrders()[+b.getAttribute("data-recent")]; if(!o) return;
+    $("trRef").value = o.ref; $("trContact").value = o.contact; checkOrder();
+  });
+  function checkOrder(){
+    var ref = $("trRef").value.trim().toUpperCase(), contact = $("trContact").value.trim();
+    if(!/^RSN-[A-Z0-9]{5}$/.test(ref)){ showMsg("trMsg","err","References look like RSN-AB12C. You'll find yours on the order confirmation."); return; }
+    if(contact.length<3){ showMsg("trMsg","err","Add the phone, email or Instagram you gave when you ordered."); return; }
+    if(!sb || dbState==="missing"){ showMsg("trMsg","err","Order tracking isn't available right now. Message us and we'll let you know."); return; }
+    $("trBtn").disabled = true; $("trMsg").hidden = true;
+    sb.rpc("resinate_order_status", {p_ref:ref, p_contact:contact}).then(function(r){
+      if(r.error) throw r.error;
+      var o = Array.isArray(r.data) ? r.data[0] : r.data;
+      if(!o){ $("trResult").hidden = true; showMsg("trMsg","err","We couldn't find an order with that reference and contact. Check both match what you used when ordering."); return; }
+      renderTrack(o);
+    }).catch(function(err){ showMsg("trMsg","err","Couldn't check the order ("+errText(err)+")."); })
+      .then(function(){ $("trBtn").disabled = false; });
+  }
+  function renderTrack(o){
+    var idx = TRACK_STEPS.indexOf(o.status);
+    var steps = o.status==="Cancelled" ? '<span class="now">Cancelled</span>' : TRACK_STEPS.map(function(st,i){ return '<span class="'+(i<idx?"done":i===idx?"now":"")+'">'+st+'</span>'; }).join("");
+    var pieces = (o.items||[]).map(function(it){ return "<li>"+((it.qty||1)>1?esc(it.qty)+" × ":"")+esc(itemSpec(it))+"</li>"; }).join("");
+    var owed = o.price!=null ? Math.max(0, o.price-(o.paid||0)) : 0;
+    var money_ = o.price==null
+      ? '<p>We\'re confirming the price'+(o.low?' (estimate '+esc((o.needs_quote?"from ":"")+range(o.low,o.high))+')':'')+'. We\'ll be in touch before you pay.</p>'
+      : '<div class="kv" style="grid-template-columns:auto 1fr"><span class="muted">Total</span><b class="num">'+money(o.price)+'</b><span class="muted">Paid</span><b class="num">'+money(o.paid||0)+'</b>'+(owed>0?'<span class="muted">Left to pay</span><b class="num">'+money(owed)+'</b>':'')+'</div>'+
+        (owed>0 && hasPay() && o.status!=="Cancelled" ? kvHtml(payRows(o.ref),"tr")+'<p class="muted">Use the reference in the payment description. Payments can take a day to show here.</p>' : '')+
+        (owed===0 ? '<p><span class="pill ok">Paid in full</span></p>' : '');
+    $("trResult").hidden = false;
+    $("trResult").innerHTML = '<span class="eyebrow">Order '+esc(o.ref)+' · placed '+esc(new Date(o.created_at).toLocaleDateString(undefined,{day:"numeric",month:"short"}))+'</span>'+
+      '<div class="track">'+steps+'</div><p>'+esc(TRACK_TEXT[o.status]||"")+'</p><ul style="margin:0;padding-left:1.1em">'+pieces+'</ul>'+money_;
+  }
+  $("trackForm").addEventListener("submit", function(e){ e.preventDefault(); checkOrder(); });
+  renderRecent();
 
   // ---- views ----
   function applyView(){
@@ -936,14 +1070,21 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
     var signedIn = !!session;
     $("signin").hidden = signedIn || !sb;
     $("noCloud").hidden = !!sb;
-    $("notStaff").hidden = !(signedIn && !canSave);
+    $("notStaff").hidden = !(signedIn && !canSave && dbState!=="missing");
+    $("setupBox").hidden = dbState!=="missing";
+    if(signedIn){
+      var em = (session.user && session.user.email || "").toLowerCase();
+      $("nsEmail").textContent = em;
+      $("nsSql").textContent = "insert into public.resinate_staff (email, role) values ('"+em.replace(/'/g,"''")+"', 'editor')\n  on conflict (email) do update set role = excluded.role;";
+    }
+    $("teamSec").hidden = !canEdit;
     $("dashBody").hidden = !canSave;
     $("whoBox").hidden = !signedIn;
     $("whoami").textContent = signedIn ? (session.user && session.user.email || "") + (role ? " · "+role : "") : "";
     $("settingsSec").hidden = !canEdit;
     $("pricesSec").hidden = !canEdit;
     $("upForm").hidden = !canEdit;
-    renderGallery();
+    renderGallery(); renderStart();
   }
 
   // ---- team sign-in ----
@@ -979,13 +1120,113 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 
   function afterAuth(){
     var ask = session ? sb.rpc("resinate_my_role") : Promise.resolve({data:null});
-    return Promise.resolve(ask).then(function(r){ role = (r && !r.error) ? r.data : null; }, function(){ role = null; }).then(function(){
+    return Promise.resolve(ask).then(function(r){
+      if(r && r.error && isMissing(r.error)) dbState = "missing";
+      role = (r && !r.error) ? r.data : null;
+    }, function(){ role = null; }).then(function(){
       canSave = !!role; canEdit = role==="editor";
       if(!canSave){ orders = []; }
       applyAccess(); fillSettings(); fillPrices();
+      liveOrders(canSave);
       if(canSave) loadOrders();
+      if(canEdit) loadTeam();
     });
   }
+
+  // ---- connection state ----
+  var dbState = "unknown"; // "ok" once the Resinate tables answer, "missing" when the project has no Resinate tables
+  function isMissing(err){
+    var c = err && err.code || "", m = err && err.message || "";
+    return c==="PGRST205" || c==="PGRST202" || c==="42P01" || c==="42883" || /schema cache|does not exist|Could not find/i.test(m);
+  }
+  (function(){
+    var m = /^https:\/\/([a-z0-9]+)\.supabase\.co/i.exec(CFG.supabaseUrl||"");
+    var ref = m ? m[1] : "";
+    $("projRef").textContent = ref || (CFG.supabaseUrl || "none set");
+    var link = ref ? "https://supabase.com/dashboard/project/"+ref+"/sql/new" : "https://supabase.com/dashboard";
+    $("sqlEditorLink").href = link; $("sqlEditorLink2").href = link;
+  })();
+  var setupSql = null;
+  $("copySetupSql").addEventListener("click", function(){
+    var btn = this;
+    (setupSql ? Promise.resolve(setupSql) : fetch("../tools/cloud/resinate.sql").then(function(r){ if(!r.ok) throw new Error(r.status); return r.text(); }))
+      .then(function(t){ setupSql = t; copyText(t, btn, null); })
+      .catch(function(){ toast("Couldn't load the SQL here. Open tools/cloud/resinate.sql on GitHub and copy it from there."); });
+  });
+
+  // ---- live updates: new and changed orders arrive without reloading ----
+  var channel = null, liveTimer = null;
+  function liveOrders(on){
+    if(!sb) return;
+    if(!on){ if(channel){ sb.removeChannel(channel); channel = null; } return; }
+    if(channel) return;
+    channel = sb.channel("resinate-orders").on("postgres_changes", {event:"*", schema:"public", table:"resinate_orders"}, function(payload){
+      if(payload.eventType==="INSERT" && payload.new && payload.new.name) toast("New order from "+payload.new.name+" ("+payload.new.ref+")");
+      clearTimeout(liveTimer); liveTimer = setTimeout(loadOrders, 400);
+    }).subscribe();
+  }
+
+  // ---- getting started checklist (editors) ----
+  var team = [];
+  function renderStart(){
+    if(!canEdit){ $("startBox").hidden = true; return; }
+    var hidden = false; try{ hidden = localStorage.getItem("resinate-start-hidden")==="1"; }catch(e){}
+    var items = [
+      [true, "Database connected and you're an editor"],
+      [hasPay(), "Add your PayID or bank details under Payment details, so customers can pay"],
+      [team.length>1, "Add your teammates in the Team section"],
+      [photos.length>0, "Upload a photo of a finished piece for the Our work gallery"],
+      [contactLinks().length>0, "Put your Instagram, email or phone in resinate/config.js so customers can reach you"]
+    ];
+    var left = items.filter(function(x){ return !x[0]; }).length;
+    $("startBox").hidden = hidden || !left;
+    $("startList").innerHTML = items.map(function(x){ return '<li class="'+(x[0]?"ok":"")+'"><span>'+esc(x[1])+'</span></li>'; }).join("");
+  }
+  $("startHide").addEventListener("click", function(){ try{ localStorage.setItem("resinate-start-hidden","1"); }catch(e){} $("startBox").hidden = true; });
+
+  // ---- team (editors) ----
+  function loadTeam(){
+    sb.from("resinate_staff").select("email,role,added_at").order("added_at").then(function(r){
+      if(r.error) return;
+      team = r.data; renderTeam(); renderStart();
+    });
+  }
+  var confirmMem = null;
+  function renderTeam(){
+    var me = (session && session.user && session.user.email || "").toLowerCase();
+    $("teamList").innerHTML = team.map(function(m){
+      var mine = m.email===me;
+      return '<div class="mem"><b>'+esc(m.email)+(mine?' <span class="muted">(you)</span>':'')+'</b>'+
+        '<select data-role="'+esc(m.email)+'" aria-label="Role for '+esc(m.email)+'"'+(mine?' disabled':'')+'><option value="staff"'+(m.role==="staff"?" selected":"")+'>Staff</option><option value="editor"'+(m.role==="editor"?" selected":"")+'>Editor</option></select>'+
+        (mine ? '' : confirmMem===m.email
+          ? '<button class="btn small danger" type="button" data-rmmem="'+esc(m.email)+'">Remove</button><button class="btn small ghost" type="button" data-keepmem="1">Keep</button>'
+          : '<button class="btn small ghost" type="button" data-askmem="'+esc(m.email)+'">Remove</button>')+'</div>';
+    }).join("");
+  }
+  $("teamList").addEventListener("change", function(e){
+    var em = e.target.getAttribute("data-role"); if(!em) return;
+    sb.from("resinate_staff").update({role:e.target.value}).eq("email", em).then(function(r){ if(r.error) throw r.error; toast(em+" is now "+e.target.value); loadTeam(); })
+      .catch(function(err){ toast("Role didn't change ("+errText(err)+")."); loadTeam(); });
+  });
+  $("teamList").addEventListener("click", function(e){
+    var b = e.target.closest("button"); if(!b) return; var em;
+    if((em=b.getAttribute("data-askmem"))){ confirmMem = em; renderTeam(); }
+    else if(b.getAttribute("data-keepmem")){ confirmMem = null; renderTeam(); }
+    else if((em=b.getAttribute("data-rmmem"))){
+      confirmMem = null;
+      sb.from("resinate_staff").delete().eq("email", em).then(function(r){ if(r.error) throw r.error; toast(em+" removed from the team"); loadTeam(); })
+        .catch(function(err){ toast("Couldn't remove them ("+errText(err)+")."); });
+    }
+  });
+  $("teamForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var em = $("tmEmail").value.trim().toLowerCase();
+    if(!/^\S+@\S+\.\S+$/.test(em)){ showMsg("tmMsg","err","Enter their email address, like sam@example.com."); return; }
+    sb.from("resinate_staff").upsert({email:em, role:$("tmRole").value}).then(function(r){
+      if(r.error) throw r.error;
+      showMsg("tmMsg","ok",em+" can now sign in at this page's Team sign-in with that email."); $("tmEmail").value=""; loadTeam();
+    }).catch(function(err){ showMsg("tmMsg","err","Couldn't add them ("+errText(err)+")."); });
+  });
 
   // ---- dashboard data ----
   var orders = [];
@@ -1261,7 +1502,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
     var data = {payid:$("sPayid").value.trim(), name:$("sName").value.trim(), bsb:$("sBsb").value.trim(), acct:$("sAcct").value.trim(), note:$("sNote").value.trim()};
     sb.from("resinate_settings").upsert({id:"payment", data:data, updated_at:new Date().toISOString()}).then(function(r){
       if(r.error) throw r.error;
-      pay = data; renderPayDetails();
+      pay = data; renderPayDetails(); renderStart();
       showMsg("setMsg","ok","Saved. Customers now see these details.");
     }).catch(function(err){ showMsg("setMsg","err","Didn't save ("+errText(err)+"). Only editors can change payment details."); });
   });
@@ -1271,7 +1512,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
   function photoUrl(path){ return sb ? sb.storage.from("resinate").getPublicUrl(path).data.publicUrl : ""; }
   function loadPhotos(){
     if(!sb) return;
-    sb.from("resinate_photos").select("*").order("created_at",{ascending:false}).then(function(r){ if(!r.error){ photos = r.data; renderGallery(); } });
+    sb.from("resinate_photos").select("*").order("created_at",{ascending:false}).then(function(r){ if(!r.error){ photos = r.data; renderGallery(); renderStart(); } });
   }
   function renderGallery(){
     $("work").hidden = !(photos.length || canEdit);
@@ -1321,7 +1562,8 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
   applyView(); applyAccess();
   if(sb){
     sb.from("resinate_settings").select("id,data").then(function(r){
-      if(r.error) return;
+      if(r.error){ if(isMissing(r.error)){ dbState = "missing"; applyAccess(); } return; }
+      dbState = "ok";
       r.data.forEach(function(row){
         if(row.id==="prices") P = mergePrices(row.data);
         if(row.id==="payment") pay = row.data || {};

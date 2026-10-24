@@ -2,7 +2,7 @@
 -- Paste this whole file into the project's SQL Editor and run it once. It is safe to run again after an update.
 --
 -- resinate_staff     who can open the dashboard, by sign-in email: 'staff' take orders and record payments,
---                    'editor' also change prices, payment details and photos. Add rows in the Table Editor.
+--                    'editor' also change prices, payment details, photos and the team list.
 -- resinate_settings  'prices' and 'payment'. Everyone can read them (the shop shows them); only editors change them.
 -- resinate_orders    every order. Customers can't read or change orders: they place one only through
 --                    resinate_place_order(), which prices it on the server from resinate_settings.
@@ -34,6 +34,12 @@ create or replace function public.resinate_my_role() returns text language sql s
 $$;
 revoke all on function public.resinate_my_role() from public, anon;
 grant execute on function public.resinate_my_role() to authenticated;
+
+-- editors add and remove team members from the dashboard
+grant insert, update, delete on public.resinate_staff to authenticated;
+drop policy if exists "editors manage the team" on public.resinate_staff;
+create policy "editors manage the team" on public.resinate_staff for all to authenticated
+  using ((select private.resinate_role()) = 'editor') with check ((select private.resinate_role()) = 'editor');
 
 -- ── settings ─────────────────────────────────────────────────────
 create table if not exists public.resinate_settings (
@@ -181,6 +187,30 @@ end $$;
 revoke all on function public.resinate_place_order(text, text, text, text, jsonb) from public;
 grant execute on function public.resinate_place_order(text, text, text, text, jsonb) to anon, authenticated;
 
+-- a customer checks their own order with its reference and the contact they gave (spaces and case ignored).
+-- Returns no name or contact, and nothing at all when the pair doesn't match.
+create or replace function public.resinate_order_status(p_ref text, p_contact text)
+returns table (ref text, created_at timestamptz, status text, items jsonb, price int, low int, high int, needs_quote boolean, paid int)
+language sql stable security definer set search_path = '' as $$
+  select o.ref, o.created_at, o.status, o.items, o.price, o.low, o.high, o.needs_quote,
+         coalesce((select sum((p ->> 'amount')::int) from jsonb_array_elements(o.payments) p), 0)::int
+  from public.resinate_orders o
+  where o.ref = upper(btrim(p_ref))
+    and char_length(btrim(coalesce(p_contact, ''))) >= 3
+    and lower(regexp_replace(o.contact, '\s', '', 'g')) = lower(regexp_replace(p_contact, '\s', '', 'g'))
+$$;
+revoke all on function public.resinate_order_status(text, text) from public;
+grant execute on function public.resinate_order_status(text, text) to anon, authenticated;
+
+-- live updates: the dashboard hears new and changed orders (row-level security still decides who sees them)
+do $$
+begin
+  if exists (select 1 from pg_publication where pubname = 'supabase_realtime')
+     and not exists (select 1 from pg_publication_tables where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'resinate_orders') then
+    alter publication supabase_realtime add table public.resinate_orders;
+  end if;
+end $$;
+
 -- ── photos ───────────────────────────────────────────────────────
 create table if not exists public.resinate_photos (
   id uuid primary key default gen_random_uuid(),
@@ -210,6 +240,7 @@ create policy "resinate editors delete" on storage.objects for delete to authent
   using (bucket_id = 'resinate' and (select private.resinate_role()) = 'editor');
 
 -- ── first editor ─────────────────────────────────────────────────
--- Put your own sign-in email here, uncomment, and run it once. Add the rest of the team the same way
--- (role 'staff' or 'editor'), or in Table Editor → resinate_staff.
+-- Put your own sign-in email here, uncomment, and run it once. After that, add the rest of the team from the
+-- dashboard's Team section (or in Table Editor → resinate_staff). The dashboard also shows this line with your
+-- email filled in when you sign in before you're on the list.
 -- insert into public.resinate_staff (email, role) values ('you@example.com', 'editor') on conflict (email) do update set role = excluded.role;
