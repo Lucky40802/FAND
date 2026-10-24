@@ -104,7 +104,8 @@ D.MATS.forEach(function (m) {
   if (pm && g) {
     var pk = PR0.keyOf(m.pn);
     if (pk) { m.pot = PR0.potency(g.c, g.g); m.prop = m.pn + ' (Potency ' + m.pot + '): ' + PR0.fillAt(pk, m.pot); }
-    else { m.pot = Math.min(50, m.pot * 5); m.prop = PR0.potText(m.prop.replace(/\(Potency \d+\)/, '(Potency ' + m.pot + ')')); }
+    else if (!m.p50) { m.p50 = 1; m.pot = Math.min(50, m.pot * 5);  // once only: the build reads its own last output
+      m.prop = PR0.potText(m.prop.replace(/\(Potency \d+\)/, '(Potency ' + m.pot + ')')); }
   }
   if (a) {
     joined++;
@@ -824,6 +825,62 @@ D.SUBSTAGES = {};
 })();
 // base class features by level 1-20 (data/class-prog.json): the level-up checklist and the sheet's class features
 (function () { var f = path.join(__dirname, '..', 'data', 'class-prog.json'); D.CLASS_PROG = fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, 'utf8')) : {}; })();
+// ---- descriptions (website addition). Some vault materials have no description, only their property line repeated
+// ("Property: Piercing Edge."), so a thousand of them read the same. Write one from what is known about each: the
+// creature and part it comes from, where it is found and how it is gathered, what it is used for. Marked dsw.
+(function () {
+  // bare: nothing but the property line, or a few words of use before it ("Blood potions. Property: Lifedrinking.")
+  var BARE = /^\s*([^.]{0,30}\.\s*)?(Property: [^.]+\.|Supply: used up in crafting\.)?\s*$/, n = 0;
+  var art = function (w) { return /^[aeiou]/i.test(w) ? 'an' : 'a'; };
+  var first = function (s) { var m = /^[^.!?]*[.!?]/.exec(String(s || '').trim()); return m ? m[0] : String(s || '').trim(); };
+  var KIND = { B: 'Hard and edged, it is worked into blades, arrowheads, armor plates, and charms.', L: 'Alchemists and blood mages use it in potions, poisons, and rituals.',
+    F: 'Supple and tough, it is tanned or woven into armor, cloaks, straps, and bindings.', E: 'A living essence that enchanters bind into foci, wards, and relics.',
+    O: 'Smiths refine it for weapons, armor, and fittings.', W: 'Carvers and herbalists shape or brew it.', G: 'Gem-cutters set it in foci, rings, and spell vessels.',
+    S: 'Masons and carvers shape it into blocks, heads, and charms.', K: 'Engineers fit it into mechanisms and siege engines.', U: 'It is used up when an item is crafted with it.' };
+  var usedIn = {}; D.BPS.forEach(function (b) { (b.mats || []).forEach(function (x) { var k = String(x).toLowerCase(); (usedIn[k] = usedIn[k] || []).push(b.n); }); });
+  D.MATS.forEach(function (m) {
+    if (m.gen || !BARE.test(m.ds || '')) return;
+    var bm = BARE.exec(m.ds || ''), useNote = bm && bm[1] ? bm[1].trim().replace(/\.$/, '') : '';
+    var mon = (m.from || [])[0] || (m.org === 'Creature' ? m.origin : ''), out = [];
+    if (mon && m.n.indexOf(mon) === 0) out.push('The ' + m.n.slice(mon.length).trim().toLowerCase() + ' of ' + art(mon) + ' ' + mon + ', taken at grade ' + (m.g || '?') + ' in the ' + m.realm + ' Realm.');
+    else if (mon) out.push('Taken from ' + art(mon) + ' ' + mon + ' at grade ' + (m.g || '?') + ' in the ' + m.realm + ' Realm.');
+    else if (m.hab) out.push(first(m.hab));
+    else out.push(m.n + ' is ' + (m.org === 'Supply' ? 'a crafting supply' : art(String(m.ty || m.cat || 'material').toLowerCase().split(' / ')[0]) + ' ' + String(m.ty || m.cat || 'material').toLowerCase().split(' / ')[0]) + ' of grade ' + (m.g || '?') + ' from the ' + m.realm + ' Realm.');
+    if (m.how) out.push(first(m.how));
+    if (useNote) out.push('Used for ' + useNote.charAt(0).toLowerCase() + useNote.slice(1) + '.');
+    else if (KIND[m.tc]) out.push(KIND[m.tc]);
+    var ub = (usedIn[m.n.toLowerCase()] || []).filter(function (x, i, a) { return a.indexOf(x) === i; });
+    if (ub.length) out.push('It goes into ' + ub.length + ' Blueprint' + (ub.length === 1 ? '' : 's') + ', such as ' + ub.slice(0, 3).join(', ') + '.');
+    m.ds = out.join(' '); m.dsw = 1; n++;
+  });
+  log.push('materials given a description of their own: ' + n);
+})();
+// ---- spells that share a description word for word (Rune spells built from one template) get a rider from their name,
+// so no two read the same
+(function () {
+  var RIDER = { Curse: 'Creatures it damages have disadvantage on saving throws until the end of your next turn.', Curtain: 'The area stays heavily obscured until the end of your next turn.',
+    Emptiness: 'Creatures it damages can\'t regain hit points until the start of your next turn.', Script: 'A glowing sigil stays on the ground; the next creature to enter it before your next turn takes 4d6 more damage.',
+    Light: 'The area fills with bright light, and allies in it end being blinded or frightened.', Reading: 'You learn the name, Runes, and greatest fear of every creature in the area.',
+    Blossom: 'Thorned growth makes the area difficult terrain for 1 minute.', Oath: 'You lose 10 hit points; every creature it damages takes 2d6 more at the start of its next turn.',
+    Anchor: 'Creatures in the area can\'t teleport or be moved against their will until the end of your next turn.', Mark: 'Creatures it damages are marked: your next attack against each has advantage.',
+    Circle: 'Creatures in the area are pulled 15 ft toward its centre.', Wall: 'Instead of a sphere, a wall 60 ft long and 20 ft high; it blocks movement until the end of your next turn.',
+    Skin: 'You gain 20 temporary hit points.', Ward: 'You and allies in the area gain resistance to its damage type for 1 minute.', Comfort: 'Allies in the area end one condition each.',
+    Insight: 'You and allies in the area have advantage on Insight and Perception checks for 1 hour.', Aegis: 'Allies in the area gain +2 AC until the end of your next turn.',
+    Storm: 'The damage strikes twice: half when cast, half at the start of your next turn.', Beat: 'Allies in the area regain 4d6 hit points.', Dark: 'The area becomes magical darkness for 1 minute.',
+    Cycle: 'At the start of your next turn the effect repeats at half damage.', Impulse: 'Creatures it damages lose their reaction and are pushed 10 ft away.',
+    Gloom: 'Creatures it damages are frightened of you until the end of your next turn.', Spell: 'Creatures it damages are charmed by you until the end of your next turn.',
+    Guise: 'You and allies in the area look like whatever you choose for 1 hour.', Lure: 'Creatures it damages must move 15 ft toward you on their next turn.',
+    Rift: 'A rift stays open for 1 minute: creatures that start their turn in it take 2d6 force damage.', Servant: 'A Medium spirit servant appears in the area and obeys you for 1 hour.',
+    Contract: 'A creature it damages that fails a Wisdom save is bound to a one-task contract of your choosing.', Silence: 'The area is silenced for 1 minute.',
+    Flame: 'The area burns for 1 minute: creatures that end their turn in it take 2d6 fire damage.', Whim: 'Roll a d6: on a 6 the damage is doubled; on a 1 it is halved.',
+    Spike: 'One creature in the area of your choice takes 4d6 more damage.', Whisper: 'Creatures it damages can\'t speak until the end of your next turn.',
+    Depth: 'Creatures in the area sink up to their knees and are restrained until the end of your next turn.', Passage: 'After it goes off, you can teleport to any empty space in the area.',
+    Strike: 'Instead of a sphere, it hits one creature you can see within range, and that creature takes the full damage twice.' };
+  var by = {}; D.SPELLS.forEach(function (s) { var k = (s.desc || '').trim(); if (k) (by[k] = by[k] || []).push(s); });
+  var n = 0;
+  Object.keys(by).forEach(function (k) { if (by[k].length < 2) return; by[k].forEach(function (s) { var w = s.n.split(/\s+/).pop(), r = RIDER[w] || ('As a ' + (s.sc || 'Rune') + ' working, it also leaves a lasting mark of its Law on the area for 1 minute.'); s.desc = (s.desc || '').trim() + ' ' + r; n++; }); });
+  log.push('spells that shared a description given a rider: ' + n);
+})();
 // ---- property pages (website addition): every material property, its family, its text at each 5 Potency, and how many
 // materials carry it
 (function () {
