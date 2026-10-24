@@ -264,6 +264,19 @@ button.chip:hover,a.chip:hover{border-color:var(--acc);color:var(--text)}
 .fg-reveal{font-family:var(--serif);letter-spacing:.3em;color:var(--gold2);font-size:.8rem;text-transform:uppercase}
 .fg-ws{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}.fg-wscard{border:1px solid var(--line);background:var(--surf);border-radius:9px;padding:10px 12px}
 @media (prefers-reduced-motion: reduce){.fg-anvil.hit,.fg-made{animation:none}}
+/* dark mode is the Hell Forge: crimson and black, lava from below */
+.page.forge{--red:#ff5a4a}
+.page.forge::before{background:radial-gradient(ellipse at 50% 125%,#7a1404 0%,#3a0905 30%,#1a0605 60%,#0a0303 100%)}
+.fg-heaven{display:none}.fg-hero-sub{font-family:var(--serif);letter-spacing:.2em;text-transform:uppercase;font-size:.72rem;color:var(--gold2);opacity:.85}
+/* light mode is the Heaven Forge: white marble and gold, sunlight from above */
+:root[data-theme="light"] .page.forge{--bg:#fbf7ec;--bg2:#f6efdc;--surf:rgba(255,253,246,.88);--surf2:rgba(250,244,228,.92);--surf3:rgba(243,233,206,.95);--line:#e2d3a8;--line3:#cdb77a;
+  --text:#2b2416;--text2:#4f4430;--muted:#86744f;--muted2:#a8976f;--acc:#b07d14;--acc2:#8c6209;--accbg:rgba(176,125,20,.12);--gold:#a7780f;--gold2:#7e5a06;--goldbg:rgba(167,120,15,.12);--red:#b8402f;--green:#2f8f57;--blue:#2f6fb3}
+:root[data-theme="light"] .page.forge::before{background:radial-gradient(ellipse at 50% -15%,#fff6cf 0%,#fdf3d6 25%,#f4f1ea 55%,#e8eef8 100%)}
+:root[data-theme="light"] .fg-hell{display:none}:root[data-theme="light"] .fg-heaven{display:inline}
+:root[data-theme="light"] .fg-hero-t{background:linear-gradient(180deg,#fffbe6,#e8b84a 55%,#9c6b0a);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 30px rgba(255,214,120,.55)}
+:root[data-theme="light"] .fg-anvil{background:radial-gradient(circle,rgba(255,226,140,.6),transparent 70%)}
+:root[data-theme="light"] .fg-spark{background:#fff3c4;box-shadow:0 0 6px #f1c24a}
+:root[data-theme="light"] .fg-made{box-shadow:0 0 40px rgba(240,200,90,.35)}
 .hero{position:relative;border:1px solid var(--line);border-radius:16px;padding:34px 30px;overflow:hidden;background:radial-gradient(120% 140% at 0% 0%,var(--accbg),transparent 55%),radial-gradient(90% 120% at 100% 100%,var(--goldbg),transparent 60%),var(--surf)}
 .hero h2{font-size:2.1rem;line-height:1.1;margin-bottom:8px}
 .hero p{color:var(--text2);max-width:640px}
@@ -911,8 +924,8 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"combat",v:"d502597640",b:"5ae25d72"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
-<script>(function(){var F=[["data/core.js?v=d502597640",11154104],["data/vault.js?v=d502597640",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
+<script>const SITE={page:"combat",v:"7176203498",b:"fd126505"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>(function(){var F=[["data/core.js?v=7176203498",11126505],["data/vault.js?v=7176203498",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
 // ════════════════════════════════════════════════════════════════
@@ -1177,7 +1190,11 @@ const MON_IDX=new Map();MONSTERS.forEach(m=>MON_IDX.set(lc(m.n),m));
 const godKey=g=>g.n.split(' - ')[0].trim();
 const godTitle=g=>{const p=g.n.split(' - ');return p.slice(1).join(' - ')};
 const GOD_IDX=new Map();GODS.forEach(g=>GOD_IDX.set(lc(godKey(g)),g));
-const findMat=n=>MAT_IDX.get(lc(n))||(/^Artifact: /.test(n||'')?artMat(n):undefined);
+const findMat=n=>MAT_IDX.get(lc(n))||(/^Artifact: /.test(n||'')?artMat(n):/^Anything: /.test(n||'')?anyMat(n):undefined);
+// the DM can make an item out of anything: "Anything: <what> [<kind code>]" counts as that kind of material, a good fit
+// for the part it was put in, at the level the DM sets (no property or trait unless the DM writes one in)
+function anyMat(name){const x=/^Anything: (.+) \[([A-Z])\]$/.exec(name||'');if(!x)return undefined;const lv=Math.max(1,Math.min(50,+((typeof FORGE!=='undefined'&&FORGE.dmLv)||1)));
+  return {n:name,label:x[1],realm:'Human',gr:'Human 1',tc:x[2],ty:CAT_NAME[x[2]]||'',tier:1,g:1,rank:lv*2,il:lv,rar:'Common',price:0,any:1,ds:'Made from '+x[1]+', by the DM\'s word.'}}
 let _bpByMat=null;
 function bpByMat(){if(!_bpByMat){_bpByMat=new Map();BPS.forEach(b=>b.mats.forEach(m=>{const k=lc(m);if(!_bpByMat.has(k))_bpByMat.set(k,[]);_bpByMat.get(k).push(b)}))}return _bpByMat}
 let _monByMat=null;
@@ -2613,6 +2630,9 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-25','More templates, alloys, prepared materials, and herbs','The Forge has 298 templates now, from arming swords and pollaxes to gorgets, sabatons, scuta, hoes, and saws; guns and cannon, beyond the realms\' craft, come as Arcane versions driven by a spark core. A new Smelter melts metals into 46 alloys (pewter, bell metal, sterling silver, Corinthian bronze, starsilver, Hell\'s pactsteel, the Primordial firstmetal), and six base ores and thirty herbs from field and folk tale join the materials. Every material can now be prepared the way real ones are (tanned, rawhide, or boiled hide; seasoned or fire-hardened wood; wrought, cast, folded, or tempered metal; knapped stone; cut gems): a preparation that suits a part turns a poor fit good and lowers the DC.'],
+  ['2026-10-25','Forge: hire any smith, Hell and Heaven, the DM\'s forge','At the anvil you can hire a smith of any level from 1 to 100 (each ten levels is a realm, the tenth its named master); the fee is half the materials\' cost + 100 × (tier + step ÷ 10) + tier × 10. The Forge is the Hell Forge in dark mode and the Heaven Forge in light mode. A DM (site role DM or Both) can switch on the DM\'s forge: any vault material in any part, or anything at all typed in (it counts as a good fit at the level the DM sets), then give the item to a character with no roll and no materials used. New material properties from fantasy tales, fifteen creature trait families, seven folk-tale herbs, and more hidden combos.'],
+  ['2026-10-25','More hidden combos','Many more material combos are waiting at the Forge, and every undiscovered one stays hidden: the Forge page shows only how many are left. Before forging, a pairing that unlocks an unfound combo only hints that something stirs.'],
   ['2026-10-25','The Forge, rebuilt','The Forge now looks like one, embers and all. Materials come only from your party\'s packs (or artifacts they carry), and before forging you see only the estimate: item level, the forge it needs, the materials and who holds them, and the odds. The forger\'s level matters: at or above the item\'s level they roll with advantage (and better with levels to spare); below it, −2 a level. Strike the anvil three times (each strike sounds like what you are making), and only then is the item revealed in full. An item keeps up to three powers you choose, and the same property from two parts merges (Potency 1 + 1 = 2, 2 + 2 = 3). Evolving items are a god\'s gift, recorded on the sheet: Stable ones gain 3 Potency per level; Unstable ones feed on three of a material for its trait (15 stored, 5 active). Forged Blueprints go to the new Workshop in the FAND database, shared if you choose; someone else\'s Blueprint equips as an invalid item. Master smiths now scale with their realm: level 10 per tier, a forge grade to match, materials up to their own realm, and a fee that doubles each tier.'],
   ['2026-10-24','Big corpses are easier to scavenge again','Each new try on a corpse used to add 5 to the Scavenging DC whatever its size. A big body has places nobody has worked yet, so its DC now climbs more slowly: Tiny and Small +5 per try, Medium +4, Large +3, Huge +2, Gargantuan +1. The Bestiary and the scavenging panel (combat tracker and Tools page) show the step for each corpse.'],
   ['2026-10-24','Champions: Accuracy and Dodge','Champion enemies now get +2 Dodge as well as +2 Accuracy. Every stat block shows an Accuracy line (its weapon attacks) next to Dodge, the champion picker shows the champion\'s Accuracy and Dodge against the normal monster\'s, and the combat tracker uses the champion\'s Dodge.'],
@@ -3948,7 +3968,7 @@ const TR_WHERE={w:'in a weapon',a:'in armor or a shield'};
 function trListHTML(ms,kind,label){const on=ms.filter(m=>trWorks(m.tr,kind)),off=ms.filter(m=>!trWorks(m.tr,kind));
   return (on.length?`<div class="mlist">${on.map(m=>`<button data-ref="${ref(m)}" style="flex-direction:column;align-items:flex-start;gap:2px"><span><b style="color:var(--gold2)">◆ ${esc(m.tr.n)}</b> <span class="x">${label?label(m):'from '+esc(m.n)}</span></span><span style="font-size:.8rem">${esc(m.tr.t)}</span></button>`).join('')}</div>`:'')
     +(off.length?`<div class="note" style="margin:6px 0 0">Not active in this ${kind==='weapon'?'weapon':kind==='armor'?'armor':'item'}: ${off.map(m=>`<b>${esc(m.tr.n)}</b> (${esc(m.n)}, works only ${TR_WHERE[m.tr.s]})`).join('; ')}.</div>`:'')}
-const MAT_BONUS={'Keen-Eyed':{perception:'B',insight:'B',investigation:'B'},'Hushed':{stealth:'B',sleight:'B',acrobatics:'B'},'Silver-Tongued':{persuasion:'B',deception:'B',performance:'B'},'Learned':{arcana:'B',history:'B',religion:'B'},'Wild-Wise':{nature:'B',survival:'B',animal:'B',medicine:'B'},'Mighty':{athletics:'B',intimidation:'B'},'Warding':{all:'B'},'Steadfast':{str:'P',con:'P'},'Clear-Minded':{int:'P',wis:'P',cha:'P'},'Quickening':{init:'P',dex:'B'},'Ever-Ready':{init:'P'},'Timebound':{init:'B'}};
+const MAT_BONUS={'Keen-Eyed':{perception:'B',insight:'B',investigation:'B'},'Hushed':{stealth:'B',sleight:'B',acrobatics:'B'},'Silver-Tongued':{persuasion:'B',deception:'B',performance:'B'},'Learned':{arcana:'B',history:'B',religion:'B'},'Wild-Wise':{nature:'B',survival:'B',animal:'B',medicine:'B'},'Mighty':{athletics:'B',intimidation:'B'},'Warding':{all:'B'},'Steadfast':{str:'P',con:'P'},'Clear-Minded':{int:'P',wis:'P',cha:'P'},'Quickening':{init:'P',dex:'B'},'Ever-Ready':{init:'P'},'Timebound':{init:'B'},'Hoard-Cursed':{all:'B'},'Rightful Heir':{persuasion:'B',intimidation:'B'}};
 function gearBonus(gear){const o={str:0,dex:0,con:0,int:0,wis:0,cha:0,init:0,src:[]};SKILLS.forEach(k=>o[k[0]]=0);
   gear.forEach(b=>{if(isForeign(b))return;const D=b.design,list=D&&Array.isArray(D.powers)?D.powers.filter(x=>x.k==='p').map(x=>Object.assign({},findMat((x.from||[])[0])||{n:x.n,prop:''},{pn:x.n,pot:x.pot})):(b.mats||[]).map(findMat);list.forEach(m=>{const e=m&&MAT_BONUS[m.pn];if(!e||!m.pot)return;if(/Worn:/.test(m.prop||'')&&gearKind(b)==='weapon')return;const P=+m.pot,B=Math.ceil(P/2);let got=false;
     Object.entries(e).forEach(([k,v])=>{const val=v==='P'?P:B;(k==='all'?['str','dex','con','int','wis','cha']:[k]).forEach(a=>{if(val>o[a]){o[a]=val;got=true}})});
@@ -6544,6 +6564,132 @@ GEN.push(
   FOC('Harp','🎼','Instrument','Bardic spellcasting focus; two-handed when played',[Object.assign(P.haft('Frame',2),{role:'primary',ok:['W','B','O']}),Object.assign(P.string(),{name:'Strings'}),Object.assign(P.heart('Resonance stone'),{optional:true,role:'minor'})]),
   FOC('War Horn','📯','Instrument','Bardic spellcasting focus; heard a mile away',[{name:'Horn',role:'primary',qty:1,kind:'shaft',ok:['B','O','W'],ideal:{B:/horn|tusk|shell/i},why:'A hollow horn, tusk, or shell, or brass.'},Object.assign(P.heart('Resonance stone'),{optional:true,role:'minor'})])
 );
+// Still more general Blueprints, from the great lists of historical weapons, armour pieces, shields, farm tools, and
+// workshop tools: everything a realm's smiths could make with what Vestige knows. What is too advanced for them (guns,
+// cannon) becomes an Arcane version: a spark core does what powder would.
+const P_BARREL=(q)=>({name:'Barrel',role:'primary',qty:q||2,kind:'blunt',ok:['O'],weak:['B','W'],why:'A tube of metal that can take the spark-core\'s blast. Bone or hardwood bursts after a few shots.'});
+const P_SPARK=()=>({name:'Spark core',role:'minor',qty:1,kind:'focus',ok:['E','G'],why:'An essence or a charged gem: it does what powder would, a burst of force behind the shot. Without it the weapon is a club.'});
+const S_GUN=(q)=>[P_BARREL(q),Object.assign(P.stock(),{why:'Wood, metal, or bone to hold and brace it.'}),Object.assign(P.trigger(),{name:'Lock'}),P_SPARK()];
+const TOOL=(icon,cat,n,dmg,type,props,slots,extra)=>W_('Tools and farm weapons',icon,cat,n,dmg,type,props,slots,extra);
+GEN.push(
+  // swords and long knives
+  W_('Martial melee','⚔','Sword','Arming Sword','1d8','slashing','Versatile (1d10)',S_BLADE(3)),
+  W_('Martial melee','⚔','Sword','Messer','1d8','slashing','Light; a hit after a parry deals +1',S_BLADE(2)),
+  W_('Martial melee','⚔','Sword','Kriegsmesser','2d6','slashing','Heavy, two-handed',S_BLADE(4)),
+  W_('Martial melee','⚔','Sword','Backsword','1d8','slashing','Versatile (1d10)',S_BLADE(3)),
+  W_('Martial melee','⚔','Sword','Spatha','1d8','slashing','Versatile (1d10); +1 Accuracy when mounted',S_BLADE(3)),
+  W_('Martial melee','⚔','Sword','Xiphos','1d6','piercing','Finesse, light',S_BLADE(2)),
+  W_('Martial melee','⚔','Sword','Kopis','1d8','slashing','Forward-weighted: +1 damage on a charge',S_BLADE(3)),
+  W_('Martial melee','⚔','Sword','Falcata','1d8','slashing','Cleaves: on a critical hit, roll the damage dice three times',S_BLADE(3)),
+  W_('Martial melee','⚔','Sword','Talwar','1d8','slashing','Finesse',S_BLADE(3)),
+  W_('Martial melee','⚔','Sword','Shamshir','1d8','slashing','Finesse; +1 damage when mounted',S_BLADE(3)),
+  W_('Martial melee','⚔','Sword','Kilij','1d8','slashing','Finesse, versatile (1d10)',S_BLADE(3)),
+  W_('Martial melee','⚔','Sword','Yatagan','1d6','slashing','Finesse, light',S_BLADE(2)),
+  W_('Martial melee','⚔','Sword','Kampilan','1d10','slashing','Two-handed, heavy',S_BLADE(4)),
+  W_('Martial melee','⚔','Sword','Ninjato','1d6','slashing','Finesse, light; +1 to Stealth while sheathed on your back',S_BLADE(2)),
+  W_('Martial melee','⚔','Sword','Dadao','1d10','slashing','Heavy, versatile (1d12)',S_BLADE(4)),
+  W_('Martial melee','⚔','Sword','Miao Dao','1d8','slashing','Finesse, two-handed, reach',S_BLADE(3)),
+  W_('Martial melee','🪝','Sword','Hook Sword','1d6','slashing','Finesse; pairs can be hooked together for reach; a hit can disarm (Strength save DC 10)',S_BLADE(2)),
+  W_('Martial melee','🗡','Dagger','Butterfly Sword','1d6','slashing','Finesse, light; used in pairs',S_KNIFE(1)),
+  W_('Martial melee','🗡','Dagger','Swordbreaker','1d4','piercing','Finesse, light; once per round, a parry can trap a blade (disarm, Strength save DC 12)',S_KNIFE(1)),
+  W_('Martial melee','🗡','Dagger','Rondel Dagger','1d4','piercing','Finesse, light; ignores 1 AC',S_KNIFE(1)),
+  W_('Martial melee','🗡','Dagger','Baselard','1d6','piercing','Finesse, light',S_KNIFE(1)),
+  W_('Martial melee','🗡','Dagger','Cinquedea','1d6','slashing','Finesse, light',S_KNIFE(2)),
+  W_('Martial melee','🗡','Dagger','Misericorde','1d4','piercing','Finesse, light; +2 damage against a prone or grappled creature',S_KNIFE(1)),
+  W_('Simple melee','🗡','Dagger','Dirk','1d4','piercing','Finesse, light, thrown (20/60)',S_KNIFE(1)),
+  W_('Simple melee','🗡','Dagger','Seax','1d6','slashing','Light',S_KNIFE(1)),
+  W_('Simple melee','🗡','Dagger','Hunting Knife','1d4','slashing','Light; also skins and butchers',S_KNIFE(1)),
+  W_('Martial melee','🗡','Dagger','Karambit','1d4','slashing','Finesse, light; can\'t be disarmed',S_KNIFE(1)),
+  W_('Simple ranged','🗡','Dagger','Kunai','1d4','piercing','Finesse, light, thrown (20/60); also a climbing spike',S_KNIFE(1),{ranged:'20/60 ft.'}),
+  W_('Martial melee','🗡','Dagger','Kris','1d4','piercing','Finesse, light; a wavy blade: +1 damage on a critical hit',S_KNIFE(1)),
+  W_('Martial melee','🗡','Dagger','Jambiya','1d4','piercing','Finesse, light',S_KNIFE(1)),
+  W_('Martial melee','🗡','Dagger','Push Dagger','1d4','piercing','Light; can\'t be disarmed',S_FIST(P.edge('Blade',1))),
+  // axes
+  W_('Martial melee','🪓','Axe','Bearded Axe','1d8','slashing','Versatile (1d10); a hit can hook a shield aside (the target loses its shield AC until its turn)',S_AXE(2)),
+  W_('Martial melee','🪓','Axe','Dane Axe','1d12','slashing','Heavy, two-handed',S_AXE(3,2)),
+  W_('Martial ranged','🪓','Axe','Francisca','1d6','slashing','Thrown (20/60); a hit on a shield-bearer can knock the shield aside',S_AXE(1),{ranged:'20/60 ft.'}),
+  W_('Martial melee','🪓','Axe','Labrys','1d10','slashing','Heavy, two-handed',S_AXE(3,2)),
+  W_('Martial melee','🪓','Axe','Sagaris','1d6','slashing','Light; also pierces (choose the damage type)',S_AXE(1)),
+  W_('Martial melee','🪓','Axe','Broad Axe','1d10','slashing','Heavy, two-handed; also shapes timber',S_AXE(3,2)),
+  W_('Martial ranged','🪓','Axe','Hurlbat','1d6','slashing','Thrown (20/60); always lands blade-first',S_AXE(1),{ranged:'20/60 ft.'}),
+  // polearms and spears
+  W_('Martial melee','🔱','Spear','Pollaxe','1d10','slashing','Heavy, reach, two-handed; can also pierce or bludgeon',S_POLE(P.axehead(2),2)),
+  W_('Martial melee','🔱','Spear','Voulge','1d10','slashing','Heavy, reach, two-handed',S_POLE(P.axehead(2),2)),
+  W_('Martial melee','🔱','Spear','Fauchard','1d8','slashing','Heavy, reach, two-handed',S_POLE(P.edge('Blade',2),2)),
+  W_('Martial melee','🔱','Spear','Guisarme','2d4','slashing','Heavy, reach, two-handed; a hit can pull a mounted rider off (Strength save DC 12)',S_POLE(P.edge('Hook blade',2),2)),
+  W_('Martial melee','🔱','Spear','Ranseur','2d4','piercing','Heavy, reach, two-handed; a hit can disarm',S_POLE(P.point(2),2)),
+  W_('Martial melee','🔱','Spear','Spetum','1d8','piercing','Heavy, reach, two-handed',S_POLE(P.point(2),2)),
+  W_('Martial melee','🔱','Spear','Spontoon','1d8','piercing','Reach, two-handed',S_POLE(P.point(1),2)),
+  W_('Martial melee','🔱','Spear','Corseque','1d8','piercing','Heavy, reach, two-handed',S_POLE(P.point(2),2)),
+  W_('Martial melee','🔱','Spear','Boar Spear','1d8','piercing','Versatile (1d10); its crossbar stops a charging foe at the end of the spear',S_POINT(2,'Head',2)),
+  W_('Martial melee','🔱','Spear','Sarissa','1d10','piercing','Heavy, reach (15 ft.), two-handed',S_POLE(P.point(1),3)),
+  W_('Martial melee','🔱','Spear','Ji','1d10','piercing','Heavy, reach, two-handed; also slashes',S_POLE(P.edge('Blade and point',2),2)),
+  W_('Martial melee','🔱','Spear','Yari','1d8','piercing','Reach, two-handed',S_POLE(P.point(1),2)),
+  W_('Martial melee','🔱','Spear','Monk\'s Spade','1d8','slashing','Reach, two-handed; also digs',S_POLE(Object.assign({},SPADE,{qty:2}),2)),
+  W_('Martial melee','🔱','Spear','Military Fork','1d8','piercing','Reach, two-handed',S_POLE(P.point(2),2)),
+  W_('Martial melee','🔱','Spear','Swordstaff','1d10','slashing','Heavy, reach, two-handed',S_POLE(P.edge('Blade',2),2)),
+  W_('Martial melee','🔱','Spear','Bec de Corbin','1d8','piercing','Heavy, reach, two-handed; ignores 1 AC',S_POLE(P.point(2),2)),
+  W_('Martial ranged','🔱','Spear','Pilum','1d6','piercing','Thrown (30/90); a hit on a shield bends into it (the shield gives no AC until pulled out, an action)',S_POINT(1,'Head',2),{ranged:'30/90 ft.'}),
+  W_('Simple ranged','🔱','Spear','Plumbata','1d4','piercing','Thrown (30/90); weighted dart',S_POINT(1,'Head'),{ranged:'30/90 ft.'}),
+  // blunt
+  W_('Simple melee','🏏','Hammer','Cudgel','1d4','bludgeoning','Light',S_BLUNT(1)),
+  W_('Simple melee','🏏','Hammer','Shillelagh','1d6','bludgeoning','Versatile (1d8)',S_BLUNT(1)),
+  W_('Simple melee','🏏','Hammer','Knobkerrie','1d6','bludgeoning','Thrown (20/60)',S_BLUNT(1),{ranged:'20/60 ft.'}),
+  W_('Simple melee','🏏','Hammer','Mere','1d6','bludgeoning','Light; a flat club of stone or bone',[Object.assign(P.blunt(1),{ok:['S','B','O']}),P.grip()]),
+  W_('Martial melee','🏏','Hammer','Taiaha','1d8','bludgeoning','Versatile (1d10), finesse',S_BLUNT(1,2)),
+  W_('Martial melee','🔨','Hammer','Flanged Mace','1d8','bludgeoning','Ignores 1 AC',S_BLUNT(2)),
+  W_('Martial melee','🔨','Hammer','Horseman\'s Pick','1d8','piercing','+1 damage when mounted; ignores 1 AC',S_BLUNT(2)),
+  W_('Martial melee','🔨','Hammer','Goedendag','1d8','bludgeoning','Versatile (1d10); also pierces with its spike',S_BLUNT(2,2)),
+  W_('Martial melee','⛓','Hammer','Two-Handed Flail','1d10','bludgeoning','Heavy, two-handed',S_CHAIN(P.blunt(3))),
+  W_('Martial melee','🏏','Hammer','War Club','1d8','bludgeoning','Versatile (1d10)',S_BLUNT(2)),
+  // bows and shooters
+  W_('Martial ranged','🏹','Bow','Yumi','1d8','piercing','Ammunition (150/600), heavy, two-handed; can be shot from horseback',S_BOW(3),{ranged:'150/600 ft.'}),
+  W_('Martial ranged','🏹','Bow','Horse Bow','1d6','piercing','Ammunition (80/320), two-handed; no penalty when mounted',S_BOW(2),{ranged:'80/320 ft.'}),
+  W_('Martial ranged','🏹','Bow','Arbalest','1d12','piercing','Ammunition (120/480), heavy, loading, two-handed',S_XBOW(3),{ranged:'120/480 ft.'}),
+  W_('Martial ranged','🏹','Bow','Gastraphetes','1d10','piercing','Ammunition (80/320), heavy, loading, two-handed; braced against the belly to draw',S_XBOW(2),{ranged:'80/320 ft.'}),
+  W_('Simple ranged','🏹','Bow','Pellet Bow','1d4','bludgeoning','Ammunition (30/120), two-handed; shoots stones',S_BOW(1),{ranged:'30/120 ft.'}),
+  W_('Simple ranged','🪢','Staff','Lasso','1','bludgeoning','Thrown (15 ft.); a Large or smaller creature hit is restrained (Strength or Dexterity check DC 12 to escape)',[Object.assign(P.string(),{name:'Rope',role:'primary'})],{ranged:'15 ft.'}),
+  // arcane versions of what the realms can't yet build
+  W_('Arcane ranged','🔫','Bow','Arcane Arquebus','1d10','piercing','Ammunition (80/320), loading, two-handed; a spark core does what powder would',S_GUN(2),{ranged:'80/320 ft.'}),
+  W_('Arcane ranged','🔫','Bow','Arcane Musket','1d12','piercing','Ammunition (100/400), loading, two-handed',S_GUN(3),{ranged:'100/400 ft.'}),
+  W_('Arcane ranged','🔫','Bow','Arcane Pistol','1d8','piercing','Ammunition (30/90), loading, light',S_GUN(1),{ranged:'30/90 ft.'}),
+  W_('Arcane ranged','🔫','Bow','Arcane Blunderbuss','2d6','piercing','Ammunition (15/60), loading, two-handed; hits every creature in a 15-ft. cone (Dexterity save for half)',S_GUN(3),{ranged:'15/60 ft.'}),
+  W_('Arcane ranged','💥','Hammer','Arcane Hand Cannon','2d8','bludgeoning','Ammunition (60/240), heavy, loading, two-handed',S_GUN(4),{ranged:'60/240 ft.'}),
+  W_('Arcane ranged','🔥','Spear','Arcane Fire Lance','2d6','fire','Ammunition (10 ft. cone), loading, reach; spits fire, then fights as a spear (1d8 piercing)',[P.point(1),Object.assign(P_BARREL(1),{name:'Fire tube',role:'structure'}),P.haft('Shaft',2),P_SPARK()]),
+  W_('Arcane ranged','🔫','Bow','Arcane Repeater','1d8','piercing','Ammunition (80/320), two-handed; holds 6 shots',S_GUN(2).concat([Object.assign(P.trigger(),{name:'Cylinder'})]),{ranged:'80/320 ft.'}),
+  // farm and workshop tools that can fight
+  TOOL('⛏','Hammer','Hoe','1d4','slashing','Two-handed; tills an acre a day',[Object.assign({},SPADE,{name:'Blade',qty:1}),P.haft('Handle',2),P.grip()]),
+  TOOL('⛏','Hammer','Mattock','1d8','piercing','Heavy, two-handed; breaks stone and roots',[P.axehead(2),P.haft('Handle',2),P.grip()]),
+  TOOL('🧹','Hammer','Rake','1d4','piercing','Two-handed, reach',[Object.assign(P.point(1),{name:'Tines'}),P.haft('Handle',2),P.grip()]),
+  TOOL('🪝','Axe','Pruning Hook','1d6','slashing','Reach, two-handed',S_POLE(P.edge('Hook',1),2)),
+  TOOL('🔪','Dagger','Hay Knife','1d6','slashing','Two-handed; cuts hay and thatch',S_KNIFE(2)),
+  TOOL('⛓','Hammer','Threshing Flail','1d6','bludgeoning','Two-handed',S_CHAIN(Object.assign(P.blunt(1),{ok:['W','O','B']}))),
+  TOOL('🔱','Spear','Winnowing Fork','1d4','piercing','Two-handed, reach',S_POLE(Object.assign(P.point(1),{name:'Tines',ok:['W','O','B']}),2)),
+  TOOL('🪓','Axe','Adze','1d6','slashing','Light; shapes timber and hollows logs',S_AXE(1)),
+  TOOL('🔪','Dagger','Drawknife','1d4','slashing','Light; shaves wood',S_KNIFE(1)),
+  TOOL('🪓','Axe','Froe','1d4','bludgeoning','Splits shingles and staves',S_AXE(1)),
+  TOOL('⛏','Spear','Dibber','1d4','piercing','Light; plants seeds',[Object.assign(P.point(1),{ok:['W','O','B','S']}),P.grip()]),
+  TOOL('🔨','Hammer','Smith\'s Hammer','1d6','bludgeoning','Light; a blacksmith\'s tool (+1 to Blacksmithing checks made with it)',S_BLUNT(1)),
+  TOOL('🔨','Hammer','Mallet','1d4','bludgeoning','Light',S_BLUNT(1)),
+  TOOL('🪚','Sword','Saw','1d4','slashing','Two-handed; cuts timber',[Object.assign(P.edge('Toothed blade',2),{ok:['O']}),P.hilt()]),
+  TOOL('🔧','Dagger','Chisel','1d4','piercing','Light; carves stone and wood',S_KNIFE(1)),
+  TOOL('🔧','Dagger','Awl','1d4','piercing','Light; punches leather',S_KNIFE(1)),
+  TOOL('🔧','Hammer','Tongs','1d4','bludgeoning','Light; a hit can grab (grapple, Strength check DC 10)',[Object.assign(P.edge('Jaws',1),{kind:'blunt',ok:['O']}),P.hilt()]),
+  TOOL('🔧','Spear','Auger','1d4','piercing','Two-handed; bores holes',[Object.assign(P.point(1),{ok:['O']}),P.haft('Handle')]),
+  TOOL('🪣','Hammer','Trowel','1d4','slashing','Light; lays mortar',[Object.assign({},SPADE,{name:'Blade',qty:1}),P.grip()]),
+  TOOL('🏮','Hammer','Lantern Staff','1d6','bludgeoning','Two-handed; sheds light in a 20-ft. radius',[P.haft('Staff',2),Object.assign(P.heart('Lantern stone'),{optional:true,role:'minor'})]),
+  // armour pieces from the great harnesses
+  AR('Great Helm','Head','⛑',2,['O']),AR('Bascinet','Head','⛑',2,['O']),AR('Sallet','Head','⛑',2,['O']),AR('Barbute','Head','⛑',2,['O']),AR('Armet','Head','⛑',2,['O']),
+  AR('Kettle Hat','Head','⛑',2,['O','B']),AR('Spangenhelm','Head','⛑',2,['O','B']),AR('Nasal Helm','Head','⛑',2,['O']),AR('Morion','Head','⛑',2,['O']),AR('Burgonet','Head','⛑',2,['O']),
+  AR('Gorget','Shoulders','🛡',1,['O','B']),AR('Bevor','Shoulders','🛡',1,['O']),AR('Besagews','Shoulders','🛡',1,['O','B']),
+  AR('Haubergeon','Body','🛡',4,['O']),AR('Jack of Plates','Body','🛡',4,['O','F']),AR('Cuir Bouilli','Body','🧥',4,['F']),AR('Coat of Plates','Body','🛡',4,['O','F']),AR('Surcoat','Body','👘',4,['F']),
+  AR('Vambraces','Hands','🧤',1,['O','B']),AR('Rerebraces','Hands','🧤',1,['O','B']),AR('Couters','Hands','🧤',1,['O']),AR('Mitten Gauntlets','Hands','🧤',1,['O']),
+  AR('Cuisses','Feet','🥾',1,['O','B','F']),AR('Poleyns','Feet','🥾',1,['O']),AR('Tassets','Feet','🥾',1,['O','B']),AR('Sabatons','Feet','🥾',1,['O']),
+  AR('Tabard','Back','👘',1,['F']),
+  // shields of many lands
+  SH('Aspis','Shield',3),SH('Scutum','Tower',4),SH('Parma','Buckler',1),SH('Pelta','Shield',2),SH('Wicker Shield','Shield',2),SH('Hide Shield','Shield',2),
+  SH('Adarga','Shield',2),SH('Rotella','Shield',3),SH('Bouche Shield','Shield',3),SH('Lantern Shield','Buckler',2),SH('Mantlet','Tower',6)
+);
 const BASES=Object.fromEntries(GEN);
 // the Staff is a weapon and a focus, built outside W_: it gets the Everchanging core too
 Object.values(BASES).forEach(b=>{if(b.dmg&&!b.slots.some(s=>s.kind==='shift'))b.slots.push(...mk([P.shift()]))});
@@ -6600,7 +6746,8 @@ function realmBase(rn){const r=REALM[rn]||REALMS[0];if(r.base)return r.base;cons
 const acTaken=(d,ac)=>Math.max(0,d-Math.max(0,ac||0));
 const armorAC=(units,code,il)=>Math.max(1,Math.round(units*(code==='O'?1:/[BSG]/.test(code||'')?.7:.4)*(1+((il||1)-1)/20)));
 const matCode=m=>m.tc||({'Ore / Metal':'O','Metal':'O','Wood / Plant':'W','Wood':'W','Crystal / Gem':'G','Gemstone & Crystal':'G','Stone':'S','Hide / Cloth / Fiber':'F','Bone / Fang / Horn / Scale':'B','Blood / Organ':'L','Essence / Soul / Core':'E','Mechanism':'K','Supply':'U'})[m.ty||m.cat]||'?';
-function slotFit(slot,m){
+function slotFit(slot,m){if(m&&m.any)return {lv:'good',why:''};return slotFitBase(slot,m)}
+function slotFitBase(slot,m){
   if(!m)return slot.optional?{lv:'empty'}:{lv:'missing'};
   if(slot.only&&!slot.only.test(m.n))return {lv:'wrong',c:matCode(m),why:'Only an Everchanging Substance fits here: it comes from creatures that change their shape.'};
   const c=matCode(m);
@@ -6642,9 +6789,31 @@ function everParts(i){const f=(FORGE.everForms||[])[i]||{},G=BASES[f.base];if(!G
 // every chosen form, worked out like a weapon of its own (the main weapon is form 1)
 function everResults(n){const out=[];for(let i=0;i<Math.max(0,n-1);i++){const e=everParts(i);if(!e){out.push(null);continue}const r=forgeResult(e.base,e.parts,{form:true});
   out.push({i,e,r,missing:r.parts.filter(p=>!p.s.optional&&!p.m).map(p=>p.s.name),added:Object.values(e.own).map(findMat).filter(Boolean)})}return out}
+// Every material can be prepared the way real ones are (tanned or boiled hide, seasoned or fire-hardened wood, wrought,
+// cast, or folded metal, knapped stone, cut gems...). A preparation suits some kinds of part: there a poor fit becomes a good
+// one and the item is easier to make (−1 DC each, as far as −3); a few make a part worse (cast metal won't hold an edge).
+const PROC={
+  F:[['tanned','Tanned',['cover','lining','fit'],'Soft and lasting: good for armour, linings, and wraps. (A week in the tan pit.)'],['rawhide','Rawhide',['fit','string','shaft'],'Stiff, and shrinks tight as it dries: good for bindings, grips, and frames.'],
+    ['boiled','Cuir bouilli (boiled)',['cover'],'Boiled hard in wax and water: +1 AC as an outer layer.',{ac:1}],['oiled','Oiled',['lining','string'],'Waterproof and supple.'],['spun','Spun or woven',['string','lining'],'Spun into thread or woven into cloth.']],
+  W:[['seasoned','Seasoned',['shaft','flex','fit'],'Dried for a year: straight, light, and strong.'],['firehard','Fire-hardened',['edge','point'],'Charred hard over coals: a wooden point that holds.'],
+    ['laminated','Laminated',['flex','shaft'],'Glued in layers: springier limbs, stronger shafts.'],['oiled','Oiled',['shaft','fit'],'Weatherproof and smooth.'],['ebonized','Ebonized',['focus','fit'],'Stained black with iron and vinegar: it takes magic a little better.']],
+  O:[['wrought','Wrought',['shaft','fit','string'],'Hammered, fibrous iron: tough, and bends rather than breaks.'],['cast','Cast',['blunt','cover'],'Poured into a mould: heavy heads and plates, but a cast edge chips.',{bad:['edge','point']}],
+    ['folded','Folded',['edge','point'],'Folded and welded many times: a keen, even edge.'],['tempered','Quenched and tempered',['edge','point','flex'],'Hard and springy.'],['annealed','Annealed',['cover','lining','fit'],'Softened by slow cooling: easy to shape into plates and fittings.'],
+    ['drawn','Drawn into wire',['string','fit'],'Pulled through a die into wire: chain, mail rings, and strings.']],
+  B:[['polished','Polished',['fit','focus'],'Smooth and fine: grips, inlays, and settings.'],['boiled','Boiled and dried',['shaft','cover'],'Cleaned, degreased, and hardened.'],['carved','Carved',['edge','point'],'Shaped to an edge or point.'],['split','Split and steamed',['flex','shaft'],'Horn and bone split and steamed straight: for bows and frames.']],
+  S:[['knapped','Knapped',['edge','point'],'Flaked to a razor edge (brittle).'],['dressed','Dressed',['blunt','cover'],'Squared and smoothed.'],['polished','Polished',['focus','fit'],'Glassy and fine.']],
+  G:[['cut','Cut and faceted',['focus','fit'],'Faceted to catch light: it holds magic better.'],['cabochon','Cabochon',['fit','focus'],'Domed and polished: sits snugly in a setting.'],['ground','Ground',['brew'],'Powdered as a catalyst.']],
+  L:[['dried','Dried',['brew'],'Keeps for a season, and is easy to measure.'],['distilled','Distilled',['brew','liquid'],'Concentrated.'],['salted','Salted',['brew','fit'],'Preserved in salt.'],['rendered','Rendered',['liquid','fit'],'Melted down to oil or tallow.']],
+  E:[['bound','Bound',['focus','shift'],'Sealed in wax and wire: steady to work.'],['refined','Refined',['focus','brew'],'Purified.']],
+  K:[['oiled','Oiled',['fit'],'Cleaned and oiled: runs smooth.']],
+  U:[]};
+const procOf=(m,key)=>m&&key?(PROC[matCode(m)]||[]).find(v=>v[0]===key)||null:null;
+function procFit(s,m,fit,key){const v=procOf(m,key);if(!v||!m)return fit;const bad=(v[4]||{}).bad||[];
+  if(bad.includes(s.kind)&&fit.lv==='good')return {lv:'poor',why:v[1]+' doesn\'t suit this part',proc:v};
+  if(v[2].includes(s.kind)&&fit.lv==='poor')return {lv:'good',why:'',proc:v,up:1};return Object.assign({},fit,{proc:v})}
 function forgeResult(baseName,partsMap,opt){
   baseName=baseName||FORGE.base;partsMap=partsMap||FORGE.parts;opt=opt||{};const main=!opt.form,ever=main&&forgeEver();
-  const B=BASES[baseName],parts=forgeSlots(B,ever).map(s=>{const m=findMat(partsMap[s.id]||'');return {s,m,fit:slotFit(s,m)}});
+  const PR_=main?(FORGE.proc||{}):{},B=BASES[baseName],parts=forgeSlots(B,ever).map(s=>{const m=findMat(partsMap[s.id]||'');return {s,m,fit:procFit(s,m,slotFit(s,m),PR_[s.id])}});
   const prim=parts.find(p=>p.s.role==='primary'),struc=parts.find(p=>p.s.role==='structure');
   let hit=0,acAdj=0,breakOn=0,useless=false;const notes=[],props=[],traits=[],adds=[];
   parts.forEach(p=>{
@@ -6664,7 +6833,9 @@ function forgeResult(baseName,partsMap,opt){
   if(pm&&sm&&struc.fit.lv!=='wrong'&&(pm.il||1)>(sm.il||1)+10){breakOn=Math.max(breakOn,2);notes.push([struc.s.name,'weak',`Too weak for the ${prim.s.name.toLowerCase()}: the ${esc(sm.n)} (Item Level ${sm.il||1}) can't carry a ${esc(pm.n)} (Item Level ${pm.il||1}). The item breaks on a natural 1–2.`,''])}
   const strongest=used.slice().sort((a,b)=>(b.m.rank||0)-(a.m.rank||0))[0];
   const cost=used.reduce((a,p)=>a+(p.m.price||0)*p.s.qty,0);
-  const out={B,parts,notes,props,traits,il,cost,strongest:strongest&&strongest.m,breakOn,adds};
+  const out={B,parts,notes,props,traits,il,cost,strongest:strongest&&strongest.m,breakOn,adds,
+    dcMod:Math.max(-3,-parts.filter(p=>p.m&&p.fit.proc&&p.fit.proc[2].includes(p.s.kind)).length)};
+  parts.forEach(p=>{const v=p.m&&p.fit.proc;if(v&&(v[4]||{}).ac&&v[2].includes(p.s.kind))acAdj+=(v[4]||{}).ac});
   const dmgBonus=pok&&prim.fit.lv==='good'?Math.floor(pil/5):0,atkBonus=Math.floor(sil/10);
   // Everchanging core (only when the weapon is Everchanging): its substance sets the number of forms (formsFor)
   const sh=ever&&parts.find(p=>p.s.kind==='shift'&&p.m&&p.fit.lv==='good');
@@ -6698,7 +6869,7 @@ function forgeResult(baseName,partsMap,opt){
   out.prof=prof;
   out.realmSpec=pm&&matCode(pm)==='O'&&/Hell|Heaven|Void/.test(pm.realm)?{Hell:'Infernal Forging',Heaven:'Celestial Metallurgy',Void:'Void Smithing','Inner Void':'Void Smithing'}[pm.realm]:'';
   out.rar=strongest?strongest.m.rar:'';
-  out.name=main?FORGE.name||(pm?pm.n.replace(/ (Ore|Ingot|Bar)$/,'')+' '+baseName:baseName):baseName;
+  out.name=main?FORGE.name||(pm?(pm.any?pm.label.replace(/^(a|an|the|some) /i,'').replace(/\b\w/g,ch=>ch.toUpperCase()):pm.n.replace(/ (Ore|Ingot|Bar)$/,''))+' '+baseName:baseName):baseName;
   return out;
 }
 // Which general Blueprint a vault Blueprint is an instance of: by its name first, then its category.
@@ -6784,7 +6955,7 @@ function renderForge(){
   const B=BASES[FORGE.base],q=lc((FORGE.find||'').trim()),byGen=BP_BY_GEN();
   const INV=invIndex(),invN=invMats(INV).length;
   $('content').innerHTML=`<div class="page forge">${datalists()}<div class="fg-bgwrap" aria-hidden="true"><canvas id="fg-fx"></canvas></div>
-    <div class="fg-hero"><div class="fg-hero-t">⚒ The Forge</div><p>Bring your party's materials to the anvil. Choose a design, set a material in each part, and see how high the item will reach and what forge it needs. Strike three times, and if the roll holds, the item is yours: only then is it fully revealed.</p>
+    <div class="fg-hero"><div class="fg-hero-t"><span class="fg-hell">🔥 The Hell Forge</span><span class="fg-heaven">☀ The Heaven Forge</span></div><div class="fg-hero-sub"><span class="fg-hell">Hellfire and brimstone: the dark-mode forge</span><span class="fg-heaven">Sunlight and gold: the light-mode forge</span></div><p>Bring your party's materials to the anvil. Choose a design, set a material in each part, and see how high the item will reach and what forge it needs. Strike three times, and if the roll holds, the item is yours: only then is it fully revealed.</p>
       <div class="fg-hero-s"><span>🧺 ${invN} kind${invN===1?'':'s'} of material in the party's packs</span><span>⚒ ${PARTY.filter(c=>c.prof).length} crafter${PARTY.filter(c=>c.prof).length===1?'':'s'}</span><span>📜 ${DESIGNS.filter(d=>d.forged).length} forged so far</span></div></div>
     ${invN?'':`<div class="callout" style="border-color:var(--gold)">The party's inventories hold no materials yet. Materials come only from your characters' packs: add them on the <a href="${pageUrl('party')}" data-go="party">Party page</a> or the character sheet, or bring them back from a hunt.</div>`}
     <details class="panel" style="margin-bottom:14px"><summary style="cursor:pointer;font-family:var(--serif);font-weight:700">How the Forge works</summary><p class="note" style="margin:8px 0 0">Every Blueprint is a general design: an Axe, a Longsword, a Helm. Choose the material for each part (the head, the haft, the grip) and the finished item takes something from each: the main part sets the damage or AC, the structure sets the Accuracy and how well it holds together, and every part adds its property and trait. Each part only takes certain kinds of material; the wrong kind brings heavy penalties, and a wrong main part makes the item useless.</p></details>
@@ -6796,18 +6967,21 @@ function renderForge(){
     <div class="cols" style="align-items:start">
       <div class="panel" style="display:flex;flex-direction:column;gap:12px">
         <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="font-size:1.15rem;margin:0">${B.icon} ${esc(FORGE.base)}</h4><span class="note" style="margin:0">${esc(B.group)}${B.dmg?` · ${esc(B.dmg[0])} ${esc(B.dmg[1])}`:''}${B.props?` · ${esc(B.props)}`:''}${B.armor?` · ${esc(B.slot)} slot`:''}</span></div>
+        ${forgeDMok()?`<div class="callout" style="margin:0;border-color:var(--acc)"><label class="note" style="display:flex;gap:8px;align-items:center;margin:0"><input type="checkbox" ${forgeDM()?'checked':''} onchange="FORGE.dm=this.checked;saveForge();renderForge()"> <b>🎲 DM forge: make it out of anything</b></label>
+          ${forgeDM()?`<div class="note" style="margin:6px 0 0">Any vault material or artifact goes in any part, nothing comes from the packs, and there is no roll. Type anything that isn't a material (a chair leg, the king's crown, a dragon's last breath) and it becomes one; start with <b>!</b> to keep exactly what you typed. Made-up materials count as a good fit at item level <input type="number" min="1" max="50" value="${+FORGE.dmLv||1}" style="width:56px" onchange="FORGE.dmLv=Math.max(1,Math.min(50,+this.value||1));saveForge();renderForge()">.</div>`:''}</div>`:''}
         <label class="note" style="margin:0">Suggest materials from <select class="sel" id="fg-realm"><option value="">Every realm</option>${REALMS.map(r=>`<option${r.n===FORGE.realm?' selected':''}>${esc(r.n)}</option>`).join('')}</select></label>
         ${B.dmg?`<label class="chk" style="display:flex;gap:8px;align-items:flex-start;margin:0;padding:8px 10px;border:1px dashed var(--acc);border-radius:8px"><input type="checkbox" id="fg-ever" ${forgeEver()?'checked':''} style="margin-top:3px"><span><b>⟳ Everchanging weapon</b><br><small style="color:var(--text2)">It can change between weapon forms as a bonus action. Needs an Everchanging Substance (from a mimic, doppelganger, werewolf, or another shapechanger) in its core: one extra form for each realm of its grade (a Human grade gives 1 extra form, Mysterious 2, Hell or Heaven 3, and so on). Then choose a weapon template for each extra form; materials already in the weapon carry over where they fit, and you add a material for any part they can't fill.</small></span></label>`:''}
         ${forgeSlots(B,forgeEver()).map(s=>{const m=findMat(FORGE.parts[s.id]||''),f=slotFit(s,m);const col={good:'var(--green)',poor:'var(--gold2)',wrong:'var(--red)',missing:'var(--muted)',empty:'var(--muted)'}[f.lv];
           const lab={good:'✓ Good fit',poor:'△ Poor fit',wrong:'✕ Wrong material',missing:'Required',empty:'Optional'}[f.lv];
-          const okCats=[...s.ok,...(s.weak||[])];const opts=invMats(INV).filter(x=>FORGE.showAll||okCats.includes(matCode(x))&&(!s.only||s.only.test(x.n)));
+          const okCats=[...s.ok,...(s.weak||[])];const opts=(forgeDM()?MATS:invMats(INV)).filter(x=>FORGE.showAll||okCats.includes(matCode(x))&&(!s.only||s.only.test(x.n)));
           const sug=m?[]:forgeSuggest(s);
           return `<div style="border:1px solid ${f.lv==='wrong'?'var(--red)':f.lv==='good'?'color-mix(in srgb,var(--green) 45%,var(--line))':'var(--line)'};border-radius:8px;padding:10px 12px">
             <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b>${esc(s.name)}</b><span class="b ghost">${s.role==='primary'?'main part':s.role==='structure'?'structure':'extra'}</span><span class="b ghost">× ${s.qty}</span><span style="margin-left:auto;font-size:.78rem;color:${col};font-weight:600">${lab}</span></div>
             <div class="note" style="margin:4px 0 6px">${esc(s.why)}<br><span style="color:var(--green)">Good:</span> ${s.ok.map(c=>CAT_NAME[c]).join(', ')}${(s.weak||[]).length?` · <span style="color:var(--gold2)">Poor:</span> ${s.weak.map(c=>CAT_NAME[c]).join(', ')}`:''} · <span style="color:var(--red)">Anything else is wrong.</span></div>
             <div class="keyrow">${mcHTML('fg:'+s.id,FORGE.parts[s.id]||'','Choose or type a material…')}<button class="btn" data-clear-slot="${s.id}" title="Clear">✕</button></div>
-            ${(MC_OPTS['fg:'+s.id]={opts,slot:s,arts:s.only?[]:invArts(INV),inv:true,hold:n=>holdersText(INV,n)},'')}
-            ${m&&!invHas(INV,m.n)?`<div style="margin-top:6px;font-size:.8rem;color:var(--red)">✕ Nobody in the party has ${esc(m.art?'the artifact '+m.art:m.n)}. Choose a material from someone's pack.</div>`:m?`<div style="margin-top:4px;font-size:.78rem;color:var(--muted)">In the packs of ${esc(holdersText(INV,m.n))}</div>`:''}
+            ${m&&(PROC[matCode(m)]||[]).length?`<div class="keyrow" style="margin-top:6px"><label class="note" style="margin:0;display:flex;gap:6px;align-items:center;flex-wrap:wrap">Prepared as <select class="sel" data-proc="${s.id}" style="max-width:240px"><option value="">As it comes</option>${PROC[matCode(m)].map(v=>`<option value="${v[0]}"${(FORGE.proc||{})[s.id]===v[0]?' selected':''}>${esc(v[1])}${v[2].includes(s.kind)?' ✓':''}</option>`).join('')}</select></label></div>${(()=>{const v=procOf(m,(FORGE.proc||{})[s.id]);return v?`<div class="note" style="margin:2px 0 0;font-size:.78rem">${esc(v[3])} ${v[2].includes(s.kind)?'<b style="color:var(--green)">Suits this part: a poor fit becomes good, and the DC is 1 lower.</b>':((v[4]||{}).bad||[]).includes(s.kind)?'<b style="color:var(--red)">Wrong for this part: a good fit becomes poor.</b>':'It doesn\'t change this part.'}</div>`:''})()}`:''}
+            ${(MC_OPTS['fg:'+s.id]=forgeDM()?{opts,slot:s,arts:s.only?[]:artifacts(),any:true}:{opts,slot:s,arts:s.only?[]:invArts(INV),inv:true,hold:n=>holdersText(INV,n)},'')}
+            ${forgeDM()?(m&&m.any?`<div style="margin-top:4px;font-size:.78rem;color:var(--gold2)">🎲 Made from ${esc(m.ds.replace(/^Made from /,'').replace(/, by the DM's word\.$/,''))}: counts as ${esc(CAT_NAME[m.tc]||'')}, a good fit, item level ${m.il}.</div>`:''):m&&!invHas(INV,m.n)?`<div style="margin-top:6px;font-size:.8rem;color:var(--red)">✕ Nobody in the party has ${esc(m.art?'the artifact '+m.art:m.n)}. Choose a material from someone's pack.</div>`:m?`<div style="margin-top:4px;font-size:.78rem;color:var(--muted)">In the packs of ${esc(holdersText(INV,m.n))}</div>`:''}
             ${sug.length?`<div class="chips" style="margin-top:6px">${sug.map(x=>`<button class="chip" data-pick="${s.id}" data-mat="${esc(x.n)}" title="${esc(x.gr)}">${esc(x.n)} <small>${esc(x.gr)}</small></button>`).join('')}</div>`:''}
             ${m&&m.art?`<div style="margin-top:6px;font-size:.8rem;color:var(--text2)">⟡ Broken down from the artifact ${refChip(BP_IDX.get(lc(m.art))||m,esc(m.art))}: counts as <b>${esc(m.baseN)}</b> (${esc(m.gr)} · Item Level ${m.il||1} · ${esc(CAT_NAME[matCode(m)]||'')}) and passes on one of its ${m.tr?'traits':'properties'} at random: <b>${m.tr?'◆ '+esc(m.tr.n):'✧ '+esc(m.pn)}</b>. The artifact is used up.</div>`:m?`<div style="margin-top:6px;font-size:.8rem;color:var(--text2)">${refChip(m)} ${esc(m.gr)} · Item Level ${m.il||1} · ${esc(CAT_NAME[matCode(m)]||'')}${m.pn?' · ✧ '+esc(m.pn):''}${m.tr?' · ◆ '+esc(m.tr.n):''}</div>`:''}
             ${f.lv==='wrong'||f.lv==='poor'?`<div style="margin-top:6px;font-size:.8rem;color:${col}">${f.why?`<b>${esc(f.why)}</b> `:''}${esc(PENALTY[s.role][f.lv])}</div>`:''}</div>`}).join('')}
@@ -6830,7 +7004,8 @@ function renderForge(){
   C.querySelectorAll('[data-ever-base]').forEach(el=>el.onchange=()=>{const i=+el.dataset.everBase,v=el.value.trim(),k=Object.keys(BASES).find(n=>lc(n)===lc(v));FORGE.everForms=FORGE.everForms||[];FORGE.everForms[i]={base:k&&BASES[k].dmg?k:v,parts:{}};saveForge();setTimeout(renderForge)});
   C.querySelectorAll('[data-ever-clear]').forEach(el=>el.onclick=()=>{FORGE.everForms[+el.dataset.everClear]={};saveForge();renderForge()});
   C.querySelectorAll('[data-ever-rm]').forEach(el=>el.onclick=()=>{const [i,id]=el.dataset.everRm.split(':');delete ((FORGE.everForms[+i]||{}).parts||{})[id];saveForge();renderForge()});
-  C.querySelectorAll('[data-clear-slot]').forEach(el=>el.addEventListener('click',()=>{delete FORGE.parts[el.dataset.clearSlot];saveForge();renderForge()}));
+  C.querySelectorAll('[data-proc]').forEach(el=>el.onchange=()=>{FORGE.proc=FORGE.proc||{};if(el.value)FORGE.proc[el.dataset.proc]=el.value;else delete FORGE.proc[el.dataset.proc];saveForge();renderForge()});
+  C.querySelectorAll('[data-clear-slot]').forEach(el=>el.addEventListener('click',()=>{if(FORGE.proc)delete FORGE.proc[el.dataset.clearSlot];delete FORGE.parts[el.dataset.clearSlot];saveForge();renderForge()}));
   C.querySelectorAll('[data-pick]').forEach(el=>el.addEventListener('click',()=>{FORGE.parts[el.dataset.pick]=el.dataset.mat;FORGE.name='';saveForge();renderForge()}));
   C.querySelectorAll('[data-load-bp]').forEach(el=>el.addEventListener('click',()=>{const b=findBP(el.dataset.loadBp);if(b){FORGE.parts=assignParts(FORGE.base,b.mats.map(findMat).filter(Boolean));FORGE.name=b.n;saveForge();renderForge();$('content').scrollTop=0}}));
   const bindBases=()=>C.querySelectorAll('#fg-bases [data-base]').forEach(el=>el.onclick=()=>pickBase(el.dataset.base));
@@ -6895,7 +7070,81 @@ const FCOMBOS=[['Burning','Freezing','Steam Burst','Fire and frost clash in it: 
   ['Living','Shapeshifting','Wildgrowth','It slowly regrows when damaged, and once per long rest it can become any simple tool for 10 minutes.'],
   ['Burning','Stormcharged','Plasma Edge','Its fire and lightning damage ignore resistance (not immunity).'],
   ['Divine Spark','Purifying','Sanctified','Fiends and undead it hits cannot regain hit points until the start of your next turn.'],
-  ['Fortunate','Timebound','Second Chance','Once per long rest, reroll a missed attack with it, or a failed save while you wear it.']];
+  ['Fortunate','Timebound','Second Chance','Once per long rest, reroll a missed attack with it, or a failed save while you wear it.'],
+  // hidden until someone forges them: the Forge page shows only how many are left to find
+  ['Burning','Tidal','Boiling Tide','Once per short rest, on a hit, the target is scalded: 1d6 fire damage at the start of each of its next two turns.'],
+  ['Freezing','Petrifying','Glacier Heart','A creature it hits twice in one turn is frozen solid (restrained) until the end of its next turn. Once per short rest.'],
+  ['Venomous','Lifedrinking','Black Blood','Poison damage it deals also heals you for half that much.'],
+  ['Shadowed','Glamoured','Mirror Shade','Once per long rest, step into a shadow and out as an illusion of yourself 30 feet away; your real self is invisible until your next attack.'],
+  ['Holy','Purifying','Dawnbreaker','Once per long rest, flare with sunlight: undead and fiends within 20 feet make a Wisdom save or flee for 1 minute.'],
+  ['Necromantic','Sovereign of the Dead','Gravecaller','Once per long rest, a creature it kills rises as a Zombie that serves you for 1 hour (it does not use a summon slot).'],
+  ['Dreadful','Mind Blast','Nightmare Edge','A creature frightened by you also takes 1d6 psychic damage at the start of each of its turns.'],
+  ['Stormcharged','Skyborne','Thunderwing','Once per short rest, after you jump or fall, land with a thunderclap: 2d6 thunder damage to creatures within 10 feet.'],
+  ['Earthbound','Hardened','Mountain\'s Root','While you stand on stone or earth, the first hit against you each round deals 2 less damage.'],
+  ['Corrosive','Piercing Edge','Armor Eater','Each hit lowers the target\'s AC by 1 until the end of the fight (up to −3).'],
+  ['Nullifying','Spell Vessel','Spellbreaker','Once per long rest, a spell that targets you is stored in the item instead of affecting you; you can release it once within the hour.'],
+  ['All-Seeing','Eye Ray','Watcher\'s Gaze','You cannot be surprised, and once per short rest you can see through invisibility for 1 minute.'],
+  ['Mechanical','Ever-Ready','Clockwork Draw','Drawing or stowing it costs nothing, and it can reload itself once per round.'],
+  ['Living','Regenerating','Evergreen','At the end of a long rest you regain 1d6 extra hit points, and it repairs any damage to itself.'],
+  ['Enduring','Steadfast','Unbroken','Once per long rest, when you would drop to 0 hit points, drop to 1 instead.'],
+  ['Quickening','Timebound','Borrowed Moment','Once per long rest, take one extra action on your turn; at the end of your next turn you are slowed (half speed, no reactions).'],
+  ['Blinking','Farreaching','Long Step','Once per short rest, teleport up to 60 feet to a space you can see as a bonus action.'],
+  ['Mighty','Gravitic','Crusher','A creature it hits that is Large or smaller is knocked prone on a critical hit, and its speed is halved until your next turn.'],
+  ['Supple','Hushed','Silk Step','You make no sound when you move, and you can squeeze through a space one size smaller without slowing down.'],
+  ['Keen-Eyed','Piercing Edge','Weak Spot','Your hits score a critical hit on a 19 or 20.'],
+  ['Clear-Minded','Warding','Iron Will','You have advantage on saves against being charmed or frightened.'],
+  ['Silver-Tongued','Glamoured','Honeyed Lie','Once per long rest, one lie you tell is believed unless the listener rolls a natural 20 on Insight.'],
+  ['Learned','Spell Vessel','Scholar\'s Edge','Once per long rest, cast a cantrip you have seen cast in the last day, without knowing it.'],
+  ['Wild-Wise','Living','Beastkin','Beasts are friendly to you unless harmed, and once per long rest you can speak with one for 10 minutes.'],
+  ['Resonant','Stormcharged','Thunder Chord','Once per short rest, strike it to make a 15-foot cone of sound: 2d8 thunder damage, Constitution save for half.'],
+  ['Resonant','Holy','Choir','Allies within 10 feet who can hear it gain +1 to saving throws.'],
+  ['Displacement','Shadowed','Blur','The first attack against you each round has disadvantage.'],
+  ['Invulnerable','Hardened','Bastion','Once per long rest, become immune to all damage until the start of your next turn; you cannot move while it lasts.'],
+  ['Rebirth','Regenerating','Phoenix Ember','Once per long rest, when you drop to 0 hit points, you burst into flame and return with hit points equal to your level; creatures within 10 feet take 2d6 fire damage.'],
+  ['Rebirth','Necromantic','Undying','Once per long rest, a creature you kill with it cannot be brought back by any magic short of a god.'],
+  ['Elemental Core','Burning','Living Flame','Once per long rest, the flame inside it steps out as a fire spirit that fights beside you for 1 minute (the DM uses a fire elemental at half HP).'],
+  ['Elemental Core','Tidal','Living Water','Once per long rest, the water inside it rises as a water spirit that fights beside you for 1 minute (the DM uses a water elemental at half HP).'],
+  ['Binding','Petrifying','Stone Chain','Once per short rest, on a hit, the target is restrained by stone until the end of its next turn (Strength save to break free).'],
+  ['Ink Cloud','Hushed','Squid\'s Escape','Once per short rest, as a reaction to being hit, burst into a 10-foot cloud of ink and move half your speed.'],
+  ['Divine Spark','Progenitor Piece','Echo of the First','Once per long rest, one roll of yours counts as a natural 20. A god somewhere feels it.'],
+  ['Chaotic','Fortunate','Wild Luck','Roll a d20 at dawn: on 20, your next roll today is a natural 20; on 1, your next roll is a natural 1.'],
+  ['Shapeshifting','Glamoured','Thousand Faces','Once per long rest, take the look of any humanoid you have seen for 1 hour.'],
+  ['Tempered','Mighty','Smith\'s Pride','+1 damage, and it can never be broken by a natural 1.'],
+  // combos for the properties of the old tales
+  ['Foe-Sensing','Unseen','Shadow of the Hunter','While its glow warns you of foes, they can\'t see you: you are invisible to goblins, orcs, and their kin until you attack.'],
+  ['Soul-Drinking','Necromantic','Black Hunger','Each kill also raises the slain as a shade that fights for you until the end of the fight.'],
+  ['Soul-Drinking','Holy','Penitent Blade','Its hunger turns to mercy: kills heal an ally within 30 ft for the temporary hit points instead.'],
+  ['Wyrmsbane','Freezing','Dragon\'s Winter','A dragon it hits can\'t use its breath weapon on its next turn.'],
+  ['Wyrmsbane','Burning','Wyrmfire','Its fire damage ignores the resistance and immunity of dragons.'],
+  ['Giant-Felling','Ever-Returning','Shepherd\'s Sling','A thrown hit against a Large or larger creature stuns it until the end of its next turn on a natural 18 or higher.'],
+  ['Giant-Felling','Mighty','Beanstalk Breaker','Once per long rest, a hit topples a Huge or larger creature: it falls prone and its speed is 0 until your next turn.'],
+  ['Truename-Etched','Spell Vessel','Book of Names','It remembers every true name spoken near it, and once per long rest you can learn one name it holds.'],
+  ['Truename-Etched','Binding','The Binding Word','When you command a creature by its true name, the command lasts 1 minute (it repeats the save each turn).'],
+  ['Unseen','Hushed','Ring of Shadows','While invisible through it, you make no sound and leave no tracks. Each use, the DM may let something in the dark notice you anyway.'],
+  ['Unseen','Shadowed','Wraith-World','Invisible through it, you see invisible and ethereal creatures as they see you.'],
+  ['Wayfarer\'s Stride','Quickening','Seven Leagues','Once per day, each step covers seven: cross up to a mile as your move.'],
+  ['Wayfarer\'s Stride','Skyborne','Winged Heels','You can run on air for one round per short rest, as long as you end on solid ground.'],
+  ['Starsilver','Holy','Moonblade','It sheds moonlight that reveals shapechangers in their true form, and its hits deal +1d6 radiant to them.'],
+  ['Starsilver','Hardened','Mithril Coat','Armor of it gives +1 AC and can\'t be pierced by critical hits.'],
+  ['Heartwood','Living','Elder Grove','Once per long rest, plant it and a tree grows around you in a round: half cover, and you heal 1d8 a turn for 1 minute while you stand in it.'],
+  ['Heartwood','Wild-Wise','Shepherd of Trees','Trees within 60 ft will answer one question each per day, and once per long rest one walks with you for an hour.'],
+  ['Ever-Returning','Stormcharged','Thunder Hammer','When it returns to your hand, it brings a lightning bolt with it: 2d8 lightning to one creature in its path.'],
+  ['Oathkeeper','Lawful','Oath of the Sworn','Once per long rest, swear an oath on it: you have advantage on every roll that keeps that oath until your next long rest.'],
+  ['Oathkeeper','Divine Spark','Godsworn','A god hears every oath sworn on it. Breaking one brings a curse; keeping a great one earns a boon (the DM\'s call).'],
+  ['Hoard-Cursed','Fortunate','Dragon\'s Luck','Once per long rest, turn a failed save into a success. Each time, the item\'s hold on you grows: the Wisdom save DC rises by 1.'],
+  ['Hoard-Cursed','Unseen','The Ring','Invisibility through it lasts until you choose to end it, but each hour of it costs a Wisdom save or a point of the item\'s hold on you.'],
+  ['Emberglass','Holy','Dawnglass','Undead it hits can\'t regain hit points until your next long rest.'],
+  ['Emberglass','Burning','Dragonglass','Creatures of ice it hits take double fire damage and shatter at 0 hit points.'],
+  ['Rightful Heir','Oathkeeper','Sword in the Stone','Only you can lift it from where you set it down. Allies who swear to follow you gain +1 to every saving throw.'],
+  ['Rightful Heir','Holy','Crowned in Light','Once per long rest, raise it: allies within 30 ft are freed from being frightened or charmed.'],
+  ['Spellward','Nullifying','Mageslayer','Spells you resist through it rebound on their caster on a 6.'],
+  ['Spellward','Warding','Witchward','+1 to saves against spells, and curses on you end at your next long rest.'],
+  ['Songbound','Resonant','Battle Hymn','Allies within 30 ft add +1 damage while you play or sing (a bonus action each turn).'],
+  ['Songbound','Silver-Tongued','Siren\'s Lay','Once per long rest, a creature that hears your song makes a Wisdom save or follows you, entranced, for 1 minute.'],
+  ['Stormcaller','Tidal','The Tempest','Your storm can also raise a wave: once during it, a 30-ft line of water knocks creatures prone (Strength save).'],
+  ['Stormcaller','Skyborne','Eye of the Storm','While your storm rages, you can fly at your walking speed inside it.'],
+  ['Mirrorbound','Glamoured','Through the Looking-Glass','Step through a mirror and come out as anyone you have seen in it, for 1 hour.'],
+  ['Mirrorbound','All-Seeing','Scrying Glass','Once per long rest, look through any mirror you have touched, anywhere, for 1 minute.']];
 const forgeCombos=r=>{const P=new Set((r.props||[]).filter(p=>!p.half).map(p=>p.m.pn));return FCOMBOS.filter(([a,b])=>P.has(a)&&P.has(b))};
 let COMBOS_FOUND=store.get('combos',[]);
 function combosNote(list){let n=0;list.forEach(c=>{if(!COMBOS_FOUND.includes(c[2])){COMBOS_FOUND.push(c[2]);n++}});if(n){store.set('combos',COMBOS_FOUND);toast('✦ Combo found: '+list.map(c=>c[2]).join(', '))}}
@@ -6908,7 +7157,16 @@ const SMITHS={Human:['Bram Ashdown','the Ironhand of Vestige\'s towns',1,'Clear 
   Primordial:['Orrun','the last apprentice of the progenitor Gnome',5,'Prove your work: show Orrun a Masterwork you made yourself']};
 // a master smith scales with their realm: level 10 per tier (Human 10 … Primordial 100), a forge grade to match,
 // materials no deeper than their own realm, and a fee that doubles with every tier
-function smithOf(z){const s=SMITHS[z];if(!s)return null;const t=(REALM[z]||{}).tier||1;return {realm:z,n:s[0],d:s[1],task:s[3],tier:t,lv:t*10,g:Math.min(MAX_STAGE,Math.ceil(t/2)),fee:50*Math.pow(2,t-1)}}
+// any smith from level 1 to 100 can be hired: every 10 levels is one realm tier (1–10 Human, 11–20 Mysterious, … 91–100
+// Primordial), and the 10th level of each tier is that realm's named master. The fee (the campaign owner's formula) is
+// half the materials' cost + 100 × (tier + step ÷ 10) + tier × 10, where the step is the level within its tier (1–10):
+// a level 1 Human smith is 100 × 1.1 + 10 = 120 gp plus half the materials
+const HIRE_TITLE=['Apprentice','Apprentice','Apprentice','Journeyman','Journeyman','Journeyman','Expert','Expert','Expert','Master'];
+function hireOf(L,matCost){L=Math.max(1,Math.min(100,Math.round(+L)||0));if(!L)return null;const t=Math.ceil(L/10),step=L-(t-1)*10,Z=REALMS.filter(z=>(z.tier||1)===t),realm=Z.map(z=>z.n).join(' or ')||'Human',
+  M=step===10?Z.map(z=>SMITHS[z.n]).filter(Boolean):[],title=HIRE_TITLE[step-1],base=Math.round(100*(t+step/10)+t*10);
+  return {lv:L,tier:t,step,g:Math.min(MAX_STAGE,Math.ceil(t/2)),realm,base,fee:Math.round(base+.5*(+matCost||0)),master:!!M.length,
+    n:M.length?M.map(x=>x[0]).join(' or '):`${aAn(title)} ${title.toLowerCase()} smith of the ${realm}`,d:M.length?M[0][1]:`level ${L} for hire`,task:M.length?M[0][3]:''}}
+function smithOf(z){const S=SMITHS[z];if(!S)return null;const t=(REALM[z]||{}).tier||1;return hireOf(t*10)}
 const bpTier=b=>Math.max(1,...(b.mats||[]).map(n=>((REALM[(findMat(n)||{}).realm]||{}).tier||1)));
 const smithCan=(S,b,F)=>!!S&&S.g>=F.g&&S.tier>=bpTier(b);
 // the smith rolls like any forger: half their level, advantage and up to +5 at or above the item's level, −2 a level below
@@ -6929,7 +7187,7 @@ function fcBoardHTML(){const B=fcBoard();return `<section class="sec"><div class
 // the open commissions a forged item would satisfy
 const fcMatch=(base,q,tier)=>FCOMM.filter(x=>!x.done&&x.base===base&&fqRank(q)>=fqRank(x.q)&&tier>=x.tier);
 // the design as a Blueprint for the crafting check (its rarity, materials, profession, and item level)
-function forgeBP(r){return {n:r.name,r:r.rar||'Common',mats:[...new Set(r.parts.filter(p=>p.m&&p.fit.lv!=='wrong').map(p=>p.m.n))],pr:r.prof,sp:r.realmSpec||'',lv:Math.max(1,r.il||1)}}
+function forgeBP(r){return {dcMod:r.dcMod||0,n:r.name,r:r.rar||'Common',mats:[...new Set(r.parts.filter(p=>p.m&&p.fit.lv!=='wrong').map(p=>p.m.n))],pr:r.prof,sp:r.realmSpec||'',lv:Math.max(1,r.il||1)}}
 // ── where materials come from: the party's own inventories, and the artifacts they carry ──
 function invIndex(){const M=new Map(),add=(n,c,q,gear)=>{const k=lc(n);if(!M.has(k))M.set(k,[]);M.get(k).push({c,q,gear})};
   PARTY.forEach(c=>(c.inv||[]).forEach(([n,q])=>{if((+q||0)>0)add(n,c,+q)}));
@@ -6954,7 +7212,7 @@ function forgeCheck(b,c){const k=craftCheck(b,c),lv=+c.profLv||0,gap=lv-b.lv,qb=
   const fb=k.have<k.F.g-1?`It needs a grade ${ROMAN[k.F.g-1]} ${k.F.station} (${k.F.name}); ${k.have?'a grade '+ROMAN[k.have-1]+' one':'working without one'} is too far below.`:'';
   const blocked=lc(c.prof||'')!==lc(b.pr)?`${c.name||'They'} ${c.prof?'work '+c.prof+', not '+b.pr:'have no profession'}: ${b.pr} is needed.`:fb;
   const mode=gap>=0&&!k.dis.length?'adv':gap<0&&k.dis.length?'dis':'';
-  return {dc:k.dc,base:k.bonus,qb,pen,bonus:k.bonus+qb+pen,gap,lv,mode,dis:k.dis,blocked,F:k.F,time:k.time}}
+  return {dc:k.dc+(b.dcMod||0),base:k.bonus,qb,pen,bonus:k.bonus+qb+pen,gap,lv,mode,dis:k.dis,blocked,F:k.F,time:k.time}}
 function forgeQ(d,m,smith){if(d===1&&!smith)return 'ruin';if(d===20||m>=10)return 'Masterwork';if(m>=5)return 'Fine';if(m>=0||smith)return 'Standard';return m>=-3?'Flawed':'fail'}
 function forgeOdds(dc,bonus,mode,smith){const o={Masterwork:0,Fine:0,Standard:0,Flawed:0,fail:0,ruin:0};
   for(let a=1;a<=20;a++)for(let b=1;b<=20;b++){const d=mode==='adv'?Math.max(a,b):mode==='dis'?Math.min(a,b):a;o[forgeQ(d,d+bonus-dc,smith)]+=1/400}return o}
@@ -6999,32 +7257,49 @@ function forgeFx(){const cv=$('fg-fx');if(!cv||!cv.getContext)return;const x=cv.
   const make=fresh=>({x:Math.random()*W,y:fresh?Math.random()*H:H+Math.random()*40*dpr,r:(Math.random()*1.8+.6)*dpr,vy:-(Math.random()*.9+.35)*dpr,vx:(Math.random()-.5)*.35*dpr,life:Math.random()*.5+.5,h:18+Math.random()*28,w:Math.random()*6});
   for(let i=0;i<(still?40:110);i++)P.push(make(true));
   const draw=ts=>{if(!cv.isConnected)return;const r=cv.getBoundingClientRect();if(Math.round(r.width*dpr)!==W||Math.round(r.height*dpr)!==H)size();x.clearRect(0,0,W,H);
-    const g=x.createRadialGradient(W/2,H*1.08,0,W/2,H*1.08,H);g.addColorStop(0,'rgba(255,128,40,.38)');g.addColorStop(.45,'rgba(170,48,12,.14)');g.addColorStop(1,'rgba(0,0,0,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
-    const fl=.5+.5*Math.sin((ts||0)/700);x.fillStyle=`rgba(255,90,20,${.05+.04*fl})`;x.fillRect(0,H*.82,W,H*.18);
-    x.shadowColor='rgba(255,140,40,.9)';x.shadowBlur=8*dpr;
-    P.forEach(p=>{if(!still){p.y+=p.vy;p.x+=p.vx+Math.sin(p.y/(60*dpr)+p.w)*.3*dpr;p.life-=.0016}if(p.y<-10||p.life<=0)Object.assign(p,make(false));
-      x.beginPath();x.fillStyle=`hsla(${p.h},100%,${58+p.r*3}%,${Math.max(0,Math.min(1,p.life))})`;x.arc(p.x,p.y,p.r,0,Math.PI*2);x.fill()});
+    const heaven=document.documentElement.dataset.theme==='light',fl=.5+.5*Math.sin((ts||0)/700);
+    if(heaven){const g=x.createRadialGradient(W/2,-H*.1,0,W/2,-H*.1,H*1.1);g.addColorStop(0,'rgba(255,236,160,.55)');g.addColorStop(.5,'rgba(255,246,210,.18)');g.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
+      x.save();x.globalAlpha=.08+.04*fl;x.fillStyle='#fff3c0';for(let k=0;k<5;k++){const bx=W*(.15+k*.18);x.beginPath();x.moveTo(bx-30*dpr,0);x.lineTo(bx+30*dpr,0);x.lineTo(bx+140*dpr,H);x.lineTo(bx+40*dpr,H);x.closePath();x.fill()}x.restore();
+      x.shadowColor='rgba(255,215,110,.9)';x.shadowBlur=10*dpr}
+    else{const g=x.createRadialGradient(W/2,H*1.08,0,W/2,H*1.08,H);g.addColorStop(0,'rgba(255,90,30,.45)');g.addColorStop(.45,'rgba(150,20,8,.18)');g.addColorStop(1,'rgba(0,0,0,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
+      x.fillStyle=`rgba(220,40,10,${.07+.05*fl})`;x.fillRect(0,H*.82,W,H*.18);x.shadowColor='rgba(255,90,30,.95)';x.shadowBlur=8*dpr}
+    P.forEach(p=>{if(!still){p.y+=p.vy*(heaven?.55:1);p.x+=p.vx+Math.sin(p.y/(60*dpr)+p.w)*(heaven?.6:.3)*dpr;p.life-=.0016}if(p.y<-10||p.life<=0)Object.assign(p,make(false));
+      const a=Math.max(0,Math.min(1,p.life));x.beginPath();x.fillStyle=heaven?`hsla(${44+p.h/6},90%,${70+p.r*4}%,${a*.9})`:`hsla(${p.h-12},100%,${52+p.r*3}%,${a})`;x.arc(p.x,p.y,p.r*(heaven?1.2:1),0,Math.PI*2);x.fill()});
     x.shadowBlur=0;if(!still)requestAnimationFrame(draw)};requestAnimationFrame(draw)}
 // ── the forge panel before the item exists: the estimate, the powers to keep, and the hammer ──
 let FF={who:'',smith:'',strikes:0,res:null,made:''};
-function forgeEstimateHTML(r,ready,formGap){const M=invIndex(),b=forgeBP(r),F=forgeReq(b),c=PARTY.find(x=>x.id===FF.who)||null,sm=FF.smith&&smithOf(FF.smith),smOk=smithCan(sm,b,F),need=forgeNeeds(r,M),short=need.filter(x=>x.have<x.q);
-  const chk=c&&!sm?forgeCheck(b,c):null,odds=sm?forgeOdds(craftCheck(b,c||{}).dc,smithCheck(sm,b).bonus,smithCheck(sm,b).mode,true):chk&&!chk.blocked?forgeOdds(chk.dc,chk.bonus,chk.mode):null;
+const forgeDMok=()=>['dm','both'].includes(role());
+const forgeDM=()=>!!FORGE.dm&&forgeDMok();
+const forgeSmithOk=()=>{if(FF.smith&&!(+FF.smith>=1))FF.smith=''};
+function forgeDMHTML(r,ready){const c=PARTY.find(x=>x.id===FF.who)||null,{A,p}=forgePick(r);
+  return `<div class="fg-est"><div class="blk"><h4>🎲 The DM's forge</h4></div>
+    ${kv([['Item level',`<b>${r.il||'?'}</b>${r.rar?' · '+rarB(r.rar):''}`],['Forge it would need',esc(forgeText(forgeReq(forgeBP(r))))]])}
+    ${A.length?`<div class="blk" style="margin-top:10px"><h4>✧ Powers to keep (${p.length} of ${FORGE_MAX_POW})</h4></div><div class="fg-pows">${A.map(x=>`<label class="fg-pow${p.includes(x.id)?' on':''}"><input type="checkbox" ${p.includes(x.id)?'checked':''} onchange="forgePickToggle(${esc(JSON.stringify(x.id))})"> <span><b>${x.k==='p'?'✧':'◆'} ${esc(x.n)}</b>${x.k==='p'?` <span class="b ghost">Potency ${x.pot}</span>`:''}</span></label>`).join('')}</div>`:''}
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px">${PARTY.length?`<label class="note" style="margin:0">Give it to <select class="sel" id="ff-who"><option value="">Choose…</option>${PARTY.map(x=>`<option value="${x.id}"${x.id===FF.who?' selected':''}>${esc(x.name||'Unnamed')}</option>`).join('')}</select></label>`:'<span class="note" style="margin:0">Add a character on the Party page first.</span>'}
+      <label class="note" style="margin:0">Quality <select class="sel" id="ff-dmq">${FQ.map(q=>`<option${(FF.dmq||'Standard')===q[0]?' selected':''}>${q[0]}</option>`).join('')}</select></label>
+      <label class="note" style="margin:0;display:flex;gap:4px;align-items:center"><input type="checkbox" id="ff-dmquirk" ${FF.dmQuirk?'checked':''}> roll a quirk</label></div>
+    <div class="fg-anvilrow"><div class="fg-anvil" aria-hidden="true">⚒</div><div><button class="btn primary" ${ready&&c?'':'disabled'} onclick="forgeDMMake()">✨ Make it</button><div class="note" style="margin:4px 0 0">${!ready?'Fill every required part first.':!c?'Choose who gets it.':'No roll and no materials used: the DM\'s word is enough.'}</div></div></div></div>`}
+function forgeDMMake(){const r=forgeResult(),c=PARTY.find(x=>x.id===FF.who);if(!c||!forgeDM())return;FF.dmq=($('ff-dmq')||{}).value||'Standard';FF.dmQuirk=!!($('ff-dmquirk')||{}).checked;
+  [1,2,3].forEach((n,i)=>setTimeout(()=>{forgeSound(forgeKind(r),n);forgeSpark()},i*260));
+  setTimeout(()=>forgeMake(r,c,FF.dmq,FF.dmQuirk?fqQuirk():{d:0,n:'',t:''},'Made by the DM.',null,invIndex(),true),820)}
+function forgeEstimateHTML(r,ready,formGap){forgeSmithOk();if(forgeDM())return forgeDMHTML(r,ready);const M=invIndex(),b=forgeBP(r),F=forgeReq(b),c=PARTY.find(x=>x.id===FF.who)||null,sm=FF.smith&&hireOf(FF.smith,r.cost),smOk=smithCan(sm,b,F),need=forgeNeeds(r,M),short=need.filter(x=>x.have<x.q);
+  const chk=c&&!sm?forgeCheck(b,c):null,odds=sm?forgeOdds(craftCheck(b,c||{}).dc+(b.dcMod||0),smithCheck(sm,b).bonus,smithCheck(sm,b).mode,true):chk&&!chk.blocked?forgeOdds(chk.dc,chk.bonus,chk.mode):null;
   const {A,p}=forgePick(r),cb=pickedCombos(A,p);
   const can=ready&&!short.length&&c&&(sm?smOk:!chk.blocked);
   const why=!ready?(formGap.length?'Add the missing materials for form '+formGap.map(x=>x.i+2).join(', '):'Fill every required part first'):short.length?'The party is missing some materials':!c?'Choose who forges it':sm&&!smOk?'That smith can\'t work a forge this grade':chk&&chk.blocked?chk.blocked:'';
   return `<div class="fg-est">
     <div class="blk"><h4>📜 Before the forge</h4></div>
-    ${kv([['Estimated item level',`<b>${r.il||'?'}</b>${r.rar?' · '+rarB(r.rar):''}`],['Forge needed',esc(forgeText(F))],['Profession',esc(r.prof)+(r.realmSpec?` <small>(${esc(r.realmSpec)})</small>`:'')]])}
+    ${kv([['Estimated item level',`<b>${r.il||'?'}</b>${r.rar?' · '+rarB(r.rar):''}`],['Forge needed',esc(forgeText(F))],['Profession',esc(r.prof)+(r.realmSpec?` <small>(${esc(r.realmSpec)})</small>`:'')],r.dcMod?['Prepared materials',`DC ${r.dcMod}`]:null])}
     <div class="note" style="margin:6px 0 0">The full description, damage, and effects appear once it is forged.${FORGE.lore?' ✨ Groq has written its story; you will read it then.':''}</div>
     <div class="blk" style="margin-top:10px"><h4>🧺 Materials from the party</h4></div>
     ${need.length?`<ul style="margin:0 0 0 18px;font-size:.88rem">${need.map(x=>`<li>${esc(x.n)} ×${x.q} <span style="color:var(--${x.have>=x.q?'green':'red'})">${x.have>=x.q?'✓':'✕'} ${x.have?'held by '+esc(holdersText(M,x.n)):'nobody has it'}</span></li>`).join('')}</ul>`:'<div class="note" style="margin:0">No materials chosen yet.</div>'}
     ${A.length?`<div class="blk" style="margin-top:10px"><h4>✧ Powers to keep (${p.length} of ${FORGE_MAX_POW})</h4></div><div class="note" style="margin:0 0 4px">An item holds up to ${FORGE_MAX_POW} powers. The same property from two parts merges into a stronger one: Potency 1 + 1 = 2, 2 + 2 = 3.</div>
       <div class="fg-pows">${A.map(x=>`<label class="fg-pow${p.includes(x.id)?' on':''}"><input type="checkbox" ${p.includes(x.id)?'checked':''} onchange="forgePickToggle(${esc(JSON.stringify(x.id))})"> <span><b>${x.k==='p'?'✧':'◆'} ${esc(x.n)}</b>${x.k==='p'?` <span class="b ghost">Potency ${x.pot}</span>${x.pots.length>1?` <small style="color:var(--gold2)">merged from ${x.pots.join(' + ')}</small>`:''}`:' <small>trait</small>'}</span></label>`).join('')}</div>
-      ${cb.length?`<div class="note" style="margin:4px 0 0">✦ These powers together unlock a combo: <b>${cb.map(x=>esc(x[2])).join(', ')}</b>.</div>`:''}`:''}
+      ${cb.length?`<div class="note" style="margin:4px 0 0">✦ ${cb.every(x=>COMBOS_FOUND.includes(x[2]))?`These powers together unlock <b>${cb.map(x=>esc(x[2])).join(', ')}</b>.`:'Something stirs between these powers… forge it to find out.'}</div>`:''}`:''}
     <div class="blk" style="margin-top:10px"><h4>🔥 At the anvil</h4></div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">${PARTY.length?`<label class="note" style="margin:0">Forger <select class="sel" id="ff-who"><option value="">Choose…</option>${PARTY.map(x=>`<option value="${x.id}"${x.id===FF.who?' selected':''}>${esc(x.name||'Unnamed')}${x.prof?' ('+esc(x.prof)+' '+(+x.profLv||0)+')':''}</option>`).join('')}</select></label>`:'<span class="note" style="margin:0">Add a character on the Party page first.</span>'}
-      <label class="note" style="margin:0">or hire <select class="sel" id="ff-smith"><option value="">no one</option>${REALMS.filter(z=>SMITHS[z.n]).map(z=>{const S=smithOf(z.n);return `<option value="${esc(z.n)}"${FF.smith===z.n?' selected':''}${smithCan(S,b,F)?'':' disabled'}>${esc(S.n)} (${esc(z.n)}, level ${S.lv}, grade ${ROMAN[S.g-1]})</option>`}).join('')}</select></label></div>
-    ${sm?`<div class="note" style="margin:6px 0 0"><b>${esc(sm.n)}</b>, ${esc(sm.d)} (Blacksmithing level ${sm.lv}), forges it for <b>${sm.fee} gp</b> (from ${c?esc(c.name||'the forger'):'the character you choose'}), or for a task: <i>${esc(sm.task)}</i>. A master smith never ruins materials or makes a Flawed item.</div>`
+      <label class="note" style="margin:0">or hire <select class="sel" id="ff-smith" style="max-width:330px"><option value="">no one</option>${Array.from({length:100},(_,k)=>hireOf(k+1,r.cost)).map(S=>`<option value="${S.lv}"${+FF.smith===S.lv?' selected':''}${smithCan(S,b,F)?'':' disabled'}>Level ${S.lv} · ${esc(S.master?S.n:HIRE_TITLE[S.step-1])} · ${esc(S.realm)} · ${fmt(S.fee)} gp</option>`).join('')}</select></label></div>
+    ${sm?`<div class="note" style="margin:6px 0 0"><b>${esc(sm.n)}</b>, ${esc(sm.d)} (level ${sm.lv}, grade ${ROMAN[sm.g-1]} forge, materials up to the ${esc(sm.realm)}), forges it for <b>${fmt(sm.fee)} gp</b>: ${fmt(sm.base)} for the work plus half the materials' cost (${fmt(r.cost||0)} gp). It comes from ${c?esc(c.name||'the forger'):'the character you choose'}${sm.task?`, or a task instead: <i>${esc(sm.task)}</i>`:''}. A hired smith never ruins your materials or makes a Flawed item.</div>`
       :chk?`<div class="note" style="margin:6px 0 0">${chk.blocked?`<span style="color:var(--red)"><b>Can't forge:</b> ${esc(chk.blocked)}</span>`:`${esc(c.name||'They')}: ${esc(b.pr)} level <b>${chk.lv}</b> against item level <b>${b.lv}</b>. ${chk.gap>=0?`At or above it: <b>advantage</b>${chk.qb?` and +${chk.qb} for the ${chk.gap} levels to spare`:''}.`:`<b>${-chk.gap} level${chk.gap===-1?'':'s'} short:</b> ${chk.pen} to the roll.`}${chk.dis.length?` Disadvantage: ${esc(chk.dis.join('; '))}.`:''} Roll d20 ${chk.bonus>=0?'+':'−'} ${Math.abs(chk.bonus)} vs <b>DC ${chk.dc}</b>. Time: ${esc(chk.time)}.`}</div>`:''}
     ${odds?`<div style="margin-top:6px">${oddsHTML(odds)}</div>`:''}
     <label class="note" style="display:flex;gap:6px;align-items:center;margin:8px 0 0"><input type="checkbox" ${FORGE.share?'checked':''} onchange="FORGE.share=this.checked;store.set('forge',FORGE)"> Share this Blueprint in the Workshop, where other players can see it ${CL.on&&CL.user?'':'<small>(sign in to save Blueprints to the Workshop)</small>'}</label>
@@ -7036,8 +7311,8 @@ function forgeEstimateHTML(r,ready,formGap){const M=invIndex(),b=forgeBP(r),F=fo
   </div>`}
 function forgeStrike(){const r=forgeResult(),c=PARTY.find(x=>x.id===FF.who);if(!c)return;FF.res=null;FF.strikes=(FF.strikes||0)+1;forgeSound(forgeKind(r),FF.strikes);
   if(FF.strikes<3){forgeOut();forgeSpark();return}FF.strikes=0;forgeSpark();setTimeout(()=>forgeResolve(r,c),350)}
-function forgeResolve(r,c){const b=forgeBP(r),sm=FF.smith&&smithOf(FF.smith),M=invIndex();let d,a1,a2,tot,dc,mode,bonus,who;
-  if(sm){const k=craftCheck(b,c),sc=smithCheck(sm,b);if(!smithCan(sm,b,forgeReq(b))){toast(sm.n+' can\'t work these materials');return}dc=k.dc;bonus=sc.bonus;mode=sc.mode;who=sm.n}else{const k=forgeCheck(b,c);if(k.blocked){toast("Can't forge: "+k.blocked);return}dc=k.dc;bonus=k.bonus;mode=k.mode;who=c.name||'The forger'}
+function forgeResolve(r,c){const b=forgeBP(r),sm=FF.smith&&hireOf(FF.smith,r.cost),M=invIndex();let d,a1,a2,tot,dc,mode,bonus,who;
+  if(sm){const k=craftCheck(b,c),sc=smithCheck(sm,b);if(!smithCan(sm,b,forgeReq(b))){toast(sm.n+' can\'t work these materials');return}dc=k.dc+(b.dcMod||0);bonus=sc.bonus;mode=sc.mode;who=sm.n}else{const k=forgeCheck(b,c);if(k.blocked){toast("Can't forge: "+k.blocked);return}dc=k.dc;bonus=k.bonus;mode=k.mode;who=c.name||'The forger'}
   a1=1+Math.floor(Math.random()*20);a2=1+Math.floor(Math.random()*20);d=mode==='adv'?Math.max(a1,a2):mode==='dis'?Math.min(a1,a2):a1;tot=d+bonus;const q=forgeQ(d,tot-dc,!!sm);
   const line=`${esc(who)} rolls <b>${d}${mode?` <small>(${a1}, ${a2}, ${mode==='adv'?'advantage':'disadvantage'})</small>`:''} ${bonus>=0?'+':'−'} ${Math.abs(bonus)} = ${tot}</b> vs DC ${dc}.`;
   if(q==='ruin'){const ms=forgeNeeds(r,M).filter(x=>x.have>0),lost=ms.length?ms[Math.floor(Math.random()*ms.length)].n:'';if(lost){invTake(M,lost,1,c);saveParty()}
@@ -7045,12 +7320,12 @@ function forgeResolve(r,c){const b=forgeBP(r),sm=FF.smith&&smithOf(FF.smith),M=i
   if(q==='fail'){forgeSound('fail');FF.res={bad:1,html:`${line} <b>It doesn't take.</b> Nothing is lost: strike again.`};forgeOut();return}
   forgeMake(r,c,q,fqQuirk(),line,sm,M)}
 // the item is made: the materials are used, its record is written, and it goes on the forger's gear
-function forgeMake(r,c,q,qk,line,sm,M){forgeNeeds(r,M).forEach(x=>invTake(M,x.n,x.q,c));
+function forgeMake(r,c,q,qk,line,sm,M,dm){if(!dm)forgeNeeds(r,M).forEach(x=>invTake(M,x.n,x.q,c));
   if(sm){c.coins=c.coins||{};const fee=sm.fee;if((+c.coins.gp||0)>=fee)c.coins.gp=(+c.coins.gp||0)-fee}
   const d=designFromForge(),prim=r.parts.find(p=>p.s.role==='primary'),{A,p}=forgePick(r),keep=A.filter(x=>p.includes(x.id));let n=d.n,i=2;while(findBP(n))n=d.n+' ('+(i++)+')';d.n=n;
   d.powers=keep.map(x=>({k:x.k,n:x.n,pot:x.pot||0,t:x.t,from:x.from}));d.prop=keep.filter(x=>x.k==='p').map(x=>`${x.n} (Potency ${x.pot})`).join(', ');d.combos=pickedCombos(A,p).map(x=>x[2]);combosNote(pickedCombos(A,p));
   const Q=fqOf(q);fBump(d,{atk:Q[2],dmg:Q[3]});if(qk.fx&&qk.fx.dmg)fBump(d,{dmg:qk.fx.dmg});
-  d.forged={q,by:sm?sm.n:(c.name||''),on:new Date().toISOString().slice(0,10),line,quirk:qk.n?{n:qk.n,t:qk.t,god:qk.god||''}:null,
+  d.forged={q,by:dm?'the DM':sm?sm.n:(c.name||''),on:new Date().toISOString().slice(0,10),line,quirk:qk.n?{n:qk.n,t:qk.t,god:qk.god||''}:null,
     sockets:Math.min(4,sockBase(prim&&prim.m)+(q==='Masterwork'?1:0)+(qk.fx&&qk.fx.sock?1:0)),runes:[],marks:0,log:[],flawed:q==='Flawed'};
   d.owner=CL.on&&CL.user?CL.user.id:'';d.maker=c.name||'';d.shared=!!FORGE.share;
   d.sort=designSortRules(d);DESIGNS.push(d);store.set('designs',DESIGNS);designPlace();c.gear=(c.gear||[]).concat(d.n);saveParty();
@@ -7135,11 +7410,22 @@ function wsEquip(id){const w=(WS.rows||[]).find(x=>x.id===id);if(!w)return;const
   else{n=w.name+' (by '+(w.maker||'someone')+')';if(!DESIGNS.some(x=>x.n===n)){DESIGNS.push({n,base:w.base,cat:(w.data||{}).cat||'Item',foreign:{by:w.maker||'someone',owner:w.owner}});store.set('designs',DESIGNS);designPlace()}}
   c.gear=(c.gear||[]).concat(n);saveParty();toast(wsMine(w)?n+' equipped on '+(c.name||'character'):n+' equipped on '+(c.name||'character')+', but it is not theirs: it is an invalid item')}
 function isForeign(b){return !!(b&&b.design&&b.design.foreign)}
+// ── the Smelter: one of each component metal from the party's packs makes one of the alloy ──
+let SMELT={who:'',all:false};
+function smeltHTML(){const A=MATS.filter(m=>m.alloy&&Array.isArray(m.recipe)),M=invIndex(),c=PARTY.find(x=>x.id===SMELT.who)||null,dm=forgeDM();
+  const rows=A.map(m=>({m,parts:m.recipe.map(n=>({n,have:invHas(M,n)}))})).filter(x=>SMELT.all||x.parts.some(p=>p.have)).sort((a,b)=>(a.m.tier-b.m.tier)||(a.m.g-b.m.g)||byName(a.m,b.m));
+  const smith=c&&(lc(c.prof||'')==='blacksmithing'||dm);
+  return `<section class="sec"><div class="sec-h"><h3>🔥 The Smelter: alloys</h3><p>Melt metals together into an alloy: one of each component from the party's packs makes one of the alloy, in the smelter's pack. It takes a smith (Blacksmithing) and an afternoon at the furnace. ${A.length} alloys are known, from pewter and bronze to star-metal.</p></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:8px">${PARTY.length?`<label class="note" style="margin:0">Smelter <select class="sel" onchange="SMELT.who=this.value;renderForge()"><option value="">Choose…</option>${PARTY.map(x=>`<option value="${x.id}"${x.id===SMELT.who?' selected':''}>${esc(x.name||'Unnamed')}${x.prof?' ('+esc(x.prof)+')':''}</option>`).join('')}</select></label>`:''}
+      <label class="note" style="margin:0;display:flex;gap:4px;align-items:center"><input type="checkbox" ${SMELT.all?'checked':''} onchange="SMELT.all=this.checked;renderForge()"> Show every alloy, not only ones the party has a metal for</label>${c&&!smith?'<span class="note" style="margin:0;color:var(--red)">Only a Blacksmith can smelt.</span>':''}</div>
+    ${rows.length?`<div class="tablewrap"><table class="t"><thead><tr><th>Alloy</th><th>Realm</th><th>Made from</th><th></th></tr></thead><tbody>${rows.map(({m,parts})=>{const ok=parts.every(p=>p.have>0);return `<tr><td>${refChip(m)}${m.pn?` <small style="color:var(--muted)">✧ ${esc(m.pn)}</small>`:''}</td><td>${esc(m.gr||'')}</td><td>${parts.map(p=>`<span style="color:var(--${p.have?'green':'muted'})">${esc(p.n)}${p.have?' ✓':''}</span>`).join(' + ')}</td><td>${ok&&smith?`<button class="btn" onclick="smelt(${esc(JSON.stringify(m.n))})">Smelt</button>`:''}</td></tr>`}).join('')}</tbody></table></div>`:'<div class="note">No one in the party carries a metal for any alloy yet. Tick “Show every alloy” to see the recipes.</div>'}</section>`}
+function smelt(n){const m=findMat(n),c=PARTY.find(x=>x.id===SMELT.who);if(!m||!c)return;const M=invIndex();if(m.recipe.some(x=>invHas(M,x)<1)){toast('Missing a metal');return}
+  m.recipe.forEach(x=>invTake(M,x,1,c));invAdd(c,m.n,1,true,true);saveParty();forgeSound('metal',1);setTimeout(()=>forgeSound('metal',2),180);toast(`Smelted 1 ${m.n} into ${c.name||'their'} pack`);renderForge()}
 // the Forge page's own sections: combos found, the master smiths, and the commission board
-function forgeExtrasHTML(){return `<section class="sec"><div class="sec-h"><h3>✦ Material combos</h3><p>Two properties in one item can unlock something neither has alone (at full Potency, so not from an extra part or a poor fit). Found ${COMBOS_FOUND.length} of ${FCOMBOS.length}.</p></div>
-    <div class="mlist">${FCOMBOS.map(([a,b,n,t])=>COMBOS_FOUND.includes(n)?`<div style="padding:6px 10px;border:1px solid var(--gold);border-radius:8px"><b>✦ ${esc(n)}</b> <small>${esc(a)} + ${esc(b)}</small><div style="font-size:.82rem">${esc(t)}</div></div>`:`<div style="padding:6px 10px;border:1px dashed var(--line);border-radius:8px;color:var(--muted)"><b>???</b> <small>${esc(a)} + ???</small></div>`).join('')}</div></section>
-  <section class="sec"><div class="sec-h"><h3>⚒ Master smiths</h3><p>One famous smith in every realm, as strong as their realm: level 10 for each tier (Human 10, Primordial 100), a forge grade to match, and materials no deeper than their own realm. They roll like any forger, half their level plus advantage at or above the item's level, and never ruin materials or make a Flawed item. Hire one at the anvil.</p></div>
-    <div class="tablewrap"><table class="t"><thead><tr><th>Realm</th><th>Smith</th><th class="num">Level</th><th>Forge grade</th><th>Works materials up to</th><th class="num">Fee</th><th>Or a task</th></tr></thead><tbody>${REALMS.filter(z=>SMITHS[z.n]).map(z=>{const S=smithOf(z.n);return `<tr><td>${esc(z.n)}</td><td><b>${esc(S.n)}</b><br><small style="color:var(--muted)">${esc(S.d)}</small></td><td class="num">${S.lv}</td><td>${ROMAN[S.g-1]}</td><td>${esc(z.n)} (tier ${S.tier})</td><td class="num">${fmt(S.fee)} gp</td><td>${esc(S.task)}</td></tr>`}).join('')}</tbody></table></div></section>
+function forgeExtrasHTML(){return smeltHTML()+`<section class="sec"><div class="sec-h"><h3>✦ Material combos</h3><p>Two properties in one item can unlock something neither has alone (at full Potency, so not from an extra part or a poor fit). Found ${COMBOS_FOUND.length} of ${FCOMBOS.length}.</p></div>
+    <div class="mlist">${FCOMBOS.filter(x=>COMBOS_FOUND.includes(x[2])).map(([a,b,n,t])=>`<div style="padding:6px 10px;border:1px solid var(--gold);border-radius:8px"><b>✦ ${esc(n)}</b> <small>${esc(a)} + ${esc(b)}</small><div style="font-size:.82rem">${esc(t)}</div></div>`).join('')}${FCOMBOS.length>COMBOS_FOUND.length?`<div style="padding:6px 10px;border:1px dashed var(--line);border-radius:8px;color:var(--muted)"><b>??? + ???</b> <small>${FCOMBOS.length-COMBOS_FOUND.filter(n=>FCOMBOS.some(x=>x[2]===n)).length} combos still hidden. Try two properties together and forge.</small></div>`:''}</div></section>
+  <section class="sec"><div class="sec-h"><h3>⚒ Master smiths</h3><p>Any smith from level 1 to 100 can be hired at the anvil. Every ten levels is one realm (1–10 Human, 11–20 Mysterious, and so on to 91–100 Primordial), and the tenth level of each is that realm's famous master. A hired smith works a forge grade and materials up to their realm, rolls like any forger (half their level, advantage at or above the item's level), and never ruins materials or makes a Flawed item. The fee is half the materials' cost + 100 × (tier + step ÷ 10) + tier × 10, where the step is the level within its realm: a level 1 Human smith costs 120 gp plus half the materials.</p></div>
+    <div class="tablewrap"><table class="t"><thead><tr><th>Realm</th><th>Master</th><th class="num">Level</th><th>Forge grade</th><th class="num">Fee</th><th>Or a task</th></tr></thead><tbody>${REALMS.filter(z=>SMITHS[z.n]).map(z=>{const S=smithOf(z.n),M=SMITHS[z.n];return `<tr><td>${esc(z.n)}</td><td><b>${esc(M[0])}</b><br><small style="color:var(--muted)">${esc(M[1])}</small></td><td class="num">${S.lv}</td><td>${ROMAN[S.g-1]}</td><td class="num">${fmt(S.base)} gp + half the materials</td><td>${esc(M[3])}</td></tr>`}).join('')}</tbody></table></div></section>
   ${fcBoardHTML()}`}
 function forgeOut(){const el=$('fg-out');if(!el)return;const made=FF.made&&DESIGNS.find(d=>d.n===FF.made);
   if(made){el.innerHTML=forgedCardHTML(made);return}
@@ -7155,6 +7441,7 @@ function forgeOut(){const el=$('fg-out');if(!el)return;const made=FF.made&&DESIG
   $('fg-name').onchange=e=>{FORGE.name=e.target.value.trim();saveForge()};
   if($('ff-who'))$('ff-who').onchange=e=>{FF.who=e.target.value;FF.res=null;FF.strikes=0;forgeOut()};
   if($('ff-smith'))$('ff-smith').onchange=e=>{FF.smith=e.target.value;FF.res=null;FF.strikes=0;forgeOut()};
+  if($('ff-dmq'))$('ff-dmq').onchange=e=>{FF.dmq=e.target.value};if($('ff-dmquirk'))$('ff-dmquirk').onchange=e=>{FF.dmQuirk=e.target.checked};
 }
 // ════════════════════════════════════════════════════════════════
 //  Forge with Groq: the player describes a weapon and adds materials; Groq picks the design, places each
@@ -7256,7 +7543,7 @@ function mcList(inp){const o=MC_OPTS[inp.dataset.mc]||{opts:MATS},q=lc(inp.value
 function mcBind(root,onPick){root.querySelectorAll('input[data-mc]').forEach(inp=>{const box=inp.nextElementSibling,key=inp.dataset.mc,o=()=>MC_OPTS[key]||{opts:MATS};let start=inp.value;
   const close=()=>{box.hidden=true;inp.setAttribute('aria-expanded','false')};
   const pick=v=>{close();if(v&&v[0]==='@'){const b=BP_IDX.get(lc(v.slice(1)));v=b?artPick(b):''}inp.value=v;start=v;onPick(key,v)};
-  const commit=()=>{const t=inp.value.trim();if(t===start)return;if(!t){pick('');return}const v=mcCorrect(t,o());if(!v){toast('No material like “'+t+'” '+(o().inv?'in the party\'s packs':'in the vault'));inp.value=start;return}if(lc(v)!==lc(t))toast('Corrected to '+(v.startsWith('Artifact: ')?v.replace(/^Artifact: /,'the artifact '):v));pick(v)};
+  const commit=()=>{const t=inp.value.trim();if(t===start)return;if(!t){pick('');return}if(o().any&&o().slot&&t[0]==='!'){pick('Anything: '+t.slice(1).trim().slice(0,60)+' ['+o().slot.ok[0]+']');return}const v=mcCorrect(t,o());if(!v&&o().any&&o().slot){pick('Anything: '+t.slice(0,60)+' ['+o().slot.ok[0]+']');return}if(!v){toast('No material like “'+t+'” '+(o().inv?'in the party\'s packs':'in the vault'));inp.value=start;return}if(lc(v)!==lc(t))toast('Corrected to '+(v.startsWith('Artifact: ')?v.replace(/^Artifact: /,'the artifact '):v));pick(v)};
   inp.addEventListener('focus',()=>{start=inp.value;mcList(inp)});inp.addEventListener('input',()=>mcList(inp));
   inp.addEventListener('blur',()=>setTimeout(()=>{if(document.activeElement!==inp){close();commit()}},120));
   inp.addEventListener('keydown',e=>{const opts=[...box.querySelectorAll('.mc-opt')],i=opts.findIndex(x=>x.classList.contains('on'));
@@ -7308,7 +7595,7 @@ async function groqForge(){
 function designFromForge(){
   const r=forgeResult();
   return {lore:FORGE.lore||'',want:FORGE.want||'',n:FORGE.name||r.name,base:FORGE.base,parts:Object.assign({},FORGE.parts),ac:r.ac!=null?r.ac:null,dmg:r.damage?r.damage+' '+r.dtype:'',atk:r.attack!=null?r.attack:null,vers:r.vers||'',props:r.B.props||'',cat:r.B.cat,slot:r.B.slot||r.B.kind||'',mats:[...new Set(r.parts.filter(p=>p.m&&p.fit.lv!=='wrong').map(p=>p.m.n).concat(r.forms?everResults(r.forms).filter(Boolean).flatMap(x=>x.added.map(m=>m.n)):[]))],pr:r.prof,il:r.il,r:r.rar||'Common',gr:((r.parts.find(p=>p.s.role==='primary')||{}).m||{}).gr||'',prop:[...new Set(r.props.map(p=>p.m.pn).filter(Boolean))].concat(r.forms?[`Everchanging (${r.forms} forms)`]:[]).join(', '),
-    combos:forgeCombos(r).map(x=>x[2]),forms:r.forms?[{n:FORGE.base,dmg:(r.damage||'')+' '+(r.dtype||''),atk:r.attack,props:r.B.props||''}].concat(everResults(r.forms).filter(x=>x&&!x.missing.length).map(x=>({n:x.e.base,dmg:(x.r.damage||'')+' '+(x.r.dtype||''),atk:x.r.attack,props:x.e.G.props||'',parts:Object.assign({},x.e.own)}))):null,formMax:r.forms||0};
+    proc:Object.assign({},FORGE.proc||{}),combos:forgeCombos(r).map(x=>x[2]),forms:r.forms?[{n:FORGE.base,dmg:(r.damage||'')+' '+(r.dtype||''),atk:r.attack,props:r.B.props||''}].concat(everResults(r.forms).filter(x=>x&&!x.missing.length).map(x=>({n:x.e.base,dmg:(x.r.damage||'')+' '+(x.r.dtype||''),atk:x.r.attack,props:x.e.G.props||'',parts:Object.assign({},x.e.own)}))):null,formMax:r.forms||0};
 }
 const vaultBP=n=>{const b=BP_IDX.get(lc(n||''));return b&&!b.design?b:null};
 function saveDesign(){const d=designFromForge();if(vaultBP(d.n)){toast('“'+d.n+'” is already a Blueprint in the vault: give your design another name');return null}d.sort=designSortRules(d);const i=DESIGNS.findIndex(x=>x.n===d.n);if(i>=0)DESIGNS[i]=d;else DESIGNS.push(d);store.set('designs',DESIGNS);designPlace();toast('Saved '+d.n+': filed under '+d.sort.pr+(d.sort.sp?' → '+d.sort.sp:''));renderForge();designAISort(d);return d}
