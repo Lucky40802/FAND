@@ -349,3 +349,5 @@ create policy "own delete" on public.blueprints for delete to authenticated usin
 revoke all on public.blueprints from anon;
 grant select on public.blueprints to anon;
 grant select, insert, update, delete on public.blueprints to authenticated;
+-- make the site's API see new tables (the Workshop's `blueprints`) right away
+notify pgrst, 'reload schema';
