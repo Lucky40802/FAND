@@ -924,7 +924,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"demons",v:"b52fdbc563",b:"487d3db8"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"demons",v:"b52fdbc563",b:"115ce0d8"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=b52fdbc563",11094090],["data/vault.js?v=b52fdbc563",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -1190,7 +1190,11 @@ const MON_IDX=new Map();MONSTERS.forEach(m=>MON_IDX.set(lc(m.n),m));
 const godKey=g=>g.n.split(' - ')[0].trim();
 const godTitle=g=>{const p=g.n.split(' - ');return p.slice(1).join(' - ')};
 const GOD_IDX=new Map();GODS.forEach(g=>GOD_IDX.set(lc(godKey(g)),g));
-const findMat=n=>MAT_IDX.get(lc(n))||(/^Artifact: /.test(n||'')?artMat(n):undefined);
+const findMat=n=>MAT_IDX.get(lc(n))||(/^Artifact: /.test(n||'')?artMat(n):/^Anything: /.test(n||'')?anyMat(n):undefined);
+// the DM can make an item out of anything: "Anything: <what> [<kind code>]" counts as that kind of material, a good fit
+// for the part it was put in, at the level the DM sets (no property or trait unless the DM writes one in)
+function anyMat(name){const x=/^Anything: (.+) \[([A-Z])\]$/.exec(name||'');if(!x)return undefined;const lv=Math.max(1,Math.min(50,+((typeof FORGE!=='undefined'&&FORGE.dmLv)||1)));
+  return {n:name,label:x[1],realm:'Human',gr:'Human 1',tc:x[2],ty:CAT_NAME[x[2]]||'',tier:1,g:1,rank:lv*2,il:lv,rar:'Common',price:0,any:1,ds:'Made from '+x[1]+', by the DM\'s word.'}}
 let _bpByMat=null;
 function bpByMat(){if(!_bpByMat){_bpByMat=new Map();BPS.forEach(b=>b.mats.forEach(m=>{const k=lc(m);if(!_bpByMat.has(k))_bpByMat.set(k,[]);_bpByMat.get(k).push(b)}))}return _bpByMat}
 let _monByMat=null;
@@ -2626,6 +2630,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-25','Forge: hire any smith, Hell and Heaven, the DM\'s forge','At the anvil you can hire a smith of any level from 1 to 100 (each ten levels is a realm, the tenth its named master); the fee is half the materials\' cost + 100 × (tier + step ÷ 10) + tier × 10. The Forge is the Hell Forge in dark mode and the Heaven Forge in light mode. A DM (site role DM or Both) can switch on the DM\'s forge: any vault material in any part, or anything at all typed in (it counts as a good fit at the level the DM sets), then give the item to a character with no roll and no materials used. New material properties from fantasy tales, fifteen creature trait families, seven folk-tale herbs, and more hidden combos.'],
   ['2026-10-25','More hidden combos','Many more material combos are waiting at the Forge, and every undiscovered one stays hidden: the Forge page shows only how many are left. Before forging, a pairing that unlocks an unfound combo only hints that something stirs.'],
   ['2026-10-25','The Forge, rebuilt','The Forge now looks like one, embers and all. Materials come only from your party\'s packs (or artifacts they carry), and before forging you see only the estimate: item level, the forge it needs, the materials and who holds them, and the odds. The forger\'s level matters: at or above the item\'s level they roll with advantage (and better with levels to spare); below it, −2 a level. Strike the anvil three times (each strike sounds like what you are making), and only then is the item revealed in full. An item keeps up to three powers you choose, and the same property from two parts merges (Potency 1 + 1 = 2, 2 + 2 = 3). Evolving items are a god\'s gift, recorded on the sheet: Stable ones gain 3 Potency per level; Unstable ones feed on three of a material for its trait (15 stored, 5 active). Forged Blueprints go to the new Workshop in the FAND database, shared if you choose; someone else\'s Blueprint equips as an invalid item. Master smiths now scale with their realm: level 10 per tier, a forge grade to match, materials up to their own realm, and a fee that doubles each tier.'],
   ['2026-10-24','Big corpses are easier to scavenge again','Each new try on a corpse used to add 5 to the Scavenging DC whatever its size. A big body has places nobody has worked yet, so its DC now climbs more slowly: Tiny and Small +5 per try, Medium +4, Large +3, Huge +2, Gargantuan +1. The Bestiary and the scavenging panel (combat tracker and Tools page) show the step for each corpse.'],
@@ -6614,7 +6619,8 @@ function realmBase(rn){const r=REALM[rn]||REALMS[0];if(r.base)return r.base;cons
 const acTaken=(d,ac)=>Math.max(0,d-Math.max(0,ac||0));
 const armorAC=(units,code,il)=>Math.max(1,Math.round(units*(code==='O'?1:/[BSG]/.test(code||'')?.7:.4)*(1+((il||1)-1)/20)));
 const matCode=m=>m.tc||({'Ore / Metal':'O','Metal':'O','Wood / Plant':'W','Wood':'W','Crystal / Gem':'G','Gemstone & Crystal':'G','Stone':'S','Hide / Cloth / Fiber':'F','Bone / Fang / Horn / Scale':'B','Blood / Organ':'L','Essence / Soul / Core':'E','Mechanism':'K','Supply':'U'})[m.ty||m.cat]||'?';
-function slotFit(slot,m){
+function slotFit(slot,m){if(m&&m.any)return {lv:'good',why:''};return slotFitBase(slot,m)}
+function slotFitBase(slot,m){
   if(!m)return slot.optional?{lv:'empty'}:{lv:'missing'};
   if(slot.only&&!slot.only.test(m.n))return {lv:'wrong',c:matCode(m),why:'Only an Everchanging Substance fits here: it comes from creatures that change their shape.'};
   const c=matCode(m);
@@ -6712,7 +6718,7 @@ function forgeResult(baseName,partsMap,opt){
   out.prof=prof;
   out.realmSpec=pm&&matCode(pm)==='O'&&/Hell|Heaven|Void/.test(pm.realm)?{Hell:'Infernal Forging',Heaven:'Celestial Metallurgy',Void:'Void Smithing','Inner Void':'Void Smithing'}[pm.realm]:'';
   out.rar=strongest?strongest.m.rar:'';
-  out.name=main?FORGE.name||(pm?pm.n.replace(/ (Ore|Ingot|Bar)$/,'')+' '+baseName:baseName):baseName;
+  out.name=main?FORGE.name||(pm?(pm.any?pm.label.replace(/^(a|an|the|some) /i,'').replace(/\b\w/g,ch=>ch.toUpperCase()):pm.n.replace(/ (Ore|Ingot|Bar)$/,''))+' '+baseName:baseName):baseName;
   return out;
 }
 // Which general Blueprint a vault Blueprint is an instance of: by its name first, then its category.
@@ -6810,18 +6816,20 @@ function renderForge(){
     <div class="cols" style="align-items:start">
       <div class="panel" style="display:flex;flex-direction:column;gap:12px">
         <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="font-size:1.15rem;margin:0">${B.icon} ${esc(FORGE.base)}</h4><span class="note" style="margin:0">${esc(B.group)}${B.dmg?` · ${esc(B.dmg[0])} ${esc(B.dmg[1])}`:''}${B.props?` · ${esc(B.props)}`:''}${B.armor?` · ${esc(B.slot)} slot`:''}</span></div>
+        ${forgeDMok()?`<div class="callout" style="margin:0;border-color:var(--acc)"><label class="note" style="display:flex;gap:8px;align-items:center;margin:0"><input type="checkbox" ${forgeDM()?'checked':''} onchange="FORGE.dm=this.checked;saveForge();renderForge()"> <b>🎲 DM forge: make it out of anything</b></label>
+          ${forgeDM()?`<div class="note" style="margin:6px 0 0">Any vault material or artifact goes in any part, nothing comes from the packs, and there is no roll. Type anything that isn't a material (a chair leg, the king's crown, a dragon's last breath) and it becomes one; start with <b>!</b> to keep exactly what you typed. Made-up materials count as a good fit at item level <input type="number" min="1" max="50" value="${+FORGE.dmLv||1}" style="width:56px" onchange="FORGE.dmLv=Math.max(1,Math.min(50,+this.value||1));saveForge();renderForge()">.</div>`:''}</div>`:''}
         <label class="note" style="margin:0">Suggest materials from <select class="sel" id="fg-realm"><option value="">Every realm</option>${REALMS.map(r=>`<option${r.n===FORGE.realm?' selected':''}>${esc(r.n)}</option>`).join('')}</select></label>
         ${B.dmg?`<label class="chk" style="display:flex;gap:8px;align-items:flex-start;margin:0;padding:8px 10px;border:1px dashed var(--acc);border-radius:8px"><input type="checkbox" id="fg-ever" ${forgeEver()?'checked':''} style="margin-top:3px"><span><b>⟳ Everchanging weapon</b><br><small style="color:var(--text2)">It can change between weapon forms as a bonus action. Needs an Everchanging Substance (from a mimic, doppelganger, werewolf, or another shapechanger) in its core: one extra form for each realm of its grade (a Human grade gives 1 extra form, Mysterious 2, Hell or Heaven 3, and so on). Then choose a weapon template for each extra form; materials already in the weapon carry over where they fit, and you add a material for any part they can't fill.</small></span></label>`:''}
         ${forgeSlots(B,forgeEver()).map(s=>{const m=findMat(FORGE.parts[s.id]||''),f=slotFit(s,m);const col={good:'var(--green)',poor:'var(--gold2)',wrong:'var(--red)',missing:'var(--muted)',empty:'var(--muted)'}[f.lv];
           const lab={good:'✓ Good fit',poor:'△ Poor fit',wrong:'✕ Wrong material',missing:'Required',empty:'Optional'}[f.lv];
-          const okCats=[...s.ok,...(s.weak||[])];const opts=invMats(INV).filter(x=>FORGE.showAll||okCats.includes(matCode(x))&&(!s.only||s.only.test(x.n)));
+          const okCats=[...s.ok,...(s.weak||[])];const opts=(forgeDM()?MATS:invMats(INV)).filter(x=>FORGE.showAll||okCats.includes(matCode(x))&&(!s.only||s.only.test(x.n)));
           const sug=m?[]:forgeSuggest(s);
           return `<div style="border:1px solid ${f.lv==='wrong'?'var(--red)':f.lv==='good'?'color-mix(in srgb,var(--green) 45%,var(--line))':'var(--line)'};border-radius:8px;padding:10px 12px">
             <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b>${esc(s.name)}</b><span class="b ghost">${s.role==='primary'?'main part':s.role==='structure'?'structure':'extra'}</span><span class="b ghost">× ${s.qty}</span><span style="margin-left:auto;font-size:.78rem;color:${col};font-weight:600">${lab}</span></div>
             <div class="note" style="margin:4px 0 6px">${esc(s.why)}<br><span style="color:var(--green)">Good:</span> ${s.ok.map(c=>CAT_NAME[c]).join(', ')}${(s.weak||[]).length?` · <span style="color:var(--gold2)">Poor:</span> ${s.weak.map(c=>CAT_NAME[c]).join(', ')}`:''} · <span style="color:var(--red)">Anything else is wrong.</span></div>
             <div class="keyrow">${mcHTML('fg:'+s.id,FORGE.parts[s.id]||'','Choose or type a material…')}<button class="btn" data-clear-slot="${s.id}" title="Clear">✕</button></div>
-            ${(MC_OPTS['fg:'+s.id]={opts,slot:s,arts:s.only?[]:invArts(INV),inv:true,hold:n=>holdersText(INV,n)},'')}
-            ${m&&!invHas(INV,m.n)?`<div style="margin-top:6px;font-size:.8rem;color:var(--red)">✕ Nobody in the party has ${esc(m.art?'the artifact '+m.art:m.n)}. Choose a material from someone's pack.</div>`:m?`<div style="margin-top:4px;font-size:.78rem;color:var(--muted)">In the packs of ${esc(holdersText(INV,m.n))}</div>`:''}
+            ${(MC_OPTS['fg:'+s.id]=forgeDM()?{opts,slot:s,arts:s.only?[]:artifacts(),any:true}:{opts,slot:s,arts:s.only?[]:invArts(INV),inv:true,hold:n=>holdersText(INV,n)},'')}
+            ${forgeDM()?(m&&m.any?`<div style="margin-top:4px;font-size:.78rem;color:var(--gold2)">🎲 Made from ${esc(m.ds.replace(/^Made from /,'').replace(/, by the DM's word\.$/,''))}: counts as ${esc(CAT_NAME[m.tc]||'')}, a good fit, item level ${m.il}.</div>`:''):m&&!invHas(INV,m.n)?`<div style="margin-top:6px;font-size:.8rem;color:var(--red)">✕ Nobody in the party has ${esc(m.art?'the artifact '+m.art:m.n)}. Choose a material from someone's pack.</div>`:m?`<div style="margin-top:4px;font-size:.78rem;color:var(--muted)">In the packs of ${esc(holdersText(INV,m.n))}</div>`:''}
             ${sug.length?`<div class="chips" style="margin-top:6px">${sug.map(x=>`<button class="chip" data-pick="${s.id}" data-mat="${esc(x.n)}" title="${esc(x.gr)}">${esc(x.n)} <small>${esc(x.gr)}</small></button>`).join('')}</div>`:''}
             ${m&&m.art?`<div style="margin-top:6px;font-size:.8rem;color:var(--text2)">⟡ Broken down from the artifact ${refChip(BP_IDX.get(lc(m.art))||m,esc(m.art))}: counts as <b>${esc(m.baseN)}</b> (${esc(m.gr)} · Item Level ${m.il||1} · ${esc(CAT_NAME[matCode(m)]||'')}) and passes on one of its ${m.tr?'traits':'properties'} at random: <b>${m.tr?'◆ '+esc(m.tr.n):'✧ '+esc(m.pn)}</b>. The artifact is used up.</div>`:m?`<div style="margin-top:6px;font-size:.8rem;color:var(--text2)">${refChip(m)} ${esc(m.gr)} · Item Level ${m.il||1} · ${esc(CAT_NAME[matCode(m)]||'')}${m.pn?' · ✧ '+esc(m.pn):''}${m.tr?' · ◆ '+esc(m.tr.n):''}</div>`:''}
             ${f.lv==='wrong'||f.lv==='poor'?`<div style="margin-top:6px;font-size:.8rem;color:${col}">${f.why?`<b>${esc(f.why)}</b> `:''}${esc(PENALTY[s.role][f.lv])}</div>`:''}</div>`}).join('')}
@@ -7107,8 +7115,21 @@ function forgeFx(){const cv=$('fg-fx');if(!cv||!cv.getContext)return;const x=cv.
     x.shadowBlur=0;if(!still)requestAnimationFrame(draw)};requestAnimationFrame(draw)}
 // ── the forge panel before the item exists: the estimate, the powers to keep, and the hammer ──
 let FF={who:'',smith:'',strikes:0,res:null,made:''};
+const forgeDMok=()=>['dm','both'].includes(role());
+const forgeDM=()=>!!FORGE.dm&&forgeDMok();
 const forgeSmithOk=()=>{if(FF.smith&&!(+FF.smith>=1))FF.smith=''};
-function forgeEstimateHTML(r,ready,formGap){forgeSmithOk();const M=invIndex(),b=forgeBP(r),F=forgeReq(b),c=PARTY.find(x=>x.id===FF.who)||null,sm=FF.smith&&hireOf(FF.smith,r.cost),smOk=smithCan(sm,b,F),need=forgeNeeds(r,M),short=need.filter(x=>x.have<x.q);
+function forgeDMHTML(r,ready){const c=PARTY.find(x=>x.id===FF.who)||null,{A,p}=forgePick(r);
+  return `<div class="fg-est"><div class="blk"><h4>🎲 The DM's forge</h4></div>
+    ${kv([['Item level',`<b>${r.il||'?'}</b>${r.rar?' · '+rarB(r.rar):''}`],['Forge it would need',esc(forgeText(forgeReq(forgeBP(r))))]])}
+    ${A.length?`<div class="blk" style="margin-top:10px"><h4>✧ Powers to keep (${p.length} of ${FORGE_MAX_POW})</h4></div><div class="fg-pows">${A.map(x=>`<label class="fg-pow${p.includes(x.id)?' on':''}"><input type="checkbox" ${p.includes(x.id)?'checked':''} onchange="forgePickToggle(${esc(JSON.stringify(x.id))})"> <span><b>${x.k==='p'?'✧':'◆'} ${esc(x.n)}</b>${x.k==='p'?` <span class="b ghost">Potency ${x.pot}</span>`:''}</span></label>`).join('')}</div>`:''}
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px">${PARTY.length?`<label class="note" style="margin:0">Give it to <select class="sel" id="ff-who"><option value="">Choose…</option>${PARTY.map(x=>`<option value="${x.id}"${x.id===FF.who?' selected':''}>${esc(x.name||'Unnamed')}</option>`).join('')}</select></label>`:'<span class="note" style="margin:0">Add a character on the Party page first.</span>'}
+      <label class="note" style="margin:0">Quality <select class="sel" id="ff-dmq">${FQ.map(q=>`<option${(FF.dmq||'Standard')===q[0]?' selected':''}>${q[0]}</option>`).join('')}</select></label>
+      <label class="note" style="margin:0;display:flex;gap:4px;align-items:center"><input type="checkbox" id="ff-dmquirk" ${FF.dmQuirk?'checked':''}> roll a quirk</label></div>
+    <div class="fg-anvilrow"><div class="fg-anvil" aria-hidden="true">⚒</div><div><button class="btn primary" ${ready&&c?'':'disabled'} onclick="forgeDMMake()">✨ Make it</button><div class="note" style="margin:4px 0 0">${!ready?'Fill every required part first.':!c?'Choose who gets it.':'No roll and no materials used: the DM\'s word is enough.'}</div></div></div></div>`}
+function forgeDMMake(){const r=forgeResult(),c=PARTY.find(x=>x.id===FF.who);if(!c||!forgeDM())return;FF.dmq=($('ff-dmq')||{}).value||'Standard';FF.dmQuirk=!!($('ff-dmquirk')||{}).checked;
+  [1,2,3].forEach((n,i)=>setTimeout(()=>{forgeSound(forgeKind(r),n);forgeSpark()},i*260));
+  setTimeout(()=>forgeMake(r,c,FF.dmq,FF.dmQuirk?fqQuirk():{d:0,n:'',t:''},'Made by the DM.',null,invIndex(),true),820)}
+function forgeEstimateHTML(r,ready,formGap){forgeSmithOk();if(forgeDM())return forgeDMHTML(r,ready);const M=invIndex(),b=forgeBP(r),F=forgeReq(b),c=PARTY.find(x=>x.id===FF.who)||null,sm=FF.smith&&hireOf(FF.smith,r.cost),smOk=smithCan(sm,b,F),need=forgeNeeds(r,M),short=need.filter(x=>x.have<x.q);
   const chk=c&&!sm?forgeCheck(b,c):null,odds=sm?forgeOdds(craftCheck(b,c||{}).dc,smithCheck(sm,b).bonus,smithCheck(sm,b).mode,true):chk&&!chk.blocked?forgeOdds(chk.dc,chk.bonus,chk.mode):null;
   const {A,p}=forgePick(r),cb=pickedCombos(A,p);
   const can=ready&&!short.length&&c&&(sm?smOk:!chk.blocked);
@@ -7146,12 +7167,12 @@ function forgeResolve(r,c){const b=forgeBP(r),sm=FF.smith&&hireOf(FF.smith,r.cos
   if(q==='fail'){forgeSound('fail');FF.res={bad:1,html:`${line} <b>It doesn't take.</b> Nothing is lost: strike again.`};forgeOut();return}
   forgeMake(r,c,q,fqQuirk(),line,sm,M)}
 // the item is made: the materials are used, its record is written, and it goes on the forger's gear
-function forgeMake(r,c,q,qk,line,sm,M){forgeNeeds(r,M).forEach(x=>invTake(M,x.n,x.q,c));
+function forgeMake(r,c,q,qk,line,sm,M,dm){if(!dm)forgeNeeds(r,M).forEach(x=>invTake(M,x.n,x.q,c));
   if(sm){c.coins=c.coins||{};const fee=sm.fee;if((+c.coins.gp||0)>=fee)c.coins.gp=(+c.coins.gp||0)-fee}
   const d=designFromForge(),prim=r.parts.find(p=>p.s.role==='primary'),{A,p}=forgePick(r),keep=A.filter(x=>p.includes(x.id));let n=d.n,i=2;while(findBP(n))n=d.n+' ('+(i++)+')';d.n=n;
   d.powers=keep.map(x=>({k:x.k,n:x.n,pot:x.pot||0,t:x.t,from:x.from}));d.prop=keep.filter(x=>x.k==='p').map(x=>`${x.n} (Potency ${x.pot})`).join(', ');d.combos=pickedCombos(A,p).map(x=>x[2]);combosNote(pickedCombos(A,p));
   const Q=fqOf(q);fBump(d,{atk:Q[2],dmg:Q[3]});if(qk.fx&&qk.fx.dmg)fBump(d,{dmg:qk.fx.dmg});
-  d.forged={q,by:sm?sm.n:(c.name||''),on:new Date().toISOString().slice(0,10),line,quirk:qk.n?{n:qk.n,t:qk.t,god:qk.god||''}:null,
+  d.forged={q,by:dm?'the DM':sm?sm.n:(c.name||''),on:new Date().toISOString().slice(0,10),line,quirk:qk.n?{n:qk.n,t:qk.t,god:qk.god||''}:null,
     sockets:Math.min(4,sockBase(prim&&prim.m)+(q==='Masterwork'?1:0)+(qk.fx&&qk.fx.sock?1:0)),runes:[],marks:0,log:[],flawed:q==='Flawed'};
   d.owner=CL.on&&CL.user?CL.user.id:'';d.maker=c.name||'';d.shared=!!FORGE.share;
   d.sort=designSortRules(d);DESIGNS.push(d);store.set('designs',DESIGNS);designPlace();c.gear=(c.gear||[]).concat(d.n);saveParty();
@@ -7256,6 +7277,7 @@ function forgeOut(){const el=$('fg-out');if(!el)return;const made=FF.made&&DESIG
   $('fg-name').onchange=e=>{FORGE.name=e.target.value.trim();saveForge()};
   if($('ff-who'))$('ff-who').onchange=e=>{FF.who=e.target.value;FF.res=null;FF.strikes=0;forgeOut()};
   if($('ff-smith'))$('ff-smith').onchange=e=>{FF.smith=e.target.value;FF.res=null;FF.strikes=0;forgeOut()};
+  if($('ff-dmq'))$('ff-dmq').onchange=e=>{FF.dmq=e.target.value};if($('ff-dmquirk'))$('ff-dmquirk').onchange=e=>{FF.dmQuirk=e.target.checked};
 }
 // ════════════════════════════════════════════════════════════════
 //  Forge with Groq: the player describes a weapon and adds materials; Groq picks the design, places each
@@ -7357,7 +7379,7 @@ function mcList(inp){const o=MC_OPTS[inp.dataset.mc]||{opts:MATS},q=lc(inp.value
 function mcBind(root,onPick){root.querySelectorAll('input[data-mc]').forEach(inp=>{const box=inp.nextElementSibling,key=inp.dataset.mc,o=()=>MC_OPTS[key]||{opts:MATS};let start=inp.value;
   const close=()=>{box.hidden=true;inp.setAttribute('aria-expanded','false')};
   const pick=v=>{close();if(v&&v[0]==='@'){const b=BP_IDX.get(lc(v.slice(1)));v=b?artPick(b):''}inp.value=v;start=v;onPick(key,v)};
-  const commit=()=>{const t=inp.value.trim();if(t===start)return;if(!t){pick('');return}const v=mcCorrect(t,o());if(!v){toast('No material like “'+t+'” '+(o().inv?'in the party\'s packs':'in the vault'));inp.value=start;return}if(lc(v)!==lc(t))toast('Corrected to '+(v.startsWith('Artifact: ')?v.replace(/^Artifact: /,'the artifact '):v));pick(v)};
+  const commit=()=>{const t=inp.value.trim();if(t===start)return;if(!t){pick('');return}if(o().any&&o().slot&&t[0]==='!'){pick('Anything: '+t.slice(1).trim().slice(0,60)+' ['+o().slot.ok[0]+']');return}const v=mcCorrect(t,o());if(!v&&o().any&&o().slot){pick('Anything: '+t.slice(0,60)+' ['+o().slot.ok[0]+']');return}if(!v){toast('No material like “'+t+'” '+(o().inv?'in the party\'s packs':'in the vault'));inp.value=start;return}if(lc(v)!==lc(t))toast('Corrected to '+(v.startsWith('Artifact: ')?v.replace(/^Artifact: /,'the artifact '):v));pick(v)};
   inp.addEventListener('focus',()=>{start=inp.value;mcList(inp)});inp.addEventListener('input',()=>mcList(inp));
   inp.addEventListener('blur',()=>setTimeout(()=>{if(document.activeElement!==inp){close();commit()}},120));
   inp.addEventListener('keydown',e=>{const opts=[...box.querySelectorAll('.mc-opt')],i=opts.findIndex(x=>x.classList.contains('on'));
