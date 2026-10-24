@@ -354,7 +354,7 @@
   "stone": "Calibration Stone",
   "realm": "Void",
   "ds": "A precisely cut stone with perfectly even facets, mined from Void seams where every edge aligns to an exact angle.",
-  "effect": "After you miss with an attack, your next attack against that target gains +3 to hit. Once per long rest, you treat any one attack roll as a natural 20."
+  "effect": "After you miss with an attack, your next attack against that target gains +3 Accuracy. Once per long rest, you treat any one attack roll as a natural 20."
  },
  {
   "rune": "Camouflage",
@@ -1355,7 +1355,7 @@
   "stone": "Halostone",
   "realm": "Chaos",
   "ds": "A ring-shaped stone of pale gold light that floats a hair above any surface it rests on. Found in Chaos where fallen divine beings once stood.",
-  "effect": "While equipped, a faint halo marks you as divine; you have advantage on Persuasion with worshippers and undead have disadvantage to hit you. Once per long rest, shed bright light for 1 minute that blinds fiends (DC 18 Con)."
+  "effect": "While equipped, a faint halo marks you as divine; you have advantage on Persuasion with worshippers and undead roll Accuracy against you with disadvantage. Once per long rest, shed bright light for 1 minute that blinds fiends (DC 18 Con)."
  },
  {
   "rune": "Hammer",

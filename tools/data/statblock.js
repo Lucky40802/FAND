@@ -273,7 +273,7 @@ function statblock(m, body, bestDrop) {
     var per = Math.max(1, Math.round(dpr / n)), d = a[2], avg = d / 2 + 0.5;
     var dice = Math.max(1, Math.round((per - pri) / avg)), dmg = Math.max(1, Math.floor(dice * avg) + pri + realmHit);
     var ranged = a[3] === 'ranged', kind = a[1];
-    var txt = (ranged ? 'Ranged Weapon Attack: ' : 'Melee Weapon Attack: ') + sgn(hit) + ' to hit, ' + (ranged ? 'range 60/240 ft.' : 'reach ' + (/Large|Huge|Gargantuan/.test(sz[0]) ? 10 : 5) + ' ft.') + ', one target. Hit: ' + dmg + ' (' + dice + 'd' + d + ((pri + realmHit) ? ' ' + ((pri + realmHit) > 0 ? '+ ' : '− ') + Math.abs(pri + realmHit) : '') + ') ' + kind + ' damage';
+    var txt = (ranged ? 'Ranged Weapon Attack: ' : 'Melee Weapon Attack: ') + 'Accuracy ' + sgn(hit) + ', ' + (ranged ? 'range 60/240 ft.' : 'reach ' + (/Large|Huge|Gargantuan/.test(sz[0]) ? 10 : 5) + ' ft.') + ', one target. Hit: ' + dmg + ' (' + dice + 'd' + d + ((pri + realmHit) ? ' ' + ((pri + realmHit) > 0 ? '+ ' : '− ') + Math.abs(pri + realmHit) : '') + ') ' + kind + ' damage';
     if (elem && i === 0 && kind !== elem && c >= 2) { var ed = Math.max(1, Math.round(c / 3)); txt += ' plus ' + Math.floor(ed * 3.5) + ' (' + ed + 'd6) ' + elem + ' damage'; }
     // what else a hit does: a new sentence ("If the target..."), extra damage ("plus..."), or more of this one ("and...")
     if (a[4]) txt += (/^[A-Z]/.test(a[4]) ? '. ' : /^plus /.test(a[4]) ? ' ' : ', ') + fill(a[4]);
