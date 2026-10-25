@@ -925,7 +925,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"craft",v:"cc89185a1f",b:"6d816a7b"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"craft",v:"cc89185a1f",b:"02cc8253"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=cc89185a1f",11606153],["data/vault.js?v=cc89185a1f",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -7887,6 +7887,13 @@ var CL={on:typeof CLOUD!=='undefined'&&!!(CLOUD&&CLOUD.url&&CLOUD.key),sb:null,u
 // kept on each device only: appearance, screen state (filters, searches, recently viewed), and the hidden-class locks
 const CL_LOCAL=new Set(['recentq','theme','wakelock','tooltab','viewmode','charwiz','jedit','clsfocus','placefocus','diceanim','recent','spells','hc','hclv','jq','magic','rmap','dpool','hcpat','hcpin','hcqm','hcguard','hclog','anthropicKey','groqKey','groqModel']);
 const clSkip=k=>!k||k.startsWith('__')||CL_LOCAL.has(k);
+// A Home Screen app on an iPhone is often closed and restarted while you switch to Mail to read the code, which lost the
+// "type your code" step. The email waiting for a code is kept on this device for an hour (as long as the code lasts).
+const clIOSApp=()=>navigator.standalone===true;
+const clApp=()=>clIOSApp()||matchMedia('(display-mode: standalone)').matches;
+function clPending(){try{const p=JSON.parse(localStorage.getItem('fand.__pending')||'null');if(p&&p.email&&Date.now()-p.at<3600000)return p}catch(e){}return null}
+function clPendingSet(e){try{if(e)localStorage.setItem('fand.__pending',JSON.stringify({email:e,at:Date.now()}));else localStorage.removeItem('fand.__pending')}catch(x){}}
+{const p=clPending();if(p){CL.step='code';CL.email=p.email}}
 function clMeta(){if(!clMeta.m){try{clMeta.m=JSON.parse(localStorage.getItem('fand.__cloud')||'null')}catch(e){}if(!clMeta.m||typeof clMeta.m!=='object')clMeta.m={};clMeta.m.ts=clMeta.m.ts||{}}return clMeta.m}
 function clMetaSave(){try{localStorage.setItem('fand.__cloud',JSON.stringify(clMeta()))}catch(e){}}
 function clRaw(k,v){try{localStorage.setItem('fand.'+k,JSON.stringify(v))}catch(e){}}
@@ -8112,7 +8119,7 @@ function clSignedIn(user){if(CL.signing)return CL.signing;
       if(M.uid&&keys.length&&confirm('This device has saved data from another account. Replace it with this account\'s data?\n\nOK replaces it (a backup is kept on this device). Cancel adds it to this account.')){
         keys.forEach(k=>{try{localStorage.removeItem('fand.'+k)}catch(e){}});PARTY=[];clRaw('party',[])}
       M.ts={};M.uid=user.id;clMetaSave();partyHashInit()}
-    CL.user=user;CL.err='';let changed=[];
+    CL.user=user;CL.err='';CL.step='';clPendingSet(null);let changed=[];
     try{changed=await cloudPull();await campRefresh();await cloudPush()}catch(e){CL.err=clMsg(e)}
     clStatus();clApply(changed);
     let j=null;try{j=sessionStorage.getItem('fand.__join');sessionStorage.removeItem('fand.__join')}catch(e){}
@@ -8178,16 +8185,17 @@ function renderAccount(){const C=$('content');
     ${hc?`<section class="panel set-sec"><h3>Hidden classes</h3><p class="note" style="margin:2px 0 0">Your account opens the hidden class list on any device where you sign in. <a href="${pageUrl('hidden')}" data-go="hidden">Hidden classes →</a></p></section>`:''}
   </div>`;
   renderProfile()}
-function cloudSignInForm(){return CL.step==='code'?`<div class="note" style="margin:0 0 10px">We emailed <b>${esc(CL.email)}</b>. Tap the link in that email on this device, or type its code here.</div><div class="keyrow"><input class="sel" id="clCode" inputmode="numeric" autocomplete="one-time-code" placeholder="Code from the email" style="max-width:none;flex:1"><button class="btn primary" type="button" id="clVerify">Sign in</button></div><div class="okline" id="clMsg" style="color:var(--red)">${esc(CL.err)}</div><a href="#" class="note" onclick="CL.step='';CL.err='';renderAccount();return false">Use a different email</a>`
-  :`<label class="note" for="clEmail" style="display:block;margin:0 0 4px">Email</label><div class="keyrow"><input class="sel" id="clEmail" type="email" autocomplete="email" spellcheck="false" placeholder="you@example.com" value="${esc(CL.email)}" style="max-width:none;flex:1"><button class="btn primary" type="button" id="clSend">Email me a code</button></div>${CLOUD.google?'<button class="btn" type="button" id="clGoogle" style="margin-top:10px;width:100%">Sign in with Google</button>':''}<div class="okline" id="clMsg" style="color:var(--red)">${esc(CL.err)}</div>`}
+function cloudSignInForm(){return CL.step==='code'?`<div class="note" style="margin:0 0 10px">We emailed <b>${esc(CL.email)}</b>. ${clApp()?'Type the code from that email here. (The link in the email opens in Safari or your browser, not in this app.) You can switch to your email and back: this step is kept.':'Tap the link in that email on this device, or type its code here.'}</div><div class="keyrow"><input class="sel" id="clCode" inputmode="numeric" autocomplete="one-time-code" placeholder="Code from the email" style="max-width:none;flex:1"><button class="btn primary" type="button" id="clVerify">Sign in</button></div><div class="okline" id="clMsg" style="color:var(--red)">${esc(CL.err)}</div><a href="#" class="note" onclick="CL.step='';CL.err='';clPendingSet(null);renderAccount();return false">Use a different email</a>`
+  :`<label class="note" for="clEmail" style="display:block;margin:0 0 4px">Email</label><div class="keyrow"><input class="sel" id="clEmail" type="email" autocomplete="email" spellcheck="false" placeholder="you@example.com" value="${esc(CL.email)}" style="max-width:none;flex:1"><button class="btn primary" type="button" id="clSend">Email me a code</button></div>${CLOUD.google&&!clIOSApp()?'<button class="btn" type="button" id="clGoogle" style="margin-top:10px;width:100%">Sign in with Google</button>':CLOUD.google?'<div class="note" style="margin-top:10px">Google sign-in opens in Safari and can\'t come back to a Home Screen app, so here sign in with the emailed code.</div>':''}<div class="okline" id="clMsg" style="color:var(--red)">${esc(CL.err)}</div>`}
 function clSetMsg(m){CL.err=m;if($('clMsg'))$('clMsg').textContent=m}
 function cloudSettingsBind(){if(!CL.on||CL.user)return;if($('clEmail'))setTimeout(()=>{if($('clEmail'))$('clEmail').focus()},30);
+  if($('clCode'))setTimeout(()=>{const c=$('clCode');if(c)c.scrollIntoView({block:'center'})},30);
   if($('clSend')){const send=async()=>{const e=$('clEmail').value.trim(),b=$('clSend');if(!/^\S+@\S+\.\S+$/.test(e)){clSetMsg('Enter your email address.');return}b.disabled=true;b.textContent='Sending…';
-      try{const sb=await cloudStart();const {error}=await sb.auth.signInWithOtp({email:e,options:{shouldCreateUser:true,emailRedirectTo:clRedirect()}});if(error)throw error;CL.email=e;CL.step='code';CL.err='';renderAccount();setTimeout(()=>{if($('clCode'))$('clCode').focus()},40)}
+      try{const sb=await cloudStart();const {error}=await sb.auth.signInWithOtp({email:e,options:{shouldCreateUser:true,emailRedirectTo:clRedirect()}});if(error)throw error;CL.email=e;CL.step='code';CL.err='';clPendingSet(e);renderAccount();setTimeout(()=>{if($('clCode'))$('clCode').focus()},40)}
       catch(err){b.disabled=false;b.textContent='Email me a code';clSetMsg(clMsg(err))}};
     $('clSend').onclick=send;$('clEmail').onkeydown=e=>{if(e.key==='Enter')send()}}
   if($('clVerify')){const verify=async()=>{const t=$('clCode').value.replace(/\s/g,''),b=$('clVerify');if(!t){clSetMsg('Type the code from the email.');return}b.disabled=true;b.textContent='Signing in…';
-      try{const sb=await cloudStart();const {data,error}=await sb.auth.verifyOtp({email:CL.email,token:t,type:'email'});if(error)throw error;CL.step='';if(data&&data.user)await clSignedIn(data.user);renderAccount();toast('Signed in')}
+      try{const sb=await cloudStart();const {data,error}=await sb.auth.verifyOtp({email:CL.email,token:t,type:'email'});if(error)throw error;CL.step='';clPendingSet(null);if(data&&data.user)await clSignedIn(data.user);renderAccount();toast('Signed in')}
       catch(err){b.disabled=false;b.textContent='Sign in';clSetMsg(clMsg(err))}};
     $('clVerify').onclick=verify;$('clCode').onkeydown=e=>{if(e.key==='Enter')verify()}}
   if($('clGoogle'))$('clGoogle').onclick=async()=>{try{const sb=await cloudStart();const {error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:clRedirect()}});if(error)throw error}catch(err){clSetMsg(clMsg(err))}}}
@@ -8260,6 +8268,7 @@ function cloudBoot(){if(!CL.on)return;partyHashInit();clHeader();
   addEventListener('online',()=>{if(!CL.user)return;CL.err='';cloudPush().catch(()=>{});clCampSchedule()});
   let j=null;try{j=sessionStorage.getItem('fand.__join')}catch(e){}
   if(clHasSession()||/[?&](code|error_description)=/.test(location.search)||(j&&clHasSession())){cloudStart().catch(()=>{});clHeader()}
+  else if(clApp()&&clPending()&&TAB!=='account')setTimeout(()=>{if(!CL.user&&clPending()&&TAB!=='account'){openAccount();toast('Type the code from your email to finish signing in')}},300)
 }
 
 // ════════════════════════════════════════════════════════════════
