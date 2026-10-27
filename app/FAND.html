@@ -229,9 +229,9 @@ button.chip:hover,a.chip:hover{border-color:var(--acc);color:var(--text)}
   --text:#f6e9da;--text2:#e0c9b2;--muted:#b0927a;--muted2:#80654f;--acc:#ff8a3d;--acc2:#ffb27a;--accbg:rgba(255,138,61,.14);--gold:#f2a94a;--gold2:#ffc777;--goldbg:rgba(242,169,74,.13);
   --red:#ff6b5a;--green:#7fd98f;--blue:#7cb8f0;color:var(--text);padding:0 4px 30px}
 /* the glow bleeds past the page's sides; the content area clips it so the Forge can't scroll sideways into it */
-#content:has(> .page.forge){overflow-x:hidden}
+#content:has(> .page.forge){overflow-x:hidden;padding-top:0}
 .page.forge::before{content:'';position:absolute;inset:-24px -9999px;z-index:-2;background:radial-gradient(ellipse at 50% 120%,#5a1d06 0%,#2a0d05 35%,#120705 65%,#0b0504 100%)}
-.fg-bgwrap{position:sticky;top:0;height:100vh;margin-bottom:-100vh;z-index:-1;pointer-events:none}
+.fg-bgwrap{position:sticky;top:0;height:100vh;margin-bottom:-100vh;z-index:-1;pointer-events:none;width:100vw;margin-left:calc(50% - 50vw)}
 .fg-bgwrap canvas{width:100%;height:100%;display:block}
 .fg-hero{text-align:center;padding:26px 12px 18px}
 .fg-hero-t{font-family:var(--serif);font-size:2.4rem;font-weight:700;letter-spacing:.04em;background:linear-gradient(180deg,#ffe2a8,#ff9a3c 55%,#c2410c);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 30px rgba(255,120,30,.35)}
@@ -265,7 +265,35 @@ button.chip:hover,a.chip:hover{border-color:var(--acc);color:var(--text)}
 :root[data-theme="light"] .fg-hero-t{background:linear-gradient(180deg,#fffbe6,#e8b84a 55%,#9c6b0a);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 30px rgba(255,214,120,.55)}
 :root[data-theme="light"] .fg-anvil{background:radial-gradient(circle,rgba(255,226,140,.6),transparent 70%)}
 :root[data-theme="light"] .fg-spark{background:#fff3c4;box-shadow:0 0 6px #f1c24a}
-:root[data-theme="light"] .fg-made{box-shadow:0 0 40px rgba(240,200,90,.35)}
+:root[data-theme="light"] .fg-made{box-shadow:0 0 0 1px rgba(255,255,255,.9) inset,0 0 0 4px rgba(214,174,80,.25),0 0 60px rgba(255,214,110,.55),0 20px 40px -20px rgba(120,90,30,.4);background:radial-gradient(120% 80% at 50% 0%,rgba(255,244,205,.95),rgba(255,253,246,.94) 55%)!important}
+/* the Heaven Forge as a painting: marble panels with gilded edges, a gilded title that catches the light, ornaments */
+:root[data-theme="light"] .page.forge::before{background:linear-gradient(180deg,#86aee0 0%,#d4e2f3 25%,#f8ecd0 55%,#fdf8ee 80%,#f1ecf6 100%)}
+:root[data-theme="light"] .page.forge .panel,:root[data-theme="light"] .page.forge .fg-wscard{background:linear-gradient(135deg,rgba(255,255,255,.18) 0 20%,transparent 21% 60%,rgba(236,226,206,.16) 61% 62%,transparent 63%),radial-gradient(140% 90% at 15% 0%,rgba(255,255,255,.97),rgba(253,250,242,.93) 60%,rgba(246,238,220,.93));
+  border:1px solid #d9bf74;box-shadow:0 0 0 1px rgba(255,255,255,.85) inset,0 0 0 3px rgba(222,190,110,.18),0 18px 36px -22px rgba(110,84,30,.45);backdrop-filter:blur(3px) saturate(1.05)}
+:root[data-theme="light"] .fg-hero{position:relative;padding:34px 12px 22px}
+:root[data-theme="light"] .fg-hero-t{font-size:2.8rem;background:linear-gradient(100deg,#6e4703 0%,#a87a12 24%,#f3d27a 36%,#b8861a 46%,#7a5205 66%,#c4962a 84%,#6e4703 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:none;filter:drop-shadow(0 1px 0 rgba(255,255,255,.95)) drop-shadow(0 0 1px rgba(110,70,0,.35)) drop-shadow(0 0 22px rgba(255,236,180,.95));animation:hvShine 9s ease-in-out infinite}
+@keyframes hvShine{0%,100%{background-position:100% 0}50%{background-position:0 0}}
+:root[data-theme="light"] .fg-hero-t::before,:root[data-theme="light"] .fg-hero-t::after{content:'❦';display:inline-block;font-size:.55em;vertical-align:middle;margin:0 .45em;color:#c69a2e;-webkit-text-fill-color:#c69a2e;opacity:.85}
+:root[data-theme="light"] .fg-hero-t::after{transform:scaleX(-1)}
+:root[data-theme="light"] .fg-hero-sub{color:#8a6510;opacity:1;text-shadow:0 1px 0 #fff}
+:root[data-theme="light"] .fg-hero-sub::after{content:'';display:block;width:min(340px,70%);height:12px;margin:10px auto 0;background:linear-gradient(90deg,transparent,#d4ae55 30%,transparent 30.5% 46%,#c69a2e 46% 54%,transparent 54% 69.5%,#d4ae55 70%,transparent) center/100% 1px no-repeat,
+  radial-gradient(circle,#e7c262 0 3px,transparent 3.5px) center/12px 12px no-repeat}
+:root[data-theme="light"] .fg-hero p{color:#4a3d22;text-shadow:0 1px 0 rgba(255,255,255,.8)}
+:root[data-theme="light"] .fg-hero-s span{background:rgba(255,253,244,.9);border-color:#d9bf74;box-shadow:0 0 0 1px rgba(255,255,255,.8) inset;color:#5a4a26}
+:root[data-theme="light"] .page.forge .sec-h h3{flex-shrink:0;white-space:nowrap;font-family:var(--serif);color:#7e5a06;letter-spacing:.02em;text-shadow:0 1px 0 #fff}
+:root[data-theme="light"] .page.forge .btn{background:linear-gradient(180deg,#fffdf4,#f6e8bf);border-color:#d2b263;color:#5d4510;box-shadow:0 1px 0 #fff inset,0 2px 6px -3px rgba(120,90,20,.5)}
+:root[data-theme="light"] .page.forge .btn:hover{background:linear-gradient(180deg,#fffaf0,#f1dc9c);border-color:#b98f2a}
+:root[data-theme="light"] .page.forge .btn.primary,:root[data-theme="light"] .page.forge .btn.pri{background:linear-gradient(180deg,#f4d27a,#d6a335 60%,#b9871c);border-color:#a57a16;color:#fffdf2;text-shadow:0 1px 0 rgba(110,70,0,.5)}
+:root[data-theme="light"] .fg-anvil{background:radial-gradient(circle,rgba(255,250,226,1) 0 30%,rgba(255,226,140,.65) 45%,transparent 70%);box-shadow:0 0 0 2px rgba(214,174,80,.45),0 0 0 7px rgba(255,236,170,.35),0 0 30px rgba(255,214,110,.75)}
+:root[data-theme="light"] .fg-anvil::after{content:'';position:absolute;inset:-12px;border-radius:50%;border:1px dashed rgba(190,145,40,.55);animation:hvTurn 24s linear infinite}
+@keyframes hvTurn{to{transform:rotate(360deg)}}
+:root[data-theme="light"] .fg-spark{background:#fffbe8;box-shadow:0 0 8px #f1c24a,0 0 2px #fff}
+:root[data-theme="light"] .fg-reveal{color:#a97b10;text-shadow:0 0 12px rgba(255,214,110,.9)}
+:root[data-theme="light"] .fg-pow.on{background:linear-gradient(90deg,rgba(255,236,170,.35),transparent);border-color:#c69a2e}
+:root[data-theme="light"] .page.forge .callout{background:linear-gradient(180deg,rgba(255,250,232,.95),rgba(252,243,214,.93));border-color:#d6b25a;color:#4a3d22;box-shadow:0 0 0 1px rgba(255,255,255,.8) inset}
+@media (max-width:600px){:root[data-theme="light"] .fg-hero-t{font-size:1.75rem}:root[data-theme="light"] .fg-hero-t::before,:root[data-theme="light"] .fg-hero-t::after{display:none}}
+@media (prefers-reduced-motion: reduce){:root[data-theme="light"] .fg-hero-t,:root[data-theme="light"] .fg-anvil::after{animation:none}}
 .hero{position:relative;border:1px solid var(--line);border-radius:16px;padding:34px 30px;overflow:hidden;background:radial-gradient(120% 140% at 0% 0%,var(--accbg),transparent 55%),radial-gradient(90% 120% at 100% 100%,var(--goldbg),transparent 60%),var(--surf)}
 .hero h2{font-size:2.1rem;line-height:1.1;margin-bottom:8px}
 .hero p{color:var(--text2);max-width:640px}
@@ -2728,6 +2756,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-27','The Heaven Forge, painted','In light mode the Forge is now a living painting: a sky that runs from azure to gold, a slowly turning sunburst with halo rings and a ring of celestial marks, god rays that sway, clouds lit gold from above at three depths, marble temples on the cloud banks, falling feathers, and twinkling glints. Panels are white marble with gilded edges, the title is gold that catches the light, and the anvil wears a turning halo. Both forges now fill the whole width of the screen.'],
   ['2026-10-27','More forge traits and combos','Creature materials gain nearly 1,400 new traits from 17 new kinds of creature (warbands like orcs, cold-blooded lizardfolk and kobolds, fungi, plant creatures, far-minds like aboleths, the lower planes, hags, sirens, hungering spirits, legendary spirits, riddle-keepers, elemental motes, swarms, great monsters, made things, things of the deep dark, and hardy beasts), and glands that hold fire, frost, ink, spores and more now give their own trait instead of a venom. The Forge has 89 more hidden combos, 179 in all, and combos now work with traits too: two traits, or a trait and a property, can combine.'],
   ['2026-10-27','Everyone can read a forged item','A forged item now shows its description to everyone, not only the one who forged it: the DM and the other players in a campaign can open it on a shared character and see its quality, damage, powers, quirk, and combos, and a Blueprint viewed or equipped from the Workshop shows its whole description too. It still works only for the one who forged it.'],
   ['2026-10-26','Forged items keep their description','A forged item on a character sheet shows its full description again when you open it: its quality, who forged it, its damage, every power with what it does, its quirk, and its combos. The sheet\'s Forged items box now says what each power does too.'],
@@ -7476,14 +7505,60 @@ function forgeFx(){const cv=$('fg-fx');if(!cv||!cv.getContext)return;const x=cv.
   for(let i=0;i<(still?40:110);i++)P.push(make(true));
   const draw=ts=>{if(!cv.isConnected)return;const r=cv.getBoundingClientRect();if(Math.round(r.width*dpr)!==W||Math.round(r.height*dpr)!==H)size();x.clearRect(0,0,W,H);
     const heaven=document.documentElement.dataset.theme==='light',fl=.5+.5*Math.sin((ts||0)/700);
-    if(heaven){const g=x.createRadialGradient(W/2,-H*.1,0,W/2,-H*.1,H*1.1);g.addColorStop(0,'rgba(255,236,160,.55)');g.addColorStop(.5,'rgba(255,246,210,.18)');g.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
-      x.save();x.globalAlpha=.08+.04*fl;x.fillStyle='#fff3c0';for(let k=0;k<5;k++){const bx=W*(.15+k*.18);x.beginPath();x.moveTo(bx-30*dpr,0);x.lineTo(bx+30*dpr,0);x.lineTo(bx+140*dpr,H);x.lineTo(bx+40*dpr,H);x.closePath();x.fill()}x.restore();
-      x.shadowColor='rgba(255,215,110,.9)';x.shadowBlur=10*dpr}
+    if(heaven){HV=HV&&HV.W===W&&HV.H===H?HV:heavenScene(W,H,dpr);heavenPaint(x,HV,ts||0,still);x.shadowColor='rgba(255,215,110,.9)';x.shadowBlur=10*dpr}
     else{const g=x.createRadialGradient(W/2,H*1.08,0,W/2,H*1.08,H);g.addColorStop(0,'rgba(255,90,30,.45)');g.addColorStop(.45,'rgba(150,20,8,.18)');g.addColorStop(1,'rgba(0,0,0,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
       x.fillStyle=`rgba(220,40,10,${.07+.05*fl})`;x.fillRect(0,H*.82,W,H*.18);x.shadowColor='rgba(255,90,30,.95)';x.shadowBlur=8*dpr}
     P.forEach(p=>{if(!still){p.y+=p.vy*(heaven?.55:1);p.x+=p.vx+Math.sin(p.y/(60*dpr)+p.w)*(heaven?.6:.3)*dpr;p.life-=.0016}if(p.y<-10||p.life<=0)Object.assign(p,make(false));
       const a=Math.max(0,Math.min(1,p.life));x.beginPath();x.fillStyle=heaven?`hsla(${44+p.h/6},90%,${70+p.r*4}%,${a*.9})`:`hsla(${p.h-12},100%,${52+p.r*3}%,${a})`;x.arc(p.x,p.y,p.r*(heaven?1.2:1),0,Math.PI*2);x.fill()});
-    x.shadowBlur=0;if(!still)requestAnimationFrame(draw)};requestAnimationFrame(draw)}
+    x.shadowBlur=0;if(heaven)heavenFront(x,HV,ts||0,still);if(!still)requestAnimationFrame(draw)};let HV=null;requestAnimationFrame(draw)}
+// ── the Heaven Forge, painted: a sky from azure to gold, a turning sunburst with halo rings and a ring of celestial marks,
+// god rays, clouds lit gold from above in three depths, marble temples on the cloud banks, falling feathers, and glints ──
+function heavenCloud(w,h,seed){const c=document.createElement('canvas');c.width=w;c.height=h;const g=c.getContext('2d');let r=seed;const rnd=()=>(r=(r*9301+49297)%233280)/233280;
+  for(let i=0;i<22;i++){const px=w*(.12+rnd()*.76),py=h*(.42+rnd()*.32)-Math.sin((px/w)*Math.PI)*h*.2,pr=h*(.18+rnd()*.24),q=g.createRadialGradient(px,py-pr*.25,pr*.1,px,py,pr);
+    q.addColorStop(0,'rgba(255,255,255,1)');q.addColorStop(.6,'rgba(255,253,248,.85)');q.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=q;g.beginPath();g.arc(px,py,pr,0,Math.PI*2);g.fill()}
+  g.globalCompositeOperation='source-atop';const t=g.createLinearGradient(0,0,0,h);t.addColorStop(0,'rgba(255,214,120,.55)');t.addColorStop(.38,'rgba(255,246,222,.12)');t.addColorStop(.7,'rgba(214,206,236,.22)');t.addColorStop(1,'rgba(184,176,214,.5)');g.fillStyle=t;g.fillRect(0,0,w,h);return c}
+function heavenScene(W,H,dpr){const S={W,H,dpr,clouds:[],feathers:[],glints:[]},n=Math.max(1,Math.round(W/(260*dpr)));
+  [[.5,.06,.22,.12,.32],[.75,.1,.36,.22,.55],[1,.16,.62,.34,.9]].forEach(([depth,sp,y0,y1,al],L)=>{for(let i=0;i<n+2;i++){const w=Math.round((180+Math.random()*220)*dpr*depth*1.4),h=Math.round(w*.42);
+    S.clouds.push({L,img:heavenCloud(w,h,1+Math.floor(Math.random()*9999)),x:Math.random()*(W+w)-w,y:H*(y0+Math.random()*(y1))+(L===2?H*.12:0),sp:sp*dpr*(.6+Math.random()*.8),al:al*(.75+Math.random()*.25),bob:Math.random()*6})}});
+  for(let i=0;i<Math.min(14,4+n*2);i++)S.feathers.push(heavenFeather(W,H,dpr,true));
+  for(let i=0;i<Math.min(40,10+n*6);i++)S.glints.push({x:Math.random()*W,y:Math.random()*H*.6,r:(1.5+Math.random()*3)*dpr,ph:Math.random()*6.3,sp:.6+Math.random()*1.4});
+  S.temples=[{x:W*.06,y:H*.7,s:Math.min(1.1,W/(1300*dpr))*dpr},{x:W*.95,y:H*.62,s:Math.min(.8,W/(1700*dpr))*dpr}];return S}
+function heavenFeather(W,H,dpr,fresh){return {x:Math.random()*W,y:fresh?Math.random()*H:-30*dpr,len:(14+Math.random()*16)*dpr,rot:Math.random()*6.3,vr:(Math.random()-.5)*.02,vy:(.25+Math.random()*.35)*dpr,sw:Math.random()*6.3}}
+function heavenTemple(x,T,ts){const s=T.s;x.save();x.translate(T.x,T.y);x.scale(s,s);x.globalAlpha=.55;const m=x.createLinearGradient(0,-120,0,10);m.addColorStop(0,'#fffdf6');m.addColorStop(1,'#e9e1f2');x.fillStyle=m;x.strokeStyle='rgba(176,132,40,.45)';x.lineWidth=1.2/s*T.s;
+  x.fillRect(-78,-6,156,8);x.fillRect(-70,-12,140,7);for(let i=0;i<6;i++){x.fillRect(-60+i*24-5,-92,10,80);x.strokeRect(-60+i*24-5,-92,10,80)}
+  x.fillRect(-72,-100,144,9);x.beginPath();x.moveTo(-78,-100);x.lineTo(0,-132);x.lineTo(78,-100);x.closePath();x.fill();x.stroke();
+  x.globalAlpha=.35+.15*Math.sin(ts/1300+T.x);x.fillStyle='#ffd77a';x.beginPath();x.arc(0,-112,5,0,Math.PI*2);x.fill();x.restore()}
+function heavenPaint(x,S,ts,still){const{W,H,dpr}=S,t=still?0:ts,sx=W*(W>H?.8:.9),sy=H*(W>H?.1:.05),R=Math.max(W,H)*1.2,ra=Math.atan2(H*.75-sy,W*.42-sx);
+  // the sky
+  let g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,'#7fa9df');g.addColorStop(.22,'#b9d1ef');g.addColorStop(.48,'#f6e7c4');g.addColorStop(.72,'#fff6e2');g.addColorStop(1,'#f3ecf6');x.fillStyle=g;x.fillRect(0,0,W,H);
+  // the sun's glow
+  g=x.createRadialGradient(sx,sy,0,sx,sy,R*.75);g.addColorStop(0,'rgba(255,250,225,1)');g.addColorStop(.08,'rgba(255,236,170,.9)');g.addColorStop(.3,'rgba(255,222,140,.35)');g.addColorStop(1,'rgba(255,240,200,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
+  // a sunburst that turns very slowly
+  x.save();x.translate(sx,sy);x.rotate(t/90000);g=x.createRadialGradient(0,0,30*dpr,0,0,R);g.addColorStop(0,'rgba(255,243,200,.5)');g.addColorStop(.5,'rgba(255,236,180,.12)');g.addColorStop(1,'rgba(255,236,180,0)');x.fillStyle=g;x.beginPath();
+  const N=48;for(let i=0;i<N;i++){const a=i*2*Math.PI/N,w=(i%2?.012:.03);x.moveTo(0,0);x.arc(0,0,R,a-w,a+w)}x.fill();x.restore();
+  // god rays that sway
+  x.save();x.globalCompositeOperation='screen';for(let k=0;k<7;k++){const a=ra+(k-3)*.17+Math.sin(t/5200+k*1.7)*.035,w=(.025+.02*((k*37)%5)/5),len=H*1.3,bx=sx+Math.cos(a)*len,by=sy+Math.sin(a)*len;
+    g=x.createLinearGradient(sx,sy,bx,by);g.addColorStop(0,`rgba(255,244,205,${.32+.1*Math.sin(t/2300+k)})`);g.addColorStop(1,'rgba(255,244,205,0)');x.fillStyle=g;x.beginPath();x.moveTo(sx,sy);x.lineTo(sx+Math.cos(a-w)*len,sy+Math.sin(a-w)*len);x.lineTo(sx+Math.cos(a+w)*len,sy+Math.sin(a+w)*len);x.closePath();x.fill()}x.restore();
+  // halo rings and a ring of celestial marks around the sun
+  x.save();x.translate(sx,sy);const br=1+.03*Math.sin(t/1800);x.strokeStyle='rgba(205,160,60,.45)';x.lineWidth=1.4*dpr;[64,98].forEach((r,i)=>{x.globalAlpha=i?.55:.8;x.beginPath();x.arc(0,0,r*dpr*br,0,Math.PI*2);x.stroke()});
+  x.rotate(-t/40000);x.globalAlpha=.6;x.fillStyle='rgba(190,140,40,.75)';for(let i=0;i<24;i++){x.save();x.rotate(i*Math.PI/12);x.translate(0,-81*dpr*br);if(i%6===0){x.beginPath();x.moveTo(0,-5*dpr);x.lineTo(3*dpr,0);x.lineTo(0,5*dpr);x.lineTo(-3*dpr,0);x.closePath();x.fill()}else x.fillRect(-.7*dpr,-3*dpr,1.4*dpr,6*dpr);x.restore()}
+  x.rotate(t/26000);x.globalAlpha=.35;x.setLineDash([2*dpr,7*dpr]);x.beginPath();x.arc(0,0,128*dpr*br,0,Math.PI*2);x.stroke();x.setLineDash([]);x.restore();
+  // the sun's disc
+  g=x.createRadialGradient(sx,sy,0,sx,sy,40*dpr);g.addColorStop(0,'#fffef6');g.addColorStop(.55,'#fff3c4');g.addColorStop(1,'rgba(255,230,150,0)');x.fillStyle=g;x.beginPath();x.arc(sx,sy,40*dpr,0,Math.PI*2);x.fill();
+  // glints: four-pointed stars that twinkle
+  S.glints.forEach(p=>{const a=Math.max(0,Math.sin(t/1000*p.sp+p.ph));if(a<.05)return;const r=p.r*(.6+a*.6);x.save();x.translate(p.x,p.y);x.globalAlpha=a*.85;x.fillStyle='#fff7d6';x.beginPath();
+    x.moveTo(0,-r*2.4);x.quadraticCurveTo(0,0,r*2.4,0);x.quadraticCurveTo(0,0,0,r*2.4);x.quadraticCurveTo(0,0,-r*2.4,0);x.quadraticCurveTo(0,0,0,-r*2.4);x.fill();x.globalAlpha=a*.5;x.fillStyle='#f2c75a';x.beginPath();x.arc(0,0,r*.5,0,Math.PI*2);x.fill();x.restore()});
+  // far and middle clouds, with the temples standing on the middle bank
+  S.clouds.forEach(c=>{if(c.L===2)return;if(!still){c.x+=c.sp;if(c.x>W)c.x=-c.img.width}x.globalAlpha=c.al;x.drawImage(c.img,c.x,c.y+Math.sin(t/4000+c.bob)*3*dpr)});x.globalAlpha=1;
+  S.temples.forEach(T=>heavenTemple(x,T,t))}
+// in front of the golden motes: the near cloud bank, falling feathers, and a soft gilded vignette
+function heavenFront(x,S,ts,still){const{W,H,dpr}=S,t=still?0:ts;
+  S.clouds.forEach(c=>{if(c.L!==2)return;if(!still){c.x+=c.sp;if(c.x>W)c.x=-c.img.width}x.globalAlpha=c.al;x.drawImage(c.img,c.x,c.y+Math.sin(t/3500+c.bob)*4*dpr)});x.globalAlpha=1;
+  let g=x.createLinearGradient(0,H*.82,0,H);g.addColorStop(0,'rgba(255,255,255,0)');g.addColorStop(1,'rgba(255,252,244,.85)');x.fillStyle=g;x.fillRect(0,H*.82,W,H*.18);
+  S.feathers.forEach((f,i)=>{if(!still){f.y+=f.vy;f.sw+=.012;f.x+=Math.sin(f.sw)*.6*dpr;f.rot+=f.vr+Math.sin(f.sw)*.004;if(f.y>H+30*dpr)S.feathers[i]=f=heavenFeather(W,H,dpr,false)}
+    x.save();x.translate(f.x,f.y);x.rotate(f.rot);const L=f.len;x.globalAlpha=.85;g=x.createLinearGradient(0,-L,0,L);g.addColorStop(0,'#ffffff');g.addColorStop(1,'#efe9f7');x.fillStyle=g;x.strokeStyle='rgba(170,150,190,.45)';x.lineWidth=.8*dpr;
+    x.beginPath();x.moveTo(0,-L);x.bezierCurveTo(L*.42,-L*.55,L*.36,L*.45,0,L*.8);x.bezierCurveTo(-L*.3,L*.4,-L*.4,-L*.5,0,-L);x.fill();x.stroke();x.strokeStyle='rgba(200,170,90,.6)';x.beginPath();x.moveTo(0,-L*.9);x.quadraticCurveTo(L*.05,0,0,L*1.15);x.stroke();x.restore()});
+  g=x.createRadialGradient(W/2,H*.45,Math.min(W,H)*.45,W/2,H*.5,Math.max(W,H)*.9);g.addColorStop(0,'rgba(255,240,200,0)');g.addColorStop(1,'rgba(214,176,90,.16)');x.fillStyle=g;x.fillRect(0,0,W,H)}
 // ── the forge panel before the item exists: the estimate, the powers to keep, and the hammer ──
 let FF={who:'',smith:'',strikes:0,res:null,made:''};
 // the DM's forge opens only for someone who has entered the hidden class code (this browser session)
@@ -7673,7 +7748,7 @@ function smelt(n){const m=findMat(n),c=PARTY.find(x=>x.id===SMELT.who);if(!m||!c
   m.recipe.forEach(x=>invTake(M,x,1,c));invAdd(c,m.n,1,true,true);saveParty();forgeSound('metal',1);setTimeout(()=>forgeSound('metal',2),180);toast(`Smelted 1 ${m.n} into ${c.name||'their'} pack`);renderForge()}
 // the Forge page's own sections: combos found, the master smiths, and the commission board
 function forgeExtrasHTML(){return benchHTML()+smeltHTML()+`<section class="sec"><div class="sec-h"><h3>✦ Material combos</h3><p>Two powers in one item, two properties, two traits, or one of each, can unlock something neither has alone (a property counts only at full Potency, so not from an extra part or a poor fit; a trait counts from any part it fits). Found ${COMBOS_FOUND.length} of ${FCOMBOS.length}.</p></div>
-    <div class="mlist">${FCOMBOS.filter(x=>COMBOS_FOUND.includes(x[2])).map(([a,b,n,t])=>`<div style="padding:6px 10px;border:1px solid var(--gold);border-radius:8px"><b>✦ ${esc(n)}</b> <small>${esc(a)} + ${esc(b)}</small><div style="font-size:.82rem">${esc(t)}</div></div>`).join('')}${FCOMBOS.length>COMBOS_FOUND.length?`<div style="padding:6px 10px;border:1px dashed var(--line);border-radius:8px;color:var(--muted)"><b>??? + ???</b> <small>${FCOMBOS.length-COMBOS_FOUND.filter(n=>FCOMBOS.some(x=>x[2]===n)).length} combos still hidden. Try two properties together and forge.</small></div>`:''}</div></section>
+    <div class="mlist">${FCOMBOS.filter(x=>COMBOS_FOUND.includes(x[2])).map(([a,b,n,t])=>`<div style="padding:6px 10px;border:1px solid var(--gold);border-radius:8px"><b>✦ ${esc(n)}</b> <small>${esc(a)} + ${esc(b)}</small><div style="font-size:.82rem">${esc(t)}</div></div>`).join('')}${FCOMBOS.length>COMBOS_FOUND.length?`<div style="padding:6px 10px;border:1px dashed var(--line);border-radius:8px;color:var(--muted)"><b>??? + ???</b> <small>${FCOMBOS.length-COMBOS_FOUND.filter(n=>FCOMBOS.some(x=>x[2]===n)).length} combos still hidden. Try two properties or traits together and forge.</small></div>`:''}</div></section>
   <section class="sec"><div class="sec-h"><h3>⚒ Master smiths</h3><p>Any smith from level 1 to 100 can be hired at the anvil. Every ten levels is one realm (1–10 Human, 11–20 Mysterious, and so on to 91–100 Primordial), and the tenth level of each is that realm's famous master. A hired smith works a forge grade and materials up to their realm, rolls like any forger (half their level, advantage at or above the item's level), and never ruins materials or makes a Flawed item. The fee is half the materials' cost + 100 × (tier + step ÷ 10) + tier × 10, where the step is the level within its realm: a level 1 Human smith costs 120 gp plus half the materials.</p></div>
     <div class="tablewrap"><table class="t"><thead><tr><th>Realm</th><th>Master</th><th class="num">Level</th><th>Forge grade</th><th class="num">Fee</th><th>Or a task</th></tr></thead><tbody>${REALMS.filter(z=>SMITHS[z.n]).map(z=>{const S=smithOf(z.n),M=SMITHS[z.n];return `<tr><td>${esc(z.n)}</td><td><b>${esc(M[0])}</b><br><small style="color:var(--muted)">${esc(M[1])}</small></td><td class="num">${S.lv}</td><td>${ROMAN[S.g-1]}</td><td class="num">${fmt(S.base)} gp + half the materials</td><td>${esc(M[3])}</td></tr>`}).join('')}</tbody></table></div></section>
   ${fcBoardHTML()}`}
