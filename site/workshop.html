@@ -271,6 +271,35 @@ button.chip:hover,a.chip:hover{border-color:var(--acc);color:var(--text)}
 .page.forge{--red:#ff5a4a}
 .page.forge::before{background:radial-gradient(ellipse at 50% 125%,#7a1404 0%,#3a0905 30%,#1a0605 60%,#0a0303 100%)}
 .fg-heaven{display:none}.fg-hero-sub{font-family:var(--serif);letter-spacing:.2em;text-transform:uppercase;font-size:.72rem;color:var(--gold2);opacity:.85}
+/* the Hell Forge as a painting: obsidian panels with molten edges, a title of molten metal, iron buttons, a burning anvil */
+.page.forge::before{background:linear-gradient(180deg,#070304 0%,#1c0606 30%,#4a0c06 58%,#2a0603 100%)}
+.page.forge .panel,.page.forge .fg-wscard{background:linear-gradient(160deg,rgba(255,255,255,.04) 0 18%,transparent 19% 70%,rgba(255,80,30,.05) 71% 72%,transparent 73%),radial-gradient(140% 100% at 50% 120%,rgba(120,24,8,.35),transparent 60%),linear-gradient(180deg,rgba(22,10,10,.86),rgba(12,6,7,.9));
+  border:1px solid #5a1f12;box-shadow:0 0 0 1px rgba(0,0,0,.6) inset,0 1px 0 rgba(255,140,80,.12) inset,0 -1px 0 rgba(255,80,30,.35) inset,0 0 24px -6px rgba(255,70,20,.35),0 20px 40px -24px #000;backdrop-filter:blur(3px)}
+.page.forge .callout{background:linear-gradient(180deg,rgba(60,16,10,.9),rgba(30,10,8,.92));border-color:#8a2a12;color:var(--text)}
+.fg-hero{position:relative;padding:34px 12px 22px}
+.page.forge .fg-hero-t{font-size:2.8rem;background:linear-gradient(100deg,#7a1405 0%,#e0400c 18%,#ffb347 32%,#fff1c4 40%,#ff8a1c 50%,#c0300a 66%,#ff9a3c 84%,#7a1405 100%);background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:none;filter:drop-shadow(0 0 1px rgba(0,0,0,.9)) drop-shadow(0 2px 0 #1a0402) drop-shadow(0 0 18px rgba(255,80,20,.65));animation:hlMolten 7s ease-in-out infinite,hlFlicker 3.1s steps(1) infinite}
+@keyframes hlMolten{0%,100%{background-position:0 0}50%{background-position:100% 0}}
+@keyframes hlFlicker{0%,100%{opacity:1}41%{opacity:.93}43%{opacity:1}77%{opacity:.96}}
+.page.forge .fg-hero-t::before,.page.forge .fg-hero-t::after{content:'⸸';display:inline-block;font-size:.6em;vertical-align:middle;margin:0 .45em;color:#ff5a1f;-webkit-text-fill-color:#ff5a1f;opacity:.85;filter:drop-shadow(0 0 6px #ff3a0a)}
+.page.forge .fg-hero-sub{color:#ff9a5a;opacity:1;text-shadow:0 0 10px rgba(255,60,10,.6)}
+.page.forge .fg-hero-sub::after{content:'';display:block;width:min(340px,70%);height:12px;margin:10px auto 0;background:linear-gradient(90deg,transparent,#c2410c 30%,transparent 30.5% 46%,#ff6a2a 46% 54%,transparent 54% 69.5%,#c2410c 70%,transparent) center/100% 1px no-repeat,
+  radial-gradient(circle,#ff7a2a 0 3px,transparent 3.5px) center/12px 12px no-repeat}
+.page.forge .fg-hero p{text-shadow:0 1px 2px #000}
+.page.forge .fg-hero-s span{background:rgba(20,8,8,.85);border-color:#6a2414;box-shadow:0 0 12px -4px rgba(255,70,20,.5)}
+.page.forge .sec-h h3{flex-shrink:0;white-space:nowrap;font-family:var(--serif);color:#ffb27a;text-shadow:0 0 12px rgba(255,80,20,.45),0 1px 0 #000}
+.page.forge .btn{background:linear-gradient(180deg,#2c1c19,#160d0c);border-color:#5a2a1c;color:#f3dccb;box-shadow:0 1px 0 rgba(255,160,110,.12) inset,0 2px 6px -2px #000}
+.page.forge .btn:hover{border-color:#c2410c;box-shadow:0 1px 0 rgba(255,160,110,.15) inset,0 0 12px -2px rgba(255,80,20,.6)}
+.page.forge .btn.primary,.page.forge .btn.pri{background:linear-gradient(180deg,#ff8a3d,#d9480f 55%,#8f2005);border-color:#ff7a2a;color:#fff7ee;text-shadow:0 1px 0 rgba(80,10,0,.7);box-shadow:0 0 16px -2px rgba(255,90,20,.7),0 1px 0 rgba(255,220,180,.4) inset}
+.fg-anvil{background:radial-gradient(circle,rgba(255,200,120,.55) 0 22%,rgba(255,90,30,.5) 42%,transparent 70%);box-shadow:0 0 0 2px rgba(120,30,10,.8),0 0 0 6px rgba(255,80,20,.18),0 0 30px rgba(255,80,20,.6)}
+.fg-anvil::after{content:'';position:absolute;inset:-12px;border-radius:50%;border:1px dashed rgba(255,100,40,.5);animation:hvTurn 18s linear infinite reverse}
+.fg-made{background:radial-gradient(120% 80% at 50% 0%,rgba(120,30,10,.6),rgba(20,8,8,.94) 60%)!important;box-shadow:0 0 0 1px rgba(255,140,60,.35) inset,0 0 0 4px rgba(255,80,20,.15),0 0 60px rgba(255,80,20,.45),0 20px 40px -20px #000!important}
+.fg-reveal{color:#ffb347;text-shadow:0 0 12px rgba(255,90,20,.9)}
+.fg-pow.on{background:linear-gradient(90deg,rgba(255,80,20,.18),transparent)}
+.page.forge .sec-h p,.page.forge .sec>.note,.page.forge .sec>label{text-shadow:0 1px 2px #000,0 0 10px rgba(0,0,0,.9)}
+:root[data-theme="light"] .page.forge .sec-h p,:root[data-theme="light"] .page.forge .sec>.note,:root[data-theme="light"] .page.forge .sec>label{text-shadow:0 1px 0 rgba(255,255,255,.9),0 0 10px rgba(255,250,235,.95)}
+@media (max-width:600px){.page.forge .fg-hero-t{font-size:1.75rem}.page.forge .fg-hero-t::before,.page.forge .fg-hero-t::after{display:none}}
+@media (prefers-reduced-motion: reduce){.page.forge .fg-hero-t,.fg-anvil::after{animation:none}}
 /* light mode is the Heaven Forge: white marble and gold, sunlight from above */
 :root[data-theme="light"] .page.forge{--bg:#fbf7ec;--bg2:#f6efdc;--surf:rgba(255,253,246,.88);--surf2:rgba(250,244,228,.92);--surf3:rgba(243,233,206,.95);--line:#e2d3a8;--line3:#cdb77a;
   --text:#2b2416;--text2:#4f4430;--muted:#86744f;--muted2:#a8976f;--acc:#b07d14;--acc2:#8c6209;--accbg:rgba(176,125,20,.12);--gold:#a7780f;--gold2:#7e5a06;--goldbg:rgba(167,120,15,.12);--red:#b8402f;--green:#2f8f57;--blue:#2f6fb3}
@@ -279,7 +308,7 @@ button.chip:hover,a.chip:hover{border-color:var(--acc);color:var(--text)}
 :root[data-theme="light"] .fg-hero-t{background:linear-gradient(180deg,#fffbe6,#e8b84a 55%,#9c6b0a);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 30px rgba(255,214,120,.55)}
 :root[data-theme="light"] .fg-anvil{background:radial-gradient(circle,rgba(255,226,140,.6),transparent 70%)}
 :root[data-theme="light"] .fg-spark{background:#fff3c4;box-shadow:0 0 6px #f1c24a}
-:root[data-theme="light"] .fg-made{box-shadow:0 0 0 1px rgba(255,255,255,.9) inset,0 0 0 4px rgba(214,174,80,.25),0 0 60px rgba(255,214,110,.55),0 20px 40px -20px rgba(120,90,30,.4);background:radial-gradient(120% 80% at 50% 0%,rgba(255,244,205,.95),rgba(255,253,246,.94) 55%)!important}
+:root[data-theme="light"] .fg-made{box-shadow:0 0 0 1px rgba(255,255,255,.9) inset,0 0 0 4px rgba(214,174,80,.25),0 0 60px rgba(255,214,110,.55),0 20px 40px -20px rgba(120,90,30,.4)!important;background:radial-gradient(120% 80% at 50% 0%,rgba(255,244,205,.95),rgba(255,253,246,.94) 55%)!important}
 /* the Heaven Forge as a painting: marble panels with gilded edges, a gilded title that catches the light, ornaments */
 :root[data-theme="light"] .page.forge::before{background:linear-gradient(180deg,#86aee0 0%,#d4e2f3 25%,#f8ecd0 55%,#fdf8ee 80%,#f1ecf6 100%)}
 :root[data-theme="light"] .page.forge .panel,:root[data-theme="light"] .page.forge .fg-wscard{background:linear-gradient(135deg,rgba(255,255,255,.18) 0 20%,transparent 21% 60%,rgba(236,226,206,.16) 61% 62%,transparent 63%),radial-gradient(140% 90% at 15% 0%,rgba(255,255,255,.97),rgba(253,250,242,.93) 60%,rgba(246,238,220,.93));
@@ -288,7 +317,7 @@ button.chip:hover,a.chip:hover{border-color:var(--acc);color:var(--text)}
 :root[data-theme="light"] .fg-hero-t{font-size:2.8rem;background:linear-gradient(100deg,#6e4703 0%,#a87a12 24%,#f3d27a 36%,#b8861a 46%,#7a5205 66%,#c4962a 84%,#6e4703 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
   text-shadow:none;filter:drop-shadow(0 1px 0 rgba(255,255,255,.95)) drop-shadow(0 0 1px rgba(110,70,0,.35)) drop-shadow(0 0 22px rgba(255,236,180,.95));animation:hvShine 9s ease-in-out infinite}
 @keyframes hvShine{0%,100%{background-position:100% 0}50%{background-position:0 0}}
-:root[data-theme="light"] .fg-hero-t::before,:root[data-theme="light"] .fg-hero-t::after{content:'❦';display:inline-block;font-size:.55em;vertical-align:middle;margin:0 .45em;color:#c69a2e;-webkit-text-fill-color:#c69a2e;opacity:.85}
+:root[data-theme="light"] .fg-hero-t::before,:root[data-theme="light"] .fg-hero-t::after{content:'❦';display:inline-block;font-size:.55em;vertical-align:middle;margin:0 .45em;color:#c69a2e;-webkit-text-fill-color:#c69a2e;opacity:.85;filter:none}
 :root[data-theme="light"] .fg-hero-t::after{transform:scaleX(-1)}
 :root[data-theme="light"] .fg-hero-sub{color:#8a6510;opacity:1;text-shadow:0 1px 0 #fff}
 :root[data-theme="light"] .fg-hero-sub::after{content:'';display:block;width:min(340px,70%);height:12px;margin:10px auto 0;background:linear-gradient(90deg,transparent,#d4ae55 30%,transparent 30.5% 46%,#c69a2e 46% 54%,transparent 54% 69.5%,#d4ae55 70%,transparent) center/100% 1px no-repeat,
@@ -955,7 +984,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"workshop",v:"fcb6ede874",b:"c93d9c95"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"workshop",v:"fcb6ede874",b:"3ef96ffb"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=fcb6ede874",11506652],["data/vault.js?v=fcb6ede874",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -2714,6 +2743,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-27','The Hell Forge, painted','In dark mode the Forge is now a living painting too: a smoke-red sky under a black eclipse ringed in fire, with a turning circle of infernal marks; red lightning in the clouds; jagged peaks and an erupting volcano; a dark citadel with burning windows; a lava river that flows; smoke lit from below; great chains hanging at the sides; and ash falling through the rising embers. Panels are obsidian with molten edges, the title is molten metal that flickers, the buttons are black iron, and the anvil burns.'],
   ['2026-10-27','The Heaven Forge, painted','In light mode the Forge is now a living painting: a sky that runs from azure to gold, a slowly turning sunburst with halo rings and a ring of celestial marks, god rays that sway, clouds lit gold from above at three depths, marble temples on the cloud banks, falling feathers, and twinkling glints. Panels are white marble with gilded edges, the title is gold that catches the light, and the anvil wears a turning halo. Both forges now fill the whole width of the screen.'],
   ['2026-10-27','More forge traits and combos','Creature materials gain nearly 1,400 new traits from 17 new kinds of creature (warbands like orcs, cold-blooded lizardfolk and kobolds, fungi, plant creatures, far-minds like aboleths, the lower planes, hags, sirens, hungering spirits, legendary spirits, riddle-keepers, elemental motes, swarms, great monsters, made things, things of the deep dark, and hardy beasts), and glands that hold fire, frost, ink, spores and more now give their own trait instead of a venom. The Forge has 89 more hidden combos, 179 in all, and combos now work with traits too: two traits, or a trait and a property, can combine.'],
   ['2026-10-27','Everyone can read a forged item','A forged item now shows its description to everyone, not only the one who forged it: the DM and the other players in a campaign can open it on a shared character and see its quality, damage, powers, quirk, and combos, and a Blueprint viewed or equipped from the Workshop shows its whole description too. It still works only for the one who forged it.'],
@@ -7464,11 +7494,64 @@ function forgeFx(){const cv=$('fg-fx');if(!cv||!cv.getContext)return;const x=cv.
   const draw=ts=>{if(!cv.isConnected)return;const r=cv.getBoundingClientRect();if(Math.round(r.width*dpr)!==W||Math.round(r.height*dpr)!==H)size();x.clearRect(0,0,W,H);
     const heaven=document.documentElement.dataset.theme==='light',fl=.5+.5*Math.sin((ts||0)/700);
     if(heaven){HV=HV&&HV.W===W&&HV.H===H?HV:heavenScene(W,H,dpr);heavenPaint(x,HV,ts||0,still);x.shadowColor='rgba(255,215,110,.9)';x.shadowBlur=10*dpr}
-    else{const g=x.createRadialGradient(W/2,H*1.08,0,W/2,H*1.08,H);g.addColorStop(0,'rgba(255,90,30,.45)');g.addColorStop(.45,'rgba(150,20,8,.18)');g.addColorStop(1,'rgba(0,0,0,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
-      x.fillStyle=`rgba(220,40,10,${.07+.05*fl})`;x.fillRect(0,H*.82,W,H*.18);x.shadowColor='rgba(255,90,30,.95)';x.shadowBlur=8*dpr}
+    else{HL=HL&&HL.W===W&&HL.H===H?HL:hellScene(W,H,dpr);hellPaint(x,HL,ts||0,still);x.shadowColor='rgba(255,90,30,.95)';x.shadowBlur=8*dpr}
     P.forEach(p=>{if(!still){p.y+=p.vy*(heaven?.55:1);p.x+=p.vx+Math.sin(p.y/(60*dpr)+p.w)*(heaven?.6:.3)*dpr;p.life-=.0016}if(p.y<-10||p.life<=0)Object.assign(p,make(false));
       const a=Math.max(0,Math.min(1,p.life));x.beginPath();x.fillStyle=heaven?`hsla(${44+p.h/6},90%,${70+p.r*4}%,${a*.9})`:`hsla(${p.h-12},100%,${52+p.r*3}%,${a})`;x.arc(p.x,p.y,p.r*(heaven?1.2:1),0,Math.PI*2);x.fill()});
-    x.shadowBlur=0;if(heaven)heavenFront(x,HV,ts||0,still);if(!still)requestAnimationFrame(draw)};let HV=null;requestAnimationFrame(draw)}
+    x.shadowBlur=0;if(heaven)heavenFront(x,HV,ts||0,still);else hellFront(x,HL,ts||0,still);if(!still)requestAnimationFrame(draw)};let HV=null,HL=null;requestAnimationFrame(draw)}
+// ── the Hell Forge, painted: a smoke-red sky under a black eclipse ringed in fire and a turning circle of infernal marks,
+// jagged peaks and an erupting volcano, a dark citadel with burning windows, a lava river, smoke lit from below, hanging chains,
+// red lightning in the clouds, and ash falling through the rising embers ──
+function hellSmoke(w,h,seed){const c=document.createElement('canvas');c.width=w;c.height=h;const g=c.getContext('2d');let r=seed;const rnd=()=>(r=(r*9301+49297)%233280)/233280;
+  for(let i=0;i<18;i++){const px=w*(.1+rnd()*.8),py=h*(.35+rnd()*.4),pr=h*(.2+rnd()*.25),q=g.createRadialGradient(px,py,pr*.1,px,py,pr);q.addColorStop(0,'rgba(40,18,16,.9)');q.addColorStop(.6,'rgba(30,12,12,.55)');q.addColorStop(1,'rgba(20,8,8,0)');g.fillStyle=q;g.beginPath();g.arc(px,py,pr,0,Math.PI*2);g.fill()}
+  g.globalCompositeOperation='source-atop';const t=g.createLinearGradient(0,0,0,h);t.addColorStop(0,'rgba(20,6,8,.4)');t.addColorStop(.6,'rgba(90,20,10,.25)');t.addColorStop(1,'rgba(220,70,20,.55)');g.fillStyle=t;g.fillRect(0,0,w,h);return c}
+function hellRidge(W,H,base,amp,jag,seed){let r=seed;const rnd=()=>(r=(r*9301+49297)%233280)/233280,pts=[];let y=base;for(let x0=0;x0<=W+40;x0+=W/jag){y=base-rnd()*amp-(rnd()<.18?amp*.8:0);pts.push([x0,y])}return pts}
+function hellScene(W,H,dpr){const S={W,H,dpr,smoke:[],ash:[],bolts:[],nextBolt:0},n=Math.max(1,Math.round(W/(300*dpr)));
+  S.far=hellRidge(W,H,H*.6,H*.16,Math.max(14,n*7),7);S.near=hellRidge(W,H,H*.74,H*.1,Math.max(10,n*5),31);
+  S.volc={x:W*(W>H?.1:.15),y:H*.6,w:W*(W>H?.13:.3),h:H*.26};S.cit={x:W*(W>H?.9:.82),y:H*.68,s:Math.min(1.15,W/(1200*dpr))*dpr};
+  for(let i=0;i<n+4;i++){const w=Math.round((220+Math.random()*260)*dpr),h=Math.round(w*.5);S.smoke.push({img:hellSmoke(w,h,1+Math.floor(Math.random()*9999)),x:Math.random()*(W+w)-w,y:H*(.15+Math.random()*.55),sp:(.08+Math.random()*.16)*dpr,vy:-(.03+Math.random()*.05)*dpr,al:.45+Math.random()*.35})}
+  for(let i=0;i<Math.min(50,14+n*8);i++)S.ash.push(hellAsh(W,H,dpr,true));return S}
+function hellAsh(W,H,dpr,fresh){return {x:Math.random()*W,y:fresh?Math.random()*H:-10*dpr,r:(.8+Math.random()*1.8)*dpr,vy:(.2+Math.random()*.4)*dpr,sw:Math.random()*6.3,rot:Math.random()*6.3}}
+function hellCitadel(x,C,ts){const s=C.s;x.save();x.translate(C.x,C.y);x.scale(s,s);x.fillStyle='#0d0607';x.beginPath();
+  const tw=[[-70,-90,16],[-40,-150,20],[-10,-210,24],[22,-160,20],[52,-110,16],[78,-70,14]];x.moveTo(-95,10);tw.forEach(([cx,top,w])=>{x.lineTo(cx-w,-20);x.lineTo(cx-w,top+18);x.lineTo(cx-w-4,top+18);x.lineTo(cx,top-26);x.lineTo(cx+w+4,top+18);x.lineTo(cx+w,top+18);x.lineTo(cx+w,-20)});x.lineTo(95,10);x.closePath();x.fill();
+  tw.forEach(([cx,top,w],i)=>{for(let k=0;k<3;k++){const fl=.55+.45*Math.sin(ts/300+i*1.7+k*2.3);x.fillStyle=`rgba(255,${110+Math.round(60*fl)},40,${.55+.4*fl})`;x.fillRect(cx-2.5,top+30+k*26,5,9)}});
+  x.globalAlpha=.6;x.fillStyle='#ff6a2a';x.shadowColor='#ff4a10';x.shadowBlur=18;x.beginPath();x.arc(-10,-236,3.2,0,Math.PI*2);x.fill();x.restore()}
+function hellPaint(x,S,ts,still){const{W,H,dpr}=S,t=still?0:ts,ex=W*(W>H?.22:.2),ey=H*(W>H?.15:.08),R=Math.max(W,H);
+  // the sky: black at the top, a burning red low over the peaks
+  let g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,'#070304');g.addColorStop(.3,'#1c0606');g.addColorStop(.55,'#4a0c06');g.addColorStop(.72,'#7a1906');g.addColorStop(1,'#2a0603');x.fillStyle=g;x.fillRect(0,0,W,H);
+  // red lightning lights the clouds now and then
+  if(!still&&t>S.nextBolt){S.nextBolt=t+3500+Math.random()*7000;const bx=W*(.3+Math.random()*.6);let px=bx,py=0;const pts=[[px,py]];while(py<H*(.3+Math.random()*.15)){px+=(Math.random()-.5)*40*dpr;py+=(12+Math.random()*22)*dpr;pts.push([px,py])}S.bolts.push({pts,born:t})}
+  S.bolts=S.bolts.filter(b=>t-b.born<420);S.bolts.forEach(b=>{const a=1-(t-b.born)/420;g=x.createRadialGradient(b.pts[0][0],H*.12,0,b.pts[0][0],H*.12,R*.5);g.addColorStop(0,`rgba(255,80,60,${.28*a})`);g.addColorStop(1,'rgba(255,60,40,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
+    x.save();x.strokeStyle=`rgba(255,190,170,${.9*a})`;x.shadowColor='#ff3b2a';x.shadowBlur=14*dpr;x.lineWidth=1.6*dpr;x.beginPath();b.pts.forEach(([px,py],i)=>i?x.lineTo(px,py):x.moveTo(px,py));x.stroke();x.restore()});
+  // the black eclipse: a corona of fire, a dark disc, and a turning ring of infernal marks
+  g=x.createRadialGradient(ex,ey,0,ex,ey,R*.55);g.addColorStop(0,'rgba(255,90,30,.35)');g.addColorStop(.2,'rgba(160,30,10,.18)');g.addColorStop(1,'rgba(80,10,5,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
+  x.save();x.translate(ex,ey);const pulse=1+.04*Math.sin(t/900);x.rotate(t/70000);g=x.createRadialGradient(0,0,40*dpr,0,0,R*.6);g.addColorStop(0,'rgba(255,110,40,.35)');g.addColorStop(.4,'rgba(200,40,10,.08)');g.addColorStop(1,'rgba(200,40,10,0)');x.fillStyle=g;x.beginPath();
+  for(let i=0;i<36;i++){const a=i*Math.PI/18,w=i%3?.01:.025;x.moveTo(0,0);x.arc(0,0,R*.6,a-w,a+w)}x.fill();x.rotate(-t/70000);
+  g=x.createRadialGradient(0,0,34*dpr,0,0,62*dpr*pulse);g.addColorStop(0,'rgba(255,235,180,1)');g.addColorStop(.12,'rgba(255,150,50,.95)');g.addColorStop(.45,'rgba(220,50,10,.5)');g.addColorStop(1,'rgba(150,20,5,0)');x.fillStyle=g;x.beginPath();x.arc(0,0,62*dpr*pulse,0,Math.PI*2);x.fill();
+  x.fillStyle='#060203';x.beginPath();x.arc(0,0,36*dpr,0,Math.PI*2);x.fill();
+  x.rotate(-t/45000);x.strokeStyle='rgba(255,90,40,.5)';x.lineWidth=1.2*dpr;x.beginPath();x.arc(0,0,92*dpr,0,Math.PI*2);x.stroke();x.beginPath();x.arc(0,0,104*dpr,0,Math.PI*2);x.stroke();x.fillStyle='rgba(255,120,50,.75)';
+  for(let i=0;i<12;i++){x.save();x.rotate(i*Math.PI/6);x.translate(0,-98*dpr);x.beginPath();if(i%3===0){x.moveTo(0,-6*dpr);x.lineTo(4*dpr,4*dpr);x.lineTo(-4*dpr,4*dpr)}else{x.moveTo(-1*dpr,-4*dpr);x.lineTo(3*dpr,0);x.lineTo(-1*dpr,4*dpr);x.lineTo(1*dpr,0)}x.closePath();x.fill();x.restore()}
+  x.rotate(t/30000);x.globalAlpha=.4;x.setLineDash([1.5*dpr,9*dpr]);x.beginPath();x.arc(0,0,128*dpr,0,Math.PI*2);x.stroke();x.setLineDash([]);x.restore();
+  // smoke, drifting and rising, lit from below
+  S.smoke.forEach(c=>{if(!still){c.x+=c.sp;c.y+=c.vy;if(c.x>W)c.x=-c.img.width;if(c.y<-c.img.height)c.y=H*.7}x.globalAlpha=c.al;x.drawImage(c.img,c.x,c.y)});x.globalAlpha=1;
+  // the far peaks, the volcano and its fire, and the citadel
+  const ridge=(pts,fill,glow)=>{x.beginPath();x.moveTo(0,H);pts.forEach(([px,py])=>x.lineTo(px,py));x.lineTo(W,H);x.closePath();x.fillStyle=fill;x.fill();if(glow){x.save();x.strokeStyle=glow;x.lineWidth=1.2*dpr;x.beginPath();pts.forEach(([px,py],i)=>i?x.lineTo(px,py):x.moveTo(px,py));x.stroke();x.restore()}};
+  ridge(S.far,'#1a0707','rgba(255,90,40,.25)');
+  const V=S.volc,fl=.6+.4*Math.sin(t/260)*Math.sin(t/710);g=x.createRadialGradient(V.x,V.y-V.h,0,V.x,V.y-V.h,V.w*1.4);g.addColorStop(0,`rgba(255,140,40,${.55*fl})`);g.addColorStop(1,'rgba(255,60,10,0)');x.fillStyle=g;x.fillRect(V.x-V.w*1.5,V.y-V.h*2.4,V.w*3,V.h*2.6);
+  x.fillStyle='#120505';x.beginPath();x.moveTo(V.x-V.w,V.y+H*.1);x.lineTo(V.x-V.w*.14,V.y-V.h);x.lineTo(V.x+V.w*.14,V.y-V.h);x.lineTo(V.x+V.w,V.y+H*.1);x.closePath();x.fill();
+  x.strokeStyle=`rgba(255,${90+Math.round(70*fl)},30,.85)`;x.lineWidth=2*dpr;x.shadowColor='#ff4a10';x.shadowBlur=10*dpr;x.beginPath();x.moveTo(V.x-V.w*.08,V.y-V.h+2*dpr);x.quadraticCurveTo(V.x-V.w*.2,V.y-V.h*.5,V.x-V.w*.32,V.y-V.h*.1);x.moveTo(V.x+V.w*.06,V.y-V.h+2*dpr);x.quadraticCurveTo(V.x+V.w*.24,V.y-V.h*.4,V.x+V.w*.18,V.y);x.stroke();x.shadowBlur=0;
+  hellCitadel(x,S.cit,t);
+  ridge(S.near,'#0c0405','rgba(255,70,20,.35)')}
+// in front of the embers: the lava river, hanging chains, falling ash, and a dark vignette
+function hellFront(x,S,ts,still){const{W,H,dpr}=S,t=still?0:ts,ly=H*.86;
+  let g=x.createLinearGradient(0,ly-20*dpr,0,H);g.addColorStop(0,'rgba(255,90,20,0)');g.addColorStop(.18,'rgba(255,110,30,.55)');g.addColorStop(.45,'rgba(220,50,10,.85)');g.addColorStop(1,'rgba(120,15,5,.95)');x.fillStyle=g;x.beginPath();x.moveTo(0,H);
+  for(let px=0;px<=W;px+=12*dpr)x.lineTo(px,ly+Math.sin(px/(90*dpr)+t/1400)*5*dpr+Math.sin(px/(37*dpr)-t/900)*2*dpr);x.lineTo(W,H);x.closePath();x.fill();
+  x.save();x.globalCompositeOperation='lighter';for(let k=0;k<4;k++){x.strokeStyle=`rgba(255,${180-k*25},70,${.35-k*.06})`;x.lineWidth=(1.4-k*.2)*dpr;x.beginPath();const yy=ly+(12+k*14)*dpr;
+    for(let px=0;px<=W;px+=10*dpr){const yv=yy+Math.sin(px/(60*dpr)+t/(800+k*300)+k)*3*dpr;px?x.lineTo(px,yv):x.moveTo(px,yv)}x.stroke()}x.restore();
+  [[W*.035,1],[W*.965,-1]].forEach(([cxp,d],j)=>{const sw=Math.sin(t/2200+j)*.05,len=H*(.42+.08*j);x.save();x.translate(cxp,0);x.rotate(sw*d);x.strokeStyle='#2a1a17';x.lineWidth=3*dpr;
+    for(let y=0,k=0;y<len;y+=14*dpr,k++){x.beginPath();if(k%2)x.ellipse(0,y,3.2*dpr,7*dpr,0,0,Math.PI*2);else x.ellipse(0,y,1.5*dpr,7*dpr,0,0,Math.PI*2);x.stroke()}
+    x.strokeStyle='rgba(255,90,30,.35)';x.lineWidth=1*dpr;x.beginPath();x.moveTo(2*dpr,0);x.lineTo(2*dpr,len);x.stroke();x.restore()});
+  S.ash.forEach((a,i)=>{if(!still){a.y+=a.vy;a.sw+=.015;a.x+=Math.sin(a.sw)*.4*dpr;a.rot+=.02;if(a.y>H)S.ash[i]=a=hellAsh(W,H,dpr,false)}x.save();x.translate(a.x,a.y);x.rotate(a.rot);x.fillStyle='rgba(140,128,124,.55)';x.fillRect(-a.r,-a.r*.6,a.r*2,a.r*1.2);x.restore()});
+  g=x.createRadialGradient(W/2,H*.45,Math.min(W,H)*.4,W/2,H*.5,Math.max(W,H)*.85);g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(1,'rgba(0,0,0,.55)');x.fillStyle=g;x.fillRect(0,0,W,H)}
 // ── the Heaven Forge, painted: a sky from azure to gold, a turning sunburst with halo rings and a ring of celestial marks,
 // god rays, clouds lit gold from above in three depths, marble temples on the cloud banks, falling feathers, and glints ──
 function heavenCloud(w,h,seed){const c=document.createElement('canvas');c.width=w;c.height=h;const g=c.getContext('2d');let r=seed;const rnd=()=>(r=(r*9301+49297)%233280)/233280;
