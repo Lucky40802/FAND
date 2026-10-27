@@ -925,7 +925,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"journal",v:"fcb6ede874",b:"070e81de"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"journal",v:"fcb6ede874",b:"54ce1134"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=fcb6ede874",11506652],["data/vault.js?v=fcb6ede874",1144011],["data/spells.js?v=fcb6ede874",1130804]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -1413,7 +1413,7 @@ const CARD={
     else if(b.ac)line=`<div class="ln">AC <b>${esc(b.ac)}</b></div>`;
     return `<button class="card r-${rk(b.r)}" style="--strip:var(--rc)" data-ref="${ref(b)}">
       <div class="t"><div class="nm">${b.mg?'<span style="color:var(--gold)">✦</span> ':''}${esc(b.n)}</div>${isPinned(b)?'<span class="pin">★</span>':''}</div>
-      <div class="badges">${b.design?'<span class="b gold">✎ Your design</span>':''}<span class="b acc">${esc(b.pr)}</span><span class="b">Lv ${b.lv}</span>${rarB(b.r)}<span class="b ghost">${esc(b.cat)}</span></div>
+      <div class="badges">${b.design?(b.design.peek||b.design.foreign?`<span class="b gold">⚒ Forged by ${esc((b.design.peek||b.design.foreign).by||'another player')}</span>`:'<span class="b gold">✎ Your design</span>'):''}<span class="b acc">${esc(b.pr)}</span><span class="b">Lv ${b.lv}</span>${rarB(b.r)}<span class="b ghost">${esc(b.cat)}</span></div>
       ${line}<div class="ln" style="color:var(--muted)">Worn on: ${esc(wornOn(b))}</div>${b.prop?`<div class="ln">✧ ${esc(b.prop)}</div>`:''}
       ${b.ds?`<div class="ds">${esc(b.ds)}</div>`:''}
       ${sm?`<div class="chips">${sm}</div>`:''}
@@ -1497,7 +1497,7 @@ const VIEWS={
       {id:'mat',label:'',hidden:true,test:(b,v)=>b.mats.some(m=>lc(m)===lc(v)),chip:v=>'Uses '+v},
     ],
     toggles:[
-      {id:'mine',label:'✎ Your designs',test:b=>!!b.design},
+      {id:'mine',label:'✎ Your designs',test:b=>!!b.design&&!b.design.peek&&!b.design.foreign},
       {id:'mg',label:'✦ Magic',test:b=>!!b.mg},
       {id:'ac',label:'Has AC',test:b=>!!b.ac},
       {id:'prop',label:'Has property',test:b=>!!b.prop},
@@ -2145,7 +2145,7 @@ const MODAL={
     return {title:(b.mg?'<span style="color:var(--gold)">✦</span> ':'')+esc(b.n),strip:`var(--c-${{Common:'common',Uncommon:'uncommon',Rare:'rare','Very Rare':'vrare',Legendary:'legend',Artifact:'artifact'}[b.r]||'common'})`,
       kind:'Blueprint · '+esc(b.pr),
       badges:`${rarB(b.r)}<span class="b">Level ${b.lv}</span><span class="b ghost">${esc(b.cat)}</span>${b.mg?'<span class="b gold">✦ Magic artifact</span>':''}`,
-      body:(b.design?`<div class="callout" style="border-color:var(--gold)">✎ <b>Your design</b>, made in the Forge${b.design.base?' from the general '+esc(b.design.base):''}. Filed under <b>${esc(b.pr)}${b.sp?' → '+esc(b.sp):''}</b> ${b.design.sort&&b.design.sort.by==='ai'?'by AI':'by FAND\'s rules'}.${b.design.lore&&b.design.lore!==b.ds?`<div style="margin-top:6px">${esc(b.design.lore)}</div>`:''}${b.design.forms&&b.design.forms.length?`<div style="margin-top:6px"><b>Everchanging, ${b.design.formMax} forms</b> (a bonus action to reshape): ${b.design.forms.map(f=>`${esc(f.n)} <span class="mono">${esc(f.dmg)}</span>`).join(' · ')}${b.design.forms.length<b.design.formMax?` · ${b.design.formMax-b.design.forms.length} not chosen yet (open it in the Forge)`:''}</div>`:''}<div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="closeAll();designOpen(${esc(JSON.stringify(b.n))})">⚒ Open in the Forge</button><button class="btn" onclick="designResort(${esc(JSON.stringify(b.n))})">↻ File it again</button></div></div>`:'')+kv(rows)+(b.prop?`<div class="callout">✧ <b>${esc(b.prop)}</b>${strong&&strong.prop?`<div style="margin-top:4px">${esc(strong.prop.replace(/^[^:]+:\s*/,''))}</div>`:''}</div>`:'')
+      body:(b.design&&(b.design.peek||b.design.foreign)?designPeekHTML(b):b.design?`<div class="callout" style="border-color:var(--gold)">✎ <b>Your design</b>, made in the Forge${b.design.base?' from the general '+esc(b.design.base):''}. Filed under <b>${esc(b.pr)}${b.sp?' → '+esc(b.sp):''}</b> ${b.design.sort&&b.design.sort.by==='ai'?'by AI':'by FAND\'s rules'}.${b.design.lore&&b.design.lore!==b.ds?`<div style="margin-top:6px">${esc(b.design.lore)}</div>`:''}${b.design.forms&&b.design.forms.length?`<div style="margin-top:6px"><b>Everchanging, ${b.design.formMax} forms</b> (a bonus action to reshape): ${b.design.forms.map(f=>`${esc(f.n)} <span class="mono">${esc(f.dmg)}</span>`).join(' · ')}${b.design.forms.length<b.design.formMax?` · ${b.design.formMax-b.design.forms.length} not chosen yet (open it in the Forge)`:''}</div>`:''}<div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="closeAll();designOpen(${esc(JSON.stringify(b.n))})">⚒ Open in the Forge</button><button class="btn" onclick="designResort(${esc(JSON.stringify(b.n))})">↻ File it again</button></div></div>`:'')+kv(rows)+(b.prop?`<div class="callout">✧ <b>${esc(b.prop)}</b>${strong&&strong.prop?`<div style="margin-top:4px">${esc(strong.prop.replace(/^[^:]+:\s*/,''))}</div>`:''}</div>`:'')
         +(b.ds?`<div class="prose"${b.design?' style="white-space:pre-line"':''}>${esc(b.ds)}</div>${b.dsg?SITE_FILL:''}`:b.lost?`<div class="prose lost">This Blueprint's description was lost in an earlier sync of this app; its materials were recovered. The full text is in the vault note <b>${esc(b.n)}</b>.</div>`:'')
         +(ARMOR_CATS.includes(b.cat)&&b.ac?(()=>{const pc=armorPiece(b),d=pieceDrawbacks(pc);return `<div class="callout"><b>Armor drawback</b> (${esc(pc.weight.toLowerCase())} ${esc(pc.slot.toLowerCase())} piece): ${d.length?esc(d.join('; ')):'none'}.${pc.weight!=='Light'&&!['Mount','Enhancement','Buckler','Shield','Tower'].includes(pc.slot)?` Wearing ${pc.weight.toLowerCase()} pieces on 8 or more armor units adds the full-set drawback.`:''}</div>`})():'')
         +`<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="store.set('craft',Object.assign(store.get('craft',{}),{bp:${esc(JSON.stringify(b.n))},qty:1}));closeAll();go('craft')">⚒ Plan crafting</button>${genOf(b)?`<button class="btn" onclick="openInForge(BPS[${b._i}])">🔥 Build it in the Forge</button>`:''}</div>`
@@ -2685,6 +2685,7 @@ const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the st
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
   ['2026-10-27','More forge traits and combos','Creature materials gain nearly 1,400 new traits from 17 new kinds of creature (warbands like orcs, cold-blooded lizardfolk and kobolds, fungi, plant creatures, far-minds like aboleths, the lower planes, hags, sirens, hungering spirits, legendary spirits, riddle-keepers, elemental motes, swarms, great monsters, made things, things of the deep dark, and hardy beasts), and glands that hold fire, frost, ink, spores and more now give their own trait instead of a venom. The Forge has 89 more hidden combos, 179 in all, and combos now work with traits too: two traits, or a trait and a property, can combine.'],
+  ['2026-10-27','Everyone can read a forged item','A forged item now shows its description to everyone, not only the one who forged it: the DM and the other players in a campaign can open it on a shared character and see its quality, damage, powers, quirk, and combos, and a Blueprint viewed or equipped from the Workshop shows its whole description too. It still works only for the one who forged it.'],
   ['2026-10-26','Forged items keep their description','A forged item on a character sheet shows its full description again when you open it: its quality, who forged it, its damage, every power with what it does, its quirk, and its combos. The sheet\'s Forged items box now says what each power does too.'],
   ['2026-10-25','No more copy-paste descriptions','About 1,350 materials had no description of their own, only their property line ("Property: Piercing Edge." on over a hundred of them) or a few words of use. Each now has its own: the creature and part it comes from, where it grows or lies and how it is gathered, what it is used for, and which Blueprints use it. 37 Rune spells shared a description word for word with another (Void\'s Depth, Void\'s Passage, and Void\'s Strike were identical); each now has its own effect, from its name: a Curtain leaves the area obscured, an Anchor stops teleporting, a Passage lets you teleport, a Strike hits one creature twice.'],
   ['2026-10-26','Serial numbers for forged items','A forged item no longer gets “(2)” after its name when another of the same name exists: every copy keeps its name, and a small number tells copies of that name apart. The first Twin Blade is #00000001, the second #00000002, and a weapon with a different name starts at #00000001.'],
@@ -4005,7 +4006,13 @@ const BP_IDX=new Map();BPS.forEach(b=>{if(!BP_IDX.has(lc(b.n)))BP_IDX.set(lc(b.n
 let findBP=n=>BP_IDX.get(lc(n||''));
 const godByKey=n=>GOD_IDX.get(lc(n||''));
 let PARTY=store.get('party',[]);
-const saveParty=()=>{partyStamp();store.set('party',PARTY)};
+// A forged item lives in its maker's saved designs, so on anyone else's device (the DM, the other players in a campaign)
+// the character's gear was only a name. Each character now carries a copy of its forged items (fd: name -> record), for
+// reading only: the item still belongs to, and changes only for, the one who forged it.
+function forgedSnap(c){try{if(!c||(c._by&&!(CL&&CL.user&&c._by.u===CL.user.id)))return;const fd={};
+  (c.gear||[]).forEach(n=>{const d=DESIGNS.find(x=>x&&x.n===n&&!x.foreign);if(d&&d.forged)fd[n]=wsData(d)});
+  if(Object.keys(fd).length)c.fd=fd;else delete c.fd}catch(e){}}
+const saveParty=()=>{PARTY.forEach(forgedSnap);partyStamp();store.set('party',PARTY)};
 function partyDelete(id){const i=PARTY.findIndex(x=>x.id===id),c=PARTY[i];if(!c)return;PARTY.splice(i,1);PARTY_SEL=null;saveParty();renderParty();undoToast((c.name||'Character')+' deleted',()=>{partyRestore(c,i);PARTY_SEL=c.id;if(TAB==='party')renderParty()})}
 // Undo a deleted character: put it back where it was and forget its deletion marker (so other devices keep it too)
 function partyRestore(c,i){try{const g=store.get('partygone',{});if(g[c.id]){delete g[c.id];store.set('partygone',g)}}catch(e){}if(typeof CL!=='undefined'&&CL.cgone)CL.cgone=CL.cgone.filter(x=>x[1]!==c.id);
@@ -7519,7 +7526,7 @@ function forgedCardHTML(d){const F=d.forged||{},cs=(d.combos||[]).map(n=>FCOMBOS
     <label class="note" style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" ${d.shared?'checked':''} onchange="wsShare(${esc(JSON.stringify(d.n))},this.checked)"> Shared in the Workshop</label>
     <div style="display:flex;gap:8px;flex-wrap:wrap">${cm.map(o=>`<button class="btn" onclick="forgeDeliver(${esc(JSON.stringify(d.n))},'${o.id}')">Deliver to ${esc(o.client)} for ${o.gp} gp</button>`).join('')}<button class="btn primary" onclick="FF.made='';renderForge()">Forge another</button></div></div>`}
 // the forged-item panel on the character sheet: quality, quirk, rune sockets, and growth
-const forgedOf=n=>DESIGNS.find(d=>d&&d.n===n&&d.forged)||null;
+const forgedOf=n=>DESIGNS.find(d=>d&&d.n===n&&d.forged&&!d.foreign)||null;
 function forgedSave(){store.set('designs',DESIGNS);designPlace();saveParty();renderSheet()}
 function forgedRune(n,i,v){const d=forgedOf(n);if(!d)return;const F=d.forged;F.runes=F.runes||[];if(v)F.runes[i]=v;else F.runes.splice(i,1);F.runes=F.runes.filter(Boolean);const cl=runeClash(F.runes);if(cl.length)toast('Unstable: '+cl.map(x=>x.join(' and ')).join(', ')+' fight inside it');forgedSave()}
 function forgedMark(n){const d=forgedOf(n);if(!d)return;const why=prompt('What did it do? ('+FMARK_WHY.join(', ')+')',FMARK_WHY[0]);if(why==null)return;const F=d.forged,was=F.marks||0;F.marks=was+1;F.log=(F.log||[]).concat([[new Date().toISOString().slice(0,10),why.slice(0,80)]]);
@@ -7538,7 +7545,7 @@ function evoFeed(n){const d=forgedOf(n),c=sheetChar();if(!d||!c||!d.evo||d.evo.t
   row[1]=(+row[1]||0)-3;c.inv=c.inv.filter(x=>(+x[1]||0)>0);d.evo.stock.push({n:m.tr.n,t:m.tr.t||'',from:m.n});if(d.evo.act.length<EVO_MAX_ACT)d.evo.act.push(m.tr.n);forgedSave();forgeSound('brew');toast(`${d.n} devours three ${m.n}: ${m.tr.n}`)}
 function evoToggle(n,t){const d=forgedOf(n);if(!d||!d.evo)return;const a=d.evo.act;if(a.includes(t))d.evo.act=a.filter(x=>x!==t);else{if(a.length>=EVO_MAX_ACT){toast(`Only ${EVO_MAX_ACT} traits can be active: switch one out (a bonus action)`);return}a.push(t)}forgedSave()}
 // the forged-item panel on the character sheet: quality, powers, quirk, rune sockets, growth, and a god's gift of evolving
-function forgedHTML(c){const L=(c.gear||[]).map(forgedOf).filter((d,i,a)=>d&&a.indexOf(d)===i);if(!L.length)return '';const rn=RUNES.map(x=>x.n).sort(),key=n=>btoa(unescape(encodeURIComponent(n))).replace(/=/g,''),J=n=>esc(JSON.stringify(n));
+function forgedHTML(c){const L=(c.gear||[]).map(n=>forgedOf(n)||(c.fd&&c.fd[n]&&c.fd[n].forged?Object.assign({},c.fd[n],{n}):null)).filter((d,i,a)=>d&&a.findIndex(x=>x&&x.n===d.n)===i);if(!L.length)return '';const rn=RUNES.map(x=>x.n).sort(),key=n=>btoa(unescape(encodeURIComponent(n))).replace(/=/g,''),J=n=>esc(JSON.stringify(n));
   const gods=[...new Set([c.god?godShort(godByKey(c.god)||{n:c.god}):'',...(c.extra||[]).map(x=>x.god?godShort(godByKey(x.god)||{n:x.god}):'')].filter(Boolean))];
   return L.map(d=>{const F=d.forged,wep=!!d.dmg,cl=runeClash(F.runes||[]),next=FGROW.find(g=>g[0]>(F.marks||0)),got=FGROW.filter(g=>g[0]<=(F.marks||0)),E=d.evo,pts=evoPts(d,c);
     const feedable=E&&E.t==='unstable'?(c.inv||[]).filter(([n,q])=>(+q||0)>=3).map(([n])=>findMat(n)).filter(m=>m&&m.tr&&!E.stock.some(x=>x.n===m.tr.n)):[];
@@ -7569,7 +7576,9 @@ async function wsShare(n,on){const d=DESIGNS.find(x=>x.n===n);if(!d)return;d.sha
 async function wsLoad(){if(WS.busy)return;if(CL.on&&!CL.sb){try{await cloudStart()}catch(e){}}if(!(CL.on&&CL.sb)){WS.err='The Workshop lives in the FAND database: it needs the site\'s cloud connection.';WS.rows=[];return}WS.busy=true;
   try{const {data,error}=await Promise.race([CL.sb.from('blueprints').select('id,owner,maker,name,base,data,shared,updated_at').or(CL.user?`shared.eq.true,owner.eq.${CL.user.id}`:'shared.eq.true').order('updated_at',{ascending:false}).limit(200),
       new Promise((_,no)=>setTimeout(()=>no(new Error('The FAND database did not answer. Check your connection and press Refresh.')),12000))]);
-    if(error)throw error;WS.rows=data||[];WS.err=''}catch(e){WS.rows=[];WS.err=/failed to fetch|network/i.test(e.message||'')?'Couldn\'t reach the FAND database. Check your connection and press Refresh.':/relation|does not exist|schema cache/i.test(e.message||'')?'The Workshop\'s table is not set up yet: the site owner runs the blueprints part of tools/cloud/schema.sql once (it ends by reloading the API\'s list of tables). The database said: '+(e.message||String(e)):(e.message||String(e))}
+    if(error)throw error;WS.rows=data||[];WS.err='';
+    let fix=0;DESIGNS.forEach((d,i)=>{if(!d||!d.foreign||d.mats)return;const w=WS.rows.find(r=>r.owner===d.foreign.owner&&d.n===r.name+' (by '+(r.maker||'someone')+')');if(w){DESIGNS[i]=wsCopy(w,d.n);fix++}});
+    if(fix){store.set('designs',DESIGNS);designPlace(true)}}catch(e){WS.rows=[];WS.err=/failed to fetch|network/i.test(e.message||'')?'Couldn\'t reach the FAND database. Check your connection and press Refresh.':/relation|does not exist|schema cache/i.test(e.message||'')?'The Workshop\'s table is not set up yet: the site owner runs the blueprints part of tools/cloud/schema.sql once (it ends by reloading the API\'s list of tables). The database said: '+(e.message||String(e)):(e.message||String(e))}
   WS.busy=false;if($('fg-ws'))$('fg-ws').innerHTML=wsHTML()}
 function wsHTML(){if(WS.rows==null){setTimeout(wsLoad,0);return '<div class="note">Opening the Workshop…</div>'}if(WS.err)return `<div class="note">${esc(WS.err)}</div>`;
   const q=lc((WS.find||'').trim()),L=WS.rows.filter(w=>(WS.view!=='mine'||wsMine(w))&&(!q||lc(w.name+' '+w.base+' '+(w.maker||'')).includes(q)));
@@ -7587,13 +7596,17 @@ function renderWorkshop(){const q=lc((WS.find||'').trim()),rows=WS.rows;
 function wsView(id){const w=(WS.rows||[]).find(x=>x.id===id);if(!w)return;const d=w.data||{},F=d.forged||{};
   openModal(`<h3 style="font-family:var(--serif)">${esc(w.name)}</h3><div class="note">${esc(w.base)} · forged by ${esc(w.maker||'someone')}${F.on?' on '+esc(F.on):''}</div>
     ${kv([['Item level',num(d.il)],['Rarity',esc(d.r||'Common')],F.q?['Quality',esc(F.q)]:null,d.dmg?['Damage',esc(d.dmg)]:null,d.atk!=null?['Accuracy',(+d.atk>=0?'+':'')+num(d.atk)]:null,d.ac!=null?['AC',num(d.ac)]:null,['Materials',esc([].concat(d.mats||[]).join(', '))],Array.isArray(d.powers)&&d.powers.length?['Powers',d.powers.map(x=>esc(x.n)+(x.k==='p'?' (Potency '+num(x.pot)+')':'')).join(', ')]:null].filter(Boolean))}
-    ${d.lore?`<div class="callout">${esc(d.lore)}</div>`:''}<div class="note">${wsMine(w)?'Your own Blueprint: equipping it gives a working item.':'Someone else\'s Blueprint: you can study it, but equipping it gives an invalid item. To use it, gather the materials and forge it yourself.'}</div>`)}
+    ${d.lore||forgedDesc(d)?`<div class="callout" style="white-space:pre-line">${esc([d.lore,forgedDesc(d)].filter(Boolean).join('\n\n'))}</div>`:''}<div class="note">${wsMine(w)?'Your own Blueprint: equipping it gives a working item.':'Someone else\'s Blueprint: you can study it, but equipping it gives an invalid item. To use it, gather the materials and forge it yourself.'}</div>`)}
 function wsEquip(id){const w=(WS.rows||[]).find(x=>x.id===id);if(!w)return;const who=prompt('Equip on which character? ('+PARTY.map(c=>c.name||'Unnamed').join(', ')+')',(PARTY[0]||{}).name||'');if(who==null)return;
   const c=PARTY.find(x=>lc(x.name||'')===lc(who.trim()))||PARTY[0];if(!c)return;let n=w.name;
   if(wsMine(w)){if(!DESIGNS.some(x=>x.n===w.name)){DESIGNS.push(Object.assign({},w.data,{n:w.name}));store.set('designs',DESIGNS);designPlace()}}
-  else{n=w.name+' (by '+(w.maker||'someone')+')';if(!DESIGNS.some(x=>x.n===n)){DESIGNS.push({n,base:w.base,cat:(w.data||{}).cat||'Item',foreign:{by:w.maker||'someone',owner:w.owner}});store.set('designs',DESIGNS);designPlace()}}
+  else{n=w.name+' (by '+(w.maker||'someone')+')';if(!DESIGNS.some(x=>x.n===n)){DESIGNS.push(wsCopy(w,n));store.set('designs',DESIGNS);designPlace()}}
   c.gear=(c.gear||[]).concat(n);saveParty();toast(wsMine(w)?n+' equipped on '+(c.name||'character'):n+' equipped on '+(c.name||'character')+', but it is not theirs: it is an invalid item')}
 function isForeign(b){return !!(b&&b.design&&b.design.foreign)}
+function designPeekHTML(b){const D=b.design,P=D.peek,F=D.foreign;
+  return `<div class="callout" style="border-color:var(--gold)">⚒ <b>Forged by ${esc((P||F).by||'another player')}</b>${P&&P.who?`, carried by <b>${esc(P.who)}</b>`:''}${D.base?' · made from the general '+esc(D.base):''}. ${F?'Equipped from the Workshop: it is someone else\'s item, so it gives you nothing (an invalid item). To use it, forge your own.':'You can read what it is and does; only the one who forged it can change it.'}${D.lore&&D.lore!==b.ds?`<div style="margin-top:6px">${esc(D.lore)}</div>`:''}</div>`}
+// a copy of someone's Workshop Blueprint, kept so its description can be read; marked foreign so it never works for you
+const wsCopy=(w,n)=>{const o=wsData(w.data||{});delete o.evo;delete o.shared;return Object.assign(o,{n,base:w.base,cat:o.cat||'Item',foreign:{by:w.maker||'someone',owner:w.owner}})};
 // ── the Preparation bench: turn materials in a pack into a prepared variant (tanned hide, seasoned wood, folded steel...) ──
 let PREP={who:'',pick:{}};
 function benchHTML(){const c=PARTY.find(x=>x.id===PREP.who)||null,rows=c?(c.inv||[]).map(([n,q])=>({m:MAT_IDX.get(lc(n)),q:+q||0})).filter(x=>x.m&&x.q>0&&procList(x.m).length):[];
@@ -7799,8 +7812,11 @@ const _findBP=findBP;
 // a saved design wins over a vault Blueprint of the same name (new designs cannot take a vault name, older ones may have)
 findBP=n=>{const k=lc(n||'');for(let i=BPS.length-1;i>=BP_VAULT;i--)if(lc(BPS[i].n)===k)return BPS[i];return _findBP(n)};
 // rebuild the design part of the Blueprint list after a design is saved, filed again, or deleted
-function designPlace(){BPS.length=BP_VAULT;DESIGNS.forEach(d=>{if(d&&d.n)BPS.push(designBP(d))});for(let i=BP_VAULT;i<BPS.length;i++){BPS[i]._t='bp';BPS[i]._i=i}
-  BP_IDX.clear();BPS.forEach(b=>{if(!BP_IDX.has(lc(b.n)))BP_IDX.set(lc(b.n),b)});_bpByMat=null;BP_BY_GEN.m=null;if(TAB==='blueprints')renderTab()}
+function designPlace(quiet){BPS.length=BP_VAULT;DESIGNS.forEach(d=>{if(d&&d.n)BPS.push(designBP(d))});
+  const have=new Set(DESIGNS.map(d=>d&&d.n));PARTY.forEach(c=>{if(!c||!c.fd||typeof c.fd!=='object')return;Object.keys(c.fd).forEach(n=>{const d=c.fd[n];if(have.has(n)||!d||typeof d!=='object')return;have.add(n);
+    BPS.push(designBP(Object.assign({},d,{n,peek:{by:(d.forged&&d.forged.by)||(c._by&&c._by.n)||'another player',who:c.name||''}})))})});for(let i=BP_VAULT;i<BPS.length;i++){BPS[i]._t='bp';BPS[i]._i=i}
+  BP_IDX.clear();BPS.forEach(b=>{if(!BP_IDX.has(lc(b.n)))BP_IDX.set(lc(b.n),b)});_bpByMat=null;BP_BY_GEN.m=null;if(!quiet&&TAB==='blueprints')renderTab()}
+designPlace(true);
 function designDelete(i){const [x]=DESIGNS.splice(i,1);if(!x)return;store.set('designs',DESIGNS);designPlace();renderForge();undoToast('Deleted '+x.n,()=>{DESIGNS.splice(i,0,x);store.set('designs',DESIGNS);designPlace();renderForge()})}
 function designOpen(n){const i=DESIGNS.findIndex(d=>d.n===n);if(i<0)return;go('forge');setTimeout(()=>loadDesign(i),0)}
 // FAND's own filing: the design's crafting profession, and the specialty most vault Blueprints of the same general design use
@@ -8019,7 +8035,7 @@ const clOwnParty=()=>PARTY.filter(clMine).map(c=>{const o=Object.assign({},c);de
 const clStrip=c=>{const o=Object.assign({},c);delete o._by;delete o._cs;delete o.camp;return o};
 function clPartyChanged(){if(PARTY_SEL&&!PARTY.some(x=>x.id===PARTY_SEL))PARTY_SEL=null;saveParty();clRerender()}
 // redraw the party or the sheet after a change from elsewhere, but never under the player's fingers
-function clRerender(){if(TAB==='forge'&&$('gk')){const C=$('content'),y=C.scrollTop;renderForge();C.scrollTop=y;return}if(TAB!=='party'&&TAB!=='sheet'&&TAB!=='account'&&TAB!=='settings')return;const a=document.activeElement;
+function clRerender(){designPlace(true);if(TAB==='forge'&&$('gk')){const C=$('content'),y=C.scrollTop;renderForge();C.scrollTop=y;return}if(TAB!=='party'&&TAB!=='sheet'&&TAB!=='account'&&TAB!=='settings')return;const a=document.activeElement;
   if(a&&$('content').contains(a)&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)){CL.later=true;return}
   CL.later=false;const y=$('content').scrollTop;if(TAB==='party')renderParty();else if(TAB==='account')renderAccount();else if(TAB==='settings')renderSettings();else renderSheet();$('content').scrollTop=y}
 document.addEventListener('focusout',()=>{if(CL.later)setTimeout(()=>{if(CL.later)clRerender()},400)});
