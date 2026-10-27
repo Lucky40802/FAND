@@ -1051,7 +1051,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"workshop",v:"fcb6ede874",b:"fd49fa19"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"workshop",v:"fcb6ede874",b:"b113efa6"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=fcb6ede874",11506652],["data/vault.js?v=fcb6ede874",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -2711,15 +2711,34 @@ const hexRgb=h=>{const m=/^#?([0-9a-f]{6})$/i.exec(String(h||''));if(!m)return '
 // follows the pointer. Dark mode is deep space; light mode is the same sky at dawn, in pastels ──
 function cosmosFx(){const cv=$('cs-fx');if(!cv||!cv.getContext)return;const x=cv.getContext('2d'),dpr=Math.min(2,window.devicePixelRatio||1),still=matchMedia('(prefers-reduced-motion: reduce)').matches;let W=0,H=0,S=null;
   const size=()=>{const r=cv.getBoundingClientRect();W=cv.width=Math.max(1,Math.round(r.width*dpr));H=cv.height=Math.max(1,Math.round(r.height*dpr));S=null};size();
-  const dust=[];let lastMove=0;const onMove=e=>{if(still||!cv.isConnected)return;const r=cv.getBoundingClientRect(),now=performance.now();if(now-lastMove<16)return;lastMove=now;
-    for(let i=0;i<2;i++)dust.push({x:(e.clientX-r.left)*dpr,y:(e.clientY-r.top)*dpr,vx:(Math.random()-.5)*.8*dpr,vy:(Math.random()-.5)*.8*dpr-.2*dpr,life:1,h:Math.random()*360,r:(.8+Math.random()*1.8)*dpr});if(dust.length>120)dust.splice(0,dust.length-120)};
+  // the pointer is a shooting star: a bright head, a tail that tapers along the path it just took, and sparks shed behind
+  const TAIL=650,trail=[],dust=[];let lastMove=0;const onMove=e=>{if(still||!cv.isConnected)return;const r=cv.getBoundingClientRect(),now=performance.now();if(now-lastMove<12)return;lastMove=now;
+    const p={x:(e.clientX-r.left)*dpr,y:(e.clientY-r.top)*dpr,t:now},q=trail[trail.length-1];trail.push(p);if(trail.length>40)trail.shift();
+    const sp=q?Math.hypot(p.x-q.x,p.y-q.y):0;if(sp>3*dpr&&Math.random()<.6){const a=Math.atan2(q.y-p.y,q.x-p.x)+(Math.random()-.5)*.9,v=(.4+Math.random()*1.1)*dpr;
+      dust.push({x:p.x,y:p.y,vx:Math.cos(a)*v,vy:Math.sin(a)*v+.15*dpr,life:1,r:(.5+Math.random()*1.1)*dpr})}if(dust.length>60)dust.splice(0,dust.length-60)};
   window.addEventListener('pointermove',onMove,{passive:true});
   const draw=ts=>{if(!cv.isConnected){window.removeEventListener('pointermove',onMove);return}const r=cv.getBoundingClientRect();if(Math.round(r.width*dpr)!==W||Math.round(r.height*dpr)!==H)size();
     const light=document.documentElement.dataset.theme==='light';if(!S||S.light!==light)S=cosmosScene(W,H,dpr,light);const t=still?0:ts||0;
     const sc=($('content')||{}).scrollTop||0;cosmosPaint(x,S,t,sc*dpr,still);
-    dust.forEach(d=>{if(!still){d.x+=d.vx;d.y+=d.vy;d.life-=.016}});for(let i=dust.length-1;i>=0;i--)if(dust[i].life<=0)dust.splice(i,1);
-    x.save();x.globalCompositeOperation=light?'source-over':'lighter';dust.forEach(d=>{const a=Math.max(0,d.life);x.fillStyle=light?`hsla(${(d.h+ts/40)%360},70%,60%,${a*.7})`:`hsla(${(d.h+ts/40)%360},90%,75%,${a})`;x.beginPath();x.arc(d.x,d.y,d.r*(.5+a),0,Math.PI*2);x.fill()});x.restore();
+    cosmosStar(x,trail,dust,performance.now(),TAIL,dpr,light,still);
     if(!still)requestAnimationFrame(draw)};requestAnimationFrame(draw)}
+// the pointer's shooting star. Dark mode: a white-hot head with a blue-white tail, added light. Light mode: a golden head
+// with a rose-gold tail, painted on the dawn sky so it still shows
+function cosmosStar(x,trail,dust,now,TAIL,dpr,light,still){while(trail.length&&now-trail[0].t>TAIL)trail.shift();
+  dust.forEach(d=>{if(!still){d.x+=d.vx;d.y+=d.vy;d.vx*=.97;d.vy*=.97;d.life-=.03}});for(let i=dust.length-1;i>=0;i--)if(dust[i].life<=0)dust.splice(i,1);
+  x.save();x.globalCompositeOperation=light?'source-over':'lighter';x.lineCap='round';
+  const core=light?[255,214,120]:[255,255,255],glow=light?[226,140,90]:[150,190,255];
+  // the tail: segment by segment, wider and brighter toward the head, fading with age
+  for(let i=1;i<trail.length;i++){const a=trail[i-1],b=trail[i],f=i/(trail.length-1||1),age=1-(now-b.t)/TAIL;if(age<=0)continue;
+    x.strokeStyle=`rgba(${glow},${(light?.5:.35)*f*age})`;x.lineWidth=(1.5+8*f)*dpr;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke();
+    x.strokeStyle=`rgba(${core},${(light?.95:1)*f*age})`;x.lineWidth=(.6+2.6*f)*dpr;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke()}
+  // the head: a soft glow, a hot core, and a small four-pointed glint
+  const h=trail[trail.length-1];if(h){const age=1-(now-h.t)/TAIL;if(age>0){const R=16*dpr,g=x.createRadialGradient(h.x,h.y,0,h.x,h.y,R);
+    g.addColorStop(0,`rgba(${core},${age})`);g.addColorStop(.25,`rgba(${core},${.7*age})`);g.addColorStop(.5,`rgba(${glow},${(light?.55:.45)*age})`);g.addColorStop(1,`rgba(${glow},0)`);x.fillStyle=g;x.beginPath();x.arc(h.x,h.y,R,0,Math.PI*2);x.fill();
+    x.strokeStyle=`rgba(${core},${.8*age})`;x.lineWidth=1*dpr;x.beginPath();x.moveTo(h.x-11*dpr,h.y);x.lineTo(h.x+11*dpr,h.y);x.moveTo(h.x,h.y-11*dpr);x.lineTo(h.x,h.y+11*dpr);x.stroke()}}
+  // sparks shed from the tail
+  dust.forEach(d=>{const a=Math.max(0,d.life);x.fillStyle=`rgba(${a>.5?core:glow},${a*(light?.8:.9)})`;x.beginPath();x.arc(d.x,d.y,d.r*(.4+a*.6),0,Math.PI*2);x.fill()});
+  x.restore()}
 function cosmosGalaxySprite(R,dpr){const N=Math.ceil(R*2.3),c=document.createElement('canvas');c.width=c.height=N;const g=c.getContext('2d'),o=N/2;
   const col=u=>{const st=[[0,[255,214,140]],[.25,[255,150,175]],[.55,[190,120,240]],[.8,[120,150,255]],[1,[110,200,240]]];for(let i=1;i<st.length;i++)if(u<=st[i][0]){const[a,ca]=st[i-1],[b,cb]=st[i],k=(u-a)/(b-a);return ca.map((v,j)=>Math.round(v+(cb[j]-v)*k))}return st[4][1]};
   const blob=(x,y,r,rgb,a)=>{const z=g.createRadialGradient(x,y,0,x,y,r);z.addColorStop(0,`rgba(${rgb},${a})`);z.addColorStop(1,`rgba(${rgb},0)`);g.fillStyle=z;g.beginPath();g.arc(x,y,r,0,6.29);g.fill()};
@@ -2990,6 +3009,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-27','A shooting star for a pointer','On the home page your pointer now trails a shooting star instead of confetti: a bright head with a soft glow and a glint, a tail that tapers along the path you just moved, and a few sparks shed behind it. White and blue-white in the night sky, gold and rose-gold in the dawn sky.'],
   ['2026-10-27','69 more combos','The Forge has 69 more hidden combos: every newer property now has two (Rooted, Slick, Blossoming, Tolling, Shifting Sands, Mycelial, Clockwork, Thorned, Ashen, Moulded, Smoky, Sprouting, Preserving), the commonest creature traits that had none now have one (Wail, Flameproof, Grounded, Paralyzing, Gore, Fey Step, and more), and the commonest properties got more (Lifedrinking, All-Seeing, Giant-Felling, Piercing Edge). They stay hidden until you forge one.'],
   ['2026-10-27','Blank character HP','A new blank character starts at full health: setting its maximum hit points fills in its current hit points too, and the damage and healing buttons count an empty current HP as full instead of 0.'],
   ['2026-10-27','Art on the world pages','The pages you read for the world itself now have paintings behind them: Lore a world-tree of light with drifting rune glyphs, Realms a ladder of floating islands in each realm\'s colour from the earth up to the void, the Magic Towers wizard spires under a crescent moon with turning magic circles and an aurora, and the Rune Towers monoliths with burning runes and arcs of storm-light. Lists and tools, like the Bestiary, Materials, Blueprints, Spells, the character sheet, and combat, stay plain so nothing gets in the way.'],
