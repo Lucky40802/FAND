@@ -291,7 +291,7 @@ button.chip:hover,a.chip:hover{border-color:var(--acc);color:var(--text)}
 :root[data-theme="light"] .page.cosmos::before{background:#f3eefc}
 :root[data-theme="light"] .page.cosmos .hero,:root[data-theme="light"] .page.cosmos .stat,:root[data-theme="light"] .page.cosmos .rung,:root[data-theme="light"] .page.cosmos .panel,:root[data-theme="light"] .page.cosmos .callout,:root[data-theme="light"] .page.cosmos .card,:root[data-theme="light"] .page.cosmos .hcard{
   background:linear-gradient(160deg,rgba(255,255,255,.7),rgba(255,255,255,.48) 45%,rgba(235,225,255,.45));border-color:rgba(150,125,220,.3);box-shadow:0 0 0 1px rgba(255,255,255,.7) inset,0 10px 30px -14px rgba(90,60,160,.35)}
-:root[data-theme="light"] .page.cosmos .hero{background:radial-gradient(120% 140% at 0% 0%,rgba(200,170,255,.45),transparent 55%),radial-gradient(90% 120% at 100% 100%,rgba(160,225,240,.35),transparent 60%),linear-gradient(90deg,rgba(255,255,255,.72),rgba(255,255,255,.4) 55%,rgba(255,255,255,.12))}
+:root[data-theme="light"] .page.cosmos .hero{background:radial-gradient(120% 140% at 0% 0%,rgba(200,170,255,.45),transparent 55%),radial-gradient(90% 120% at 100% 100%,rgba(160,225,240,.35),transparent 60%),linear-gradient(90deg,rgba(255,255,255,.72),rgba(255,255,255,.3) 45%,rgba(255,255,255,.04) 70%)}
 :root[data-theme="light"] .page.cosmos .hero h2{background:linear-gradient(90deg,#6a3fd0,#c0721a 25%,#1d8fa8 50%,#c23c8e 75%,#6a3fd0);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 1px 0 #fff)}
 :root[data-theme="light"] .page.cosmos .hero .hero-search{background:rgba(255,255,255,.8)}:root[data-theme="light"] .page.cosmos{--muted:#5f567f;--muted2:#7d749c;--text2:#3a3354}:root[data-theme="light"] .page.cosmos .note,:root[data-theme="light"] .page.cosmos .stat .l,:root[data-theme="light"] .page.cosmos .rung .ln{text-shadow:0 1px 0 rgba(255,255,255,.8)}
 :root[data-theme="light"] .page.cosmos .stat .v{background:linear-gradient(180deg,#3b2a7a,#7a5ad0);-webkit-background-clip:text;background-clip:text}
@@ -1014,7 +1014,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"account",v:"fcb6ede874",b:"a862ebea"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"account",v:"fcb6ede874",b:"5a511cab"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=fcb6ede874",11506652],["data/vault.js?v=fcb6ede874",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -2600,6 +2600,26 @@ function cosmosFx(){const cv=$('cs-fx');if(!cv||!cv.getContext)return;const x=cv
     dust.forEach(d=>{if(!still){d.x+=d.vx;d.y+=d.vy;d.life-=.016}});for(let i=dust.length-1;i>=0;i--)if(dust[i].life<=0)dust.splice(i,1);
     x.save();x.globalCompositeOperation=light?'source-over':'lighter';dust.forEach(d=>{const a=Math.max(0,d.life);x.fillStyle=light?`hsla(${(d.h+ts/40)%360},70%,60%,${a*.7})`:`hsla(${(d.h+ts/40)%360},90%,75%,${a})`;x.beginPath();x.arc(d.x,d.y,d.r*(.5+a),0,Math.PI*2);x.fill()});x.restore();
     if(!still)requestAnimationFrame(draw)};requestAnimationFrame(draw)}
+function cosmosGalaxySprite(R,dpr){const N=Math.ceil(R*2.3),c=document.createElement('canvas');c.width=c.height=N;const g=c.getContext('2d'),o=N/2;
+  const col=u=>{const st=[[0,[255,214,140]],[.25,[255,150,175]],[.55,[190,120,240]],[.8,[120,150,255]],[1,[110,200,240]]];for(let i=1;i<st.length;i++)if(u<=st[i][0]){const[a,ca]=st[i-1],[b,cb]=st[i],k=(u-a)/(b-a);return ca.map((v,j)=>Math.round(v+(cb[j]-v)*k))}return st[4][1]};
+  const blob=(x,y,r,rgb,a)=>{const z=g.createRadialGradient(x,y,0,x,y,r);z.addColorStop(0,`rgba(${rgb},${a})`);z.addColorStop(1,`rgba(${rgb},0)`);g.fillStyle=z;g.beginPath();g.arc(x,y,r,0,6.29);g.fill()};
+  const arm=(k,rr,j)=>{const th=k*2.094+Math.log(rr+.05)*2.3+j;return [o+Math.cos(th)*rr*R,o+Math.sin(th)*rr*R]};
+  // the disc's diffuse glow
+  blob(o,o,R*.95,'225,195,255',.28);blob(o,o,R*.55,'255,205,215',.35);
+  // the arms: soft blobs along three logarithmic spirals, wider and bluer toward the rim
+  const gs=()=>(Math.random()+Math.random()+Math.random()-1.5)/1.5;
+  // haze between the arms, so the disc reads as one body
+  for(let i=0;i<260;i++){const rr=Math.pow(Math.random(),.8),a=Math.random()*6.29;blob(o+Math.cos(a)*rr*R*.95,o+Math.sin(a)*rr*R*.95,R*(.08+.08*Math.random()),col(rr).join(','),.075*(1-rr*.6))}
+  for(let k=0;k<3;k++)for(let i=0;i<900;i++){const rr=.06+Math.pow(Math.random(),.85)*.94,sp=(.12+.35*rr)*gs(),[x,y]=arm(k,rr,sp),c=col(Math.min(1,rr+Math.abs(sp)*.3)),fade=Math.pow(1-rr,.45)*(1-Math.min(1,Math.abs(sp)*1.6));
+    blob(x,y,R*(.025+.05*rr)*(.6+Math.random()*.8),c.join(','),(.13+.22*(1-rr))*Math.max(.18,fade))}
+  // fine star dust along the arms
+  for(let k=0;k<3;k++)for(let i=0;i<700;i++){const rr=.08+Math.pow(Math.random(),.8)*.92,[x,y]=arm(k,rr,(.1+.3*rr)*gs());g.fillStyle=`rgba(${Math.random()<.5?'255,255,255':'215,230,255'},${.35+Math.random()*.5})`;const d=dpr*(.5+Math.random()*.9);g.fillRect(x,y,d,d)}
+  // faint dust lanes just inside each arm
+  for(let k=0;k<3;k++)for(let i=0;i<220;i++){const rr=.15+Math.random()*.65,[x,y]=arm(k,rr,-.2+gs()*.05);blob(x,y,R*(.012+.02*rr),'95,55,125',.09)}
+  // star-forming knots: hot pink and blue-white
+  for(let k=0;k<3;k++)for(let i=0;i<40;i++){const rr=.2+Math.random()*.75,[x,y]=arm(k,rr,(Math.random()-.5)*.12),pk=Math.random()<.5;blob(x,y,R*(.012+Math.random()*.02),pk?'255,90,170':'150,200,255',.75);blob(x,y,R*.004+dpr,pk?'255,235,245':'240,250,255',.95)}
+  // the bulge
+  blob(o,o,R*.32,'255,225,170',.85);blob(o,o,R*.18,'255,245,225',.95);return c}
 function cosmosScene(W,H,dpr,light){const S={W,H,dpr,light,stars:[],gal:[],meteors:[],nextMeteor:0},M=Math.max(W,H),m=Math.min(W,H);
   const bg=document.createElement('canvas');bg.width=W;bg.height=H;const g=bg.getContext('2d');
   let q=g.createRadialGradient(W*.5,H*.4,0,W*.5,H*.45,M*.9);
@@ -2625,14 +2645,20 @@ function cosmosScene(W,H,dpr,light){const S={W,H,dpr,light,stars:[],gal:[],meteo
   // a constellation in the upper right: the four-pointed star of FAND, drawn in seven stars
   const ccx=W*(W>H?.06:.12),ccy=H*(W>H?.55:.62),cr=m*(W>H?.05:.07);S.con=[[0,-1.3],[.28,-.28],[1.3,0],[.28,.28],[0,1.3],[-.28,.28],[-1.3,0],[-.28,-.28]].map(([a,b])=>[ccx+a*cr,ccy+b*cr]);
   // the spiral galaxy, upper left
-  S.gx=W*(W>H?.74:.78);S.gy=H*(W>H?.3:.16);S.gr=m*(W>H?.2:.2);for(let i=0;i<1100;i++){const arm=i%3,rr=Math.pow(Math.random(),.6),th=arm*2.094+Math.log(rr+.05)*2.3+(Math.random()-.5)*.55*(1-rr*.4);S.gal.push({rr,th,s:dpr*(.4+Math.random()*1.1),c:rr<.18?'255,230,190':Math.random()<.5?'180,190,255':'255,170,220',a:.35+Math.random()*.6})}
+  S.gx=W*(W>H?.74:.78);S.gy=H*(W>H?.3:.16);S.gr=m*(W>H?.2:.2);if(light)S.galImg=cosmosGalaxySprite(S.gr,dpr);for(let i=0;i<1100;i++){const arm=i%3,rr=Math.pow(Math.random(),.6),th=arm*2.094+Math.log(rr+.05)*2.3+(Math.random()-.5)*.55*(1-rr*.4);S.gal.push({rr,th,s:dpr*(.4+Math.random()*1.1),c:rr<.18?'255,230,190':Math.random()<.5?'180,190,255':'255,170,220',a:.35+Math.random()*.6})}
   // the ringed planet, lower right, and its moon
   S.px=W*(W>H?.86:.8);S.py=H*(W>H?.74:.82);S.pr=m*(W>H?.085:.11);return S}
 function cosmosPaint(x,S,t,scroll,still){const{W,H,dpr,light}=S;x.globalCompositeOperation='source-over';x.globalAlpha=1;x.drawImage(S.bg,0,0);
   // the galaxy turns
-  const rot=t/60000;x.save();x.translate(S.gx,S.gy);let z=x.createRadialGradient(0,0,0,0,0,S.gr*.5);z.addColorStop(0,light?'rgba(255,220,200,.9)':'rgba(255,235,200,.95)');z.addColorStop(.3,light?'rgba(230,190,255,.35)':'rgba(220,170,255,.35)');z.addColorStop(1,'rgba(200,160,255,0)');
+  const rot=t/60000;let z;if(light&&S.galImg){const R=S.gr,I=S.galImg;x.save();x.translate(S.gx,S.gy);
+    z=x.createRadialGradient(0,0,0,0,0,R*1.5);z.addColorStop(0,'rgba(255,214,235,.55)');z.addColorStop(.45,'rgba(205,180,255,.22)');z.addColorStop(1,'rgba(205,180,255,0)');x.fillStyle=z;x.beginPath();x.ellipse(0,0,R*1.5,R*1.5*.6,-.5,0,6.29);x.fill();
+    x.rotate(-.5);x.scale(1,.55);x.rotate(rot);x.drawImage(I,-I.width/2,-I.height/2);
+    S.gal.forEach(p=>{if(p.rr<.12)return;const a=p.th+rot*(1.6-p.rr)-rot,rx=Math.cos(a)*p.rr*R,ry=Math.sin(a)*p.rr*R,tw=.5+.5*Math.sin(t/600+p.th*7);if(tw<.35)return;x.fillStyle=`rgba(255,255,255,${p.a*tw})`;x.fillRect(rx,ry,p.s*1.2,p.s*1.2)});
+    x.restore();x.save();x.translate(S.gx,S.gy);z=x.createRadialGradient(0,0,0,0,0,R*.16);z.addColorStop(0,'rgba(255,255,255,1)');z.addColorStop(.35,'rgba(255,240,205,.95)');z.addColorStop(1,'rgba(255,200,150,0)');x.fillStyle=z;x.beginPath();x.arc(0,0,R*.16,0,6.29);x.fill();
+    x.globalAlpha=.7;x.strokeStyle='rgba(255,255,255,.9)';x.lineWidth=.8*dpr;x.beginPath();x.moveTo(-R*.14,0);x.lineTo(R*.14,0);x.moveTo(0,-R*.1);x.lineTo(0,R*.1);x.stroke();x.restore()}
+  else{x.save();x.translate(S.gx,S.gy);z=x.createRadialGradient(0,0,0,0,0,S.gr*.5);z.addColorStop(0,light?'rgba(255,220,200,.9)':'rgba(255,235,200,.95)');z.addColorStop(.3,light?'rgba(230,190,255,.35)':'rgba(220,170,255,.35)');z.addColorStop(1,'rgba(200,160,255,0)');
   x.fillStyle=z;x.beginPath();x.ellipse(0,0,S.gr*.5,S.gr*.5*.55,-.5,0,6.29);x.fill();x.rotate(-.5);x.scale(1,.55);x.globalCompositeOperation=light?'source-over':'lighter';
-  S.gal.forEach(p=>{const a=p.th+rot*(1.6-p.rr),rx=Math.cos(a)*p.rr*S.gr,ry=Math.sin(a)*p.rr*S.gr;x.fillStyle=light?`rgba(${p.c==='255,230,190'?'200,130,90':p.c==='180,190,255'?'110,110,210':'200,100,170'},${p.a*.6})`:`rgba(${p.c},${p.a})`;x.fillRect(rx,ry,p.s,p.s)});x.restore();x.globalCompositeOperation='source-over';
+  S.gal.forEach(p=>{const a=p.th+rot*(1.6-p.rr),rx=Math.cos(a)*p.rr*S.gr,ry=Math.sin(a)*p.rr*S.gr;x.fillStyle=light?`rgba(${p.c==='255,230,190'?'200,130,90':p.c==='180,190,255'?'110,110,210':'200,100,170'},${p.a*.6})`:`rgba(${p.c},${p.a})`;x.fillRect(rx,ry,p.s,p.s)});x.restore();x.globalCompositeOperation='source-over';}
   // twinkling stars, nearer ones moving more with the scroll
   S.stars.forEach(s=>{const tw=.55+.45*Math.sin(t/1000*s.sp+s.ph),yy=((s.y-scroll*.04*s.z)%H+H)%H,r=s.r*(s.z===3?1.5:1)*(.7+.5*tw);x.globalAlpha=Math.min(1,.35+tw*.65);
     x.fillStyle=light?`hsl(${s.h},55%,${s.z===3?40:50}%)`:`hsl(${s.h},${s.h===45?90:70}%,${88+tw*10}%)`;x.beginPath();x.arc(s.x,yy,r,0,6.29);x.fill();
@@ -2844,6 +2870,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-27','A brighter galaxy at dawn','In light mode the home page galaxy is painted in full: feathery spiral arms that shade from rose to violet to sky blue, pink and blue star-forming knots, fine star dust, soft dust lanes, a haze between the arms, and a glowing golden core with a starburst. It still turns slowly, and its stars twinkle.'],
   ['2026-10-27','Home is the cosmos','The home page is now a living painting of the cosmos: nebulae in violet, rose, teal and gold, a Milky Way band, a spiral galaxy that slowly turns, a ringed planet with a moon on its orbit, twinkling stars with light spikes that drift as you scroll, the four-pointed star of FAND as a constellation, shooting stars, and stardust that follows your pointer. Panels are frosted glass. Dark mode is deep space; light mode is the same sky at dawn, in pastels.'],
   ['2026-10-27','Forge lists open on top','A material list opened in the Mystic Forge (or any Forge panel) now opens above the panels below it, so every choice can be clicked.'],
   ['2026-10-27','The Hell Forge, painted','In dark mode the Forge is now a living painting too: a smoke-red sky under a black eclipse ringed in fire, with a turning circle of infernal marks; red lightning in the clouds; jagged peaks and an erupting volcano; a dark citadel with burning windows; a lava river that flows; smoke lit from below; great chains hanging at the sides; and ash falling through the rising embers. Panels are obsidian with molten edges, the title is molten metal that flickers, the buttons are black iron, and the anvil burns.'],
