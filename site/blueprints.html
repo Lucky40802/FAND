@@ -239,7 +239,7 @@ button.chip:hover,a.chip:hover{border-color:var(--acc);color:var(--text)}
 /* ── Pages (home, realms, rules, tools) ─────────────────────── */
 .page{max-width:1180px;margin:0 auto}
 /* the Forge: a dark, ember-lit workshop in both themes, with a living background (after vantajs.com) */
-.page.forge{position:relative;isolation:isolate;--bg:#100705;--bg2:#160a07;--surf:rgba(30,15,10,.86);--surf2:rgba(44,22,14,.9);--surf3:rgba(58,30,18,.92);--line:#4b2a1b;--line3:#6a3c25;
+.page.forge{position:relative;isolation:isolate;--bg:#100705;--bg2:#160a07;--surf:rgba(30,15,10,.86);--surf2:rgba(44,22,14,.9);--surf3:rgba(58,30,18,.92);--tbl:#1e0f0a;--tbl2:#2c160e;--line:#4b2a1b;--line3:#6a3c25;
   --text:#f6e9da;--text2:#e0c9b2;--muted:#b0927a;--muted2:#80654f;--acc:#ff8a3d;--acc2:#ffb27a;--accbg:rgba(255,138,61,.14);--gold:#f2a94a;--gold2:#ffc777;--goldbg:rgba(242,169,74,.13);
   --red:#ff6b5a;--green:#7fd98f;--blue:#7cb8f0;color:var(--text);padding:0 4px 30px}
 /* the glow bleeds past the page's sides; the content area clips it so the Forge can't scroll sideways into it */
@@ -331,7 +331,7 @@ button.chip:hover,a.chip:hover{border-color:var(--acc);color:var(--text)}
 @media (max-width:600px){.page.forge .fg-hero-t{font-size:1.75rem}.page.forge .fg-hero-t::before,.page.forge .fg-hero-t::after{display:none}}
 @media (prefers-reduced-motion: reduce){.page.forge .fg-hero-t,.fg-anvil::after{animation:none}}
 /* light mode is the Heaven Forge: white marble and gold, sunlight from above */
-:root[data-theme="light"] .page.forge{--bg:#fbf7ec;--bg2:#f6efdc;--surf:rgba(255,253,246,.88);--surf2:rgba(250,244,228,.92);--surf3:rgba(243,233,206,.95);--line:#e2d3a8;--line3:#cdb77a;
+:root[data-theme="light"] .page.forge{--bg:#fbf7ec;--bg2:#f6efdc;--surf:rgba(255,253,246,.88);--surf2:rgba(250,244,228,.92);--surf3:rgba(243,233,206,.95);--tbl:#fffdf6;--tbl2:#faf4e4;--line:#e2d3a8;--line3:#cdb77a;
   --text:#2b2416;--text2:#4f4430;--muted:#86744f;--muted2:#a8976f;--acc:#b07d14;--acc2:#8c6209;--accbg:rgba(176,125,20,.12);--gold:#a7780f;--gold2:#7e5a06;--goldbg:rgba(167,120,15,.12);--red:#b8402f;--green:#2f8f57;--blue:#2f6fb3}
 :root[data-theme="light"] .page.forge::before{background:radial-gradient(ellipse at 50% -15%,#fff6cf 0%,#fdf3d6 25%,#f4f1ea 55%,#e8eef8 100%)}
 :root[data-theme="light"] .fg-hell{display:none}:root[data-theme="light"] .fg-heaven{display:inline}
@@ -466,12 +466,13 @@ button.chip:hover,a.chip:hover{border-color:var(--acc);color:var(--text)}
 .panel p,.panel li{font-size:.86rem;color:var(--text2)}
 .panel ul{padding-left:18px;display:flex;flex-direction:column;gap:5px}
 .vtag{font-family:var(--mono);font-size:.68rem;color:var(--gold2);background:var(--goldbg);border-radius:4px;padding:0 5px;margin-right:4px}
-table.t{width:100%;border-collapse:collapse;font-size:.84rem}
+/* tables are always solid (--tbl), so a page's background (the Forge's glow and embers) never shows through the text */
+table.t{width:100%;border-collapse:collapse;font-size:.84rem;background:var(--tbl,var(--surf))}
 table.t th,table.t td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
-table.t th{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600;background:var(--surf2)}
+table.t th{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600;background:var(--tbl2,var(--surf2))}
 table.t td.num,table.t th.num{text-align:right;font-variant-numeric:tabular-nums}
-table.t tr:hover td{background:var(--surf2)}
-.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r)}
+table.t tr:hover td{background:var(--tbl2,var(--surf2))}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--tbl,var(--surf))}
 .tablewrap table.t tr:last-child td{border-bottom:0}
 
 /* rules */
@@ -1014,7 +1015,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"blueprints",v:"fcb6ede874",b:"5a511cab"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"blueprints",v:"fcb6ede874",b:"d7569b75"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=fcb6ede874",11506652],["data/vault.js?v=fcb6ede874",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
