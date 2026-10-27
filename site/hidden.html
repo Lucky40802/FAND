@@ -27,8 +27,8 @@
 :root{
   --bg:#0b0a12;--bg2:#0f0e18;--surf:#14131f;--surf2:#1b1a29;--surf3:#242336;
   --line:#2a2840;--line3:#3a3756;
-  --text:#ece8f4;--text2:#c6c1d8;--muted:#8a85a6;--muted2:#5d5878;
-  --acc:#8b7cf6;--acc2:#c4b5fd;--accbg:rgba(139,124,246,.14);
+  --text:#ece8f4;--text2:#c6c1d8;--muted:#8a85a6;--muted2:#827d9e;
+  --acc:#8b7cf6;--acc2:#c4b5fd;--accbg:rgba(139,124,246,.14);--accbtn:#6a58e0;--sbr:#e06a52;
   --gold:#d9b25a;--gold2:#f2d27e;--goldbg:rgba(217,178,90,.12);
   --red:#ef6b6b;--green:#5fd18b;--blue:#6aaef0;
   --c-common:#9a98a8;--c-uncommon:#5fd18b;--c-rare:#6aaef0;--c-vrare:#b49cff;--c-legend:#f59e52;--c-artifact:#f47171;
@@ -41,11 +41,11 @@
 :root[data-theme="light"]{
   --bg:#f4efe4;--bg2:#efe8da;--surf:#fbf8f1;--surf2:#f3ecdf;--surf3:#e9e0cf;
   --line:#ddd2bd;--line3:#c9bba2;
-  --text:#2a2318;--text2:#4a4030;--muted:#7a6d58;--muted2:#a39579;
-  --acc:#6b4fd8;--acc2:#5a3fc4;--accbg:rgba(107,79,216,.1);
+  --text:#2a2318;--text2:#4a4030;--muted:#675a45;--muted2:#70634b;
+  --acc:#6b4fd8;--acc2:#5a3fc4;--accbg:rgba(107,79,216,.1);--accbtn:#6b4fd8;--sbr:#a8402d;
   --gold:#9a6f12;--gold2:#7f5a08;--goldbg:rgba(154,111,18,.1);
-  --red:#c03b3b;--green:#2f8f57;--blue:#2f6fb3;
-  --c-common:#77746a;--c-uncommon:#2f8f57;--c-rare:#2f6fb3;--c-vrare:#7a52d1;--c-legend:#c56a12;--c-artifact:#c03b3b;
+  --red:#ad3434;--green:#1f6e42;--blue:#2a65a6;
+  --c-common:#68655c;--c-uncommon:#1f6e42;--c-rare:#2a65a6;--c-vrare:#6a44c4;--c-legend:#a2570c;--c-artifact:#ad3434;
   --shadow:0 10px 30px rgba(60,40,10,.15);
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -191,7 +191,7 @@ input.sel:hover,input.sel:focus,textarea.sel:focus{border-color:var(--acc)}
 select.sel:hover,.btn:hover{border-color:var(--acc)}
 select.sel.set{border-color:var(--gold);color:var(--text)}
 .btn.on{border-color:var(--gold);color:var(--gold2);background:var(--goldbg)}
-.btn.primary{background:var(--acc);border-color:var(--acc);color:#fff}
+.btn.primary{background:var(--accbtn,var(--acc));border-color:var(--accbtn,var(--acc));color:#fff}
 .btn.primary:hover{filter:brightness(1.1)}
 .count{margin-left:auto;font-size:.78rem;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
 .filters-btn{display:none}
@@ -225,6 +225,9 @@ select.sel.set{border-color:var(--gold);color:var(--text)}
 .b .sw{width:7px;height:7px;border-radius:50%}
 .r-Common{--rc:var(--c-common)}.r-Uncommon{--rc:var(--c-uncommon)}.r-Rare{--rc:var(--c-rare)}.r-Very_Rare{--rc:var(--c-vrare)}.r-Legendary{--rc:var(--c-legend)}.r-Artifact{--rc:var(--c-artifact)}
 .b.rar{color:var(--rc);background:color-mix(in srgb,var(--rc) 14%,transparent)}
+.b.rlm{color:color-mix(in srgb,var(--rc) 80%,#fff);background:color-mix(in srgb,var(--rc) 14%,transparent)}
+:root[data-theme="light"] .b.rlm{color:color-mix(in srgb,var(--rc) 48%,#1a1408);background:color-mix(in srgb,var(--rc) 18%,transparent)}
+@media (pointer:coarse){.sh-roll{position:relative}.sh-roll::after{content:'';position:absolute;inset:-6px -5px}}
 .chips{display:flex;flex-wrap:wrap;gap:4px}
 .chip{display:inline-flex;align-items:center;gap:5px;font-size:.74rem;padding:2px 8px;border-radius:6px;background:var(--surf2);border:1px solid var(--line);color:var(--text2);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
 button.chip:hover,a.chip:hover{border-color:var(--acc);color:var(--text)}
@@ -344,7 +347,7 @@ body.art-on .content .page .sec-h h3{flex-shrink:0;white-space:nowrap}body.art-o
 @media (prefers-reduced-motion: reduce){.page.forge .fg-hero-t,.fg-anvil::after{animation:none}}
 /* light mode is the Heaven Forge: white marble and gold, sunlight from above */
 :root[data-theme="light"] .page.forge{--bg:#fbf7ec;--bg2:#f6efdc;--surf:rgba(255,253,246,.88);--surf2:rgba(250,244,228,.92);--surf3:rgba(243,233,206,.95);--tbl:#fffdf6;--tbl2:#faf4e4;--line:#e2d3a8;--line3:#cdb77a;
-  --text:#2b2416;--text2:#4f4430;--muted:#86744f;--muted2:#a8976f;--acc:#b07d14;--acc2:#8c6209;--accbg:rgba(176,125,20,.12);--gold:#a7780f;--gold2:#7e5a06;--goldbg:rgba(167,120,15,.12);--red:#b8402f;--green:#2f8f57;--blue:#2f6fb3}
+  --text:#2b2416;--text2:#4f4430;--muted:#6f5f3e;--muted2:#75654a;--acc:#b07d14;--acc2:#8c6209;--accbg:rgba(176,125,20,.12);--gold:#a7780f;--gold2:#7e5a06;--goldbg:rgba(167,120,15,.12);--red:#b8402f;--green:#1f6e42;--blue:#2a65a6}
 :root[data-theme="light"] .page.forge::before{background:radial-gradient(ellipse at 50% -15%,#fff6cf 0%,#fdf3d6 25%,#f4f1ea 55%,#e8eef8 100%)}
 :root[data-theme="light"] .fg-hell{display:none}:root[data-theme="light"] .fg-heaven{display:inline}
 :root[data-theme="light"] .fg-hero-t{background:linear-gradient(180deg,#fffbe6,#e8b84a 55%,#9c6b0a);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 30px rgba(255,214,120,.55)}
@@ -731,15 +734,15 @@ details.fold>div{margin-top:10px}
 .scrim.on{display:block}
 /* stat block */
 .sblk{background:color-mix(in srgb,var(--gold) 5%,var(--surf));border:1px solid color-mix(in srgb,var(--gold) 30%,var(--line));border-top:4px solid #a33a2a;border-bottom:4px solid #a33a2a;border-radius:6px;padding:12px 16px;font-size:.88rem;line-height:1.5}
-.sblk .sbn{font-family:var(--serif);font-size:1.35rem;font-weight:700;color:#c0503a;font-variant:small-caps;letter-spacing:.02em}
+.sblk .sbn{font-family:var(--serif);font-size:1.35rem;font-weight:700;color:var(--sbr);font-variant:small-caps;letter-spacing:.02em}
 :root[data-theme="light"] .sblk .sbn{color:#7a1f12}
 .sblk .sbt{font-style:italic;color:var(--text2);margin-bottom:6px}
 .sblk hr{border:0;height:2px;background:linear-gradient(90deg,#a33a2a,transparent);margin:7px 0}
-.sblk .ln b{color:#c0503a;font-weight:700}
+.sblk .ln b{color:var(--sbr);font-weight:700}
 :root[data-theme="light"] .sblk .ln b,:root[data-theme="light"] .sblk h5{color:#7a1f12}
 .sblk .abil{display:grid;grid-template-columns:repeat(6,1fr);text-align:center;gap:4px}
-.sblk .abil b{display:block;color:#c0503a;font-size:.75rem}
-.sblk h5{font-family:var(--serif);font-size:1.05rem;color:#c0503a;border-bottom:1px solid #a33a2a;margin:10px 0 6px;font-variant:small-caps;font-weight:700}
+.sblk .abil b{display:block;color:var(--sbr);font-size:.75rem}
+.sblk h5{font-family:var(--serif);font-size:1.05rem;color:var(--sbr);border-bottom:1px solid #a33a2a;margin:10px 0 6px;font-variant:small-caps;font-weight:700}
 .sblk p{margin:0 0 6px;color:var(--text2)}
 .sblk p i b{color:var(--text)}
 .sblk .gen{font-size:.72rem;color:var(--muted);margin-top:8px}
@@ -981,6 +984,13 @@ body{font-size:calc(15px * var(--ts))}
 :root[data-contrast="high"] :focus-visible{outline-width:3px}
 :root[data-motion="reduce"] *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+/* phones: no text smaller than 11px (kept last so it wins), and the sheet's tap-to-roll numbers get a finger-sized hit
+   area without moving */
+@media (max-width:640px){small,.chip small,.dsk small{font-size:max(11px,.83em)}.b{font-size:max(11px,.68rem)}.sheet .sh-lab{font-size:max(11px,.66rem)}}
+/* text in a realm's or a map's own colour (--rc): a touch lighter on the dark sky, darker on light pages, so bright yellows
+   and pale greys stay readable */
+.rcx{color:color-mix(in srgb,var(--rc) 82%,#fff)}
+:root[data-theme="light"] .rcx{color:color-mix(in srgb,var(--rc) 48%,#1a1408)}
 </style>
 <script>
 // Before anything is drawn: the saved theme, text size, contrast, and motion (so a page never flashes the wrong look)
@@ -1052,7 +1062,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"hidden",v:"fcb6ede874",b:"dd819d1b"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"hidden",v:"fcb6ede874",b:"5ca7a26e"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=fcb6ede874",11506652],["data/vault.js?v=fcb6ede874",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -1510,7 +1520,7 @@ function pinnedItems(){const out=[];PINS.forEach(k=>{const [t,...rest]=k.split('
 //  Small renderers
 // ════════════════════════════════════════════════════════════════
 const rarB=r=>r?`<span class="b rar r-${rk(r)}">${esc(r)}</span>`:'';
-const realmB=(gr,ex='')=>{const r=realmOf(gr)||gr;return gr?`<span class="b" style="color:${rcol(r)};background:color-mix(in srgb,${rcol(r)} 14%,transparent)"><span class="sw" style="background:${rcol(r)}"></span>${esc(gr)}${ex}</span>`:''};
+const realmB=(gr,ex='')=>{const r=realmOf(gr)||gr;return gr?`<span class="b rlm" style="--rc:${rcol(r)}"><span class="sw" style="background:${rcol(r)}"></span>${esc(gr)}${ex}</span>`:''};
 function matChip(n,extra){const m=findMat(n);
   if(!m)return `<span class="chip" title="Not in the materials list">${esc(n)}</span>`;
   return `<button class="chip" data-ref="${ref(m)}" title="${esc(m.gr||'')}${m.pn?' · '+esc(m.pn):''}"><span class="sw" style="background:${rcol(m.realm)}"></span>${esc(m.n)}${extra?` <small>${extra}</small>`:''}</button>`}
@@ -2411,7 +2421,7 @@ const MODAL={
     const byG={};mats.forEach(m=>{(byG[m.g]=byG[m.g]||[]).push(m)});
     const grades=Object.keys(byG).sort((a,b)=>a-b).map(g=>`<div style="display:flex;gap:10px;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--line)"><b style="width:64px;flex-shrink:0;font-size:.8rem;color:var(--muted)">Grade ${g}</b><div class="chips">${byG[g].sort(byName).slice(0,14).map(m=>refChip(m)).join('')}${byG[g].length>14?`<button class="chip" data-go="materials" data-setup='${esc(JSON.stringify({side:r.n,f:{g:g}}))}'>+${byG[g].length-14} more</button>`:''}</div></div>`).join('');
     return {title:esc(r.n),strip:r.color,kind:'Realm · Tier '+r.tier,
-      badges:`<span class="b" style="color:${r.color}">Tier ${r.tier}</span><span class="b ghost">Pressure ${r.pressure}</span><span class="b ghost">${r.base?'Base price '+gp(r.base):'Not sold'}</span>`,
+      badges:`<span class="b rlm" style="--rc:${r.color}">Tier ${r.tier}</span><span class="b ghost">Pressure ${r.pressure}</span><span class="b ghost">${r.base?'Base price '+gp(r.base):'Not sold'}</span>`,
       body:`<div class="prose">${esc(REALM_BLURB[r.n]||'')}</div>`+realmMapPhotoHTML(r.n)
         +(()=>{const v=[r.page,r.n+' Realm',r.n].filter(Boolean).map(noteByName).find(Boolean);return v?`<details class="fold" open style="border-top:1px solid var(--line);padding-top:10px"><summary>From the vault <span style="color:var(--muted)">· ${esc(v.f)}/${esc(v.n)}</span></summary><div class="prose vault" style="font-family:var(--sans);font-size:.9rem">${mdVault(v.md)}</div></details>`:''})()
         +kv([['Tier',r.tier],['Material ranks',`${(r.tier-1)*10+1}–${r.tier*10}`],['Item levels',`${Math.ceil(((r.tier-1)*10+1)/2)}–${r.tier*5}`],['Pressure',r.pressure],['Materials',fmt(mats.length)],['Monsters',fmt(mons.length)],['Gods at home',gods.length]])
@@ -2860,7 +2870,7 @@ const REALM_MAPS={Human:{img:'img/maps/human.jpg',title:'Map of the Human Realm'
 function realmMapPhotoHTML(rn){const M=REALM_MAPS[rn];if(!M||!SITE)return '';const groups=['Capital','Big city','Small city','Dungeon'];
   return `<section class="sec" id="map-${pid(rn)}"><div class="sec-h"><h3>${esc(M.title)}</h3><p>Drawn by the campaign owner · <a href="${M.img}" target="_blank" rel="noopener">open full size</a></p></div>
     <div class="rmap" style="position:relative"><img src="${M.img}" alt="${esc(M.title)}" loading="lazy" style="width:100%;height:auto;border-radius:10px;border:1px solid var(--line);display:block">${M.places.filter(x=>x[3]!=null).map(([g,n,note,x,y])=>`<button class="rmap-pin" data-pin="${esc(n)}" title="${esc(n+(note?' · '+note:''))}" style="left:${x}%;top:${y}%;--pc:${g==='Dungeon'?'var(--red)':g==='Capital'?'var(--gold2)':'var(--acc)'}"><span>${esc(n)}</span></button>`).join('')}</div>
-    <div class="chips" style="margin-top:8px">${M.legend.map(([sym,l,col])=>`<span class="chip" style="cursor:default"><b style="color:${col||'inherit'}">${sym}</b> ${esc(l)}</span>`).join('')}</div>
+    <div class="chips" style="margin-top:8px">${M.legend.map(([sym,l,col])=>`<span class="chip" style="cursor:default"><b class="rcx" style="--rc:${col||'currentColor'}">${sym}</b> ${esc(l)}</span>`).join('')}</div>
     <div class="cols" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:10px">${groups.map(g=>{const L=M.places.filter(x=>x[0]===g);return L.length?`<div class="panel"><b>${({Capital:'Capitals',Dungeon:'Dungeons','Big city':'Big cities','Small city':'Small cities'})[g]}</b> <small style="color:var(--muted)">${L.length}</small><ul style="margin:6px 0 0;padding-left:18px;line-height:1.6">${L.map(([,n,note])=>`<li><a href="#" data-pinfind="${esc(n)}">${esc(n)}</a>${note?` <small style="color:var(--muted)">${esc(note)}</small>`:''}</li>`).join('')}</ul></div>`:''}).join('')}</div>
     </section>`}
 document.addEventListener('click',e=>{const f=e.target.closest('[data-pinfind]');const p=e.target.closest('.rmap-pin');if(!f&&!p)return;e.preventDefault();const n=f?f.dataset.pinfind:p.dataset.pin;const root=(f||p).closest('section')||document;root.querySelectorAll('.rmap-pin').forEach(x=>x.classList.toggle('on',x.dataset.pin===n));if(f){const pin=[...root.querySelectorAll('.rmap-pin')].find(x=>x.dataset.pin===n);if(pin)pin.scrollIntoView({block:'center',behavior:'smooth'})}});
@@ -2888,10 +2898,10 @@ function renderRealms(){
   const bindMap=()=>{['rm-a','rm-b'].forEach(i=>$(i).onchange=()=>{store.set('rmap',{a:$('rm-a').value,b:$('rm-b').value});$('rm-wrap').innerHTML=realmMapHTML();bindMap()})};bindMap();
 }
 function moneyTable(){
-  return `<div class="tablewrap"><table class="t"><thead><tr><th>Realm</th><th>Coin</th><th class="num">Worth</th><th>Smaller coin</th><th>Notes</th></tr></thead><tbody>${REALMS.map(r=>{const c=CURRENCY[r.n]||{};return `<tr><td><a href="#" data-ref="${ref(r)}" style="color:${r.color};text-decoration:none;font-weight:600">${esc(r.n)}</a></td><td>${c.coin?'<b>'+esc(c.coin)+'</b>':'—'}</td><td class="num">${c.coin?gp(c.gp):'not traded'}</td><td>${esc(c.sub||'')}</td><td style="color:var(--text2)">${esc(((c.what||'')+' '+(c.note||'')).trim())}</td></tr>`}).join('')}</tbody></table></div>`;
+  return `<div class="tablewrap"><table class="t"><thead><tr><th>Realm</th><th>Coin</th><th class="num">Worth</th><th>Smaller coin</th><th>Notes</th></tr></thead><tbody>${REALMS.map(r=>{const c=CURRENCY[r.n]||{};return `<tr><td><a href="#" data-ref="${ref(r)}" class="rcx" style="--rc:${r.color};text-decoration:none;font-weight:600">${esc(r.n)}</a></td><td>${c.coin?'<b>'+esc(c.coin)+'</b>':'—'}</td><td class="num">${c.coin?gp(c.gp):'not traded'}</td><td>${esc(c.sub||'')}</td><td style="color:var(--text2)">${esc(((c.what||'')+' '+(c.note||'')).trim())}</td></tr>`}).join('')}</tbody></table></div>`;
 }
 function tierTable(){
-  return `<div class="tablewrap"><table class="t"><thead><tr><th>Tier</th><th>Realm</th><th class="num">Material rank</th><th class="num">Item level</th><th class="num">Price (grade 1)</th><th class="num">Materials</th><th class="num">Monsters</th></tr></thead><tbody>${REALMS.map(r=>`<tr><td>${r.tier}</td><td><a href="#" data-ref="${ref(r)}" style="color:${r.color};text-decoration:none;font-weight:600">${esc(r.n)}</a></td><td class="num">${(r.tier-1)*10+1}–${r.tier*10}</td><td class="num">${Math.ceil(((r.tier-1)*10+1)/2)}–${r.tier*5}</td><td class="num">${r.base?gp(r.base):'not sold'}</td><td class="num">${fmt(MATS.filter(m=>m.realm===r.n).length)}</td><td class="num">${fmt(MONSTERS.filter(m=>m.realm===r.n).length)}</td></tr>`).join('')}</tbody></table></div>`;
+  return `<div class="tablewrap"><table class="t"><thead><tr><th>Tier</th><th>Realm</th><th class="num">Material rank</th><th class="num">Item level</th><th class="num">Price (grade 1)</th><th class="num">Materials</th><th class="num">Monsters</th></tr></thead><tbody>${REALMS.map(r=>`<tr><td>${r.tier}</td><td><a href="#" data-ref="${ref(r)}" class="rcx" style="--rc:${r.color};text-decoration:none;font-weight:600">${esc(r.n)}</a></td><td class="num">${(r.tier-1)*10+1}–${r.tier*10}</td><td class="num">${Math.ceil(((r.tier-1)*10+1)/2)}–${r.tier*5}</td><td class="num">${r.base?gp(r.base):'not sold'}</td><td class="num">${fmt(MATS.filter(m=>m.realm===r.n).length)}</td><td class="num">${fmt(MONSTERS.filter(m=>m.realm===r.n).length)}</td></tr>`).join('')}</tbody></table></div>`;
 }
 
 // a profession's stages past level 20 (PROF_STAGES), shown on the Professions page and the character sheet
@@ -2903,7 +2913,7 @@ function renderProfessions(){
   const pick=(prof,lv)=>{const c=BPS.filter(b=>b.pr===prof&&b.ds);let best=null;c.forEach(b=>{if(!best||Math.abs(b.lv-lv)<Math.abs(best.lv-lv)||(Math.abs(b.lv-lv)===Math.abs(best.lv-lv)&&b.n<best.n))best=b});return best};
   $('content').innerHTML=`<div class="page">
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Professions</h3><p>Ten broad professions. Each old craft lives on as a specialty. You start with one specialty and gain more over time; crafting outside them is at disadvantage.</p></div>
-    <div class="panel" style="margin-bottom:14px"><b style="font-family:var(--serif)">Profession stages</b><p class="note" style="margin:4px 0 8px">Like classes, every profession has a stage every 20 levels (I to V), each opening a band of realms. A crafter can only work materials from realms their stage has reached; harvesting or scavenging parts from a deeper realm is at disadvantage. The profession bonus is half the profession level: <b>+1 every 2 levels</b> (+10 at level 20, +25 at level 50, +50 at level 100). It is added to the profession's crafting rolls, and for <b>Scavenging</b> to both its crafting and its scavenging rolls (Harvesting's also counts when gathering and mining).</p><div class="tablewrap"><table class="t"><thead><tr><th>Stage</th><th>Profession levels</th><th>Materials it can work</th><th class="num">Bonus</th></tr></thead><tbody>${Array.from({length:MAX_STAGE},(_,i)=>i+1).map(k=>`<tr><td>${ROMAN[k-1]}</td><td>${stageStart(k)}–${stageEnd(k)}</td><td>${REALMS.filter(r=>tierStage(r.tier)===k).map(r=>`<span class="b" style="color:${r.color}">${esc(r.n)}</span>`).join(' ')}${k>1?' and below':''}</td><td class="num">+${Math.floor(stageStart(k)/2)} to +${Math.floor(stageEnd(k)/2)}</td></tr>`).join('')}</tbody></table></div></div>
+    <div class="panel" style="margin-bottom:14px"><b style="font-family:var(--serif)">Profession stages</b><p class="note" style="margin:4px 0 8px">Like classes, every profession has a stage every 20 levels (I to V), each opening a band of realms. A crafter can only work materials from realms their stage has reached; harvesting or scavenging parts from a deeper realm is at disadvantage. The profession bonus is half the profession level: <b>+1 every 2 levels</b> (+10 at level 20, +25 at level 50, +50 at level 100). It is added to the profession's crafting rolls, and for <b>Scavenging</b> to both its crafting and its scavenging rolls (Harvesting's also counts when gathering and mining).</p><div class="tablewrap"><table class="t"><thead><tr><th>Stage</th><th>Profession levels</th><th>Materials it can work</th><th class="num">Bonus</th></tr></thead><tbody>${Array.from({length:MAX_STAGE},(_,i)=>i+1).map(k=>`<tr><td>${ROMAN[k-1]}</td><td>${stageStart(k)}–${stageEnd(k)}</td><td>${REALMS.filter(r=>tierStage(r.tier)===k).map(r=>`<span class="b rlm" style="--rc:${r.color}">${esc(r.n)}</span>`).join(' ')}${k>1?' and below':''}</td><td class="num">+${Math.floor(stageStart(k)/2)} to +${Math.floor(stageEnd(k)/2)}</td></tr>`).join('')}</tbody></table></div></div>
     <details class="panel fold" style="margin-bottom:14px"><summary><b style="font-family:var(--serif)">Level by level, 1 to 100</b> <small style="color:var(--muted)">the same for every profession: +1 bonus every 2 levels</small></summary>
       <div class="tablewrap" style="margin-top:8px"><table class="t"><thead><tr><th class="num">Level</th><th class="num">Bonus</th><th>What it brings</th></tr></thead><tbody>${Array.from({length:100},(_,i)=>i+1).map(L=>{const u=[];if(L<=20)u.push(['Basic Recipes','Advanced Components','Rare Crafting','Masterwork Techniques','Legendary Creation'][Math.floor((L-1)/4)]);if(L>1&&(L-1)%20===0)u.push('Stage '+ROMAN[Math.floor((L-1)/20)]+': new title and a trial');if(L>20&&(L-1)%10===0)u.push('a stage feature');if(L%5===0)u.push('free specialty');return `<tr${L%2===0?' style="background:var(--goldbg)"':''}><td class="num">${L}</td><td class="num"><b>+${Math.floor(L/2)}</b></td><td>${u.join(' · ')}</td></tr>`}).join('')}</tbody></table></div>
       <div class="note">Highlighted rows are where the bonus goes up. Each profession's own stage names and features are listed in its panel below.</div></details>
@@ -3010,6 +3020,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-27','Easier to read and tap','A pass over every page for readability: muted text, hints, table headers, and the green, blue, red, grey, and orange badges are darker in light mode so they meet the usual contrast standard, and realm-coloured badges and links (Heaven\'s yellow, Human\'s grey) are toned to stay readable on light pages. In dark mode, hint text is brighter and primary buttons use a deeper purple behind their white text. On phones no text is smaller than 11px, and the tap-to-roll numbers on the character sheet have a finger-sized tap area.'],
   ['2026-10-27','Temporary HP in combat','The combat tracker has temporary hit points: type an amount and press Temp. Damage takes them first, a new amount replaces the old one only if it is higher (they do not stack), and the ✕ on the blue tag clears them. A character\'s temporary HP stays in step with their character sheet, and the table screen shows it in the initiative list.'],
   ['2026-10-27','A shooting star for a pointer','On the home page your pointer now trails a shooting star instead of confetti: a bright head with a soft glow and a glint, a tail that tapers along the path you just moved, and a few sparks shed behind it. White and blue-white in the night sky, gold and rose-gold in the dawn sky.'],
   ['2026-10-27','69 more combos','The Forge has 69 more hidden combos: every newer property now has two (Rooted, Slick, Blossoming, Tolling, Shifting Sands, Mycelial, Clockwork, Thorned, Ashen, Moulded, Smoky, Sprouting, Preserving), the commonest creature traits that had none now have one (Wail, Flameproof, Grounded, Paralyzing, Gore, Fey Step, and more), and the commonest properties got more (Lifedrinking, All-Seeing, Giant-Felling, Piercing Edge). They stay hidden until you forge one.'],
@@ -5842,7 +5853,7 @@ function hcGroups(C){const st=hcSt(),g=HCX_GROUPS[st.group]||HCX_GROUPS.tier,m=n
   const order=st.group==='tier'?HC_TIERS.map(t=>t[0]):st.group==='tower'?REALMS.map(r=>r.n+' Realm').concat(['Corpse classes','Fused Legendaries']):[...m.keys()].sort((a,b)=>a.localeCompare(b));
   return order.filter(k=>m.has(k)).map(k=>[k,m.get(k).sort(byName)])}
 function hcListHTML(C){const st=hcSt(),gs=hcGroups(C),meta=c=>st.group==='tower'?(c.base&&c.base!=='Any'?c.base:c.tier):c.combo?'fusion':c.corpse?'corpse':c.tower;
-  return gs.length?gs.map(([k,cs])=>{const tc=st.group==='tier'?hcTierOf(cs[0])[2]:'';return `<details class="hcx-g" open><summary><span${tc?` style="color:${tc}"`:''}>${esc(k)}</span><span>${cs.length}</span></summary>${cs.map(c=>`<button type="button" class="hcx-row${c.n===st.sel?' on':''}" data-hci="${HC.indexOf(c)}"><i style="background:${hcTierOf(c)[2]}"></i><span>${esc(c.n)}</span><small>${esc(meta(c)||'')}</small></button>`).join('')}</details>`}).join('')
+  return gs.length?gs.map(([k,cs])=>{const tc=st.group==='tier'?hcTierOf(cs[0])[2]:'';return `<details class="hcx-g" open><summary><span${tc?` class="rcx" style="--rc:${tc}"`:''}>${esc(k)}</span><span>${cs.length}</span></summary>${cs.map(c=>`<button type="button" class="hcx-row${c.n===st.sel?' on':''}" data-hci="${HC.indexOf(c)}"><i style="background:${hcTierOf(c)[2]}"></i><span>${esc(c.n)}</span><small>${esc(meta(c)||'')}</small></button>`).join('')}</details>`}).join('')
     :`<div class="empty" style="padding:24px 10px">No hidden classes match.${st.q||st.base||st.tower||st.prog||st.tier?' <a href="#" data-hcx-clear>Clear the search and filters</a>':''}</div>`}
 const hcHolders=c=>PARTY.filter(ch=>hcList(ch).some(h=>h.n===c.n));
 function hcDetailHTML(c,C){const tier=hcTierOf(c),k=C.indexOf(c),held=hcHolders(c),free=PARTY.filter(ch=>!held.includes(ch));
