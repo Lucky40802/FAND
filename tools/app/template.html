@@ -228,6 +228,8 @@ button.chip:hover,a.chip:hover{border-color:var(--acc);color:var(--text)}
 .page.forge{position:relative;isolation:isolate;--bg:#100705;--bg2:#160a07;--surf:rgba(30,15,10,.86);--surf2:rgba(44,22,14,.9);--surf3:rgba(58,30,18,.92);--line:#4b2a1b;--line3:#6a3c25;
   --text:#f6e9da;--text2:#e0c9b2;--muted:#b0927a;--muted2:#80654f;--acc:#ff8a3d;--acc2:#ffb27a;--accbg:rgba(255,138,61,.14);--gold:#f2a94a;--gold2:#ffc777;--goldbg:rgba(242,169,74,.13);
   --red:#ff6b5a;--green:#7fd98f;--blue:#7cb8f0;color:var(--text);padding:0 4px 30px}
+/* the glow bleeds past the page's sides; the content area clips it so the Forge can't scroll sideways into it */
+#content:has(> .page.forge){overflow-x:hidden}
 .page.forge::before{content:'';position:absolute;inset:-24px -9999px;z-index:-2;background:radial-gradient(ellipse at 50% 120%,#5a1d06 0%,#2a0d05 35%,#120705 65%,#0b0504 100%)}
 .fg-bgwrap{position:sticky;top:0;height:100vh;margin-bottom:-100vh;z-index:-1;pointer-events:none}
 .fg-bgwrap canvas{width:100%;height:100%;display:block}
