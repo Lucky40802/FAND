@@ -1039,7 +1039,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"account",v:"fcb6ede874",b:"6e98f3dc"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"account",v:"fcb6ede874",b:"cca149b3"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=fcb6ede874",11506652],["data/vault.js?v=fcb6ede874",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -2895,6 +2895,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-27','More variants and quirks','34 new material variants at the Preparation bench: brain-tanned, scaled, and smoke-cured hide; felt and waxed cord; bog-seasoned, steam-bent, charred, and petrified wood; tinctured and candied herbs; pattern-welded, case-hardened, blued, gilded, and granulated metal; scrimshawed, lacquered, and ground bone; honed, carved, powdered, and fire-glazed stone; tumbled, moon-attuned, and cleaved gems; fermented, clotted, and infused fluids; crystallized, diluted, and volatile essences; calibrated and greased mechanisms. The quirk table has 18 quirks now (nothing happens only on 40 or less), including mixed blessings like Jealous, and Twin-forged, Homing, Stormglass, and Blood-eager. The whole table is under How the Forge works.'],
   ['2026-10-27','A clearer Forge','Every word on the Forge now sits on a solid plate: each section, the intro, and the tables, so the fire, embers, sun, and clouds show around the text, never behind it, in both the Hell Forge and the Heaven Forge. A shortcut bar under the title jumps to each part of the page (Design, Mystic Forge, Parts & anvil, the Preparation bench, the Smelter, combos, Master smiths, the Commission board) and stays at the top as you scroll, lighting up the part you are in.'],
   ['2026-10-27','A brighter galaxy at dawn','In light mode the home page galaxy is painted in full: feathery spiral arms that shade from rose to violet to sky blue, pink and blue star-forming knots, fine star dust, soft dust lanes, a haze between the arms, and a glowing golden core with a starburst. It still turns slowly, and its stars twinkle.'],
   ['2026-10-27','Home is the cosmos','The home page is now a living painting of the cosmos: nebulae in violet, rose, teal and gold, a Milky Way band, a spiral galaxy that slowly turns, a ringed planet with a moon on its orbit, twinkling stars with light spikes that drift as you scroll, the four-pointed star of FAND as a constellation, shooting stars, and stardust that follows your pointer. Panels are frosted glass. Dark mode is deep space; light mode is the same sky at dawn, in pastels.'],
@@ -7102,6 +7103,45 @@ const PROC={
   E:[['bound','Bound',['focus','shift'],'Sealed in wax and wire: steady to work.'],['refined','Refined',['focus','brew'],'Purified.']],
   K:[['oiled','Oiled',['fit'],'Cleaned and oiled: runs smooth.']],
   U:[]};
+// more variants (website addition): smokehouse and tannery, bog and steam-box, pattern-welding, scrimshaw, gem-work, and the
+// alchemist's jars. Same rules: the parts a variant suits turn a poor fit good (−1 DC each), and a few make a part worse.
+(()=>{const HIDE=PROC.F[0][6],FIB=PROC.F.find(v=>v[0]==='spun')[6],WOOD=PROC.W[0][6],HERB=PROC.W.find(v=>v[0]==='dried')[6];
+  const MORE={
+    F:[['brained','Brain-tanned',['lining','fit','cover'],'Worked soft with smoke and brains: supple as cloth, and it never creaks when you move.',null,'Brain-Tanned',HIDE],
+      ['scaled','Scaled and riveted',['cover'],'Cut into overlapping scales riveted to a backing: +1 AC as an outer layer.',{ac:1},'Scaled',HIDE],
+      ['smoked','Smoke-cured',['cover','lining'],'Hung in the smokehouse: rot and insects leave it alone, and it smells faintly of the fire.',null,'Smoke-Cured',HIDE],
+      ['felted','Felted',['lining','fit'],'Matted into thick felt: padding that soaks up blows.',null,null,FIB],
+      ['waxed','Waxed cord',['string'],'Rolled in beeswax: a string that never frays or slips.',null,'Waxed',FIB]],
+    W:[['bog','Bog-seasoned',['shaft','focus','fit'],'Buried in a peat bog for years: black, heavy, and hard as horn.',null,'Bog-Seasoned',WOOD],
+      ['steambent','Steam-bent',['flex','fit'],'Steamed soft and bent to shape: it curves without a joint.',null,'Steam-Bent',WOOD],
+      ['charred','Charred',['cover','shaft'],'Its surface burned and brushed: it sheds water, and fire struggles to catch it.',null,null,WOOD],
+      ['petrified','Petrified',['blunt','cover'],'Turned half to stone by mineral springs: very hard and very heavy, but it will not bend.',{bad:['flex']},null,WOOD],
+      ['tinctured','Tinctured',['brew','liquid'],'Steeped in strong spirits: a fast-acting extract.',null,null,HERB],
+      ['candied','Candied',['brew'],'Preserved in honey or sugar: it keeps for years and tastes far better.',null,null,HERB]],
+    O:[['patterned','Pattern-welded',['edge','point','flex'],'Several steels forged together in rippling patterns: keen and springy.',null,'Pattern-Welded'],
+      ['casehard','Case-hardened',['cover','blunt'],'Packed in charcoal and fired: a hard skin over a tough core.',null,'Case-Hardened'],
+      ['blued','Blued',['fit','cover'],'Heat-coloured blue-black: it shrugs off rust.'],
+      ['gilded','Gilded',['focus','fit'],'Leafed or washed in gold: fit for settings and holy symbols.'],
+      ['granulated','Granulated',['brew'],'Dropped molten into water as fine grains: easy to melt, measure, and alloy.']],
+    B:[['scrimshaw','Scrimshawed',['fit','focus'],'Etched and inked with fine pictures: a story in the grip.'],
+      ['bonemeal','Ground to meal',['brew'],'Ground to bone-meal for draughts, glazes, and charms.',null,'Bone-Meal'],
+      ['lacquered','Lacquered',['cover','shaft'],'Coated in layer on layer of lacquer: hard, glossy, and waterproof.']],
+    S:[['honed','Honed',['edge','blunt'],'Ground flat and keen on a whetstone.'],
+      ['carved','Carved',['focus','fit'],'Cut into a figure or a fitted shape.'],
+      ['powdered','Powdered',['brew'],'Crushed fine for mortar, glaze, or alchemy.'],
+      ['glazed','Fire-glazed',['cover'],'Fired until its face glazes over: a smooth, hard shell.',null,'Fire-Glazed']],
+    G:[['tumbled','Tumbled',['fit'],'Rolled smooth with grit for weeks: round and tough.'],
+      ['attuned','Moon-attuned',['focus','shift'],'Left under the moon for a month: it hums with magic.',null,'Moon-Attuned'],
+      ['cleaved','Cleaved',['edge','point'],'Split along its grain into a sliver: an edge keen as glass, and as brittle.']],
+    L:[['fermented','Fermented',['brew','liquid'],'Left to work in a sealed jar: potent and pungent.'],
+      ['clotted','Clotted',['fit','brew'],'Thickened to a paste: it clings to blades and arrowheads.'],
+      ['infused','Infused',['liquid','focus'],'Mixed with a salt or essence of power.']],
+    E:[['crystallized','Crystallized',['focus','fit'],'Drawn down into a crystal: solid enough to set in a fitting.'],
+      ['diluted','Diluted',['brew','liquid'],'Thinned in water: weaker, but safe in a draught.'],
+      ['volatile','Volatile',['shift'],'Stirred up and unstable: it flares when the item is struck hard (the DM may call for a save when it breaks).']],
+    K:[['calibrated','Calibrated',['fit','string'],'Adjusted and trued: it runs smooth and exact.'],
+      ['greased','Greased',['fit'],'Packed in grease: water and grit stay out.']]};
+  Object.keys(MORE).forEach(k=>{const L=PROC[k]=PROC[k]||[];MORE[k].forEach(v=>{if(!L.some(x=>x[0]===v[0]||lc(x[5]||x[1])===lc(v[5]||v[1])))L.push(v)})})})();
 // the variants a material really has: some only suit some materials (tanning a hide, not a feather; seasoning wood, not a herb)
 function procList(m){if(!m)return [];const b=m.baseN||m.n;return (PROC[matCode(m)]||[]).filter(v=>!v[6]||v[6].test(b))}
 const procOf=(m,key)=>m&&key?procList(m).find(v=>v[0]===key)||null:null;
@@ -7269,7 +7309,8 @@ function renderForge(){
     <div class="fg-hero"><div class="fg-hero-t"><span class="fg-hell">🔥 The Hell Forge</span><span class="fg-heaven">☀ The Heaven Forge</span></div><div class="fg-hero-sub"><span class="fg-hell">Hellfire and brimstone: the dark-mode forge</span><span class="fg-heaven">Sunlight and gold: the light-mode forge</span></div><p>Bring your party's materials to the anvil. Choose a design, set a material in each part, and see how high the item will reach and what forge it needs. Strike three times, and if the roll holds, the item is yours: only then is it fully revealed.</p>
       <div class="fg-hero-s"><span>🧺 ${invN} kind${invN===1?'':'s'} of material in the party's packs</span><span>⚒ ${PARTY.filter(c=>c.prof).length} crafter${PARTY.filter(c=>c.prof).length===1?'':'s'}</span><span>📜 ${DESIGNS.filter(d=>d.forged).length} forged so far</span></div></div>
     ${invN?'':`<div class="callout" style="border-color:var(--gold)">The party's inventories hold no materials yet. Materials come only from your characters' packs: add them on the <a href="${pageUrl('party')}" data-go="party">Party page</a> or the character sheet, or bring them back from a hunt.</div>`}
-    <details class="panel" style="margin-bottom:14px"><summary style="cursor:pointer;font-family:var(--serif);font-weight:700">How the Forge works</summary><p class="note" style="margin:8px 0 0">Every Blueprint is a general design: an Axe, a Longsword, a Helm. Choose the material for each part (the head, the haft, the grip) and the finished item takes something from each: the main part sets the damage or AC, the structure sets the Accuracy and how well it holds together, and every part adds its property and trait. Each part only takes certain kinds of material; the wrong kind brings heavy penalties, and a wrong main part makes the item useless.</p></details>
+    <details class="panel" style="margin-bottom:14px"><summary style="cursor:pointer;font-family:var(--serif);font-weight:700">How the Forge works</summary><p class="note" style="margin:8px 0 0">Every Blueprint is a general design: an Axe, a Longsword, a Helm. Choose the material for each part (the head, the haft, the grip) and the finished item takes something from each: the main part sets the damage or AC, the structure sets the Accuracy and how well it holds together, and every part adds its property and trait. Each part only takes certain kinds of material; the wrong kind brings heavy penalties, and a wrong main part makes the item useless.</p>
+      <details class="fold" style="margin-top:8px"><summary style="cursor:pointer">The quirk table (d100, rolled when an item is forged)</summary><div class="tablewrap" style="margin-top:6px"><table class="t"><thead><tr><th class="num">d100</th><th>Quirk</th><th>What it does</th></tr></thead><tbody><tr><td class="num">1–40</td><td>None</td><td>Nothing unusual happens.</td></tr>${FQUIRKS.map(q=>`<tr><td class="num">${q[0]}–${q[1]}</td><td><b>${esc(q[2])}</b></td><td>${esc(q[3]||'A god marks it with their sign: once per long rest, add 1d6 to a roll that fits that god\'s Runes, and the god now knows the smith\'s name.')}</td></tr>`).join('')}</tbody></table></div></details></details>
     <div class="panel" style="margin-bottom:14px"><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px"><b style="font-family:var(--serif)">General Blueprints</b><input class="sel" id="fg-find" type="search" placeholder="🔍 Search ${GEN.length} templates: shovel, katana, robe, lute…" value="${esc(FORGE.find||'')}" style="flex:1;min-width:220px;max-width:none"><span class="note" style="margin:0">${fmt([...byGen.values()].reduce((a,x)=>a+x.length,0))} vault Blueprints are versions of them.</span></div>
       <div id="fg-bases">${forgeBaseList(q)}</div>
     </div>
@@ -7337,13 +7378,25 @@ function renderForge(){
 const FQ=[['Flawed','−1 Accuracy (armor and shields: −1 AC), and it breaks on a natural 1.',-1,0],['Standard','Made just as designed.',0,0],
   ['Fine','+1 Accuracy (armor and shields: +1 AC).',1,0],['Masterwork','+1 Accuracy and +1 damage (armor and shields: +1 AC), and one more rune socket.',1,1]];
 const fqOf=n=>FQ.find(q=>q[0]===n)||FQ[1];
-// the quirk table: half the time nothing happens; above that, small things are common and a god's notice is rare
-const FQUIRKS=[[51,62,'The metal sings','It rings like a bell when struck. +1 damage (armor and shields: +1 AC).',{dmg:1}],
-  [63,70,'Never tarnishes','Rust, rot, and acid never mar it.'],[71,77,'Feather-light','It weighs half as much as it should.'],
-  [78,83,'Forge-warm','It stays warm to the touch and sheds dim light in 5 feet at will.'],
-  [84,88,'Rune-scar','A Rune brushed it as it cooled: it has one more rune socket.',{sock:1}],
-  [89,93,'A Rune\'s power gets in','Its strongest property counts as 5 Potency higher (one rank).'],
-  [94,96,'It remembers','+1 Accuracy against the first kind of creature it kills. Write that kind down.'],
+// the quirk table (d100): on 40 or less nothing happens; above that, small oddities are common, real boons rarer, and a
+// god's notice rarest. A few quirks are mixed blessings.
+const FQUIRKS=[[41,43,'Maker\'s mark','The smith\'s mark glows faintly when its maker is near, and anyone who knows the smith can tell who made it.'],
+  [44,46,'Never dulls','It never needs sharpening, oiling, or polishing.'],
+  [47,49,'Jealous','It dislikes rivals: after you attack with another weapon (or wear other armor), its next attack has −1 (armor: −1 AC for a round).'],
+  [50,52,'Light sleeper','It stirs when a hostile creature comes within 30 feet, and wakes you if you are asleep with it at hand.'],
+  [53,56,'Whispering echo','Once in a while it repeats, in a whisper, the last word spoken near it.'],
+  [57,60,'Drinks the light','Its surface swallows light: you have advantage on checks to hide it on you.'],
+  [61,65,'The metal sings','It rings like a bell when struck. +1 damage (armor and shields: +1 AC).',{dmg:1}],
+  [66,69,'Never tarnishes','Rust, rot, and acid never mar it.'],
+  [70,73,'Feather-light','It weighs half as much as it should.'],
+  [74,76,'Forge-warm','It stays warm to the touch and sheds dim light in 5 feet at will.'],
+  [77,79,'Stormglass','Frost or beads of water form on it a day before bad weather.'],
+  [80,82,'Blood-eager','+1 damage on its first hit in each fight (armor and shields: +1 AC in the first round).'],
+  [83,85,'Rune-scar','A Rune brushed it as it cooled: it has one more rune socket.',{sock:1}],
+  [86,88,'Homing','You always know which way it lies, if it is within a mile of you.'],
+  [89,91,'A Rune\'s power gets in','Its strongest property counts as 5 Potency higher (one rank).'],
+  [92,94,'It remembers','+1 Accuracy against the first kind of creature it kills. Write that kind down.'],
+  [95,96,'Twin-forged','Somewhere in the world another item was forged in the same instant (the DM decides what and where). Once a day you can sense which way it lies.'],
   [97,100,'A god notices','',{god:1}]];
 const godShort=g=>String(g.n||'').split(' - ')[0];
 const godRunes=g=>Array.isArray(g.runes)?g.runes.join(', '):String(g.runes||'their Runes');
