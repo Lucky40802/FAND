@@ -210,9 +210,14 @@ log.push('harvest parts: +' + genAdded + ' materials (now ' + D.MATS.length + ')
 // ---- alloys, the base ores they need, and more herbs (data/alloys.js): an alloy keeps its recipe for the Smelter
 (function () {
   var A; try { A = require(path.join(__dirname, '..', 'data', 'alloys.js')); } catch (e) { if (e.code !== 'MODULE_NOT_FOUND') throw e; return; }
-  var have = {}; D.MATS.forEach(function (m) { have[m.n.toLowerCase()] = 1; });
+  var have = {}; D.MATS.forEach(function (m) { have[m.n.toLowerCase()] = m; });
   var add = function (name, realm, g, tc, extra) {
-    var c = CODE[realm]; if (!c || have[name.toLowerCase()]) return 0; g = Math.max(1, Math.min(10, +g || 1));
+    var c = CODE[realm], old = have[name.toLowerCase()]; g = Math.max(1, Math.min(10, +g || 1));
+    // the build reads its own last output: an alloy, ore, or herb made here before keeps its place but takes today's
+    // property rules (a rule added later, like Emberglass's own property, reaches it)
+    if (c && old && old.site && (old.alloy || old.recipe || old.gath || /Smelted|Harvesting|Gathering/.test(old.where + ' ' + old.by))) {
+      var pr0 = PR.prop(name, tc, c, g); if (pr0.k !== 'supply' && old.pn !== pr0.name) { old.pn = pr0.name; old.pot = pr0.P; old.prop = pr0.name + ' (Potency ' + pr0.P + '): ' + pr0.text; } return 0; }
+    if (!c || old) return 0;
     var pr = PR.prop(name, tc, c, g);
     var ex = Object.assign({ n: name, realm: realm, gr: realm + ' ' + g, prop: pr.k === 'supply' ? '' : pr.name + ' (Potency ' + pr.P + '): ' + pr.text, tc: tc,
       tier: R.tier(c), g: g, rank: R.rank(c, g), il: R.level(c, g), rar: rarity(c, g), price: price(c, g, tc), ty: R.TYPES[tc], site: 1 }, extra);

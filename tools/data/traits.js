@@ -198,7 +198,96 @@ var ABILITIES = [
     offense: ['Paralysing Bite', 'A weapon with this material forces a Constitution save (DC {DC}) on a critical hit, or the target is paralysed until the end of its next turn.'] },
   { re: /serpent|snake|naga|basilisk|wyrmling|lindworm|jormun/i, label: 'Old Serpent',
     mind: ['Serpent\'s Gaze', 'While equipped, once per short rest, a creature that meets your eyes makes a Wisdom save (DC {DC}) or is charmed until the end of its next turn.'],
-    vital: ['Shed Skin', 'While equipped, once per long rest, shed your skin to end one disease, poison, or curse on yourself.'] }
+    vital: ['Shed Skin', 'While equipped, once per long rest, shed your skin to end one disease, poison, or curse on yourself.'] },
+  // more families (campaign owner's request for more traits), only for creatures nothing above already covers;
+  // they match the creature's own name, never words in its description (byName)
+  { re: /\borc|orog|tanarukk|goblin|hobgoblin|bugbear|gnoll|ogre|oni\b/i, label: 'Warband', byName: true,
+    offense: ['Blood Fury', 'A weapon with this material: once per short rest, when you drop below half your hit points, your next hit deals +{P}d8 damage.'],
+    vital: ['War-Hardened', 'While equipped, once per long rest, when you would drop to 0 hit points, you drop to 1 instead.'],
+    defense: ['Scarred Hide', 'While equipped, slashing damage you take is reduced by {B}.'],
+    sense: ['War-Cry Ears', 'While equipped, you can\'t be surprised while an ally within 30 ft is awake.'] },
+  { re: /lizardfolk|kobold|troglodyte|grung|bullywug|frog|toad|newt|salamander|lizard|tortle|turtle/i, label: 'Cold-Blooded', byName: true,
+    vital: ['Cold Blood', 'While equipped, you can hold your breath for {P5} minutes and have advantage on saves against poison.'],
+    defense: ['Basking Scales', 'While equipped, in bright sunlight you gain +{B} AC.'],
+    move: ['Amphibious', 'While equipped, you have a swimming speed equal to your walking speed and can breathe air and water.'],
+    offense: ['Tail Sweep', 'A weapon with this material: once per short rest, on a hit, the target makes a Dexterity save (DC {DC}) or is knocked prone.'] },
+  { re: /myconid|fung|spore|shrieker|mold|mould|mushroom|gas spore|violet/i, label: 'Sporebound', byName: true,
+    offense: ['Spore Burst', 'A weapon with this material: once per short rest, on a hit, a puff of spores poisons the target (Constitution save DC {DC}) until the end of its next turn.'],
+    mind: ['Rapport Spores', 'While equipped, once per long rest, you and up to {B} willing creatures within 30 ft can speak mind to mind for 1 hour.'],
+    vital: ['Rot-Proof', 'While equipped, you have advantage on saves against disease and poison.'] },
+  { re: /treant|blight|shambling|woad|dryad|leshy|shrub|awakened tree|root|thorn|vine|huldra|vegepygmy/i, label: 'Green Growth', byName: true,
+    defense: ['Barkskin', 'While equipped, you gain +{B} AC while you wear no metal armor, but fire damage you take is increased by 1.'],
+    vital: ['Sap-Blood', 'While equipped, standing on soil or grass at the start of your turn heals you {P} hit points (only while you have at least 1).'],
+    offense: ['Thorn-Lashed', 'A weapon with this material deals +{P}d4 piercing damage, and the target\'s speed drops by 10 ft until the end of its next turn.'],
+    move: ['Root-Step', 'While equipped, difficult terrain from plants doesn\'t slow you.'] },
+  { re: /aboleth|ulitharid|neothelid|intellect devourer|mind ?flayer|illithid|grell|gauth|beholder|spectator|nothic|mindwitness|star spawn/i, label: 'Far-Mind', byName: true,
+    mind: ['Alien Thought', 'While equipped, your thoughts can\'t be read and you have advantage on saves against being charmed or frightened.'],
+    sense: ['Mind-Sense', 'While equipped, you sense creatures with an Intelligence of 4 or more within {FT} ft, though not where exactly.'],
+    offense: ['Psychic Lash', 'A weapon with this material deals +{P}d6 psychic damage.'] },
+  { re: /\w+loth\b|yugoloth|abishai|erinyes|narzugon|merregon|orthon|amnizu|nupperibo|spined|barbed|bearded|horned|chain|lemure|manes|dretch|chasme|glabrezu|goristro|bulezau|barlgura|alkilith|armanite|molydeus|nabassu|wastrilith|yochlol|sibriex|rutterkin|maurezhi|cambion|draegloth/i, label: 'Lower Planes', byName: true,
+    offense: ['Hellbrand', 'A weapon with this material deals +{P}d6 fire damage, and a creature it hits can\'t become invisible until the end of its next turn.'],
+    defense: ['Brimstone Hide', 'While equipped, fire and poison damage you take is reduced by {P}.'],
+    mind: ['Contract-Sense', 'While equipped, you know when someone speaking to you is breaking a promise they made.'],
+    vital: ['Infernal Vigor', 'While equipped, once per long rest, regain {P5} hit points when you reduce a hostile creature to 0 hit points.'] },
+  { re: /\bhag\b|night hag|sea hag|green hag|annis|krampus|baba|chicken-legged/i, label: 'Hag-Craft', byName: true,
+    mind: ['Hag\'s Bargain', 'While equipped, once per long rest, reroll a failed save; you then have disadvantage on your next ability check.'],
+    sense: ['Hag-Eye', 'While equipped, once per long rest, you can see through a small token you left somewhere for 10 minutes.'],
+    offense: ['Curse-Mark', 'A weapon with this material: on a hit, the target has −{B} on its next save before the end of your next turn.'] },
+  { re: /siren|rusalka|selkie|kelpie|each-uisge|nixie|merfolk|mermaid|merrow|lorelei|vodyanoy|ichthyocentaur|hippocamp/i, label: 'Siren-Song', byName: true,
+    mind: ['Lure-Voice', 'While equipped, you have advantage on Charisma (Persuasion) checks while you sing, and once per long rest can cast Charm Person (DC {DC}).'],
+    move: ['Tide-Swimmer', 'While equipped, you swim at your walking speed + {MV} ft.'],
+    vital: ['Sea-Breath', 'While equipped, you can breathe water.'] },
+  { re: /wendigo|skinwalker|aswang|manananggal|pishacha|vargouille|berbalang|ammit|devourer|taotie|ghoul-?eater|hunger/i, label: 'Hungering', byName: true,
+    offense: ['Ravening', 'A weapon with this material deals +{P}d6 damage to a creature below half its hit points.'],
+    vital: ['Eat to Heal', 'While equipped, once per short rest, when you reduce a creature to 0 hit points, regain {P2} hit points.'],
+    move: ['Stalking Gait', 'While equipped, you move silently: advantage on Dexterity (Stealth) checks while you move at half speed.'] },
+  { re: /rakshasa|kitsune|huli jing|tengu|kappa|yaksha|qilin|div\b|ifrit|djinn|efreet|marid|dao/i, label: 'Spirit of Legend', byName: true,
+    mind: ['Spell-Shrug', 'While equipped, you have advantage on saves against spells of level {SL} or lower.'],
+    move: ['Fox-Fire Step', 'While equipped, once per short rest, teleport 15 ft to a spot you can see in dim light or darkness.'],
+    offense: ['Trickster\'s Strike', 'A weapon with this material deals +{P}d6 force damage to a creature that hasn\'t yet acted in this fight.'] },
+  { re: /sphinx|lamassu|shedu|androsphinx|gynosphinx|watcher|marut|law-beast|throne/i, label: 'Riddle-Keeper', byName: true,
+    mind: ['Riddle-Lore', 'While equipped, you gain +{B} to Intelligence checks and know when you hear a lie told in a language you understand (once per long rest).'],
+    sense: ['Truth-Sight', 'While equipped, you see through illusions within 10 ft.'],
+    defense: ['Warded Mane', 'While equipped, you have advantage on saves against being banished or teleported against your will.'] },
+  { re: /mephit|wisp|weird|elemental|glimmer|ember|smoke|steam|mud|magma|ooze/i, label: 'Elemental Mote', byName: true,
+    offense: ['Elemental Burst', 'A weapon with this material: once per short rest, on a hit, burst for +{P}d8 damage of its element to the target and each creature within 5 ft of it.'],
+    defense: ['Element-Proof', 'While equipped, damage of its element that you take is reduced by {P}.'],
+    mind: ['Mote-Speech', 'While equipped, you can speak with elementals and have advantage on Charisma checks with them.'] },
+  { re: /swarm|rats?\b|ravens?\b|stirge|mite|xvart|kruthik|myrmekes|ant\b|bee\b|wasp|locust/i, label: 'Swarming', byName: true,
+    offense: ['Swarm-Bite', 'A weapon with this material deals +{P} damage for each other creature within 5 ft of the target, up to +{P5}.'],
+    move: ['Scatter', 'While equipped, once per short rest, when you are hit, you break into a cloud of tiny shapes and take half damage.'],
+    sense: ['Hive-Sense', 'While equipped, you can\'t be flanked while an ally is within 10 ft.'] },
+  { re: /tarrasque|tarasque|zaratan|world fish|charybdis|scylla|bunyip|taniwha|umibozu|ninki|mokele|makara|cipactli|jiaolong|humbaba|bulette|remorhaz|behir|catoblepas|gorgon|chimera|manticore|hydra|froghemoth|otyugh|roper|cloaker|chuul|morkoth|balhannoth|banderhobb/i, label: 'Monstrous', byName: true,
+    offense: ['Monster-Maw', 'A weapon with this material deals +{P}d6 damage on a critical hit, and you score a critical hit on a 19 or 20.'],
+    defense: ['Monster-Hide', 'While equipped, bludgeoning, piercing, and slashing damage you take is reduced by {B}.'],
+    vital: ['Monster-Heart', 'While equipped, your hit point maximum increases by {P5}.'],
+    sense: ['Tremor-Sense', 'While equipped, you sense movement through the ground within {FT} ft.'] },
+  { re: /\bhut\b|construct|engine|wheel|jailer|steel predator|clockwork|golem/i, label: 'Made Thing', byName: true,
+    defense: ['Riveted', 'While equipped, you have advantage on saves against being poisoned, and critical hits against you become normal hits once per long rest.'],
+    offense: ['Piston Blow', 'A weapon with this material pushes a target it hits 5 ft away from you (no save), once per turn.'] },
+  { re: /void|empt|nothing|negation|silen|unnamed|lightless|unborn|last light|zero|horizon|warp|timeworm|shifting|gravity|balance stalker|oath-eater|contract scribe|first watcher|returning|spin wheel|godfall/i, label: 'Of the Deep Dark', byName: true,
+    mind: ['Hollow Mind', 'While equipped, you are immune to being charmed while you can see no light.'],
+    offense: ['Unmaking', 'A weapon with this material deals +{P}d6 force damage and ignores resistance to force damage.'],
+    defense: ['Null-Skin', 'While equipped, once per long rest, when a spell targets only you, roll a d20: on 20 − {P} or higher, it fails.'],
+    move: ['Fold-Step', 'While equipped, once per long rest, step through a fold in space to a spot you can see within {FT} ft.'] },
+  { re: /crab|shark|squid|crocodile|sea horse|plesiosaur|whale|orca|ox\b|mule|horse|camel|pteranodon|quetzalcoatl|stegosaur|steeder|flail snail|flumph|ahuizotl|kuo-toa|sahuagin/i, label: 'Hardy Beast', byName: true,
+    vital: ['Beast\'s Vigor', 'While equipped, you have advantage on Constitution saves against exhaustion and gain {P} temporary hit points after a short rest.'],
+    defense: ['Tough Plates', 'While equipped, you gain +1 AC against attacks from creatures larger than you.'],
+    offense: ['Clamping Grip', 'A weapon with this material: on a critical hit, the target is grappled (escape DC {DC}).'] }
+];
+
+// glands and sacs that hold something other than venom
+var GLANDS = [
+  [/breath|flame|fire|brimstone|magma|ember/i, 'Fire Gland', 'A weapon with this material: once per short rest, on a hit, a gout of flame deals +{P}d8 fire damage to the target and each creature within 5 ft of it (Dexterity save DC {DC} for half).'],
+  [/frost|cold|ice|rime/i, 'Frost Gland', 'A weapon with this material: once per short rest, on a hit, the target is coated in rime: +{P}d8 cold damage and its speed is halved until the end of its next turn.'],
+  [/lightning|spark|storm|shock/i, 'Spark Gland', 'A weapon with this material: once per short rest, on a hit, lightning arcs to a second creature within 10 ft for {P}d8 lightning damage.'],
+  [/ink/i, 'Ink Cloud', 'While equipped, once per short rest, as a reaction to being hit, release a cloud of ink: the area within 10 ft of you is heavily obscured until the end of your next turn.'],
+  [/spore/i, 'Spore Cloud', 'While equipped, once per long rest, release spores: creatures within 10 ft make a Constitution save (DC {DC}) or are poisoned for 1 minute.'],
+  [/acid|bile/i, 'Acid Gland', 'A weapon with this material deals +{P}d4 acid damage, and a nonmagical shield or armor it hits loses 1 AC until repaired (once per fight).'],
+  [/silk|web/i, 'Silk Gland', 'While equipped, once per short rest, shoot a line of sticky silk: a creature within 30 ft makes a Dexterity save (DC {DC}) or is restrained until it escapes.'],
+  [/musk|scent/i, 'Musk Gland', 'While equipped, once per long rest, release a stench: creatures within 10 ft make a Constitution save (DC {DC}) or are poisoned until the end of their next turn.'],
+  [/song|voice|siren/i, 'Song Sac', 'While equipped, once per long rest, sing: one creature that hears you makes a Wisdom save (DC {DC}) or is charmed for 1 minute.'],
+  [/light|glow|lumin/i, 'Glow Sac', 'While equipped, you shed bright light for 20 ft when you choose, and once per short rest can flash it: creatures within 10 ft are blinded until the end of their next turn (Constitution save DC {DC}).']
 ];
 
 // generic effects per part when no ability matches
@@ -312,11 +401,13 @@ function trait(m, creature, typeCode) {
     // blood doesn't read as undead ("bone") or a vampire ("blood")
     var ab = null, bare = name.replace(PART_WORDS, ' ').replace(/\s+/g, ' ').trim();
     for (var i = 0; i < ABILITIES.length; i++) if (who && ABILITIES[i].re.test(who)) { ab = ABILITIES[i]; break; }
-    if (!ab && !who) for (var i2 = 0; i2 < ABILITIES.length; i2++) if (bare && ABILITIES[i2].re.test(bare)) { ab = ABILITIES[i2]; break; }
-    if (!ab && creature && creature.txt) for (var j = 0; j < ABILITIES.length; j++) if (ABILITIES[j].re.test(creature.txt)) { ab = ABILITIES[j]; break; }
+    if (!ab && !who) for (var i2 = 0; i2 < ABILITIES.length; i2++) if (bare && !ABILITIES[i2].byName && ABILITIES[i2].re.test(bare)) { ab = ABILITIES[i2]; break; }
+    if (!ab && creature && creature.txt) for (var j = 0; j < ABILITIES.length; j++) if (!ABILITIES[j].byName && ABILITIES[j].re.test(creature.txt)) { ab = ABILITIES[j]; break; }
     var kind = pt ? pt.k : (t === 'E' ? 'mind' : t === 'L' ? 'vital' : 'defense');
     var pick = null;
     if (pt && pt.p === 'venom' && !(ab && ab.offense && /poison|venom/i.test(ab.offense[1]))) ab = null;
+    // a gland or sac that holds something other than venom (fire, ink, spores...) gives a trait from what it holds
+    if (pt && pt.p === 'venom') for (var g = 0; g < GLANDS.length; g++) if (GLANDS[g][0].test(name)) return { org: 'Creature', origin: who, name: GLANDS[g][1], text: fill(GLANDS[g][2], P), from: 'Gland' };
     if (ab) { var ord = ORDER[kind]; for (var k = 0; k < ord.length; k++) if (ab[ord[k]]) { pick = ab[ord[k]]; break; } }
     if (!pick) pick = GENERIC[pt ? pt.p : (t === 'L' ? 'blood' : t === 'E' ? 'essence' : 'bone')];
     var nm = pick[0];
