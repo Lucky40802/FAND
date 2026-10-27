@@ -367,6 +367,30 @@ button.chip:hover,a.chip:hover{border-color:var(--acc);color:var(--text)}
 :root[data-theme="light"] .page.forge .callout{background:linear-gradient(180deg,rgba(255,250,232,.95),rgba(252,243,214,.93));border-color:#d6b25a;color:#4a3d22;box-shadow:0 0 0 1px rgba(255,255,255,.8) inset}
 @media (max-width:600px){:root[data-theme="light"] .fg-hero-t{font-size:1.75rem}:root[data-theme="light"] .fg-hero-t::before,:root[data-theme="light"] .fg-hero-t::after{display:none}}
 @media (prefers-reduced-motion: reduce){:root[data-theme="light"] .fg-hero-t,:root[data-theme="light"] .fg-anvil::after{animation:none}}
+/* Forge readability: every word sits on a solid plate. The painting shows around and between the plates, never behind text */
+.page.forge .panel,.page.forge .fg-wscard{background-color:#140909;backdrop-filter:none}
+.page.forge .callout{background-color:#1c0a08}
+.page.forge .sec{background:linear-gradient(180deg,rgba(255,140,60,.05),transparent 120px),#140909;border:1px solid #4b2318;border-radius:14px;padding:14px 16px 16px;box-shadow:0 12px 30px -14px #000,0 0 0 1px rgba(255,120,40,.06) inset}
+.page.forge .sec-h p,.page.forge .sec>.note,.page.forge .sec>label{text-shadow:none}
+.page.forge .fg-hero>p{background:rgba(18,7,6,.94);border:1px solid #4b2318;border-radius:12px;padding:10px 16px;text-shadow:none}
+.page.forge .fg-hero-s span{background:rgba(20,8,8,.95)}
+.page.forge .fg-hero-sub>span{background:rgba(18,7,6,.92);border-radius:999px;padding:2px 12px;line-height:2}
+:root[data-theme="light"] .page.forge .panel,:root[data-theme="light"] .page.forge .fg-wscard{background-color:#fdfaf1}
+:root[data-theme="light"] .page.forge .callout{background-color:#fcf4dc}
+:root[data-theme="light"] .page.forge .sec{background:linear-gradient(180deg,rgba(255,255,255,.9),transparent 120px),#fdfaf1;border-color:#dcc58a;box-shadow:0 12px 30px -16px rgba(120,90,20,.45),0 0 0 1px #fff inset}
+:root[data-theme="light"] .page.forge .sec-h p,:root[data-theme="light"] .page.forge .sec>.note,:root[data-theme="light"] .page.forge .sec>label{text-shadow:none}
+:root[data-theme="light"] .page.forge .fg-hero>p{background:rgba(255,252,243,.95);border-color:#dcc58a}
+:root[data-theme="light"] .page.forge .fg-hero-sub>span{background:rgba(255,252,243,.94)}
+:root[data-theme="light"] .page.forge .fg-hero-s span{background:rgba(255,252,243,.96)}
+/* the Forge's shortcut bar: one tap to each part of a long page; stays at the top while you scroll */
+.fg-jump{position:sticky;top:0;z-index:25;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 0 14px;padding:8px 6px;background:#140909;border:1px solid #4b2318;border-radius:0 0 12px 12px;box-shadow:0 8px 18px -10px #000}
+.fg-jump::-webkit-scrollbar{display:none}
+.fg-jump a{flex:0 0 auto;padding:5px 11px;border-radius:999px;border:1px solid #4b2318;color:#f3dccb;font-size:.82rem;text-decoration:none;white-space:nowrap;background:#1e0f0a}
+.fg-jump a:hover,.fg-jump a.on{border-color:#ff7a2a;color:#fff7ee;background:linear-gradient(180deg,#5a1d0a,#2c1009)}
+:root[data-theme="light"] .fg-jump{background:#fdfaf1;border-color:#dcc58a;box-shadow:0 8px 18px -12px rgba(120,90,20,.5)}
+:root[data-theme="light"] .fg-jump a{background:#fffdf6;border-color:#e2d3a8;color:#5d4510}
+:root[data-theme="light"] .fg-jump a:hover,:root[data-theme="light"] .fg-jump a.on{border-color:#b98f2a;color:#3d2c06;background:linear-gradient(180deg,#fbeab8,#f1d68a)}
+.page.forge>.panel,.page.forge>.cols,.page.forge>.sec{scroll-margin-top:62px}
 .hero{position:relative;border:1px solid var(--line);border-radius:16px;padding:34px 30px;overflow:hidden;background:radial-gradient(120% 140% at 0% 0%,var(--accbg),transparent 55%),radial-gradient(90% 120% at 100% 100%,var(--goldbg),transparent 60%),var(--surf)}
 .hero h2{font-size:2.1rem;line-height:1.1;margin-bottom:8px}
 .hero p{color:var(--text2);max-width:640px}
@@ -1015,7 +1039,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"subclasses",v:"fcb6ede874",b:"06f6b5fe"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"subclasses",v:"fcb6ede874",b:"6ae5528f"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=fcb6ede874",11506652],["data/vault.js?v=fcb6ede874",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -2845,6 +2869,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-27','A clearer Forge','Every word on the Forge now sits on a solid plate: each section, the intro, and the tables, so the fire, embers, sun, and clouds show around the text, never behind it, in both the Hell Forge and the Heaven Forge. A shortcut bar under the title jumps to each part of the page (Design, Mystic Forge, Parts & anvil, the Preparation bench, the Smelter, combos, Master smiths, the Commission board) and stays at the top as you scroll, lighting up the part you are in.'],
   ['2026-10-27','Home is the cosmos','The home page is now a living painting of the cosmos: nebulae in violet, rose, teal and gold, a Milky Way band, a spiral galaxy that slowly turns, a ringed planet with a moon on its orbit, twinkling stars with light spikes that drift as you scroll, the four-pointed star of FAND as a constellation, shooting stars, and stardust that follows your pointer. Panels are frosted glass. Dark mode is deep space; light mode is the same sky at dawn, in pastels.'],
   ['2026-10-27','Forge lists open on top','A material list opened in the Mystic Forge (or any Forge panel) now opens above the panels below it, so every choice can be clicked.'],
   ['2026-10-27','The Hell Forge, painted','In dark mode the Forge is now a living painting too: a smoke-red sky under a black eclipse ringed in fire, with a turning circle of infernal marks; red lightning in the clouds; jagged peaks and an erupting volcano; a dark citadel with burning windows; a lava river that flows; smoke lit from below; great chains hanging at the sides; and ash falling through the rising embers. Panels are obsidian with molten edges, the title is molten metal that flickers, the buttons are black iron, and the anvil burns.'],
@@ -7196,6 +7221,20 @@ function forgeFormsHTML(){const r=forgeResult(),n=r.forms||0,W=GEN.filter(([,b])
       ${x.r.parts.map(p=>{const k='fe:'+i+':'+p.s.id,carried=x.e.from[p.s.id],col={good:'var(--green)',poor:'var(--gold2)',wrong:'var(--red)',missing:'var(--red)',empty:'var(--muted)'}[p.fit.lv],okc=[...p.s.ok,...(p.s.weak||[])];MC_OPTS[k]={opts:invMats(invIndex()).filter(m=>FORGE.showAll||okc.includes(matCode(m))),slot:p.s,arts:invArts(invIndex()),inv:true};
         return `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:4px 0"><span style="min-width:120px"><b>${esc(p.s.name)}</b> <small style="color:var(--muted)">${p.s.role==='primary'?'main':p.s.role==='structure'?'structure':'extra'}${p.s.optional?', optional':''}</small></span>${carried&&!x.e.own[p.s.id]?`<span style="color:var(--green);font-size:.85rem">✓ ${esc(p.m.n)} carries over from the ${esc(carried.toLowerCase())}</span>`:`<span style="flex:1;min-width:200px">${mcHTML(k,x.e.own[p.s.id]||'',p.s.optional?'Optional: add a material…':'Add a material for this part…')}</span>`}${x.e.own[p.s.id]?`<button class="btn" data-ever-rm="${i}:${p.s.id}" title="Clear">✕</button>`:''}<small style="color:${col};font-weight:600">${p.m?({good:'✓ good',poor:'△ poor',wrong:'✕ wrong'})[p.fit.lv]||'':p.s.optional?'':'needs a material'}</small></div>`}).join('')}
       ${x.missing.length?`<div class="note" style="margin:2px 0 0;color:var(--red)">No material in the weapon fits ${x.missing.map(esc).join(', ').toLowerCase()}: add one for this form.</div>`:''}`:f.base?`<div class="note" style="color:var(--red)">“${esc(f.base)}” is not a weapon template.</div>`:''}</div>`}).join('')}</div>`}
+// the shortcut bar under the Forge's title: a link to each part of the page (built from what is on it), and the part in
+// view lit up as you scroll
+function forgeJump(){const P=document.querySelector('.page.forge');if(!P)return;const old=P.querySelector('.fg-jump');if(old)old.remove();
+  const T=[];const add=(el,l)=>{if(el){el.id=el.id||'fgj-'+T.length;T.push([el,l])}};
+  add(P.querySelector(':scope>.panel:not(details):not(#gk)'),'⚒ Design');add(P.querySelector(':scope>#gk'),'🔮 Mystic Forge');add(P.querySelector(':scope>.cols'),'🔨 Parts & anvil');
+  P.querySelectorAll(':scope>section.sec').forEach(s=>{const h=s.querySelector('h3');if(h)add(s,h.textContent.trim().replace(/^(.{0,26}).*$/,(m,a)=>a.length<h.textContent.trim().length?a.trim()+'…':a))});
+  if(T.length<2)return;const bar=document.createElement('nav');bar.className='fg-jump';bar.setAttribute('aria-label','Parts of the Forge');
+  bar.innerHTML=T.map(([el,l])=>`<a href="#${el.id}" data-fgj="${el.id}">${esc(l)}</a>`).join('');
+  bar.onclick=e=>{const a=e.target.closest('[data-fgj]');if(!a)return;e.preventDefault();const t=document.getElementById(a.dataset.fgj);if(t)t.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'})};
+  const at=P.querySelector(':scope>details.panel')||P.querySelector(':scope>.fg-hero').nextElementSibling;P.insertBefore(bar,at);
+  const C=$('content');if(!C._fgj){C._fgj=1;C.addEventListener('scroll',()=>{if(TAB!=='forge')return;cancelAnimationFrame(C._fgr);C._fgr=requestAnimationFrame(forgeJumpLit)},{passive:true})}forgeJumpLit()}
+function forgeJumpLit(){const B=document.querySelector('.fg-jump');if(!B)return;const top=$('content').getBoundingClientRect().top+80;let cur=null;
+  B.querySelectorAll('[data-fgj]').forEach(a=>{const t=document.getElementById(a.dataset.fgj);if(t&&t.getBoundingClientRect().top<=top)cur=a});
+  B.querySelectorAll('.on').forEach(a=>a.classList.remove('on'));if(cur){cur.classList.add('on');const bl=B.getBoundingClientRect(),r=cur.getBoundingClientRect();if(r.left<bl.left||r.right>bl.right)B.scrollLeft+=r.left-bl.left-20}}
 function renderForge(){
   const B=BASES[FORGE.base],q=lc((FORGE.find||'').trim()),byGen=BP_BY_GEN();
   const INV=invIndex(),invN=invMats(INV).length;
@@ -7258,6 +7297,7 @@ function renderForge(){
   $('fg-all').onchange=e=>{FORGE.showAll=e.target.checked;saveForge();setTimeout(renderForge)};
   $('fg-realm').onchange=e=>{FORGE.realm=e.target.value;saveForge();renderForge()};
   bindGroq();
+  forgeJump();
   forgeOut();
   forgeFx();
   if(!HC&&!renderForge._hc){renderForge._hc=1;hcAuto().then(()=>{if(HC&&TAB==='forge')renderForge()}).catch(()=>{})}
