@@ -271,6 +271,34 @@ button.chip:hover,a.chip:hover{border-color:var(--acc);color:var(--text)}
 .page.forge{--red:#ff5a4a}
 .page.forge::before{background:radial-gradient(ellipse at 50% 125%,#7a1404 0%,#3a0905 30%,#1a0605 60%,#0a0303 100%)}
 .fg-heaven{display:none}.fg-hero-sub{font-family:var(--serif);letter-spacing:.2em;text-transform:uppercase;font-size:.72rem;color:var(--gold2);opacity:.85}
+/* Home as the cosmos: frosted-glass panels over a painted sky of stars (deep space in dark mode, dawn pastels in light) */
+.page.cosmos{position:relative;isolation:isolate}
+.page.cosmos::before{content:'';position:absolute;inset:-24px -9999px;z-index:-2;background:#04020c}
+#content:has(> .page.cosmos){overflow-x:hidden;padding-top:0}
+.page.cosmos>.fg-bgwrap+*{margin-top:16px}
+.page.cosmos .hero,.page.cosmos .stat,.page.cosmos .rung,.page.cosmos .panel,.page.cosmos .callout,.page.cosmos .card,.page.cosmos .hcard{background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.02) 40%,rgba(140,110,255,.05)),rgba(12,9,30,.4);
+  border:1px solid rgba(180,165,255,.22);box-shadow:0 0 0 1px rgba(255,255,255,.04) inset,0 10px 30px -12px rgba(0,0,0,.7);backdrop-filter:blur(5px) saturate(1.25);-webkit-backdrop-filter:blur(5px) saturate(1.25)}
+.page.cosmos .hero{background:radial-gradient(120% 140% at 0% 0%,rgba(150,90,255,.28),transparent 55%),radial-gradient(90% 120% at 100% 100%,rgba(40,190,220,.14),transparent 60%),linear-gradient(90deg,rgba(8,5,22,.62),rgba(8,5,22,.38) 55%,rgba(8,5,22,.12));border-color:rgba(190,170,255,.3);
+  box-shadow:0 0 0 1px rgba(255,255,255,.06) inset,0 0 60px -10px rgba(140,90,255,.45),0 20px 50px -20px #000}
+.page.cosmos .hero h2{font-size:2.6rem;background:linear-gradient(90deg,#d9c8ff,#ffd38a 25%,#9ff0ff 50%,#ffa6dc 75%,#d9c8ff);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 18px rgba(170,130,255,.55));animation:csShine 14s linear infinite}
+@keyframes csShine{to{background-position:300% 0}}
+.page.cosmos .hero .btn{white-space:nowrap}.page.cosmos .hero{backdrop-filter:blur(1px);-webkit-backdrop-filter:blur(1px)}.page.cosmos{--muted:#c4bde3;--muted2:#9f97c4;--text2:#e6e1fa}.page.cosmos .note,.page.cosmos .stat .l,.page.cosmos .rung .ln{text-shadow:0 1px 2px rgba(0,0,0,.85)}.page.cosmos .hero .hero-search{background:rgba(5,3,16,.6);border-color:rgba(190,170,255,.35)}
+.page.cosmos .stat:hover,.page.cosmos .rung:hover,.page.cosmos .card:hover{border-color:rgba(200,180,255,.6);box-shadow:0 0 24px -4px rgba(150,110,255,.55),0 0 0 1px rgba(255,255,255,.08) inset;transform:translateY(-1px)}
+.page.cosmos .stat .v{background:linear-gradient(180deg,#fff,#c7b6ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.page.cosmos .sec-h h3{text-shadow:0 0 14px rgba(150,120,255,.6)}
+.page.cosmos .sec-h p,.page.cosmos .sec>.note{text-shadow:0 1px 3px #000}
+.page.cosmos .panel:focus-within,.page.cosmos .callout:focus-within{position:relative;z-index:30}
+:root[data-theme="light"] .page.cosmos::before{background:#f3eefc}
+:root[data-theme="light"] .page.cosmos .hero,:root[data-theme="light"] .page.cosmos .stat,:root[data-theme="light"] .page.cosmos .rung,:root[data-theme="light"] .page.cosmos .panel,:root[data-theme="light"] .page.cosmos .callout,:root[data-theme="light"] .page.cosmos .card,:root[data-theme="light"] .page.cosmos .hcard{
+  background:linear-gradient(160deg,rgba(255,255,255,.7),rgba(255,255,255,.48) 45%,rgba(235,225,255,.45));border-color:rgba(150,125,220,.3);box-shadow:0 0 0 1px rgba(255,255,255,.7) inset,0 10px 30px -14px rgba(90,60,160,.35)}
+:root[data-theme="light"] .page.cosmos .hero{background:radial-gradient(120% 140% at 0% 0%,rgba(200,170,255,.45),transparent 55%),radial-gradient(90% 120% at 100% 100%,rgba(160,225,240,.35),transparent 60%),linear-gradient(90deg,rgba(255,255,255,.72),rgba(255,255,255,.4) 55%,rgba(255,255,255,.12))}
+:root[data-theme="light"] .page.cosmos .hero h2{background:linear-gradient(90deg,#6a3fd0,#c0721a 25%,#1d8fa8 50%,#c23c8e 75%,#6a3fd0);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 1px 0 #fff)}
+:root[data-theme="light"] .page.cosmos .hero .hero-search{background:rgba(255,255,255,.8)}:root[data-theme="light"] .page.cosmos{--muted:#5f567f;--muted2:#7d749c;--text2:#3a3354}:root[data-theme="light"] .page.cosmos .note,:root[data-theme="light"] .page.cosmos .stat .l,:root[data-theme="light"] .page.cosmos .rung .ln{text-shadow:0 1px 0 rgba(255,255,255,.8)}
+:root[data-theme="light"] .page.cosmos .stat .v{background:linear-gradient(180deg,#3b2a7a,#7a5ad0);-webkit-background-clip:text;background-clip:text}
+:root[data-theme="light"] .page.cosmos .sec-h h3{text-shadow:0 1px 0 #fff}
+:root[data-theme="light"] .page.cosmos .sec-h p,:root[data-theme="light"] .page.cosmos .sec>.note{text-shadow:0 1px 0 rgba(255,255,255,.9),0 0 8px #fff}
+@media (max-width:600px){.page.cosmos .hero h2{font-size:1.9rem}}
+@media (prefers-reduced-motion: reduce){.page.cosmos .hero h2{animation:none}}
 /* the Hell Forge as a painting: obsidian panels with molten edges, a title of molten metal, iron buttons, a burning anvil */
 .page.forge::before{background:linear-gradient(180deg,#070304 0%,#1c0606 30%,#4a0c06 58%,#2a0603 100%)}
 .page.forge .panel,.page.forge .fg-wscard{background:linear-gradient(160deg,rgba(255,255,255,.04) 0 18%,transparent 19% 70%,rgba(255,80,30,.05) 71% 72%,transparent 73%),radial-gradient(140% 100% at 50% 120%,rgba(120,24,8,.35),transparent 60%),linear-gradient(180deg,rgba(22,10,10,.86),rgba(12,6,7,.9));
@@ -986,7 +1014,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"subclasses",v:"fcb6ede874",b:"78dc2d9d"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"subclasses",v:"fcb6ede874",b:"a862ebea"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=fcb6ede874",11506652],["data/vault.js?v=fcb6ede874",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -2555,9 +2583,80 @@ function renderHome(){
     </section>`],
     ['open','Still open',()=>`<section class="sec"><div class="panel"><h4>Still open</h4><p>More official subclasses from late books · placing the party in contracts, rivals, and materials · a god-wars timeline and adventure hooks · more damage-to-support spell conversions.</p></div></section>`]
   ];
-  $('content').innerHTML=`<div class="page${HOME_EDIT?' hedit':''}">${homeLayout(S)}</div>`;
-  homeBind();
+  $('content').innerHTML=`<div class="page cosmos${HOME_EDIT?' hedit':''}"><div class="fg-bgwrap" aria-hidden="true"><canvas id="cs-fx"></canvas></div>${homeLayout(S)}</div>`;
+  homeBind();cosmosFx();
 }
+// ── Home as a painting of the cosmos: nebulae and a Milky Way band (drawn once), a turning spiral galaxy, a ringed planet
+// with a moon, twinkling stars with light spikes, a constellation that fades in and out, shooting stars, and stardust that
+// follows the pointer. Dark mode is deep space; light mode is the same sky at dawn, in pastels ──
+function cosmosFx(){const cv=$('cs-fx');if(!cv||!cv.getContext)return;const x=cv.getContext('2d'),dpr=Math.min(2,window.devicePixelRatio||1),still=matchMedia('(prefers-reduced-motion: reduce)').matches;let W=0,H=0,S=null;
+  const size=()=>{const r=cv.getBoundingClientRect();W=cv.width=Math.max(1,Math.round(r.width*dpr));H=cv.height=Math.max(1,Math.round(r.height*dpr));S=null};size();
+  const dust=[];let lastMove=0;const onMove=e=>{if(still||!cv.isConnected)return;const r=cv.getBoundingClientRect(),now=performance.now();if(now-lastMove<16)return;lastMove=now;
+    for(let i=0;i<2;i++)dust.push({x:(e.clientX-r.left)*dpr,y:(e.clientY-r.top)*dpr,vx:(Math.random()-.5)*.8*dpr,vy:(Math.random()-.5)*.8*dpr-.2*dpr,life:1,h:Math.random()*360,r:(.8+Math.random()*1.8)*dpr});if(dust.length>120)dust.splice(0,dust.length-120)};
+  window.addEventListener('pointermove',onMove,{passive:true});
+  const draw=ts=>{if(!cv.isConnected){window.removeEventListener('pointermove',onMove);return}const r=cv.getBoundingClientRect();if(Math.round(r.width*dpr)!==W||Math.round(r.height*dpr)!==H)size();
+    const light=document.documentElement.dataset.theme==='light';if(!S||S.light!==light)S=cosmosScene(W,H,dpr,light);const t=still?0:ts||0;
+    const sc=($('content')||{}).scrollTop||0;cosmosPaint(x,S,t,sc*dpr,still);
+    dust.forEach(d=>{if(!still){d.x+=d.vx;d.y+=d.vy;d.life-=.016}});for(let i=dust.length-1;i>=0;i--)if(dust[i].life<=0)dust.splice(i,1);
+    x.save();x.globalCompositeOperation=light?'source-over':'lighter';dust.forEach(d=>{const a=Math.max(0,d.life);x.fillStyle=light?`hsla(${(d.h+ts/40)%360},70%,60%,${a*.7})`:`hsla(${(d.h+ts/40)%360},90%,75%,${a})`;x.beginPath();x.arc(d.x,d.y,d.r*(.5+a),0,Math.PI*2);x.fill()});x.restore();
+    if(!still)requestAnimationFrame(draw)};requestAnimationFrame(draw)}
+function cosmosScene(W,H,dpr,light){const S={W,H,dpr,light,stars:[],gal:[],meteors:[],nextMeteor:0},M=Math.max(W,H),m=Math.min(W,H);
+  const bg=document.createElement('canvas');bg.width=W;bg.height=H;const g=bg.getContext('2d');
+  let q=g.createRadialGradient(W*.5,H*.4,0,W*.5,H*.45,M*.9);
+  if(light){q.addColorStop(0,'#fffaf3');q.addColorStop(.45,'#f6eefc');q.addColorStop(1,'#e4e6fb')}else{q.addColorStop(0,'#150c33');q.addColorStop(.45,'#0a0720');q.addColorStop(1,'#020108')}
+  g.fillStyle=q;g.fillRect(0,0,W,H);
+  // nebulae: many soft blobs around a few centres, in two or three colours each
+  const pal=light?['255,170,200','190,160,255','150,200,255','255,205,150','160,230,215']:['170,60,230','60,110,255','255,80,170','40,200,215','255,160,70','120,70,255'];
+  g.globalCompositeOperation=light?'multiply':'lighter';
+  const neb=[[.22,.3,.55],[.78,.22,.45],[.62,.7,.6],[.12,.82,.4],[.45,.45,.35]];
+  neb.forEach(([cx,cy,rr],k)=>{const cols=[pal[k%pal.length],pal[(k+2)%pal.length],pal[(k+4)%pal.length]];for(let i=0;i<46;i++){const a=Math.random()*6.28,d=Math.pow(Math.random(),.7)*rr*M*.35,px=cx*W+Math.cos(a)*d,py=cy*H+Math.sin(a)*d*.7,pr=M*(.04+Math.random()*.11),c=cols[i%3];
+    const z=g.createRadialGradient(px,py,0,px,py,pr);z.addColorStop(0,`rgba(${c},${light?.10:.085})`);z.addColorStop(1,`rgba(${c},0)`);g.fillStyle=z;g.beginPath();g.arc(px,py,pr,0,6.29);g.fill()}});
+  // dark dust lanes through the nebulae
+  if(!light){g.globalCompositeOperation='source-over';for(let i=0;i<26;i++){const px=W*(.1+Math.random()*.8),py=H*(.15+Math.random()*.7),pr=M*(.03+Math.random()*.07),z=g.createRadialGradient(px,py,0,px,py,pr);z.addColorStop(0,'rgba(3,2,10,.35)');z.addColorStop(1,'rgba(3,2,10,0)');g.fillStyle=z;g.beginPath();g.arc(px,py,pr,0,6.29);g.fill()}}
+  // the Milky Way: a glowing band of countless tiny stars from lower left to upper right
+  g.globalCompositeOperation=light?'source-over':'lighter';const x0=-W*.05,y0=H*.95,x1=W*1.05,y1=H*.05,dx=x1-x0,dy=y1-y0,L=Math.hypot(dx,dy),nx=-dy/L,ny=dx/L;
+  for(let i=0;i<40;i++){const u=Math.random(),px=x0+dx*u,py=y0+dy*u,pr=M*(.05+Math.random()*.07),z=g.createRadialGradient(px,py,0,px,py,pr);z.addColorStop(0,light?'rgba(200,180,255,.10)':'rgba(200,190,255,.06)');z.addColorStop(1,'rgba(200,190,255,0)');g.fillStyle=z;g.beginPath();g.arc(px,py,pr,0,6.29);g.fill()}
+  const nBand=Math.round(W*H/(dpr*dpr)/220);for(let i=0;i<nBand;i++){const u=Math.random(),gs=(Math.random()+Math.random()+Math.random()-1.5)*m*.12,px=x0+dx*u+nx*gs,py=y0+dy*u+ny*gs;g.fillStyle=light?`rgba(110,90,180,${.15+Math.random()*.3})`:`rgba(255,255,255,${.2+Math.random()*.6})`;g.fillRect(px,py,dpr*(Math.random()<.9?.6:1.1),dpr*(Math.random()<.9?.6:1.1))}
+  // the far stars
+  g.globalCompositeOperation='source-over';const nFar=Math.round(W*H/(dpr*dpr)/900);for(let i=0;i<nFar;i++){const h=[220,260,40,0,190][i%5];g.fillStyle=light?`hsla(${h},50%,45%,${.2+Math.random()*.35})`:`hsla(${h},70%,${80+Math.random()*20}%,${.3+Math.random()*.6})`;g.beginPath();g.arc(Math.random()*W,Math.random()*H,dpr*(.3+Math.random()*.7),0,6.29);g.fill()}
+  S.bg=bg;
+  // the bright stars that twinkle, at three depths (they shift a little as the page scrolls)
+  const nStar=Math.min(220,Math.round(W*H/(dpr*dpr)/7000)+40);for(let i=0;i<nStar;i++)S.stars.push({x:Math.random()*W,y:Math.random()*H,z:Math.random()<.15?3:Math.random()<.4?2:1,r:dpr*(.6+Math.random()*1.4),ph:Math.random()*6.3,sp:.5+Math.random()*1.6,h:[210,45,280,0,180][i%5]});
+  // a constellation in the upper right: the four-pointed star of FAND, drawn in seven stars
+  const ccx=W*(W>H?.06:.12),ccy=H*(W>H?.55:.62),cr=m*(W>H?.05:.07);S.con=[[0,-1.3],[.28,-.28],[1.3,0],[.28,.28],[0,1.3],[-.28,.28],[-1.3,0],[-.28,-.28]].map(([a,b])=>[ccx+a*cr,ccy+b*cr]);
+  // the spiral galaxy, upper left
+  S.gx=W*(W>H?.74:.78);S.gy=H*(W>H?.3:.16);S.gr=m*(W>H?.2:.2);for(let i=0;i<1100;i++){const arm=i%3,rr=Math.pow(Math.random(),.6),th=arm*2.094+Math.log(rr+.05)*2.3+(Math.random()-.5)*.55*(1-rr*.4);S.gal.push({rr,th,s:dpr*(.4+Math.random()*1.1),c:rr<.18?'255,230,190':Math.random()<.5?'180,190,255':'255,170,220',a:.35+Math.random()*.6})}
+  // the ringed planet, lower right, and its moon
+  S.px=W*(W>H?.86:.8);S.py=H*(W>H?.74:.82);S.pr=m*(W>H?.085:.11);return S}
+function cosmosPaint(x,S,t,scroll,still){const{W,H,dpr,light}=S;x.globalCompositeOperation='source-over';x.globalAlpha=1;x.drawImage(S.bg,0,0);
+  // the galaxy turns
+  const rot=t/60000;x.save();x.translate(S.gx,S.gy);let z=x.createRadialGradient(0,0,0,0,0,S.gr*.5);z.addColorStop(0,light?'rgba(255,220,200,.9)':'rgba(255,235,200,.95)');z.addColorStop(.3,light?'rgba(230,190,255,.35)':'rgba(220,170,255,.35)');z.addColorStop(1,'rgba(200,160,255,0)');
+  x.fillStyle=z;x.beginPath();x.ellipse(0,0,S.gr*.5,S.gr*.5*.55,-.5,0,6.29);x.fill();x.rotate(-.5);x.scale(1,.55);x.globalCompositeOperation=light?'source-over':'lighter';
+  S.gal.forEach(p=>{const a=p.th+rot*(1.6-p.rr),rx=Math.cos(a)*p.rr*S.gr,ry=Math.sin(a)*p.rr*S.gr;x.fillStyle=light?`rgba(${p.c==='255,230,190'?'200,130,90':p.c==='180,190,255'?'110,110,210':'200,100,170'},${p.a*.6})`:`rgba(${p.c},${p.a})`;x.fillRect(rx,ry,p.s,p.s)});x.restore();x.globalCompositeOperation='source-over';
+  // twinkling stars, nearer ones moving more with the scroll
+  S.stars.forEach(s=>{const tw=.55+.45*Math.sin(t/1000*s.sp+s.ph),yy=((s.y-scroll*.04*s.z)%H+H)%H,r=s.r*(s.z===3?1.5:1)*(.7+.5*tw);x.globalAlpha=Math.min(1,.35+tw*.65);
+    x.fillStyle=light?`hsl(${s.h},55%,${s.z===3?40:50}%)`:`hsl(${s.h},${s.h===45?90:70}%,${88+tw*10}%)`;x.beginPath();x.arc(s.x,yy,r,0,6.29);x.fill();
+    if(s.z===3){x.globalAlpha=tw*.6;x.strokeStyle=x.fillStyle;x.lineWidth=.6*dpr;x.beginPath();x.moveTo(s.x-r*5,yy);x.lineTo(s.x+r*5,yy);x.moveTo(s.x,yy-r*5);x.lineTo(s.x,yy+r*5);x.stroke();
+      const gz=x.createRadialGradient(s.x,yy,0,s.x,yy,r*6);gz.addColorStop(0,light?'rgba(150,120,230,.25)':'rgba(220,220,255,.35)');gz.addColorStop(1,'rgba(220,220,255,0)');x.fillStyle=gz;x.beginPath();x.arc(s.x,yy,r*6,0,6.29);x.fill()}});x.globalAlpha=1;
+  // the constellation fades in and out
+  const ca=still?.5:.25+.3*(.5+.5*Math.sin(t/4000));x.strokeStyle=light?`rgba(120,90,200,${ca})`:`rgba(190,180,255,${ca})`;x.lineWidth=.8*dpr;x.setLineDash([3*dpr,4*dpr]);x.beginPath();S.con.forEach(([a,b],i)=>i?x.lineTo(a,b):x.moveTo(a,b));x.closePath();x.stroke();x.setLineDash([]);
+  S.con.forEach(([a,b],i)=>{const tw=.6+.4*Math.sin(t/700+i);x.fillStyle=light?'rgba(110,80,200,.9)':'rgba(240,235,255,.95)';x.beginPath();x.arc(a,b,(i%2?1.2:2.2)*dpr*tw,0,6.29);x.fill()});
+  // the planet: rings behind, the body with drifting bands and a shadowed side, rings in front, and a moon on an orbit
+  const P=S,pr=P.pr,tilt=-.32;const ring=(front)=>{x.save();x.translate(P.px,P.py);x.rotate(tilt);for(let k=0;k<5;k++){x.strokeStyle=light?`rgba(${170-k*10},${130+k*8},${200-k*6},${.45-k*.06})`:`rgba(${220-k*12},${200-k*6},${255-k*10},${.5-k*.07})`;x.lineWidth=(2.6-k*.35)*dpr;x.beginPath();x.ellipse(0,0,pr*(1.55+k*.13),pr*(.36+k*.03),0,front?0:Math.PI,front?Math.PI:Math.PI*2);x.stroke()}x.restore()};
+  const mo=t/9000,mx=P.px+Math.cos(mo)*pr*2.3,my=P.py+Math.sin(mo)*pr*.55,moon=()=>{const mr=pr*.18,mz=x.createRadialGradient(mx-mr*.4,my-mr*.4,0,mx,my,mr);mz.addColorStop(0,light?'#fff':'#f0eeff');mz.addColorStop(1,light?'#b9b2d8':'#5d5878');x.fillStyle=mz;x.beginPath();x.arc(mx,my,mr,0,6.29);x.fill()};
+  if(Math.sin(mo)<0)moon();ring(false);
+  x.save();x.beginPath();x.arc(P.px,P.py,pr,0,6.29);x.clip();let pz=x.createLinearGradient(P.px,P.py-pr,P.px,P.py+pr);
+  if(light){pz.addColorStop(0,'#ffd9c2');pz.addColorStop(.5,'#f2b8d8');pz.addColorStop(1,'#c4b5f5')}else{pz.addColorStop(0,'#f6c47a');pz.addColorStop(.5,'#c9577a');pz.addColorStop(1,'#4a2a8a')}x.fillStyle=pz;x.fillRect(P.px-pr,P.py-pr,pr*2,pr*2);
+  for(let k=0;k<9;k++){const by=P.py-pr+k*pr*.23+Math.sin(t/3000+k)*pr*.02;x.fillStyle=`rgba(${k%2?'255,255,255':'60,20,60'},${light?.12:.1})`;x.fillRect(P.px-pr,by,pr*2,pr*(.06+(k%3)*.03))}
+  pz=x.createRadialGradient(P.px-pr*.45,P.py-pr*.45,pr*.1,P.px+pr*.2,P.py+pr*.2,pr*1.25);pz.addColorStop(0,'rgba(255,255,255,.35)');pz.addColorStop(.5,'rgba(0,0,0,0)');pz.addColorStop(1,light?'rgba(80,60,140,.45)':'rgba(5,2,15,.85)');x.fillStyle=pz;x.fillRect(P.px-pr,P.py-pr,pr*2,pr*2);x.restore();
+  z=x.createRadialGradient(P.px,P.py,pr*.95,P.px,P.py,pr*1.25);z.addColorStop(0,light?'rgba(255,180,220,.4)':'rgba(255,150,200,.35)');z.addColorStop(1,'rgba(255,150,200,0)');x.fillStyle=z;x.beginPath();x.arc(P.px,P.py,pr*1.25,0,6.29);x.fill();
+  ring(true);if(Math.sin(mo)>=0)moon();
+  // shooting stars
+  if(!still&&t>S.nextMeteor){S.nextMeteor=t+2500+Math.random()*5000;const a=Math.PI*(.15+Math.random()*.2);S.meteors.push({x:W*(.2+Math.random()*.7),y:H*Math.random()*.4,a,v:(9+Math.random()*6)*dpr,born:t,life:900+Math.random()*500})}
+  S.meteors=S.meteors.filter(e=>t-e.born<e.life);S.meteors.forEach(e=>{const k=(t-e.born)/e.life,hx=e.x+Math.cos(e.a)*e.v*(t-e.born)/16,hy=e.y+Math.sin(e.a)*e.v*(t-e.born)/16,len=120*dpr;
+    const mz=x.createLinearGradient(hx,hy,hx-Math.cos(e.a)*len,hy-Math.sin(e.a)*len);mz.addColorStop(0,light?`rgba(120,90,220,${1-k})`:`rgba(255,255,255,${1-k})`);mz.addColorStop(1,'rgba(255,255,255,0)');x.strokeStyle=mz;x.lineWidth=1.6*dpr;x.beginPath();x.moveTo(hx,hy);x.lineTo(hx-Math.cos(e.a)*len,hy-Math.sin(e.a)*len);x.stroke()});
+  // a soft vignette
+  z=x.createRadialGradient(W/2,H/2,Math.min(W,H)*.45,W/2,H/2,Math.max(W,H)*.8);z.addColorStop(0,'rgba(0,0,0,0)');z.addColorStop(1,light?'rgba(150,130,200,.15)':'rgba(0,0,0,.5)');x.fillStyle=z;x.fillRect(0,0,W,H)}
 
 // Realm map, from the vault's Realm Map note: places by Pressure (height), routes with how they are traveled.
 const RMAP_NODES={MO:['Human','Mortal Realm',50,0],MY:['Mysterious','Mysterious Realm',24,1],AS:[null,'Astral',74,1.1],HV:['Heaven','Heaven',40,2],HE:['Hell','Hell',64,2],FI:[null,'Fiend Realm',90,2],CH:['Chaos','Chaos Realm',88,3],AB:['Abyss','Abyss',68,4],IN:['Inner Realm','Inner Realm',42,5],SP:[null,'Spirit Realm depths',10,5],OU:['Outer Realm','Outer Realm',82,6],VO:['Void','Void',58,7],IV:['Inner Void','Inner Void',58,8],PR:['Primordial','Primordial Realm',26,9]};
@@ -2745,6 +2844,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-27','Home is the cosmos','The home page is now a living painting of the cosmos: nebulae in violet, rose, teal and gold, a Milky Way band, a spiral galaxy that slowly turns, a ringed planet with a moon on its orbit, twinkling stars with light spikes that drift as you scroll, the four-pointed star of FAND as a constellation, shooting stars, and stardust that follows your pointer. Panels are frosted glass. Dark mode is deep space; light mode is the same sky at dawn, in pastels.'],
   ['2026-10-27','Forge lists open on top','A material list opened in the Mystic Forge (or any Forge panel) now opens above the panels below it, so every choice can be clicked.'],
   ['2026-10-27','The Hell Forge, painted','In dark mode the Forge is now a living painting too: a smoke-red sky under a black eclipse ringed in fire, with a turning circle of infernal marks; red lightning in the clouds; jagged peaks and an erupting volcano; a dark citadel with burning windows; a lava river that flows; smoke lit from below; great chains hanging at the sides; and ash falling through the rising embers. Panels are obsidian with molten edges, the title is molten metal that flickers, the buttons are black iron, and the anvil burns.'],
   ['2026-10-27','The Heaven Forge, painted','In light mode the Forge is now a living painting: a sky that runs from azure to gold, a slowly turning sunburst with halo rings and a ring of celestial marks, god rays that sway, clouds lit gold from above at three depths, marble temples on the cloud banks, falling feathers, and twinkling glints. Panels are white marble with gilded edges, the title is gold that catches the light, and the anvil wears a turning halo. Both forges now fill the whole width of the screen.'],
