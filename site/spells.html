@@ -925,8 +925,8 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"spells",v:"cc89185a1f",b:"02cc8253"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
-<script>(function(){var F=[["data/core.js?v=cc89185a1f",11606153],["data/vault.js?v=cc89185a1f",1144011],["data/spells.js?v=cc89185a1f",1130804]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
+<script>const SITE={page:"spells",v:"fcb6ede874",b:"070e81de"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>(function(){var F=[["data/core.js?v=fcb6ede874",11506652],["data/vault.js?v=fcb6ede874",1144011],["data/spells.js?v=fcb6ede874",1130804]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
 // ════════════════════════════════════════════════════════════════
@@ -2684,6 +2684,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-27','More forge traits and combos','Creature materials gain nearly 1,400 new traits from 17 new kinds of creature (warbands like orcs, cold-blooded lizardfolk and kobolds, fungi, plant creatures, far-minds like aboleths, the lower planes, hags, sirens, hungering spirits, legendary spirits, riddle-keepers, elemental motes, swarms, great monsters, made things, things of the deep dark, and hardy beasts), and glands that hold fire, frost, ink, spores and more now give their own trait instead of a venom. The Forge has 89 more hidden combos, 179 in all, and combos now work with traits too: two traits, or a trait and a property, can combine.'],
   ['2026-10-26','Forged items keep their description','A forged item on a character sheet shows its full description again when you open it: its quality, who forged it, its damage, every power with what it does, its quirk, and its combos. The sheet\'s Forged items box now says what each power does too.'],
   ['2026-10-25','No more copy-paste descriptions','About 1,350 materials had no description of their own, only their property line ("Property: Piercing Edge." on over a hundred of them) or a few words of use. Each now has its own: the creature and part it comes from, where it grows or lies and how it is gathered, what it is used for, and which Blueprints use it. 37 Rune spells shared a description word for word with another (Void\'s Depth, Void\'s Passage, and Void\'s Strike were identical); each now has its own effect, from its name: a Curtain leaves the area obscured, an Anchor stops teleporting, a Passage lets you teleport, a Strike hits one creature twice.'],
   ['2026-10-26','Serial numbers for forged items','A forged item no longer gets “(2)” after its name when another of the same name exists: every copy keeps its name, and a small number tells copies of that name apart. The first Twin Blade is #00000001, the second #00000002, and a weapon with a different name starts at #00000001.'],
@@ -7217,8 +7218,98 @@ const FCOMBOS=[['Burning','Freezing','Steam Burst','Fire and frost clash in it: 
   ['Stormcaller','Tidal','The Tempest','Your storm can also raise a wave: once during it, a 30-ft line of water knocks creatures prone (Strength save).'],
   ['Stormcaller','Skyborne','Eye of the Storm','While your storm rages, you can fly at your walking speed inside it.'],
   ['Mirrorbound','Glamoured','Through the Looking-Glass','Step through a mirror and come out as anyone you have seen in it, for 1 hour.'],
-  ['Mirrorbound','All-Seeing','Scrying Glass','Once per long rest, look through any mirror you have touched, anywhere, for 1 minute.']];
-const forgeCombos=r=>{const P=new Set((r.props||[]).filter(p=>!p.half).map(p=>p.m.pn));return FCOMBOS.filter(([a,b])=>P.has(a)&&P.has(b))};
+  ['Mirrorbound','All-Seeing','Scrying Glass','Once per long rest, look through any mirror you have touched, anywhere, for 1 minute.'],
+  // more combos: properties, traits from creature materials, and the two together
+  ['Freezing','Tidal','Black Ice','Once per short rest, the ground within 10 ft of a creature you hit freezes over: difficult terrain, and creatures there make a Dexterity save or fall prone.'],
+  ['Necromantic','Lifedrinking','Grave Hunger','When it drops a creature to 0 hit points, you gain temporary hit points equal to half the damage of that hit.'],
+  ['Venomous','Necromantic','Black Rot','A creature it poisons can\'t regain hit points until the poison ends.'],
+  ['Dreadful','Necromantic','Deathknell','A creature you drop to 0 hit points lets out a scream: enemies within 30 ft make a Wisdom save or are frightened until the end of their next turn.'],
+  ['Divine Spark','Holy','Godsfire','Once per long rest, on a hit, call down a pillar of light: 4d10 radiant damage to the target (Constitution save for half).'],
+  ['Rebirth','Undying','Phoenix Heart','Once ever, when you die, you return to life at the start of your next turn with half your hit points, and the item loses this combo.'],
+  ['Wild-Wise','Shapeshifting','Beast-Bond','Once per long rest, become a beast of challenge rating 1 or lower for 1 hour, keeping your mind.'],
+  ['Ever-Returning','Blinking','Homing Blink','When you throw it, you can teleport to the spot where it lands, once per short rest.'],
+  ['Clear-Minded','Learned','Sage\'s Calm','You can\'t be confused, and you add your proficiency bonus to Intelligence checks you aren\'t proficient in.'],
+  ['Supple','Quickening','Whiplash','Once per turn, when a creature misses you with a melee attack, you can attack it.'],
+  ['Elemental Core','Stormcaller','Tempest Heart','Choose fire, cold, or lightning each dawn: its hits deal +1d6 of that type and you resist it.'],
+  ['Starsilver','Foe-Sensing','Moonwatch','It glows faint silver when a hostile creature is within 120 ft, and you can\'t be surprised.'],
+  ['Wyrmsbane','Dreadful','Dragonslayer\'s Roar','Dragons have disadvantage on saves against being frightened by you, and your hits on them deal +2d6 damage.'],
+  ['Soul-Drinking','Spell Vessel','Soul Battery','When it drops a creature to 0 hit points, it stores a spell slot of 1st level that you can use once.'],
+  ['Truename-Etched','Oathkeeper','Bound by Name','Once per long rest, speak a creature\'s true name: it has disadvantage on saves against you for 1 minute.'],
+  ['Rightful Heir','Steadfast','Crowned Blade','Allies who can see you have advantage on saves against being frightened.'],
+  ['Fire Gland','Inner Furnace','Dragonfire','Once per long rest, breathe fire in a 15-foot cone: 4d6 fire damage (Dexterity save for half).'],
+  ['Frost Gland','Frostproof','Winter\'s Breath','Once per long rest, breathe frost in a 15-foot cone: 4d6 cold damage and speed halved (Constitution save for half and no slow).'],
+  ['Dragon-Hide','Dragon-Blood','Dragon-Kin','You resist the damage type of the dragon\'s element and gain +2 to Charisma (Intimidation) checks.'],
+  ['Dragon-Sight','Frightful Presence','Wyrm\'s Glare','When a creature you can see fails a save against being frightened by you, it is also stunned until the end of its next turn, once per long rest.'],
+  ['Hellbrand','Brimstone Hide','Hellforged','Your hits deal +1d6 fire damage that ignores fire resistance, and you resist fire.'],
+  ['Infernal Vigor','Contract-Sense','Devil\'s Due','When a creature breaks a promise made to you, your next hit on it deals +3d6 damage.'],
+  ['Grave-Cold','Ghostly','Wraith-Touched','You can see invisible undead, and necrotic damage you take is halved.'],
+  ['Undying','Relentless','Deathless','Once per long rest, when you drop to 0 hit points, you stay at 1 and gain 2d10 temporary hit points.'],
+  ['Water-Breathing','Sea-Breath','Child of the Deep','You have a swimming speed of 40 ft and see normally underwater out to 60 ft.'],
+  ['Blood in the Water','Ravening','Feeding Frenzy','Your hits deal +1d8 damage to a creature that is bleeding or below half hit points.'],
+  ['Thick Coat','Thick Hide','Mammoth Hide','Cold damage you take is halved and you can\'t be knocked prone by creatures your size or smaller.'],
+  ['Barkskin','Sap-Blood','Old Oak','You regain 1 hit point at the start of each turn while standing on soil, and you have advantage on saves against being moved.'],
+  ['Thorn-Lashed','Barkskin','Bramble Guard','A creature that hits you with a melee attack takes 1d6 piercing damage.'],
+  ['Spore Cloud','Rot-Proof','Fungal Bloom','Creatures poisoned by your spores also can\'t take reactions.'],
+  ['Alien Thought','Psychic Lash','Elder Mind','Once per long rest, speak telepathically to a creature within 1 mile you know.'],
+  ['Mind Spike','Telepathy','Thought-Thief','Once per long rest, on a hit, learn the target\'s surface thoughts and one secret it is hiding.'],
+  ['Swarm-Bite','Hive-Sense','Hive-Mind','You and allies within 30 ft can\'t be surprised and share what each of you sees.'],
+  ['Monster-Maw','Monster-Heart','Apex Predator','When you score a critical hit, you regain hit points equal to the extra damage.'],
+  ['Monster-Hide','Titan\'s Hide','Living Fortress','Once per long rest, for 1 minute, you resist bludgeoning, piercing, and slashing damage.'],
+  ['Unmaking','Null-Skin','Edge of Nothing','Once per long rest, on a hit, the target is banished to an empty space between worlds until the end of its next turn.'],
+  ['Fold-Step','Phasing','Ghost-Walk','Once per long rest, move through walls for 1 minute.'],
+  ['Lure-Voice','Fey Charm','Siren\'s Call','Once per long rest, charm up to three creatures that hear you for 1 minute (Wisdom save).'],
+  ['Hag\'s Bargain','Curse-Mark','Witchery','Once per long rest, curse a creature you hit: it has disadvantage on one ability\'s checks of your choice for 1 hour.'],
+  ['Spell-Shrug','Fox-Fire Step','Nine-Tailed','When you succeed on a save against a spell, you can teleport 15 ft.'],
+  ['Riddle-Lore','Truth-Sight','Sphinx\'s Question','Once per long rest, ask a creature a question: if it lies, it takes 3d6 psychic damage.'],
+  ['Riveted','Tough Plates','Ironclad','Your AC can\'t be lowered, and you have advantage on saves against being pushed or knocked prone.'],
+  ['Blood Fury','War-Hardened','Berserker\'s Blood','While below half hit points, your hits deal +1d6 damage and you resist bludgeoning, piercing, and slashing.'],
+  ['Cold Blood','Amphibious','Marsh-Born','You move through swamps and mud without slowing and can hide in water while only lightly obscured.'],
+  ['Pack Tactics','Keen Nose','Pack Leader','Allies within 10 ft of you have advantage on attacks against creatures you hit this turn.'],
+  ['Shed Skin','Venom Fang','Serpent King','You are immune to poison, and once per long rest your hit poisons the target for 1 minute (Constitution save ends at the end of each turn).'],
+  ['Ink Cloud','Slip Away','Vanishing Act','When you release your ink, you can also move up to your speed without provoking opportunity attacks.'],
+  ['Glider','Diving Strike','Stoop','When you fall or dive at least 20 ft before a melee attack, it deals +2d8 damage.'],
+  ['Night Wing','Devil\'s Sight','Night Hunter','You see in magical darkness out to 60 ft and have advantage on attacks against creatures in darkness.'],
+  ['Great Leap','Pounce','Leap of the Lion','After you jump at least 10 ft toward a creature, your first hit knocks it prone (Strength save).'],
+  ['Fleet-Footed','Wind-Step','Quicksilver Feet','Your speed increases by 10 ft and you take no opportunity attacks from creatures you hit this turn.'],
+  ['Stone-Patient','Stoneskin','Mountain\'s Patience','While you don\'t move on your turn, you resist all damage except psychic until the start of your next turn.'],
+  ['Regenerating','Healing Touch','Troll\'s Gift','Once per long rest, touch a creature to let it regain 2d8 hit points and regrow a lost finger, toe, or ear.'],
+  ['Freezing','Frostproof','Heart of Winter','You are immune to cold damage while you hold it.'],
+  ['Holy','Undying','Saint\'s Relic','Once per long rest, when an ally within 30 ft drops to 0 hit points, they drop to 1 instead.'],
+  ['Necromantic','Grave-Cold','Lich-Touch','Your hits deal +1d6 necrotic damage and the target can\'t regain hit points until your next turn.'],
+  ['Venomous','Venom Fang','Basilisk Venom','Poison from it ignores resistance to poison damage.'],
+  ['Shadowed','Night Wing','Bat-Shadow','In darkness you can fly at your walking speed.'],
+  ['Psychic','Alien Thought','Mind-Shield','You are immune to psychic damage while you hold it.'],
+  ['Stormcharged','Thunder Hide','Stormborn','You resist lightning and thunder damage; once per long rest, call down lightning on a creature within 60 ft for 3d10 lightning damage.'],
+  ['Tidal','Water-Breathing','Tidecaller','Once per long rest, part water or raise a 10-foot wave that pushes creatures 15 ft (Strength save).'],
+  ['Mighty','Brute Strength','Titan-Grip','You can wield a two-handed weapon in one hand.'],
+  ['Hardened','Monster-Hide','Behemoth Plate','Your AC increases by 1 against attacks from Large or larger creatures, and theirs from you deal −2 damage.'],
+  ['Living','Barkskin','Dryad\'s Heart','Once per long rest, step into a tree and out of another within 100 ft.'],
+  ['Gravitic','Unmaking','Collapse','Once per long rest, on a hit, the target and creatures within 10 ft of it are pulled 10 ft toward it and take 2d10 force damage.'],
+  ['Glamoured','Fey Charm','Fey-Court Grace','You have advantage on Charisma checks with fey, and once per long rest can cast Charm Person without a spell slot.'],
+  ['Lawful','Contract-Sense','Arbiter','Once per long rest, a creature that swears a promise to you takes 4d6 psychic damage if it breaks it.'],
+  ['Burning','Tempered','Forge-Heart','Once per long rest, it heats white-hot for 1 minute: +1d6 fire damage, and it cuts through nonmagical metal bars and locks.'],
+  ['Freezing','Hushed','Snowfall Silence','Once per long rest, the area within 20 ft of you is filled with soft snow for 1 minute: silent, and difficult terrain for your enemies.'],
+  ['Freezing','Starsilver','Rimelight','Its hits on a creature in darkness also blind it until the end of its next turn, once per short rest.'],
+  ['Holy','Oathkeeper','Paladin\'s Oath','While you keep an oath sworn on it, your hits deal +1d4 radiant damage.'],
+  ['Holy','Songbound','Hymn of Dawn','Once per long rest, sing: undead within 30 ft make a Wisdom save or are turned for 1 minute.'],
+  ['Shadowed','Silver-Tongued','Whisper in the Dark','Once per long rest, speak from any shadow you can see within 120 ft.'],
+  ['Mighty','Earthbound','Quake Strike','Once per short rest, strike the ground: creatures within 10 ft make a Strength save or fall prone.'],
+  ['Mighty','Hoard-Cursed','Dragon\'s Greed','Your hits deal +1d6 damage to a creature carrying coin or gems; you can\'t give the item away.'],
+  ['Keen-Eyed','Starsilver','Night-Sighted Archer','You ignore disadvantage from dim light and darkness on ranged attacks.'],
+  ['Chaotic','Wild-Wise','Untamed Surge','When you roll a 1 on an attack with it, roll on a wild magic table instead of missing.'],
+  ['Lawful','Steadfast','Unbending Law','You can\'t be moved against your will while you hold it in both hands.'],
+  ['Timebound','Ever-Ready','First Strike','You always act first in the first round of a fight unless surprised.'],
+  ['Gravitic','Skyborne','Weightless','You can fall up: once per long rest, reverse gravity for yourself for 1 minute.'],
+  ['Psychic','Learned','Mind Palace','You remember everything you have read in the last 30 days.'],
+  ['Spellward','Lawful','Anti-Magic Ward','Once per long rest, for 1 minute, spells cast by creatures within 10 ft of you have disadvantage on their attack rolls and give advantage on saves.'],
+  ['Hardened','Wyrmsbane','Dragonscale Bane','Dragon breath damage you take is halved.'],
+  ['Warding','Truename-Etched','Named Ward','Name one creature: its attacks against you have disadvantage until you name another.'],
+  ['Living','Songbound','Birdsong','Birds follow you and warn you: you can\'t be surprised outdoors.'],
+  ['Silver-Tongued','Rightful Heir','Kingsword','Once per long rest, command up to five creatures that can hear you (as the Command spell).'],
+  ['Divine Spark','Rebirth','Ember of the Gods','Once per long rest, when an ally dies within 30 ft, they return at 1 hit point.'],
+  ['Eye Ray','Freezing','Frost Ray','Once per short rest, shoot a ray of cold at a creature within 60 ft: 2d8 cold damage and speed 0 until the end of its next turn.'],
+  ['Binding','Oathkeeper','Chain of Oaths','A creature that swears to you and breaks it is restrained for 1 minute.']];
+const forgeCombos=r=>{const P=new Set((r.props||[]).filter(p=>!p.half).map(p=>p.m.pn).concat((r.parts||[]).filter(p=>p.m&&p.m.tr&&p.fit&&p.fit.lv!=='wrong').map(p=>p.m.tr.n)));return FCOMBOS.filter(([a,b])=>P.has(a)&&P.has(b))};
 let COMBOS_FOUND=store.get('combos',[]);
 function combosNote(list){let n=0;list.forEach(c=>{if(!COMBOS_FOUND.includes(c[2])){COMBOS_FOUND.push(c[2]);n++}});if(n){store.set('combos',COMBOS_FOUND);toast('✦ Combo found: '+list.map(c=>c[2]).join(', '))}}
 // master smiths: one in every realm; each can forge up to its grade, for a fee or a task
@@ -7303,7 +7394,7 @@ const powKind=id=>id.slice(0,2)==='p:'?'p':'t';
 function forgePick(r){const A=forgePowers(r),ids=A.map(x=>x.id);let p=Array.isArray(FORGE.pick)?FORGE.pick.filter(x=>ids.includes(x)):ids.filter(x=>powKind(x)==='p').slice(0,FORGE_MAX_POW).concat(ids.filter(x=>powKind(x)==='t').slice(0,FORGE_MAX_POW));
   p=p.filter(x=>powKind(x)==='p').slice(0,FORGE_MAX_POW).concat(p.filter(x=>powKind(x)==='t').slice(0,FORGE_MAX_POW));return {A,p}}
 function forgePickToggle(id){const {p}=forgePick(forgeResult());let n=p.slice();const k=powKind(id),what=k==='p'?'properties':'traits';if(n.includes(id))n=n.filter(x=>x!==id);else{if(n.filter(x=>powKind(x)===k).length>=FORGE_MAX_POW){toast('An item holds up to '+FORGE_MAX_POW+' '+what+': untick one first');return}n.push(id)}FORGE.pick=n;store.set('forge',FORGE);forgeOut()}
-const pickedCombos=(A,p)=>{const S=new Set(A.filter(x=>p.includes(x.id)&&x.k==='p').map(x=>x.n));return FCOMBOS.filter(([a,b])=>S.has(a)&&S.has(b))};
+const pickedCombos=(A,p)=>{const S=new Set(A.filter(x=>p.includes(x.id)).map(x=>x.n));return FCOMBOS.filter(([a,b])=>S.has(a)&&S.has(b))};
 // evolving weapons are a god's gift, never forged: Stable ones grow 3 ranks (15 Potency) with each of the wielder's levels;
 // Unstable ones feed on materials (three of one kind for its trait), keep up to 15 traits, and use 5 at a time
 const EVO_MAX_STOCK=15,EVO_MAX_ACT=5;
@@ -7524,7 +7615,7 @@ function smeltHTML(){const A=MATS.filter(m=>m.alloy&&Array.isArray(m.recipe)),M=
 function smelt(n){const m=findMat(n),c=PARTY.find(x=>x.id===SMELT.who);if(!m||!c)return;const M=invIndex();if(m.recipe.some(x=>invHas(M,x)<1)){toast('Missing a metal');return}
   m.recipe.forEach(x=>invTake(M,x,1,c));invAdd(c,m.n,1,true,true);saveParty();forgeSound('metal',1);setTimeout(()=>forgeSound('metal',2),180);toast(`Smelted 1 ${m.n} into ${c.name||'their'} pack`);renderForge()}
 // the Forge page's own sections: combos found, the master smiths, and the commission board
-function forgeExtrasHTML(){return benchHTML()+smeltHTML()+`<section class="sec"><div class="sec-h"><h3>✦ Material combos</h3><p>Two properties in one item can unlock something neither has alone (at full Potency, so not from an extra part or a poor fit). Found ${COMBOS_FOUND.length} of ${FCOMBOS.length}.</p></div>
+function forgeExtrasHTML(){return benchHTML()+smeltHTML()+`<section class="sec"><div class="sec-h"><h3>✦ Material combos</h3><p>Two powers in one item, two properties, two traits, or one of each, can unlock something neither has alone (a property counts only at full Potency, so not from an extra part or a poor fit; a trait counts from any part it fits). Found ${COMBOS_FOUND.length} of ${FCOMBOS.length}.</p></div>
     <div class="mlist">${FCOMBOS.filter(x=>COMBOS_FOUND.includes(x[2])).map(([a,b,n,t])=>`<div style="padding:6px 10px;border:1px solid var(--gold);border-radius:8px"><b>✦ ${esc(n)}</b> <small>${esc(a)} + ${esc(b)}</small><div style="font-size:.82rem">${esc(t)}</div></div>`).join('')}${FCOMBOS.length>COMBOS_FOUND.length?`<div style="padding:6px 10px;border:1px dashed var(--line);border-radius:8px;color:var(--muted)"><b>??? + ???</b> <small>${FCOMBOS.length-COMBOS_FOUND.filter(n=>FCOMBOS.some(x=>x[2]===n)).length} combos still hidden. Try two properties together and forge.</small></div>`:''}</div></section>
   <section class="sec"><div class="sec-h"><h3>⚒ Master smiths</h3><p>Any smith from level 1 to 100 can be hired at the anvil. Every ten levels is one realm (1–10 Human, 11–20 Mysterious, and so on to 91–100 Primordial), and the tenth level of each is that realm's famous master. A hired smith works a forge grade and materials up to their realm, rolls like any forger (half their level, advantage at or above the item's level), and never ruins materials or makes a Flawed item. The fee is half the materials' cost + 100 × (tier + step ÷ 10) + tier × 10, where the step is the level within its realm: a level 1 Human smith costs 120 gp plus half the materials.</p></div>
     <div class="tablewrap"><table class="t"><thead><tr><th>Realm</th><th>Master</th><th class="num">Level</th><th>Forge grade</th><th class="num">Fee</th><th>Or a task</th></tr></thead><tbody>${REALMS.filter(z=>SMITHS[z.n]).map(z=>{const S=smithOf(z.n),M=SMITHS[z.n];return `<tr><td>${esc(z.n)}</td><td><b>${esc(M[0])}</b><br><small style="color:var(--muted)">${esc(M[1])}</small></td><td class="num">${S.lv}</td><td>${ROMAN[S.g-1]}</td><td class="num">${fmt(S.base)} gp + half the materials</td><td>${esc(M[3])}</td></tr>`}).join('')}</tbody></table></div></section>
