@@ -2696,15 +2696,34 @@ const hexRgb=h=>{const m=/^#?([0-9a-f]{6})$/i.exec(String(h||''));if(!m)return '
 // follows the pointer. Dark mode is deep space; light mode is the same sky at dawn, in pastels ──
 function cosmosFx(){const cv=$('cs-fx');if(!cv||!cv.getContext)return;const x=cv.getContext('2d'),dpr=Math.min(2,window.devicePixelRatio||1),still=matchMedia('(prefers-reduced-motion: reduce)').matches;let W=0,H=0,S=null;
   const size=()=>{const r=cv.getBoundingClientRect();W=cv.width=Math.max(1,Math.round(r.width*dpr));H=cv.height=Math.max(1,Math.round(r.height*dpr));S=null};size();
-  const dust=[];let lastMove=0;const onMove=e=>{if(still||!cv.isConnected)return;const r=cv.getBoundingClientRect(),now=performance.now();if(now-lastMove<16)return;lastMove=now;
-    for(let i=0;i<2;i++)dust.push({x:(e.clientX-r.left)*dpr,y:(e.clientY-r.top)*dpr,vx:(Math.random()-.5)*.8*dpr,vy:(Math.random()-.5)*.8*dpr-.2*dpr,life:1,h:Math.random()*360,r:(.8+Math.random()*1.8)*dpr});if(dust.length>120)dust.splice(0,dust.length-120)};
+  // the pointer is a shooting star: a bright head, a tail that tapers along the path it just took, and sparks shed behind
+  const TAIL=650,trail=[],dust=[];let lastMove=0;const onMove=e=>{if(still||!cv.isConnected)return;const r=cv.getBoundingClientRect(),now=performance.now();if(now-lastMove<12)return;lastMove=now;
+    const p={x:(e.clientX-r.left)*dpr,y:(e.clientY-r.top)*dpr,t:now},q=trail[trail.length-1];trail.push(p);if(trail.length>40)trail.shift();
+    const sp=q?Math.hypot(p.x-q.x,p.y-q.y):0;if(sp>3*dpr&&Math.random()<.6){const a=Math.atan2(q.y-p.y,q.x-p.x)+(Math.random()-.5)*.9,v=(.4+Math.random()*1.1)*dpr;
+      dust.push({x:p.x,y:p.y,vx:Math.cos(a)*v,vy:Math.sin(a)*v+.15*dpr,life:1,r:(.5+Math.random()*1.1)*dpr})}if(dust.length>60)dust.splice(0,dust.length-60)};
   window.addEventListener('pointermove',onMove,{passive:true});
   const draw=ts=>{if(!cv.isConnected){window.removeEventListener('pointermove',onMove);return}const r=cv.getBoundingClientRect();if(Math.round(r.width*dpr)!==W||Math.round(r.height*dpr)!==H)size();
     const light=document.documentElement.dataset.theme==='light';if(!S||S.light!==light)S=cosmosScene(W,H,dpr,light);const t=still?0:ts||0;
     const sc=($('content')||{}).scrollTop||0;cosmosPaint(x,S,t,sc*dpr,still);
-    dust.forEach(d=>{if(!still){d.x+=d.vx;d.y+=d.vy;d.life-=.016}});for(let i=dust.length-1;i>=0;i--)if(dust[i].life<=0)dust.splice(i,1);
-    x.save();x.globalCompositeOperation=light?'source-over':'lighter';dust.forEach(d=>{const a=Math.max(0,d.life);x.fillStyle=light?`hsla(${(d.h+ts/40)%360},70%,60%,${a*.7})`:`hsla(${(d.h+ts/40)%360},90%,75%,${a})`;x.beginPath();x.arc(d.x,d.y,d.r*(.5+a),0,Math.PI*2);x.fill()});x.restore();
+    cosmosStar(x,trail,dust,performance.now(),TAIL,dpr,light,still);
     if(!still)requestAnimationFrame(draw)};requestAnimationFrame(draw)}
+// the pointer's shooting star. Dark mode: a white-hot head with a blue-white tail, added light. Light mode: a golden head
+// with a rose-gold tail, painted on the dawn sky so it still shows
+function cosmosStar(x,trail,dust,now,TAIL,dpr,light,still){while(trail.length&&now-trail[0].t>TAIL)trail.shift();
+  dust.forEach(d=>{if(!still){d.x+=d.vx;d.y+=d.vy;d.vx*=.97;d.vy*=.97;d.life-=.03}});for(let i=dust.length-1;i>=0;i--)if(dust[i].life<=0)dust.splice(i,1);
+  x.save();x.globalCompositeOperation=light?'source-over':'lighter';x.lineCap='round';
+  const core=light?[255,214,120]:[255,255,255],glow=light?[226,140,90]:[150,190,255];
+  // the tail: segment by segment, wider and brighter toward the head, fading with age
+  for(let i=1;i<trail.length;i++){const a=trail[i-1],b=trail[i],f=i/(trail.length-1||1),age=1-(now-b.t)/TAIL;if(age<=0)continue;
+    x.strokeStyle=`rgba(${glow},${(light?.5:.35)*f*age})`;x.lineWidth=(1.5+8*f)*dpr;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke();
+    x.strokeStyle=`rgba(${core},${(light?.95:1)*f*age})`;x.lineWidth=(.6+2.6*f)*dpr;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke()}
+  // the head: a soft glow, a hot core, and a small four-pointed glint
+  const h=trail[trail.length-1];if(h){const age=1-(now-h.t)/TAIL;if(age>0){const R=16*dpr,g=x.createRadialGradient(h.x,h.y,0,h.x,h.y,R);
+    g.addColorStop(0,`rgba(${core},${age})`);g.addColorStop(.25,`rgba(${core},${.7*age})`);g.addColorStop(.5,`rgba(${glow},${(light?.55:.45)*age})`);g.addColorStop(1,`rgba(${glow},0)`);x.fillStyle=g;x.beginPath();x.arc(h.x,h.y,R,0,Math.PI*2);x.fill();
+    x.strokeStyle=`rgba(${core},${.8*age})`;x.lineWidth=1*dpr;x.beginPath();x.moveTo(h.x-11*dpr,h.y);x.lineTo(h.x+11*dpr,h.y);x.moveTo(h.x,h.y-11*dpr);x.lineTo(h.x,h.y+11*dpr);x.stroke()}}
+  // sparks shed from the tail
+  dust.forEach(d=>{const a=Math.max(0,d.life);x.fillStyle=`rgba(${a>.5?core:glow},${a*(light?.8:.9)})`;x.beginPath();x.arc(d.x,d.y,d.r*(.4+a*.6),0,Math.PI*2);x.fill()});
+  x.restore()}
 function cosmosGalaxySprite(R,dpr){const N=Math.ceil(R*2.3),c=document.createElement('canvas');c.width=c.height=N;const g=c.getContext('2d'),o=N/2;
   const col=u=>{const st=[[0,[255,214,140]],[.25,[255,150,175]],[.55,[190,120,240]],[.8,[120,150,255]],[1,[110,200,240]]];for(let i=1;i<st.length;i++)if(u<=st[i][0]){const[a,ca]=st[i-1],[b,cb]=st[i],k=(u-a)/(b-a);return ca.map((v,j)=>Math.round(v+(cb[j]-v)*k))}return st[4][1]};
   const blob=(x,y,r,rgb,a)=>{const z=g.createRadialGradient(x,y,0,x,y,r);z.addColorStop(0,`rgba(${rgb},${a})`);z.addColorStop(1,`rgba(${rgb},0)`);g.fillStyle=z;g.beginPath();g.arc(x,y,r,0,6.29);g.fill()};
@@ -2976,6 +2995,8 @@ const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the st
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
   ['2026-10-27','Temporary HP in combat','The combat tracker has temporary hit points: type an amount and press Temp. Damage takes them first, a new amount replaces the old one only if it is higher (they do not stack), and the ✕ on the blue tag clears them. A character\'s temporary HP stays in step with their character sheet, and the table screen shows it in the initiative list.'],
+  ['2026-10-27','A shooting star for a pointer','On the home page your pointer now trails a shooting star instead of confetti: a bright head with a soft glow and a glint, a tail that tapers along the path you just moved, and a few sparks shed behind it. White and blue-white in the night sky, gold and rose-gold in the dawn sky.'],
+  ['2026-10-27','69 more combos','The Forge has 69 more hidden combos: every newer property now has two (Rooted, Slick, Blossoming, Tolling, Shifting Sands, Mycelial, Clockwork, Thorned, Ashen, Moulded, Smoky, Sprouting, Preserving), the commonest creature traits that had none now have one (Wail, Flameproof, Grounded, Paralyzing, Gore, Fey Step, and more), and the commonest properties got more (Lifedrinking, All-Seeing, Giant-Felling, Piercing Edge). They stay hidden until you forge one.'],
   ['2026-10-27','Blank character HP','A new blank character starts at full health: setting its maximum hit points fills in its current hit points too, and the damage and healing buttons count an empty current HP as full instead of 0.'],
   ['2026-10-27','Art on the world pages','The pages you read for the world itself now have paintings behind them: Lore a world-tree of light with drifting rune glyphs, Realms a ladder of floating islands in each realm\'s colour from the earth up to the void, the Magic Towers wizard spires under a crescent moon with turning magic circles and an aurora, and the Rune Towers monoliths with burning runes and arcs of storm-light. Lists and tools, like the Bestiary, Materials, Blueprints, Spells, the character sheet, and combat, stay plain so nothing gets in the way.'],
   ['2026-10-27','More variants and quirks','34 new material variants at the Preparation bench: brain-tanned, scaled, and smoke-cured hide; felt and waxed cord; bog-seasoned, steam-bent, charred, and petrified wood; tinctured and candied herbs; pattern-welded, case-hardened, blued, gilded, and granulated metal; scrimshawed, lacquered, and ground bone; honed, carved, powdered, and fire-glazed stone; tumbled, moon-attuned, and cleaved gems; fermented, clotted, and infused fluids; crystallized, diluted, and volatile essences; calibrated and greased mechanisms. The quirk table has 18 quirks now (nothing happens only on 40 or less), including mixed blessings like Jealous, and Twin-forged, Homing, Stormglass, and Blood-eager. The whole table is under How the Forge works.'],
@@ -7375,6 +7396,79 @@ const FCOMBOS=[['Burning','Freezing','Steam Burst','Fire and frost clash in it: 
   ['Divine Spark','Rebirth','Ember of the Gods','Once per long rest, when an ally dies within 30 ft, they return at 1 hit point.'],
   ['Eye Ray','Freezing','Frost Ray','Once per short rest, shoot a ray of cold at a creature within 60 ft: 2d8 cold damage and speed 0 until the end of its next turn.'],
   ['Binding','Oathkeeper','Chain of Oaths','A creature that swears to you and breaks it is restrained for 1 minute.']];
+// more combos (website addition): for the newer properties, the commonest traits that had none, and the commonest
+// properties that had few. A pair already on the list, or a name already taken, is skipped.
+(()=>{const MORE=[
+    ["Rooted", "Earthbound", "Bedrock Stance", "While you stand on the ground you can't be pushed, knocked prone, or teleported against your will."],
+    ["Rooted", "Living", "Deep Roots", "Once per long rest, when you would drop to 0 hit points while standing on earth, you drop to 1 instead."],
+    ["Slick", "Shadowed", "Eel's Escape", "You have advantage on checks to escape grapples and restraints, and can slip through a space one size smaller without squeezing."],
+    ["Slick", "Venomous", "Coated Edge", "Poison applied to it lasts for three hits instead of one."],
+    ["Blossoming", "Holy", "Sacred Bloom", "Once per long rest, flowers burst around you: you and allies within 10 feet regain 2d8 hit points."],
+    ["Blossoming", "Glamoured", "Lure of Petals", "Once per short rest, a creature you hit makes a Wisdom save or is charmed by you until the end of its next turn."],
+    ["Tolling", "Dreadful", "Death Knell", "When a creature within 30 feet drops to 0 hit points, each enemy within 30 feet of it makes a Wisdom save or is frightened until the end of its next turn."],
+    ["Tolling", "Resonant", "Great Bell", "Once per short rest, strike it to deal 2d8 thunder damage to every other creature within 10 feet (Constitution save for half)."],
+    ["Shifting Sands", "Earthbound", "Quicksand", "Once per long rest, turn a 15-foot square within 30 feet into sinking sand for 1 minute: difficult terrain, and a creature that ends its turn there makes a Strength save or is restrained."],
+    ["Shifting Sands", "Timebound", "Hourglass", "Once per long rest, after initiative is rolled, swap your initiative with a willing ally's."],
+    ["Mycelial", "Necromantic", "Rot Bloom", "Once per long rest, a creature it kills sprouts fungus and rises a minute later as a spore-thrall that obeys you for 1 hour."],
+    ["Mycelial", "Regenerating", "Fungal Mend", "When you regain hit points from a short or long rest, regain an extra 1d6."],
+    ["Clockwork", "Mechanical", "Perfect Mechanism", "Once per short rest, after you roll an attack or check with it, treat a d20 roll of 9 or lower as a 10."],
+    ["Clockwork", "Timebound", "Escapement", "Once per long rest, take one extra action on your turn; on your next turn you can take only a bonus action."],
+    ["Thorned", "Living", "Briar Guard", "A creature that hits you with a melee attack takes 1d6 piercing damage."],
+    ["Thorned", "Venomous", "Nettle Sting", "A creature it hits itches and burns: −1 on attack rolls until the end of its next turn."],
+    ["Ashen", "Burning", "Cinderfall", "Once per short rest, on a hit, hot ash fills 10 feet around the target: heavily obscured until the end of your next turn."],
+    ["Ashen", "Rebirth", "Phoenix Ash", "Once per long rest, when you drop to 0 hit points, you crumble to ash and re-form with half your hit points at the start of your next turn."],
+    ["Moulded", "Hardened", "Second Skin", "It shapes itself to whoever holds or wears it: anyone can use it without penalty, and armor made with it goes on or off in a single action."],
+    ["Moulded", "Shapeshifting", "Clay of Ages", "Once per long rest, reshape it into any other weapon or tool of about the same size for 1 hour."],
+    ["Smoky", "Shadowed", "Smoke Step", "Once per short rest, as a bonus action, vanish in a puff of smoke and reappear up to 20 feet away in dim light or darkness."],
+    ["Smoky", "Ink Cloud", "Blackout", "Once per long rest, fill a 20-foot radius around you with magical smoke for 1 minute; you can see through it."],
+    ["Sprouting", "Living", "Green Wake", "Once per long rest, grow a thorny hedge wall up to 30 feet long and 10 feet high (60 hit points) on ground you can see within 30 feet."],
+    ["Sprouting", "Heartwood", "World Seed", "Planted over a long rest, it grows one fruit that restores 4d8 hit points when eaten (once per long rest; it withers by the next dusk)."],
+    ["Preserving", "Undying", "Embalmed", "You stop aging while you carry it, and you are immune to disease."],
+    ["Preserving", "Freezing", "Cold Storage", "Food, potions, and remains you carry never spoil; a body kept on it can be raised as if it had died that day."],
+    ["Lifedrinking", "Piercing Edge", "Leech Point", "When you score a critical hit with it, you regain hit points equal to the extra damage the critical dealt."],
+    ["Lifedrinking", "Burning", "Ember Thirst", "When it drains life, the target also catches fire: 1d6 fire damage at the start of its next turn."],
+    ["All-Seeing", "Foe-Sensing", "Watchtower", "You can't be surprised, and you know how many hostile creatures are within 60 feet, and what kind."],
+    ["All-Seeing", "Piercing Edge", "Flaw-Finder", "Once per short rest, your next hit against a creature you can see ignores its resistance to the weapon's damage."],
+    ["Giant-Felling", "Earthbound", "Topple", "Once per turn, a Large or bigger creature you hit makes a Strength save or is knocked prone."],
+    ["Giant-Felling", "Wyrmsbane", "Dragonslayer's Oath", "+1d6 damage against Huge and bigger creatures."],
+    ["Nullifying", "Binding", "Spell Chains", "Once per long rest, a creature you hit makes a Charisma save or can't teleport, turn invisible, or change shape for 1 minute."],
+    ["Corrosive", "Giant-Felling", "Hide Melter", "A Large or bigger creature it hits loses 1 AC until the end of the fight (once per creature)."],
+    ["Binding", "Psychic", "Mind Shackle", "Once per long rest, a creature you hit makes a Wisdom save or can't take reactions or cast spells until the end of its next turn."],
+    ["Unyielding", "Hardened", "Unbowed", "Once per long rest, when a hit would take you below half your hit points, reduce its damage by 10."],
+    ["Fiend-Hide", "Hellbrand", "Infernal Mantle", "You resist fire damage, and fiends take you for one of their own until you attack them."],
+    ["Acid-Proof", "Corrosive", "Acidwalker", "You are immune to acid damage, and its touch eats a hand-sized hole through metal in 1 minute."],
+    ["Wail", "Dreadful", "Banshee Cry", "Once per long rest, wail: creatures within 30 feet make a Wisdom save or are frightened for 1 minute (save again at the end of each of their turns)."],
+    ["Grounded", "Stormcharged", "Lightning Rod", "You resist lightning damage, and once per short rest, after you take lightning damage, your next hit deals 2d8 more lightning damage."],
+    ["Flameproof", "Burning", "Salamander", "You are immune to fire damage, and standing in fire heals you 1d6 at the start of your turn (up to 1 minute, once per long rest)."],
+    ["Thunderstrike", "Tolling", "Thunderclap", "Once per short rest, on a hit, a thunderclap deafens the target for 1 minute and pushes it 10 feet away."],
+    ["Searing", "Holy", "Brand of Dawn", "Undead and fiends it hits shed bright light and can't turn invisible until the end of your next turn."],
+    ["Wild Surge", "Chaotic", "Wild Tide", "When you roll a 20 to hit with it, roll on the wild magic table and choose whether the result happens."],
+    ["Dissolving", "Corrosive", "Melt", "Once per long rest, a nonmagical object it touches, no bigger than a door, dissolves over 1 minute."],
+    ["Tongue-Taste", "Venomous", "Poison-Taster", "You can taste poison in any food or drink, and you have advantage on saves against poison."],
+    ["Hellish", "Necromantic", "Pact of Ash", "Once per long rest, when it kills a creature, you gain temporary hit points equal to that creature's level."],
+    ["Thirsting Vigor", "Lifedrinking", "Red Thirst", "When it drains life, you regain 2 more hit points."],
+    ["Eat to Heal", "Regenerating", "Feast", "A short rest with a hot meal restores 2d6 more hit points."],
+    ["Deep-Sight", "All-Seeing", "Abyssal Eye", "You can see through magical darkness out to 60 feet."],
+    ["Crushing Blow", "Mighty", "Bonebreaker", "On a critical hit, the target's speed is halved until it regains hit points."],
+    ["Warded", "Spellward", "Bastion of Wards", "+1 to saves against spells, and once per long rest you can turn a failed save against a spell into a success."],
+    ["Null Ward", "Nullifying", "Silent Field", "Once per long rest, end one spell of 3rd rank or lower on a creature or object you touch with it."],
+    ["Earth-Glide", "Earthbound", "Stone Swimmer", "Once per long rest, for 1 minute you can move through earth and stone (not metal) at half speed."],
+    ["Paralyzing", "Venomous", "Stillness", "Once per long rest, a creature you hit makes a Constitution save or is paralyzed until the end of its next turn."],
+    ["World-Heart", "Living", "Gaia's Pulse", "Once per long rest, you and allies within 15 feet regain 3d8 hit points."],
+    ["Dirty Fighting", "Shadowed", "Low Blow", "Once per turn, when you hit a creature that can't see you, it can't take reactions until the start of its next turn."],
+    ["Gore", "Mighty", "Charging Horn", "If you move 20 feet straight toward a creature and then hit it, it takes 2d6 more damage and is pushed 10 feet."],
+    ["Chitin Plating", "Hardened", "Carapace", "+1 AC against ranged attacks."],
+    ["Chilling Touch", "Freezing", "Rime Grip", "A creature it hits loses 10 feet of speed until the end of its next turn."],
+    ["Truesight Glimpse", "All-Seeing", "Clear Sight", "Once per long rest, you gain truesight out to 30 feet for 1 minute."],
+    ["Battle-Born", "Mighty", "War-Forged", "+1 to initiative, and you have advantage on saves against being frightened."],
+    ["Spider Climb", "Binding", "Web-Walker", "You climb sheer walls and webs at your full speed and never stick in webs."],
+    ["Fey Step", "Blinking", "Faerie Path", "Once per short rest, as a bonus action, teleport up to 30 feet; the first attack against you before your next turn has disadvantage."],
+    ["Soft Step", "Hushed", "Ghost Feet", "Moving at half speed, you leave no tracks and make no sound."],
+    ["Hawk-Sight", "Keen-Eyed", "Eagle Eye", "The long range of ranged attacks with it is doubled, and you can make out details a mile away."],
+    ["Death Roll", "Tidal", "Drowning Grip", "A creature you grapple underwater can't breathe and takes 2d6 bludgeoning damage at the start of each of its turns."],
+    ["Self-Mending", "Tempered", "Undying Steel", "It can't be broken for good: after a long rest it mends itself fully, even from a single shard."],
+    ["Mimicry", "Glamoured", "Perfect Mimic", "You can copy any voice you have heard for at least a minute, and creatures have disadvantage on Insight checks to see through it."],
+  ];const has=(a,b)=>FCOMBOS.some(x=>(x[0]===a&&x[1]===b)||(x[0]===b&&x[1]===a));MORE.forEach(c=>{if(!has(c[0],c[1])&&!FCOMBOS.some(x=>x[2]===c[2]))FCOMBOS.push(c)})})();
 const forgeCombos=r=>{const P=new Set((r.props||[]).filter(p=>!p.half).map(p=>p.m.pn).concat((r.parts||[]).filter(p=>p.m&&p.m.tr&&p.fit&&p.fit.lv!=='wrong').map(p=>p.m.tr.n)));return FCOMBOS.filter(([a,b])=>P.has(a)&&P.has(b))};
 let COMBOS_FOUND=store.get('combos',[]);
 function combosNote(list){let n=0;list.forEach(c=>{if(!COMBOS_FOUND.includes(c[2])){COMBOS_FOUND.push(c[2]);n++}});if(n){store.set('combos',COMBOS_FOUND);toast('✦ Combo found: '+list.map(c=>c[2]).join(', '))}}
