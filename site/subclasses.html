@@ -213,6 +213,11 @@ select.sel.set{border-color:var(--gold);color:var(--text)}
 .art svg{width:76%;height:76%;fill:var(--ac);filter:drop-shadow(0 0 6px color-mix(in srgb,var(--ac) 45%,transparent)) drop-shadow(0 1px 1px rgba(0,0,0,.6))}
 .art.lg{width:116px;height:116px;border-radius:18px}.art.xs{width:30px;height:30px;border-radius:8px;vertical-align:middle;margin-right:8px}.art.xs svg{filter:none}
 .mh-row{display:flex;gap:16px;align-items:center}.mh-row>.mh-txt{flex:1;min-width:0}
+/* symbols (game-icons) that stand in for emoji in the text, and mark each page in the menu and its heading */
+.sym{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.2em;line-height:1;flex-shrink:0}.sym svg{display:block;width:100%;height:100%;fill:currentColor}
+.navpop a .sym{width:22px;height:22px;align-self:center;color:var(--gold2);opacity:.9}.navpop a.on .sym,.navpop a:hover .sym{opacity:1}
+.tab .sym{width:16px;height:16px;vertical-align:0;opacity:.75}.tab.on .sym,.tab:hover .sym{opacity:1;color:var(--gold2)}
+.sym.pgsym{width:1.05em;height:1.05em;margin-right:.35em;vertical-align:-.14em;color:var(--gold2)}
 .card .ep{font-size:.78rem;color:var(--muted);font-style:italic;font-family:var(--serif);margin-top:-3px}
 .card .ds{font-size:.8rem;color:var(--text2);opacity:.85;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .card .ln{font-size:.78rem;color:var(--text2)}
@@ -1076,8 +1081,8 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"subclasses",v:"3bce691dcc",b:"4d5eab20"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
-<script>(function(){var F=[["data/core.js?v=3bce691dcc",11506652],["data/art.js?v=3bce691dcc",565882],["data/vault.js?v=3bce691dcc",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
+<script>const SITE={page:"subclasses",v:"9a9143803a",b:"df59c5b3"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>(function(){var F=[["data/core.js?v=9a9143803a",11506652],["data/art.js?v=9a9143803a",700105],["data/vault.js?v=9a9143803a",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
 // ════════════════════════════════════════════════════════════════
@@ -1327,6 +1332,22 @@ function artTint(x){const w=x._t==='mon'&&/dragon|abishai|slaad|greatwyrm/i.test
   if(x._t==='mon'){if(x.realm!=='Human'&&REALM[x.realm])return rcol(x.realm);const ty=String(x.sb&&x.sb.ty||'');const k=Object.keys(ART_TYPE).find(t=>ty.includes(t));return k?ART_TYPE[k]:'#d1a66b'}
   if(x._t==='god'){const h0=String(x.home||''),h=REALM[h0]?h0:h0.replace(/ Realm$/,'');return h!=='Human'&&REALM[h]?rcol(h):'#ecc04f'}return /celestial/i.test(x.grp)?'#ecc04f':/archfey/i.test(x.grp)?'#5fd08a':/old one|corruption/i.test(x.grp)?'#9d7fe0':/vyrekala|dragon/i.test(x.grp+x.n)?'#e8553f':'#e2513f'}
 function artHTML(x,cls){const i=artIdx(x);return i<0?'':`<span class="art ${cls||''}" style="--ac:${artTint(x)}" aria-hidden="true"><svg viewBox="0 0 512 512" focusable="false">${ART.icons[i]}</svg></span>`}
+// Symbols: emoji in the text become matching game-icons symbols as the page draws (a watcher on the page catches every
+// render, toast, and popup). Text the browser draws itself (dropdowns, inputs, tooltips, the tab title) keeps the emoji.
+const SYM_RE=typeof ART!=='undefined'&&ART.sym?new RegExp('('+Object.keys(ART.sym).sort((a,b)=>b.length-a.length).map(e=>e.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')\uFE0F?','gu'):null;
+const SYM_SKIP={SCRIPT:1,STYLE:1,TEXTAREA:1,OPTION:1,SELECT:1,INPUT:1,TITLE:1,CODE:1,PRE:1,svg:1};
+// (its own tag, so no page's "span" or "i" styles reach it)
+function symSVG(i,cls,label){return `<g-sym class="sym${cls?' '+cls:''}" ${label?`role="img" aria-label="${esc(label)}"`:'aria-hidden="true"'}><svg viewBox="0 0 512 512" focusable="false">${ART.icons[i]}</svg></g-sym>`}
+function pgSym(k,cls){return typeof ART!=='undefined'&&ART.pg&&ART.pg[k]!=null?symSVG(ART.pg[k],cls):''}
+function symbolize(root){if(!SYM_RE||!root||root.nodeType!==1||!root.isConnected)return;
+  for(let p=root;p&&p!==document.body;p=p.parentNode)if(p.nodeType===1&&(SYM_SKIP[p.nodeName]||p.isContentEditable))return;
+  const L=[],w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT|NodeFilter.SHOW_ELEMENT,{acceptNode(n){if(n.nodeType===1)return SYM_SKIP[n.nodeName]||n.isContentEditable?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_SKIP;SYM_RE.lastIndex=0;return SYM_RE.test(n.data)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP}});
+  while(w.nextNode())L.push(w.currentNode);
+  L.forEach(n=>{const s=n.data,f=document.createDocumentFragment();let last=0,m;SYM_RE.lastIndex=0;
+    while((m=SYM_RE.exec(s))){if(m.index>last)f.appendChild(document.createTextNode(s.slice(last,m.index)));const t=document.createElement('template');t.innerHTML=symSVG(ART.sym[m[1]],'',m[1]);f.appendChild(t.content);last=m.index+m[0].length}
+    if(last<s.length)f.appendChild(document.createTextNode(s.slice(last)));n.parentNode.replaceChild(f,n)})}
+if(SYM_RE&&window.MutationObserver){new MutationObserver(ms=>{const q=new Set();ms.forEach(m=>{if(m.type==='characterData')q.add(m.target.parentNode);else m.addedNodes.forEach(n=>q.add(n.nodeType===3?n.parentNode:n))});q.forEach(symbolize);
+  if(typeof TAB==='string'&&typeof VIEWS==='object'&&!VIEWS[TAB]&&$('content'))pageSym()}).observe(document.body,{childList:true,subtree:true,characterData:true});symbolize(document.body)}
 const RAR_ORDER=['Common','Uncommon','Rare','Very Rare','Legendary','Artifact'];
 const rarRank=r=>{const i=RAR_ORDER.indexOf(r);return i<0?9:i};
 
@@ -1835,7 +1856,7 @@ function openNav(g,btn){
   const pop=$('navpop'),grp=navGroups().find(x=>x[0]===g);if(!grp)return;
   if(pop.classList.contains('open')&&pop.dataset.g===g){closeNav();return}
   pop.dataset.g=g;
-  pop.innerHTML=grp[1].map(id=>{const t=TABS.find(x=>x[0]===id);if(!t)return '';return `<a href="${pageUrl(id)}" data-tab="${id}" role="menuitem" class="${id===TAB?'on':''}"><span><b>${t[1]}</b><small>${esc(NAV_BLURB[id]||'')}</small></span>${t[2]!=null?`<span class="n">${fmt(t[2])}</span>`:''}</a>`}).join('');
+  pop.innerHTML=grp[1].map(id=>{const t=TABS.find(x=>x[0]===id);if(!t)return '';return `<a href="${pageUrl(id)}" data-tab="${id}" role="menuitem" class="${id===TAB?'on':''}">${pgSym(id)}<span><b>${t[1]}</b><small>${esc(NAV_BLURB[id]||'')}</small></span>${t[2]!=null?`<span class="n">${fmt(t[2])}</span>`:''}</a>`}).join('');
   const r=btn.getBoundingClientRect();pop.style.top=(r.bottom+6)+'px';pop.style.setProperty('--navtop',(r.bottom+6)+'px');pop.scrollTop=0;pop.style.left=Math.max(8,Math.min(r.left,innerWidth-Math.min(380,innerWidth*.92)-8))+'px';
   pop.classList.add('open');btn.setAttribute('aria-expanded','true');
 }
@@ -1845,7 +1866,7 @@ $('navpop').addEventListener('click',e=>{const a=e.target.closest('a[data-tab]')
 window.addEventListener('resize',closeNav);
 function renderTabs(){
   const cur=navGroupOf(TAB);
-  $('tabs').innerHTML=`<a class="tab${TAB==='home'?' on':''}" href="${pageUrl('home')}" data-tab="home">Home</a>`+navGroups().map(([g,ids])=>{const n=ids.reduce((a,id)=>{const t=TABS.find(x=>x[0]===id);return a+(t&&t[2]||0)},0);return `<span class="navg"><button class="tab${g===cur?' on':''}" data-group="${esc(g)}" aria-haspopup="menu" aria-expanded="false">${g}${g===cur?`<span class="n">· ${(TABS.find(t=>t[0]===TAB)||[])[1]||''}</span>`:''}<span class="car">▾</span></button></span>`}).join('');
+  $('tabs').innerHTML=`<a class="tab${TAB==='home'?' on':''}" href="${pageUrl('home')}" data-tab="home">${pgSym('home')}Home</a>`+navGroups().map(([g,ids])=>{const n=ids.reduce((a,id)=>{const t=TABS.find(x=>x[0]===id);return a+(t&&t[2]||0)},0);return `<span class="navg"><button class="tab${g===cur?' on':''}" data-group="${esc(g)}" aria-haspopup="menu" aria-expanded="false">${pgSym('g:'+g)}${g}${g===cur?`<span class="n">· ${(TABS.find(t=>t[0]===TAB)||[])[1]||''}</span>`:''}<span class="car">▾</span></button></span>`}).join('');
   const on=$('tabs').querySelector('.tab.on');if(on){const T=$('tabs'),r=on.getBoundingClientRect(),tr=T.getBoundingClientRect();if(r.right>tr.right||r.left<tr.left)T.scrollLeft+=r.left-tr.left-16}
 }
 function renderTabs_flat(){
@@ -1891,11 +1912,14 @@ function renderTab(){
   document.title=(TABS.find(t=>t[0]===TAB)||[])[1]+' · FAND';
   if(TAB==='codex'&&!NOTES.length){$('sb').hidden=true;$('ctrl').hidden=true;$('content').innerHTML=`<div class="page"><div class="empty" style="text-align:left;max-width:640px;margin:40px auto"><b>The Codex is empty</b><p>The Codex shows every note from the FAND Obsidian vault. To fill it, run these from the repository's <code>tools</code> folder on the computer that has the vault, then commit and push:</p><pre class="formula">node generators/importvault.js go\nnode generators/buildapp.js go</pre><p class="note">Blueprints, materials, spells, and the Bestiary come from the website's own data and aren't duplicated here. Where a note and the website differ, the website takes priority.</p></div></div>`;return}
   if(VIEWS[TAB]){renderSidebar();renderControls();renderList()}
-  else{$('sb').hidden=true;$('ctrl').hidden=true;$('content').innerHTML='';PAGES[TAB]();diceWatch()}
+  else{$('sb').hidden=true;$('ctrl').hidden=true;$('content').innerHTML='';PAGES[TAB]();diceWatch();pageSym()}
   pageArt(TAB);
   $('content').scrollTop=0;
   if(typeof tourResume==='function')tourResume();
 }
+
+// the page's symbol beside its title (the first heading the page draws)
+function pageSym(){const C=$('content');if(pageSym.at===C.firstElementChild)return;pageSym.at=C.firstElementChild;if(TAB==='home'||C.querySelector('.fg-hero,.pgsym'))return;const top=C.getBoundingClientRect().top,h=[...C.querySelectorAll('h1,h2,.sec-h h3')].find(x=>x.getBoundingClientRect().top-top<260&&x.offsetParent);if(h)h.insertAdjacentHTML('afterbegin',pgSym(TAB,'pgsym'))}
 
 // ════════════════════════════════════════════════════════════════
 //  List engine
@@ -3053,6 +3077,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-28','Symbols to match the pictures','The emoji around the site (dice, swords, shields, scrolls, hammers, potions, and about a hundred more) are now drawn as symbols in the same game-icons style as the monster and god pictures, in the colour of the text around them. Every page also has its own symbol, beside its name in the menu and on its title, and each menu group has one too. Dropdowns and tooltips keep the plain emoji, since browsers draw those themselves.','about'],
   ['2026-10-28','Pictures of what you face','Every monster in the Bestiary, every god, every demon, and every patron now has a picture: on its card in the lists, large at the top of its page, and beside its name in the combat tracker, so players can see what they are up against. Each is an illustration from game-icons.net picked to fit the creature (a dragon\'s head, a horned devil, a sun for a sun god), tinted to its realm, and coloured dragons take their own colour. Credits are on the About page.','bestiary'],
   ['2026-10-28','New player guide','A New player guide (in the Reference menu, and linked from Home) shows every feature of FAND in plain words, with seven hands-on tutorials that open the real pages and point at the real buttons: finding anything, your first character, rolling dice, gear and crafting, the world of Vestige, running a game, and your account. It keeps track of the ones you have done, and has a short list of FAND\'s own words to know.','guide'],
   ['2026-10-28','A shop for every market','A new Shop page under Items & Crafting. Pick a realm, a settlement size, and one of eight kinds of shop (a smithy, an alchemist, a monster-parts dealer, and more), each run by a named merchant, then buy materials and vault Blueprints with your character\'s own coin. Shops charge half again over list price, buying is limited by what you can afford and how much your pack holds, and merchants buy your materials back at half the list price. In the realms with their own coin, a moneychanger swaps gold for local coin and keeps a tenth. The DM can raise or lower a market\'s prices and restock it. Every purchase, sale, and exchange can be undone.','shop'],
@@ -3306,7 +3331,7 @@ function renderAbout(){
     <section class="sec">${appHTML()}</section>
     <section class="sec">${cosmologyHTML()}</section>
     <section class="sec"><div class="sec-h"><h3>At a glance</h3></div><div class="tablewrap"><table class="t"><thead><tr><th>Area</th><th>Now</th></tr></thead><tbody>${G.map(([a,t,l])=>`<tr><td style="white-space:nowrap;font-weight:600">${l?`<a href="${pageUrl(l)}" data-go="${l}" style="text-decoration:none">${a}</a>`:a}</td><td>${t}</td></tr>`).join('')}</tbody></table></div></section>
-    <section class="sec"><div class="sec-h"><h3>Picture credits</h3></div><p class="note" style="margin:0">The pictures of monsters, gods, demons, and patrons are illustrations from <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a> by Lorc, Delapouite, and contributors, used under the <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">Creative Commons Attribution 3.0</a> licence and tinted to each one's realm.</p></section>
+    <section class="sec"><div class="sec-h"><h3>Picture credits</h3></div><p class="note" style="margin:0">The pictures of monsters, gods, demons, and patrons, and the symbols used across the site, are illustrations from <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a> by Lorc, Delapouite, and contributors, used under the <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">Creative Commons Attribution 3.0</a> licence and tinted to each one's realm.</p></section>
     <section class="sec"><div class="sec-h"><h3>Website changes</h3><p>What changed on this site, newest first.</p></div><div class="tablewrap"><table class="t"><thead><tr><th>Date</th><th>Change</th></tr></thead><tbody>${SITE_CHANGES.map(([d,t,x,pg])=>`<tr><td style="white-space:nowrap">${esc(d)}</td><td><b>${pg?`<a href="${pageUrl(pg)}" data-go="${pg}">${esc(t)}</a>`:esc(t)}</b><br><span style="color:var(--text2)">${esc(x)}</span></td></tr>`).join('')}</tbody></table></div></section>
     <section class="sec"><div class="sec-h"><h3>Version history</h3><p>Open any version for its full patch notes from the vault.</p></div><div class="tablewrap"><table class="t"><thead><tr><th>Version</th><th>What changed</th></tr></thead><tbody>${V.slice().reverse().map(([v,t])=>`<tr><td style="white-space:nowrap"><span class="vtag">${v}</span></td><td>${esc(t)}${(()=>{const n=noteByName('Patch v'+v);return n?` <a href="#" data-ref="${ref(n)}">Full notes →</a>`:''})()}</td></tr>`).join('')}</tbody></table></div></section>
     <section class="sec cols">
