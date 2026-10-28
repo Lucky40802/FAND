@@ -277,10 +277,40 @@ var FIEND_GRP = [
   [/archfey/, 'fairy'], [/undying/, 'death-skull'], [/celestial/, 'angel-wings'], [/genie/, 'djinn'], [/.*/, 'cursed-star']
 ];
 
+// ---- emoji used around the site, drawn as game-icons symbols instead (the page swaps them in as it draws; see symbolize()).
+// Interface marks (arrows, ✕, ★, ✓) and system emoji (🔍 🔊 🖨 ⚠ 🗑 …) stay as text.
+var SYMBOLS = {
+  '🎲': 'perspective-dice-six-faces-random', '⚔': 'crossed-swords', '🔱': 'trident', '🗡': 'plain-dagger', '🪓': 'battle-axe', '🛡': 'shield',
+  '🔨': 'claw-hammer', '⛓': 'crossed-chains', '🏹': 'bow-arrow', '⛑': 'visored-helm', '🏏': 'flanged-mace', '⚒': 'anvil-impact', '📜': 'scroll-unfurled',
+  '🔪': 'bowie-knife', '✨': 'sparkles', '⚖': 'scales', '⛏': 'war-pick', '🔥': 'flame', '🧤': 'gloves', '🎁': 'present', '🥾': 'leather-boot',
+  '🧥': 'cape', '🪄': 'fairy-wand', '🔧': 'spanner', '🔫': 'blunderbuss', '📝': 'quill-ink', '👁': 'eyeball', '🔮': 'crystal-ball', '🌾': 'wheat',
+  '🧪': 'round-potion', '☀': 'sun', '📖': 'open-book', '🪙': 'two-coins', '🎯': 'archery-target', '🪝': 'meat-hook', '🎴': 'card-random',
+  '☠': 'skull-crossed-bones', '🪨': 'stone-pile', '⚗': 'erlenmeyer', '🧭': 'compass', '🐉': 'dragon-head', '⚰': 'coffin', '🌙': 'moon',
+  '💥': 'crowned-explosion', '🏮': 'paper-lantern', '📓': 'book-cover', '📕': 'book-cover', '👊': 'fist', '🪢': 'rope-coil', '👑': 'crown', '👘': 'robe',
+  '🧺': 'basket', '🏛': 'greek-temple', '🧵': 'sewing-string', '🍲': 'cauldron', '🦴': 'crossed-bones', '💨': 'whirlwind', '🗝': 'skeleton-key',
+  '🕳': 'hole', '⚡': 'lightning-helix', '💰': 'coins-pile', '🕸': 'spider-web', '🐎': 'horse-head', '📿': 'prayer-beads', '💍': 'ring',
+  '💣': 'fire-bomb', '🫙': 'mason-jar', '🍳': 'saucepan', '🐾': 'paw-print', '🪃': 'boomerang', '🥋': 'black-belt', '🎭': 'drama-masks',
+  '🗿': 'stone-bust', '💎': 'gems', '🪕': 'banjo', '🎶': 'musical-notes', '🎼': 'musical-notes', '🥁': 'drum', '📯': 'hunting-horn', '🧹': 'broom',
+  '🪚': 'hand-saw', '🪣': 'empty-wood-bucket', '🚪': 'door', '🧙': 'wizard-face', '🎨': 'paint-brush', '❄': 'snowflake-1', '☘': 'clover',
+  '✝': 'holy-symbol', '🎋': 'bamboo', '🍀': 'clover', '🗺': 'treasure-map', '🏰': 'castle', '🐺': 'wolf-head', '🦇': 'evil-bat', '🕯': 'candle-light',
+  '⏳': 'hourglass', '🌲': 'pine-tree', '🌊': 'big-wave', '🌋': 'volcano', '🧿': 'third-eye', '🩸': 'drop', '🦷': 'fangs', '🪶': 'feather', '🐚': 'spiral-shell'
+};
+// ---- one symbol for each page (menu entries and page headings) and each menu group ----
+var PAGE_SYMBOLS = {
+  home: 'castle', lore: 'scroll-unfurled', realms: 'world', towers: 'stone-tower', gods: 'spiked-halo', runes: 'rune-stone', demons: 'devil-mask',
+  patrons: 'pentacle', codex: 'book-pile', bestiary: 'dragon-head', materials: 'ore', properties: 'sparkles', blueprints: 'scroll-quill',
+  forge: 'anvil-impact', workshop: 'hammer-nails', craft: 'crafting', shop: 'shop', professions: 'war-pick', classes: 'swordman',
+  subclasses: 'two-handed-sword', hidden: 'hood', spells: 'spell-book', magic: 'wizard-staff', prep: 'notebook', sheet: 'id-card',
+  party: 'campfire', journal: 'quill-ink', hooks: 'compass', encounter: 'battle-gear', combat: 'sword-clash', dice: 'perspective-dice-six-faces-random',
+  tools: 'toolbox', guide: 'treasure-map', rules: 'rule-book', help: 'help', about: 'info', account: 'cowled', settings: 'cog',
+  'g:World': 'world', 'g:Creatures & Materials': 'dragon-head', 'g:Items & Crafting': 'anvil-impact', 'g:Magic & Classes': 'magic-swirl',
+  'g:Play': 'perspective-dice-six-faces-random', 'g:Reference': 'book-cover', 'g:DM': 'crowned-skull'
+};
+
 function first(rules, s) { for (var i = 0; i < rules.length; i++) if (rules[i][0].test(s)) return rules[i][1]; return null; }
 function icons() { return require(path.join(__dirname, '..', 'app', 'vendor', 'game-icons', 'icons.json')); }
 
-// returns {icons:[svg bodies], mon:{name:i}, god:{name:i}, demon:{name:i}, patron:{name:i}}, plus `pick` for the report
+// returns {icons:[svg bodies], mon:{name:i}, god:{name:i}, demon:{name:i}, patron:{name:i}, sym:{emoji:i}, pg:{page:i}}, plus `pick` for the report
 function buildArt(D) {
   var J = icons(), list = [], at = {}, out = { icons: list, mon: {}, god: {}, demon: {}, patron: {} }, pick = {};
   var has = function (n) { return !!(J.icons[n] || (J.aliases && J.aliases[n])); };
@@ -303,6 +333,8 @@ function buildArt(D) {
       out[t[0]][e.n] = use(ic); pick[t[0] + ':' + e.n] = ic;
     });
   });
+  out.sym = {}; Object.keys(SYMBOLS).forEach(function (e) { out.sym[e] = use(SYMBOLS[e]); });
+  out.pg = {}; Object.keys(PAGE_SYMBOLS).forEach(function (k) { out.pg[k] = use(PAGE_SYMBOLS[k]); });
   // check every Rune picture exists, so a typo shows up at build time instead of silently falling back
   Object.keys(RUNE).forEach(function (r) { if (!has(RUNE[r])) throw new Error('art: Rune ' + r + ' names a missing icon ' + RUNE[r]); });
   Object.defineProperty(out, 'pick', { value: pick, enumerable: false });
