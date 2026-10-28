@@ -1064,7 +1064,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"settings",v:"991616d668",b:"92b132a2"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>const SITE={page:"settings",v:"991616d668",b:"f08efe6d"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
 <script>(function(){var F=[["data/core.js?v=991616d668",11506652],["data/vault.js?v=991616d668",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
@@ -1356,14 +1356,11 @@ const godKey=g=>g.n.split(' - ')[0].trim();
 const godTitle=g=>{const p=g.n.split(' - ');return p.slice(1).join(' - ')};
 const GOD_IDX=new Map();GODS.forEach(g=>GOD_IDX.set(lc(godKey(g)),g));
 const findMat=n=>MAT_IDX.get(lc(n))||(/^Artifact: /.test(n||'')?artMat(n):/^Anything: /.test(n||'')?anyMat(n):/\)$/.test(n||'')?varMat(n):undefined);
-// a prepared variant of a material is a material of its own: "Wolf Hide (Tanned)", "Oak Log (Seasoned)", "Iron (Folded)".
-// It keeps the base material's realm, grade, property, and trait, costs a quarter more, and carries its preparation into the Forge.
-const _varCache=new Map();
-function varMat(name){if(_varCache.has(name))return _varCache.get(name);try{PROC}catch(e){return undefined}const x=/^(.+) \(([^()]+)\)$/.exec(name||'');let v;
-  const base=x&&MAT_IDX.get(lc(x[1])),P=base&&procList(base).find(p=>lc(p[5]||p[1])===lc(x[2]));
-  if(base&&P)v=Object.assign({},base,{n:base.n+' ('+(P[5]||P[1])+')',baseN:base.n,prep:P[0],price:Math.round((base.price||0)*1.25),ds:(base.ds?base.ds+' ':'')+'Prepared: '+P[3],variant:1,_t:'mat',_i:base._i});
-  _varCache.set(name,v);return v}
-const varName=(m,P)=>m.n+' ('+(P[5]||P[1])+')';
+// Material variants (tanned hide, seasoned wood, folded steel...) were removed. Their old names, still in packs and in
+// designs saved before, read as the plain material
+const OLD_PREP=new Set(["tanned", "rawhide", "cuir bouilli", "oiled", "spun", "brain-tanned", "scaled", "smoke-cured", "felted", "waxed", "seasoned", "fire-hardened", "laminated", "ebonized", "dried", "distilled", "bog-seasoned", "steam-bent", "charred", "petrified", "tinctured", "candied", "wrought", "cast", "folded", "tempered", "annealed", "wire", "pattern-welded", "case-hardened", "blued", "gilded", "granulated", "polished", "boiled", "carved", "split", "scrimshawed", "bone-meal", "lacquered", "knapped", "dressed", "honed", "powdered", "fire-glazed", "cut", "cabochon", "ground", "tumbled", "moon-attuned", "cleaved", "salted", "rendered", "fermented", "clotted", "infused", "bound", "refined", "crystallized", "diluted", "volatile", "calibrated", "greased"]);
+function unprep(n){const x=/^(.+) \(([^()]+)\)$/.exec(n||''),base=x&&OLD_PREP.has(lc(x[2]))&&MAT_IDX.get(lc(x[1]));return base?base.n:n}
+function varMat(name){const b=unprep(name);return b!==name?MAT_IDX.get(lc(b)):undefined}
 // the DM can make an item out of anything: "Anything: <what> [<kind code>]" counts as that kind of material, a good fit
 // for the part it was put in, at the level the DM sets (no property or trait unless the DM writes one in)
 function anyMat(name){const x=/^Anything: (.+) \[([A-Z])\]$/.exec(name||'');if(!x)return undefined;const lv=Math.max(1,Math.min(50,+((typeof FORGE!=='undefined'&&FORGE.dmLv)||1)));
@@ -2314,7 +2311,7 @@ const MODAL={
         +((m.hab||m.how)?blk('Gathering',`${kv([m.hab?['Habitat',esc(m.hab)]:null,m.how?['How to collect',esc(m.how)]:null,['Find it',`DC <b>${gatherDC(m)}</b> Harvesting check, about ${gatherHours(m)} of searching${m.shaft?'; also turns up in a '+esc(m.realm)+' mine shaft':''}`],['Collect',`Meet the DC to take 1, and 1 more for every 2 points above it; each new try at the same spot adds ${SCAV_STEP} to the DC`]].filter(Boolean))}<div class="note">The higher its grade and realm, the harder it is to find: DC 10 + grade ${m.g}${realmDC((REALM[m.realm]||{}).tier)?' + '+realmDC((REALM[m.realm]||{}).tier)+' for the '+esc(m.realm):''}. Without the Harvesting profession, or below the stage the realm needs, roll at disadvantage.</div>`):'')
         +(m.gen?`<div class="note" style="margin:0">Harvest part generated in this app so every monster lists every part of its body. It isn't in the vault yet.</div>`:'')
         +(fx?blk('Weapon effect',`<div class="vcard mine"><span class="bn">${esc(fx.bonus)} · ${esc(fx.dt)} damage</span><div>${esc(fx.fx)}</div></div>${m.bonus&&m.bonus!=='+0'?`<div class="note">Listed bonus: ${esc(m.bonus)}</div>`:''}`):(m.bonus&&m.bonus!=='+0'?blk('Bonus',`<div class="prose" style="font-size:.9rem">${esc(m.bonus)}</div>`):''))
-        +(procList(m).length&&!m.variant&&!m.art&&!m.any?blk('Variants',`<div class="note" style="margin:0 0 6px">Prepared at the Forge's Preparation bench, each is a material of its own, a quarter dearer, and better for some parts.</div><div class="mlist">${procList(m).map(v=>`<div style="padding:5px 9px;border:1px solid var(--line);border-radius:8px"><b>${esc(varName(m,v))}</b><div style="font-size:.8rem">${esc(v[3])} <span style="color:var(--green)">Best for: ${v[2].map(k=>({edge:'edges',point:'points',blunt:'heads',shaft:'hafts and frames',flex:'bow limbs',string:'strings and cords',cover:'armour plates',lining:'linings',fit:'grips and fittings',focus:'focuses and inlays',brew:'brews',liquid:'brew bases',shift:'everchanging cores'}[k]||k)).join(', ')}.</span></div></div>`).join('')}</div>`):m.variant?blk('Variant of',`<div class="chips">${refChip(findMat(m.baseN)||m)}</div>`):'')
+        
         +blk('Source',src?`<div style="font-size:.88rem;color:var(--text2)">${src}</div>`:'')
         +blk('Dropped by',mons.length?`<div class="chips">${mons.map(x=>{const d=(x.drops||[]).find(d=>lc(d[0])===lc(m.n));return refChip(x,esc(x.n)+(d&&d[2]?' ×'+d[2]:''),x.realm+' '+x.g)}).join('')}</div>${mons.some(x=>(x.drops||[]).some(d=>lc(d[0])===lc(m.n)&&d[2]))?'<div class="note">×N: how many one corpse holds.</div>':''}`:'')
         +blk('Signature material of',gods.length?`<div class="chips">${gods.map(g=>refChip(g,esc(godKey(g)))).join('')}</div>`:'')
@@ -3036,6 +3033,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-28','Material variants removed','Prepared variants of materials (tanned hide, seasoned wood, folded steel, and the rest) and the Preparation bench are gone: they added steps without adding much to play. Anything a character had prepared is back in their pack as the plain material, and items forged from prepared materials keep working.'],
   ['2026-10-28','The Forge tells a story','The Forge reads more like a scene at the table and less like a spreadsheet. Before you strike, it tells you how hard the work is in words (easy work, a fair challenge, beyond their skill) instead of odds and DCs, and the roll shows your total but not the DC. The hire list is now a few named smiths in each realm (an apprentice, a journeyman, an expert, and the realm\'s master) instead of a hundred levels. The rules underneath are the same. In the DM\'s view (Settings, How you play), or with Show the numbers ticked at the anvil, the odds, DCs, and levels come back.'],
   ['2026-10-28','Condition timers in combat','Conditions in the combat tracker can have a timer: type the rounds in the small box before you pick the condition, or click a condition\'s ⏱ to set or change it. It counts down at the start of that creature\'s turn, turns red on its last round, and when it runs out the condition ends and the tracker says so. Conditions with no timer stay until you remove them.'],
   ['2026-10-28','A smoother shooting star','The home page\'s shooting star now glides after your pointer instead of jumping between mouse positions, and its tail is one smooth, tapering ribbon that curves with your path, with no beads or corners along it.'],
@@ -4376,6 +4374,14 @@ const BP_IDX=new Map();BPS.forEach(b=>{if(!BP_IDX.has(lc(b.n)))BP_IDX.set(lc(b.n
 let findBP=n=>BP_IDX.get(lc(n||''));
 const godByKey=n=>GOD_IDX.get(lc(n||''));
 let PARTY=store.get('party',[]);
+// variants were removed: a pack holding "Wolf Hide (Tanned)" now holds Wolf Hide (added to any Wolf Hide already there)
+(()=>{let ch=0;(Array.isArray(PARTY)?PARTY:[]).forEach(c=>{
+  if(Array.isArray(c.inv)&&c.inv.some(r=>Array.isArray(r)&&unprep(r[0])!==r[0])){ch=1;
+    const out=c.inv.filter(r=>Array.isArray(r)&&unprep(r[0])===r[0]);
+    c.inv.forEach(r=>{if(!Array.isArray(r)||unprep(r[0])===r[0])return;const b=unprep(r[0]),ex=out.find(x=>lc(x[0])===lc(b));if(ex)ex[1]=(+ex[1]||0)+(+r[1]||0);else out.push([b].concat(r.slice(1)))});
+    c.inv=out}
+  if(Array.isArray(c.gear)&&c.gear.some(n=>unprep(n)!==n)){ch=1;c.gear=c.gear.map(unprep)}});
+  if(ch)store.set('party',PARTY)})();
 // A forged item lives in its maker's saved designs, so on anyone else's device (the DM, the other players in a campaign)
 // the character's gear was only a name. Each character now carries a copy of its forged items (fd: name -> record), for
 // reading only: the item still belongs to, and changes only for, the one who forged it.
@@ -7228,6 +7234,7 @@ const PENALTY={
   minor:{wrong:'Wasted: this part gives nothing, and the item has −1 Accuracy.',poor:'Weak fit: this part\'s property works at half Potency.'}
 };
 let FORGE=store.get('forge',{base:'Battleaxe',parts:{},name:'',showAll:false,realm:''});
+if(FORGE.parts)Object.keys(FORGE.parts).forEach(k=>{FORGE.parts[k]=unprep(FORGE.parts[k])});delete FORGE.proc;
 if(!BASES[FORGE.base])FORGE.base=({Axe:'Battleaxe',Sword:'Longsword','Body Armor':'Cuirass','Focus / Amulet':'Amulet'})[FORGE.base]||'Battleaxe';
 if(FORGE.ever==null)FORGE.ever=!!(FORGE.parts||{})['everchanging-core'];
 if(FORGE.forms&&!FORGE.everForms){FORGE.everForms=FORGE.forms.map(n=>({base:n,parts:{}}));delete FORGE.forms}
@@ -7254,75 +7261,9 @@ function everParts(i){const f=(FORGE.everForms||[])[i]||{},G=BASES[f.base];if(!G
 // every chosen form, worked out like a weapon of its own (the main weapon is form 1)
 function everResults(n){const out=[];for(let i=0;i<Math.max(0,n-1);i++){const e=everParts(i);if(!e){out.push(null);continue}const r=forgeResult(e.base,e.parts,{form:true});
   out.push({i,e,r,missing:r.parts.filter(p=>!p.s.optional&&!p.m).map(p=>p.s.name),added:Object.values(e.own).map(findMat).filter(Boolean)})}return out}
-// Every material can be prepared the way real ones are (tanned or boiled hide, seasoned or fire-hardened wood, wrought,
-// cast, or folded metal, knapped stone, cut gems...). A preparation suits some kinds of part: there a poor fit becomes a good
-// one and the item is easier to make (−1 DC each, as far as −3); a few make a part worse (cast metal won't hold an edge).
-const PROC={
-  F:[['tanned','Tanned',['cover','lining','fit'],'Soft and lasting: good for armour, linings, and wraps. (A week in the tan pit.)',null,null,/hide|pelt|skin|leather|fur|scale|mane|carapace/i],['rawhide','Rawhide',['fit','string','shaft'],'Stiff, and shrinks tight as it dries: good for bindings, grips, and frames.',null,null,/hide|pelt|skin|leather|fur|scale|mane|carapace/i],
-    ['boiled','Cuir bouilli (boiled)',['cover'],'Boiled hard in wax and water: +1 AC as an outer layer.',{ac:1},'Cuir Bouilli',/hide|pelt|skin|leather|fur|scale|mane|carapace/i],['oiled','Oiled',['lining','string'],'Waterproof and supple.',null,null,/hide|pelt|skin|leather|fur|scale|mane|carapace/i],['spun','Spun or woven',['string','lining'],'Spun into thread or woven into cloth.',null,'Spun',/silk|wool|fib|thread|hair|down|cotton|flax|hemp|web|feather|fleece|cloth|linen|strand|sinew/i]],
-  W:[['seasoned','Seasoned',['shaft','flex','fit'],'Dried for a year: straight, light, and strong.',null,null,/wood|log|bough|branch|timber|plank|bark|stave|oak|ash\b|yew|pine|cedar|ebony|birch|maple|bamboo|reed|treant|willow|elm|thorn|vine|cane|stalk/i],['firehard','Fire-hardened',['edge','point'],'Charred hard over coals: a wooden point that holds.',null,null,/wood|log|bough|branch|timber|plank|bark|stave|oak|ash\b|yew|pine|cedar|ebony|birch|maple|bamboo|reed|treant|willow|elm|thorn|vine|cane|stalk/i],
-    ['laminated','Laminated',['flex','shaft'],'Glued in layers: springier limbs, stronger shafts.',null,null,/wood|log|bough|branch|timber|plank|bark|stave|oak|ash\b|yew|pine|cedar|ebony|birch|maple|bamboo|reed|treant|willow|elm|thorn|vine|cane|stalk/i],['oiled','Oiled',['shaft','fit'],'Weatherproof and smooth.',null,null,/wood|log|bough|branch|timber|plank|bark|stave|oak|ash\b|yew|pine|cedar|ebony|birch|maple|bamboo|reed|treant|willow|elm|thorn|vine|cane|stalk/i],['ebonized','Ebonized',['focus','fit'],'Stained black with iron and vinegar: it takes magic a little better.',null,null,/wood|log|bough|branch|timber|plank|bark|stave|oak|ash\b|yew|pine|cedar|ebony|birch|maple|bamboo|reed|treant|willow|elm|thorn|vine|cane|stalk/i],
-    ['dried','Dried',['brew','fit'],'Hung and dried: keeps for a season, and is easy to measure.',null,null,/^(?!.*(wood|log|timber|plank|stave)).*/i],['distilled','Distilled',['brew','liquid'],'Its oils drawn off and concentrated.',null,null,/^(?!.*(wood|log|timber|plank|stave)).*/i]],
-  // herbs and other plants that aren't wood
-  
-  O:[['wrought','Wrought',['shaft','fit','string'],'Hammered, fibrous iron: tough, and bends rather than breaks.'],['cast','Cast',['blunt','cover'],'Poured into a mould: heavy heads and plates, but a cast edge chips.',{bad:['edge','point']}],
-    ['folded','Folded',['edge','point'],'Folded and welded many times: a keen, even edge.'],['tempered','Quenched and tempered',['edge','point','flex'],'Hard and springy.',null,'Tempered'],['annealed','Annealed',['cover','lining','fit'],'Softened by slow cooling: easy to shape into plates and fittings.'],
-    ['drawn','Drawn into wire',['string','fit'],'Pulled through a die into wire: chain, mail rings, and strings.',null,'Wire']],
-  B:[['polished','Polished',['fit','focus'],'Smooth and fine: grips, inlays, and settings.'],['boiled','Boiled and dried',['shaft','cover'],'Cleaned, degreased, and hardened.',null,'Boiled'],['carved','Carved',['edge','point'],'Shaped to an edge or point.'],['split','Split and steamed',['flex','shaft'],'Horn and bone split and steamed straight: for bows and frames.',null,'Split']],
-  S:[['knapped','Knapped',['edge','point'],'Flaked to a razor edge (brittle).'],['dressed','Dressed',['blunt','cover'],'Squared and smoothed.'],['polished','Polished',['focus','fit'],'Glassy and fine.']],
-  G:[['cut','Cut and faceted',['focus','fit'],'Faceted to catch light: it holds magic better.',null,'Cut'],['cabochon','Cabochon',['fit','focus'],'Domed and polished: sits snugly in a setting.'],['ground','Ground',['brew'],'Powdered as a catalyst.']],
-  L:[['dried','Dried',['brew'],'Keeps for a season, and is easy to measure.'],['distilled','Distilled',['brew','liquid'],'Concentrated.'],['salted','Salted',['brew','fit'],'Preserved in salt.'],['rendered','Rendered',['liquid','fit'],'Melted down to oil or tallow.']],
-  E:[['bound','Bound',['focus','shift'],'Sealed in wax and wire: steady to work.'],['refined','Refined',['focus','brew'],'Purified.']],
-  K:[['oiled','Oiled',['fit'],'Cleaned and oiled: runs smooth.']],
-  U:[]};
-// more variants (website addition): smokehouse and tannery, bog and steam-box, pattern-welding, scrimshaw, gem-work, and the
-// alchemist's jars. Same rules: the parts a variant suits turn a poor fit good (−1 DC each), and a few make a part worse.
-(()=>{const HIDE=PROC.F[0][6],FIB=PROC.F.find(v=>v[0]==='spun')[6],WOOD=PROC.W[0][6],HERB=PROC.W.find(v=>v[0]==='dried')[6];
-  const MORE={
-    F:[['brained','Brain-tanned',['lining','fit','cover'],'Worked soft with smoke and brains: supple as cloth, and it never creaks when you move.',null,'Brain-Tanned',HIDE],
-      ['scaled','Scaled and riveted',['cover'],'Cut into overlapping scales riveted to a backing: +1 AC as an outer layer.',{ac:1},'Scaled',HIDE],
-      ['smoked','Smoke-cured',['cover','lining'],'Hung in the smokehouse: rot and insects leave it alone, and it smells faintly of the fire.',null,'Smoke-Cured',HIDE],
-      ['felted','Felted',['lining','fit'],'Matted into thick felt: padding that soaks up blows.',null,null,FIB],
-      ['waxed','Waxed cord',['string'],'Rolled in beeswax: a string that never frays or slips.',null,'Waxed',FIB]],
-    W:[['bog','Bog-seasoned',['shaft','focus','fit'],'Buried in a peat bog for years: black, heavy, and hard as horn.',null,'Bog-Seasoned',WOOD],
-      ['steambent','Steam-bent',['flex','fit'],'Steamed soft and bent to shape: it curves without a joint.',null,'Steam-Bent',WOOD],
-      ['charred','Charred',['cover','shaft'],'Its surface burned and brushed: it sheds water, and fire struggles to catch it.',null,null,WOOD],
-      ['petrified','Petrified',['blunt','cover'],'Turned half to stone by mineral springs: very hard and very heavy, but it will not bend.',{bad:['flex']},null,WOOD],
-      ['tinctured','Tinctured',['brew','liquid'],'Steeped in strong spirits: a fast-acting extract.',null,null,HERB],
-      ['candied','Candied',['brew'],'Preserved in honey or sugar: it keeps for years and tastes far better.',null,null,HERB]],
-    O:[['patterned','Pattern-welded',['edge','point','flex'],'Several steels forged together in rippling patterns: keen and springy.',null,'Pattern-Welded'],
-      ['casehard','Case-hardened',['cover','blunt'],'Packed in charcoal and fired: a hard skin over a tough core.',null,'Case-Hardened'],
-      ['blued','Blued',['fit','cover'],'Heat-coloured blue-black: it shrugs off rust.'],
-      ['gilded','Gilded',['focus','fit'],'Leafed or washed in gold: fit for settings and holy symbols.'],
-      ['granulated','Granulated',['brew'],'Dropped molten into water as fine grains: easy to melt, measure, and alloy.']],
-    B:[['scrimshaw','Scrimshawed',['fit','focus'],'Etched and inked with fine pictures: a story in the grip.'],
-      ['bonemeal','Ground to meal',['brew'],'Ground to bone-meal for draughts, glazes, and charms.',null,'Bone-Meal'],
-      ['lacquered','Lacquered',['cover','shaft'],'Coated in layer on layer of lacquer: hard, glossy, and waterproof.']],
-    S:[['honed','Honed',['edge','blunt'],'Ground flat and keen on a whetstone.'],
-      ['carved','Carved',['focus','fit'],'Cut into a figure or a fitted shape.'],
-      ['powdered','Powdered',['brew'],'Crushed fine for mortar, glaze, or alchemy.'],
-      ['glazed','Fire-glazed',['cover'],'Fired until its face glazes over: a smooth, hard shell.',null,'Fire-Glazed']],
-    G:[['tumbled','Tumbled',['fit'],'Rolled smooth with grit for weeks: round and tough.'],
-      ['attuned','Moon-attuned',['focus','shift'],'Left under the moon for a month: it hums with magic.',null,'Moon-Attuned'],
-      ['cleaved','Cleaved',['edge','point'],'Split along its grain into a sliver: an edge keen as glass, and as brittle.']],
-    L:[['fermented','Fermented',['brew','liquid'],'Left to work in a sealed jar: potent and pungent.'],
-      ['clotted','Clotted',['fit','brew'],'Thickened to a paste: it clings to blades and arrowheads.'],
-      ['infused','Infused',['liquid','focus'],'Mixed with a salt or essence of power.']],
-    E:[['crystallized','Crystallized',['focus','fit'],'Drawn down into a crystal: solid enough to set in a fitting.'],
-      ['diluted','Diluted',['brew','liquid'],'Thinned in water: weaker, but safe in a draught.'],
-      ['volatile','Volatile',['shift'],'Stirred up and unstable: it flares when the item is struck hard (the DM may call for a save when it breaks).']],
-    K:[['calibrated','Calibrated',['fit','string'],'Adjusted and trued: it runs smooth and exact.'],
-      ['greased','Greased',['fit'],'Packed in grease: water and grit stay out.']]};
-  Object.keys(MORE).forEach(k=>{const L=PROC[k]=PROC[k]||[];MORE[k].forEach(v=>{if(!L.some(x=>x[0]===v[0]||lc(x[5]||x[1])===lc(v[5]||v[1])))L.push(v)})})})();
-// the variants a material really has: some only suit some materials (tanning a hide, not a feather; seasoning wood, not a herb)
-function procList(m){if(!m)return [];const b=m.baseN||m.n;return (PROC[matCode(m)]||[]).filter(v=>!v[6]||v[6].test(b))}
-const procOf=(m,key)=>m&&key?procList(m).find(v=>v[0]===key)||null:null;
-function procFit(s,m,fit,key){const v=procOf(m,key);if(!v||!m)return fit;const bad=(v[4]||{}).bad||[];
-  if(bad.includes(s.kind)&&fit.lv==='good')return {lv:'poor',why:v[1]+' doesn\'t suit this part',proc:v};
-  if(v[2].includes(s.kind)&&fit.lv==='poor')return {lv:'good',why:'',proc:v,up:1};return Object.assign({},fit,{proc:v})}
 function forgeResult(baseName,partsMap,opt){
   baseName=baseName||FORGE.base;partsMap=partsMap||FORGE.parts;opt=opt||{};const main=!opt.form,ever=main&&forgeEver();
-  const PR_=main?(FORGE.proc||{}):{},B=BASES[baseName],parts=forgeSlots(B,ever).map(s=>{const m=findMat(partsMap[s.id]||'');return {s,m,fit:procFit(s,m,slotFit(s,m),(m&&m.prep)||PR_[s.id])}});
+  const B=BASES[baseName],parts=forgeSlots(B,ever).map(s=>{const m=findMat(partsMap[s.id]||'');return {s,m,fit:slotFit(s,m)}});
   const prim=parts.find(p=>p.s.role==='primary'),struc=parts.find(p=>p.s.role==='structure');
   let hit=0,acAdj=0,breakOn=0,useless=false;const notes=[],props=[],traits=[],adds=[];
   parts.forEach(p=>{
@@ -7343,7 +7284,7 @@ function forgeResult(baseName,partsMap,opt){
   const strongest=used.slice().sort((a,b)=>(b.m.rank||0)-(a.m.rank||0))[0];
   const cost=used.reduce((a,p)=>a+(p.m.price||0)*p.s.qty,0);
   const out={B,parts,notes,props,traits,il,cost,strongest:strongest&&strongest.m,breakOn,adds,
-    dcMod:Math.max(-3,-parts.filter(p=>p.m&&p.fit.proc&&p.fit.proc[2].includes(p.s.kind)).length)};
+    dcMod:0};
   parts.forEach(p=>{const v=p.m&&p.fit.proc;if(v&&(v[4]||{}).ac&&v[2].includes(p.s.kind))acAdj+=(v[4]||{}).ac});
   const dmgBonus=pok&&prim.fit.lv==='good'?Math.floor(pil/5):0,atkBonus=Math.floor(sil/10);
   // Everchanging core (only when the weapon is Everchanging): its substance sets the number of forms (formsFor)
@@ -7503,7 +7444,7 @@ function renderForge(){
             <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b>${esc(s.name)}</b><span class="b ghost">${s.role==='primary'?'main part':s.role==='structure'?'structure':'extra'}</span><span class="b ghost">× ${s.qty}</span><span style="margin-left:auto;font-size:.78rem;color:${col};font-weight:600">${lab}</span></div>
             <div class="note" style="margin:4px 0 6px">${esc(s.why)}<br><span style="color:var(--green)">Good:</span> ${s.ok.map(c=>CAT_NAME[c]).join(', ')}${(s.weak||[]).length?` · <span style="color:var(--gold2)">Poor:</span> ${s.weak.map(c=>CAT_NAME[c]).join(', ')}`:''} · <span style="color:var(--red)">Anything else is wrong.</span></div>
             <div class="keyrow">${mcHTML('fg:'+s.id,FORGE.parts[s.id]||'','Choose or type a material…')}<button class="btn" data-clear-slot="${s.id}" title="Clear">✕</button></div>
-            ${m&&m.prep?(()=>{const v=procOf(m,m.prep);return `<div class="note" style="margin:6px 0 0;font-size:.78rem">Already prepared: <b>${esc(v[1])}</b>. ${esc(v[3])} ${v[2].includes(s.kind)?'<b style="color:var(--green)">Suits this part: a poor fit becomes good, and the DC is 1 lower.</b>':''}</div>`})():m&&procList(m).length?`<div class="keyrow" style="margin-top:6px"><label class="note" style="margin:0;display:flex;gap:6px;align-items:center;flex-wrap:wrap">Prepared as <select class="sel" data-proc="${s.id}" style="max-width:240px"><option value="">As it comes</option>${procList(m).map(v=>`<option value="${v[0]}"${(FORGE.proc||{})[s.id]===v[0]?' selected':''}>${esc(v[1])}${v[2].includes(s.kind)?' ✓':''}</option>`).join('')}</select></label></div>${(()=>{const v=procOf(m,(FORGE.proc||{})[s.id]);return v?`<div class="note" style="margin:2px 0 0;font-size:.78rem">${esc(v[3])} ${v[2].includes(s.kind)?'<b style="color:var(--green)">Suits this part: a poor fit becomes good, and the DC is 1 lower.</b>':((v[4]||{}).bad||[]).includes(s.kind)?'<b style="color:var(--red)">Wrong for this part: a good fit becomes poor.</b>':'It doesn\'t change this part.'}</div>`:''})()}`:''}
+            
             ${(MC_OPTS['fg:'+s.id]=forgeDM()?{opts,slot:s,arts:s.only?[]:artifacts(),any:true}:{opts,slot:s,arts:s.only?[]:invArts(INV),inv:true,hold:n=>holdersText(INV,n)},'')}
             ${forgeDM()?(m&&m.any?`<div style="margin-top:4px;font-size:.78rem;color:var(--gold2)">🎲 Made from ${esc(m.ds.replace(/^Made from /,'').replace(/, by the DM's word\.$/,''))}: counts as ${esc(CAT_NAME[m.tc]||'')}, a good fit, item level ${m.il}.</div>`:''):m&&!invHas(INV,m.n)?`<div style="margin-top:6px;font-size:.8rem;color:var(--red)">✕ Nobody in the party has ${esc(m.art?'the artifact '+m.art:m.n)}. Choose a material from someone's pack.</div>`:m?`<div style="margin-top:4px;font-size:.78rem;color:var(--muted)">In the packs of ${esc(holdersText(INV,m.n))}</div>`:''}
             ${sug.length?`<div class="chips" style="margin-top:6px">${sug.map(x=>`<button class="chip" data-pick="${s.id}" data-mat="${esc(x.n)}" title="${esc(x.gr)}">${esc(x.n)} <small>${esc(x.gr)}</small></button>`).join('')}</div>`:''}
@@ -7528,8 +7469,7 @@ function renderForge(){
   C.querySelectorAll('[data-ever-base]').forEach(el=>el.onchange=()=>{const i=+el.dataset.everBase,v=el.value.trim(),k=Object.keys(BASES).find(n=>lc(n)===lc(v));FORGE.everForms=FORGE.everForms||[];FORGE.everForms[i]={base:k&&BASES[k].dmg?k:v,parts:{}};saveForge();setTimeout(renderForge)});
   C.querySelectorAll('[data-ever-clear]').forEach(el=>el.onclick=()=>{FORGE.everForms[+el.dataset.everClear]={};saveForge();renderForge()});
   C.querySelectorAll('[data-ever-rm]').forEach(el=>el.onclick=()=>{const [i,id]=el.dataset.everRm.split(':');delete ((FORGE.everForms[+i]||{}).parts||{})[id];saveForge();renderForge()});
-  C.querySelectorAll('[data-proc]').forEach(el=>el.onchange=()=>{FORGE.proc=FORGE.proc||{};if(el.value)FORGE.proc[el.dataset.proc]=el.value;else delete FORGE.proc[el.dataset.proc];saveForge();renderForge()});
-  C.querySelectorAll('[data-clear-slot]').forEach(el=>el.addEventListener('click',()=>{if(FORGE.proc)delete FORGE.proc[el.dataset.clearSlot];delete FORGE.parts[el.dataset.clearSlot];saveForge();renderForge()}));
+  C.querySelectorAll('[data-clear-slot]').forEach(el=>el.addEventListener('click',()=>{delete FORGE.parts[el.dataset.clearSlot];saveForge();renderForge()}));
   C.querySelectorAll('[data-pick]').forEach(el=>el.addEventListener('click',()=>{FORGE.parts[el.dataset.pick]=el.dataset.mat;FORGE.name='';saveForge();renderForge()}));
   C.querySelectorAll('[data-load-bp]').forEach(el=>el.addEventListener('click',()=>{const b=findBP(el.dataset.loadBp);if(b){FORGE.parts=assignParts(FORGE.base,b.mats.map(findMat).filter(Boolean));FORGE.name=b.n;saveForge();renderForge();$('content').scrollTop=0}}));
   const bindBases=()=>C.querySelectorAll('#fg-bases [data-base]').forEach(el=>el.onclick=()=>pickBase(el.dataset.base));
@@ -8251,15 +8191,6 @@ function designPeekHTML(b){const D=b.design,P=D.peek,F=D.foreign;
   return `<div class="callout" style="border-color:var(--gold)">⚒ <b>Forged by ${esc((P||F).by||'another player')}</b>${P&&P.who?`, carried by <b>${esc(P.who)}</b>`:''}${D.base?' · made from the general '+esc(D.base):''}. ${F?'Equipped from the Workshop: it is someone else\'s item, so it gives you nothing (an invalid item). To use it, forge your own.':'You can read what it is and does; only the one who forged it can change it.'}${D.lore&&D.lore!==b.ds?`<div style="margin-top:6px">${esc(D.lore)}</div>`:''}</div>`}
 // a copy of someone's Workshop Blueprint, kept so its description can be read; marked foreign so it never works for you
 const wsCopy=(w,n)=>{const o=wsData(w.data||{});delete o.evo;delete o.shared;return Object.assign(o,{n,base:w.base,cat:o.cat||'Item',foreign:{by:w.maker||'someone',owner:w.owner}})};
-// ── the Preparation bench: turn materials in a pack into a prepared variant (tanned hide, seasoned wood, folded steel...) ──
-let PREP={who:'',pick:{}};
-function benchHTML(){const c=PARTY.find(x=>x.id===PREP.who)||null,rows=c?(c.inv||[]).map(([n,q])=>({m:MAT_IDX.get(lc(n)),q:+q||0})).filter(x=>x.m&&x.q>0&&procList(x.m).length):[];
-  return `<section class="sec"><div class="sec-h"><h3>🧰 The Preparation bench</h3><p>Real materials come in variants: rawhide and tanned leather, green and seasoned wood, wrought and cast iron. Prepare a material here and it becomes its own material in the pack, a quarter more valuable and better for some parts at the Forge (a poor fit becomes good, and the DC drops by 1). Tanning takes about a week, seasoning a season; the DM may ask for time or a check.</p></div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:8px">${PARTY.length?`<label class="note" style="margin:0">Whose pack <select class="sel" onchange="PREP.who=this.value;renderForge()"><option value="">Choose…</option>${PARTY.map(x=>`<option value="${x.id}"${x.id===PREP.who?' selected':''}>${esc(x.name||'Unnamed')}</option>`).join('')}</select></label>`:'<span class="note" style="margin:0">Add a character on the Party page first.</span>'}</div>
-    ${c?rows.length?`<div class="tablewrap"><table class="t"><thead><tr><th>Material</th><th class="num">Has</th><th>Prepare as</th><th></th></tr></thead><tbody>${rows.map(({m,q})=>{const k=lc(m.n),pk=PREP.pick[k]||procList(m)[0][0];return `<tr><td>${refChip(m)}</td><td class="num">${q}</td><td><select class="sel" style="max-width:260px" onchange="PREP.pick[${esc(JSON.stringify(k))}]=this.value">${procList(m).map(v=>`<option value="${v[0]}"${pk===v[0]?' selected':''}>${esc(v[5]||v[1])}: ${esc(v[3].slice(0,60))}</option>`).join('')}</select></td><td style="white-space:nowrap"><button class="btn" onclick="prepDo(${esc(JSON.stringify(m.n))},1)">1</button> <button class="btn" onclick="prepDo(${esc(JSON.stringify(m.n))},${q})">All ${q}</button></td></tr>`}).join('')}</tbody></table></div>`:'<div class="note">Nothing in this pack can be prepared (supplies and prepared variants can\'t).</div>':''}</section>`}
-function prepDo(n,q){const c=PARTY.find(x=>x.id===PREP.who),m=MAT_IDX.get(lc(n));if(!c||!m)return;const row=(c.inv||[]).find(x=>lc(x[0])===lc(n));if(!row)return;q=Math.min(q,+row[1]||0);if(q<1)return;
-  const P=procList(m).find(v=>v[0]===(PREP.pick[lc(n)]||procList(m)[0][0]));if(!P)return;
-  row[1]=(+row[1]||0)-q;c.inv=c.inv.filter(x=>(+x[1]||0)>0);invAdd(c,varName(m,P),q,true,true);saveParty();forgeSound(forgeKind({parts:[{s:{role:'primary'},m}],B:{}}),1);toast(`${q} ${m.n} → ${varName(m,P)}`);renderForge()}
 // ── the Smelter: one of each component metal from the party's packs makes one of the alloy ──
 let SMELT={who:'',all:false};
 function smeltHTML(){const A=MATS.filter(m=>m.alloy&&Array.isArray(m.recipe)),M=invIndex(),c=PARTY.find(x=>x.id===SMELT.who)||null,dm=forgeDM();
@@ -8272,7 +8203,7 @@ function smeltHTML(){const A=MATS.filter(m=>m.alloy&&Array.isArray(m.recipe)),M=
 function smelt(n){const m=findMat(n),c=PARTY.find(x=>x.id===SMELT.who);if(!m||!c)return;const M=invIndex();if(m.recipe.some(x=>invHas(M,x)<1)){toast('Missing a metal');return}
   m.recipe.forEach(x=>invTake(M,x,1,c));invAdd(c,m.n,1,true,true);saveParty();forgeSound('metal',1);setTimeout(()=>forgeSound('metal',2),180);toast(`Smelted 1 ${m.n} into ${c.name||'their'} pack`);renderForge()}
 // the Forge page's own sections: combos found, the master smiths, and the commission board
-function forgeExtrasHTML(){return benchHTML()+smeltHTML()+`<section class="sec"><div class="sec-h"><h3>✦ Material combos</h3><p>Two powers in one item, two properties, two traits, or one of each, can unlock something neither has alone (a property counts only at full Potency, so not from an extra part or a poor fit; a trait counts from any part it fits). Found ${COMBOS_FOUND.length} of ${FCOMBOS.length}.</p></div>
+function forgeExtrasHTML(){return smeltHTML()+`<section class="sec"><div class="sec-h"><h3>✦ Material combos</h3><p>Two powers in one item, two properties, two traits, or one of each, can unlock something neither has alone (a property counts only at full Potency, so not from an extra part or a poor fit; a trait counts from any part it fits). Found ${COMBOS_FOUND.length} of ${FCOMBOS.length}.</p></div>
     <div class="mlist">${FCOMBOS.filter(x=>COMBOS_FOUND.includes(x[2])).map(([a,b,n,t])=>`<div style="padding:6px 10px;border:1px solid var(--gold);border-radius:8px"><b>✦ ${esc(n)}</b> <small>${esc(a)} + ${esc(b)}</small><div style="font-size:.82rem">${esc(t)}</div></div>`).join('')}${FCOMBOS.length>COMBOS_FOUND.length?`<div style="padding:6px 10px;border:1px dashed var(--line);border-radius:8px;color:var(--muted)"><b>??? + ???</b> <small>${FCOMBOS.length-COMBOS_FOUND.filter(n=>FCOMBOS.some(x=>x[2]===n)).length} combos still hidden. Try two properties or traits together and forge.</small></div>`:''}</div></section>
   <section class="sec"><div class="sec-h"><h3>⚒ Master smiths</h3><p>Every realm has smiths who take commissions: an apprentice for simple work, a journeyman, an expert, and the realm's famous master, each able to work that realm's materials and forges. Bring them the materials and the coin (or, for a master, a task done in their name). A hired smith never ruins your materials or turns out a Flawed piece; the better the smith, the finer the work tends to be.${forgeNums()?' <small>(Numbers: a smith rolls like any forger, half their level, with advantage at or above the item\'s level. Fee: half the materials\' cost + 100 × (tier + step ÷ 10) + tier × 10, where the step is the level within the realm.)</small>':''}</p></div>
     <div class="tablewrap"><table class="t"><thead><tr><th>Realm</th><th>Master</th><th class="num">Level</th><th>Forge grade</th><th class="num">Fee</th><th>Or a task</th></tr></thead><tbody>${REALMS.filter(z=>SMITHS[z.n]).map(z=>{const S=smithOf(z.n),M=SMITHS[z.n];return `<tr><td>${esc(z.n)}</td><td><b>${esc(M[0])}</b><br><small style="color:var(--muted)">${esc(M[1])}</small></td><td class="num">${S.lv}</td><td>${ROMAN[S.g-1]}</td><td class="num">${fmt(S.base)} gp + half the materials</td><td>${esc(M[3])}</td></tr>`}).join('')}</tbody></table></div></section>
@@ -8445,7 +8376,7 @@ async function groqForge(){
 function designFromForge(){
   const r=forgeResult();
   return {lore:FORGE.lore||'',want:FORGE.want||'',n:FORGE.name||r.name,base:FORGE.base,parts:Object.assign({},FORGE.parts),ac:r.ac!=null?r.ac:null,dmg:r.damage?r.damage+' '+r.dtype:'',atk:r.attack!=null?r.attack:null,vers:r.vers||'',props:r.B.props||'',cat:r.B.cat,slot:r.B.slot||r.B.kind||'',mats:[...new Set(r.parts.filter(p=>p.m&&p.fit.lv!=='wrong').map(p=>p.m.n).concat(r.forms?everResults(r.forms).filter(Boolean).flatMap(x=>x.added.map(m=>m.n)):[]))],pr:r.prof,il:r.il,r:r.rar||'Common',gr:((r.parts.find(p=>p.s.role==='primary')||{}).m||{}).gr||'',prop:[...new Set(r.props.map(p=>p.m.pn).filter(Boolean))].concat(r.forms?[`Everchanging (${r.forms} forms)`]:[]).join(', '),
-    proc:Object.assign({},FORGE.proc||{}),combos:forgeCombos(r).map(x=>x[2]),forms:r.forms?[{n:FORGE.base,dmg:(r.damage||'')+' '+(r.dtype||''),atk:r.attack,props:r.B.props||''}].concat(everResults(r.forms).filter(x=>x&&!x.missing.length).map(x=>({n:x.e.base,dmg:(x.r.damage||'')+' '+(x.r.dtype||''),atk:x.r.attack,props:x.e.G.props||'',parts:Object.assign({},x.e.own)}))):null,formMax:r.forms||0};
+    combos:forgeCombos(r).map(x=>x[2]),forms:r.forms?[{n:FORGE.base,dmg:(r.damage||'')+' '+(r.dtype||''),atk:r.attack,props:r.B.props||''}].concat(everResults(r.forms).filter(x=>x&&!x.missing.length).map(x=>({n:x.e.base,dmg:(x.r.damage||'')+' '+(x.r.dtype||''),atk:x.r.attack,props:x.e.G.props||'',parts:Object.assign({},x.e.own)}))):null,formMax:r.forms||0};
 }
 const vaultBP=n=>{const b=BP_IDX.get(lc(n||''));return b&&!b.design?b:null};
 function saveDesign(){const d=designFromForge();if(vaultBP(d.n)){toast('“'+d.n+'” is already a Blueprint in the vault: give your design another name');return null}d.sort=designSortRules(d);const i=DESIGNS.findIndex(x=>x.n===d.n);if(i>=0)DESIGNS[i]=d;else DESIGNS.push(d);store.set('designs',DESIGNS);designPlace();toast('Saved '+d.n+': filed under '+d.sort.pr+(d.sort.sp?' → '+d.sort.sp:''));renderForge();designAISort(d);return d}
