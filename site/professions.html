@@ -208,6 +208,11 @@ select.sel.set{border-color:var(--gold);color:var(--text)}
 .card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--strip,transparent)}
 .card .t{display:flex;align-items:flex-start;gap:8px}
 .card .nm{font-family:var(--serif);font-weight:700;font-size:1rem;line-height:1.25;color:var(--text);flex:1;min-width:0;overflow-wrap:anywhere}
+/* creature, god, and demon pictures (game-icons.net): always on a dark plate, so pale tints read in light mode too */
+.art{display:inline-grid;place-items:center;flex-shrink:0;width:52px;height:52px;border-radius:12px;background:radial-gradient(circle at 50% 42%,color-mix(in srgb,var(--ac) 34%,#17131f) 0,#0d0b13 72%);border:1px solid color-mix(in srgb,var(--ac) 45%,#2a2638);box-shadow:inset 0 0 0 1px rgba(255,255,255,.04),0 2px 6px rgba(0,0,0,.25)}
+.art svg{width:76%;height:76%;fill:var(--ac);filter:drop-shadow(0 0 6px color-mix(in srgb,var(--ac) 45%,transparent)) drop-shadow(0 1px 1px rgba(0,0,0,.6))}
+.art.lg{width:116px;height:116px;border-radius:18px}.art.xs{width:30px;height:30px;border-radius:8px;vertical-align:middle;margin-right:8px}.art.xs svg{filter:none}
+.mh-row{display:flex;gap:16px;align-items:center}.mh-row>.mh-txt{flex:1;min-width:0}
 .card .ep{font-size:.78rem;color:var(--muted);font-style:italic;font-family:var(--serif);margin-top:-3px}
 .card .ds{font-size:.8rem;color:var(--text2);opacity:.85;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .card .ln{font-size:.78rem;color:var(--text2)}
@@ -728,7 +733,7 @@ details.fold>div{margin-top:10px}
   .grid,.grid.sm{grid-template-columns:1fr}
   .mbg{padding:0}
   .modal{border-radius:0;min-height:100%;border:0}
-  .mh h2{padding-right:0;padding-top:34px;font-size:1.3rem}.mh .kind{padding-right:130px;min-height:28px}
+  .mh h2{padding-right:0;padding-top:34px;font-size:1.3rem}.art.lg{width:84px;height:84px;border-radius:14px}.mh-row{align-items:flex-end}.mh .kind{padding-right:130px;min-height:28px}
   .form{grid-template-columns:1fr 1fr!important}.form>label{min-width:0}.form select,.form input{min-width:0;width:100%}
   .stats{grid-template-columns:1fr 1fr}
 }
@@ -1064,8 +1069,8 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"professions",v:"991616d668",b:"93eca96b"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
-<script>(function(){var F=[["data/core.js?v=991616d668",11506652],["data/vault.js?v=991616d668",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
+<script>const SITE={page:"professions",v:"3bce691dcc",b:"bca72d45"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>(function(){var F=[["data/core.js?v=3bce691dcc",11506652],["data/art.js?v=3bce691dcc",565882],["data/vault.js?v=3bce691dcc",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
 // ════════════════════════════════════════════════════════════════
@@ -1306,6 +1311,15 @@ const REALMS=META.realms.map(r=>Object.assign(r,{color:REALM_COLOR[r.n]||'#888',
 const REALM=Object.fromEntries(REALMS.map(r=>[r.n,r]));
 const realmOf=s=>{const m=/^(.+) \d+$/.exec(String(s||''));return m?m[1]:''};
 const rcol=n=>(REALM[n]||{}).color||'var(--muted)';
+// ── Pictures for monsters, gods, demons, and patrons: illustrations from game-icons.net (CC BY 3.0), matched by generators/art.js ──
+const ART_TINT={red:'#e8553f',blue:'#4f93ea',green:'#4cbb6c',black:'#9d90b4',white:'#e4ecf3',gold:'#ecc04f',silver:'#c9d2dc',bronze:'#cf9152',brass:'#dcb85e',copper:'#d27c4e',amethyst:'#b084e3',crystal:'#a6e8f4',emerald:'#43c985',sapphire:'#4a78e4',topaz:'#eda844',moonstone:'#cfd9f5',deep:'#8c69c0',shadow:'#8a80a6'};
+// the Human realm's colour is grey, so its creatures take a colour from their kind instead
+const ART_TYPE={fiend:'#e2513f',undead:'#8fd6c4',dragon:'#e8553f',celestial:'#ecc04f',fey:'#d68be0',aberration:'#a98be0',elemental:'#f0a04b',construct:'#b8c2cc',ooze:'#9ad35a',plant:'#6fcf6a',giant:'#c7a27a',monstrosity:'#d08a5a',humanoid:'#dcb98f',beast:'#d1a66b'};
+function artIdx(x){if(typeof ART==='undefined'||!x||!ART[x._t])return -1;const i=ART[x._t][x.n];return i==null?-1:i}
+function artTint(x){const w=x._t==='mon'&&/dragon|abishai|slaad|greatwyrm/i.test(x.n)&&/\b(red|blue|green|black|white|gold|silver|bronze|brass|copper|amethyst|crystal|emerald|sapphire|topaz|moonstone|deep|shadow)\b/i.exec(x.n);if(w)return ART_TINT[w[1].toLowerCase()];
+  if(x._t==='mon'){if(x.realm!=='Human'&&REALM[x.realm])return rcol(x.realm);const ty=String(x.sb&&x.sb.ty||'');const k=Object.keys(ART_TYPE).find(t=>ty.includes(t));return k?ART_TYPE[k]:'#d1a66b'}
+  if(x._t==='god'){const h0=String(x.home||''),h=REALM[h0]?h0:h0.replace(/ Realm$/,'');return h!=='Human'&&REALM[h]?rcol(h):'#ecc04f'}return /celestial/i.test(x.grp)?'#ecc04f':/archfey/i.test(x.grp)?'#5fd08a':/old one|corruption/i.test(x.grp)?'#9d7fe0':/vyrekala|dragon/i.test(x.grp+x.n)?'#e8553f':'#e2513f'}
+function artHTML(x,cls){const i=artIdx(x);return i<0?'':`<span class="art ${cls||''}" style="--ac:${artTint(x)}" aria-hidden="true"><svg viewBox="0 0 512 512" focusable="false">${ART.icons[i]}</svg></span>`}
 const RAR_ORDER=['Common','Uncommon','Rare','Very Rare','Legendary','Artifact'];
 const rarRank=r=>{const i=RAR_ORDER.indexOf(r);return i<0?9:i};
 
@@ -1556,7 +1570,7 @@ const CARD={
     </button>`},
   mat(m){
     return `<button class="card" style="--strip:${rcol(m.realm)}" data-ref="${ref(m)}">
-      <div class="t"><div class="nm">${esc(m.n)}</div>${isPinned(m)?'<span class="pin">★</span>':''}</div>
+      <div class="t">${artHTML(m)}<div class="nm">${esc(m.n)}</div>${isPinned(m)?'<span class="pin">★</span>':''}</div>
       <div class="badges">${realmB(m.gr)}${rarB(m.rar)}<span class="b ghost">${esc(m.ty||m.cat)}</span>${m.gen?'<span class="b blue" title="Generated harvest part: in this app, not yet in the vault">Harvest part</span>':''}</div>
       ${m.tr?`<div class="ln" style="color:var(--gold2)">◆ <b style="color:var(--gold2)">${esc(m.tr.n)}</b>${m.tr.s?` <span style="color:var(--muted)">· ${m.tr.s==='w'?'weapons':'armor'}</span>`:''}${m.origin&&m.org==='Creature'?` <span style="color:var(--muted)">· from ${esc(m.origin)}</span>`:''}</div>`:''}
       ${m.pn?`<div class="ln">✧ <b>${esc(m.pn)}</b>${m.pot?` · Potency ${m.pot} (rank ${potRank(m.pot)})`:''}</div>`:m.supply?'<div class="ln">Supply · used up in crafting</div>':''}
@@ -1566,7 +1580,7 @@ const CARD={
   mon(m){
     const drops=(m.drops||[]).slice(0,3).map(d=>`<span class="chip"><span class="sw" style="background:${rcol(realmOf(d[1]))}"></span>${esc(d[0])}</span>`).join('');
     return `<button class="card" style="--strip:${rcol(m.realm)}" data-ref="${ref(m)}">
-      <div class="t"><div class="nm">${esc(m.n)}</div>${isPinned(m)?'<span class="pin">★</span>':''}</div>
+      <div class="t">${artHTML(m)}<div class="nm">${esc(m.n)}</div>${isPinned(m)?'<span class="pin">★</span>':''}</div>
       <div class="badges">${realmB(m.realm+' '+m.g)}${m.gb?'<span class="b red" title="A god-level beast: CR 26 or more">God-beast</span>':''}${m.cr?`<span class="b">CR ${esc(m.cr)}</span><span class="b ${m.myth?'blue':'ghost'}" title="${esc(BOOKS[m.book]||m.book)}">${esc(m.myth?m.myth+' myth':m.book)}</span>`:`<span class="b">CR ${esc(m.sb?m.sb.cr:'?')}</span><span class="b gold">Homebrew</span>`}</div>
       ${m.sb?`<div class="ln">AC <b>${m.sb.ac}</b> · HP <b>${m.sb.hp}</b> · ${esc(m.sb.sz)} ${esc(m.sb.ty)}${m.sb.lg?' · <b style="color:var(--gold2)">Legendary</b>':''}</div>`:''}
       ${m.hab?`<div class="ln">⌖ ${esc(m.hab)}</div>`:''}
@@ -1576,8 +1590,7 @@ const CARD={
   god(g){
     const runes=(g.runes||[]).map(r=>`<span class="chip"${CONTESTED.includes(r)?' style="border-color:var(--red)" title="Contested Rune"':''}>ᚱ ${esc(r)}</span>`).join('');
     return `<button class="card" style="--strip:${rcol(g.home)}" data-ref="${ref(g)}">
-      <div class="t"><div class="nm">${esc(godKey(g))}</div>${isPinned(g)?'<span class="pin">★</span>':''}</div>
-      <div class="ep">${esc(godTitle(g))}</div>
+      <div class="t">${artHTML(g)}<div class="nm">${esc(godKey(g))}<div class="ep" style="font-weight:400;font-size:.86rem;margin-top:2px">${esc(godTitle(g))}</div></div>${isPinned(g)?'<span class="pin">★</span>':''}</div>
       <div class="badges"><span class="b acc">${esc(g.grp)}</span>${g.home?realmB(g.home):''}${g.seated!=null?`<span class="b ghost">Hand ${pips(g.seated)}</span>`:''}</div>
       ${runes?`<div class="chips">${runes}</div>`:''}
       ${g.wants?`<div class="ds"><b style="color:var(--text)">Wants:</b> ${esc(g.wants)}</div>`:''}
@@ -1599,8 +1612,7 @@ const CARD={
   entity(e){
     const p=e.n.split(' - ');
     return `<button class="card" data-ref="${ref(e)}">
-      <div class="t"><div class="nm">${esc(p[0])}</div>${isPinned(e)?'<span class="pin">★</span>':''}</div>
-      ${p[1]?`<div class="ep">${esc(p.slice(1).join(' - '))}</div>`:''}
+      <div class="t">${artHTML(e)}<div class="nm">${esc(p[0])}${p[1]?`<div class="ep" style="font-weight:400;font-size:.86rem;margin-top:2px">${esc(p.slice(1).join(' - '))}</div>`:''}</div>${isPinned(e)?'<span class="pin">★</span>':''}</div>
       <div class="badges"><span class="b acc">${esc(e.grp)}</span></div>
       ${e.ds?`<div class="ds">${esc(e.ds)}</div>`:''}
     </button>`},
@@ -2116,9 +2128,9 @@ function showModal(x){
   const nav=i>=0&&MODAL_LIST.length>1?`<div class="mnav"><button class="btn" onclick="step(-1)" ${i===0?'disabled':''}>← Previous</button><span class="pos">${fmt(i+1)} / ${fmt(MODAL_LIST.length)}</span><button class="btn" onclick="step(1)" ${i===MODAL_LIST.length-1?'disabled':''}>Next →</button></div>`:'';
   M.body+=vaultBlock(x);
   $('modal').innerHTML=`<div class="mh" style="${M.strip?'--strip:'+M.strip:''}">
-      <div class="kind">${M.kind||TYPES[x._t].label}</div>
+      ${artIdx(x)>=0?`<div class="mh-row">${artHTML(x,'lg')}<div class="mh-txt">`:''}<div class="kind">${M.kind||TYPES[x._t].label}</div>
       <h2 id="mtitle">${M.title}</h2>${M.ep?`<div class="ep">${M.ep}</div>`:''}
-      ${M.badges?`<div class="badges">${M.badges}</div>`:''}
+      ${M.badges?`<div class="badges">${M.badges}</div>`:''}${artIdx(x)>=0?'</div></div>':''}
       <div class="mact">
         <button class="icon-btn" id="hoBtn" title="Make a handout for players" aria-label="Make a handout">📜</button>
         ${CMP_TYPES[x._t]?`<button class="icon-btn${cmpHas(x)?' on':''}" id="cmpBtn" title="Compare" aria-label="Add to compare">⚖</button>`:''}
@@ -3033,6 +3045,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-28','Pictures of what you face','Every monster in the Bestiary, every god, every demon, and every patron now has a picture: on its card in the lists, large at the top of its page, and beside its name in the combat tracker, so players can see what they are up against. Each is an illustration from game-icons.net picked to fit the creature (a dragon\'s head, a horned devil, a sun for a sun god), tinted to its realm, and coloured dragons take their own colour. Credits are on the About page.','bestiary'],
   ['2026-10-28','A shop for every market','A new Shop page under Items & Crafting. Pick a realm, a settlement size, and one of eight kinds of shop (a smithy, an alchemist, a monster-parts dealer, and more), each run by a named merchant, then buy materials and vault Blueprints with your character\'s own coin. Shops charge half again over list price, buying is limited by what you can afford and how much your pack holds, and merchants buy your materials back at half the list price. In the realms with their own coin, a moneychanger swaps gold for local coin and keeps a tenth. The DM can raise or lower a market\'s prices and restock it. Every purchase, sale, and exchange can be undone.','shop'],
   ['2026-10-28','Spoils and Standing','Two additions for the table. Spoils: when every monster in the combat tracker is down (or you end the fight), a Spoils panel offers the haul, sized by the fight (a pouch, a chest, or a hoard of the realm\'s coin and materials, sometimes a named item), with a line for the DM to read, coins split between the party in one tap, everything else handed to whoever the DM picks, and a line in each character\'s log. The corpses still go through scavenging. The encounter builder can preview what a fight is likely to drop. Standing: on the Party page, each faction the party has met (a god, a Magic Tower, a realm\'s smiths, or one of your own) has a standing from Hostile to Honored that the DM moves a step at a time with a reason. A god you hold a contract with starts at Friendly. It shows on the character sheet and on Magic Tower pages, and the Forge offers to raise a realm\'s smiths when you do a master\'s task. It never changes prices or rules by itself.'],
   ['2026-10-28','Material variants removed','Prepared variants of materials (tanned hide, seasoned wood, folded steel, and the rest) and the Preparation bench are gone: they added steps without adding much to play. Anything a character had prepared is back in their pack as the plain material, and items forged from prepared materials keep working.'],
@@ -3284,6 +3297,7 @@ function renderAbout(){
     <section class="sec">${appHTML()}</section>
     <section class="sec">${cosmologyHTML()}</section>
     <section class="sec"><div class="sec-h"><h3>At a glance</h3></div><div class="tablewrap"><table class="t"><thead><tr><th>Area</th><th>Now</th></tr></thead><tbody>${G.map(([a,t,l])=>`<tr><td style="white-space:nowrap;font-weight:600">${l?`<a href="${pageUrl(l)}" data-go="${l}" style="text-decoration:none">${a}</a>`:a}</td><td>${t}</td></tr>`).join('')}</tbody></table></div></section>
+    <section class="sec"><div class="sec-h"><h3>Picture credits</h3></div><p class="note" style="margin:0">The pictures of monsters, gods, demons, and patrons are illustrations from <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a> by Lorc, Delapouite, and contributors, used under the <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">Creative Commons Attribution 3.0</a> licence and tinted to each one's realm.</p></section>
     <section class="sec"><div class="sec-h"><h3>Website changes</h3><p>What changed on this site, newest first.</p></div><div class="tablewrap"><table class="t"><thead><tr><th>Date</th><th>Change</th></tr></thead><tbody>${SITE_CHANGES.map(([d,t,x,pg])=>`<tr><td style="white-space:nowrap">${esc(d)}</td><td><b>${pg?`<a href="${pageUrl(pg)}" data-go="${pg}">${esc(t)}</a>`:esc(t)}</b><br><span style="color:var(--text2)">${esc(x)}</span></td></tr>`).join('')}</tbody></table></div></section>
     <section class="sec"><div class="sec-h"><h3>Version history</h3><p>Open any version for its full patch notes from the vault.</p></div><div class="tablewrap"><table class="t"><thead><tr><th>Version</th><th>What changed</th></tr></thead><tbody>${V.slice().reverse().map(([v,t])=>`<tr><td style="white-space:nowrap"><span class="vtag">${v}</span></td><td>${esc(t)}${(()=>{const n=noteByName('Patch v'+v);return n?` <a href="#" data-ref="${ref(n)}">Full notes →</a>`:''})()}</td></tr>`).join('')}</tbody></table></div></section>
     <section class="sec cols">
@@ -6943,7 +6957,7 @@ function renderCombat(){
     ${CB.list.length?CB.list.map((x,i)=>{const m=x.mon&&MON_IDX.get(lc(x.mon)),pct=x.max?Math.max(0,Math.min(100,x.hp/x.max*100)):0,down=x.hp<=0;
       return `<tr style="${i===CB.turn?'background:var(--goldbg);':''}${down?'opacity:.55':''}">
         <td class="num" data-l="Init"><input type="number" value="${x.init}" data-cb="${x.id}" data-f="init" style="width:56px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px;color:var(--text);text-align:right"></td>
-        <td>${i===CB.turn?'▶ ':''}${m?`<a href="#" ${m.champ?`data-champ="${esc(m.n)}"`:`data-ref="${ref(m)}"`} style="font-weight:600;color:var(--text)">${esc(x.name)}</a>${m.champ?' <span class="b gold" title="Champion: a monster with a class">★</span>':''}`:`<b>${esc(x.name)}</b>`}${x.pc?' <span class="b green">PC</span>':''}${down?(x.pc&&x.ds&&x.ds.f>=3?' <span class="b red">Dead</span>':x.pc&&x.ds&&x.ds.s>=3?' <span class="b gold">Stable</span>':' <span class="b red">Down</span>'):''}</td>
+        <td>${i===CB.turn?'▶ ':''}${m?artHTML(m,'xs'):''}${m?`<a href="#" ${m.champ?`data-champ="${esc(m.n)}"`:`data-ref="${ref(m)}"`} style="font-weight:600;color:var(--text)">${esc(x.name)}</a>${m.champ?' <span class="b gold" title="Champion: a monster with a class">★</span>':''}`:`<b>${esc(x.name)}</b>`}${x.pc?' <span class="b green">PC</span>':''}${down?(x.pc&&x.ds&&x.ds.f>=3?' <span class="b red">Dead</span>':x.pc&&x.ds&&x.ds.s>=3?' <span class="b gold">Stable</span>':' <span class="b red">Down</span>'):''}</td>
         <td class="num" data-l="AC"><input type="number" value="${x.ac}" data-cb="${x.id}" data-f="ac" style="width:52px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px;color:var(--text);text-align:right"></td>
         <td class="num" data-l="Dodge" style="white-space:nowrap"><input type="number" value="${cbDodge(x)}" data-cb="${x.id}" data-f="dodge" style="width:48px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px;color:var(--text);text-align:right"> <button class="btn" style="padding:2px 6px" onclick="cbDodgeRoll('${x.id}')" title="Roll d20 + Dodge">🎲</button></td>
         <td style="min-width:130px" data-l="HP"><b>${x.hp}</b> / ${x.max}${+x.thp?` <button class="b blue" style="border:0;cursor:pointer" onclick="cbTemp('${x.id}',1)" title="Temporary hit points: damage takes these first. Click to clear.">+${+x.thp} temp ✕</button>`:''}<div class="bar" style="margin-top:4px;position:relative"><i style="width:${pct}%;background:${pct>50?'var(--green)':pct>25?'var(--gold)':'var(--red)'}"></i>${+x.thp&&x.max?`<i style="position:absolute;left:0;top:0;height:100%;width:${Math.min(100,+x.thp/x.max*100)}%;background:var(--blue);opacity:.75"></i>`:''}</div>${x.pc&&down?cbDsHTML(x):''}</td>

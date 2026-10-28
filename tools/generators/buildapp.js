@@ -897,6 +897,8 @@ D.SUBSTAGES = {};
 })();
 var CORE = ['BPS', 'MATS', 'MONSTERS', 'SUBS', 'GODS', 'DEMONS', 'PATRONS', 'MAT_FX', 'HIDDEN', 'STAGES', 'SUBSTAGES', 'PROF_STAGES', 'PEOPLES', 'CLASS_PROG', 'PROPS'];
 var metaLine = 'const META=' + JSON.stringify(META) + ';';
+// pictures for monsters, gods, demons, and patrons (game-icons.net, CC BY 3.0): see generators/art.js
+var ART = require('./art').buildArt(D), artLine = 'const ART=' + JSON.stringify(ART) + ';';
 var VENDOR = fs.readFileSync(path.join(__dirname, '..', 'app', 'vendor', 'anthropic.js'), 'utf8');
 // Accounts and campaigns (Supabase): on when tools/cloud/config.json has the project's URL and public key (see the README).
 // The Supabase library (supabase-js 2.117.2, MIT) ships only then; pages load it when someone signs in.
@@ -909,7 +911,7 @@ var cloudLine = 'const CLOUD=' + JSON.stringify(CLOUD) + ';';
 var SUPA = CLOUD ? fs.readFileSync(path.join(__dirname, '..', 'app', 'vendor', 'supabase.js'), 'utf8') : '';
 log.push('accounts: ' + (CLOUD ? 'on (' + CLOUD.url + ')' : 'off (no url and key in tools/cloud/config.json)'));
 var noScriptEnd = function (js) { return js.replace(/<\/(script)/gi, '<\\/$1'); };
-var single = '<script>\n' + noScriptEnd(VENDOR) + '\n</script>\n' + (SUPA ? '<script>\n' + noScriptEnd(SUPA) + '\n</script>\n' : '') + '<script>\nconst SITE=null;\n' + cloudLine + '\n' + ['BPS', 'SPELLS', 'VAULT', 'VAULT_DETAILS'].concat(CORE.slice(1)).map(lit).join('\n') + '\n' + metaLine + '\n</script>';
+var single = '<script>\n' + noScriptEnd(VENDOR) + '\n</script>\n' + (SUPA ? '<script>\n' + noScriptEnd(SUPA) + '\n</script>\n' : '') + '<script>\nconst SITE=null;\n' + cloudLine + '\n' + ['BPS', 'SPELLS', 'VAULT', 'VAULT_DETAILS'].concat(CORE.slice(1)).map(lit).join('\n') + '\n' + metaLine + '\n' + artLine + '\n</script>';
 var out = tpl.split('<!--__DATA__-->').join(single);
 var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'properties', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'magic', 'classes', 'subclasses', 'demons', 'patrons', 'forge', 'workshop', 'craft', 'shop', 'party', 'sheet', 'encounter', 'prep', 'hooks', 'journal', 'hidden', 'towers', 'combat', 'rules', 'dice', 'tools', 'about', 'help', 'account', 'settings'];
 var site = {};
@@ -960,6 +962,8 @@ if (SUPA) site['vendor/supabase.js'] = SUPA;
 site['vendor/qrcode.js'] = fs.readFileSync(path.join(__dirname, '..', 'app', 'vendor', 'qrcode.js'), 'utf8');
 site['data/vault.js'] = lit('VAULT') + '\n';
 site['data/vault-details.js'] = lit('VAULT_DETAILS') + '\n';
+site['data/art.js'] = artLine + '\n';
+log.push('art: ' + ART.icons.length + ' pictures for ' + (Object.keys(ART.mon).length + Object.keys(ART.god).length + Object.keys(ART.demon).length + Object.keys(ART.patron).length) + ' entries');
 // a version stamp of this build's data: pages ask for data/*.js?v=<stamp>, so a new page never runs on a cached old data file
 var DATA_V = require('crypto').createHash('sha1').update(Object.keys(site).filter(function (k) { return /^data\//.test(k); }).sort().map(function (k) { return site[k]; }).join('')).digest('hex').slice(0, 10);
 // where the site lives (GitHub Pages): used for canonical links, sharing previews, and the sitemap search engines read
@@ -980,7 +984,7 @@ var BUILD_ID = require('crypto').createHash('sha1').update(tpl + DATA_V).digest(
 PAGES.forEach(function (pg) {
   // The page draws its frame at once; a small loader downloads the data with a progress bar, runs it, then starts the app
   // (kept in the page as <script type="text/x-fand">). If fetch can't be used (a file:// copy), it falls back to plain tags.
-  var files = ['core', 'vault'].concat(pg === 'spells' || pg === 'sheet' || pg === 'tools' || pg === 'magic' || pg === 'journal' ? ['spells'] : []).map(function (f) { return ['data/' + f + '.js?v=' + DATA_V, Buffer.byteLength(site['data/' + f + '.js'], 'utf8')]; });
+  var files = ['core', 'art', 'vault'].concat(pg === 'spells' || pg === 'sheet' || pg === 'tools' || pg === 'magic' || pg === 'journal' ? ['spells'] : []).map(function (f) { return ['data/' + f + '.js?v=' + DATA_V, Buffer.byteLength(site['data/' + f + '.js'], 'utf8')]; });
   var tags = '<script>const SITE={page:' + JSON.stringify(pg) + ',v:' + JSON.stringify(DATA_V) + ',b:' + JSON.stringify(BUILD_ID) + '};' + cloudLine + '</script>\n<script>' + LOADER.replace('__FILES__', JSON.stringify(files)) + '</script>';
   if (tpl.indexOf('<!--__DATA__-->\n<script>\n') < 0) throw new Error('template: the app script must follow the <!--__DATA__--> marker');
   var html = tpl.split('<!--__DATA__-->\n<script>\n').join(tags + '\n<script type="text/x-fand" id="fand-app">\n');
@@ -1019,7 +1023,7 @@ site['manifest.webmanifest'] = JSON.stringify({
   ]
 }, null, 2) + '\n';
 var mapFiles = (function () { var d = path.join(__dirname, '..', 'data', 'maps'); return fs.existsSync(d) ? fs.readdirSync(d).filter(function (f) { return /\.(jpe?g|png|webp)$/i.test(f); }).map(function (f) { return 'img/maps/' + f; }) : []; })();
-var PRECACHE = PAGE_FILES.concat(['data/core.js', 'data/vault.js', 'data/spells.js', 'data/vault-details.js'].map(function (f) { return f + '?v=' + DATA_V; }),
+var PRECACHE = PAGE_FILES.concat(['data/core.js', 'data/art.js', 'data/vault.js', 'data/spells.js', 'data/vault-details.js'].map(function (f) { return f + '?v=' + DATA_V; }),
   ['vendor/anthropic.js', 'vendor/qrcode.js', 'manifest.webmanifest', 'img/icons/icon-180.png', 'img/icons/icon-192.png', 'img/icons/icon-512.png'], SUPA ? ['vendor/supabase.js'] : [], mapFiles);
 // the offline copy's name changes whenever any file changes (pages too), so a phone never keeps an old page offline
 site['sitemap.xml'] = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + PAGES.filter(function (pg) { return pg !== 'hidden'; }).map(function (pg) {
