@@ -1062,8 +1062,8 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"blueprints",v:"fcb6ede874",b:"4ce8cbb0"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
-<script>(function(){var F=[["data/core.js?v=fcb6ede874",11506652],["data/vault.js?v=fcb6ede874",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
+<script>const SITE={page:"blueprints",v:"991616d668",b:"1e39779c"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>(function(){var F=[["data/core.js?v=991616d668",11506652],["data/vault.js?v=991616d668",1144011]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 <script type="text/x-fand" id="fand-app">
 'use strict';
 // ════════════════════════════════════════════════════════════════
@@ -2722,33 +2722,47 @@ const hexRgb=h=>{const m=/^#?([0-9a-f]{6})$/i.exec(String(h||''));if(!m)return '
 // follows the pointer. Dark mode is deep space; light mode is the same sky at dawn, in pastels ──
 function cosmosFx(){const cv=$('cs-fx');if(!cv||!cv.getContext)return;const x=cv.getContext('2d'),dpr=Math.min(2,window.devicePixelRatio||1),still=matchMedia('(prefers-reduced-motion: reduce)').matches;let W=0,H=0,S=null;
   const size=()=>{const r=cv.getBoundingClientRect();W=cv.width=Math.max(1,Math.round(r.width*dpr));H=cv.height=Math.max(1,Math.round(r.height*dpr));S=null};size();
-  // the pointer is a shooting star: a bright head, a tail that tapers along the path it just took, and sparks shed behind
-  const TAIL=650,trail=[],dust=[];let lastMove=0;const onMove=e=>{if(still||!cv.isConnected)return;const r=cv.getBoundingClientRect(),now=performance.now();if(now-lastMove<12)return;lastMove=now;
-    const p={x:(e.clientX-r.left)*dpr,y:(e.clientY-r.top)*dpr,t:now},q=trail[trail.length-1];trail.push(p);if(trail.length>40)trail.shift();
-    const sp=q?Math.hypot(p.x-q.x,p.y-q.y):0;if(sp>3*dpr&&Math.random()<.6){const a=Math.atan2(q.y-p.y,q.x-p.x)+(Math.random()-.5)*.9,v=(.4+Math.random()*1.1)*dpr;
-      dust.push({x:p.x,y:p.y,vx:Math.cos(a)*v,vy:Math.sin(a)*v+.15*dpr,life:1,r:(.5+Math.random()*1.1)*dpr})}if(dust.length>60)dust.splice(0,dust.length-60)};
+  // the pointer is a shooting star. The head glides after the pointer (eased every frame, so it moves smoothly however
+  // unevenly the mouse reports), leaving a point each frame; the tail is drawn through those points as one smooth ribbon
+  const ST={tail:[],dust:[],tx:0,ty:0,hx:0,hy:0,on:false,last:0,prev:0};const onMove=e=>{if(still||!cv.isConnected)return;const r=cv.getBoundingClientRect();
+    ST.tx=(e.clientX-r.left)*dpr;ST.ty=(e.clientY-r.top)*dpr;if(!ST.on){ST.on=true;ST.hx=ST.tx;ST.hy=ST.ty}};
   window.addEventListener('pointermove',onMove,{passive:true});
   const draw=ts=>{if(!cv.isConnected){window.removeEventListener('pointermove',onMove);return}const r=cv.getBoundingClientRect();if(Math.round(r.width*dpr)!==W||Math.round(r.height*dpr)!==H)size();
     const light=document.documentElement.dataset.theme==='light';if(!S||S.light!==light)S=cosmosScene(W,H,dpr,light);const t=still?0:ts||0;
     const sc=($('content')||{}).scrollTop||0;cosmosPaint(x,S,t,sc*dpr,still);
-    cosmosStar(x,trail,dust,performance.now(),TAIL,dpr,light,still);
+    cosmosStar(x,ST,performance.now(),dpr,light,still);
     if(!still)requestAnimationFrame(draw)};requestAnimationFrame(draw)}
 // the pointer's shooting star. Dark mode: a white-hot head with a blue-white tail, added light. Light mode: a golden head
 // with a rose-gold tail, painted on the dawn sky so it still shows
-function cosmosStar(x,trail,dust,now,TAIL,dpr,light,still){while(trail.length&&now-trail[0].t>TAIL)trail.shift();
-  dust.forEach(d=>{if(!still){d.x+=d.vx;d.y+=d.vy;d.vx*=.97;d.vy*=.97;d.life-=.03}});for(let i=dust.length-1;i>=0;i--)if(dust[i].life<=0)dust.splice(i,1);
-  x.save();x.globalCompositeOperation=light?'source-over':'lighter';x.lineCap='round';
-  const core=light?[255,214,120]:[255,255,255],glow=light?[226,140,90]:[150,190,255];
-  // the tail: segment by segment, wider and brighter toward the head, fading with age
-  for(let i=1;i<trail.length;i++){const a=trail[i-1],b=trail[i],f=i/(trail.length-1||1),age=1-(now-b.t)/TAIL;if(age<=0)continue;
-    x.strokeStyle=`rgba(${glow},${(light?.5:.35)*f*age})`;x.lineWidth=(1.5+8*f)*dpr;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke();
-    x.strokeStyle=`rgba(${core},${(light?.95:1)*f*age})`;x.lineWidth=(.6+2.6*f)*dpr;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke()}
+function cosmosStar(x,ST,now,dpr,light,still){const TAIL=700,dt=Math.min(64,now-(ST.prev||now))||16.7;ST.prev=now;
+  if(ST.on&&!still){const k=1-Math.pow(1-.3,dt/16.7),px=ST.hx,py=ST.hy;ST.hx+=(ST.tx-ST.hx)*k;ST.hy+=(ST.ty-ST.hy)*k;const sp=Math.hypot(ST.hx-px,ST.hy-py);
+    if(sp>.25*dpr){ST.tail.push({x:ST.hx,y:ST.hy,t:now});ST.last=now;if(ST.tail.length>90)ST.tail.shift();
+      // sparks shed behind a fast-moving star
+      if(sp>2.5*dpr&&Math.random()<Math.min(.7,sp/(14*dpr))){const a=Math.atan2(py-ST.hy,px-ST.hx)+(Math.random()-.5)*.8,v=(.3+Math.random()*.9)*dpr;
+        ST.dust.push({x:ST.hx,y:ST.hy,vx:Math.cos(a)*v,vy:Math.sin(a)*v+.12*dpr,life:1,r:(.5+Math.random()*1)*dpr});if(ST.dust.length>50)ST.dust.shift()}}}
+  const T=ST.tail;while(T.length&&now-T[0].t>TAIL)T.shift();
+  ST.dust.forEach(d=>{if(!still){d.x+=d.vx;d.y+=d.vy;d.vx*=.96;d.vy*=.96;d.life-=.028}});for(let i=ST.dust.length-1;i>=0;i--)if(ST.dust[i].life<=0)ST.dust.splice(i,1);
+  const fade=Math.max(0,1-(now-ST.last)/TAIL),core=light?[255,214,120]:[255,255,255],glow=light?[226,140,90]:[150,190,255];
+  x.save();x.globalCompositeOperation=light?'source-over':'lighter';
+  if(T.length>2&&fade>0){
+    // round off the path twice (Chaikin), so the tail curves instead of bending at each sample
+    let P=T.concat([{x:ST.hx,y:ST.hy,t:now}]);for(let it=0;it<2;it++){const Q=[P[0]];for(let i=0;i<P.length-1;i++){const a=P[i],b=P[i+1];
+      Q.push({x:a.x*.75+b.x*.25,y:a.y*.75+b.y*.25,t:a.t*.75+b.t*.25},{x:a.x*.25+b.x*.75,y:a.y*.25+b.y*.75,t:a.t*.25+b.t*.75})}Q.push(P[P.length-1]);P=Q}
+    const n=P.length;P.forEach((p,i)=>{p.w=Math.max(0,Math.min(1,i/(n-1)))*Math.max(0,1-(now-p.t)/TAIL)});
+    // the tail as one filled ribbon per layer: no joints, so no beads where pieces overlap
+    const ribbon=(wid,fill)=>{const L=[],R=[];for(let i=0;i<n;i++){const a=P[Math.max(0,i-1)],b=P[Math.min(n-1,i+1)],dx=b.x-a.x,dy=b.y-a.y,len=Math.hypot(dx,dy)||1,w=P[i].w*wid*dpr;
+        L.push(P[i].x-dy/len*w,P[i].y+dx/len*w);R.push(P[i].x+dy/len*w,P[i].y-dx/len*w)}
+      x.beginPath();x.moveTo(L[0],L[1]);for(let i=2;i<L.length;i+=2)x.lineTo(L[i],L[i+1]);for(let i=R.length-2;i>=0;i-=2)x.lineTo(R[i],R[i+1]);x.closePath();x.fillStyle=fill;x.fill()};
+    const g=(c,a1)=>{const G=x.createLinearGradient(P[0].x,P[0].y,P[n-1].x,P[n-1].y);G.addColorStop(0,`rgba(${c},0)`);G.addColorStop(.55,`rgba(${c},${a1*.35*fade})`);G.addColorStop(1,`rgba(${c},${a1*fade})`);return G};
+    ribbon(9,g(glow,light?.32:.22));ribbon(4.5,g(glow,light?.55:.45));ribbon(1.6,g(core,light?.95:1))}
   // the head: a soft glow, a hot core, and a small four-pointed glint
-  const h=trail[trail.length-1];if(h){const age=1-(now-h.t)/TAIL;if(age>0){const R=16*dpr,g=x.createRadialGradient(h.x,h.y,0,h.x,h.y,R);
-    g.addColorStop(0,`rgba(${core},${age})`);g.addColorStop(.25,`rgba(${core},${.7*age})`);g.addColorStop(.5,`rgba(${glow},${(light?.55:.45)*age})`);g.addColorStop(1,`rgba(${glow},0)`);x.fillStyle=g;x.beginPath();x.arc(h.x,h.y,R,0,Math.PI*2);x.fill();
-    x.strokeStyle=`rgba(${core},${.8*age})`;x.lineWidth=1*dpr;x.beginPath();x.moveTo(h.x-11*dpr,h.y);x.lineTo(h.x+11*dpr,h.y);x.moveTo(h.x,h.y-11*dpr);x.lineTo(h.x,h.y+11*dpr);x.stroke()}}
-  // sparks shed from the tail
-  dust.forEach(d=>{const a=Math.max(0,d.life);x.fillStyle=`rgba(${a>.5?core:glow},${a*(light?.8:.9)})`;x.beginPath();x.arc(d.x,d.y,d.r*(.4+a*.6),0,Math.PI*2);x.fill()});
+  if(ST.on&&fade>0){const hx=ST.hx,hy=ST.hy,R=15*dpr,G=x.createRadialGradient(hx,hy,0,hx,hy,R);
+    G.addColorStop(0,`rgba(${core},${fade})`);G.addColorStop(.22,`rgba(${core},${.75*fade})`);G.addColorStop(.5,`rgba(${glow},${(light?.5:.4)*fade})`);G.addColorStop(1,`rgba(${glow},0)`);x.fillStyle=G;x.beginPath();x.arc(hx,hy,R,0,Math.PI*2);x.fill();
+    const s=10*dpr,sg=x.createLinearGradient(hx-s,hy,hx+s,hy);sg.addColorStop(0,`rgba(${core},0)`);sg.addColorStop(.5,`rgba(${core},${.85*fade})`);sg.addColorStop(1,`rgba(${core},0)`);
+    const sv=x.createLinearGradient(hx,hy-s,hx,hy+s);sv.addColorStop(0,`rgba(${core},0)`);sv.addColorStop(.5,`rgba(${core},${.85*fade})`);sv.addColorStop(1,`rgba(${core},0)`);
+    x.lineWidth=1.1*dpr;x.strokeStyle=sg;x.beginPath();x.moveTo(hx-s,hy);x.lineTo(hx+s,hy);x.stroke();x.strokeStyle=sv;x.beginPath();x.moveTo(hx,hy-s);x.lineTo(hx,hy+s);x.stroke()}
+  // sparks
+  ST.dust.forEach(d=>{const a=Math.max(0,d.life);x.fillStyle=`rgba(${a>.5?core:glow},${a*(light?.8:.85)})`;x.beginPath();x.arc(d.x,d.y,d.r*(.4+a*.6),0,Math.PI*2);x.fill()});
   x.restore()}
 function cosmosGalaxySprite(R,dpr){const N=Math.ceil(R*2.3),c=document.createElement('canvas');c.width=c.height=N;const g=c.getContext('2d'),o=N/2;
   const col=u=>{const st=[[0,[255,214,140]],[.25,[255,150,175]],[.55,[190,120,240]],[.8,[120,150,255]],[1,[110,200,240]]];for(let i=1;i<st.length;i++)if(u<=st[i][0]){const[a,ca]=st[i-1],[b,cb]=st[i],k=(u-a)/(b-a);return ca.map((v,j)=>Math.round(v+(cb[j]-v)*k))}return st[4][1]};
@@ -3020,6 +3034,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-28','A smoother shooting star','The home page\'s shooting star now glides after your pointer instead of jumping between mouse positions, and its tail is one smooth, tapering ribbon that curves with your path, with no beads or corners along it.'],
   ['2026-10-27','Easier to read and tap','A pass over every page for readability: muted text, hints, table headers, and the green, blue, red, grey, and orange badges are darker in light mode so they meet the usual contrast standard, and realm-coloured badges and links (Heaven\'s yellow, Human\'s grey) are toned to stay readable on light pages. In dark mode, hint text is brighter and primary buttons use a deeper purple behind their white text. On phones no text is smaller than 11px, and the tap-to-roll numbers on the character sheet have a finger-sized tap area.'],
   ['2026-10-27','The DM\'s forge reaches every form','In the DM\'s forge, the extra forms of an Everchanging weapon now take any material or artifact, or anything typed with a ! in front (like !a dragon\'s tooth), just as the main weapon\'s parts do, instead of only what is in the party\'s packs.'],
   ['2026-10-27','Death saves in combat','A party member at 0 HP shows death saves in the combat tracker: press 🎲 Save to roll (10 or higher succeeds, a 1 is two failures, a 20 brings them back with 1 HP), or click the marks by hand. Three successes and they are stable; three failures and they are dead. Taking damage at 0 HP is a failure, damage that reaches their maximum HP kills outright, and healing clears the saves. On their turn the tracker reminds you to roll, and the saves stay in step with the character sheet.'],
