@@ -934,7 +934,7 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
 .gd-ring{position:fixed;z-index:91;border:3px solid var(--gold);border-radius:12px;box-shadow:0 0 0 9999px rgba(5,4,12,.6);pointer-events:none;transition:all .2s}
 .gd-ring[hidden]{display:none}
 .gd-card{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%);width:min(440px,calc(100vw - 24px));background:var(--surf);border:1px solid var(--line3);border-top:3px solid var(--gold);border-radius:14px;padding:16px 18px;z-index:92;box-shadow:var(--shadow)}
-.gd-card.top{bottom:auto;top:calc(16px + env(safe-area-inset-top))}
+.gd-card.gd-up{bottom:auto;top:calc(16px + env(safe-area-inset-top))}
 .gd-card h3{font-size:1.3rem;margin:6px 0 6px}
 .gd-card p{color:var(--text2);line-height:1.55}
 .gd-dots{display:flex;gap:5px}.gd-dots i{width:7px;height:7px;border-radius:50%;background:var(--line3)}.gd-dots i.on{background:var(--gold);width:18px;border-radius:4px}
@@ -1348,14 +1348,11 @@ const godKey=g=>g.n.split(' - ')[0].trim();
 const godTitle=g=>{const p=g.n.split(' - ');return p.slice(1).join(' - ')};
 const GOD_IDX=new Map();GODS.forEach(g=>GOD_IDX.set(lc(godKey(g)),g));
 const findMat=n=>MAT_IDX.get(lc(n))||(/^Artifact: /.test(n||'')?artMat(n):/^Anything: /.test(n||'')?anyMat(n):/\)$/.test(n||'')?varMat(n):undefined);
-// a prepared variant of a material is a material of its own: "Wolf Hide (Tanned)", "Oak Log (Seasoned)", "Iron (Folded)".
-// It keeps the base material's realm, grade, property, and trait, costs a quarter more, and carries its preparation into the Forge.
-const _varCache=new Map();
-function varMat(name){if(_varCache.has(name))return _varCache.get(name);try{PROC}catch(e){return undefined}const x=/^(.+) \(([^()]+)\)$/.exec(name||'');let v;
-  const base=x&&MAT_IDX.get(lc(x[1])),P=base&&procList(base).find(p=>lc(p[5]||p[1])===lc(x[2]));
-  if(base&&P)v=Object.assign({},base,{n:base.n+' ('+(P[5]||P[1])+')',baseN:base.n,prep:P[0],price:Math.round((base.price||0)*1.25),ds:(base.ds?base.ds+' ':'')+'Prepared: '+P[3],variant:1,_t:'mat',_i:base._i});
-  _varCache.set(name,v);return v}
-const varName=(m,P)=>m.n+' ('+(P[5]||P[1])+')';
+// Material variants (tanned hide, seasoned wood, folded steel...) were removed. Their old names, still in packs and in
+// designs saved before, read as the plain material
+const OLD_PREP=new Set(["tanned", "rawhide", "cuir bouilli", "oiled", "spun", "brain-tanned", "scaled", "smoke-cured", "felted", "waxed", "seasoned", "fire-hardened", "laminated", "ebonized", "dried", "distilled", "bog-seasoned", "steam-bent", "charred", "petrified", "tinctured", "candied", "wrought", "cast", "folded", "tempered", "annealed", "wire", "pattern-welded", "case-hardened", "blued", "gilded", "granulated", "polished", "boiled", "carved", "split", "scrimshawed", "bone-meal", "lacquered", "knapped", "dressed", "honed", "powdered", "fire-glazed", "cut", "cabochon", "ground", "tumbled", "moon-attuned", "cleaved", "salted", "rendered", "fermented", "clotted", "infused", "bound", "refined", "crystallized", "diluted", "volatile", "calibrated", "greased"]);
+function unprep(n){const x=/^(.+) \(([^()]+)\)$/.exec(n||''),base=x&&OLD_PREP.has(lc(x[2]))&&MAT_IDX.get(lc(x[1]));return base?base.n:n}
+function varMat(name){const b=unprep(name);return b!==name?MAT_IDX.get(lc(b)):undefined}
 // the DM can make an item out of anything: "Anything: <what> [<kind code>]" counts as that kind of material, a good fit
 // for the part it was put in, at the level the DM sets (no property or trait unless the DM writes one in)
 function anyMat(name){const x=/^Anything: (.+) \[([A-Z])\]$/.exec(name||'');if(!x)return undefined;const lv=Math.max(1,Math.min(50,+((typeof FORGE!=='undefined'&&FORGE.dmLv)||1)));
@@ -1740,10 +1737,10 @@ const TABS=[
   ['home','Home'],['lore','Lore'],['codex','Codex',NOTES.length],['blueprints','Blueprints',BPS.length],['materials','Materials',MATS.length],['properties','Properties',PROPS.length],['bestiary','Bestiary',MONSTERS.length],
   ['realms','Realms',REALMS.length],['gods','Gods',GODS.length],['runes','Runes',RUNES.length],['professions','Professions',Object.keys(PROFS).length],
   ['spells','Spells',META.counts.spells],['magic','Magic Towers',21],['classes','Classes',Object.keys(typeof STAGES!=='undefined'?STAGES:{}).length],['subclasses','Subclasses',SUBS.length],['demons','Demons',DEMONS.length],['patrons','Patrons',PATRONS.length],
-  ['forge','Forge'],['workshop','Workshop'],['craft','Craft'],['party','Party'],['sheet','Character sheet'],['encounter','Encounters'],['hooks','Hooks'],['prep','Session prep'],['journal','Journal'],['hidden','Hidden classes'],['towers','Towers'],['combat','Combat'],
+  ['forge','Forge'],['workshop','Workshop'],['craft','Craft'],['shop','Shop'],['party','Party'],['sheet','Character sheet'],['encounter','Encounters'],['hooks','Hooks'],['prep','Session prep'],['journal','Journal'],['hidden','Hidden classes'],['towers','Towers'],['combat','Combat'],
   ['rules','Rules'],['dice','Dice'],['tools','Tools'],['about','About'],['guide','New player guide'],['help','Help'],['account','Account'],['settings','Settings'],
 ];
-const PAGES={guide:()=>renderGuide(),help:()=>renderHelp(),account:()=>renderAccount(),settings:()=>renderSettings(),home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,dice:()=>renderDice(),about:renderAbout,lore:()=>renderLore(),forge:()=>renderForge(),workshop:()=>renderWorkshop(),craft:()=>renderCraft(),party:()=>renderParty(),sheet:()=>renderSheet(),encounter:()=>renderEncounter(),hooks:()=>renderHooks(),magic:()=>renderMagic(),classes:()=>renderClasses(),prep:()=>renderPrep(),journal:()=>renderJournal(),hidden:()=>renderHidden(),towers:()=>renderTowers(),combat:()=>renderCombat()};
+const PAGES={guide:()=>renderGuide(),help:()=>renderHelp(),account:()=>renderAccount(),settings:()=>renderSettings(),home:renderHome,realms:renderRealms,professions:renderProfessions,rules:renderRules,tools:renderTools,dice:()=>renderDice(),about:renderAbout,lore:()=>renderLore(),forge:()=>renderForge(),workshop:()=>renderWorkshop(),craft:()=>renderCraft(),party:()=>renderParty(),sheet:()=>renderSheet(),encounter:()=>renderEncounter(),hooks:()=>renderHooks(),magic:()=>renderMagic(),shop:()=>renderShop(),classes:()=>renderClasses(),prep:()=>renderPrep(),journal:()=>renderJournal(),hidden:()=>renderHidden(),towers:()=>renderTowers(),combat:()=>renderCombat()};
 
 // ════════════════════════════════════════════════════════════════
 //  State & routing
@@ -1788,12 +1785,12 @@ window.addEventListener('popstate',route);
 const NAV_GROUPS=[
   ['World',['lore','realms','towers','gods','runes','demons','patrons','codex']],
   ['Creatures & Materials',['bestiary','materials','properties']],
-  ['Items & Crafting',['blueprints','forge','workshop','craft','professions']],
+  ['Items & Crafting',['blueprints','forge','workshop','craft','shop','professions']],
   ['Magic & Classes',['classes','subclasses','hidden','spells','magic']],
   ['Play',['prep','sheet','party','journal','encounter','hooks','combat','dice','tools']],
   ['Reference',['guide','rules','help','about','account','settings']],
 ];
-const NAV_BLURB={guide:'Every feature in plain words, and hands-on tutorials for new players',help:'How to use FAND, and what to do when something looks wrong',prep:'Plan a session: the party, a Tower floor, encounters, and hooks',account:'Sign in, your profile and picture, sync, and campaigns',settings:'Appearance, the assistant\'s API key, and your saved data',magic:'The Magic Towers: one for each school of magic, where spells are taught and sold',classes:'Every class and subclass with its class changes, II to V, levels 1 to 100',sheet:'Create a character on a full sheet worked out with FAND\'s rules',hidden:'Unique, Epic, and Legendary classes unlocked through quests and Towers',towers:'Up to five Towers in every realm, grown from unclaimed Runes',journal:'Session notes that link to the world',hooks:'Story starters from the gods, Runes, and monsters',lore:'Infinatas, the gods, and the history of Vestige',realms:'The eleven realms and their coin',gods:'Pantheons, Runes, Hands, and rivals',runes:'Every Law, its lineage, and its progenitor',demons:'Archdevils, demon princes, and corruptions',patrons:'Warlock patrons',codex:'Every note from the Obsidian vault',bestiary:'Monsters with stat blocks, lore, and drops',materials:'Graded materials, traits, and prices',properties:'Every material property, what Potency does, and what it gains every 5 Potency',blueprints:'Ready-made designs for every profession',forge:'General Blueprints: pick a material for every part',workshop:'Blueprints forged by players, shared for everyone to see',craft:'Plan what to gather and buy',professions:'The ten professions and their specialties',spells:'Spells by school, tier, and class',subclasses:'Official and homebrew subclasses',party:'Characters, gear, contracts, and money',encounter:'Balanced fights by realm and level',combat:'Initiative, HP, and flat AC',dice:'Roll dice, build pools, and save your rolls',tools:'Calculators and converters',rules:'Rules summaries',about:'What FAND has, version by version'};
+const NAV_BLURB={guide:'Every feature in plain words, and hands-on tutorials for new players',shop:'Buy and sell at a realm\'s market with your character\'s own coin',help:'How to use FAND, and what to do when something looks wrong',prep:'Plan a session: the party, a Tower floor, encounters, and hooks',account:'Sign in, your profile and picture, sync, and campaigns',settings:'Appearance, the assistant\'s API key, and your saved data',magic:'The Magic Towers: one for each school of magic, where spells are taught and sold',classes:'Every class and subclass with its class changes, II to V, levels 1 to 100',sheet:'Create a character on a full sheet worked out with FAND\'s rules',hidden:'Unique, Epic, and Legendary classes unlocked through quests and Towers',towers:'Up to five Towers in every realm, grown from unclaimed Runes',journal:'Session notes that link to the world',hooks:'Story starters from the gods, Runes, and monsters',lore:'Infinatas, the gods, and the history of Vestige',realms:'The eleven realms and their coin',gods:'Pantheons, Runes, Hands, and rivals',runes:'Every Law, its lineage, and its progenitor',demons:'Archdevils, demon princes, and corruptions',patrons:'Warlock patrons',codex:'Every note from the Obsidian vault',bestiary:'Monsters with stat blocks, lore, and drops',materials:'Graded materials, traits, and prices',properties:'Every material property, what Potency does, and what it gains every 5 Potency',blueprints:'Ready-made designs for every profession',forge:'General Blueprints: pick a material for every part',workshop:'Blueprints forged by players, shared for everyone to see',craft:'Plan what to gather and buy',professions:'The ten professions and their specialties',spells:'Spells by school, tier, and class',subclasses:'Official and homebrew subclasses',party:'Characters, gear, contracts, and money',encounter:'Balanced fights by realm and level',combat:'Initiative, HP, and flat AC',dice:'Roll dice, build pools, and save your rolls',tools:'Calculators and converters',rules:'Rules summaries',about:'What FAND has, version by version'};
 // Player or DM (Settings, or the first-visit guide): which pages FAND puts first in the menu, on Home, and in the phone bar.
 // A DM gets a DM group (hidden classes, session prep, encounters, combat, hooks, Towers); a player gets the Play pages that
 // matter at the table first and no Hidden classes entry (the list is the DM's). 'Both' leaves everything as it is.
@@ -2307,7 +2304,7 @@ const MODAL={
         +((m.hab||m.how)?blk('Gathering',`${kv([m.hab?['Habitat',esc(m.hab)]:null,m.how?['How to collect',esc(m.how)]:null,['Find it',`DC <b>${gatherDC(m)}</b> Harvesting check, about ${gatherHours(m)} of searching${m.shaft?'; also turns up in a '+esc(m.realm)+' mine shaft':''}`],['Collect',`Meet the DC to take 1, and 1 more for every 2 points above it; each new try at the same spot adds ${SCAV_STEP} to the DC`]].filter(Boolean))}<div class="note">The higher its grade and realm, the harder it is to find: DC 10 + grade ${m.g}${realmDC((REALM[m.realm]||{}).tier)?' + '+realmDC((REALM[m.realm]||{}).tier)+' for the '+esc(m.realm):''}. Without the Harvesting profession, or below the stage the realm needs, roll at disadvantage.</div>`):'')
         +(m.gen?`<div class="note" style="margin:0">Harvest part generated in this app so every monster lists every part of its body. It isn't in the vault yet.</div>`:'')
         +(fx?blk('Weapon effect',`<div class="vcard mine"><span class="bn">${esc(fx.bonus)} · ${esc(fx.dt)} damage</span><div>${esc(fx.fx)}</div></div>${m.bonus&&m.bonus!=='+0'?`<div class="note">Listed bonus: ${esc(m.bonus)}</div>`:''}`):(m.bonus&&m.bonus!=='+0'?blk('Bonus',`<div class="prose" style="font-size:.9rem">${esc(m.bonus)}</div>`):''))
-        +(procList(m).length&&!m.variant&&!m.art&&!m.any?blk('Variants',`<div class="note" style="margin:0 0 6px">Prepared at the Forge's Preparation bench, each is a material of its own, a quarter dearer, and better for some parts.</div><div class="mlist">${procList(m).map(v=>`<div style="padding:5px 9px;border:1px solid var(--line);border-radius:8px"><b>${esc(varName(m,v))}</b><div style="font-size:.8rem">${esc(v[3])} <span style="color:var(--green)">Best for: ${v[2].map(k=>({edge:'edges',point:'points',blunt:'heads',shaft:'hafts and frames',flex:'bow limbs',string:'strings and cords',cover:'armour plates',lining:'linings',fit:'grips and fittings',focus:'focuses and inlays',brew:'brews',liquid:'brew bases',shift:'everchanging cores'}[k]||k)).join(', ')}.</span></div></div>`).join('')}</div>`):m.variant?blk('Variant of',`<div class="chips">${refChip(findMat(m.baseN)||m)}</div>`):'')
+        
         +blk('Source',src?`<div style="font-size:.88rem;color:var(--text2)">${src}</div>`:'')
         +blk('Dropped by',mons.length?`<div class="chips">${mons.map(x=>{const d=(x.drops||[]).find(d=>lc(d[0])===lc(m.n));return refChip(x,esc(x.n)+(d&&d[2]?' ×'+d[2]:''),x.realm+' '+x.g)}).join('')}</div>${mons.some(x=>(x.drops||[]).some(d=>lc(d[0])===lc(m.n)&&d[2]))?'<div class="note">×N: how many one corpse holds.</div>':''}`:'')
         +blk('Signature material of',gods.length?`<div class="chips">${gods.map(g=>refChip(g,esc(godKey(g)))).join('')}</div>`:'')
@@ -3030,6 +3027,10 @@ const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the st
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
   ['2026-10-28','New player guide','A New player guide (in the Reference menu, and linked from Home) shows every feature of FAND in plain words, with seven hands-on tutorials that open the real pages and point at the real buttons: finding anything, your first character, rolling dice, gear and crafting, the world of Vestige, running a game, and your account. It keeps track of the ones you have done, and has a short list of FAND\'s own words to know.','guide'],
+  ['2026-10-28','A shop for every market','A new Shop page under Items & Crafting. Pick a realm, a settlement size, and one of eight kinds of shop (a smithy, an alchemist, a monster-parts dealer, and more), each run by a named merchant, then buy materials and vault Blueprints with your character\'s own coin. Shops charge half again over list price, buying is limited by what you can afford and how much your pack holds, and merchants buy your materials back at half the list price. In the realms with their own coin, a moneychanger swaps gold for local coin and keeps a tenth. The DM can raise or lower a market\'s prices and restock it. Every purchase, sale, and exchange can be undone.','shop'],
+  ['2026-10-28','Spoils and Standing','Two additions for the table. Spoils: when every monster in the combat tracker is down (or you end the fight), a Spoils panel offers the haul, sized by the fight (a pouch, a chest, or a hoard of the realm\'s coin and materials, sometimes a named item), with a line for the DM to read, coins split between the party in one tap, everything else handed to whoever the DM picks, and a line in each character\'s log. The corpses still go through scavenging. The encounter builder can preview what a fight is likely to drop. Standing: on the Party page, each faction the party has met (a god, a Magic Tower, a realm\'s smiths, or one of your own) has a standing from Hostile to Honored that the DM moves a step at a time with a reason. A god you hold a contract with starts at Friendly. It shows on the character sheet and on Magic Tower pages, and the Forge offers to raise a realm\'s smiths when you do a master\'s task. It never changes prices or rules by itself.'],
+  ['2026-10-28','Material variants removed','Prepared variants of materials (tanned hide, seasoned wood, folded steel, and the rest) and the Preparation bench are gone: they added steps without adding much to play. Anything a character had prepared is back in their pack as the plain material, and items forged from prepared materials keep working.'],
+  ['2026-10-28','The Forge tells a story','The Forge reads more like a scene at the table and less like a spreadsheet. Before you strike, it tells you how hard the work is in words (easy work, a fair challenge, beyond their skill) instead of odds and DCs, and the roll shows your total but not the DC. The hire list is now a few named smiths in each realm (an apprentice, a journeyman, an expert, and the realm\'s master) instead of a hundred levels. The rules underneath are the same. In the DM\'s view (Settings, How you play), or with Show the numbers ticked at the anvil, the odds, DCs, and levels come back.'],
   ['2026-10-28','Condition timers in combat','Conditions in the combat tracker can have a timer: type the rounds in the small box before you pick the condition, or click a condition\'s ⏱ to set or change it. It counts down at the start of that creature\'s turn, turns red on its last round, and when it runs out the condition ends and the tracker says so. Conditions with no timer stay until you remove them.'],
   ['2026-10-28','A smoother shooting star','The home page\'s shooting star now glides after your pointer instead of jumping between mouse positions, and its tail is one smooth, tapering ribbon that curves with your path, with no beads or corners along it.'],
   ['2026-10-27','Easier to read and tap','A pass over every page for readability: muted text, hints, table headers, and the green, blue, red, grey, and orange badges are darker in light mode so they meet the usual contrast standard, and realm-coloured badges and links (Heaven\'s yellow, Human\'s grey) are toned to stay readable on light pages. In dark mode, hint text is brighter and primary buttons use a deeper purple behind their white text. On phones no text is smaller than 11px, and the tap-to-roll numbers on the character sheet have a finger-sized tap area.'],
@@ -3942,13 +3943,7 @@ function renderTools(){
   $('e-go').onclick=roll;roll();
   // Treasure: gold follows the realm's prices and rises 15% a level above the realm's own band; materials are the realm's own,
   // their grade climbing one a level inside the realm's band, as Tower rewards do; items come from Blueprints at or near the level.
-  const loot=()=>{const rn=$('l-realm').value,lv=Math.max(1,Math.min(MAX_LEVEL,+$('l-lv').value||1)),sz=+$('l-size').value,R=Math.random,pk=a=>a[Math.floor(R()*a.length)];
-    const start=towerStart(rn),over=Math.max(0,lv-start),gold=Math.max(1,Math.round(realmBase(rn)*[2,8,30][sz]*(1+0.15*Math.min(over,20))*(0.6+R()*0.8)));
-    const grade=Math.max(1,Math.min(10,1+Math.max(0,lv-start))),mats=[];
-    for(let k=0,n=[1,2+Math.floor(R()*2),4+Math.floor(R()*3)][sz];k<n;k++){const gg=Math.max(1,Math.min(10,grade+(R()<.25?1:0)-(R()<.25?1:0))),pool=MATS.filter(m=>m.realm===rn&&!m.gen&&m.g===gg);if(pool.length){const m=pk(pool),had=mats.find(x=>x.m===m);had?had.q++:mats.push({m,q:1+(sz===2?Math.floor(R()*3):0)})}}
-    const RAR=['Common','Uncommon','Rare','Very Rare','Legendary'],BL=Math.min(20,lv),rmax=RAR[Math.min(4,Math.floor((BL-1)/4)+(sz===2?1:0))];
-    const items=[];for(const ch of [[.15,.5,1][sz],sz===2?.5:0]){if(R()<ch){const bp=BPS.filter(b=>b.lv<=BL+1&&b.lv>=Math.max(1,BL-3)&&RAR.indexOf(b.r)<=RAR.indexOf(rmax)&&!['Food','Crop','Fertilizer','Livestock','Structure','Fortification'].includes(b.cat));if(bp.length)items.push(pk(bp))}}
-    const val=gold+mats.reduce((a,x)=>a+(x.m.price||0)*x.q,0);
+  const loot=()=>{const rn=$('l-realm').value,lv=Math.max(1,Math.min(MAX_LEVEL,+$('l-lv').value||1)),sz=+$('l-size').value,{start,gold,grade,mats,items,val}=rollTreasure(rn,lv,sz);
     $('l-out').innerHTML=`<div class="mlist"><div class="enc-row" style="padding:8px 12px"><b>${gp(gold)}</b>${localPrice(gold,rn)?` <span class="note" style="margin:0">(${localPrice(gold,rn)})</span>`:''}</div>${mats.map(x=>`<div class="enc-row" style="padding:8px 12px">${x.q>1?x.q+' × ':''}${refChip(x.m,esc(x.m.n),'G'+x.m.g)}</div>`).join('')}${items.map(b=>`<div class="enc-row" style="padding:8px 12px">${refChip(b,esc(b.n),b.r)}</div>`).join('')}</div>
       <div class="note">About ${gp(val)} in all (materials at list price). Grade ${grade} fits level ${lv} in the ${esc(rn)} Realm${lv<start?`, which is above the party (its band starts at level ${start})`:''}.</div>`};
   $('l-go').onclick=loot;['l-realm','l-lv','l-size'].forEach(i=>$(i).addEventListener('change',loot));loot();
@@ -4058,6 +4053,14 @@ const BP_IDX=new Map();BPS.forEach(b=>{if(!BP_IDX.has(lc(b.n)))BP_IDX.set(lc(b.n
 let findBP=n=>BP_IDX.get(lc(n||''));
 const godByKey=n=>GOD_IDX.get(lc(n||''));
 let PARTY=store.get('party',[]);
+// variants were removed: a pack holding "Wolf Hide (Tanned)" now holds Wolf Hide (added to any Wolf Hide already there)
+(()=>{let ch=0;(Array.isArray(PARTY)?PARTY:[]).forEach(c=>{
+  if(Array.isArray(c.inv)&&c.inv.some(r=>Array.isArray(r)&&unprep(r[0])!==r[0])){ch=1;
+    const out=c.inv.filter(r=>Array.isArray(r)&&unprep(r[0])===r[0]);
+    c.inv.forEach(r=>{if(!Array.isArray(r)||unprep(r[0])===r[0])return;const b=unprep(r[0]),ex=out.find(x=>lc(x[0])===lc(b));if(ex)ex[1]=(+ex[1]||0)+(+r[1]||0);else out.push([b].concat(r.slice(1)))});
+    c.inv=out}
+  if(Array.isArray(c.gear)&&c.gear.some(n=>unprep(n)!==n)){ch=1;c.gear=c.gear.map(unprep)}});
+  if(ch)store.set('party',PARTY)})();
 // A forged item lives in its maker's saved designs, so on anyone else's device (the DM, the other players in a campaign)
 // the character's gear was only a name. Each character now carries a copy of its forged items (fd: name -> record), for
 // reading only: the item still belongs to, and changes only for, the one who forged it.
@@ -4883,7 +4886,7 @@ function renderSheet(){
       <ul class="sh-ul">${(c.log||[]).slice().reverse().map(x=>`<li>${esc(x.d||'')} · ${esc(x.deed)}${x.lv?` <b>→ level ${x.lv}</b>`:''}</li>`).join('')||'<li class="note">Nothing recorded yet.</li>'}</ul><div class="sh-lab">Accomplishments</div></div>
     <div class="sh-hgrid" style="margin-bottom:12px">${[['age','Age'],['height','Height'],['weight','Weight'],['eyes','Eyes'],['skin','Skin'],['hair','Hair']].map(([k,l])=>`<div>${inp('look.'+k,l)}<div class="sh-lab">${l}</div></div>`).join('')}</div>
     <div class="sh-cols" style="grid-template-columns:1fr 2fr"><div class="sh-col">${box('Character appearance',ta('appearance','',10))}${box('Character backstory',ta('backstory','',16))}</div>
-    <div class="sh-col">${box('Allies &amp; organizations',`<div class="sh-row"><span>Symbol / name</span>${inp('orgName','Faction or order')}</div>${ta('allies','',8)}`)}${box('Additional features &amp; traits',ta('features2','',8))}${box('Notes',ta('notes','Session notes, goals, debts, rumours',6))}${box('Treasure',`${ta('treasure','',6)}${(c.inv||[]).length?`<div class="note">Materials carried (Party page): ${(c.inv||[]).map(([n,q])=>q+'× '+esc(n)).join(', ')}</div>`:''}`)}</div></div>`;
+    <div class="sh-col">${standSheetHTML(c)?box('Standing',standSheetHTML(c)):''}${box('Allies &amp; organizations',`<div class="sh-row"><span>Symbol / name</span>${inp('orgName','Faction or order')}</div>${ta('allies','',8)}`)}${box('Additional features &amp; traits',ta('features2','',8))}${box('Notes',ta('notes','Session notes, goals, debts, rumours',6))}${box('Treasure',`${ta('treasure','',6)}${(c.inv||[]).length?`<div class="note">Materials carried (Party page): ${(c.inv||[]).map(([n,q])=>q+'× '+esc(n)).join(', ')}</div>`:''}`)}</div></div>`;
   const cc=CAST_ABIL[c.cls]||!c.cls2?c.cls:c.cls2,ca=CAST_ABIL[cc],sch=(c.schools||[]).filter(x=>x&&x.n),slots0=mcSlots(c,L1,L2),slots=schoolSlots(slots0,sch.length),sm=ca?M(ca):0;
   const schM=n=>{const x=sch.find(y=>y.n===n);return x?x.m:0},canTake=sp=>!slots0||!SP.length?true:sp.lv===0?schM(sp.sc)>0:schoolMax(cc,schM(sp.sc),slots0)>=sp.lv;
   const ptsLeft=L-sch.reduce((a,x)=>a+x.m,0),sugg=new Set(cc&&SP.length?[...schoolsOf(cc),...(c.cls2&&CAST_ABIL[c.cls2]&&c.cls2!==cc?schoolsOf(c.cls2):[])].map(x=>x[0]):[]),opts=cc&&SP.length?allSchools().filter(([n])=>schoolOk(c,n,sch)).sort((a,b)=>(sugg.has(b[0])-sugg.has(a[0]))||b[1]-a[1]):[];
@@ -5127,6 +5130,60 @@ function sheetSchool(op,i){const c=sheetChar();c.schools=(c.schools||[]).filter(
   saveParty();renderSheet()}
 function sheetSpellAdd(lv){const c=sheetChar(),v=$('sp-add-'+lv).value.trim();if(!v)return;c.spells=c.spells||{};(c.spells[lv]=c.spells[lv]||[]).push(v);const sp=SP.find(x=>lc(x.n)===lc(v));c.spBound=c.spBound||{};if(!c.spBound[lc(v)])c.spBound[lc(v)]=(sp&&spellHome(sp))||c.here||'Human';saveParty();renderSheet()}
 function sheetSpellRm(lv,i){const c=sheetChar();c.spells[lv].splice(i,1);saveParty();renderSheet()}
+// ── Standing: how the powers of Vestige see the party. Six steps from Hostile to Honored, kept on each character (so a
+// shared campaign shows every player their own), moved by the DM a step at a time with a reason. It never changes prices
+// or rules by itself: each step says what it usually means, and the DM applies it ──
+const STAND=[[-2,'Hostile','They work against you','Agents, bounties, closed doors; they may act without being provoked','red'],
+  [-1,'Wary','They want nothing to do with you','No services or help; questions asked; prices may be doubled','gold2'],
+  [0,'Unknown','You are no one to them yet','Ordinary dealings; where every faction starts','muted'],
+  [1,'Friendly','They know you and like you','Services offered, small favours, rumours and leads','green'],
+  [2,'Trusted','You are one of theirs','Shelter, better prices, real quests, an introduction where it counts','acc2'],
+  [3,'Honored','Your name carries weight','A great favour once in a while; they will act on your word','gold']];
+const standStep=n=>STAND.find(x=>x[0]===n)||STAND[2];
+const standPill=n=>{const S=standStep(n);return `<span class="b" style="color:var(--${S[4]});background:color-mix(in srgb,var(--${S[4]}) 14%,transparent);border-color:color-mix(in srgb,var(--${S[4]}) 35%,transparent)" title="${esc(S[2]+'. '+S[3]+'.')}">${esc(S[1])}</span>`};
+const charGods=c=>[c.god,...(c.extra||[]).map(x=>x.god)].filter(Boolean);
+// every faction the DM can pick: the gods, the Magic Towers, each realm's smiths, and the DM's own
+function standCatalog(){const L=[];
+  GODS.forEach(g=>L.push({id:'god:'+godKey(g),n:godShort(g),k:'God'}));
+  Object.entries(MAGIC_TOWERS).forEach(([sc,t])=>L.push({id:'tower:'+sc,n:t[0],k:'Magic Tower'}));
+  Object.entries(SMITHS).forEach(([z,S])=>L.push({id:'smith:'+z,n:'The smiths of the '+z+' Realm',k:'Smiths',d:'led by '+S[0]}));
+  (store.get('factions',[])||[]).forEach(f=>f&&f.id&&L.push(Object.assign({k:'Faction'},f)));return L}
+const standInfo=id=>{const c=standCatalog().find(x=>x.id===id);if(c)return c;for(const ch of PARTY){const e=(ch.standing||{})[id];if(e&&e.n)return {id,n:e.n,k:e.k||'Faction'}}return {id,n:id.replace(/^\w+:/,''),k:'Faction'}};
+// a character's standing with a faction; a god they hold a contract with is at least Friendly
+function standOf(c,id){const e=(c.standing||{})[id];let s=e?+e.s||0:0;if(/^god:/.test(id)&&charGods(c).some(g=>lc(g)===lc(id.slice(4))))s=Math.max(s,1);return s}
+// the factions this party has met: anything moved for someone, plus the gods they hold contracts with
+function standKnown(){const ids=new Set();PARTY.forEach(c=>{Object.keys(c.standing||{}).forEach(k=>ids.add(k));charGods(c).forEach(g=>{const G=godByKey(g);ids.add('god:'+(G?godKey(G):g))})});return [...ids].map(standInfo)}
+function standMove(id,d,why,who){const f=standInfo(id),T=who?PARTY.filter(c=>c.id===who):PARTY.filter(c=>clCanEdit(c));if(!T.length){toast('Add a character first');return}
+  const snap=T.map(c=>JSON.stringify(c)),moved=[];
+  T.forEach(c=>{const from=standOf(c,id),to=Math.max(-2,Math.min(3,from+d));if(to===from)return;c.standing=c.standing||{};c.standing[id]={s:to,n:f.n,k:f.k};
+    c.standingLog=(c.standingLog||[]).concat({d:new Date().toISOString().slice(0,10),f:id,n:f.n,from,to,why:why||''}).slice(-60);moved.push(c.name||'Unnamed')});
+  if(!moved.length){toast(f.n+(d>0?' can\'t think any better of them':' can\'t think any worse of them'));return}saveParty();if(TAB==='party')renderParty();else if(TAB==='forge')renderForge();
+  undoToast(`${f.n}: ${d>0?'raised':'lowered'} for ${moved.join(', ')}`,()=>{T.forEach((c,i)=>{const o=JSON.parse(snap[i]);Object.keys(c).forEach(k=>{if(!(k in o))delete c[k]});Object.assign(c,o)});saveParty();if(TAB==='party')renderParty()})}
+function standNewFaction(){const n=($('st-fn')||{}).value?.trim(),k=($('st-fk')||{}).value?.trim()||'Faction',d=($('st-fd')||{}).value?.trim()||'';if(!n){toast('Name the faction first');return}
+  const L=store.get('factions',[])||[],id='f:'+lc(n).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');if(L.some(f=>f.id===id)||standCatalog().some(f=>f.id===id)){toast(n+' is already on the list');return}
+  L.push({id,n,k,d});store.set('factions',L);ST_PICK=id;toast(n+' added: pick it and move the party\'s standing');renderParty()}
+let ST_PICK='';
+function standingHTML(){if(!PARTY.length)return '';const known=standKnown(),dm=role()!=='player',cat=standCatalog(),kn=new Set(known.map(f=>f.id));
+  const row=f=>{const vals=PARTY.map(c=>standOf(c,f.id)),same=vals.every(v=>v===vals[0]),last=PARTY.flatMap(c=>(c.standingLog||[]).filter(x=>x.f===f.id)).sort((a,b)=>(a.d<b.d?1:-1))[0];
+    return `<tr><td><b>${esc(f.n)}</b><div class="note" style="margin:0">${esc(f.k)}${f.d?' · '+esc(f.d):''}</div></td><td>${same?standPill(vals[0]):PARTY.map((c,i)=>`<span style="white-space:nowrap">${esc(c.name||'?')} ${standPill(vals[i])}</span>`).join(' ')}</td><td class="note">${last?`${esc(last.why||'')}${last.why?' · ':''}<small>${esc(standStep(last.from)[1])} → ${esc(standStep(last.to)[1])}, ${esc(last.d)}</small>`:/^god:/.test(f.id)?'<small>a contract with this god</small>':'<small>—</small>'}</td></tr>`};
+  const grp=(label,list)=>list.length?`<optgroup label="${esc(label)}">${list.map(f=>`<option value="${esc(f.id)}"${ST_PICK===f.id?' selected':''}>${esc(f.n)}</option>`).join('')}</optgroup>`:'';
+  return `<details class="panel" style="margin-bottom:14px" ${store.get('standOpen',true)?'open':''} ontoggle="store.set('standOpen',this.open)"><summary style="cursor:pointer;font-family:var(--serif);font-weight:700;font-size:1.1rem">⚖ Standing <span class="note" style="margin:0;font-family:var(--sans);font-weight:400">${known.length?known.length+' faction'+(known.length===1?'':'s')+' know the party':'how the powers of Vestige see the party'}</span></summary>
+    ${known.length?`<div class="tablewrap" style="margin-top:10px"><table class="t"><thead><tr><th>Faction</th><th>Standing</th><th>Last change</th></tr></thead><tbody>${known.map(row).join('')}</tbody></table></div>`:'<p class="note" style="margin:8px 0 0">No faction knows the party yet. A god they hold a contract with shows here by itself.</p>'}
+    <div class="note" style="margin:8px 0 0">${STAND.map(x=>`${standPill(x[0])} ${esc(x[2].toLowerCase())}`).join(' · ')}. Standing never changes prices or rules by itself: it says what each step usually means, and the DM applies it.</div>
+    ${dm?`<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px;padding-top:10px;border-top:1px solid var(--line)">
+      <select class="sel" id="st-f" style="max-width:260px" onchange="ST_PICK=this.value"><option value="">Choose a faction…</option>${grp('Already know the party',cat.filter(f=>kn.has(f.id)).concat(known.filter(f=>!cat.some(c=>c.id===f.id))))}${grp('Your factions',cat.filter(f=>f.k!=='God'&&f.k!=='Magic Tower'&&f.k!=='Smiths'&&!kn.has(f.id)))}${grp('Smiths',cat.filter(f=>f.k==='Smiths'&&!kn.has(f.id)))}${grp('Magic Towers',cat.filter(f=>f.k==='Magic Tower'&&!kn.has(f.id)))}${grp('Gods',cat.filter(f=>f.k==='God'&&!kn.has(f.id)))}</select>
+      <select class="sel" id="st-who" style="max-width:170px"><option value="">The whole party</option>${PARTY.filter(c=>clCanEdit(c)).map(c=>`<option value="${c.id}">${esc(c.name||'Unnamed')}</option>`).join('')}</select>
+      <input class="sel" id="st-why" placeholder="Why? (Returned the lantern to Nim)" style="flex:1;min-width:180px;max-width:none">
+      <button class="btn" onclick="standGo(1)">▲ Raise</button><button class="btn" onclick="standGo(-1)">▼ Lower</button></div>
+      <details style="margin-top:8px"><summary class="note" style="cursor:pointer">+ A faction of your own</summary><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><input class="sel" id="st-fn" placeholder="Name (House Varrow)" style="max-width:200px"><input class="sel" id="st-fk" placeholder="Kind (guild, house, cult…)" style="max-width:180px"><input class="sel" id="st-fd" placeholder="Who they are (optional)" style="flex:1;min-width:160px;max-width:none"><button class="btn" onclick="standNewFaction()">Add</button></div></details>`:''}
+  </details>`}
+function standGo(d){const id=($('st-f')||{}).value;if(!id){toast('Choose a faction first');return}ST_PICK=id;standMove(id,d,($('st-why')||{}).value.trim(),($('st-who')||{}).value)}
+// the sheet's Standing box: what this character's factions think of them
+function standSheetHTML(c){const ids=new Set([...Object.keys(c.standing||{}),...charGods(c).map(g=>{const G=godByKey(g);return 'god:'+(G?godKey(G):g)})]);if(!ids.size)return '';
+  return `<ul class="sh-ul">${[...ids].map(id=>{const f=standInfo(id),last=(c.standingLog||[]).filter(x=>x.f===id).slice(-1)[0];return `<li>${standPill(standOf(c,id))} <b>${esc(f.n)}</b>${last&&last.why?` <small style="color:var(--muted)">· ${esc(last.why)}</small>`:''}</li>`}).join('')}</ul>`}
+// on a Magic Tower's page: where the party stands with it, beside the tower ranks
+function standTowerHTML(school){if(!PARTY.length)return '';const id='tower:'+school,vals=PARTY.map(c=>standOf(c,id)),same=vals.every(v=>v===vals[0]);
+  return `<div class="note" style="margin:4px 0 8px">⚖ The party's standing here: ${same?standPill(vals[0]):PARTY.map((c,i)=>esc(c.name||'?')+' '+standPill(vals[i])).join(' ')}. As a guide for the DM, Member suits Friendly or better, and Archmage suits Honored. <a href="${pageUrl('party')}" data-go="party">Change it on the Party page</a>.</div>`}
 function renderParty(){
   if(!PARTY_SEL&&PARTY.length)PARTY_SEL=PARTY[0].id;
   const c=PARTY.find(x=>x.id===PARTY_SEL);
@@ -5134,6 +5191,7 @@ function renderParty(){
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Party</h3><p>Characters, contracts, gear, materials, and money. Saved in this browser${CL.on?' (and in your account when you sign in)':''}; export to share or back up.</p>
       <span style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap"><button class="btn primary" onclick="charWizard()" title="A step-by-step guide for new players">✨ Build one for me</button><button class="btn" onclick="addChar()">+ Add character</button><button class="btn" onclick="exportParty()">Export</button><button class="btn" onclick="clearPartyNotes()" title="Empty the Notes box of every character on this device">Clear all notes</button><label class="btn" style="cursor:pointer">Import<input type="file" accept=".json,application/json" style="display:none" onchange="importParty(this)"></label></span></div>
     ${campPanelHTML()}
+    ${standingHTML()}
     ${PARTY.length?`<div class="chips" style="margin-bottom:14px">${PARTY.map(x=>{const s=charStats(x);return `<button class="chip" style="padding:6px 12px;font-size:.85rem${x.id===PARTY_SEL?';border-color:var(--gold);background:var(--goldbg)':''}" onclick="PARTY_SEL='${x.id}';renderParty()"><b>${esc(x.name||'Unnamed')}</b> <small>Lv ${x.level||1} ${esc(x.cls||'')} · AC ${s.ac}${x.camp&&CL.user?' · 🌐'+(x._by?' '+esc(x._by.n||''):''):''}</small></button>`}).join('')}</div>`:`<div class="empty"><b>No characters yet</b>Add the party to track contracts, rivals, gear, and materials.</div>`}
     ${c?campCharHTML(c)+charEditor(c):''}</div>`;
   if(c)bindChar(c);
@@ -5227,7 +5285,8 @@ function renderEncounter(){
     </div>
     <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><button class="btn primary" onclick="rollEncounter()">🎲 Build encounter</button>
       <span class="keyrow" style="flex:1;min-width:260px"><input class="sel" id="en-add" list="dl-mon" placeholder="Or add a monster by name…" style="max-width:none;flex:1"><button class="btn" onclick="addEncMon()">Add</button></span>
-      <button class="btn" onclick="sendToCombat()">Send to combat tracker →</button></div></div>
+      <button class="btn" onclick="encSpoils()" title="What this fight is likely to drop">🎁 Preview spoils</button>
+      <button class="btn" onclick="sendToCombat()">Send to combat tracker →</button></div><div id="en-spoils" style="margin-top:10px"></div></div>
     <div id="en-out" style="margin-top:14px"></div></div>`;
   ['en-size','en-lv','en-realm','en-diff','en-hb','en-champ'].forEach(i=>$(i).addEventListener('change',()=>{saveEncInputs();encOut()}));
   encOut();
@@ -5275,6 +5334,10 @@ function encOut(msg){
     ${list.length?`<div class="mlist">${list.map(x=>`<button ${x.m.champ?`data-champ="${esc(x.m.n)}"`:`data-ref="${ref(x.m)}"`}><b style="width:36px">${x.k}×</b>${x.m.champ?'<span class="b gold" title="Champion: a monster with a class">★</span> ':''}${esc(x.m.n)} <span class="x">${esc(x.m.realm)} ${x.m.g} · CR ${esc(x.m.sb.cr)} · AC ${x.m.sb.ac} · HP ${x.m.sb.hp}</span><span class="r">${x.m.champ?'':`<span onclick="event.stopPropagation();encChamp(${esc(JSON.stringify(x.m.n))})" title="Make one of these a champion (a random class)">★</span> `}<span onclick="event.stopPropagation();encSet(${esc(JSON.stringify(x.m.n))},1)" title="One more">＋</span> <span onclick="event.stopPropagation();encSet(${esc(JSON.stringify(x.m.n))},-1)" title="One fewer">－</span> ${fmt(monXP(x.m)*x.k)} XP</span></button>`).join('')}</div>`:'<div class="note" style="margin:0">Press “Build encounter” or add monsters by name.</div>'}
   </div>`;
 }
+function encSpoils(){const st=store.get('enc',{}),list=(st.list||[]).map(([n,k])=>({m:MON_IDX.get(lc(n)),k})).filter(x=>x.m);if(!list.length){toast('Build an encounter first');return}
+  const count=list.reduce((a,x)=>a+x.k,0),adj=list.reduce((a,x)=>a+monXP(x.m)*x.k,0)*xpMult(count),th=encBudget(st);let di=-1;th.forEach((t,i)=>{if(adj>=t)di=i});
+  const realm=st.realm||list[0].m.realm,sz=list.some(x=>x.m.champ)||DIFFS[di]==='Deadly'?2:di>=1?1:0,T=rollTreasure(realm,+st.level||1,sz),c=spoilCoins(T.gold,realm),el=$('en-spoils');if(!el)return;
+  el.innerHTML=`<div class="note" style="margin:0 0 6px"><b>Likely spoils:</b> ${esc(SPOIL_SIZE[sz])} (${esc(di<0?'Trivial':DIFFS[di])} fight). One roll; the real haul is rolled when the fight ends in the combat tracker.</div><div class="chips"><span class="chip" style="cursor:default">🪙 ${fmt(c.n)} ${esc(c.pl)}</span>${T.mats.map(x=>refChip(x.m,(x.q>1?x.q+'× ':'')+esc(x.m.n),'G'+x.m.g)).join('')}${T.items.map(b=>refChip(b,esc(b.n),b.r)).join('')}</div>`}
 function sendToCombat(){
   const st=store.get('enc',{}),cb=store.get('combat',{round:1,turn:0,list:[]});
   (st.list||[]).forEach(([n,k])=>{const m=MON_IDX.get(lc(n));if(!m)return;const have=cb.list.filter(x=>x.mon===m.n).length;for(let i=0;i<k;i++)cb.list.push(monCombatant(m,k>1||have?have+i+1:0))});
@@ -5298,6 +5361,15 @@ const saveCB=()=>{store.set('combat',CB);cbPushHP(CB)};
 // ════════════════════════════════════════════════════════════════
 //  Adventure hooks: built from the gods, Runes, realms, monsters, and materials on this site
 // ════════════════════════════════════════════════════════════════
+// One treasure roller for the Tools page and Spoils: gold at the realm's prices, materials of the realm at a grade that
+// fits the party's level, and a chance of a named item. sz: 0 a pouch (one foe), 1 a chest (an encounter), 2 a hoard.
+function rollTreasure(rn,lv,sz,R){R=R||Math.random;const pk=a=>a[Math.floor(R()*a.length)];
+  const start=towerStart(rn),over=Math.max(0,lv-start),gold=Math.max(1,Math.round(realmBase(rn)*[2,8,30][sz]*(1+0.15*Math.min(over,20))*(0.6+R()*0.8)));
+  const grade=Math.max(1,Math.min(10,1+Math.max(0,lv-start))),mats=[];
+  for(let k=0,n=[1,2+Math.floor(R()*2),4+Math.floor(R()*3)][sz];k<n;k++){const gg=Math.max(1,Math.min(10,grade+(R()<.25?1:0)-(R()<.25?1:0))),pool=MATS.filter(m=>m.realm===rn&&!m.gen&&m.g===gg);if(pool.length){const m=pk(pool),had=mats.find(x=>x.m===m);had?had.q++:mats.push({m,q:1+(sz===2?Math.floor(R()*3):0)})}}
+  const RAR=['Common','Uncommon','Rare','Very Rare','Legendary'],BL=Math.min(20,lv),rmax=RAR[Math.min(4,Math.floor((BL-1)/4)+(sz===2?1:0))];
+  const items=[];for(const ch of [[.15,.5,1][sz],sz===2?.5:0]){if(R()<ch){const bp=BPS.filter(b=>!b.design&&b.lv<=BL+1&&b.lv>=Math.max(1,BL-3)&&RAR.indexOf(b.r)<=RAR.indexOf(rmax)&&!['Food','Crop','Fertilizer','Livestock','Structure','Fortification'].includes(b.cat));if(bp.length)items.push(pk(bp))}}
+  return {start,gold,grade,mats,items,val:gold+mats.reduce((a,x)=>a+(x.m.price||0)*x.q,0)}}
 function rng32(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 const HOOK_KINDS=[['contract','A god\'s contract'],['rival','A Rune feud'],['progenitor','A progenitor\'s remains'],['hunt','A hunt'],['craft','A commission'],['pact','A dark offer'],['inane','Signs of Inane']];
 function hookRealms(level,realm){const k=stageOf(level);const rs=REALMS.filter(r=>realm?r.n===realm:tierStage(r.tier)<=k&&r.tier<=Math.max(2,bandOf(level)+1));return rs.length?rs:REALMS.filter(r=>r.tier===1)}
@@ -5985,6 +6057,79 @@ function towerCardGive(id,school,fromSheet){const c=PARTY.find(x=>x.id===id);if(
   c.towerCards=(c.towerCards||[]).concat({t:school,used:0});saveParty();toast(`${c.name||'They'} now hold${c.name?'s':''} the ${(MAGIC_TOWERS[school]||[school])[0]} card`);fromSheet?renderSheet():renderMagic()}
 function towerCardUse(i){const c=sheetChar(),x=(c.towerCards||[])[i];if(!x)return;if(x.used){toast('Already used: it recharges on a long rest');return}x.used=1;saveParty();toast(`Teleported to ${(MAGIC_TOWERS[x.t]||[x.t])[0]}: one hour, then back to where you stood`);renderSheet()}
 function towerCardRm(i){const c=sheetChar();if(!confirm('Give up this card?'))return;c.towerCards.splice(i,1);saveParty();renderSheet()}
+// ════════════════════════════════════════════════════════════════
+//  The Shop: a realm's market where characters spend and earn their own coin. Stock comes from the same shop roller as
+//  the Tools page; prices follow the Economy rules (shops charge 50% over list, merchants buy at half list, a moneychanger
+//  takes 10% to swap coin between realms). The DM may move prices for haggling or standing; nothing else changes.
+// ════════════════════════════════════════════════════════════════
+const SHOP_KEEP={smith:['Forge','hammers out blades and plate while you wait'],bowyer:['Workshop','smells of cedar shavings and linseed oil'],tanner:['Leatherworks','has hides drying on every rafter'],
+  alch:['Apothecary','keeps a hundred jars and knows what is in most of them'],jewel:['Gemcutter','weighs everything twice, including you'],arcane:['Curiosities','sells things that hum, glow, or whisper'],
+  butcher:['Monster Market','buys anything with teeth and sells it by the pound'],general:['Supply','has rope, lamps, rations, and an opinion on all of them']};
+function shopKeeper(realm,kind){const t=((REALM[realm]||{}).tier||1),k=SHOP_KINDS.findIndex(x=>x[0]===kind),f=SMITH_FIRST[(t*17+k*11)%SMITH_FIRST.length],l=SMITH_LAST[(t*7+k*13+3)%SMITH_LAST.length],K=SHOP_KEEP[kind]||['Shop','is ready to trade'];
+  return {name:f+' '+l,shop:l+'\'s '+K[0],line:f+' '+K[1]+'.'}}
+const shopCoin=rn=>{const C=CURRENCY[rn];return C&&C.coin&&C.gp?C:CURRENCY.Human};
+// common coins (copper to platinum) in gp
+const commonGp=c=>{const o=c.coins||{};return (+o.cp||0)/100+(+o.sp||0)/10+(+o.ep||0)/2+(+o.gp||0)+(+o.pp||0)*10};
+// what a character can pay in a realm, in that realm's coin; in the Human Realm the common coins count too
+// take an amount in gp from the common coins (change comes back as gold, silver, and copper)
+function commonTake(c,n){const o=c.coins=c.coins||{};let cp=Math.round(commonGp(c)*100-n*100);o.pp=0;o.ep=0;o.gp=Math.floor(cp/100);cp-=o.gp*100;o.sp=Math.floor(cp/10);o.cp=cp-o.sp*10}
+const shopHave=(c,rn)=>(+(c.purse||{})[rn]||0)+(rn==='Human'?commonGp(c):0);
+// whole local coins for a price in gp (at least one coin)
+const shopCoins=(gpv,rn)=>Math.max(1,Math.ceil(gpv/shopCoin(rn).gp-1e-9));
+function shopPay(c,rn,n){if(shopHave(c,rn)+1e-9<n)return false;c.purse=c.purse||{};const lp=+c.purse[rn]||0,a=Math.min(lp,n);c.purse[rn]=Math.round((lp-a)*100)/100;let rest=n-a;
+  if(rest>1e-9&&rn==='Human')commonTake(c,rest);return true}
+function shopEarn(c,rn,gpv){if(rn==='Human'){const o=c.coins=c.coins||{};let cp=Math.round(gpv*100);const g=Math.floor(cp/100);o.gp=(+o.gp||0)+g;cp-=g*100;const sp=Math.floor(cp/10);o.sp=(+o.sp||0)+sp;o.cp=(+o.cp||0)+(cp-sp*10);return fmtCoin(gpv,rn)}
+  const n=Math.floor(gpv/shopCoin(rn).gp);if(n<1)return '';c.purse=c.purse||{};c.purse[rn]=(+c.purse[rn]||0)+n;return fmtCoin(n*shopCoin(rn).gp,rn)}
+const fmtCoin=(gpv,rn)=>{const C=shopCoin(rn);if(rn==='Human'){const cp=Math.round(gpv*100);return cp%100?(cp>=100?fmt(Math.floor(cp/100))+' gp ':'')+(cp%100>=10?Math.floor(cp%100/10)+' sp ':'')+(cp%10?cp%10+' cp':'').trim():fmt(cp/100)+' gp'}const n=Math.round(gpv/C.gp*100)/100;return fmt(n)+' '+(n===1?C.coin.toLowerCase():C.pl)};
+// what an item in a pack is worth at list price (a merchant pays half): materials at their price, vault goods at the shop's
+// cost basis without the markup; player designs aren't bought (each is one of a kind)
+function shopValue(n){const m=findMat(n);if(m&&m.price)return m.price;const b=findBP(n);if(b&&!b.design){const cost=(b.mats||[]).reduce((a,x)=>a+((findMat(x)||{}).price||0),0);return Math.max(5,Math.round((cost*1.5+b.lv*15)/5)*5)}return 0}
+let SHOPST=null;
+function shopState(){if(!SHOPST){SHOPST=Object.assign({realm:'Human',size:2,kind:'general',who:'',seed:(Math.random()*2**31)|0,adj:0,sold:{}},store.get('shop',{}))}if(!REALM[SHOPST.realm]||!REALM[SHOPST.realm].base)SHOPST.realm='Human';return SHOPST}
+const shopSave=()=>store.set('shop',SHOPST);
+function shopStock(){const S=shopState(),res=rollShop(S.realm,S.kind,+S.size,S.seed+S.realm.length*7+S.kind.length);if(!res)return null;const key=S.realm+'|'+S.kind+'|'+S.size+'|'+S.seed,gone=S.sold[key]||{},f=1+(+S.adj||0)/100;
+  return {key,rows:res.mats.map(x=>({it:x.m,n:x.m.n,sub:x.m.gr+(x.m.pn?' · '+x.m.pn:''),q:Math.max(0,x.q-(gone[x.m.n]||0)),price:Math.max(1,Math.round(x.price*f))})).concat(res.bps.map(x=>({it:x.b,n:x.b.n,sub:(genOf(x.b)||x.b.cat)+' · Lv '+x.b.lv+(x.b.r?' · '+x.b.r:''),q:Math.max(0,1-(gone[x.b.n]||0)),price:Math.max(1,Math.round(x.price*f)),bp:1})))}}
+function renderShop(){const S=shopState(),c=PARTY.find(x=>x.id===S.who)||PARTY[0]||null;if(c&&S.who!==c.id)S.who=c.id;const rn=S.realm,C=shopCoin(rn),K=shopKeeper(rn,S.kind),st=shopStock(),dm=role()!=='player';
+  const kinds=SHOP_KINDS.map(([k,l])=>`<button class="chip${k===S.kind?' on':''}" style="${k===S.kind?'background:var(--goldbg);border-color:var(--gold)':''}" onclick="SHOPST.kind='${k}';shopSave();renderShop()">${esc(l)}</button>`).join('');
+  const sellable=c?(c.inv||[]).map(([n,q])=>({n,q:+q||0,v:shopValue(n)})).filter(x=>x.q>0&&x.v>0):[];
+  const others=c?Object.entries(c.purse||{}).filter(([z,v])=>z!==rn&&+v>0&&CURRENCY[z]&&CURRENCY[z].coin).concat(rn!=='Human'&&commonGp(c)>0?[['Human (common coins)',commonGp(c)]]:[]):[];
+  $('content').innerHTML=`<div class="page shop">${datalists()}
+    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem;white-space:nowrap">Shop</h3><p>Buy and sell at a realm's market with a character's own coin. Shops charge 50% over list price, merchants buy at half the list price, and a moneychanger takes ${EXCHANGE_FEE*100}% to swap coin between realms.</p></div>
+    <div class="tool"><div class="form" style="grid-template-columns:repeat(4,1fr)">
+      <label>Market in<select id="sh-realm">${realmOpts(rn,r=>r.base)}</select></label>
+      <label>Settlement<select id="sh-size">${[['1','Village'],['2','Town'],['3','City'],['4','Capital']].map(([v,l])=>`<option value="${v}"${+S.size===+v?' selected':''}>${l}</option>`).join('')}</select></label>
+      <label>Shopping<select id="sh-who">${PARTY.length?PARTY.filter(x=>clCanEdit(x)).map(x=>`<option value="${x.id}"${c&&x.id===c.id?' selected':''}>${esc(x.name||'Unnamed')}</option>`).join(''):'<option value="">Add a character first</option>'}</select></label>
+      <div style="align-self:end">${c?`<div class="note" style="margin:0">Purse here: <b>${esc(fmtCoin(shopHave(c,rn)*C.gp,rn))}</b>${rn!=='Human'?` <small>(${esc(C.coin)}, ${gp(C.gp)} each)</small>`:''}</div>`:''}</div></div>
+      ${dm?`<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px"><label class="note" style="margin:0;display:flex;gap:6px;align-items:center" title="For haggling or a faction's standing: changes buying prices only">DM price change <select class="sel" id="sh-adj">${[[-25,'25% off'],[-10,'10% off'],[0,'None'],[10,'10% more'],[25,'25% more'],[100,'Double']].map(([v,l])=>`<option value="${v}"${+S.adj===v?' selected':''}>${l}</option>`).join('')}</select></label><button class="btn" onclick="SHOPST.seed=(Math.random()*2**31)|0;shopSave();renderShop()">🎲 Restock the market</button></div>`:''}</div>
+    <div class="chips" style="margin:12px 0">${kinds}</div>
+    <div class="cols" style="align-items:start">
+      <section class="panel"><div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><h4 style="margin:0;font-family:var(--serif);font-size:1.25rem">${esc(K.shop)}</h4><span class="note" style="margin:0">${esc(K.line)}</span></div>
+        ${!st||!st.rows.length?`<div class="empty" style="margin-top:10px">Nothing in stock here. Try a bigger settlement, another shop, or restock.</div>`:`<div class="tablewrap" style="margin-top:10px"><table class="t"><thead><tr><th>Item</th><th class="num">Stock</th><th class="num">Price</th><th></th></tr></thead><tbody>
+          ${st.rows.map((x,i)=>{const coins=shopCoins(x.price,rn),afford=c&&shopHave(c,rn)+1e-9>=coins;return `<tr${x.q?'':' style="opacity:.5"'}><td><a href="#" data-ref="${ref(x.it)}">${esc(x.n)}</a> <small style="color:var(--muted)">${esc(x.sub)}</small></td><td class="num">${x.q||'sold out'}</td><td class="num"><b>${esc(fmtCoin(coins*C.gp,rn))}</b>${rn!=='Human'?`<div class="note" style="margin:0">${gp(x.price)}</div>`:''}</td>
+            <td style="white-space:nowrap">${x.q&&c?`${x.q>1?`<input type="number" class="sel" id="sb-${i}" value="1" min="1" max="${x.q}" style="width:58px;display:inline-block"> `:''}<button class="btn${afford?' primary':''}" onclick="shopBuy(${i})"${afford?'':` title="Not enough ${esc(C.pl)} in the purse"`}>Buy</button>`:''}</td></tr>`}).join('')}</tbody></table></div>`}
+        ${c&&rn!=='Human'?`<div class="note" style="margin:8px 0 0">Prices are in ${esc(C.coin)}s (${gp(C.gp)} each). No local coin? Use the moneychanger.</div>`:''}</section>
+      <div style="display:flex;flex-direction:column;gap:14px">
+      <section class="panel"><h4 style="margin:0;font-family:var(--serif);font-size:1.15rem">Sell to ${esc(K.name)}</h4><div class="note" style="margin:2px 0 8px">Half the list price, paid in ${esc(rn==='Human'?'gold, silver, and copper':C.coin+'s')}. Your own forged designs are one of a kind and aren't bought.</div>
+        ${!c?'<div class="note">Choose who is shopping.</div>':sellable.length?`<div class="tablewrap"><table class="t"><thead><tr><th>In ${esc(c.name||'their')}'s pack</th><th class="num">Have</th><th class="num">Offer each</th><th></th></tr></thead><tbody>${sellable.map((x,i)=>`<tr><td>${esc(x.n)}</td><td class="num">${x.q}</td><td class="num">${esc(fmtCoin(x.v/2,rn))}</td><td style="white-space:nowrap">${x.q>1?`<input type="number" class="sel" id="ss-${i}" value="1" min="1" max="${x.q}" style="width:58px;display:inline-block"> `:''}<button class="btn" onclick="shopSell(${esc(JSON.stringify(x.n))},${i})">Sell</button></td></tr>`).join('')}</tbody></table></div>`:'<div class="note">Nothing in the pack a merchant will buy.</div>'}</section>
+      ${c&&rn!=='Human'?`<section class="panel"><h4 style="margin:0;font-family:var(--serif);font-size:1.15rem">Moneychanger</h4><div class="note" style="margin:2px 0 8px">Swap other coin for ${esc(C.coin)}s. The changer keeps ${EXCHANGE_FEE*100}%.</div>
+        ${others.length?`<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"><input type="number" class="sel" id="mc-n" value="1" min="1" style="width:80px"><select class="sel" id="mc-from" style="max-width:220px">${others.map(([z,v])=>`<option value="${esc(z)}">${esc(z==='Human (common coins)'?'gp (common coins)':CURRENCY[z].pl+' · '+z)} · have ${fmt(Math.floor(+v*100)/100)}</option>`).join('')}</select><button class="btn" onclick="shopChange()">Change</button></div>`:'<div class="note">No other coin in the purse to change.</div>'}</section>`:''}
+      </div></div></div>`;
+  $('sh-realm').onchange=e=>{S.realm=e.target.value;shopSave();renderShop()};$('sh-size').onchange=e=>{S.size=+e.target.value;shopSave();renderShop()};if($('sh-who'))$('sh-who').onchange=e=>{S.who=e.target.value;shopSave();renderShop()};if($('sh-adj'))$('sh-adj').onchange=e=>{S.adj=+e.target.value;shopSave();renderShop()}}
+function shopBuy(i){const S=shopState(),c=PARTY.find(x=>x.id===S.who),st=shopStock(),x=st&&st.rows[i];if(!c||!x||!x.q)return;const rn=S.realm,want=Math.max(1,Math.min(x.q,Math.round(+(($('sb-'+i)||{}).value)||1))),each=shopCoins(x.price,rn);
+  const afford=Math.floor((shopHave(c,rn)+1e-9)/each);if(!afford){toast(`${c.name||'They'} can't afford ${x.n}: ${fmtCoin(each*shopCoin(rn).gp,rn)} each. ${rn!=='Human'?'Try the moneychanger.':''}`);return}
+  const snap=JSON.stringify(c),soldWas=JSON.stringify(S.sold),q=Math.min(want,afford),got=invAdd(c,x.n,q,true,false);if(!got){toast(`${c.name||'Their'} pack is full`);return}
+  shopPay(c,rn,got*each);S.sold[st.key]=S.sold[st.key]||{};S.sold[st.key][x.n]=(S.sold[st.key][x.n]||0)+got;shopSave();saveParty();renderShop();
+  undoToast(`${c.name||'They'} bought ${got>1?got+' × ':''}${x.n} for ${fmtCoin(got*each*shopCoin(rn).gp,rn)}${got<want?` (${want-got>0&&got<afford?'the pack is full':'that is all they can afford'})`:''}`,()=>{const o=JSON.parse(snap);Object.keys(c).forEach(k=>{if(!(k in o))delete c[k]});Object.assign(c,o);S.sold=JSON.parse(soldWas);shopSave();saveParty();if(TAB==='shop')renderShop()})}
+function shopSell(n,i){const S=shopState(),c=PARTY.find(x=>x.id===S.who);if(!c)return;const row=(c.inv||[]).find(z=>z[0]===n);if(!row)return;const rn=S.realm,q=Math.max(1,Math.min(+row[1]||0,Math.round(+(($('ss-'+i)||{}).value)||1))),v=shopValue(n)/2*q;
+  const snap=JSON.stringify(c);const paid=shopEarn(c,rn,v);if(!paid){toast(`${n} is worth less than a ${shopCoin(rn).coin.toLowerCase()} here: no merchant will bother`);return}
+  row[1]=(+row[1]||0)-q;c.inv=c.inv.filter(z=>(+z[1]||0)>0);saveParty();renderShop();
+  undoToast(`${c.name||'They'} sold ${q>1?q+' × ':''}${n} for ${paid}`,()=>{const o=JSON.parse(snap);Object.keys(c).forEach(k=>{if(!(k in o))delete c[k]});Object.assign(c,o);saveParty();if(TAB==='shop')renderShop()})}
+function shopChange(){const S=shopState(),c=PARTY.find(x=>x.id===S.who);if(!c)return;const rn=S.realm,from=($('mc-from')||{}).value,n=Math.max(0,+(($('mc-n')||{}).value)||0);if(!from||!n)return;
+  const human=from==='Human (common coins)',have=human?commonGp(c):+(c.purse||{})[from]||0;if(n>have+1e-9){toast('Not that much in the purse');return}
+  const gpv=n*(human?1:CURRENCY[from].gp),got=Math.floor(gpv*(1-EXCHANGE_FEE)/shopCoin(rn).gp);if(got<1){toast(`Too little to make one ${shopCoin(rn).coin.toLowerCase()}`);return}
+  const snap=JSON.stringify(c);if(human)commonTake(c,n);else c.purse[from]=Math.round((have-n)*100)/100;
+  c.purse=c.purse||{};c.purse[rn]=(+c.purse[rn]||0)+got;saveParty();renderShop();
+  undoToast(`Changed ${fmt(n)} ${human?'gp':CURRENCY[from].pl} into ${fmt(got)} ${got===1?shopCoin(rn).coin.toLowerCase():shopCoin(rn).pl}`,()=>{const o=JSON.parse(snap);Object.keys(c).forEach(k=>{if(!(k in o))delete c[k]});Object.assign(c,o);saveParty();if(TAB==='shop')renderShop()})}
 function renderMagic(){
   const st=Object.assign({school:'Evocation',rank:'Visitor',who:'',q:'',lv:''},store.get('magic',{}));
   const schools=[...new Set(SP.map(s=>s.sc))].sort(),school=MAGIC_TOWERS[st.school]&&schools.includes(st.school)?st.school:schools[0]||'Evocation';
@@ -6000,7 +6145,7 @@ function renderMagic(){
     <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem;white-space:nowrap">Magic Towers</h3><p>Every school of magic is kept by its own Magic Tower, where its spells are taught and sold. Learn a spell for good, or buy a one-use scroll for a fifth of the price. What you can buy depends on your rank in the tower; Primary spells, bound to a Rune, are never sold.</p></div>
     <div class="chips" style="margin-bottom:12px">${schools.map(sc=>`<button class="chip${sc===school?' on':''}" data-mts="${esc(sc)}" style="${sc===school?'background:var(--goldbg);border-color:var(--gold)':''}">${esc((MAGIC_TOWERS[sc]||[sc])[0])} <small>${esc(sc)}</small></button>`).join('')}</div>
     <div class="panel" style="border-top:3px solid ${(REALM[trealm]||{}).color||'var(--gold)'}"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="margin:0;font-size:1.3rem;font-family:var(--serif)">${esc(tname)}</h4><span class="note" style="margin:0">${esc(school)} · ${REALM[trealm]?refChip(REALM[trealm],esc(realmLabel(trealm))):esc(trealm)} · ${list.length} spells</span></div>
-      <p style="font-style:italic;color:var(--text2);margin:6px 0">${esc(tdesc)}</p>
+      <p style="font-style:italic;color:var(--text2);margin:6px 0">${esc(tdesc)}</p>${standTowerHTML(school)}
       <div class="callout" style="border-color:var(--acc);margin:8px 0">🎴 <b>Getting here.</b> Find the tower in the ${esc(trealm)} Realm, or teleport with <b>its Tower Card</b>. A card takes you here once per long rest; you have <b>one hour</b> at the tower, then you are sent back to where you used it. To get a card, come here and <b>pay one spell slot</b>, or ride along on someone else's card and buy your own while you are here.${(()=>{const pool=PARTY.filter(c=>!(c.towerCards||[]).some(x=>x.t===school)),held=PARTY.filter(c=>(c.towerCards||[]).some(x=>x.t===school));if(!PARTY.length)return '<div class="note" style="margin:6px 0 0">Add characters on the Party page to hand out this tower\'s card.</div>';
       return `<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center">${pool.length?`<select class="sel" id="tc-who" style="max-width:200px">${pool.map(c=>`<option value="${c.id}"${who&&c.id===who.id?' selected':''}>${esc(c.name||'Unnamed')}${CASTER[c.cls]?'':' (not a caster)'}</option>`).join('')}</select>
         <button class="btn" type="button" onclick="towerCardTake($('tc-who').value,${esc(JSON.stringify(school))})" title="At the tower: pay one spell slot">🎴 Take it (spends a spell slot)</button>
@@ -6284,6 +6429,50 @@ function raiseRoll(k,i){const C=SCAV[k],S=C.get(),m=scavMon(S),u=UNDEAD[i],R=S.r
   else R.res=`<span style="color:var(--red)"><b>It does not rise.</b></span> The chance was ${Math.round(rc.p*1e4)/100}%; this corpse is spent for ${esc(who.name||'them')}.`;
   C.set(S);C.render()}
 // combat tracker: the downed monster's corpse
+// ── Spoils: when a fight ends, what the party carries away. The haul follows the fight (a pouch, a chest, or a hoard from
+// the shared treasure roller), the corpses keep their own scavenging, and the DM hands everything out to characters ──
+const SPOIL_SIZE=['pouch','chest','hoard'];
+function spoilsFight(){const mons=(CB.list||[]).filter(x=>x.mon).map(x=>({x,m:MON_IDX.get(lc(x.mon))})).filter(o=>o.m);if(!mons.length)return null;
+  const rc={};mons.forEach(o=>{rc[o.m.realm]=(rc[o.m.realm]||0)+1});const realm=Object.keys(rc).sort((a,b)=>rc[b]-rc[a])[0]||'Human';
+  const lv=Math.max(1,Math.round(PARTY.reduce((a,c)=>a+(+c.level||1),0)/(PARTY.length||1))||1),th=encBudget({size:PARTY.length||4,level:lv,realm}),adj=mons.reduce((a,o)=>a+monXP(o.m),0)*xpMult(mons.length);
+  let di=-1;th.forEach((t,i)=>{if(adj>=t)di=i});const champ=mons.some(o=>o.m.champ),sz=champ||DIFFS[di]==='Deadly'?2:di>=1?1:0;
+  const lead=mons.slice().sort((a,b)=>monXP(b.m)-monXP(a.m))[0].m,down=mons.every(o=>o.x.hp<=0);return {mons,realm,lv,sz,diff:di<0?'Trivial':DIFFS[di],champ,lead,down}}
+// money goes into the realm's own coin where it has one (gold pieces in the Human Realm); otherwise its worth in gp
+function spoilCoins(gold,rn){const C=CURRENCY[rn];return C&&C.coin&&C.gp?{n:Math.max(1,Math.round(gold/C.gp)),coin:C.coin,pl:C.pl||C.coin,realm:rn}:{n:gold,coin:'gold piece',pl:'gp',realm:''}}
+function spoilsNew(F){const T=rollTreasure(F.realm,F.lv,F.sz),c=spoilCoins(T.gold,F.realm),kinds={};F.mons.forEach(o=>{const k=o.m.n.replace(/\s\d+$/,'');kinds[k]=(kinds[k]||0)+1});
+  const who=Object.entries(kinds).map(([n,k])=>k>1?k+' '+n+(/s$/.test(n)?'':'s'):aAn(n)+' '+n),list=who.length>1?who.slice(0,-1).join(', ')+' and '+who[who.length-1]:who[0];
+  const goods=[`${SPOIL_SIZE[F.sz]==='pouch'?'a pouch':SPOIL_SIZE[F.sz]==='chest'?'a stash':'a hoard'} of ${fmt(c.n)} ${c.n===1?c.coin.toLowerCase():c.pl}`].concat(T.mats.map(x=>(x.q>1?x.q+' × ':'')+x.m.n),T.items.map(b=>b.n));
+  return {at:Date.now(),realm:F.realm,sz:F.sz,lead:F.lead.n,coins:c,left:c.n,mats:T.mats.map(x=>({n:x.m.n,q:x.q,to:''})),items:T.items.map(b=>({n:b.n,to:''})),
+    line:`Among the fallen (${list}): ${goods.length>1?goods.slice(0,-1).join(', ')+', and '+goods[goods.length-1]:goods[0]}.`}}
+function spoilsHTML(){if(role()==='player')return '';const F=spoilsFight();if(!F)return '';
+  if(!F.down&&!CB.ended)return `<div class="note" style="margin-top:10px">🎁 Spoils open here when every monster is down. <button class="btn" style="padding:2px 10px" onclick="CB.ended=1;saveCB();renderCombat()">End the fight now</button></div>`;
+  if(!CB.spoils){CB.spoils=spoilsNew(F);store.set('combat',CB)}const S=CB.spoils,P=PARTY.filter(c=>clCanEdit(c)),opt=sel=>`<option value="">Give to…</option>${P.map(c=>`<option value="${c.id}"${sel===c.id?' selected':''}>${esc(c.name||'Unnamed')}</option>`).join('')}`;
+  const nm=id=>(PARTY.find(c=>c.id===id)||{}).name||'someone',corpses=[...new Map(F.mons.filter(o=>o.x.hp<=0&&(o.m.drops||[]).length).map(o=>[o.m.n,o])).values()];
+  return `<section class="panel spoils" style="margin-top:14px;border-color:var(--gold)">
+    <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="margin:0;font-family:var(--serif);font-size:1.25rem">🎁 Spoils</h4><span class="b gold">${esc(SPOIL_SIZE[S.sz])}</span><span class="note" style="margin:0">${esc(F.diff)} fight${F.champ?', led by a champion':''} in the ${esc(S.realm)} Realm</span>
+      <span style="margin-left:auto;display:flex;gap:6px"><button class="btn" onclick="spoilsReroll()" title="Roll a different haul">🎲 Reroll</button><button class="btn" onclick="CB.spoils=null;CB.ended=0;saveCB();renderCombat()" title="Close the spoils (they roll again next time)">Close</button></span></div>
+    <p class="quote-line" style="font-family:var(--serif);font-style:italic;color:var(--text2);margin:8px 0;border-left:3px solid var(--gold);padding-left:10px">${esc(S.line)}</p>
+    <div class="mlist" style="margin-top:6px">
+      <div class="enc-row" style="padding:8px 12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center"><b>🪙 ${fmt(S.left)} ${esc(S.left===1?S.coins.coin.toLowerCase():S.coins.pl)}</b>${S.coins.realm&&S.coins.realm!=='Human'?` <small class="note" style="margin:0">(${esc(S.coins.realm)} coin)</small>`:''}
+        ${S.left&&P.length?`<span style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap"><button class="btn" onclick="spoilsSplit()">Split between ${P.length}</button><select class="sel" id="sp-coin" style="max-width:160px">${opt('')}</select><button class="btn" onclick="spoilsCoinsTo($('sp-coin').value)">Give all</button></span>`:S.left?'':'<span class="note" style="margin:0 0 0 auto">handed out</span>'}</div>
+      ${S.mats.map((x,i)=>spoilRow(x,i,'mats',opt)).join('')}${S.items.map((x,i)=>spoilRow(x,i,'items',opt)).join('')}</div>
+    ${corpses.length?`<div class="note" style="margin:10px 0 4px"><b>The corpses.</b> Harvest parts aren't in the haul: scavenge each body (its own checks and DCs).</div><div class="chips">${corpses.map(o=>`<button class="chip" onclick="CB.harvest='${o.x.id}';saveCB();renderCombat()">🔪 ${esc(o.m.n)}</button>`).join('')}</div>`:''}
+  </section>`}
+function spoilRow(x,i,k,opt){const it=k==='items'?findBP(x.n):findMat(x.n),nm=(PARTY.find(c=>c.id===x.to)||{}).name;
+  return `<div class="enc-row" style="padding:8px 12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">${x.q>1?x.q+' × ':''}${it?refChip(it,esc(x.n),k==='items'?it.r:'G'+it.g):esc(x.n)}
+    <span style="margin-left:auto;display:flex;gap:6px;align-items:center">${x.to?`<span class="b green">→ ${esc(nm||'given')}</span>`:`<select class="sel" data-spgive="${k}:${i}" style="max-width:170px">${opt('')}</select>`}</span></div>`}
+function spoilsLog(c,what){c.log=(c.log||[]).concat({d:new Date().toISOString().slice(0,10),deed:'Spoils from the '+(CB.spoils.lead||'fight')+' fight: '+what})}
+function spoilsGive(k,i,id){const S=CB.spoils,x=S&&S[k][i],c=PARTY.find(p=>p.id===id);if(!x||!c||x.to)return;const before=JSON.stringify(c);
+  invAdd(c,x.n,x.q||1,true,true);x.to=id;spoilsLog(c,(x.q>1?x.q+' × ':'')+x.n);saveParty();saveCB();renderCombat();
+  undoToast((x.q>1?x.q+' × ':'')+x.n+' → '+(c.name||'them'),()=>{Object.assign(c,JSON.parse(before));Object.keys(c).forEach(key=>{if(!(key in JSON.parse(before)))delete c[key]});x.to='';saveParty();saveCB();if(TAB==='combat')renderCombat()})}
+function spoilsAddCoins(c,n){const S=CB.spoils,C=S.coins;if(C.realm){c.purse=c.purse||{};c.purse[C.realm]=(+c.purse[C.realm]||0)+n}else{c.coins=c.coins||{};c.coins.gp=(+c.coins.gp||0)+n}}
+function spoilsSplit(){const S=CB.spoils,P=PARTY.filter(c=>clCanEdit(c));if(!S||!S.left||!P.length)return;const snap=P.map(c=>JSON.stringify(c)),was=S.left,each=Math.floor(S.left/P.length);let rest=S.left-each*P.length;
+  P.forEach(c=>{const n=each+(rest>0?1:0);if(rest>0)rest--;if(n){spoilsAddCoins(c,n);spoilsLog(c,fmt(n)+' '+(n===1?S.coins.coin.toLowerCase():S.coins.pl))}});S.left=0;saveParty();saveCB();renderCombat();
+  undoToast(`Split ${fmt(was)} ${S.coins.pl} between ${P.length}`,()=>{P.forEach((c,i)=>Object.assign(c,JSON.parse(snap[i])));S.left=was;saveParty();saveCB();if(TAB==='combat')renderCombat()})}
+function spoilsCoinsTo(id){const S=CB.spoils,c=PARTY.find(p=>p.id===id);if(!S||!S.left)return;if(!c){toast('Choose who gets the coins');return}const snap=JSON.stringify(c),was=S.left;spoilsAddCoins(c,was);spoilsLog(c,fmt(was)+' '+(was===1?S.coins.coin.toLowerCase():S.coins.pl));S.left=0;saveParty();saveCB();renderCombat();
+  undoToast(`${fmt(was)} ${S.coins.pl} → ${c.name||'them'}`,()=>{Object.assign(c,JSON.parse(snap));S.left=was;saveParty();saveCB();if(TAB==='combat')renderCombat()})}
+function spoilsReroll(){const F=spoilsFight(),S=CB.spoils;if(!F)return;if(S&&(S.left!==S.coins.n||S.mats.some(x=>x.to)||S.items.some(x=>x.to))){toast('Some of this haul is already handed out');return}CB.spoils=spoilsNew(F);saveCB();renderCombat()}
+document.addEventListener('change',e=>{const el=e.target.closest&&e.target.closest('[data-spgive]');if(!el||!el.value)return;const [k,i]=el.dataset.spgive.split(':');spoilsGive(k,+i,el.value)});
 function harvestHTML(){const x=CB.harvest&&CB.list.find(y=>y.id===CB.harvest),m=x&&MON_IDX.get(lc(x.mon));if(!m)return '';CB.corpses=CB.corpses||{};
   if(!CB.corpses[x.id]||CB.corpses[x.id].mon!==m.n){CB.corpses[x.id]=scavNew(m,x.kt);saveCB()}return scavPopHTML('cb','Scavenge the '+esc(x.name))}
 // Tools page: scavenge any monster's corpse
@@ -6445,7 +6634,7 @@ function renderCombat(){
         <td data-l="Conditions"><div class="chips">${x.cond.map(c=>{const t=(x.ct||{})[c];return `<span class="chip cb-cond"><button type="button" onclick="cbCond('${x.id}','${c}')" title="Remove ${c}">${c} ✕</button><button type="button" class="cb-t${t===1?' last':''}" onclick="cbTimer('${x.id}','${c}')" title="${t?t+' round'+(t===1?'':'s')+' left: it ends at the start of '+esc(x.name)+'\'s turn when this reaches 0. Click to change.':'No timer: click to set how many rounds it lasts'}">⏱${t||''}</button></span>`}).join('')}<select class="sel" style="padding:2px 6px;font-size:.75rem" onchange="cbCond('${x.id}',this.value)"><option value="">+ condition</option>${CONDITIONS.filter(c=>!x.cond.includes(c)).map(c=>`<option>${c}</option>`).join('')}</select><input type="number" min="0" id="cbr-${x.id}" class="cb-rounds" placeholder="rounds" title="Rounds the next condition lasts (empty: no timer)" aria-label="Rounds the condition lasts"></div></td>
         <td style="white-space:nowrap">${down&&m&&(m.drops||[]).length?`<button class="btn" onclick="CB.harvest='${x.id}';saveCB();renderCombat()" title="Scavenge its corpse">🔪 Scavenge</button> `:''}<button class="btn" onclick="cbRemove('${x.id}')" title="Remove">✕</button></td></tr>`}).join(''):`<tr class="cb-empty"><td colspan="8"><div class="empty" style="padding:30px"><b>No combatants</b>Add monsters, the party, or send an encounter from the Encounter builder.</div></td></tr>`}
     </tbody></table></div>
-    <div class="note">An attack is an opposed roll: the attacker's d20 + Accuracy against the target's d20 + Dodge (🎲 rolls it); the higher roll wins and a tie misses. Hit subtracts the target's AC from the damage (a hit can deal 0 if AC is as high as the damage). Untick “Subtract AC” for damage that ignores armor.</div>${harvestHTML()}</div>`;
+    <div class="note">An attack is an opposed roll: the attacker's d20 + Accuracy against the target's d20 + Dodge (🎲 rolls it); the higher roll wins and a tie misses. Hit subtracts the target's AC from the damage (a hit can deal 0 if AC is as high as the damage). Untick “Subtract AC” for damage that ignores armor.</div>${harvestHTML()}${spoilsHTML()}</div>`;
   $('content').querySelectorAll('[data-cb]').forEach(el=>el.addEventListener('change',()=>{const x=CB.list.find(y=>y.id===el.dataset.cb);x[el.dataset.f]=+el.value||0;saveCB()}));
 }
 const cbFind=id=>CB.list.find(x=>x.id===id);
@@ -6910,6 +7099,7 @@ const PENALTY={
   minor:{wrong:'Wasted: this part gives nothing, and the item has −1 Accuracy.',poor:'Weak fit: this part\'s property works at half Potency.'}
 };
 let FORGE=store.get('forge',{base:'Battleaxe',parts:{},name:'',showAll:false,realm:''});
+if(FORGE.parts)Object.keys(FORGE.parts).forEach(k=>{FORGE.parts[k]=unprep(FORGE.parts[k])});delete FORGE.proc;
 if(!BASES[FORGE.base])FORGE.base=({Axe:'Battleaxe',Sword:'Longsword','Body Armor':'Cuirass','Focus / Amulet':'Amulet'})[FORGE.base]||'Battleaxe';
 if(FORGE.ever==null)FORGE.ever=!!(FORGE.parts||{})['everchanging-core'];
 if(FORGE.forms&&!FORGE.everForms){FORGE.everForms=FORGE.forms.map(n=>({base:n,parts:{}}));delete FORGE.forms}
@@ -6936,75 +7126,9 @@ function everParts(i){const f=(FORGE.everForms||[])[i]||{},G=BASES[f.base];if(!G
 // every chosen form, worked out like a weapon of its own (the main weapon is form 1)
 function everResults(n){const out=[];for(let i=0;i<Math.max(0,n-1);i++){const e=everParts(i);if(!e){out.push(null);continue}const r=forgeResult(e.base,e.parts,{form:true});
   out.push({i,e,r,missing:r.parts.filter(p=>!p.s.optional&&!p.m).map(p=>p.s.name),added:Object.values(e.own).map(findMat).filter(Boolean)})}return out}
-// Every material can be prepared the way real ones are (tanned or boiled hide, seasoned or fire-hardened wood, wrought,
-// cast, or folded metal, knapped stone, cut gems...). A preparation suits some kinds of part: there a poor fit becomes a good
-// one and the item is easier to make (−1 DC each, as far as −3); a few make a part worse (cast metal won't hold an edge).
-const PROC={
-  F:[['tanned','Tanned',['cover','lining','fit'],'Soft and lasting: good for armour, linings, and wraps. (A week in the tan pit.)',null,null,/hide|pelt|skin|leather|fur|scale|mane|carapace/i],['rawhide','Rawhide',['fit','string','shaft'],'Stiff, and shrinks tight as it dries: good for bindings, grips, and frames.',null,null,/hide|pelt|skin|leather|fur|scale|mane|carapace/i],
-    ['boiled','Cuir bouilli (boiled)',['cover'],'Boiled hard in wax and water: +1 AC as an outer layer.',{ac:1},'Cuir Bouilli',/hide|pelt|skin|leather|fur|scale|mane|carapace/i],['oiled','Oiled',['lining','string'],'Waterproof and supple.',null,null,/hide|pelt|skin|leather|fur|scale|mane|carapace/i],['spun','Spun or woven',['string','lining'],'Spun into thread or woven into cloth.',null,'Spun',/silk|wool|fib|thread|hair|down|cotton|flax|hemp|web|feather|fleece|cloth|linen|strand|sinew/i]],
-  W:[['seasoned','Seasoned',['shaft','flex','fit'],'Dried for a year: straight, light, and strong.',null,null,/wood|log|bough|branch|timber|plank|bark|stave|oak|ash\b|yew|pine|cedar|ebony|birch|maple|bamboo|reed|treant|willow|elm|thorn|vine|cane|stalk/i],['firehard','Fire-hardened',['edge','point'],'Charred hard over coals: a wooden point that holds.',null,null,/wood|log|bough|branch|timber|plank|bark|stave|oak|ash\b|yew|pine|cedar|ebony|birch|maple|bamboo|reed|treant|willow|elm|thorn|vine|cane|stalk/i],
-    ['laminated','Laminated',['flex','shaft'],'Glued in layers: springier limbs, stronger shafts.',null,null,/wood|log|bough|branch|timber|plank|bark|stave|oak|ash\b|yew|pine|cedar|ebony|birch|maple|bamboo|reed|treant|willow|elm|thorn|vine|cane|stalk/i],['oiled','Oiled',['shaft','fit'],'Weatherproof and smooth.',null,null,/wood|log|bough|branch|timber|plank|bark|stave|oak|ash\b|yew|pine|cedar|ebony|birch|maple|bamboo|reed|treant|willow|elm|thorn|vine|cane|stalk/i],['ebonized','Ebonized',['focus','fit'],'Stained black with iron and vinegar: it takes magic a little better.',null,null,/wood|log|bough|branch|timber|plank|bark|stave|oak|ash\b|yew|pine|cedar|ebony|birch|maple|bamboo|reed|treant|willow|elm|thorn|vine|cane|stalk/i],
-    ['dried','Dried',['brew','fit'],'Hung and dried: keeps for a season, and is easy to measure.',null,null,/^(?!.*(wood|log|timber|plank|stave)).*/i],['distilled','Distilled',['brew','liquid'],'Its oils drawn off and concentrated.',null,null,/^(?!.*(wood|log|timber|plank|stave)).*/i]],
-  // herbs and other plants that aren't wood
-  
-  O:[['wrought','Wrought',['shaft','fit','string'],'Hammered, fibrous iron: tough, and bends rather than breaks.'],['cast','Cast',['blunt','cover'],'Poured into a mould: heavy heads and plates, but a cast edge chips.',{bad:['edge','point']}],
-    ['folded','Folded',['edge','point'],'Folded and welded many times: a keen, even edge.'],['tempered','Quenched and tempered',['edge','point','flex'],'Hard and springy.',null,'Tempered'],['annealed','Annealed',['cover','lining','fit'],'Softened by slow cooling: easy to shape into plates and fittings.'],
-    ['drawn','Drawn into wire',['string','fit'],'Pulled through a die into wire: chain, mail rings, and strings.',null,'Wire']],
-  B:[['polished','Polished',['fit','focus'],'Smooth and fine: grips, inlays, and settings.'],['boiled','Boiled and dried',['shaft','cover'],'Cleaned, degreased, and hardened.',null,'Boiled'],['carved','Carved',['edge','point'],'Shaped to an edge or point.'],['split','Split and steamed',['flex','shaft'],'Horn and bone split and steamed straight: for bows and frames.',null,'Split']],
-  S:[['knapped','Knapped',['edge','point'],'Flaked to a razor edge (brittle).'],['dressed','Dressed',['blunt','cover'],'Squared and smoothed.'],['polished','Polished',['focus','fit'],'Glassy and fine.']],
-  G:[['cut','Cut and faceted',['focus','fit'],'Faceted to catch light: it holds magic better.',null,'Cut'],['cabochon','Cabochon',['fit','focus'],'Domed and polished: sits snugly in a setting.'],['ground','Ground',['brew'],'Powdered as a catalyst.']],
-  L:[['dried','Dried',['brew'],'Keeps for a season, and is easy to measure.'],['distilled','Distilled',['brew','liquid'],'Concentrated.'],['salted','Salted',['brew','fit'],'Preserved in salt.'],['rendered','Rendered',['liquid','fit'],'Melted down to oil or tallow.']],
-  E:[['bound','Bound',['focus','shift'],'Sealed in wax and wire: steady to work.'],['refined','Refined',['focus','brew'],'Purified.']],
-  K:[['oiled','Oiled',['fit'],'Cleaned and oiled: runs smooth.']],
-  U:[]};
-// more variants (website addition): smokehouse and tannery, bog and steam-box, pattern-welding, scrimshaw, gem-work, and the
-// alchemist's jars. Same rules: the parts a variant suits turn a poor fit good (−1 DC each), and a few make a part worse.
-(()=>{const HIDE=PROC.F[0][6],FIB=PROC.F.find(v=>v[0]==='spun')[6],WOOD=PROC.W[0][6],HERB=PROC.W.find(v=>v[0]==='dried')[6];
-  const MORE={
-    F:[['brained','Brain-tanned',['lining','fit','cover'],'Worked soft with smoke and brains: supple as cloth, and it never creaks when you move.',null,'Brain-Tanned',HIDE],
-      ['scaled','Scaled and riveted',['cover'],'Cut into overlapping scales riveted to a backing: +1 AC as an outer layer.',{ac:1},'Scaled',HIDE],
-      ['smoked','Smoke-cured',['cover','lining'],'Hung in the smokehouse: rot and insects leave it alone, and it smells faintly of the fire.',null,'Smoke-Cured',HIDE],
-      ['felted','Felted',['lining','fit'],'Matted into thick felt: padding that soaks up blows.',null,null,FIB],
-      ['waxed','Waxed cord',['string'],'Rolled in beeswax: a string that never frays or slips.',null,'Waxed',FIB]],
-    W:[['bog','Bog-seasoned',['shaft','focus','fit'],'Buried in a peat bog for years: black, heavy, and hard as horn.',null,'Bog-Seasoned',WOOD],
-      ['steambent','Steam-bent',['flex','fit'],'Steamed soft and bent to shape: it curves without a joint.',null,'Steam-Bent',WOOD],
-      ['charred','Charred',['cover','shaft'],'Its surface burned and brushed: it sheds water, and fire struggles to catch it.',null,null,WOOD],
-      ['petrified','Petrified',['blunt','cover'],'Turned half to stone by mineral springs: very hard and very heavy, but it will not bend.',{bad:['flex']},null,WOOD],
-      ['tinctured','Tinctured',['brew','liquid'],'Steeped in strong spirits: a fast-acting extract.',null,null,HERB],
-      ['candied','Candied',['brew'],'Preserved in honey or sugar: it keeps for years and tastes far better.',null,null,HERB]],
-    O:[['patterned','Pattern-welded',['edge','point','flex'],'Several steels forged together in rippling patterns: keen and springy.',null,'Pattern-Welded'],
-      ['casehard','Case-hardened',['cover','blunt'],'Packed in charcoal and fired: a hard skin over a tough core.',null,'Case-Hardened'],
-      ['blued','Blued',['fit','cover'],'Heat-coloured blue-black: it shrugs off rust.'],
-      ['gilded','Gilded',['focus','fit'],'Leafed or washed in gold: fit for settings and holy symbols.'],
-      ['granulated','Granulated',['brew'],'Dropped molten into water as fine grains: easy to melt, measure, and alloy.']],
-    B:[['scrimshaw','Scrimshawed',['fit','focus'],'Etched and inked with fine pictures: a story in the grip.'],
-      ['bonemeal','Ground to meal',['brew'],'Ground to bone-meal for draughts, glazes, and charms.',null,'Bone-Meal'],
-      ['lacquered','Lacquered',['cover','shaft'],'Coated in layer on layer of lacquer: hard, glossy, and waterproof.']],
-    S:[['honed','Honed',['edge','blunt'],'Ground flat and keen on a whetstone.'],
-      ['carved','Carved',['focus','fit'],'Cut into a figure or a fitted shape.'],
-      ['powdered','Powdered',['brew'],'Crushed fine for mortar, glaze, or alchemy.'],
-      ['glazed','Fire-glazed',['cover'],'Fired until its face glazes over: a smooth, hard shell.',null,'Fire-Glazed']],
-    G:[['tumbled','Tumbled',['fit'],'Rolled smooth with grit for weeks: round and tough.'],
-      ['attuned','Moon-attuned',['focus','shift'],'Left under the moon for a month: it hums with magic.',null,'Moon-Attuned'],
-      ['cleaved','Cleaved',['edge','point'],'Split along its grain into a sliver: an edge keen as glass, and as brittle.']],
-    L:[['fermented','Fermented',['brew','liquid'],'Left to work in a sealed jar: potent and pungent.'],
-      ['clotted','Clotted',['fit','brew'],'Thickened to a paste: it clings to blades and arrowheads.'],
-      ['infused','Infused',['liquid','focus'],'Mixed with a salt or essence of power.']],
-    E:[['crystallized','Crystallized',['focus','fit'],'Drawn down into a crystal: solid enough to set in a fitting.'],
-      ['diluted','Diluted',['brew','liquid'],'Thinned in water: weaker, but safe in a draught.'],
-      ['volatile','Volatile',['shift'],'Stirred up and unstable: it flares when the item is struck hard (the DM may call for a save when it breaks).']],
-    K:[['calibrated','Calibrated',['fit','string'],'Adjusted and trued: it runs smooth and exact.'],
-      ['greased','Greased',['fit'],'Packed in grease: water and grit stay out.']]};
-  Object.keys(MORE).forEach(k=>{const L=PROC[k]=PROC[k]||[];MORE[k].forEach(v=>{if(!L.some(x=>x[0]===v[0]||lc(x[5]||x[1])===lc(v[5]||v[1])))L.push(v)})})})();
-// the variants a material really has: some only suit some materials (tanning a hide, not a feather; seasoning wood, not a herb)
-function procList(m){if(!m)return [];const b=m.baseN||m.n;return (PROC[matCode(m)]||[]).filter(v=>!v[6]||v[6].test(b))}
-const procOf=(m,key)=>m&&key?procList(m).find(v=>v[0]===key)||null:null;
-function procFit(s,m,fit,key){const v=procOf(m,key);if(!v||!m)return fit;const bad=(v[4]||{}).bad||[];
-  if(bad.includes(s.kind)&&fit.lv==='good')return {lv:'poor',why:v[1]+' doesn\'t suit this part',proc:v};
-  if(v[2].includes(s.kind)&&fit.lv==='poor')return {lv:'good',why:'',proc:v,up:1};return Object.assign({},fit,{proc:v})}
 function forgeResult(baseName,partsMap,opt){
   baseName=baseName||FORGE.base;partsMap=partsMap||FORGE.parts;opt=opt||{};const main=!opt.form,ever=main&&forgeEver();
-  const PR_=main?(FORGE.proc||{}):{},B=BASES[baseName],parts=forgeSlots(B,ever).map(s=>{const m=findMat(partsMap[s.id]||'');return {s,m,fit:procFit(s,m,slotFit(s,m),(m&&m.prep)||PR_[s.id])}});
+  const B=BASES[baseName],parts=forgeSlots(B,ever).map(s=>{const m=findMat(partsMap[s.id]||'');return {s,m,fit:slotFit(s,m)}});
   const prim=parts.find(p=>p.s.role==='primary'),struc=parts.find(p=>p.s.role==='structure');
   let hit=0,acAdj=0,breakOn=0,useless=false;const notes=[],props=[],traits=[],adds=[];
   parts.forEach(p=>{
@@ -7025,7 +7149,7 @@ function forgeResult(baseName,partsMap,opt){
   const strongest=used.slice().sort((a,b)=>(b.m.rank||0)-(a.m.rank||0))[0];
   const cost=used.reduce((a,p)=>a+(p.m.price||0)*p.s.qty,0);
   const out={B,parts,notes,props,traits,il,cost,strongest:strongest&&strongest.m,breakOn,adds,
-    dcMod:Math.max(-3,-parts.filter(p=>p.m&&p.fit.proc&&p.fit.proc[2].includes(p.s.kind)).length)};
+    dcMod:0};
   parts.forEach(p=>{const v=p.m&&p.fit.proc;if(v&&(v[4]||{}).ac&&v[2].includes(p.s.kind))acAdj+=(v[4]||{}).ac});
   const dmgBonus=pok&&prim.fit.lv==='good'?Math.floor(pil/5):0,atkBonus=Math.floor(sil/10);
   // Everchanging core (only when the weapon is Everchanging): its substance sets the number of forms (formsFor)
@@ -7185,7 +7309,7 @@ function renderForge(){
             <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b>${esc(s.name)}</b><span class="b ghost">${s.role==='primary'?'main part':s.role==='structure'?'structure':'extra'}</span><span class="b ghost">× ${s.qty}</span><span style="margin-left:auto;font-size:.78rem;color:${col};font-weight:600">${lab}</span></div>
             <div class="note" style="margin:4px 0 6px">${esc(s.why)}<br><span style="color:var(--green)">Good:</span> ${s.ok.map(c=>CAT_NAME[c]).join(', ')}${(s.weak||[]).length?` · <span style="color:var(--gold2)">Poor:</span> ${s.weak.map(c=>CAT_NAME[c]).join(', ')}`:''} · <span style="color:var(--red)">Anything else is wrong.</span></div>
             <div class="keyrow">${mcHTML('fg:'+s.id,FORGE.parts[s.id]||'','Choose or type a material…')}<button class="btn" data-clear-slot="${s.id}" title="Clear">✕</button></div>
-            ${m&&m.prep?(()=>{const v=procOf(m,m.prep);return `<div class="note" style="margin:6px 0 0;font-size:.78rem">Already prepared: <b>${esc(v[1])}</b>. ${esc(v[3])} ${v[2].includes(s.kind)?'<b style="color:var(--green)">Suits this part: a poor fit becomes good, and the DC is 1 lower.</b>':''}</div>`})():m&&procList(m).length?`<div class="keyrow" style="margin-top:6px"><label class="note" style="margin:0;display:flex;gap:6px;align-items:center;flex-wrap:wrap">Prepared as <select class="sel" data-proc="${s.id}" style="max-width:240px"><option value="">As it comes</option>${procList(m).map(v=>`<option value="${v[0]}"${(FORGE.proc||{})[s.id]===v[0]?' selected':''}>${esc(v[1])}${v[2].includes(s.kind)?' ✓':''}</option>`).join('')}</select></label></div>${(()=>{const v=procOf(m,(FORGE.proc||{})[s.id]);return v?`<div class="note" style="margin:2px 0 0;font-size:.78rem">${esc(v[3])} ${v[2].includes(s.kind)?'<b style="color:var(--green)">Suits this part: a poor fit becomes good, and the DC is 1 lower.</b>':((v[4]||{}).bad||[]).includes(s.kind)?'<b style="color:var(--red)">Wrong for this part: a good fit becomes poor.</b>':'It doesn\'t change this part.'}</div>`:''})()}`:''}
+            
             ${(MC_OPTS['fg:'+s.id]=forgeDM()?{opts,slot:s,arts:s.only?[]:artifacts(),any:true}:{opts,slot:s,arts:s.only?[]:invArts(INV),inv:true,hold:n=>holdersText(INV,n)},'')}
             ${forgeDM()?(m&&m.any?`<div style="margin-top:4px;font-size:.78rem;color:var(--gold2)">🎲 Made from ${esc(m.ds.replace(/^Made from /,'').replace(/, by the DM's word\.$/,''))}: counts as ${esc(CAT_NAME[m.tc]||'')}, a good fit, item level ${m.il}.</div>`:''):m&&!invHas(INV,m.n)?`<div style="margin-top:6px;font-size:.8rem;color:var(--red)">✕ Nobody in the party has ${esc(m.art?'the artifact '+m.art:m.n)}. Choose a material from someone's pack.</div>`:m?`<div style="margin-top:4px;font-size:.78rem;color:var(--muted)">In the packs of ${esc(holdersText(INV,m.n))}</div>`:''}
             ${sug.length?`<div class="chips" style="margin-top:6px">${sug.map(x=>`<button class="chip" data-pick="${s.id}" data-mat="${esc(x.n)}" title="${esc(x.gr)}">${esc(x.n)} <small>${esc(x.gr)}</small></button>`).join('')}</div>`:''}
@@ -7210,8 +7334,7 @@ function renderForge(){
   C.querySelectorAll('[data-ever-base]').forEach(el=>el.onchange=()=>{const i=+el.dataset.everBase,v=el.value.trim(),k=Object.keys(BASES).find(n=>lc(n)===lc(v));FORGE.everForms=FORGE.everForms||[];FORGE.everForms[i]={base:k&&BASES[k].dmg?k:v,parts:{}};saveForge();setTimeout(renderForge)});
   C.querySelectorAll('[data-ever-clear]').forEach(el=>el.onclick=()=>{FORGE.everForms[+el.dataset.everClear]={};saveForge();renderForge()});
   C.querySelectorAll('[data-ever-rm]').forEach(el=>el.onclick=()=>{const [i,id]=el.dataset.everRm.split(':');delete ((FORGE.everForms[+i]||{}).parts||{})[id];saveForge();renderForge()});
-  C.querySelectorAll('[data-proc]').forEach(el=>el.onchange=()=>{FORGE.proc=FORGE.proc||{};if(el.value)FORGE.proc[el.dataset.proc]=el.value;else delete FORGE.proc[el.dataset.proc];saveForge();renderForge()});
-  C.querySelectorAll('[data-clear-slot]').forEach(el=>el.addEventListener('click',()=>{if(FORGE.proc)delete FORGE.proc[el.dataset.clearSlot];delete FORGE.parts[el.dataset.clearSlot];saveForge();renderForge()}));
+  C.querySelectorAll('[data-clear-slot]').forEach(el=>el.addEventListener('click',()=>{delete FORGE.parts[el.dataset.clearSlot];saveForge();renderForge()}));
   C.querySelectorAll('[data-pick]').forEach(el=>el.addEventListener('click',()=>{FORGE.parts[el.dataset.pick]=el.dataset.mat;FORGE.name='';saveForge();renderForge()}));
   C.querySelectorAll('[data-load-bp]').forEach(el=>el.addEventListener('click',()=>{const b=findBP(el.dataset.loadBp);if(b){FORGE.parts=assignParts(FORGE.base,b.mats.map(findMat).filter(Boolean));FORGE.name=b.n;saveForge();renderForge();$('content').scrollTop=0}}));
   const bindBases=()=>C.querySelectorAll('#fg-bases [data-base]').forEach(el=>el.onclick=()=>pickBase(el.dataset.base));
@@ -7549,6 +7672,17 @@ function hireOf(L,matCost){L=Math.max(1,Math.min(100,Math.round(+L)||0));if(!L)r
   M=step===10?Z.map(z=>SMITHS[z.n]).filter(Boolean):[],title=HIRE_TITLE[step-1],base=Math.round(100*(t+step/10)+t*10);
   return {lv:L,tier:t,step,g:Math.min(MAX_STAGE,Math.ceil(t/2)),realm,base,fee:Math.round(base+.5*(+matCost||0)),master:!!M.length,
     n:M.length?M.map(x=>x[0]).join(' or '):`${aAn(title)} ${title.toLowerCase()} smith of the ${realm}`,d:M.length?M[0][1]:`level ${L} for hire`,task:M.length?M[0][3]:''}}
+// the smiths you can hire, as people rather than levels: in each realm an apprentice, a journeyman, an expert, and the
+// realm's famous master (the same smiths and fees as before, levels 2, 5, 8, and 10 of each realm's ten)
+const SMITH_FIRST=['Hilde','Oren','Maeve','Tobin','Sigrun','Corwin','Asha','Brannoc','Elka','Dov','Rhosyn','Garrick','Isolde','Pell','Yara','Thane','Wynn','Kesh','Mira','Ulric','Sefa','Joss','Nell','Ravi'];
+const SMITH_LAST=['Ashfoot','Coalbrook','Ironvale','Emberly','Tongs','Hammerfall','Flint','Bellows','Cinder','Stokes','Anvilheart','Quench','Slagg','Rivet','Forgewell','Brand'];
+const SMITH_STEPS=[[2,'apprentice'],[5,'journeyman'],[8,'expert'],[10,'master']];
+function smithName(t,step){const h=(t*31+step*7)%SMITH_FIRST.length,k=(t*13+step*5)%SMITH_LAST.length;return SMITH_FIRST[h]+' '+SMITH_LAST[k]}
+function smithRoster(cost){const out=[];for(let t=1;t<=10;t++)SMITH_STEPS.forEach(([st,role])=>{const S=hireOf((t-1)*10+st,cost);if(!S)return;S.who=S.master?S.n:smithName(t,st);S.role=role;out.push(S)});return out}
+// does the Forge show its numbers (odds, DCs, roll math)? In the DM's view, or when someone ticks Show the numbers
+const forgeNums=()=>FORGE.nums!=null?!!FORGE.nums:role()==='dm';
+// how hard the work is, in words, from the chance of making anything at all
+function forgeHardWords(o){const ok=o.Masterwork+o.Fine+o.Standard+(o.Flawed||0)*0;return ok>=.9?['Easy work','the smith could do this in their sleep']:ok>=.7?['Steady work','it should take, with care']:ok>=.45?['A fair challenge','it may take more than one try']:ok>=.25?['Hard work','expect failed attempts']:['Beyond their skill','a gamble at best: think about hiring a better smith']}
 function smithOf(z){const S=SMITHS[z];if(!S)return null;const t=(REALM[z]||{}).tier||1;return hireOf(t*10)}
 const bpTier=b=>Math.max(1,...(b.mats||[]).map(n=>((REALM[(findMat(n)||{}).realm]||{}).tier||1)));
 const smithCan=(S,b,F)=>!!S&&S.g>=F.g&&S.tier>=bpTier(b);
@@ -7784,10 +7918,14 @@ function forgeEstimateHTML(r,ready,formGap){forgeSmithOk();if(forgeDM())return f
       ${cb.length?`<div class="note" style="margin:4px 0 0">✦ ${cb.every(x=>COMBOS_FOUND.includes(x[2]))?`These powers together unlock <b>${cb.map(x=>esc(x[2])).join(', ')}</b>.`:'Something stirs between these powers… forge it to find out.'}</div>`:''}`:''}
     <div class="blk" style="margin-top:10px"><h4>🔥 At the anvil</h4></div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">${PARTY.length?`<label class="note" style="margin:0">Forger <select class="sel" id="ff-who"><option value="">Choose…</option>${PARTY.map(x=>`<option value="${x.id}"${x.id===FF.who?' selected':''}>${esc(x.name||'Unnamed')}${x.prof?' ('+esc(x.prof)+' '+(+x.profLv||0)+')':''}</option>`).join('')}</select></label>`:'<span class="note" style="margin:0">Add a character on the Party page first.</span>'}
-      <label class="note" style="margin:0">or hire <select class="sel" id="ff-smith" style="max-width:330px"><option value="">no one</option>${Array.from({length:100},(_,k)=>hireOf(k+1,r.cost)).map(S=>`<option value="${S.lv}"${+FF.smith===S.lv?' selected':''}${smithCan(S,b,F)?'':' disabled'}>Level ${S.lv} · ${esc(S.master?S.n:HIRE_TITLE[S.step-1])} · ${esc(S.realm)} · ${fmt(S.fee)} gp</option>`).join('')}</select></label></div>
-    ${sm?`<div class="note" style="margin:6px 0 0"><b>${esc(sm.n)}</b>, ${esc(sm.d)} (level ${sm.lv}, grade ${ROMAN[sm.g-1]} forge, materials up to the ${esc(sm.realm)}), forges it for <b>${fmt(sm.fee)} gp</b>: ${fmt(sm.base)} for the work plus half the materials' cost (${fmt(r.cost||0)} gp). It comes from ${c?esc(c.name||'the forger'):'the character you choose'}${sm.task?`, or a task instead: <i>${esc(sm.task)}</i>`:''}. A hired smith never ruins your materials or makes a Flawed item.</div>`
+      <label class="note" style="margin:0">or hire <select class="sel" id="ff-smith" style="max-width:330px"><option value="">no one</option>${(()=>{const R=smithRoster(r.cost),cur=+FF.smith,G={};R.forEach(S=>{(G[S.realm]=G[S.realm]||[]).push(S)});
+        const extra=cur&&!R.some(S=>S.lv===cur)?hireOf(cur,r.cost):null;
+        return (extra?`<option value="${extra.lv}" selected>${esc(extra.n)} · ${fmt(extra.fee)} gp</option>`:'')+Object.keys(G).map(z=>`<optgroup label="${esc(z)}">${G[z].map(S=>`<option value="${S.lv}"${cur===S.lv?' selected':''}${smithCan(S,b,F)?'':' disabled'}>${esc(S.who)} · ${S.master?'the realm\'s master':S.role} · ${fmt(S.fee)} gp${forgeNums()?' (level '+S.lv+')':''}</option>`).join('')}</optgroup>`).join('')})()}</select></label></div>
+    ${sm?`<div class="note" style="margin:6px 0 0"><b>${esc(sm.master?sm.n:smithName(sm.tier,sm.step))}</b>, ${sm.master?esc(sm.d):`${aAn(HIRE_TITLE[sm.step-1])} ${HIRE_TITLE[sm.step-1].toLowerCase()} smith of the ${esc(sm.realm)}`} (${forgeNums()?`level ${sm.lv}, `:''}grade ${ROMAN[sm.g-1]} forge, materials up to the ${esc(sm.realm)}), forges it for <b>${fmt(sm.fee)} gp</b>: ${fmt(sm.base)} for the work plus half the materials' cost (${fmt(r.cost||0)} gp). It comes from ${c?esc(c.name||'the forger'):'the character you choose'}${sm.task?`, or a task instead: <i>${esc(sm.task)}</i>`:''}. A hired smith never ruins your materials or makes a Flawed item.${sm.master&&sm.task&&role()!=='player'?`<div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">${sm.realm.split(' or ').map((z,i)=>`<button class="btn" type="button" onclick="standMove('smith:'+${esc(JSON.stringify(z))},1,${esc(JSON.stringify('Did a task for '+(sm.n.split(' or ')[i]||sm.n)))})">⚖ Task done: raise the ${esc(z)} smiths</button>`).join('')}</div>`:''}</div>`
+      :chk&&!chk.blocked&&!forgeNums()?(()=>{const [h,w]=forgeHardWords(odds);return `<div class="note" style="margin:6px 0 0"><b>${esc(h)}:</b> ${esc(w)}. ${c.name?esc(c.name)+(chk.gap>=0?' knows this work well':' is reaching beyond what they know'):(chk.gap>=0?'They know this work well':'They are reaching beyond what they know')}${chk.dis.length?`, and ${esc(chk.dis.join('; ').toLowerCase())}`:''}. When you strike, the DM calls for a ${esc(b.pr)} check. Time: ${esc(chk.time)}.</div>`})()
       :chk?`<div class="note" style="margin:6px 0 0">${chk.blocked?`<span style="color:var(--red)"><b>Can't forge:</b> ${esc(chk.blocked)}</span>`:`${esc(c.name||'They')}: ${esc(b.pr)} level <b>${chk.lv}</b> against item level <b>${b.lv}</b>. ${chk.gap>=0?`At or above it: <b>advantage</b>${chk.qb?` and +${chk.qb} for the ${chk.gap} levels to spare`:''}.`:`<b>${-chk.gap} level${chk.gap===-1?'':'s'} short:</b> ${chk.pen} to the roll.`}${chk.dis.length?` Disadvantage: ${esc(chk.dis.join('; '))}.`:''} Roll d20 ${chk.bonus>=0?'+':'−'} ${Math.abs(chk.bonus)} vs <b>DC ${chk.dc}</b>. Time: ${esc(chk.time)}.`}</div>`:''}
-    ${odds?`<div style="margin-top:6px">${oddsHTML(odds)}</div>`:''}
+    ${odds&&forgeNums()?`<div style="margin-top:6px">${oddsHTML(odds)}</div>`:''}
+    <label class="note" style="display:flex;gap:6px;align-items:center;margin:8px 0 0" title="Odds, DCs, and the roll math. On by itself in the DM's view (Settings, How you play)."><input type="checkbox" ${forgeNums()?'checked':''} onchange="FORGE.nums=this.checked;store.set('forge',FORGE);forgeOut()"> 🎲 Show the numbers (odds, DC, levels)</label>
     <label class="note" style="display:flex;gap:6px;align-items:center;margin:8px 0 0"><input type="checkbox" ${FORGE.share?'checked':''} onchange="FORGE.share=this.checked;store.set('forge',FORGE)"> Share this Blueprint in the Workshop, where other players can see it ${CL.on&&CL.user?'':'<small>(sign in to save Blueprints to the Workshop)</small>'}</label>
     <div class="fg-anvilrow"><div class="fg-anvil" aria-hidden="true">⚒</div><div>
       <button class="btn primary fg-strike" ${can?'':`disabled title="${esc(why)}"`} onclick="forgeStrike()">🔨 ${sm?'Have '+esc(sm.n)+' strike':'Strike'} (${FF.strikes||0} of 3)</button>
@@ -7800,7 +7938,7 @@ function forgeStrike(){const r=forgeResult(),c=PARTY.find(x=>x.id===FF.who);if(!
 function forgeResolve(r,c){const b=forgeBP(r),sm=FF.smith&&hireOf(FF.smith,r.cost),M=invIndex();let d,a1,a2,tot,dc,mode,bonus,who;
   if(sm){const k=craftCheck(b,c),sc=smithCheck(sm,b);if(!smithCan(sm,b,forgeReq(b))){toast(sm.n+' can\'t work these materials');return}dc=k.dc+(b.dcMod||0);bonus=sc.bonus;mode=sc.mode;who=sm.n}else{const k=forgeCheck(b,c);if(k.blocked){toast("Can't forge: "+k.blocked);return}dc=k.dc;bonus=k.bonus;mode=k.mode;who=c.name||'The forger'}
   a1=1+Math.floor(Math.random()*20);a2=1+Math.floor(Math.random()*20);d=mode==='adv'?Math.max(a1,a2):mode==='dis'?Math.min(a1,a2):a1;tot=d+bonus;const q=forgeQ(d,tot-dc,!!sm);
-  const line=`${esc(who)} rolls <b>${d}${mode?` <small>(${a1}, ${a2}, ${mode==='adv'?'advantage':'disadvantage'})</small>`:''} ${bonus>=0?'+':'−'} ${Math.abs(bonus)} = ${tot}</b> vs DC ${dc}.`;
+  const line=`${esc(who)} rolls <b>${d}${mode?` <small>(${a1}, ${a2}, ${mode==='adv'?'advantage':'disadvantage'})</small>`:''} ${bonus>=0?'+':'−'} ${Math.abs(bonus)} = ${tot}</b>${forgeNums()?` vs DC ${dc}`:''}.`;
   if(q==='ruin'){const ms=forgeNeeds(r,M).filter(x=>x.have>0),lost=ms.length?ms[Math.floor(Math.random()*ms.length)].n:'';if(lost){invTake(M,lost,1,c);saveParty()}
     forgeSound('fail');FF.res={bad:1,html:`${line} <b style="color:var(--red)">Natural 1:</b> the metal cracks${lost?` and the <b>${esc(lost)}</b> is ruined`:''}. Strike again when ready.`};forgeOut();return}
   if(q==='fail'){forgeSound('fail');FF.res={bad:1,html:`${line} <b>It doesn't take.</b> Nothing is lost: strike again.`};forgeOut();return}
@@ -7918,15 +8056,6 @@ function designPeekHTML(b){const D=b.design,P=D.peek,F=D.foreign;
   return `<div class="callout" style="border-color:var(--gold)">⚒ <b>Forged by ${esc((P||F).by||'another player')}</b>${P&&P.who?`, carried by <b>${esc(P.who)}</b>`:''}${D.base?' · made from the general '+esc(D.base):''}. ${F?'Equipped from the Workshop: it is someone else\'s item, so it gives you nothing (an invalid item). To use it, forge your own.':'You can read what it is and does; only the one who forged it can change it.'}${D.lore&&D.lore!==b.ds?`<div style="margin-top:6px">${esc(D.lore)}</div>`:''}</div>`}
 // a copy of someone's Workshop Blueprint, kept so its description can be read; marked foreign so it never works for you
 const wsCopy=(w,n)=>{const o=wsData(w.data||{});delete o.evo;delete o.shared;return Object.assign(o,{n,base:w.base,cat:o.cat||'Item',foreign:{by:w.maker||'someone',owner:w.owner}})};
-// ── the Preparation bench: turn materials in a pack into a prepared variant (tanned hide, seasoned wood, folded steel...) ──
-let PREP={who:'',pick:{}};
-function benchHTML(){const c=PARTY.find(x=>x.id===PREP.who)||null,rows=c?(c.inv||[]).map(([n,q])=>({m:MAT_IDX.get(lc(n)),q:+q||0})).filter(x=>x.m&&x.q>0&&procList(x.m).length):[];
-  return `<section class="sec"><div class="sec-h"><h3>🧰 The Preparation bench</h3><p>Real materials come in variants: rawhide and tanned leather, green and seasoned wood, wrought and cast iron. Prepare a material here and it becomes its own material in the pack, a quarter more valuable and better for some parts at the Forge (a poor fit becomes good, and the DC drops by 1). Tanning takes about a week, seasoning a season; the DM may ask for time or a check.</p></div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:8px">${PARTY.length?`<label class="note" style="margin:0">Whose pack <select class="sel" onchange="PREP.who=this.value;renderForge()"><option value="">Choose…</option>${PARTY.map(x=>`<option value="${x.id}"${x.id===PREP.who?' selected':''}>${esc(x.name||'Unnamed')}</option>`).join('')}</select></label>`:'<span class="note" style="margin:0">Add a character on the Party page first.</span>'}</div>
-    ${c?rows.length?`<div class="tablewrap"><table class="t"><thead><tr><th>Material</th><th class="num">Has</th><th>Prepare as</th><th></th></tr></thead><tbody>${rows.map(({m,q})=>{const k=lc(m.n),pk=PREP.pick[k]||procList(m)[0][0];return `<tr><td>${refChip(m)}</td><td class="num">${q}</td><td><select class="sel" style="max-width:260px" onchange="PREP.pick[${esc(JSON.stringify(k))}]=this.value">${procList(m).map(v=>`<option value="${v[0]}"${pk===v[0]?' selected':''}>${esc(v[5]||v[1])}: ${esc(v[3].slice(0,60))}</option>`).join('')}</select></td><td style="white-space:nowrap"><button class="btn" onclick="prepDo(${esc(JSON.stringify(m.n))},1)">1</button> <button class="btn" onclick="prepDo(${esc(JSON.stringify(m.n))},${q})">All ${q}</button></td></tr>`}).join('')}</tbody></table></div>`:'<div class="note">Nothing in this pack can be prepared (supplies and prepared variants can\'t).</div>':''}</section>`}
-function prepDo(n,q){const c=PARTY.find(x=>x.id===PREP.who),m=MAT_IDX.get(lc(n));if(!c||!m)return;const row=(c.inv||[]).find(x=>lc(x[0])===lc(n));if(!row)return;q=Math.min(q,+row[1]||0);if(q<1)return;
-  const P=procList(m).find(v=>v[0]===(PREP.pick[lc(n)]||procList(m)[0][0]));if(!P)return;
-  row[1]=(+row[1]||0)-q;c.inv=c.inv.filter(x=>(+x[1]||0)>0);invAdd(c,varName(m,P),q,true,true);saveParty();forgeSound(forgeKind({parts:[{s:{role:'primary'},m}],B:{}}),1);toast(`${q} ${m.n} → ${varName(m,P)}`);renderForge()}
 // ── the Smelter: one of each component metal from the party's packs makes one of the alloy ──
 let SMELT={who:'',all:false};
 function smeltHTML(){const A=MATS.filter(m=>m.alloy&&Array.isArray(m.recipe)),M=invIndex(),c=PARTY.find(x=>x.id===SMELT.who)||null,dm=forgeDM();
@@ -7939,9 +8068,9 @@ function smeltHTML(){const A=MATS.filter(m=>m.alloy&&Array.isArray(m.recipe)),M=
 function smelt(n){const m=findMat(n),c=PARTY.find(x=>x.id===SMELT.who);if(!m||!c)return;const M=invIndex();if(m.recipe.some(x=>invHas(M,x)<1)){toast('Missing a metal');return}
   m.recipe.forEach(x=>invTake(M,x,1,c));invAdd(c,m.n,1,true,true);saveParty();forgeSound('metal',1);setTimeout(()=>forgeSound('metal',2),180);toast(`Smelted 1 ${m.n} into ${c.name||'their'} pack`);renderForge()}
 // the Forge page's own sections: combos found, the master smiths, and the commission board
-function forgeExtrasHTML(){return benchHTML()+smeltHTML()+`<section class="sec"><div class="sec-h"><h3>✦ Material combos</h3><p>Two powers in one item, two properties, two traits, or one of each, can unlock something neither has alone (a property counts only at full Potency, so not from an extra part or a poor fit; a trait counts from any part it fits). Found ${COMBOS_FOUND.length} of ${FCOMBOS.length}.</p></div>
+function forgeExtrasHTML(){return smeltHTML()+`<section class="sec"><div class="sec-h"><h3>✦ Material combos</h3><p>Two powers in one item, two properties, two traits, or one of each, can unlock something neither has alone (a property counts only at full Potency, so not from an extra part or a poor fit; a trait counts from any part it fits). Found ${COMBOS_FOUND.length} of ${FCOMBOS.length}.</p></div>
     <div class="mlist">${FCOMBOS.filter(x=>COMBOS_FOUND.includes(x[2])).map(([a,b,n,t])=>`<div style="padding:6px 10px;border:1px solid var(--gold);border-radius:8px"><b>✦ ${esc(n)}</b> <small>${esc(a)} + ${esc(b)}</small><div style="font-size:.82rem">${esc(t)}</div></div>`).join('')}${FCOMBOS.length>COMBOS_FOUND.length?`<div style="padding:6px 10px;border:1px dashed var(--line);border-radius:8px;color:var(--muted)"><b>??? + ???</b> <small>${FCOMBOS.length-COMBOS_FOUND.filter(n=>FCOMBOS.some(x=>x[2]===n)).length} combos still hidden. Try two properties or traits together and forge.</small></div>`:''}</div></section>
-  <section class="sec"><div class="sec-h"><h3>⚒ Master smiths</h3><p>Any smith from level 1 to 100 can be hired at the anvil. Every ten levels is one realm (1–10 Human, 11–20 Mysterious, and so on to 91–100 Primordial), and the tenth level of each is that realm's famous master. A hired smith works a forge grade and materials up to their realm, rolls like any forger (half their level, advantage at or above the item's level), and never ruins materials or makes a Flawed item. The fee is half the materials' cost + 100 × (tier + step ÷ 10) + tier × 10, where the step is the level within its realm: a level 1 Human smith costs 120 gp plus half the materials.</p></div>
+  <section class="sec"><div class="sec-h"><h3>⚒ Master smiths</h3><p>Every realm has smiths who take commissions: an apprentice for simple work, a journeyman, an expert, and the realm's famous master, each able to work that realm's materials and forges. Bring them the materials and the coin (or, for a master, a task done in their name). A hired smith never ruins your materials or turns out a Flawed piece; the better the smith, the finer the work tends to be.${forgeNums()?' <small>(Numbers: a smith rolls like any forger, half their level, with advantage at or above the item\'s level. Fee: half the materials\' cost + 100 × (tier + step ÷ 10) + tier × 10, where the step is the level within the realm.)</small>':''}</p></div>
     <div class="tablewrap"><table class="t"><thead><tr><th>Realm</th><th>Master</th><th class="num">Level</th><th>Forge grade</th><th class="num">Fee</th><th>Or a task</th></tr></thead><tbody>${REALMS.filter(z=>SMITHS[z.n]).map(z=>{const S=smithOf(z.n),M=SMITHS[z.n];return `<tr><td>${esc(z.n)}</td><td><b>${esc(M[0])}</b><br><small style="color:var(--muted)">${esc(M[1])}</small></td><td class="num">${S.lv}</td><td>${ROMAN[S.g-1]}</td><td class="num">${fmt(S.base)} gp + half the materials</td><td>${esc(M[3])}</td></tr>`}).join('')}</tbody></table></div></section>
   ${fcBoardHTML()}`}
 function forgeOut(){const el=$('fg-out');if(!el)return;const made=FF.made&&DESIGNS.find(d=>d.n===FF.made);
@@ -8112,7 +8241,7 @@ async function groqForge(){
 function designFromForge(){
   const r=forgeResult();
   return {lore:FORGE.lore||'',want:FORGE.want||'',n:FORGE.name||r.name,base:FORGE.base,parts:Object.assign({},FORGE.parts),ac:r.ac!=null?r.ac:null,dmg:r.damage?r.damage+' '+r.dtype:'',atk:r.attack!=null?r.attack:null,vers:r.vers||'',props:r.B.props||'',cat:r.B.cat,slot:r.B.slot||r.B.kind||'',mats:[...new Set(r.parts.filter(p=>p.m&&p.fit.lv!=='wrong').map(p=>p.m.n).concat(r.forms?everResults(r.forms).filter(Boolean).flatMap(x=>x.added.map(m=>m.n)):[]))],pr:r.prof,il:r.il,r:r.rar||'Common',gr:((r.parts.find(p=>p.s.role==='primary')||{}).m||{}).gr||'',prop:[...new Set(r.props.map(p=>p.m.pn).filter(Boolean))].concat(r.forms?[`Everchanging (${r.forms} forms)`]:[]).join(', '),
-    proc:Object.assign({},FORGE.proc||{}),combos:forgeCombos(r).map(x=>x[2]),forms:r.forms?[{n:FORGE.base,dmg:(r.damage||'')+' '+(r.dtype||''),atk:r.attack,props:r.B.props||''}].concat(everResults(r.forms).filter(x=>x&&!x.missing.length).map(x=>({n:x.e.base,dmg:(x.r.damage||'')+' '+(x.r.dtype||''),atk:x.r.attack,props:x.e.G.props||'',parts:Object.assign({},x.e.own)}))):null,formMax:r.forms||0};
+    combos:forgeCombos(r).map(x=>x[2]),forms:r.forms?[{n:FORGE.base,dmg:(r.damage||'')+' '+(r.dtype||''),atk:r.attack,props:r.B.props||''}].concat(everResults(r.forms).filter(x=>x&&!x.missing.length).map(x=>({n:x.e.base,dmg:(x.r.damage||'')+' '+(x.r.dtype||''),atk:x.r.attack,props:x.e.G.props||'',parts:Object.assign({},x.e.own)}))):null,formMax:r.forms||0};
 }
 const vaultBP=n=>{const b=BP_IDX.get(lc(n||''));return b&&!b.design?b:null};
 function saveDesign(){const d=designFromForge();if(vaultBP(d.n)){toast('“'+d.n+'” is already a Blueprint in the vault: give your design another name');return null}d.sort=designSortRules(d);const i=DESIGNS.findIndex(x=>x.n===d.n);if(i>=0)DESIGNS[i]=d;else DESIGNS.push(d);store.set('designs',DESIGNS);designPlace();toast('Saved '+d.n+': filed under '+d.sort.pr+(d.sort.sp?' → '+d.sort.sp:''));renderForge();designAISort(d);return d}
@@ -8249,7 +8378,7 @@ function guideDraw(){const g=GT[GSTEP];if(!g){closeGuide();return}
     <div class="gd-foot"><button type="button" class="btn" data-gx>${last?'Close':'Skip'}</button><span style="flex:1"></span>${GSTEP?'<button type="button" class="btn" data-gp>Back</button>':''}${g.act?`<button type="button" class="btn" data-ga>${esc(g.act[0])}</button>`:''}<button type="button" class="btn primary" data-gn>${last?'Done':'Next'}</button></div>`;
   const ring=$('gd-ring'),el=(g.at||[]).map(q=>{try{return document.querySelector(q)}catch(e){return null}}).find(e=>{if(!e)return false;const b=e.getBoundingClientRect();return b.width>0&&b.height>0&&getComputedStyle(e).visibility!=='hidden'});// (floating buttons count too)
   const place=()=>{if(GSTEP<0||GT[GSTEP]!==g)return;if(el){const b=el.getBoundingClientRect();Object.assign(ring.style,{left:(b.left-6)+'px',top:(b.top-6)+'px',width:(b.width+12)+'px',height:(Math.min(b.height,innerHeight*.6)+12)+'px'});ring.hidden=false;$('gd-bg').classList.remove('dim');
-    $('gd').classList.toggle('top',b.top>innerHeight/2)}else{ring.hidden=true;$('gd-bg').classList.add('dim');$('gd').classList.remove('top')}};
+    $('gd').classList.toggle('gd-up',b.top>innerHeight/2)}else{ring.hidden=true;$('gd-bg').classList.add('dim');$('gd').classList.remove('gd-up')}};
   if(el){const b=el.getBoundingClientRect();if(b.top<80||b.bottom>innerHeight-120){el.scrollIntoView({block:'center'});ring.hidden=true;setTimeout(place,180)}else place()}else place();
   $('gd').onclick=e=>{const t=e.target;if(t.closest('[data-gx]'))closeGuide();else if(t.closest('[data-gp]')){GSTEP--;guideDraw()}else if(t.closest('[data-gn]')){if(last){tourDone(GTID);closeGuide()}else{GSTEP++;guideDraw()}}
     else if(t.closest('[data-ga]')){const f=g.act[1];if(!g.keep)closeGuide();f()}else{const b=t.closest('[data-gr]');if(b){store.set('role',b.dataset.gr);renderTabs();renderBnav();if(TAB==='home')renderHome();GSTEP++;guideDraw()}}};
@@ -8283,7 +8412,7 @@ const TOURS={
     {at:['#dp-box'],t:'A dice pool',b:'Click dice to gather a handful, then roll them all at once: handy for big damage rolls.'},
     {at:['#ds-e','#ds-add'],t:'Save your rolls',b:'Save rolls you make often (your sword attack, a fireball) and roll them with one tap.'},
     {go:'bestiary',at:['#content .card'],t:'Tap dice anywhere',b:'Anywhere you see a roll written on a page, like 2d6 + 3 in a monster\'s attack, tap it to roll it.'}]},
-  crafting:{icon:'⚒',t:'Gear and crafting',d:'Blueprints, materials, the Forge, and planning what to make.',steps:[
+  crafting:{icon:'⚒',t:'Gear and crafting',d:'Blueprints, materials, the Forge, the Shop, and planning what to make.',steps:[
     {go:'blueprints',at:['#ctrl input','#ctrl'],t:'Blueprints',b:'Thousands of designs for weapons, armor, potions, tools, and more, across ten professions. Each one lists its materials, level, and what it does.'},
     {go:'materials',at:['#content .card'],t:'Materials',b:'Everything things are made of, graded by realm and quality. A material\'s property and trait go into whatever you make from it.'},
     {go:'forge',at:['#fg-find'],t:'The Forge: pick a design',b:'Search a general design (a longsword, a shield, a staff) to build your own item part by part.'},
@@ -8291,6 +8420,7 @@ const TOURS={
     {at:['#gk'],t:'Or describe it',b:'The Mystic Forge designs an item from your words and your materials. Its stats still follow the Forge\'s rules.'},
     {at:['.fg-strike','#fg-out'],t:'Three strikes',b:'Pick who forges it, then strike the anvil three times. The roll decides the quality, and only then is the item fully revealed.'},
     {go:'workshop',at:['#content .page'],t:'The Workshop',b:'Items players have forged and chosen to share. Browse them for ideas.'},
+    {go:'shop',at:['#content .panel','#content .page'],t:'The Shop',b:'Buy and sell at a realm\'s market with your character\'s own coin. Prices follow the realm you are in.'},
     {go:'craft',at:['#cf-bp'],t:'Plan what to make',b:'Pick a Blueprint and how many, and the planner adds up the materials, the cost, and what you still need to gather or buy.'}]},
   world:{icon:'🌍',t:'The world of Vestige',d:'The lore, the realms, the gods, and the Towers.',steps:[
     {go:'lore',at:['#content .hero'],t:'The Lore',b:'Start here to learn the world: Infinatas, the gods who came as refugees, the Runes they fight over, and the realms. The chapters are listed down the side.'},
