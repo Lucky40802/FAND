@@ -293,7 +293,7 @@ var SYMBOLS = {
   '🗿': 'stone-bust', '💎': 'gems', '🪕': 'banjo', '🎶': 'musical-notes', '🎼': 'musical-notes', '🥁': 'drum', '📯': 'hunting-horn', '🧹': 'broom',
   '🪚': 'hand-saw', '🪣': 'empty-wood-bucket', '🚪': 'door', '🧙': 'wizard-face', '🎨': 'paint-brush', '❄': 'snowflake-1', '☘': 'clover',
   '✝': 'holy-symbol', '🎋': 'bamboo', '🍀': 'clover', '🗺': 'treasure-map', '🏰': 'castle', '🐺': 'wolf-head', '🦇': 'evil-bat', '🕯': 'candle-light',
-  '⏳': 'hourglass', '🌲': 'pine-tree', '🌊': 'big-wave', '🌋': 'volcano', '🧿': 'third-eye', '🩸': 'drop', '🦷': 'fangs', '🪶': 'feather', '🐚': 'spiral-shell'
+  '⛺': 'camping-tent', '⏳': 'hourglass', '🌲': 'pine-tree', '🌊': 'big-wave', '🌋': 'volcano', '🧿': 'third-eye', '🩸': 'drop', '🦷': 'fangs', '🪶': 'feather', '🐚': 'spiral-shell'
 };
 // ---- one symbol for each page (menu entries and page headings) and each menu group ----
 var PAGE_SYMBOLS = {
@@ -305,6 +305,13 @@ var PAGE_SYMBOLS = {
   tools: 'toolbox', guide: 'treasure-map', rules: 'rule-book', help: 'help', about: 'info', account: 'cowled', settings: 'cog',
   'g:World': 'world', 'g:Creatures & Materials': 'dragon-head', 'g:Items & Crafting': 'anvil-impact', 'g:Magic & Classes': 'magic-swirl',
   'g:Play': 'perspective-dice-six-faces-random', 'g:Reference': 'book-cover', 'g:DM': 'crowned-skull'
+};
+
+// ---- conditions (combat tracker chips and turn-order tiles) ----
+var COND_SYMBOLS = {
+  Blinded: 'blindfold', Charmed: 'charm', Deafened: 'hearing-disabled', Frightened: 'terror', Grappled: 'grab', Incapacitated: 'knockout',
+  Invisible: 'invisible', Paralyzed: 'frozen-body', Petrified: 'stone-bust', Poisoned: 'poison-bottle', Prone: 'falling', Restrained: 'manacles',
+  Stunned: 'knocked-out-stars', Unconscious: 'sleepy', Exhaustion: 'despair', Concentrating: 'concentration-orb'
 };
 
 function first(rules, s) { for (var i = 0; i < rules.length; i++) if (rules[i][0].test(s)) return rules[i][1]; return null; }
@@ -334,6 +341,7 @@ function buildArt(D) {
     });
   });
   out.sym = {}; Object.keys(SYMBOLS).forEach(function (e) { out.sym[e] = use(SYMBOLS[e]); });
+  out.cond = {}; Object.keys(COND_SYMBOLS).forEach(function (k) { out.cond[k] = use(COND_SYMBOLS[k]); });
   out.pg = {}; Object.keys(PAGE_SYMBOLS).forEach(function (k) { out.pg[k] = use(PAGE_SYMBOLS[k]); });
   // check every Rune picture exists, so a typo shows up at build time instead of silently falling back
   Object.keys(RUNE).forEach(function (r) { if (!has(RUNE[r])) throw new Error('art: Rune ' + r + ' names a missing icon ' + RUNE[r]); });
