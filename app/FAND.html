@@ -40,6 +40,8 @@ button,input,select{font:inherit;color:inherit}
 button{cursor:pointer}
 a{color:var(--acc2)}
 :focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:4px}
+.skip{position:fixed;left:12px;top:-60px;z-index:100;background:var(--acc);color:#fff;padding:10px 16px;border-radius:10px;font-weight:600;text-decoration:none;transition:top .15s}.skip:focus{top:12px}
+#content:focus{outline:none}
 h1,h2,h3,h4{font-family:var(--serif);font-weight:700;letter-spacing:.01em}
 .mono{font-family:var(--mono)}
 ::-webkit-scrollbar{width:8px;height:8px}
@@ -1030,6 +1032,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
 </script>
 </head>
 <body>
+<a class="skip" href="#content" onclick="event.preventDefault();const c=document.getElementById('content');c.setAttribute('tabindex','-1');c.focus()">Skip to the page</a>
 
 <header class="top">
   <button class="icon-btn backbtn" onclick="appBack()" aria-label="Back" title="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -1078,7 +1081,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
     <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> move</span><span><kbd>Enter</kbd> open</span><span><kbd>Esc</kbd> close</span></div>
   </div>
 </div>
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 <button class="upd" id="upd" hidden onclick="forceUpdate()">A new version of FAND is ready. Tap to load it.</button>
 <button class="upd" id="cloudupd" hidden onclick="location.reload()">Newer data from your account is ready. Tap to load it.</button>
 <button class="ai-fab" id="aiFab" onclick="toggleAI(true)" aria-label="Ask the FAND assistant">✦ <span>Ask FAND</span></button>
@@ -1414,11 +1417,11 @@ function loadIconPick(){if(typeof ICON_PICK!=='undefined')return Promise.resolve
 function artPicker(x,onSet){if(!x||(!PICKABLE[x._t]&&!onSet))return;let P=$('artpick');if(!P){P=document.createElement('div');P.id='artpick';P.className='artpick';P.setAttribute('role','dialog');P.setAttribute('aria-modal','true');document.body.appendChild(P)}
   const key=x._t+':'+x.n,name=x.n.split(' - ')[0];P.hidden=false;
   P.innerHTML=`<div class="ap-box"><div class="ap-h"><b>Choose a picture for ${esc(name)}</b><button type="button" class="icon-btn" onclick="artPickClose()" aria-label="Close">${ICON.x}</button></div><input class="sel" id="ap-q" type="search" placeholder="Search pictures: dragon, skull, wolf, flame…" style="max-width:none" aria-label="Search pictures"><div class="ap-grid" id="ap-grid" role="list"><div class="note">Loading pictures…</div></div><div class="ap-f"><button type="button" class="btn" onclick="artPickSet(null)" ${(onSet?x.pic:ART_PICK[key])?'':'disabled'}>Use the default picture</button><span class="note" style="margin:0">Saved on this device.</span></div></div>`;
-  P._x=x;P._cb=onSet||null;P.onclick=e=>{if(e.target===P)artPickClose()};
+  P._ret=document.activeElement;P._x=x;P._cb=onSet||null;P.onclick=e=>{if(e.target===P)artPickClose()};
   loadIconPick().then(()=>{const draw=()=>{const q=lc(($('ap-q')||{}).value||'').trim().replace(/\s+/g,'-'),L=ICON_PICK.filter(([n])=>!q||n.includes(q)),cur=((onSet?x.pic:ART_PICK[key])||{}).n;
       $('ap-grid').innerHTML=L.length?L.slice(0,240).map(([n,b],i)=>`<button type="button" role="listitem" class="ap-i${n===cur?' on':''}" data-i="${ICON_PICK.indexOf(L[i])}" title="${esc(n.replace(/-/g,' '))}" aria-label="${esc(n.replace(/-/g,' '))}"><svg viewBox="0 0 512 512" focusable="false">${b}</svg></button>`).join('')+(L.length>240?`<div class="note" style="grid-column:1/-1">${fmt(L.length-240)} more: narrow the search.</div>`:''):'<div class="note">Nothing matches. Try another word.</div>'};
     draw();$('ap-q').oninput=draw;$('ap-grid').onclick=e=>{const b=e.target.closest('.ap-i');if(b)artPickSet(ICON_PICK[+b.dataset.i])};setTimeout(()=>$('ap-q').focus(),0)},e=>{$('ap-grid').innerHTML=`<div class="note">${esc(e.message)}</div>`})}
-function artPickClose(){const P=$('artpick');if(P)P.hidden=true}
+function artPickClose(){const P=$('artpick');if(!P||P.hidden)return;const back=P.contains(document.activeElement);P.hidden=true;if(back)setTimeout(()=>{const b=document.querySelector('#modal .art-edit')||P._ret;if(b&&document.contains(b))b.focus()},0)}
 function artPickSet(ic){const P=$('artpick'),x=P&&P._x;if(!x)return;if(P._cb){const cb=P._cb;artPickClose();cb(ic?{n:ic[0],b:ic[1]}:null);return}const key=x._t+':'+x.n,was=ART_PICK[key];if(ic)ART_PICK[key]={n:ic[0],b:ic[1]};else delete ART_PICK[key];store.set('artPick',ART_PICK);artPickClose();
   const redraw=()=>{if($('mbg').classList.contains('open')&&CUR===x)showModal(x);if(VIEWS[TAB])renderList();else if(TAB==='combat')renderCombat()};redraw();
   undoToast(ic?'New picture for '+x.n.split(' - ')[0]:'Default picture back for '+x.n.split(' - ')[0],()=>{if(was)ART_PICK[key]=was;else delete ART_PICK[key];store.set('artPick',ART_PICK);redraw()})}
@@ -1945,15 +1948,27 @@ function navGroups(){const r=role();
 function setRole(r){store.set('role',ROLES[r]?r:'');renderTabs();if(typeof renderBnav==='function')renderBnav();if(['home','settings','hidden','help'].includes(TAB))renderTab();
   toast(r==='dm'?'DM view: your table tools come first':r==='player'?'Player view: your character comes first':'Showing every page')}
 function navGroupOf(t){const g=navGroups().find(([,ids])=>ids.includes(t));return g?g[0]:null}
-function openNav(g,btn){
+let NAV_BTN=null,KB_LAST=false;
+document.addEventListener('keydown',e=>{if(['Tab','Enter',' ','ArrowDown'].includes(e.key))KB_LAST=true},true);document.addEventListener('pointerdown',()=>{KB_LAST=false},true);
+function openNav(g,btn){NAV_BTN=btn;
   const pop=$('navpop'),grp=navGroups().find(x=>x[0]===g);if(!grp)return;
   if(pop.classList.contains('open')&&pop.dataset.g===g){closeNav();return}
   pop.dataset.g=g;
   pop.innerHTML=grp[1].map(id=>{const t=TABS.find(x=>x[0]===id);if(!t)return '';return `<a href="${pageUrl(id)}" data-tab="${id}" role="menuitem" class="${id===TAB?'on':''}">${pgSym(id)}<span><b>${t[1]}</b><small>${esc(NAV_BLURB[id]||'')}</small></span>${t[2]!=null?`<span class="n">${fmt(t[2])}</span>`:''}</a>`}).join('');
   const r=btn.getBoundingClientRect();pop.style.top=(r.bottom+6)+'px';pop.style.setProperty('--navtop',(r.bottom+6)+'px');pop.scrollTop=0;pop.style.left=Math.max(8,Math.min(r.left,innerWidth-Math.min(380,innerWidth*.92)-8))+'px';
   pop.classList.add('open');btn.setAttribute('aria-expanded','true');
+  if(KB_LAST)setTimeout(()=>{const a=pop.querySelector('a[role=menuitem]');if(a)a.focus()},0);
 }
-function closeNav(){$('navpop').classList.remove('open');$('tabs').querySelectorAll('[aria-expanded]').forEach(b=>b.setAttribute('aria-expanded','false'))}
+// keyboard: Tab stays inside an open popup (detail page, picture picker), arrow keys move through an open menu
+const FOCUSABLE='a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),summary,[tabindex]:not([tabindex="-1"])';
+document.addEventListener('keydown',e=>{
+  const P=$('artpick'),box=P&&!P.hidden?P:$('mbg').classList.contains('open')?$('mbg'):null;
+  if(e.key==='Tab'&&box){const f=[...box.querySelectorAll(FOCUSABLE)].filter(x=>x.offsetParent!==null);if(!f.length)return;const a=f[0],z=f[f.length-1];
+    if(!box.contains(document.activeElement)){e.preventDefault();a.focus();return}if(e.shiftKey&&(document.activeElement===a||document.activeElement===$('mtitle'))){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}return}
+  const nav=$('navpop');if(nav.classList.contains('open')&&['ArrowDown','ArrowUp','Home','End'].includes(e.key)){const L=[...nav.querySelectorAll('a[role=menuitem]')];if(!L.length)return;e.preventDefault();const i=L.indexOf(document.activeElement);
+    const j=e.key==='Home'?0:e.key==='End'?L.length-1:e.key==='ArrowDown'?(i+1)%L.length:(i<=0?L.length-1:i-1);L[j].focus()}
+},true);
+function closeNav(){if($('navpop').contains(document.activeElement)&&NAV_BTN&&document.contains(NAV_BTN))setTimeout(()=>NAV_BTN.focus(),0);$('navpop').classList.remove('open');$('tabs').querySelectorAll('[aria-expanded]').forEach(b=>b.setAttribute('aria-expanded','false'))}
 document.addEventListener('mousedown',e=>{if(!e.target.closest('#navpop')&&!e.target.closest('.navg'))closeNav()});
 $('navpop').addEventListener('click',e=>{const a=e.target.closest('a[data-tab]');if(!a)return;closeNav();if(SITE||e.ctrlKey||e.metaKey)return;e.preventDefault();go(a.dataset.tab)});
 window.addEventListener('resize',closeNav);
@@ -2149,7 +2164,8 @@ function closeModal(){
   if(MODAL_PUSHED&&history.state&&history.state.m){MODAL_PUSHED=false;history.back()}
   else{history.replaceState(null,'',hashFor(TAB));hideModal()}
 }
-function hideModal(){$('mbg').classList.remove('open');document.body.classList.remove('mopen');CUR=null;CHAMP_FOR=null;document.body.style.overflow=''}
+let MODAL_RET=null;
+function hideModal(){const ret=MODAL_RET;MODAL_RET=null;setTimeout(()=>{if(ret&&document.contains(ret)&&!$('mbg').classList.contains('open'))try{ret.focus({preventScroll:true})}catch(e){}},0);$('mbg').classList.remove('open');document.body.classList.remove('mopen');CUR=null;CHAMP_FOR=null;document.body.style.overflow=''}
 $('mbg').addEventListener('mousedown',e=>{if(e.target===$('mbg'))closeModal()});
 function step(d){const i=MODAL_LIST.indexOf(CUR);if(i<0)return;const x=MODAL_LIST[i+d];if(x){history.replaceState({m:1},'',hashFor(TAB,x));showModal(x)}}
 
@@ -2269,7 +2285,9 @@ function showModal(x){
   noteBind(x);$('hoBtn').onclick=()=>openHandout(hoText(x));const cb=$('cmpBtn');if(cb)cb.onclick=()=>{cmpItemToggle(x);cb.classList.toggle('on',cmpHas(x))};
   const pb=$('pinBtn');if(pb)pb.onclick=()=>{togglePin(x);pb.classList.toggle('on');pb.innerHTML=isPinned(x)?ICON.starf:ICON.star;if(VIEWS[TAB])renderList();else if(TAB==='home')renderTab()};
   $('linkBtn').onclick=()=>{const u=location.href;(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>toast('Link copied'),()=>toast('Copy failed: '+u))};
+  if(!$('mbg').classList.contains('open')&&document.activeElement&&document.activeElement!==document.body)MODAL_RET=document.activeElement;
   $('mbg').classList.add('open');document.body.classList.add('mopen');$('mbg').scrollTop=0;
+  setTimeout(()=>{const h=$('mtitle');if(h&&$('mbg').classList.contains('open')&&!$('mbg').contains(document.activeElement)){h.setAttribute('tabindex','-1');h.focus({preventScroll:true})}},0);
   document.title=x.n.split(' - ')[0]+' · FAND';
 }
 
@@ -3170,6 +3188,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-29','Faster first visit, easier with a keyboard','Each page is now a small shell and the app is downloaded once and kept, so the first visit downloads about 40% less and every page after it about 95% less; the locked list of hidden classes (2 MB) is only fetched when someone enters the DM code, and the offline copy no longer saves 39 full pages. For keyboard and screen-reader users: a Skip to the page link, the detail page and the picture picker keep the keyboard inside them and hand focus back when they close, the menus open with the keyboard and move with the arrow keys, messages are read aloud as they appear, and the combat tracker\'s boxes are labelled.','help'],
   ['2026-10-29','NPCs','A new NPCs page (in the Play menu, and the DM group) keeps the DM\'s roster of named NPCs: a picture (chosen from the picture picker, or one for their role), role and title, the faction they belong to, their realm, their attitude to the party on the same scale as Standing, looks, voice, wants, a secret only the DM sees, and notes. Roll a random NPC from the world of Vestige, or keep one of the Hooks page\'s random NPCs. Search and filter by faction, share an NPC with the players as a handout (the secret stays out), or note them in the journal. Like the Shop, it opens with the DM code.','npcs'],
   ['2026-10-29','Choose your own pictures, and symbols for materials and items','In the DM view, tap the picture at the top of any monster, god, demon, or patron to choose a different one from about a thousand creature and fantasy pictures, with a search box (it is saved on this device, and the default comes back in one tap). Materials and Blueprints now carry a symbol for their kind: a heart for blood and organs, bones, hide, crystals, ore, wood, gears, and rune stones for materials, and a sword, bow, staff, shield, potion, and so on for items, on their cards (tinted by realm) and on every material and item chip across the site.','bestiary'],
   ['2026-10-29','DM controls on the Party page','A DM controls panel on the Party page opens with the DM code (like the Shop and Hidden classes) and lets the DM set any character\'s standing with any faction directly, character by character, add or remove factions from the grid, fix the reason on a past change or remove it from the history, and change each character\'s level, hit points, temporary hit points, and gold in one table, with a link to each full sheet. In a campaign, the DM\'s changes save to the players\' sheets. The Standing panel\'s Raise and Lower buttons now need the DM code too. Every change can be undone.','party'],
@@ -6041,12 +6060,15 @@ const HC_LOG_MAX=200;
 function hcLog(ok,how){try{const L=store.get('hclog',[]);L.push({t:new Date().toISOString(),ok,how});store.set('hclog',L.slice(-HC_LOG_MAX))}catch(e){}}
 function hcWait(){const g=store.get('hcguard',{fails:0,until:0});return Math.max(0,(g.until||0)-Date.now())}
 function hcFail(){const g=store.get('hcguard',{fails:0,until:0});g.fails=(g.fails||0)+1;if(g.fails>=5)g.until=Date.now()+Math.min(3600e3,30e3*Math.pow(2,g.fails-5));store.set('hcguard',g);return g}
+// the website keeps the locked list's ciphertext in its own file (data/hidden-lock.js), fetched the first time someone unlocks
+function loadHiddenLock(){if(typeof HIDDEN_LOCK_DATA!=='undefined')return Promise.resolve();return new Promise((res,rej)=>{const sc=document.createElement('script');sc.src='data/hidden-lock.js'+(typeof SITE==='object'&&SITE&&SITE.v?'?v='+SITE.v:'');sc.onload=res;sc.onerror=()=>rej(new Error('The locked list could not load. Check your connection and try again.'));document.body.appendChild(sc)})}
 async function hcUnlock(code,how){
   const L=HIDDEN.lock;if(!L)return HC=hcRetower(HIDDEN.classes||[]);if(!(window.crypto&&crypto.subtle))throw new Error('This browser cannot unlock the list.');
   const w=hcWait();if(w){hcLog(false,'blocked (locked out)');throw new Error('Too many wrong tries. Wait '+Math.ceil(w/1000)+' seconds.')}
   const b=x=>Uint8Array.from(atob(x),c=>c.charCodeAt(0)),base=await crypto.subtle.importKey('raw',new TextEncoder().encode(code),'PBKDF2',false,['deriveKey']);
   const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b(L.salt),iterations:L.it,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt']);
-  let out;try{out=await crypto.subtle.decrypt({name:'AES-GCM',iv:b(L.iv)},key,b(L.data))}catch(e){const g=hcFail();hcLog(false,how||'wrong passphrase');throw new Error(g.until>Date.now()?'Wrong passphrase. Too many wrong tries: wait '+Math.ceil(hcWait()/1000)+' seconds.':'That passphrase is not right.'+(g.fails>=3?' '+(5-g.fails)+(5-g.fails===1?' try':' tries')+' left before a wait.':''))}
+  let LD=L.data;if(!LD&&L.ext){await loadHiddenLock();LD=typeof HIDDEN_LOCK_DATA!=='undefined'?HIDDEN_LOCK_DATA:''}
+  let out;try{out=await crypto.subtle.decrypt({name:'AES-GCM',iv:b(L.iv)},key,b(LD))}catch(e){const g=hcFail();hcLog(false,how||'wrong passphrase');throw new Error(g.until>Date.now()?'Wrong passphrase. Too many wrong tries: wait '+Math.ceil(hcWait()/1000)+' seconds.':'That passphrase is not right.'+(g.fails>=3?' '+(5-g.fails)+(5-g.fails===1?' try':' tries')+' left before a wait.':''))}
   HC=hcRetower(JSON.parse(new TextDecoder().decode(out)));store.set('hcguard',{fails:0,until:0});if(how!=='remembered')hcLog(true,how||'unlocked');
   try{sessionStorage.setItem('fand.hc',code)}catch(e){}return HC;
 }
@@ -7203,7 +7225,7 @@ function cbQuick(id,el,keep){const x=CB.list.find(y=>y.id===id);if(!x)return cbQ
   q.hidden=false;diceify(q);
   if(innerWidth>640){const r=el.getBoundingClientRect(),w=q.offsetWidth,h=q.offsetHeight;q.style.left=Math.max(12,Math.min(r.left,innerWidth-w-12))+'px';q.style.top=(r.bottom+8+h>innerHeight-12?Math.max(12,r.top-h-8):r.bottom+8)+'px'}
   if(!keep)setTimeout(()=>{const b=q.querySelector('.icon-btn');if(b)b.focus()},0)}
-function cbQuickClose(){const q=$('qcard');if(q)q.hidden=true}
+function cbQuickClose(){const q=$('qcard');if(!q||q.hidden)return;const back=q.contains(document.activeElement);q.hidden=true;if(back){const t=[...document.querySelectorAll('.cbtile')].find(b=>b.dataset.id===q.dataset.id);if(t)t.focus()}}
 // after the tracker redraws (a hit, a heal, the next turn), an open card shows the new numbers
 function cbQuickSync(){const q=$('qcard');if(!q||q.hidden)return;if(TAB!=='combat')return cbQuickClose();const t=[...document.querySelectorAll('.cbtile')].find(b=>b.dataset.id===q.dataset.id);if(t)cbQuick(q.dataset.id,t,true);else cbQuickClose()}
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){const q=$('qcard');if(q&&!q.hidden){cbQuickClose();e.stopPropagation()}}},true);
@@ -7234,13 +7256,13 @@ function renderCombat(){
     <div class="tablewrap" style="margin-top:14px"><table class="t cbt"><thead><tr><th class="num">Init</th><th>Combatant</th><th class="num">AC</th><th class="num" title="Rolled against an attacker's Accuracy: higher roll wins">Dodge</th><th>HP</th><th>Damage / heal / temp</th><th>Conditions</th><th></th></tr></thead><tbody>
     ${CB.list.length?CB.list.map((x,i)=>{const m=x.mon&&MON_IDX.get(lc(x.mon)),pct=x.max?Math.max(0,Math.min(100,x.hp/x.max*100)):0,down=x.hp<=0;
       return `<tr style="${i===CB.turn?'background:var(--goldbg);':''}${down?'opacity:.55':''}">
-        <td class="num" data-l="Init"><input type="number" value="${x.init}" data-cb="${x.id}" data-f="init" style="width:56px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px;color:var(--text);text-align:right"></td>
+        <td class="num" data-l="Init"><input type="number" value="${x.init}" data-cb="${x.id}" data-f="init" aria-label="Initiative for ${esc(x.name)}" style="width:56px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px;color:var(--text);text-align:right"></td>
         <td>${i===CB.turn?'▶ ':''}<button type="button" class="cb-pic" onclick="cbQuick('${x.id}',this)" aria-label="Quick card for ${esc(x.name)}">${cbPic(x,'xs')}</button>${m?`<a href="#" ${m.champ?`data-champ="${esc(m.n)}"`:`data-ref="${ref(m)}"`} style="font-weight:600;color:var(--text)">${esc(x.name)}</a>${m.champ?' <span class="b gold" title="Champion: a monster with a class">★</span>':''}`:`<b>${esc(x.name)}</b>`}${x.pc?' <span class="b green">PC</span>':''}${down?(x.pc&&x.ds&&x.ds.f>=3?' <span class="b red">Dead</span>':x.pc&&x.ds&&x.ds.s>=3?' <span class="b gold">Stable</span>':' <span class="b red">Down</span>'):''}</td>
-        <td class="num" data-l="AC"><input type="number" value="${x.ac}" data-cb="${x.id}" data-f="ac" style="width:52px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px;color:var(--text);text-align:right"></td>
-        <td class="num" data-l="Dodge" style="white-space:nowrap"><input type="number" value="${cbDodge(x)}" data-cb="${x.id}" data-f="dodge" style="width:48px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px;color:var(--text);text-align:right"> <button class="btn" style="padding:2px 6px" onclick="cbDodgeRoll('${x.id}')" title="Roll d20 + Dodge">🎲</button></td>
+        <td class="num" data-l="AC"><input type="number" value="${x.ac}" data-cb="${x.id}" data-f="ac" aria-label="AC for ${esc(x.name)}" style="width:52px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px;color:var(--text);text-align:right"></td>
+        <td class="num" data-l="Dodge" style="white-space:nowrap"><input type="number" value="${cbDodge(x)}" data-cb="${x.id}" data-f="dodge" aria-label="Dodge for ${esc(x.name)}" style="width:48px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px;color:var(--text);text-align:right"> <button class="btn" style="padding:2px 6px" onclick="cbDodgeRoll('${x.id}')" title="Roll d20 + Dodge">🎲</button></td>
         <td style="min-width:130px" data-l="HP"><b>${x.hp}</b> / ${x.max}${+x.thp?` <button class="b blue" style="border:0;cursor:pointer" onclick="cbTemp('${x.id}',1)" title="Temporary hit points: damage takes these first. Click to clear.">+${+x.thp} temp ✕</button>`:''}<div class="bar" style="margin-top:4px;position:relative"><i style="width:${pct}%;background:${pct>50?'var(--green)':pct>25?'var(--gold)':'var(--red)'}"></i>${+x.thp&&x.max?`<i style="position:absolute;left:0;top:0;height:100%;width:${Math.min(100,+x.thp/x.max*100)}%;background:var(--blue);opacity:.75"></i>`:''}</div>${x.pc&&down?cbDsHTML(x):''}</td>
-        <td style="white-space:nowrap"><input type="number" min="0" id="dmg-${x.id}" placeholder="0" style="width:64px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px;color:var(--text)"> <button class="btn" onclick="cbHit('${x.id}')">Hit</button> <button class="btn" onclick="cbHeal('${x.id}')">Heal</button> <button class="btn" onclick="cbTemp('${x.id}')" title="Give this many temporary hit points (they don't stack: the higher amount stays)">Temp</button></td>
-        <td data-l="Conditions"><div class="chips">${x.cond.map(c=>{const t=(x.ct||{})[c];return `<span class="chip cb-cond"><button type="button" onclick="cbCond('${x.id}','${c}')" title="${c}: ${esc((typeof COND_TEXT!=='undefined'&&COND_TEXT[c])||'')} Click to remove.">${condSym(c)}${c} ✕</button><button type="button" class="cb-t${t===1?' last':''}" onclick="cbTimer('${x.id}','${c}')" title="${t?t+' round'+(t===1?'':'s')+' left: it ends at the start of '+esc(x.name)+'\'s turn when this reaches 0. Click to change.':'No timer: click to set how many rounds it lasts'}">⏱${t||''}</button></span>`}).join('')}<select class="sel" style="padding:2px 6px;font-size:.75rem" onchange="cbCond('${x.id}',this.value)"><option value="">+ condition</option>${CONDITIONS.filter(c=>!x.cond.includes(c)).map(c=>`<option>${c}</option>`).join('')}</select><input type="number" min="0" id="cbr-${x.id}" class="cb-rounds" placeholder="rounds" title="Rounds the next condition lasts (empty: no timer)" aria-label="Rounds the condition lasts"></div></td>
+        <td style="white-space:nowrap"><input type="number" min="0" id="dmg-${x.id}" placeholder="0" aria-label="Damage, healing, or temporary hit points for ${esc(x.name)}" style="width:64px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px;color:var(--text)"> <button class="btn" onclick="cbHit('${x.id}')">Hit</button> <button class="btn" onclick="cbHeal('${x.id}')">Heal</button> <button class="btn" onclick="cbTemp('${x.id}')" title="Give this many temporary hit points (they don't stack: the higher amount stays)">Temp</button></td>
+        <td data-l="Conditions"><div class="chips">${x.cond.map(c=>{const t=(x.ct||{})[c];return `<span class="chip cb-cond"><button type="button" onclick="cbCond('${x.id}','${c}')" title="${c}: ${esc((typeof COND_TEXT!=='undefined'&&COND_TEXT[c])||'')} Click to remove.">${condSym(c)}${c} ✕</button><button type="button" class="cb-t${t===1?' last':''}" onclick="cbTimer('${x.id}','${c}')" title="${t?t+' round'+(t===1?'':'s')+' left: it ends at the start of '+esc(x.name)+'\'s turn when this reaches 0. Click to change.':'No timer: click to set how many rounds it lasts'}">⏱${t||''}</button></span>`}).join('')}<select class="sel" style="padding:2px 6px;font-size:.75rem" aria-label="Add a condition to ${esc(x.name)}" onchange="cbCond('${x.id}',this.value)"><option value="">+ condition</option>${CONDITIONS.filter(c=>!x.cond.includes(c)).map(c=>`<option>${c}</option>`).join('')}</select><input type="number" min="0" id="cbr-${x.id}" class="cb-rounds" placeholder="rounds" title="Rounds the next condition lasts (empty: no timer)" aria-label="Rounds the condition lasts"></div></td>
         <td style="white-space:nowrap">${down&&m&&(m.drops||[]).length?`<button class="btn" onclick="CB.harvest='${x.id}';saveCB();renderCombat()" title="Scavenge its corpse">🔪 Scavenge</button> `:''}<button class="btn" onclick="cbRemove('${x.id}')" title="Remove">✕</button></td></tr>`}).join(''):`<tr class="cb-empty"><td colspan="8"><div class="empty" style="padding:30px"><b>No combatants</b>Add monsters, the party, or send an encounter from the Encounter builder.</div></td></tr>`}
     </tbody></table></div>
     <div class="note">An attack is an opposed roll: the attacker's d20 + Accuracy against the target's d20 + Dodge (🎲 rolls it); the higher roll wins and a tie misses. Hit subtracts the target's AC from the damage (a hit can deal 0 if AC is as high as the damage). Untick “Subtract AC” for damage that ignores armor.</div>${harvestHTML()}${spoilsHTML()}</div>`;
