@@ -781,10 +781,12 @@ const NAV_BLURB={npcs:'Your roster of named NPCs: faces, factions, voices, and s
 // matter at the table first and no Hidden classes entry (the list is the DM's). 'Both' leaves everything as it is.
 const ROLES={player:'Player',dm:'Dungeon Master',both:'Both'};
 const role=()=>{const r=store.get('role','');return ROLES[r]?r:''};
-const DM_PAGES=['hidden','prep','encounter','combat','hooks','npcs','towers'],PLAYER_FIRST=['sheet','party','dice','journal'];
+// pages only the DM opens (with the DM code): left out of the player view's menu
+const DM_ONLY=['hidden','shop','forge','npcs'];
+const DM_PAGES=['hidden','prep','encounter','combat','hooks','npcs','shop','forge','towers'],PLAYER_FIRST=['sheet','party','dice','journal'];
 function navGroups(){const r=role();
   if(r==='dm')return [['DM',DM_PAGES]].concat(NAV_GROUPS.map(([g,ids])=>[g,ids.filter(id=>!DM_PAGES.includes(id)||id==='towers')]));
-  if(r==='player')return NAV_GROUPS.map(([g,ids])=>[g,(g==='Play'?PLAYER_FIRST.filter(x=>ids.includes(x)).concat(ids.filter(x=>!PLAYER_FIRST.includes(x))):ids).filter(x=>x!=='hidden')]);
+  if(r==='player')return NAV_GROUPS.map(([g,ids])=>[g,(g==='Play'?PLAYER_FIRST.filter(x=>ids.includes(x)).concat(ids.filter(x=>!PLAYER_FIRST.includes(x))):ids).filter(x=>!DM_ONLY.includes(x))]);
   return NAV_GROUPS}
 function setRole(r){store.set('role',ROLES[r]?r:'');renderTabs();if(typeof renderBnav==='function')renderBnav();if(['home','settings','hidden','help'].includes(TAB))renderTab();
   toast(r==='dm'?'DM view: your table tools come first':r==='player'?'Player view: your character comes first':'Showing every page')}
@@ -803,7 +805,7 @@ function openNav(g,btn){NAV_BTN=btn;
 // keyboard: Tab stays inside an open popup (detail page, picture picker), arrow keys move through an open menu
 const FOCUSABLE='a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),summary,[tabindex]:not([tabindex="-1"])';
 document.addEventListener('keydown',e=>{
-  const P=$('artpick'),box=P&&!P.hidden?P:$('mbg').classList.contains('open')?$('mbg'):null;
+  const P=$('artpick'),F=$('fmo'),box=F&&!F.hidden?F:P&&!P.hidden?P:$('mbg').classList.contains('open')?$('mbg'):null;
   if(e.key==='Tab'&&box){const f=[...box.querySelectorAll(FOCUSABLE)].filter(x=>x.offsetParent!==null);if(!f.length)return;const a=f[0],z=f[f.length-1];
     if(!box.contains(document.activeElement)){e.preventDefault();a.focus();return}if(e.shiftKey&&(document.activeElement===a||document.activeElement===$('mtitle'))){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}return}
   const nav=$('navpop');if(nav.classList.contains('open')&&['ArrowDown','ArrowUp','Home','End'].includes(e.key)){const L=[...nav.querySelectorAll('a[role=menuitem]')];if(!L.length)return;e.preventDefault();const i=L.indexOf(document.activeElement);
@@ -2029,6 +2031,8 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-29','The player rolls at the anvil','The Forge is now run like a scene at the table. The DM picks the design and the materials, chooses who is forging, and presses Call for the roll: the anvil opens full screen with the player\'s name, what to roll (d20 and their bonus, with advantage or disadvantage when it applies), and two ways to roll: tap Roll the die (the dice tumble on screen, which you can turn to face the player), or enter what real dice showed. Then three hammer blows ring out, with sound and a line of story each, before the result is revealed: a masterwork, fine work, it holds, flawed, it doesn\'t take, or the metal cracks. A hired smith rolls for the work the same way.','forge'],
+  ['2026-10-29','The Forge is the DM\'s too','Like the Shop, the Forge now opens only with the DM code (the same passphrase, pattern, or PIN as Hidden classes), so players bring their materials and designs to the DM instead of forging on their own. In the player view, the Shop, the Forge, NPCs, and Hidden classes are no longer in the menu; in the DM view, the Shop and the Forge join the DM group.','forge'],
   ['2026-10-29','Faster first visit, easier with a keyboard','Each page is now a small shell and the app is downloaded once and kept, so the first visit downloads about 40% less and every page after it about 95% less; the locked list of hidden classes (2 MB) is only fetched when someone enters the DM code, and the offline copy no longer saves 39 full pages. For keyboard and screen-reader users: a Skip to the page link, the detail page and the picture picker keep the keyboard inside them and hand focus back when they close, the menus open with the keyboard and move with the arrow keys, messages are read aloud as they appear, and the combat tracker\'s boxes are labelled.','help'],
   ['2026-10-29','NPCs','A new NPCs page (in the Play menu, and the DM group) keeps the DM\'s roster of named NPCs: a picture (chosen from the picture picker, or one for their role), role and title, the faction they belong to, their realm, their attitude to the party on the same scale as Standing, looks, voice, wants, a secret only the DM sees, and notes. Roll a random NPC from the world of Vestige, or keep one of the Hooks page\'s random NPCs. Search and filter by faction, share an NPC with the players as a handout (the secret stays out), or note them in the journal. Like the Shop, it opens with the DM code.','npcs'],
   ['2026-10-29','Choose your own pictures, and symbols for materials and items','In the DM view, tap the picture at the top of any monster, god, demon, or patron to choose a different one from about a thousand creature and fantasy pictures, with a search box (it is saved on this device, and the default comes back in one tap). Materials and Blueprints now carry a symbol for their kind: a heart for blood and organs, bones, hide, crystals, ore, wood, gears, and rune stones for materials, and a sword, bow, staff, shield, potion, and so on for items, on their cards (tinted by realm) and on every material and item chip across the site.','bestiary'],
@@ -6752,7 +6756,13 @@ function forgeJump(){const P=document.querySelector('.page.forge');if(!P)return;
 function forgeJumpLit(){const B=document.querySelector('.fg-jump');if(!B)return;const top=$('content').getBoundingClientRect().top+80;let cur=null;
   B.querySelectorAll('[data-fgj]').forEach(a=>{const t=document.getElementById(a.dataset.fgj);if(t&&t.getBoundingClientRect().top<=top)cur=a});
   B.querySelectorAll('.on').forEach(a=>a.classList.remove('on'));if(cur){cur.classList.add('on');const bl=B.getBoundingClientRect(),r=cur.getBoundingClientRect();if(r.left<bl.left||r.right>bl.right)B.scrollLeft+=r.left-bl.left-20}}
-function renderForge(){
+// like the Shop, the Forge is the DM's: it opens with the DM code (the same passphrase, pattern, or PIN as Hidden classes)
+async function forgeLocked(){await hcAuto();if(TAB!=='forge')return;if(dmUnlocked())return renderForge();
+  const lock=quickModes().length&&!PAT_SKIP&&window.crypto&&crypto.subtle?patLockHTML('renderForge'):hcLockHTML();
+  $('content').innerHTML=`<div class="page"><div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Forge</h3><p>The Forge is run by the DM. Bring your materials and your design to your DM; they open it with the DM code.</p></div>${lock}</div>`;
+  const b=document.querySelector('#content .panel b'),n=document.querySelector('#content .panel p.note');if(b&&$('hc-form'))b.textContent='The Forge is locked';if(n&&$('hc-form'))n.textContent='Enter the DM passphrase to open the Forge.';
+  if($('hc-pat')||$('hc-pin'))patLockBind(renderForge);else hcBindLock(renderForge)}
+function renderForge(){if(!dmUnlocked())return forgeLocked();
   const B=BASES[FORGE.base],q=lc((FORGE.find||'').trim()),byGen=BP_BY_GEN();
   const INV=invIndex(),invN=invMats(INV).length;
   $('content').innerHTML=`<div class="page forge">${datalists()}<div class="fg-bgwrap" aria-hidden="true"><canvas id="fg-fx"></canvas></div>
@@ -7400,21 +7410,63 @@ function forgeEstimateHTML(r,ready,formGap){forgeSmithOk();if(forgeDM())return f
     <label class="note" style="display:flex;gap:6px;align-items:center;margin:8px 0 0" title="Odds, DCs, and the roll math. On by itself in the DM's view (Settings, How you play)."><input type="checkbox" ${forgeNums()?'checked':''} onchange="FORGE.nums=this.checked;store.set('forge',FORGE);forgeOut()"> 🎲 Show the numbers (odds, DC, levels)</label>
     <label class="note" style="display:flex;gap:6px;align-items:center;margin:8px 0 0"><input type="checkbox" ${FORGE.share?'checked':''} onchange="FORGE.share=this.checked;store.set('forge',FORGE)"> Share this Blueprint in the Workshop, where other players can see it ${CL.on&&CL.user?'':'<small>(sign in to save Blueprints to the Workshop)</small>'}</label>
     <div class="fg-anvilrow"><div class="fg-anvil" aria-hidden="true">⚒</div><div>
-      <button class="btn primary fg-strike" ${can?'':`disabled title="${esc(why)}"`} onclick="forgeStrike()">🔨 ${sm?'Have '+esc(sm.n)+' strike':'Strike'} (${FF.strikes||0} of 3)</button>
+      <button class="btn primary fg-strike" ${can?'':`disabled title="${esc(why)}"`} onclick="forgeStrike()">🔨 ${sm?'Hand the work to '+esc(sm.n):'Call for the roll'}</button>
       <button class="btn" id="fg-snd" type="button" onclick="forgeSoundToggle()">${FSND?'🔊 Sound on':'🔇 Sound off'}</button>
-      <div class="note" style="margin:4px 0 0">${can?'Three strikes at the anvil, and the item is yours.':esc(why)}</div></div></div>
+      <div class="note" style="margin:4px 0 0">${can?(sm?'The smith rolls for the work at the anvil.':`The anvil opens full screen: ${esc(c.name||'the forger')} rolls (tap to roll, or use real dice), three strikes, and the item is theirs.`):esc(why)}</div></div></div>
     ${FF.res?`<div class="callout" style="margin-top:8px;border-color:var(--${FF.res.bad?'red':'gold'})">${FF.res.html}</div>`:''}
   </div>`}
-function forgeStrike(){const r=forgeResult(),c=PARTY.find(x=>x.id===FF.who);if(!c)return;FF.res=null;FF.strikes=(FF.strikes||0)+1;forgeSound(forgeKind(r),FF.strikes);
-  if(FF.strikes<3){forgeOut();forgeSpark();return}FF.strikes=0;forgeSpark();setTimeout(()=>forgeResolve(r,c),350)}
-function forgeResolve(r,c){const b=forgeBP(r),sm=FF.smith&&hireOf(FF.smith,r.cost),M=invIndex();let d,a1,a2,tot,dc,mode,bonus,who;
-  if(sm){const k=craftCheck(b,c),sc=smithCheck(sm,b);if(!smithCan(sm,b,forgeReq(b))){toast(sm.n+' can\'t work these materials');return}dc=k.dc+(b.dcMod||0);bonus=sc.bonus;mode=sc.mode;who=sm.n}else{const k=forgeCheck(b,c);if(k.blocked){toast("Can't forge: "+k.blocked);return}dc=k.dc;bonus=k.bonus;mode=k.mode;who=c.name||'The forger'}
-  a1=1+Math.floor(Math.random()*20);a2=1+Math.floor(Math.random()*20);d=mode==='adv'?Math.max(a1,a2):mode==='dis'?Math.min(a1,a2):a1;tot=d+bonus;const q=forgeQ(d,tot-dc,!!sm);
-  const line=`${esc(who)} rolls <b>${d}${mode?` <small>(${a1}, ${a2}, ${mode==='adv'?'advantage':'disadvantage'})</small>`:''} ${bonus>=0?'+':'−'} ${Math.abs(bonus)} = ${tot}</b>${forgeNums()?` vs DC ${dc}`:''}.`;
-  if(q==='ruin'){const ms=forgeNeeds(r,M).filter(x=>x.have>0),lost=ms.length?ms[Math.floor(Math.random()*ms.length)].n:'';if(lost){invTake(M,lost,1,c);saveParty()}
-    forgeSound('fail');FF.res={bad:1,html:`${line} <b style="color:var(--red)">Natural 1:</b> the metal cracks${lost?` and the <b>${esc(lost)}</b> is ruined`:''}. Strike again when ready.`};forgeOut();return}
-  if(q==='fail'){forgeSound('fail');FF.res={bad:1,html:`${line} <b>It doesn't take.</b> Nothing is lost: strike again.`};forgeOut();return}
-  forgeMake(r,c,q,fqQuirk(),line,sm,M)}
+// the DM sets the work up; the player rolls at the anvil (a full-screen scene: tap to roll, or enter real dice)
+function forgeStrike(){const c=PARTY.find(x=>x.id===FF.who);if(!c)return;FF.res=null;fmOpen()}
+function forgeRollInfo(r,c){const b=forgeBP(r),sm=FF.smith&&hireOf(FF.smith,r.cost);
+  if(sm){if(!smithCan(sm,b,forgeReq(b)))return {blocked:sm.n+' can\'t work these materials'};const k=craftCheck(b,c),sc=smithCheck(sm,b);return {b,sm,dc:k.dc+(b.dcMod||0),bonus:sc.bonus,mode:sc.mode,who:sm.n,pr:b.pr}}
+  const k=forgeCheck(b,c);if(k.blocked)return {blocked:k.blocked};return {b,sm:null,dc:k.dc,bonus:k.bonus,mode:k.mode,who:c.name||'The forger',pr:b.pr}}
+// what the dice say (the player's own dice when given, otherwise rolled here); nothing changes until forgeApply
+function forgeOutcome(r,c,dice){const I=forgeRollInfo(r,c);if(I.blocked){toast("Can't forge: "+I.blocked);return null}const R=()=>1+Math.floor(Math.random()*20);
+  const a1=dice&&dice[0]?dice[0]:R(),a2=dice&&dice[1]?dice[1]:R(),mode=I.mode,d=mode==='adv'?Math.max(a1,a2):mode==='dis'?Math.min(a1,a2):a1,tot=d+I.bonus,q=forgeQ(d,tot-I.dc,!!I.sm);
+  const line=`${esc(I.who)} rolls <b>${d}${mode?` <small>(${a1}, ${a2}, ${mode==='adv'?'advantage':'disadvantage'})</small>`:''} ${I.bonus>=0?'+':'−'} ${Math.abs(I.bonus)} = ${tot}</b>${forgeNums()?` vs DC ${I.dc}`:''}.`;
+  return {q,d,a1,a2,tot,mode,line,sm:I.sm,who:I.who}}
+function forgeApply(r,c,O){const M=invIndex();
+  if(O.q==='ruin'){const ms=forgeNeeds(r,M).filter(x=>x.have>0),lost=ms.length?ms[Math.floor(Math.random()*ms.length)].n:'';if(lost){invTake(M,lost,1,c);saveParty()}
+    forgeSound('fail');FF.res={bad:1,html:`${O.line} <b style="color:var(--red)">Natural 1:</b> the metal cracks${lost?` and the <b>${esc(lost)}</b> is ruined`:''}. Strike again when ready.`};forgeOut();return {lost}}
+  if(O.q==='fail'){forgeSound('fail');FF.res={bad:1,html:`${O.line} <b>It doesn't take.</b> Nothing is lost: strike again.`};forgeOut();return {}}
+  forgeMake(r,c,O.q,fqQuirk(),O.line,O.sm,M);return {made:true}}
+function forgeResolve(r,c,dice){const O=forgeOutcome(r,c,dice);return O?forgeApply(r,c,O):null}
+// ── The anvil scene ──
+let FM=null;
+const FM_BLOWS=[['The first blow rings out across the forge.','The first blow lands, heavy and sure.','Sparks leap at the first strike.'],['The second strike: the metal glows and gives.','A second blow; the shape begins to show.','Again: the hammer finds its rhythm.'],['The last strike. Everyone holds their breath…','One final blow, and the forge falls quiet…','The third strike rings, and the hiss of the quench…']];
+const FM_Q={Masterwork:['A masterwork!','#ffd36b','Smiths will talk about this one.'],Fine:['Fine work','#9fe6a0','Better than most smiths could hope for.'],Standard:['It holds','#e9dcc4','Solid, honest work.'],Flawed:['Flawed, but whole','#f0b27a','It works, with a quirk or two.'],fail:['It doesn\'t take','#c9b8a6','The metal won\'t hold its shape. Nothing is lost: try again.'],ruin:['The metal cracks','#ff7b6b','A natural 1. Something is lost to the fire.']};
+function fmOpen(){const r=forgeResult(),c=PARTY.find(x=>x.id===FF.who);if(!c)return;const I=forgeRollInfo(r,c);if(I.blocked){toast("Can't forge: "+I.blocked);return}
+  FM={r,c,I,step:'call',ret:document.activeElement};fmDraw()}
+function fmClose(){const O=$('fmo');if(!O||O.hidden)return;if(FM&&FM.step==='roll')return;O.hidden=true;const ret=FM&&FM.ret;FM=null;forgeOut();if(ret&&document.contains(ret))try{ret.focus()}catch(e){}}
+function fmBox(inner){let O=$('fmo');if(!O){O=document.createElement('div');O.id='fmo';O.className='fmo';O.setAttribute('role','dialog');O.setAttribute('aria-modal','true');O.setAttribute('aria-label','At the anvil');document.body.appendChild(O)}
+  O.hidden=false;O.innerHTML=`<div class="fmo-box" id="fmo-box">${FM.step==='roll'?'':`<button type="button" class="icon-btn fmo-x" onclick="fmClose()" aria-label="Step away from the anvil">${ICON.x}</button>`}${inner}</div>`;return O}
+function fmDraw(){const {r,c,I}=FM,name=esc(c.name||'The forger'),item=esc(r.name||FORGE.base||'the item'),mod=(I.bonus>=0?'+ ':'− ')+Math.abs(I.bonus),two=!!I.mode,
+    adv=I.mode==='adv'?' with <b>advantage</b> (roll two, keep the higher)':I.mode==='dis'?' with <b>disadvantage</b> (roll two, keep the lower)':'';
+  if(FM.step==='call'){fmBox(`<div class="fmo-anvil" aria-hidden="true">⚒</div><div class="fmo-kicker">At the anvil</div>
+      <h2 class="fmo-h">${I.sm?esc(I.who)+' takes '+name+'\'s materials':name+' takes up the hammer'}</h2>
+      <p class="fmo-p">${item}${r.il?' · item level '+r.il:''}. ${I.sm?'The smith will roll for the work.':'The fire is hot and the metal is ready.'}</p>
+      ${I.sm?'':`<div class="fmo-call"><b>${name}</b>, roll ${esc(I.pr)}: <span class="fmo-dice">d20 ${mod}</span>${adv}.</div>`}${forgeNums()?`<div class="fmo-dm">For the DM: DC ${I.dc}</div>`:''}
+      <div class="fmo-btns"><button type="button" class="btn primary fmo-roll" onclick="fmRoll()">🎲 ${I.sm?'Let them work':'Roll the die'}</button>${I.sm?'':`<button type="button" class="btn" onclick="FM.step='real';fmDraw()">We rolled real dice</button>`}</div>`);
+    setTimeout(()=>{const b=document.querySelector('#fmo .fmo-roll');if(b)b.focus()},0);return}
+  if(FM.step==='real'){fmBox(`<div class="fmo-kicker">Real dice</div><h2 class="fmo-h">What did ${name} roll?</h2><p class="fmo-p">Enter what the d20${two?'s':''} showed, before the ${mod}.</p>
+      <div class="fmo-real"><label>d20<input class="sel" id="fm-d1" type="number" min="1" max="20" inputmode="numeric"></label>${two?'<label>second d20<input class="sel" id="fm-d2" type="number" min="1" max="20" inputmode="numeric"></label>':''}</div>
+      <div class="fmo-btns"><button type="button" class="btn primary" onclick="fmReal()">Use these</button><button type="button" class="btn" onclick="FM.step='call';fmDraw()">Back</button></div>`);
+    setTimeout(()=>{const e=$('fm-d1');if(e)e.focus()},0);const k=e=>{if(e.key==='Enter')fmReal()};['fm-d1','fm-d2'].forEach(id=>{const e=$(id);if(e)e.onkeydown=k});return}}
+function fmReal(){const two=!!FM.I.mode,a=+($('fm-d1')||{}).value,b=+(($('fm-d2')||{}).value||0),okd=v=>v>=1&&v<=20&&Math.round(v)===v;
+  if(!okd(a)||(two&&!okd(b))){toast('Enter what the d20 showed: a whole number from 1 to 20');return}fmRoll(two?[a,b]:[a])}
+function fmRoll(dice){const {r,c,I}=FM,O=forgeOutcome(r,c,dice);if(!O){FM.step='call';return fmClose()}FM.O=O;FM.step='roll';const two=!!I.mode,vals=two?[O.a1,O.a2]:[O.a1],still=matchMedia('(prefers-reduced-motion: reduce)').matches,kind=forgeKind(r);
+  fmBox(`<div class="fmo-kicker">${esc(O.who)} rolls</div><div class="fmo-dies">${vals.map((v,i)=>`<div class="fmo-die${still?'':' spin'}" id="fm-die${i}">${still?v:'?'}</div>`).join('')}</div><div class="fmo-call" id="fm-roll" aria-live="polite"></div><div class="fmo-strike" id="fm-line" aria-live="polite"></div><div class="fmo-anvil fmo-small" id="fm-anvil" aria-hidden="true">⚒</div>`);
+  const T=still?120:1;let spin=null;if(!still)spin=setInterval(()=>vals.forEach((v,i)=>{const e=$('fm-die'+i);if(e)e.textContent=1+Math.floor(Math.random()*20)}),70);
+  const settle=()=>{clearInterval(spin);let kept=false;vals.forEach((v,i)=>{const e=$('fm-die'+i);if(!e)return;e.classList.remove('spin');e.textContent=v;if(two){const k=!kept&&v===O.d;if(k)kept=true;e.classList.add(k?'keep':'drop')}});const L=$('fm-roll');if(L)L.innerHTML=O.line};
+  const blow=n=>{forgeSound(kind,n+1);const L=$('fm-line'),A=$('fm-anvil'),B=$('fmo-box');if(L)L.textContent=FM_BLOWS[n][Math.floor(Math.random()*3)];if(B&&!still){B.classList.remove('fmo-shake');void B.offsetWidth;B.classList.add('fmo-shake')}if(A&&!still){A.classList.remove('fmo-hit');void A.offsetWidth;A.classList.add('fmo-hit')}};
+  setTimeout(settle,still?0:1200);[0,1,2].forEach(n=>setTimeout(()=>blow(n),(still?T:2100)+n*(still?T:800)));setTimeout(fmDone,(still?T*4:2100+3*800+500))}
+function fmDone(){if(!FM||!FM.O)return;const {r,c,O}=FM,res=forgeApply(r,c,O),Q=FM_Q[O.q]||FM_Q.Standard,ok=!!res&&res.made;FM.step='done';
+  const made=ok&&FF.made?DESIGNS.find(d=>d.n===FF.made):null;
+  fmBox(`<div class="fmo-kicker">${ok?'The work is done':'Not this time'}</div><div class="fmo-q" style="color:${Q[1]}">${esc(Q[0])}</div><p class="fmo-p">${esc(Q[2])}</p><div class="fmo-call">${O.line}</div>
+    ${ok&&made?`<p class="fmo-p"><b>${esc(made.n)}</b> goes into ${esc(c.name||'the forger')}'s gear.</p>`:res&&res.lost?`<p class="fmo-p">The <b>${esc(res.lost)}</b> is lost.</p>`:''}
+    <div class="fmo-btns">${ok?'<button type="button" class="btn primary" onclick="fmClose();const o=$(\'fg-out\');if(o)o.scrollIntoView({behavior:\'smooth\',block:\'start\'})">See the item</button>':`<button type="button" class="btn primary" onclick="FM.step='call';FM.O=null;fmDraw()">Try again</button>`}<button type="button" class="btn" onclick="fmClose()">Back to the forge</button></div>`);
+  setTimeout(()=>{const b=document.querySelector('#fmo .btn.primary');if(b)b.focus()},0)}
+document.addEventListener('keydown',e=>{const O=$('fmo');if(O&&!O.hidden&&e.key==='Escape'){fmClose();e.stopPropagation()}},true);
 // the item is made: the materials are used, its record is written, and it goes on the forger's gear
 function forgeMake(r,c,q,qk,line,sm,M,dm){if(!dm)forgeNeeds(r,M).forEach(x=>invTake(M,x.n,x.q,c));
   if(sm){c.coins=c.coins||{};const fee=sm.fee;if((+c.coins.gp||0)>=fee)c.coins.gp=(+c.coins.gp||0)-fee}
