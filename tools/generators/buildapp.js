@@ -964,6 +964,10 @@ site['vendor/qrcode.js'] = fs.readFileSync(path.join(__dirname, '..', 'app', 've
 site['data/vault.js'] = lit('VAULT') + '\n';
 site['data/vault-details.js'] = lit('VAULT_DETAILS') + '\n';
 site['data/art.js'] = artLine + '\n';
+// the picture picker's choices: fetched only when a DM opens it
+var ICON_PICK = require('./art').buildPick();
+site['data/icons-pick.js'] = 'const ICON_PICK=' + JSON.stringify(ICON_PICK) + ';\n';
+log.push('picture picker: ' + ICON_PICK.length + ' choices');
 log.push('art: ' + ART.icons.length + ' pictures for ' + (Object.keys(ART.mon).length + Object.keys(ART.god).length + Object.keys(ART.demon).length + Object.keys(ART.patron).length) + ' entries');
 // a version stamp of this build's data: pages ask for data/*.js?v=<stamp>, so a new page never runs on a cached old data file
 var DATA_V = require('crypto').createHash('sha1').update(Object.keys(site).filter(function (k) { return /^data\//.test(k); }).sort().map(function (k) { return site[k]; }).join('')).digest('hex').slice(0, 10);
