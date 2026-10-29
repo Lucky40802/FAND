@@ -956,7 +956,12 @@ var PAGE_INFO = {
   settings: ['Settings', 'FAND settings: appearance, the assistant\'s API key, backups of your saved data, and installing the app.'],
   help: ['Help', 'How to use FAND: finding things, characters, dice, playing together, DM tools, phones and offline play, settings, and what to do when something looks wrong.']
 };
+// the hidden classes' ciphertext (about 2 MB that does not compress) is only needed to unlock: it moves to
+// data/hidden-lock.js, which the page fetches when someone enters the DM code; core.js keeps the rest of the lock
+var HLOCK = D.HIDDEN && D.HIDDEN.lock && D.HIDDEN.lock.data ? D.HIDDEN.lock.data : '';
+if (HLOCK) D.HIDDEN.lock = Object.assign({}, D.HIDDEN.lock, { data: '', ext: 1 });
 site['data/core.js'] = CORE.map(lit).join('\n') + '\n' + metaLine + '\n';
+if (HLOCK) { D.HIDDEN.lock = Object.assign({}, D.HIDDEN.lock, { data: HLOCK }); delete D.HIDDEN.lock.ext; site['data/hidden-lock.js'] = 'const HIDDEN_LOCK_DATA=' + JSON.stringify(HLOCK) + ';\n'; }
 site['data/spells.js'] = lit('SPELLS') + '\n';
 site['vendor/anthropic.js'] = VENDOR;
 if (SUPA) site['vendor/supabase.js'] = SUPA;
@@ -979,7 +984,7 @@ var LOADER = '(function(){var F=__FILES__,T=0,G=0,bar,txt;F.forEach(function(f){
   'function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}' +
   'function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}' +
   'function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}' +
-  'function start(){var a=document.getElementById("fand-app");run(a.textContent);a.textContent=""}' +
+  'function start(){var a=document.getElementById("fand-app");if(a){run(a.textContent);a.textContent=""}}' +
   'function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}' +
   'function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\\"loading\\">FAND couldn’t load its data. Check your connection and <a href=\\"\\">try again</a>.</div>"})}' +
   'if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);' +
@@ -987,13 +992,19 @@ var LOADER = '(function(){var F=__FILES__,T=0,G=0,bar,txt;F.forEach(function(f){
 // this build's stamp (the app and its data together): Settings → App shows it, and "Check for updates" compares it with
 // the newest page on the server
 var BUILD_ID = require('crypto').createHash('sha1').update(tpl + DATA_V).digest('hex').slice(0, 8);
+// the app's code (everything after the <!--__DATA__--> marker up to the last </script>) is the same on every page:
+// it ships once as app.js?v=<build>, cached by the browser and the offline worker, instead of inside all the pages
+var APP_MARK = '<!--__DATA__-->\n<script>\n';
+if (tpl.indexOf(APP_MARK) < 0) throw new Error('template: the app script must follow the <!--__DATA__--> marker');
+var APP_A = tpl.indexOf(APP_MARK), APP_B = tpl.lastIndexOf('</script>');
+site['app.js'] = tpl.slice(APP_A + APP_MARK.length, APP_B);
+var APP_URL = 'app.js?v=' + BUILD_ID;
 PAGES.forEach(function (pg) {
   // The page draws its frame at once; a small loader downloads the data with a progress bar, runs it, then starts the app
   // (kept in the page as <script type="text/x-fand">). If fetch can't be used (a file:// copy), it falls back to plain tags.
-  var files = ['core', 'art', 'vault'].concat(pg === 'spells' || pg === 'sheet' || pg === 'tools' || pg === 'magic' || pg === 'journal' ? ['spells'] : []).map(function (f) { return ['data/' + f + '.js?v=' + DATA_V, Buffer.byteLength(site['data/' + f + '.js'], 'utf8')]; });
+  var files = ['core', 'art', 'vault'].concat(pg === 'spells' || pg === 'sheet' || pg === 'tools' || pg === 'magic' || pg === 'journal' ? ['spells'] : []).map(function (f) { return ['data/' + f + '.js?v=' + DATA_V, Buffer.byteLength(site['data/' + f + '.js'], 'utf8')]; }).concat([[APP_URL, Buffer.byteLength(site['app.js'], 'utf8')]]);
   var tags = '<script>const SITE={page:' + JSON.stringify(pg) + ',v:' + JSON.stringify(DATA_V) + ',b:' + JSON.stringify(BUILD_ID) + '};' + cloudLine + '</script>\n<script>' + LOADER.replace('__FILES__', JSON.stringify(files)) + '</script>';
-  if (tpl.indexOf('<!--__DATA__-->\n<script>\n') < 0) throw new Error('template: the app script must follow the <!--__DATA__--> marker');
-  var html = tpl.split('<!--__DATA__-->\n<script>\n').join(tags + '\n<script type="text/x-fand" id="fand-app">\n');
+  var html = tpl.slice(0, APP_A) + tags + '\n' + tpl.slice(APP_B + '</script>'.length);
   var info = PAGE_INFO[pg];
   html = html.replace('<title>FAND · Fantasy and Numerous Disasters</title>', '<title>' + (pg === 'home' ? 'FAND · Fantasy and Numerous Disasters' : info[0] + ' · FAND') + '</title>')
     .replace(/<meta name="description" content="[^"]*">/, function () {
@@ -1029,7 +1040,8 @@ site['manifest.webmanifest'] = JSON.stringify({
   ]
 }, null, 2) + '\n';
 var mapFiles = (function () { var d = path.join(__dirname, '..', 'data', 'maps'); return fs.existsSync(d) ? fs.readdirSync(d).filter(function (f) { return /\.(jpe?g|png|webp)$/i.test(f); }).map(function (f) { return 'img/maps/' + f; }) : []; })();
-var PRECACHE = PAGE_FILES.concat(['data/core.js', 'data/art.js', 'data/vault.js', 'data/spells.js', 'data/vault-details.js'].map(function (f) { return f + '?v=' + DATA_V; }),
+var PRECACHE = PAGE_FILES.concat([APP_URL], // (data/hidden-lock.js is left out: only a DM needs it, and the worker keeps it after their first unlock)
+  ['data/core.js', 'data/art.js', 'data/vault.js', 'data/spells.js', 'data/vault-details.js'].map(function (f) { return f + '?v=' + DATA_V; }),
   ['vendor/anthropic.js', 'vendor/qrcode.js', 'manifest.webmanifest', 'img/icons/icon-180.png', 'img/icons/icon-192.png', 'img/icons/icon-512.png'], SUPA ? ['vendor/supabase.js'] : [], mapFiles);
 // the offline copy's name changes whenever any file changes (pages too), so a phone never keeps an old page offline
 site['sitemap.xml'] = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + PAGES.filter(function (pg) { return pg !== 'hidden'; }).map(function (pg) {
