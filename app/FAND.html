@@ -1940,10 +1940,12 @@ const NAV_BLURB={npcs:'Your roster of named NPCs: faces, factions, voices, and s
 // matter at the table first and no Hidden classes entry (the list is the DM's). 'Both' leaves everything as it is.
 const ROLES={player:'Player',dm:'Dungeon Master',both:'Both'};
 const role=()=>{const r=store.get('role','');return ROLES[r]?r:''};
-const DM_PAGES=['hidden','prep','encounter','combat','hooks','npcs','towers'],PLAYER_FIRST=['sheet','party','dice','journal'];
+// pages only the DM opens (with the DM code): left out of the player view's menu
+const DM_ONLY=['hidden','shop','forge','npcs'];
+const DM_PAGES=['hidden','prep','encounter','combat','hooks','npcs','shop','forge','towers'],PLAYER_FIRST=['sheet','party','dice','journal'];
 function navGroups(){const r=role();
   if(r==='dm')return [['DM',DM_PAGES]].concat(NAV_GROUPS.map(([g,ids])=>[g,ids.filter(id=>!DM_PAGES.includes(id)||id==='towers')]));
-  if(r==='player')return NAV_GROUPS.map(([g,ids])=>[g,(g==='Play'?PLAYER_FIRST.filter(x=>ids.includes(x)).concat(ids.filter(x=>!PLAYER_FIRST.includes(x))):ids).filter(x=>x!=='hidden')]);
+  if(r==='player')return NAV_GROUPS.map(([g,ids])=>[g,(g==='Play'?PLAYER_FIRST.filter(x=>ids.includes(x)).concat(ids.filter(x=>!PLAYER_FIRST.includes(x))):ids).filter(x=>!DM_ONLY.includes(x))]);
   return NAV_GROUPS}
 function setRole(r){store.set('role',ROLES[r]?r:'');renderTabs();if(typeof renderBnav==='function')renderBnav();if(['home','settings','hidden','help'].includes(TAB))renderTab();
   toast(r==='dm'?'DM view: your table tools come first':r==='player'?'Player view: your character comes first':'Showing every page')}
@@ -3188,6 +3190,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-10-29','The Forge is the DM\'s too','Like the Shop, the Forge now opens only with the DM code (the same passphrase, pattern, or PIN as Hidden classes), so players bring their materials and designs to the DM instead of forging on their own. In the player view, the Shop, the Forge, NPCs, and Hidden classes are no longer in the menu; in the DM view, the Shop and the Forge join the DM group.','forge'],
   ['2026-10-29','Faster first visit, easier with a keyboard','Each page is now a small shell and the app is downloaded once and kept, so the first visit downloads about 40% less and every page after it about 95% less; the locked list of hidden classes (2 MB) is only fetched when someone enters the DM code, and the offline copy no longer saves 39 full pages. For keyboard and screen-reader users: a Skip to the page link, the detail page and the picture picker keep the keyboard inside them and hand focus back when they close, the menus open with the keyboard and move with the arrow keys, messages are read aloud as they appear, and the combat tracker\'s boxes are labelled.','help'],
   ['2026-10-29','NPCs','A new NPCs page (in the Play menu, and the DM group) keeps the DM\'s roster of named NPCs: a picture (chosen from the picture picker, or one for their role), role and title, the faction they belong to, their realm, their attitude to the party on the same scale as Standing, looks, voice, wants, a secret only the DM sees, and notes. Roll a random NPC from the world of Vestige, or keep one of the Hooks page\'s random NPCs. Search and filter by faction, share an NPC with the players as a handout (the secret stays out), or note them in the journal. Like the Shop, it opens with the DM code.','npcs'],
   ['2026-10-29','Choose your own pictures, and symbols for materials and items','In the DM view, tap the picture at the top of any monster, god, demon, or patron to choose a different one from about a thousand creature and fantasy pictures, with a search box (it is saved on this device, and the default comes back in one tap). Materials and Blueprints now carry a symbol for their kind: a heart for blood and organs, bones, hide, crystals, ore, wood, gears, and rune stones for materials, and a sword, bow, staff, shield, potion, and so on for items, on their cards (tinted by realm) and on every material and item chip across the site.','bestiary'],
@@ -7911,7 +7914,13 @@ function forgeJump(){const P=document.querySelector('.page.forge');if(!P)return;
 function forgeJumpLit(){const B=document.querySelector('.fg-jump');if(!B)return;const top=$('content').getBoundingClientRect().top+80;let cur=null;
   B.querySelectorAll('[data-fgj]').forEach(a=>{const t=document.getElementById(a.dataset.fgj);if(t&&t.getBoundingClientRect().top<=top)cur=a});
   B.querySelectorAll('.on').forEach(a=>a.classList.remove('on'));if(cur){cur.classList.add('on');const bl=B.getBoundingClientRect(),r=cur.getBoundingClientRect();if(r.left<bl.left||r.right>bl.right)B.scrollLeft+=r.left-bl.left-20}}
-function renderForge(){
+// like the Shop, the Forge is the DM's: it opens with the DM code (the same passphrase, pattern, or PIN as Hidden classes)
+async function forgeLocked(){await hcAuto();if(TAB!=='forge')return;if(dmUnlocked())return renderForge();
+  const lock=quickModes().length&&!PAT_SKIP&&window.crypto&&crypto.subtle?patLockHTML('renderForge'):hcLockHTML();
+  $('content').innerHTML=`<div class="page"><div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Forge</h3><p>The Forge is run by the DM. Bring your materials and your design to your DM; they open it with the DM code.</p></div>${lock}</div>`;
+  const b=document.querySelector('#content .panel b'),n=document.querySelector('#content .panel p.note');if(b&&$('hc-form'))b.textContent='The Forge is locked';if(n&&$('hc-form'))n.textContent='Enter the DM passphrase to open the Forge.';
+  if($('hc-pat')||$('hc-pin'))patLockBind(renderForge);else hcBindLock(renderForge)}
+function renderForge(){if(!dmUnlocked())return forgeLocked();
   const B=BASES[FORGE.base],q=lc((FORGE.find||'').trim()),byGen=BP_BY_GEN();
   const INV=invIndex(),invN=invMats(INV).length;
   $('content').innerHTML=`<div class="page forge">${datalists()}<div class="fg-bgwrap" aria-hidden="true"><canvas id="fg-fx"></canvas></div>
