@@ -913,7 +913,7 @@ log.push('accounts: ' + (CLOUD ? 'on (' + CLOUD.url + ')' : 'off (no url and key
 var noScriptEnd = function (js) { return js.replace(/<\/(script)/gi, '<\\/$1'); };
 var single = '<script>\n' + noScriptEnd(VENDOR) + '\n</script>\n' + (SUPA ? '<script>\n' + noScriptEnd(SUPA) + '\n</script>\n' : '') + '<script>\nconst SITE=null;\n' + cloudLine + '\n' + ['BPS', 'SPELLS', 'VAULT', 'VAULT_DETAILS'].concat(CORE.slice(1)).map(lit).join('\n') + '\n' + metaLine + '\n' + artLine + '\n</script>';
 var out = tpl.split('<!--__DATA__-->').join(single);
-var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'properties', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'magic', 'classes', 'subclasses', 'demons', 'patrons', 'forge', 'workshop', 'craft', 'shop', 'party', 'sheet', 'encounter', 'prep', 'hooks', 'journal', 'hidden', 'towers', 'combat', 'rules', 'dice', 'tools', 'about', 'guide', 'help', 'account', 'settings'];
+var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'properties', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'magic', 'classes', 'subclasses', 'demons', 'patrons', 'forge', 'workshop', 'craft', 'shop', 'party', 'sheet', 'encounter', 'prep', 'hooks', 'npcs', 'journal', 'hidden', 'towers', 'combat', 'rules', 'dice', 'tools', 'about', 'guide', 'help', 'account', 'settings'];
 var site = {};
 var PAGE_INFO = {
   home: ['Home', 'FAND (Fantasy and Numerous Disasters) campaign compendium: Blueprints, materials, monsters, realms, gods, spells, rules, and table tools for the world of Vestige.'],
@@ -944,6 +944,7 @@ var PAGE_INFO = {
   sheet: ['Character sheet', 'Create and play a character on a full sheet: abilities, saves, skills, AC from worn gear, attacks, spells and slots, contracts, class stage, and backstory, worked out with FAND\'s rules.'],
   journal: ['Session journal', 'Notes from each session of the campaign, saved on your device, with links to every monster, god, material, and realm.'],
   prep: ['Session prep', 'One page that rolls a whole session for your party: hooks, NPCs, three fights, a named foe, a Tower floor, loot, and the deeds that earn a level.'],
+  npcs: ['NPCs', 'The DM\'s roster of named NPCs: picture, role, faction, attitude to the party, looks, voice, wants, and secrets, with random NPCs built from the world of Vestige.'],
   hooks: ['Adventure hooks', 'Story starters built from the gods, Runes, realms, monsters, and Blueprints of Vestige, scaled to your party.'],
   encounter: ['Encounters', 'Build balanced encounters from a realm\'s Bestiary by party size and level.'],
   combat: ['Combat', 'Initiative, HP, and conditions, with FAND\'s flat AC applied to every hit.'],
