@@ -314,6 +314,22 @@ var COND_SYMBOLS = {
   Stunned: 'knocked-out-stars', Unconscious: 'sleepy', Exhaustion: 'despair', Concentrating: 'concentration-orb'
 };
 
+// ---- material types and item categories (cards and chips) ----
+var MAT_SYMBOLS = {
+  'Blood / Organ': 'heart-organ', 'Bone / Fang / Horn / Scale': 'crossed-bones', 'Hide / Cloth / Fiber': 'animal-hide', 'Essence / Soul / Core': 'glowing-artifact',
+  'Crystal / Gem': 'crystal-cluster', Supply: 'knapsack', 'Wood / Plant': 'wood-pile', 'Ore / Metal': 'ore', Mechanism: 'gears', Stone: 'stone-pile', Rune: 'rune-stone'
+};
+var ITEM_SYMBOLS = {
+  Artifact: 'gem-pendant', Armor: 'breastplate', Potion: 'round-potion', Sword: 'broadsword', Bow: 'bow-arrow', Staff: 'wizard-staff', Shield: 'shield',
+  Hammer: 'warhammer', Dagger: 'plain-dagger', Axe: 'battle-axe', Tool: 'spanner', Food: 'meal', Structure: 'stone-tower', Map: 'treasure-map', Crop: 'wheat',
+  Spear: 'spears', Livestock: 'cow', Instrument: 'lyre', Fortification: 'stone-wall', Storage: 'chest', Fertilizer: 'sprout', Focus: 'crystal-ball',
+  Ammunition: 'quiver', Book: 'open-book'
+};
+// ---- the picture picker's choices (loaded only when a DM opens it): creature and fantasy icons, coordinates trimmed to one decimal ----
+var PICK_RE = /skull|dragon|demon|daemon|devil|imp\b|beast|wolf|bear|lion|tiger|cat\b|dog|hound|horse|unicorn|pegasus|griffin|eagle|hawk|owl|raven|crow|bat\b|bird|snake|serpent|cobra|hydra|wyvern|kraken|tentacle|squid|octopus|fish|shark|whale|crab|turtle|frog|toad|lizard|croc|dino|rex|spider|scorpion|insect|bee|wasp|beetle|centipede|mantis|ant\b|worm|slime|ooze|blob|mushroom|tree|ent\b|vine|thorn|ghost|spectre|zombie|vampire|mummy|reaper|death|lich|skeleton|bone|angel|wing|halo|fairy|elf|goblin|orc|ogre|troll|giant|golem|robot|knight|helm|warrior|sword|wizard|witch|hood|cultist|mask|monk|ninja|pirate|viking|king|queen|crown|throne|mermaid|siren|harpy|centaur|minotaur|medusa|cyclops|sphinx|gargoyle|mimic|eye|brain|horn|fang|claw|jaw|teeth|mouth|fire|flame|ice|frost|lightning|thunder|storm|tornado|wave|water|rock|stone|crystal|gem|sun|moon|star|cosmic|portal|vortex|rune|magic|spell|potion|staff|wand|orb|god|holy|cross|ankh|egypt|anubis|horus|thor|zeus|trident|hades|tarot|totem|idol|statue/;
+var trim = function (b) { return b.replace(/ fill="currentColor"/g, '').replace(/(\d+\.\d)\d+/g, '$1'); };
+function buildPick() { var J = icons(); return Object.keys(J.icons).filter(function (n) { return PICK_RE.test(n); }).sort().map(function (n) { return [n, trim(J.icons[n].body)]; }); }
+
 function first(rules, s) { for (var i = 0; i < rules.length; i++) if (rules[i][0].test(s)) return rules[i][1]; return null; }
 function icons() { return require(path.join(__dirname, '..', 'app', 'vendor', 'game-icons', 'icons.json')); }
 
@@ -321,7 +337,7 @@ function icons() { return require(path.join(__dirname, '..', 'app', 'vendor', 'g
 function buildArt(D) {
   var J = icons(), list = [], at = {}, out = { icons: list, mon: {}, god: {}, demon: {}, patron: {} }, pick = {};
   var has = function (n) { return !!(J.icons[n] || (J.aliases && J.aliases[n])); };
-  var body = function (n) { var x = J.icons[n] || J.icons[(J.aliases[n] || {}).parent]; return x.body.replace(/ fill="currentColor"/g, ''); };
+  var body = function (n) { var x = J.icons[n] || J.icons[(J.aliases[n] || {}).parent]; return trim(x.body); };
   var use = function (n) { if (!has(n)) throw new Error('art: no icon called ' + n); if (!(n in at)) { at[n] = list.length; list.push(body(n)); } return at[n]; };
   D.MONSTERS.forEach(function (m) {
     var n = m.n.toLowerCase(), ty = (m.sb && m.sb.ty || '').toLowerCase();
@@ -342,13 +358,15 @@ function buildArt(D) {
   });
   out.sym = {}; Object.keys(SYMBOLS).forEach(function (e) { out.sym[e] = use(SYMBOLS[e]); });
   out.cond = {}; Object.keys(COND_SYMBOLS).forEach(function (k) { out.cond[k] = use(COND_SYMBOLS[k]); });
+  out.mty = {}; Object.keys(MAT_SYMBOLS).forEach(function (k) { out.mty[k] = use(MAT_SYMBOLS[k]); });
+  out.ity = {}; Object.keys(ITEM_SYMBOLS).forEach(function (k) { out.ity[k] = use(ITEM_SYMBOLS[k]); });
   out.pg = {}; Object.keys(PAGE_SYMBOLS).forEach(function (k) { out.pg[k] = use(PAGE_SYMBOLS[k]); });
   // check every Rune picture exists, so a typo shows up at build time instead of silently falling back
   Object.keys(RUNE).forEach(function (r) { if (!has(RUNE[r])) throw new Error('art: Rune ' + r + ' names a missing icon ' + RUNE[r]); });
   Object.defineProperty(out, 'pick', { value: pick, enumerable: false });
   return out;
 }
-module.exports = { buildArt: buildArt };
+module.exports = { buildArt: buildArt, buildPick: buildPick };
 
 if (require.main === module && process.argv[2] === 'report') {
   var s = fs.readFileSync(path.join(__dirname, '..', '..', 'site', 'data', 'core.js'), 'utf8');
