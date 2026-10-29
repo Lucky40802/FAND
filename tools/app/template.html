@@ -234,7 +234,7 @@ select.sel.is-set{border-color:var(--gold);color:var(--text)}
 .ap-i{aspect-ratio:1;border-radius:12px;border:1px solid #2a2638;background:radial-gradient(circle at 50% 42%,#2a2236,#0d0b13 72%);cursor:pointer;display:grid;place-items:center;padding:0}.ap-i svg{width:72%;height:72%;fill:#e8c46a}.ap-i:hover,.ap-i:focus-visible{border-color:var(--gold);outline:none}.ap-i.on{border-color:var(--gold);box-shadow:0 0 0 2px var(--goldbg)}
 .ap-f{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 /* the anvil scene: the player rolls at the forge */
-.fmo{position:fixed;inset:0;z-index:75;display:grid;place-items:center;padding:16px;background:radial-gradient(circle at 50% 38%,rgba(255,120,40,.32),rgba(14,7,4,.96) 62%);color:#f6ead8}.fmo[hidden]{display:none}
+.fmo{position:fixed;inset:0;z-index:75;display:grid;place-items:center;padding:16px;background:radial-gradient(circle at 50% 36%,#5a2a10 0,#2a1207 38%,#100604 72%,#080302 100%);color:#f6ead8}.fmo[hidden]{display:none}
 .fmo-box{position:relative;width:min(660px,100%);max-height:92vh;overflow:auto;text-align:center;padding:30px 22px}.fmo-x{position:absolute;top:4px;right:4px}
 .fmo-anvil{font-size:3.6rem;color:#ffb35a;filter:drop-shadow(0 0 18px rgba(255,140,40,.75))}.fmo-anvil.fmo-small{font-size:2.6rem;margin-top:10px}.fmo-anvil.fmo-hit{animation:fmhit .35s}
 .fmo-kicker{letter-spacing:.3em;text-transform:uppercase;font-size:.75rem;color:#ffb35a;margin-top:6px}
@@ -8261,9 +8261,9 @@ function fmDraw(){const {r,c,I}=FM,name=esc(c.name||'The forger'),item=esc(r.nam
 function fmReal(){const two=!!FM.I.mode,a=+($('fm-d1')||{}).value,b=+(($('fm-d2')||{}).value||0),okd=v=>v>=1&&v<=20&&Math.round(v)===v;
   if(!okd(a)||(two&&!okd(b))){toast('Enter what the d20 showed: a whole number from 1 to 20');return}fmRoll(two?[a,b]:[a])}
 function fmRoll(dice){const {r,c,I}=FM,O=forgeOutcome(r,c,dice);if(!O){FM.step='call';return fmClose()}FM.O=O;FM.step='roll';const two=!!I.mode,vals=two?[O.a1,O.a2]:[O.a1],still=matchMedia('(prefers-reduced-motion: reduce)').matches,kind=forgeKind(r);
-  fmBox(`<div class="fmo-kicker">${esc(O.who)} rolls</div><div class="fmo-dies">${vals.map((v,i)=>`<div class="fmo-die${still?'':' spin'}" id="fm-die${i}">${still?v:'?'}</div>`).join('')}</div><div class="fmo-strike" id="fm-line" aria-live="polite"></div><div class="fmo-anvil fmo-small" id="fm-anvil" aria-hidden="true">⚒</div>`);
+  fmBox(`<div class="fmo-kicker">${esc(O.who)} rolls</div><div class="fmo-dies">${vals.map((v,i)=>`<div class="fmo-die${still?'':' spin'}" id="fm-die${i}">${still?v:'?'}</div>`).join('')}</div><div class="fmo-call" id="fm-roll" aria-live="polite"></div><div class="fmo-strike" id="fm-line" aria-live="polite"></div><div class="fmo-anvil fmo-small" id="fm-anvil" aria-hidden="true">⚒</div>`);
   const T=still?120:1;let spin=null;if(!still)spin=setInterval(()=>vals.forEach((v,i)=>{const e=$('fm-die'+i);if(e)e.textContent=1+Math.floor(Math.random()*20)}),70);
-  const settle=()=>{clearInterval(spin);let kept=false;vals.forEach((v,i)=>{const e=$('fm-die'+i);if(!e)return;e.classList.remove('spin');e.textContent=v;if(two){const k=!kept&&v===O.d;if(k)kept=true;e.classList.add(k?'keep':'drop')}});const L=$('fm-line');if(L)L.innerHTML=O.line};
+  const settle=()=>{clearInterval(spin);let kept=false;vals.forEach((v,i)=>{const e=$('fm-die'+i);if(!e)return;e.classList.remove('spin');e.textContent=v;if(two){const k=!kept&&v===O.d;if(k)kept=true;e.classList.add(k?'keep':'drop')}});const L=$('fm-roll');if(L)L.innerHTML=O.line};
   const blow=n=>{forgeSound(kind,n+1);const L=$('fm-line'),A=$('fm-anvil'),B=$('fmo-box');if(L)L.textContent=FM_BLOWS[n][Math.floor(Math.random()*3)];if(B&&!still){B.classList.remove('fmo-shake');void B.offsetWidth;B.classList.add('fmo-shake')}if(A&&!still){A.classList.remove('fmo-hit');void A.offsetWidth;A.classList.add('fmo-hit')}};
   setTimeout(settle,still?0:1200);[0,1,2].forEach(n=>setTimeout(()=>blow(n),(still?T:2100)+n*(still?T:800)));setTimeout(fmDone,(still?T*4:2100+3*800+500))}
 function fmDone(){if(!FM||!FM.O)return;const {r,c,O}=FM,res=forgeApply(r,c,O),Q=FM_Q[O.q]||FM_Q.Standard,ok=!!res&&res.made;FM.step='done';
