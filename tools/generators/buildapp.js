@@ -913,7 +913,7 @@ log.push('accounts: ' + (CLOUD ? 'on (' + CLOUD.url + ')' : 'off (no url and key
 var noScriptEnd = function (js) { return js.replace(/<\/(script)/gi, '<\\/$1'); };
 var single = '<script>\n' + noScriptEnd(VENDOR) + '\n</script>\n' + (SUPA ? '<script>\n' + noScriptEnd(SUPA) + '\n</script>\n' : '') + '<script>\nconst SITE=null;\n' + cloudLine + '\n' + ['BPS', 'SPELLS', 'VAULT', 'VAULT_DETAILS'].concat(CORE.slice(1)).map(lit).join('\n') + '\n' + metaLine + '\n' + artLine + '\n</script>';
 var out = tpl.split('<!--__DATA__-->').join(single);
-var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'properties', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'magic', 'classes', 'subclasses', 'demons', 'patrons', 'forge', 'workshop', 'craft', 'shop', 'party', 'sheet', 'encounter', 'prep', 'hooks', 'npcs', 'journal', 'hidden', 'towers', 'combat', 'rules', 'dice', 'tools', 'about', 'guide', 'help', 'account', 'settings'];
+var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'properties', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'magic', 'classes', 'subclasses', 'demons', 'patrons', 'forge', 'workshop', 'craft', 'shop', 'party', 'chargen', 'sheet', 'encounter', 'prep', 'hooks', 'npcs', 'journal', 'hidden', 'towers', 'combat', 'rules', 'dice', 'tools', 'about', 'guide', 'help', 'account', 'settings'];
 var site = {};
 var PAGE_INFO = {
   home: ['Home', 'FAND (Fantasy and Numerous Disasters) campaign compendium: Blueprints, materials, monsters, realms, gods, spells, rules, and table tools for the world of Vestige.'],
@@ -944,6 +944,7 @@ var PAGE_INFO = {
   sheet: ['Character sheet', 'Create and play a character on a full sheet: abilities, saves, skills, AC from worn gear, attacks, spells and slots, contracts, class stage, and backstory, worked out with FAND\'s rules.'],
   journal: ['Session journal', 'Notes from each session of the campaign, saved on your device, with links to every monster, god, material, and realm.'],
   prep: ['Session prep', 'One page that rolls a whole session for your party: hooks, NPCs, three fights, a named foe, a Tower floor, loot, and the deeds that earn a level.'],
+  chargen: ['Character generator', 'A whole level 1 character in one tap: pick a class, a people, and a background or leave them random, and FAND rolls the rest by its own rules.'],
   npcs: ['NPCs', 'The DM\'s roster of named NPCs: picture, role, faction, attitude to the party, looks, voice, wants, and secrets, with random NPCs built from the world of Vestige.'],
   hooks: ['Adventure hooks', 'Story starters built from the gods, Runes, realms, monsters, and Blueprints of Vestige, scaled to your party.'],
   encounter: ['Encounters', 'Build balanced encounters from a realm\'s Bestiary by party size and level.'],
@@ -1002,7 +1003,7 @@ var APP_URL = 'app.js?v=' + BUILD_ID;
 PAGES.forEach(function (pg) {
   // The page draws its frame at once; a small loader downloads the data with a progress bar, runs it, then starts the app
   // (kept in the page as <script type="text/x-fand">). If fetch can't be used (a file:// copy), it falls back to plain tags.
-  var files = ['core', 'art', 'vault'].concat(pg === 'spells' || pg === 'sheet' || pg === 'tools' || pg === 'magic' || pg === 'journal' ? ['spells'] : []).map(function (f) { return ['data/' + f + '.js?v=' + DATA_V, Buffer.byteLength(site['data/' + f + '.js'], 'utf8')]; }).concat([[APP_URL, Buffer.byteLength(site['app.js'], 'utf8')]]);
+  var files = ['core', 'art', 'vault'].concat(pg === 'spells' || pg === 'sheet' || pg === 'tools' || pg === 'magic' || pg === 'journal' || pg === 'chargen' ? ['spells'] : []).map(function (f) { return ['data/' + f + '.js?v=' + DATA_V, Buffer.byteLength(site['data/' + f + '.js'], 'utf8')]; }).concat([[APP_URL, Buffer.byteLength(site['app.js'], 'utf8')]]);
   var tags = '<script>const SITE={page:' + JSON.stringify(pg) + ',v:' + JSON.stringify(DATA_V) + ',b:' + JSON.stringify(BUILD_ID) + '};' + cloudLine + '</script>\n<script>' + LOADER.replace('__FILES__', JSON.stringify(files)) + '</script>';
   var html = tpl.slice(0, APP_A) + tags + '\n' + tpl.slice(APP_B + '</script>'.length);
   var info = PAGE_INFO[pg];

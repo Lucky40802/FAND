@@ -301,7 +301,7 @@ var PAGE_SYMBOLS = {
   patrons: 'pentacle', codex: 'book-pile', bestiary: 'dragon-head', materials: 'ore', properties: 'sparkles', blueprints: 'scroll-quill',
   forge: 'anvil-impact', workshop: 'hammer-nails', craft: 'crafting', shop: 'shop', professions: 'war-pick', classes: 'swordman',
   subclasses: 'two-handed-sword', hidden: 'hood', spells: 'spell-book', magic: 'wizard-staff', prep: 'notebook', sheet: 'id-card',
-  party: 'campfire', journal: 'quill-ink', hooks: 'compass', npcs: 'meeple-group', encounter: 'battle-gear', combat: 'sword-clash', dice: 'perspective-dice-six-faces-random',
+  party: 'campfire', journal: 'quill-ink', hooks: 'compass', npcs: 'meeple-group', chargen: 'meeple', encounter: 'battle-gear', combat: 'sword-clash', dice: 'perspective-dice-six-faces-random',
   tools: 'toolbox', guide: 'treasure-map', rules: 'rule-book', help: 'help', about: 'info', account: 'cowled', settings: 'cog',
   'g:World': 'world', 'g:Creatures & Materials': 'dragon-head', 'g:Items & Crafting': 'anvil-impact', 'g:Magic & Classes': 'magic-swirl',
   'g:Play': 'perspective-dice-six-faces-random', 'g:Reference': 'book-cover', 'g:DM': 'crowned-skull'
@@ -337,6 +337,11 @@ var NPC_SYMBOLS = {
   Bard: 'lyre', Contractor: 'spiked-halo', Villain: 'crowned-skull', Monster: 'horned-skull', Other: 'cowled'
 };
 
+// ---- classes (the character generator's portrait) ----
+var CLASS_SYMBOLS = {
+  Fighter: 'swordman', Barbarian: 'axe-swing', Rogue: 'hood', Cleric: 'holy-symbol', Ranger: 'bow-arrow', Paladin: 'templar-shield', Monk: 'fist',
+  Wizard: 'wizard-face', Sorcerer: 'fire-spell-cast', Warlock: 'warlock-eye', Bard: 'lyre', Druid: 'oak-leaf', Artificer: 'gears'
+};
 function first(rules, s) { for (var i = 0; i < rules.length; i++) if (rules[i][0].test(s)) return rules[i][1]; return null; }
 function icons() { return require(path.join(__dirname, '..', 'app', 'vendor', 'game-icons', 'icons.json')); }
 
@@ -368,6 +373,7 @@ function buildArt(D) {
   out.mty = {}; Object.keys(MAT_SYMBOLS).forEach(function (k) { out.mty[k] = use(MAT_SYMBOLS[k]); });
   out.ity = {}; Object.keys(ITEM_SYMBOLS).forEach(function (k) { out.ity[k] = use(ITEM_SYMBOLS[k]); });
   out.npc = {}; Object.keys(NPC_SYMBOLS).forEach(function (k) { out.npc[k] = use(NPC_SYMBOLS[k]); });
+  out.cls = {}; Object.keys(CLASS_SYMBOLS).forEach(function (k) { out.cls[k] = use(CLASS_SYMBOLS[k]); });
   out.pg = {}; Object.keys(PAGE_SYMBOLS).forEach(function (k) { out.pg[k] = use(PAGE_SYMBOLS[k]); });
   // check every Rune picture exists, so a typo shows up at build time instead of silently falling back
   Object.keys(RUNE).forEach(function (r) { if (!has(RUNE[r])) throw new Error('art: Rune ' + r + ' names a missing icon ' + RUNE[r]); });
