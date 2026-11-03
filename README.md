@@ -17,7 +17,8 @@ Everything for **FAND**, a homebrew D&D campaign: a mirror of the Obsidian vault
 | `tools/generators/` | Scripts that write vault pages |
 | `tools/checks/` | Read-only scans |
 | `tools/oneoff/` | Migration scripts already applied to the vault, kept for reference. Don't rerun them; most aren't idempotent |
-| `tools/cloud/` | Accounts and campaigns: the Supabase database setup (`schema.sql`) and the site's connection settings (`config.json`) |
+| `tools/cloud/` | Accounts and campaigns: the Supabase database setup (`schema.sql`) and the site's connection settings (`config.json`); also the Resinate shop's database setup (`resinate.sql`) |
+| `resinate/` | The Resinate resin shop: a standalone page (`index.html`), its settings (`config.js`), and a copy of supabase-js (`vendor/`) |
 
 ## Syncing the vault
 Run `node sync-vault.js go` from the `tools` folder to mirror the live vault into `vault/`; without `go` it only reports what would change. It deletes files from `vault/` that were removed from the live vault.
@@ -95,6 +96,17 @@ FAND's AI features use [Groq](https://groq.com). By default **Forge with Groq** 
 4. Optional, under the function's **Secrets**: `FORGE_DAILY_LIMIT` (default 20), `SORT_DAILY_LIMIT` (default 60), `GROQ_MODEL` and `SORT_MODEL` (default `openai/gpt-oss-120b`).
 
 Players who add their own key in Settings keep using it, with no daily limit.
+
+## Resinate shop
+`resinate/` is a separate site for selling handmade resin pieces, published at **https://lucky40802.github.io/FAND/resinate/**. The FAND build doesn't touch it. Customers pick a size and add-ons (printed design, colour dye, sparkle, LED, custom inclusions), put several pieces in one order, and place it; the page then shows the amount and the PayID or bank details to pay with, plus the order reference. Customers can check an order later under **Track order** with its reference and the contact they gave. At `#dashboard` the team signs in with an emailed code to see orders (new ones appear live), set prices for custom work, record payments (PayID, cash or card), copy messages for customers, export a spreadsheet, and, for editors, change prices, payment details, the photo gallery and the team list.
+
+It stores everything in Supabase, in its own `resinate_*` tables. To switch it on:
+
+1. In the project's **SQL Editor**, paste all of `tools/cloud/resinate.sql` and run it. (Until you do, `resinate/#dashboard` shows these steps with a link to the SQL Editor and a button that copies the file.) It makes the tables, a public `resinate` storage bucket for photos, live updates for orders, and row-level security: anyone can read prices, payment details and photos, customers can only place orders (priced on the server by `resinate_place_order`) and look up their own order with its reference and contact (`resinate_order_status`), and only the team can see or change orders.
+2. Sign in at `resinate/#dashboard`. You aren't on the team list yet, so the page shows a one-line SQL statement with your email filled in; run it in the SQL Editor to make yourself the first editor, then reload.
+3. Fill in **Payment details**, then add the rest of the team in the dashboard's **Team** section: role `staff` (orders and payments) or `editor` (also prices, payment details, photos and the team). A **Getting started** checklist tracks what's left.
+
+`resinate/config.js` holds the Supabase project (FAND's by default) and the contact links shown to customers. Prices live in the database, with defaults in both `resinate/index.html` and `private.resinate_quote()` in the SQL; change the defaults in both places. Payments are checked by hand against the bank account; there's no card processing.
 
 ## Content added by the build
 - `tools/data/myth.js`: creatures from world mythology and folklore (Greek, Norse, Egyptian, Hindu, Aztec, Celtic, Japanese, Mesopotamian, and more), each with an original description. They get harvest parts, stat blocks, and lore like every other monster.
