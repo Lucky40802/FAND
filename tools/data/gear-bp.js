@@ -84,8 +84,8 @@ var STARTER = [
   ['Studded Leather', 'Armor', '', '', 'Tailoring', ['Leather', 'Iron'], { slot: 'Body', ac: '2' }], ['Hide Armor', 'Armor', '', '', 'Tailoring', ['Leather'], { slot: 'Body', ac: '3' }],
   ['Chain Shirt', 'Armor', '', '', 'Blacksmithing', ['Iron'], { slot: 'Body', ac: '3' }], ['Scale Mail', 'Armor', '', '', 'Blacksmithing', ['Iron', 'Leather'], { slot: 'Body', ac: '4' }],
   ['Ring Mail', 'Armor', '', '', 'Blacksmithing', ['Iron', 'Leather'], { slot: 'Body', ac: '3' }], ['Breastplate', 'Armor', '', '', 'Blacksmithing', ['Iron'], { slot: 'Body', ac: '4' }],
-  ['Chain Mail', 'Armor', '', '', 'Blacksmithing', ['Iron'], { slot: 'Body', ac: '5' }], ['Half Plate', 'Armor', '', '', 'Blacksmithing', ['Iron', 'Leather'], { slot: 'Body', ac: '5' }],
-  ['Splint Armor', 'Armor', '', '', 'Blacksmithing', ['Iron', 'Leather'], { slot: 'Body', ac: '6' }], ['Plate Armor', 'Armor', '', '', 'Blacksmithing', ['Iron', 'Leather'], { slot: 'Body', ac: '7' }],
+  ['Chain Mail', 'Armor', '', '', 'Blacksmithing', ['Iron'], { slot: 'Body', ac: '5', covers: ['Body', 'Shoulders'] }], ['Half Plate', 'Armor', '', '', 'Blacksmithing', ['Iron', 'Leather'], { slot: 'Body', ac: '5', covers: ['Body', 'Shoulders'] }],
+  ['Splint Armor', 'Armor', '', '', 'Blacksmithing', ['Iron', 'Leather'], { slot: 'Body', ac: '6', covers: ['Body', 'Shoulders', 'Back'] }], ['Plate Armor', 'Armor', '', '', 'Blacksmithing', ['Iron', 'Leather'], { slot: 'Body', ac: '7', covers: ['Body', 'Shoulders', 'Back', 'Hands'] }],
   ['Shield', 'Shield', '', '', 'Blacksmithing', ['Iron', 'Oak'], { slot: 'Shield', ac: '1' }], ['Wooden Shield', 'Shield', '', '', 'Carving', ['Oak', 'Leather'], { slot: 'Shield', ac: '1' }],
   // ammunition, foci, tools, instruments, packs
   ['Arrows', 'Ammunition', '', '', 'Carving', ['Oak', 'Feathers'], { q: 20 }], ['Bolts', 'Ammunition', '', '', 'Carving', ['Oak', 'Iron'], { q: 20 }],
@@ -122,8 +122,9 @@ var STARTER_GP = { Club: 0.1, Dagger: 2, Greatclub: 0.2, Handaxe: 5, Javelin: 0.
 STARTER.forEach(function (x) {
   var e = x[6] || {}, b = { n: x[0], cat: x[1], lv: 1, pr: x[4], sp: x[4], r: 'Common', mats: x[5], starter: 1, dc: x[2], dm: x[3],
     ds: e.ds || ('A plain ' + x[0].toLowerCase() + ', the kind a new adventurer starts with.' + (x[2] ? ' It deals ' + x[2] + ' ' + x[3].toLowerCase() + ' damage.' : '') + (e.ac ? ' It gives +' + e.ac + ' AC.' : '') + (e.q ? ' A bundle of ' + e.q + '.' : '')) };
-  ['slot', 'ac', 'cap', 'carry'].forEach(function (k) { if (e[k] != null) b[k] = e[k]; });
+  ['slot', 'ac', 'cap', 'carry', 'covers'].forEach(function (k) { if (e[k] != null) b[k] = e[k]; });
   if (STARTER_GP[x[0]] != null) b.gp = STARTER_GP[x[0]];
+  if (e.covers) b.ds += ' A full suit: it covers the ' + e.covers.join(', ').replace(/, ([^,]*)$/, ' and $1') + ' slots, so other armor in those slots adds no AC on top.';
   if (e.cap) b.ds += ' Holds ' + e.cap + ' items on top of the 20 a character can carry.';
   NEW.push(b);
 });

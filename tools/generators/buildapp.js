@@ -418,11 +418,14 @@ log.push('material origins: ' + JSON.stringify(orgCount) + ', unique traits on '
     var mats = (x.mats || []).slice(), first = null;
     (x.m || []).forEach(function (q) { var m = pick(q[0], q[1], q[2]); if (m && mats.indexOf(m.n) < 0) { mats.push(m.n); if (!first) first = m; } });
     var b = { n: x.n, cat: x.cat, lv: x.lv, pr: x.pr, sp: x.sp, dc: x.dc || '', dm: x.dm || '', r: x.r, mg: 0, conns: [], mats: mats, gr: first ? first.gr : '', ds: x.ds, gear: 1 };
-    ['kit', 'kb', 'mine', 'cap', 'carry', 'grow', 'voidbag', 'devotion', 'needs', 'starter', 'slot', 'ac', 'gp'].forEach(function (k) { if (x[k] != null) b[k] = x[k]; });
+    ['kit', 'kb', 'mine', 'cap', 'carry', 'grow', 'voidbag', 'devotion', 'needs', 'starter', 'slot', 'ac', 'gp', 'covers'].forEach(function (k) { if (x[k] != null) b[k] = x[k]; });
     D.BPS.push(b); have[b.n.toLowerCase()] = b; added++;
   });
   Object.keys(G.TOOLS).forEach(function (n) { var b = have[n.toLowerCase()]; if (!b) return; var t = G.TOOLS[n]; ['kit', 'kb', 'kg', 'kr', 'mine'].forEach(function (k) { if (t[k] != null) b[k] = t[k]; }); tagged++; });
   Object.keys(G.STORE).forEach(function (n) { var b = have[n.toLowerCase()]; if (!b) return; b.cap = G.STORE[n][0]; b.carry = G.STORE[n][1]; if (!/Holds \d+ items/.test(b.ds || '')) b.ds = (b.ds || '') + ' Holds ' + b.cap + ' items' + (b.carry ? ' on top of the 20 a character can carry.' : '.'); tagged++; });
+  // siege engines whose power belongs much deeper than their vault level (owner-approved rebalance, 2026-11-04)
+  var LVFIX = { 'The Reality Breaker': 90, 'The Godkiller Siege Array': 90, 'The Continent Crusher': 80, 'Fortress Breaker': 70 }, fixed = 0;
+  D.BPS.forEach(function (b) { var to = LVFIX[b.n]; if (!to || b.lv >= to) return; b.ds = (b.ds || '') + ' (Rebalanced: level ' + to + ' on this site, not ' + b.lv + ', for the power of its blast.)'; b.lv = to; fixed++; });
   log.push('tools and storage: +' + added + ' blueprints, ' + tagged + ' existing tagged, ' + G.FRAGMENTS.length + ' rune fragments');
 })();
 
