@@ -2038,6 +2038,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-11-04','Nothing counted twice','A character\'s gear list also holds what they carry, and spares were adding to the totals: two helms or three shields all added AC, and horse barding added to its rider\'s. Now only the best piece in each armor slot (and one shield) is worn and counts, barding protects the mount, two of the same item count once, and a power counts once however many items carry it (the best one), like gear\'s ability bonuses already did. The sheet says how many spare pieces are carried. A vault item\'s ability and skill bonuses come from its strongest material, as its other powers do.','sheet'],
   ['2026-11-04','Balanced powers in the totals','The bonuses properties and traits add to the totals are capped so gear can\'t snowball: an item\'s powers add at most half its own AC (at least +1) and at most half a weapon\'s own damage (the extra dice shrink to fit), and gear can at most double a character\'s speed. The sheet marks a capped number. A vault item carries only its strongest material\'s property, as the vault\'s rule says (it had counted every material\'s).','sheet'],
   ['2026-11-04','Plain AC in property texts','Tempered now reads "Armor: +N AC" and Corrosive "lowers the target\'s AC by 1": "Gear AC" was left over from the old split between Natural and Gear AC, which FAND no longer uses. On the character sheet, the AC that items\' properties and traits add is labelled "properties & traits +N".','sheet'],
   ['2026-11-04','Smoother on phones, clearer everywhere','A check of every page on a computer and a phone. On phones, the big lists (Spells, Bestiary, Blueprints, and the rest) fold their filters behind a Filters button that shows how many are on, so the results start near the top; the combat tracker puts Add monster on its own row; and the character sheet\'s roll buttons are easier to tap. The Encounter builder shows real budgets on a first visit (it showed 0), info boxes no longer shrink badges and notes into tiny capitals, the character sheet\'s Class box says Class…, and every box and field has a name screen readers can say.','home'],
@@ -3552,12 +3553,12 @@ function gearPowers(b){if(!b)return [];const D=b.design;
     if(m.tr&&trWorks(m.tr,kind)&&!seen.has('t:'+m.tr.n))seen.set('t:'+m.tr.n,{n:m.tr.n,k:'t',t:m.tr.t||''})});return [...seen.values()]}
 // everything an item's powers add, summed: extra dice merged by size and type
 function gearFx(b){const kind=gearKind(b),shield=!!b&&b.cat==='Shield',o={dice:[],dmg:0,atk:0,ac:0,speed:0,src:[]};
-  gearPowers(b).forEach(pw=>{const f=powFx(pw.t,kind,shield);if(!f.dice.length&&!f.dmg&&!f.atk&&!f.ac&&!f.speed)return;o.src.push(pw.n);
+  o.parts=[];gearPowers(b).forEach(pw=>{const f=powFx(pw.t,kind,shield);if(!f.dice.length&&!f.dmg&&!f.atk&&!f.ac&&!f.speed)return;o.src.push(pw.n);o.parts.push({n:pw.n,ac:f.ac,speed:f.speed});
     f.dice.forEach(([n,x,t])=>{const e=o.dice.find(d=>d[1]===x&&d[2]===t);if(e)e[0]+=n;else o.dice.push([n,x,t])});['dmg','atk','ac','speed'].forEach(k=>o[k]+=f[k])});
   // balance (website rule): powers add at most half of what the item does on its own. AC: half the item's AC (at
   // least +1); weapon damage: half the weapon's average damage, the extra dice scaled down to fit. Speed is capped
   // per character in charStats (at most the character's own speed).
-  const D=b&&b.design,baseAC=+(D&&D.ac!=null?D.ac:b&&b.ac)||0,acCap=Math.max(1,Math.ceil(baseAC/2));if(o.ac>acCap){o.ac=acCap;o.capAC=true}
+  const D=b&&b.design,baseAC=+(D&&D.ac!=null?D.ac:b&&b.ac)||0,acCap=Math.max(1,Math.ceil(baseAC/2));o.acCap=acCap;if(o.ac>acCap){o.ac=acCap;o.capAC=true}
   if(kind==='weapon'&&(o.dice.length||o.dmg)){const base=dmgAvg(D&&D.dmg?D.dmg:b&&b.dc?String(b.dc):''),pw=o.dice.reduce((a,[n,x])=>a+n*(x+1)/2,0)+o.dmg,cap=base/2;
     if(base>0&&pw>cap){const f=cap/pw;o.dice.forEach(d=>{d[0]=Math.max(1,Math.floor(d[0]*f))});o.dmg=Math.floor(o.dmg*f);o.capDmg=true}}
   return o}
@@ -3566,15 +3567,21 @@ const dmgAvg=s=>{let t=0;String(s||'').replace(/(\d+)d(\d+)/g,(_,n,x)=>{t+=n*(+x
 // a weapon's damage with its powers added: the flat bonus joins the base, extra dice follow it ("22d8 + 8 slashing + 2d6 fire")
 const fxDmg=(base,f)=>{let s=String(base||'').replace(/^(\d+d\d+)\s*\+\s*(\d+)/,'$1 + $2');if(f&&f.dmg)s=/^\d+d\d+/.test(s)?bumpDmg(s,f.dmg):s;return s+(f?f.dice.map(([n,x,t])=>` + ${n}d${x}${t?' '+t:''}`).join(''):'')};
 function gearBonus(gear){const o={str:0,dex:0,con:0,int:0,wis:0,cha:0,init:0,src:[]};SKILLS.forEach(k=>o[k[0]]=0);
-  gear.forEach(b=>{if(isForeign(b))return;const D=b.design,list=D&&Array.isArray(D.powers)?D.powers.filter(x=>x.k==='p').map(x=>Object.assign({},findMat((x.from||[])[0])||{n:x.n,prop:''},{pn:x.n,pot:x.pot})):(b.mats||[]).map(findMat);list.forEach(m=>{const e=m&&MAT_BONUS[m.pn];if(!e||!m.pot)return;if(/Worn:/.test(m.prop||'')&&gearKind(b)==='weapon')return;const P=potRank(Math.min(m.pot,D?99:bpPotCap(b))),B=Math.ceil(P/2);let got=false;
+  gear.forEach(b=>{if(isForeign(b))return;const D=b.design,list=D&&Array.isArray(D.powers)?D.powers.filter(x=>x.k==='p').map(x=>Object.assign({},findMat((x.from||[])[0])||{n:x.n,prop:''},{pn:x.n,pot:x.pot})):(b.mats||[]).map(findMat).filter(m=>m&&m.pn).sort((x,y)=>(y.rank||0)-(x.rank||0)||(y.pot||0)-(x.pot||0)).slice(0,1);list.forEach(m=>{const e=m&&MAT_BONUS[m.pn];if(!e||!m.pot)return;if(/Worn:/.test(m.prop||'')&&gearKind(b)==='weapon')return;const P=potRank(Math.min(m.pot,D?99:bpPotCap(b))),B=Math.ceil(P/2);let got=false;
     Object.entries(e).forEach(([k,v])=>{const val=v==='P'?P:B;(k==='all'?['str','dex','con','int','wis','cha']:[k]).forEach(a=>{if(val>o[a]){o[a]=val;got=true}})});
     if(got&&!o.src.some(x=>x.m===m))o.src.push({m,b})})});return o}
 function charStats(c){
   const gear=(c.gear||[]).map(findBP).filter(b=>b&&!isForeign(b));
   // a heavy suit (Plate, Splint, Chain Mail, Half Plate) covers several slots: other armor there adds no AC on top
-  const covered=new Set(gear.filter(b=>Array.isArray(b.covers)).flatMap(b=>b.covers)),suit=b=>Array.isArray(b.covers);
-  const armorAC=gear.filter(b=>ARMOR_CATS.includes(b.cat)&&(suit(b)||!covered.has(armorPiece(b).slot))).reduce((a,b)=>a+(+b.ac||0),0);
-  const otherAC=gear.filter(b=>!ARMOR_CATS.includes(b.cat)).reduce((a,b)=>a+(+b.ac||0),0);
+  // what is worn (website rule): the best piece in each armor slot and one shield; spare pieces are only carried and add
+  // nothing; barding protects a mount, not its rider; two of the same item count once
+  const acOf=b=>+b.ac||0,aSlot=b=>b.cat==='Shield'?'Shield':b.slot||(b.design&&BASES[b.design.base]&&BASES[b.design.base].slot)||armorPiece(b).slot,bestSlot=new Map();
+  gear.filter(b=>ARMOR_CATS.includes(b.cat)&&aSlot(b)!=='Mount').forEach(b=>{const k=aSlot(b),o=bestSlot.get(k);if(!o||acOf(b)>acOf(o))bestSlot.set(k,b)});
+  const worn=[...bestSlot.values()],spare=gear.filter(b=>ARMOR_CATS.includes(b.cat)).length-worn.length;
+  const covered=new Set(worn.filter(b=>Array.isArray(b.covers)).flatMap(b=>b.covers)),suit=b=>Array.isArray(b.covers);
+  const onBody=worn.filter(b=>suit(b)||!covered.has(aSlot(b))),others=[...new Map(gear.filter(b=>!ARMOR_CATS.includes(b.cat)).map(b=>[lc(b.n),b])).values()],act=onBody.concat(others);
+  const armorAC=onBody.reduce((a,b)=>a+acOf(b),0);
+  const otherAC=others.reduce((a,b)=>a+acOf(b),0);
   // every contract the character holds (the main one plus any more); Natural AC doesn't stack, so the highest rank counts
   const contracts=[{god:c.god,rank:c.rank},...(c.extra||[])].map(x=>({g:godByKey(x.god),ct:x.rank?contractOf(x.rank):null})).filter(x=>x.g&&x.ct);
   const ct=contracts.reduce((b,x)=>!b||CONTRACTS.indexOf(x.ct)>CONTRACTS.indexOf(b)?x.ct:b,null);
@@ -3583,25 +3590,29 @@ function charStats(c){
   // CON adds its modifier to Armor Class (campaign owner's rule): toughness takes the edge off every hit; AC never drops below 0
   // the modifier counts once (×1), with no cap
   const conAC=Math.floor(((+(c.abil||{}).con||10)-10)/2);
-  const body=gear.some(b=>ARMOR_CATS.includes(b.cat)&&armorPiece(b).slot==='Body'),shield=gear.some(b=>b.cat==='Shield'),ab=a=>Math.floor(((+(c.abil||{})[a]||10)-10)/2);
+  const body=worn.some(b=>b.cat!=='Shield'&&aSlot(b)==='Body'),shield=worn.some(b=>b.cat==='Shield'),ab=a=>Math.floor(((+(c.abil||{})[a]||10)-10)/2);
   // class AC: the Defense fighting style (+1 in body armor); Unarmored Defense adds DEX (Barbarian) or DEX + WIS (Monk, no shield) without body armor
   const styleAC=c.style==='Defense'&&body?1:0,unAC=body?0:c.cls==='Barbarian'?Math.max(0,ab('dex')):c.cls==='Monk'&&!shield?Math.max(0,ab('dex'))+Math.max(0,ab('wis')):0;
   // always-on powers of the gear (properties and traits): AC and speed
-  const fxs=gear.filter(b=>!ARMOR_CATS.includes(b.cat)||suit(b)||!covered.has(armorPiece(b).slot)).map(gearFx),fxAC=fxs.reduce((a,f)=>a+f.ac,0),fxSpeedRaw=fxs.reduce((a,f)=>a+f.speed,0),fxSpeed=Math.min(fxSpeedRaw,+c.speed||30),fxSpeedCap=fxSpeedRaw>fxSpeed,fxACcap=fxs.some(f=>f.capAC);
+  // always-on powers of what is worn and carried: a power counts once however many items carry it (the best one),
+  // and each item adds at most its own cap; speed from gear at most doubles the character's speed
+  const fxs=act.map(gearFx),bestAC={},bestSp={};fxs.forEach((f,i)=>(f.parts||[]).forEach(q=>{if(q.ac&&(!bestAC[q.n]||q.ac>bestAC[q.n].v))bestAC[q.n]={v:q.ac,i};if(q.speed&&(!bestSp[q.n]||q.speed>bestSp[q.n].v))bestSp[q.n]={v:q.speed,i}}));
+  const perAC=fxs.map(()=>0);Object.values(bestAC).forEach(x=>perAC[x.i]+=x.v);
+  const fxAC=perAC.reduce((a,v,i)=>a+Math.min(v,fxs[i].acCap||1),0),fxACcap=perAC.some((v,i)=>v>(fxs[i].acCap||1)),fxSpeedRaw=Object.values(bestSp).reduce((a,x)=>a+x.v,0),fxSpeed=Math.min(fxSpeedRaw,+c.speed||30),fxSpeedCap=fxSpeedRaw>fxSpeed;
   const ac=Math.max(0,armorAC+otherAC+(+c.acBonus||0)+(ct?ct.ac:0)+conAC+styleAC+unAC+fxAC);
-  const traits=[];gear.forEach(b=>b.mats.forEach(n=>{const m=findMat(n);if(m&&m.tr&&trWorks(m.tr,gearKind(b))&&!traits.some(t=>t.m===m))traits.push({m,b})}));
+  const traits=[];act.forEach(b=>(b.mats||[]).forEach(n=>{const m=findMat(n);if(m&&m.tr&&trWorks(m.tr,gearKind(b))&&!traits.some(t=>t.m===m))traits.push({m,b})}));
   const inv=(c.inv||[]).map(([n,q])=>({m:findMat(n),n,q:+q||0}));
   const invGp=inv.reduce((a,x)=>a+(x.m&&x.m.price||0)*x.q,0);
   const purseGp=Object.entries(c.purse||{}).reduce((a,[r,v])=>a+(CURRENCY[r]&&CURRENCY[r].gp||0)*(+v||0),0);
   const god=godByKey(c.god);const rivals=[];
   if(god)(god.runes||[]).forEach(r=>(RUNE_GODS.get(r)||[]).forEach(o=>{if(o!==god&&!rivals.includes(o))rivals.push(o)}));
-  const pieces=gear.filter(b=>ARMOR_CATS.includes(b.cat)).map(armorPiece);
+  const pieces=onBody.map(armorPiece);
   // Attunement from level: one point per 10 levels (campaign owner's choice; level ÷ 4 dated from the old level-20 cap and
   // let a level 36 character stand in the Primordial, a stage V realm)
   const att=Math.max(+c.attune||0,Math.floor((+c.level||0)/10),ct?Math.floor((CONTRACTS.indexOf(ct)+1)/2):0);
-  const gb=gearBonus(gear);
+  const gb=gearBonus(act);
   const dodge=dodgeOf((c.abil||{}).dex);
-  return {dodge,gb,fxAC,fxSpeed,fxSpeedCap,fxACcap,conAC,styleAC,unAC,att,contracts,conflicts,gear,armorAC,ac,ct,traits,inv,invGp,purseGp,god,rivals,pieces,drawback:setDrawbacks(pieces)};
+  return {dodge,gb,fxAC,fxSpeed,fxSpeedCap,fxACcap,spare,worn,conAC,styleAC,unAC,att,contracts,conflicts,gear,armorAC,ac,ct,traits,inv,invGp,purseGp,god,rivals,pieces,drawback:setDrawbacks(pieces)};
 }
 
 // ── Craft ─────────────────────────────────────────────────────
@@ -4316,7 +4327,7 @@ function renderSheet(){
       <div class="sh-span">${box('Other proficiencies &amp; languages',ta('profs','Armor, weapons, tools, languages',6))}</div>
     </div>
     <div class="sh-col">
-      <div class="sh-trio">${box('Armor class',`<div class="sh-big">${s.ac}</div><small>armor ${s.armorAC}${s.conAC?' · CON '+sgn(s.conAC):''}${s.unAC?' · unarmored +'+s.unAC:''}${s.styleAC?' · Defense +1':''}${s.ct?' · contract +'+s.ct.ac:''}${s.fxAC?` · <span title="From the properties and traits on the character's gear${s.fxACcap?'. Capped: an item\'s properties and traits add at most half its own AC':''}">properties &amp; traits +${s.fxAC}${s.fxACcap?' (capped)':''}</span>`:''}</small><small title="When you are attacked, roll this against the attacker's Accuracy: higher roll wins">Dodge <button class="sh-roll" type="button" data-roll="${d20x(s.dodge)}" data-what="Dodge">${sgn(s.dodge)}</button> (DEX)</small>`,'sh-shield')}${box('Initiative',`<button class="sh-roll" type="button" data-roll="${d20x((+c.initB||0)+s.gb.init)}" data-what="Initiative" class="sh-big sh-roll">${sgn((+c.initB||0)+s.gb.init)}</button><small>class ${inp('initB','0','class="sh-mini" style="width:44px" title="Initiative from class features"','number')}${s.gb.init?' · gear +'+s.gb.init:''}</small>`)}${box('Speed',`${inp('speed','30','style="width:60px;text-align:center"','number')}${speedPen?`<small style="color:var(--red)">−${speedPen} ft from armor</small>`:''}${s.fxSpeed?`<small title="From the properties and traits on the character's gear${s.fxSpeedCap?'. Capped: gear can at most double your speed':''}">gear powers +${s.fxSpeed} ft${s.fxSpeedCap?' (capped)':''} · ${Math.max(0,(+c.speed||30)+s.fxSpeed-(speedPen||0))} ft in all</small>`:''}`)}</div>
+      <div class="sh-trio">${box('Armor class',`<div class="sh-big">${s.ac}</div><small>armor ${s.armorAC}${s.conAC?' · CON '+sgn(s.conAC):''}${s.unAC?' · unarmored +'+s.unAC:''}${s.styleAC?' · Defense +1':''}${s.ct?' · contract +'+s.ct.ac:''}${s.spare?` · <span title="Only the best piece in each slot (and one shield) is worn and counts; barding protects a mount, not its rider">${s.spare} spare piece${s.spare>1?'s':''} carried, not counted</span>`:''}${s.fxAC?` · <span title="From the properties and traits on the character's gear${s.fxACcap?'. Capped: an item\'s properties and traits add at most half its own AC':''}">properties &amp; traits +${s.fxAC}${s.fxACcap?' (capped)':''}</span>`:''}</small><small title="When you are attacked, roll this against the attacker's Accuracy: higher roll wins">Dodge <button class="sh-roll" type="button" data-roll="${d20x(s.dodge)}" data-what="Dodge">${sgn(s.dodge)}</button> (DEX)</small>`,'sh-shield')}${box('Initiative',`<button class="sh-roll" type="button" data-roll="${d20x((+c.initB||0)+s.gb.init)}" data-what="Initiative" class="sh-big sh-roll">${sgn((+c.initB||0)+s.gb.init)}</button><small>class ${inp('initB','0','class="sh-mini" style="width:44px" title="Initiative from class features"','number')}${s.gb.init?' · gear +'+s.gb.init:''}</small>`)}${box('Speed',`${inp('speed','30','style="width:60px;text-align:center"','number')}${speedPen?`<small style="color:var(--red)">−${speedPen} ft from armor</small>`:''}${s.fxSpeed?`<small title="From the properties and traits on the character's gear${s.fxSpeedCap?'. Capped: gear can at most double your speed':''}">gear powers +${s.fxSpeed} ft${s.fxSpeedCap?' (capped)':''} · ${Math.max(0,(+c.speed||30)+s.fxSpeed-(speedPen||0))} ft in all</small>`:''}`)}</div>
       <div class="sh-row sh-noprint" style="gap:6px"><button class="btn primary" type="button" onclick="TBL.id=sheetChar().id;openTable('char')" title="A full-screen view for play">🎲 Table screen</button><button class="btn" type="button" onclick="sheetRest('short')" title="Get back one used spell slot of your choice (and Warlock pact slots)">☕ Short rest</button><button class="btn" type="button" onclick="sheetRest('long')" title="Full HP, all slots, half your hit dice back, death saves cleared">🌙 Long rest</button></div>
       ${box('Current hit points',`<div class="sh-row sh-hpmax"><span>Hit Point Maximum</span>${inp('hpMax','','style="width:70px"','number')}</div><div class="sh-big">${inp('hp','','style="width:100%;text-align:center;font-size:1.6rem"','number')}</div>${sheetHpQuick(c)}`)}
       ${box('Temporary hit points',inp('tempHp','','style="width:100%;text-align:center"','number'))}
