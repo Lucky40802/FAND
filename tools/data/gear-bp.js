@@ -95,6 +95,16 @@ var STARTER = [
   ['Spellbook', 'Book', '', '', 'Tailoring', ['Leather'], { ds: 'A leather-bound book of 100 blank pages where a wizard writes the spells they know.' }],
   ["Thieves' Tools", 'Tool', '', '', 'Blacksmithing', ['Iron', 'Leather'], { ds: 'Picks, a small file, a mirror on a handle, and narrow scissors, for locks and traps.' }],
   ['Lute', 'Instrument', '', '', 'Carving', ['Oak'], { ds: 'A stringed instrument for any bard.' }],
+  // the rest of the bard's instruments (owner's request, 2026-11-04): each is a spellcasting focus for a bard
+  ['Bagpipes', 'Instrument', '', '', 'Tailoring', ['Leather', 'Oak'], { ds: 'A leather bag and drone pipes. Loud enough to carry across a battlefield; a bard\'s spellcasting focus.' }],
+  ['Drum', 'Instrument', '', '', 'Carving', ['Oak', 'Leather'], { ds: 'A wooden shell with a hide head. Heard 300 feet away; a bard\'s spellcasting focus.' }],
+  ['Dulcimer', 'Instrument', '', '', 'Carving', ['Oak'], { ds: 'A flat box of strings struck with small hammers; a bard\'s spellcasting focus.' }],
+  ['Flute', 'Instrument', '', '', 'Carving', ['Oak'], { ds: 'A wooden flute; a bard\'s spellcasting focus.' }],
+  ['Horn', 'Instrument', '', '', 'Blacksmithing', ['Iron'], { ds: 'A brass horn. Heard a mile away; a bard\'s spellcasting focus.' }],
+  ['Lyre', 'Instrument', '', '', 'Carving', ['Oak'], { ds: 'A small harp-like frame of strings; a bard\'s spellcasting focus.' }],
+  ['Pan Flute', 'Instrument', '', '', 'Carving', ['Oak'], { ds: 'A row of reed pipes bound together; a bard\'s spellcasting focus.' }],
+  ['Shawm', 'Instrument', '', '', 'Carving', ['Oak'], { ds: 'A double-reed pipe with a piercing voice; a bard\'s spellcasting focus.' }],
+  ['Viol', 'Instrument', '', '', 'Carving', ['Oak', 'Leather'], { ds: 'A bowed, stringed instrument; a bard\'s spellcasting focus.' }],
   ["Dungeoneer's Pack", 'Storage', '', '', 'Tailoring', ['Leather'], { cap: 10, carry: 1, ds: 'A backpack with a crowbar, a hammer, 10 pitons, 10 torches, a tinderbox, 10 days of rations, a waterskin, and 50 feet of rope.' }],
   ["Burglar's Pack", 'Storage', '', '', 'Tailoring', ['Leather'], { cap: 10, carry: 1, ds: 'A backpack with ball bearings, string, a bell, candles, a crowbar, a hammer, pitons, a hooded lantern, oil, rations, a tinderbox, a waterskin, and 50 feet of rope.' }],
   ["Priest's Pack", 'Storage', '', '', 'Tailoring', ['Leather'], { cap: 10, carry: 1, ds: 'A backpack with a blanket, candles, a tinderbox, an alms box, incense, a censer, vestments, rations, and a waterskin.' }],
@@ -107,7 +117,7 @@ var STARTER_GP = { Club: 0.1, Dagger: 2, Greatclub: 0.2, Handaxe: 5, Javelin: 0.
   Shortbow: 25, Sling: 0.1, Battleaxe: 10, Flail: 10, Glaive: 20, Greataxe: 30, Greatsword: 50, Halberd: 20, Lance: 10, Longsword: 15, Maul: 10, Morningstar: 15, Pike: 5, Rapier: 25,
   Scimitar: 25, Shortsword: 10, Trident: 5, 'War Pick': 5, Warhammer: 15, Whip: 2, 'Hand Crossbow': 75, 'Heavy Crossbow': 50, Longbow: 50, 'Padded Armor': 5, 'Leather Armor': 10,
   'Studded Leather': 45, 'Hide Armor': 10, 'Chain Shirt': 50, 'Scale Mail': 50, 'Ring Mail': 30, Breastplate: 400, 'Chain Mail': 75, 'Half Plate': 750, 'Splint Armor': 200,
-  'Plate Armor': 1500, Shovel: 2, Pickaxe: 2, Shield: 10, 'Wooden Shield': 10, Arrows: 1, Bolts: 1, 'Arcane Focus': 10, 'Holy Symbol': 5, 'Druidic Focus': 1, Spellbook: 50, "Thieves' Tools": 25, Lute: 35,
+  'Plate Armor': 1500, Shovel: 2, Pickaxe: 2, Shield: 10, 'Wooden Shield': 10, Arrows: 1, Bolts: 1, 'Arcane Focus': 10, 'Holy Symbol': 5, 'Druidic Focus': 1, Spellbook: 50, "Thieves' Tools": 25, Lute: 35, Bagpipes: 30, Drum: 6, Dulcimer: 25, Flute: 2, Horn: 3, Lyre: 30, 'Pan Flute': 12, Shawm: 2, Viol: 30,
   "Dungeoneer's Pack": 12, "Burglar's Pack": 16, "Priest's Pack": 19, "Scholar's Pack": 40, "Entertainer's Pack": 40, "Diplomat's Pack": 39 };
 STARTER.forEach(function (x) {
   var e = x[6] || {}, b = { n: x[0], cat: x[1], lv: 1, pr: x[4], sp: x[4], r: 'Common', mats: x[5], starter: 1, dc: x[2], dm: x[3],
@@ -122,6 +132,20 @@ STARTER.forEach(function (x) {
 // the 10 AC the Armor Class rules promise (Body 4, Head 2, Hands 1, Feet 1, Shoulders 1, Back 1)
 NEW.push({ n: 'Iron Mantle', cat: 'Armor', lv: 1, pr: 'Blacksmithing', sp: 'Blacksmithing', r: 'Common', mats: ['Iron'], slot: 'Back', ac: '1',
   ds: 'A short cape of riveted iron scales hung from the shoulders, guarding the back and the spine. It completes a set of iron armour.' });
+// music gear and magic instruments for bards (owner's request, 2026-11-04). The magic instruments are spellcasting foci too:
+// their Item Level sets the focus bonus, and their kind of instrument sets the focus's buff (see the Rules, Spellcasting focus).
+[
+  { n: 'Songbook', cat: 'Book', lv: 1, pr: 'Tailoring', r: 'Common', mats: ['Leather'], gp: 25, ds: 'A bound book of staves and lyrics with room for 30 songs. A bard who studies a song in it during a long rest can perform it from memory afterwards.' },
+  { n: 'Tuning Fork', cat: 'Tool', lv: 2, pr: 'Blacksmithing', r: 'Common', mats: ['Iron'], gp: 5, ds: 'A two-pronged fork that rings true. Struck before a performance, it gives +1 to the next Performance check. Tuned forks keyed to a realm are how planar travellers find a way across.' },
+  { n: 'Spare Strings and Rosin', cat: 'Tool', lv: 1, pr: 'Tailoring', r: 'Common', mats: ['Leather'], gp: 1, ds: 'Gut strings, reeds, and a cake of rosin. Restrings or re-reeds a broken instrument in 10 minutes.' },
+  { n: 'Instrument Case', cat: 'Storage', lv: 1, pr: 'Tailoring', r: 'Common', mats: ['Leather', 'Oak'], gp: 8, cap: 2, carry: 1, ds: 'A padded, hard-shelled case. Holds 2 instruments on top of the 20 items a character can carry; anything inside is safe from rain and falls.' },
+  { n: 'Songbird Flute', cat: 'Instrument', lv: 3, pr: 'Carving', r: 'Uncommon', m: [['Human', 'W', 3], ['Human', 'B', 3]], ds: 'Carved with tiny birds. Once per long rest, cast Animal Friendship through it without a spell slot, and birds within a mile answer its call. A bard\'s spellcasting focus.' },
+  { n: 'Siren-Gut Lyre', cat: 'Instrument', lv: 8, pr: 'Carving', r: 'Uncommon', m: [['Human', 'W', 7], ['Human', 'F', 7]], ds: 'Strung with the gut of a sea siren. A creature that saves against an Enchantment spell you cast through it has disadvantage on that first save. A bard\'s spellcasting focus.' },
+  { n: 'Thunderhide War Drum', cat: 'Instrument', lv: 15, pr: 'Carving', r: 'Rare', m: [['Mysterious', 'F', 6], ['Mysterious', 'W', 6]], ds: 'While you play it (a bonus action each turn), allies within 60 feet who hear it add 1d4 to their initiative and to their first attack roll each round. A bard\'s spellcasting focus.' },
+  { n: 'Hellbrass Horn', cat: 'Instrument', lv: 30, pr: 'Blacksmithing', r: 'Very Rare', m: [['Hell', 'O', 5], ['Hell', 'B', 5]], ds: 'A horn of brass forged in Hell. Once per short rest, blow it as an action: every enemy within 60 feet makes a Wisdom save against your spell save DC or is frightened for 1 minute. A bard\'s spellcasting focus.' },
+  { n: 'Choir-of-Ash Harp', cat: 'Instrument', lv: 50, pr: 'Carving', r: 'Legendary', m: [['Abyss', 'B', 5], ['Abyss', 'F', 5]], ds: 'Its strings hum with a hundred voices. When you cast a Healing or Resonance spell through it that restores hit points, one more creature within 30 feet regains half as much. A bard\'s spellcasting focus.' },
+  { n: 'Primordial Bell', cat: 'Instrument', lv: 80, pr: 'Blacksmithing', r: 'Artifact', m: [['Primordial', 'O', 5], ['Primordial', 'G', 5]], ds: 'A bell cast before the realms were divided. Once per long rest, ring it: everyone of your choice within 120 feet who can hear it ends one condition, and you take an extra turn right after this one. A bard\'s spellcasting focus.' }
+].forEach(function (b) { b.sp = b.pr; NEW.push(b); });
 NEW.forEach(function (b) { if (b.n === "Explorer's Pack") b.gp = 10; if (b.n === 'Backpack') b.gp = 2; });
 
 module.exports = {
