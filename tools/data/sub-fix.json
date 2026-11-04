@@ -231,5 +231,11 @@
  },
  "Way of the Drunken Master": {
   "6|Tipsy Sway": "Spend 1 ki as a reaction when a creature misses you in melee to make the attack hit another creature within 5 ft of you. Standing up from prone costs only 5 ft."
+ },
+ "School of Necromancy (Wizard)": {
+  "2|Necromancy Savant": "Necromancy spells cost half the price at a Magic Tower, and you learn them in half the time.",
+  "2|Grim Harvest": "When you kill a creature with a spell, regain hit points equal to twice the spell's level (three times for a Necromancy spell). A cantrip counts as level 1.",
+  "6|Undead Thralls": "Your servants are never weaker than a share of a monster at your level: each one's hit points and AC are at least its type's share (Skeleton 80%, Zombie 85%, … Lich 99%) of a same-level monster's, so they grow as you level. Every servant also adds your proficiency bonus to its AC and to the damage of its attacks. The character sheet shows the result.",
+  "14|Command Undead": "As an action, take control of an undead creature within 60 feet whose level is no higher than yours: it makes a Charisma save against your spell save DC or obeys you until you dismiss it. It uses one of your summon slots. An undead with Intelligence 8 or higher has advantage and can repeat the save every hour."
  }
 }

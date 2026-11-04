@@ -300,5 +300,27 @@
    "Heart of Nothing",
    "As an action, you can spend 6 sorcery points to open the Void inside you for 1 minute. While it is open, you are immune to force damage, and each hostile creature that starts its turn within 15 feet of you must make a Constitution saving throw against your spell save DC, taking 4d10 force damage on a failure or half as much on a success. Creatures that take this damage can't regain hit points until the start of their next turn."
   ]
+ ],
+ "School of Necromancy (Wizard)": [
+  [
+   3,
+   "Death's Ledger",
+   "When you raise a corpse, it counts as one level lower than it is: a corpse at your level always rises, one level above has a 20% chance, two above 2%. If a raise fails, you can spend a spell slot to try that corpse once more."
+  ],
+  [
+   6,
+   "Bone Tithe",
+   "A corpse you don't raise can be rendered into 1 essence (10 minutes). Spend 1 essence to restore a servant to full hit points, or 3 essence to re-raise a destroyed servant at the end of your next long rest, as it was."
+  ],
+  [
+   10,
+   "Horde Discipline",
+   "Once per round, when one of your servants is hit, another servant within 5 feet of it can take the hit instead."
+  ],
+  [
+   14,
+   "Grave Surge",
+   "Once per long rest, as a bonus action, every servant you can see makes one extra attack."
+  ]
  ]
 }
