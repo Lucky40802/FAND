@@ -237,7 +237,11 @@ function statblock(m, body, bestDrop) {
     return Math.max(1, Math.min(30, v + up + jitter + sizeAdj));
   });
   var mods = ab.map(mod);
-  var hp = c < 1 ? ({ 0: 4, 0.125: 9, 0.25: 13, 0.5: 22 })[c] || 4 : Math.round(15 * c + 10);
+  // Past the Mysterious Realm a monster stands for a higher level (the encounter builder counts each realm tier past the
+  // Mysterious as 10 levels): its hit points follow that level (CR + 10 per tier) and its damage CR + 6 per tier, so
+  // fights at levels 21-100 last as long as they do at 1-20 (site scaling pass, 2026-11-04).
+  var deep = Math.max(0, (m.tier || 1) - 2), cHP = c + 10 * deep, cD = c + 6 * deep;
+  var hp = cHP < 1 ? ({ 0: 4, 0.125: 9, 0.25: 13, 0.5: 22 })[cHP] || 4 : Math.round(15 * cHP + 10);
   var die = sz[1], per = die / 2 + 0.5 + mods[2];
   var hd = Math.max(1, Math.round(hp / Math.max(1, per)));
   hp = Math.max(1, Math.floor(hd * (die / 2 + 0.5)) + hd * mods[2]);
@@ -255,7 +259,7 @@ function statblock(m, body, bestDrop) {
   var ac = Math.max(0, Math.floor(c / 2) + (plan.acBonus || 0) + (/scale|shell|carapace|plate|armor|armou?red/i.test(m.txt || '') ? 2 : 0) + tierBonus + gradeBonus + conAC);
   // attacks
   var pri = Math.max(mods[0], mods[1]), hit = prof + pri;
-  var dpr = c < 1 ? ({ 0: 1, 0.125: 3, 0.25: 5, 0.5: 8 })[c] || 2 : Math.round(5 * c + 4);
+  var dpr = cD < 1 ? ({ 0: 1, 0.125: 3, 0.25: 5, 0.5: 8 })[cD] || 2 : Math.round(5 * cD + 4);
   var n = c < 2 ? 1 : c < 8 ? 2 : 3;
   var elem = element(m.n + ' ' + (m.txt || ''));
   var actions = [], atks = kit ? kit.atk : plan.atk, melee = atks.filter(function (a) { return !a[3]; });
@@ -274,14 +278,14 @@ function statblock(m, body, bestDrop) {
     var dice = Math.max(1, Math.round((per - pri) / avg)), dmg = Math.max(1, Math.floor(dice * avg) + pri + realmHit);
     var ranged = a[3] === 'ranged', kind = a[1];
     var txt = (ranged ? 'Ranged Weapon Attack: ' : 'Melee Weapon Attack: ') + 'Accuracy ' + sgn(hit) + ', ' + (ranged ? 'range 60/240 ft.' : 'reach ' + (/Large|Huge|Gargantuan/.test(sz[0]) ? 10 : 5) + ' ft.') + ', one target. Hit: ' + dmg + ' (' + dice + 'd' + d + ((pri + realmHit) ? ' ' + ((pri + realmHit) > 0 ? '+ ' : '− ') + Math.abs(pri + realmHit) : '') + ') ' + kind + ' damage';
-    if (elem && i === 0 && kind !== elem && c >= 2) { var ed = Math.max(1, Math.round(c / 3)); txt += ' plus ' + Math.floor(ed * 3.5) + ' (' + ed + 'd6) ' + elem + ' damage'; }
+    if (elem && i === 0 && kind !== elem && c >= 2) { var ed = Math.max(1, Math.round(cD / 3)); txt += ' plus ' + Math.floor(ed * 3.5) + ' (' + ed + 'd6) ' + elem + ' damage'; }
     // what else a hit does: a new sentence ("If the target..."), extra damage ("plus..."), or more of this one ("and...")
     if (a[4]) txt += (/^[A-Z]/.test(a[4]) ? '. ' : /^plus /.test(a[4]) ? ' ' : ', ') + fill(a[4]);
     if (!kit && plan.poison && /Sting|Bite/.test(a[0]) && i > 0) txt += ', and the target must make a DC ' + dc + ' Constitution saving throw or be poisoned for 1 minute';
     actions.push([a[0], txt + '.']);
   });
   if (plan.breath && c >= 1) {
-    var bd = Math.max(2, Math.round(c * 1.2 * (1 + 0.1 * tier0))), bt = elem || 'fire';
+    var bd = Math.max(2, Math.round(cD * 1.2 * (1 + 0.1 * tier0))), bt = elem || 'fire';
     actions.push(['Breath Weapon (Recharge 5–6)', 'The creature exhales ' + bt + ' in a ' + (c >= 17 ? 60 : c >= 10 ? 30 : 15) + '-foot cone. Each creature in that area must make a DC ' + dc + ' Dexterity saving throw, taking ' + Math.floor(bd * 3.5) + ' (' + bd + 'd6) ' + bt + ' damage on a failed save, or half as much on a successful one.']);
   }
   if (kit && kit.acts) kit.acts.forEach(function (x) { actions.push([x[0], fill(x[1])]); });
