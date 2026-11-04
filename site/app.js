@@ -2038,6 +2038,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-11-04','Prices that fit the level','An economy check put a level\'s treasure against what that level costs. Weapons and armour kept pace, but spells did not: a 9th-level spell cost 800,000 gp in the Mysterious Realm, about 21 levels\' worth of treasure. Magic Tower prices now climb more gently (10, 50, 120, 250, 500, 900, 1,500, 2,500, 4,000, and 6,000 gp by spell level, times the realm\'s prices), so a caster\'s best spell costs one and a half to four levels of treasure. Characters from the Character generator also start with gold for their level and realm (a level 30 character has about 27,600 gp, not 1,500).','magic'],
   ['2026-11-04','Weapons, armour, and equipment apart','The character sheet\'s Equipment & Materials page now sorts what a character has equipped into three boxes: Weapons (with how many hands are in use), Armour (a slot for the head, shoulders, body, back, hands, feet, and off hand, showing what fills each one and which slots a heavy suit covers), and Equipment (foci, instruments, rings, tools, packs, and anything else). Each box has its own Equip field that suggests only its kind of item. Page 1 and the Party page group equipped gear the same way.','sheet'],
   ['2026-11-04','Nothing counted twice','A character\'s gear list also holds what they carry, and spares were adding to the totals: two helms or three shields all added AC, and horse barding added to its rider\'s. Now only the best piece in each armor slot (and one shield) is worn and counts, barding protects the mount, two of the same item count once, and a power counts once however many items carry it (the best one), like gear\'s ability bonuses already did. The sheet says how many spare pieces are carried. A vault item\'s ability and skill bonuses come from its strongest material, as its other powers do.','sheet'],
   ['2026-11-04','Balanced powers in the totals','The bonuses properties and traits add to the totals are capped so gear can\'t snowball: an item\'s powers add at most half its own AC (at least +1) and at most half a weapon\'s own damage (the extra dice shrink to fit), and gear can at most double a character\'s speed. The sheet marks a capped number. A vault item carries only its strongest material\'s property, as the vault\'s rule says (it had counted every material\'s).','sheet'],
@@ -5130,7 +5131,12 @@ function genGear(c,L){if(L<=1)return c;const near=list=>{const ok=list.filter(b=
   const extra=(cat,k)=>{const L2=BPS.filter(b=>b.cat===cat&&(+b.lv||1)<=L&&!c.gear.includes(b.n)),out=[];for(let i=0;i<k&&L2.length;i++){const v=near(L2.filter(b=>!out.includes(b.n)));if(!v)break;out.push(v.n)}return out};
   const pots=extra('Potion',Math.min(5,1+Math.floor(L/10))),arts=extra('Artifact',L>=50?3:L>=20?2:L>=5?1:0);
   pots.forEach(n=>invAdd(c,n,1,1,true));arts.forEach(n=>c.gear.push(n));
-  c.coins=c.coins||{};c.coins.gp=(+c.coins.gp||0)+L*50;c.genGear={up,pots,arts,gp:L*50};return c}
+  const gold=genGold(L);c.coins=c.coins||{};c.coins.gp=(+c.coins.gp||0)+gold;c.genGear={up,pots,arts,gp:gold};return c}
+// what a generated character has saved by their level: a quarter (one party member's share) of the gold one level of
+// adventuring brings in the realm they have reached (eight encounters and a hoard, as the treasure roller pays), and at
+// least 50 gp a level (economy audit, 2026-11-04: a flat 50 gp a level bought nothing past level 20)
+function genGold(L){L=Math.max(1,+L||1);const rn=(REALMS.find(r=>r.tier===Math.max(1,bandOf(L)))||REALMS[0]).n,over=Math.max(0,L-towerStart(rn));
+  return Math.max(L*50,Math.round(realmBase(rn)*94*(1+0.15*Math.min(over,20))/4/10)*10)}
 function genOpts(){const v=id=>(($(id)||{}).value||'');return {cls:v('gen-cls'),race:v('gen-race'),bg:v('gen-bg'),method:v('gen-method'),name:v('gen-name'),level:v('gen-level')}}
 function genGo(keepName){const o=genOpts();if(!(+o.level>=1&&+o.level<=MAX_LEVEL)){o.level=1;const e=$('gen-level');if(e)e.value=1}store.set('genopts',Object.assign({},o,{name:''}));if(keepName&&CGEN)o.name=CGEN.c.name;if(CGEN){CGEN_HIST.unshift(CGEN);CGEN_HIST=CGEN_HIST.slice(0,6)}CGEN=genFill(o);CGEN.fresh=1;renderCharGen();const r=$('gen-card');if(r)r.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest'})}
 function genBack(i){const g=CGEN_HIST[i];if(!g)return;CGEN_HIST.splice(i,1);if(CGEN)CGEN_HIST.unshift(CGEN);CGEN_HIST=CGEN_HIST.slice(0,6);CGEN=g;CGEN.fresh=1;renderCharGen()}
@@ -5796,7 +5802,10 @@ const MAGIC_TOWERS={
   'Resonance':['The Chorus Hall','Human','A round tower where every room is tuned to a note. Only Bards may buy here: Resonance spells are sung, never written.'],
 };
 const MT_RANKS=[['Visitor',3,0,'Anyone may enter and buy spells up to 3rd level.'],['Member',6,10,'Join by a fee or a service to the tower: spells up to 6th level, 10% off.'],['Archmage',9,25,'Earned by a deed for the tower (the DM decides): spells of 7th to 9th level, 25% off.']];
-const SPELL_BASE=[10,50,150,400,1000,2500,6000,15000,35000,80000];
+// Spell prices at a Magic Tower, by spell level, times the realm's price level ÷ 5 (economy audit, 2026-11-04): a gentler
+// climb, so a caster's highest spell costs about 1½–4 levels' worth of treasure instead of 10–50 (it was 15,000–80,000
+// for 7th–9th level).
+const SPELL_BASE=[10,50,120,250,500,900,1500,2500,4000,6000];
 function spellPrice(sp){const r=REALM[spellRealm(sp)]||REALMS[0],fb=favorBase(r.tier);return fb?{favor:(sp.lv+1)*fb*5}:{gp:SPELL_BASE[sp.lv]*realmBase(r.n)/5}}
 const priceText=(p,mult)=>p.favor?fav(Math.max(1,Math.round(p.favor*mult))):gp(Math.round(p.gp*mult));
 // Tower Cards (campaign rule): a card teleports its holder to one Magic Tower once per long rest, for one hour, then back
