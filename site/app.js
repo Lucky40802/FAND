@@ -2038,6 +2038,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-11-05','People\'s spells on the sheet','The innate magic of every people now shows on the character sheet\'s Spells page: a Tiefling of Dispater knows Thaumaturgy and gains Disguise Self at 3rd level and Detect Thoughts at 5th, a Dark Elf has Dancing Lights, Faerie Fire, and Darkness, and so on for 45 peoples (tieflings, genasi, gith, dragonmarks, and more). Each spell shows when it arrives, how often it can be cast, and the save DC and spell Accuracy with the people\'s casting ability. The Character generator\'s card lists them too.','sheet'],
   ['2026-11-05','Instruments in every realm, and Virtuoso for bards','A new property, Virtuoso, is a bard\'s answer to a wizard\'s focus: in an instrument it adds to a bard\'s spell Accuracy and save DCs (+1 to +5 by Potency), and the sheet counts it. Eleven new instrument materials carry it, one per realm, from Songwood in the Human Realm to First-Song Heartwood in the Primordial. And the Blueprints list has a magic Lute, Lyre, Harp, Flute, Drum, and War Horn in every realm, levels 6 to 96, each made with its realm\'s Virtuoso material.','blueprints'],
   ['2026-11-05','Treasure pays Favor in the deep realms','The Void, the Inner Void, and the Primordial trade in Favor, not coin, so treasure there now pays Favor instead of gold: a level of adventuring brings about two of the realm\'s 9th-level spells\' worth. The treasure roller and the Spoils panel show it, Spoils split and hand it out like coin, the character sheet\'s Purse has a Favor box, and Character generator characters made for those levels start with their share.','tools'],
   ['2026-11-04','Prices that fit the level','An economy check put a level\'s treasure against what that level costs. Weapons and armour kept pace, but spells did not: a 9th-level spell cost 800,000 gp in the Mysterious Realm, about 21 levels\' worth of treasure. Magic Tower prices now climb more gently (10, 50, 120, 250, 500, 900, 1,500, 2,500, 4,000, and 6,000 gp by spell level, times the realm\'s prices), so a caster\'s best spell costs one and a half to four levels of treasure. Characters from the Character generator also start with gold for their level and realm (a level 30 character has about 27,600 gp, not 1,500).','magic'],
@@ -3870,6 +3871,68 @@ const CW_CLASS={
   Artificer:{t:'An inventor who puts magic into tools and gadgets.',play:'Build, repair, and support the party with clever devices.',o:['int','con','dex','wis','str','cha'],sk:['arcana','investigation'],pr:'Light and medium armor, shields; simple weapons; thieves\' tools and tinker\'s tools',kit:'Light crossbow with 20 bolts, scale mail, thieves\' tools, dungeoneer\'s pack',gp:10,f:'Magical Tinkering: with thieves\' or artisan\'s tools, give a tiny object a small lasting magical effect (light, a recorded message, a smell or sound, or a picture); a number of objects up to your Intelligence modifier.\nSpellcasting (Intelligence): magic worked through your tools.'}
 };
 // [name, description, ability bonus ('flex' = +2 and +1 placed on the class's best scores), speed, traits, group]
+// People's spells (owner's request, 2026-11-05): the innate magic each people's traits give, so the sheet lists it. Each entry:
+// [level gained, spell, note]; a cantrip is at will, any other spell once per long rest without a slot (a caster may also
+// spend slots on it). ab is the casting ability ('ics' = choose INT, WIS, or CHA). From the peoples' own trait text.
+const RACE_SPELLS={
+  'Dark Elf':{ab:'cha',sp:[[1,'Dancing Lights'],[3,'Faerie Fire'],[5,'Darkness']]},
+  'Forest Gnome':{ab:'int',sp:[[1,'Minor Illusion']]},
+  'High Elf':{ab:'int',pick:'one wizard cantrip of your choice'},
+  'Tiefling':{ab:'cha',sp:[[1,'Thaumaturgy'],[3,'Hellish Rebuke','as a 2nd-level spell'],[5,'Darkness']]},
+  'Aasimar':{ab:'cha',sp:[[1,'Light']]},
+  'Firbolg':{ab:'ics',sp:[[1,'Detect Magic'],[1,'Disguise Self','you can seem up to 3 feet shorter']]},
+  'Triton':{ab:'ics',sp:[[1,'Fog Cloud'],[3,'Gust of Wind'],[5,'Water Walk']]},
+  'Kobold':{ab:'ics',pick:'with the Draconic Sorcery legacy: one sorcerer cantrip of your choice'},
+  'Yuan-ti':{ab:'ics',sp:[[1,'Poison Spray'],[1,'Animal Friendship','at will, on snakes only'],[3,'Suggestion']]},
+  'Air Genasi':{ab:'ics',sp:[[1,'Shocking Grasp'],[3,'Feather Fall'],[5,'Levitate']]},
+  'Earth Genasi':{ab:'ics',sp:[[1,'Blade Ward','also as a bonus action, proficiency bonus times per long rest'],[5,'Pass without Trace']]},
+  'Fire Genasi':{ab:'ics',sp:[[1,'Produce Flame'],[3,'Burning Hands'],[5,'Flame Blade']]},
+  'Water Genasi':{ab:'ics',sp:[[1,'Acid Splash'],[3,'Create or Destroy Water'],[5,'Water Walk']]},
+  'Aarakocra':{ab:'ics',sp:[[3,'Gust of Wind']]},
+  'Fairy':{ab:'ics',sp:[[1,'Druidcraft'],[3,'Faerie Fire'],[5,'Enlarge-Reduce']]},
+  'Githyanki':{ab:'int',sp:[[1,'Mage Hand','the hand is invisible'],[3,'Jump'],[5,'Misty Step']]},
+  'Githzerai':{ab:'wis',sp:[[1,'Mage Hand','the hand is invisible'],[3,'Shield'],[5,'Detect Thoughts']]},
+  'Deep Dwarf':{ab:'int',sp:[[3,'Enlarge-Reduce','enlarge, on yourself only'],[5,'Invisibility','on yourself only']]},
+  'Astral Elf':{ab:'ics',pick:'one of Dancing Lights, Light, or Sacred Flame'},
+  'Hexblood':{ab:'ics',sp:[[1,'Disguise Self'],[1,'Hex']]},
+  'Runeborn':{ab:'ics',pick:'one cantrip tied to the Law of your Rune, chosen with your DM',sp:[[3,'Detect Magic']]},
+  'Abyssal Tiefling':{ab:'ics',sp:[[1,'Thaumaturgy'],[1,'Poison Spray'],[3,'Ray of Sickness'],[5,'Hold Person']]},
+  'Chthonic Tiefling':{ab:'ics',sp:[[1,'Thaumaturgy'],[1,'Chill Touch'],[3,'False Life'],[5,'Ray of Enfeeblement']]},
+  'Infernal Tiefling':{ab:'ics',sp:[[1,'Thaumaturgy'],[1,'Fire Bolt'],[3,'Hellish Rebuke'],[5,'Darkness']]},
+  'Feral Tiefling':{ab:'cha',sp:[[1,'Thaumaturgy'],[3,'Hellish Rebuke','as a 2nd-level spell'],[5,'Darkness']]},
+  'Tiefling of Baalzebul':{ab:'cha',sp:[[1,'Thaumaturgy'],[3,'Ray of Sickness','as a 2nd-level spell'],[5,'Crown of Madness']]},
+  'Tiefling of Dispater':{ab:'cha',sp:[[1,'Thaumaturgy'],[3,'Disguise Self'],[5,'Detect Thoughts']]},
+  'Tiefling of Fierna':{ab:'cha',sp:[[1,'Friends'],[3,'Charm Person','as a 2nd-level spell'],[5,'Suggestion']]},
+  'Tiefling of Glasya':{ab:'cha',sp:[[1,'Minor Illusion'],[3,'Disguise Self'],[5,'Invisibility']]},
+  'Tiefling of Levistus':{ab:'cha',sp:[[1,'Ray of Frost'],[3,'Armor of Agathys','as a 2nd-level spell'],[5,'Darkness']]},
+  'Tiefling of Mammon':{ab:'cha',sp:[[1,'Mage Hand'],[3,'Floating Disk'],[5,'Arcane Lock']]},
+  'Tiefling of Mephistopheles':{ab:'cha',sp:[[1,'Mage Hand'],[3,'Burning Hands','as a 2nd-level spell'],[5,'Flame Blade']]},
+  'Tiefling of Zariel':{ab:'cha',sp:[[1,'Thaumaturgy'],[3,'Searing Smite','as a 2nd-level spell'],[5,'Branding Smite']]},
+  'Lotusden Halfling':{ab:'wis',sp:[[1,'Druidcraft'],[3,'Entangle'],[5,'Spike Growth']]},
+  'Pallid Elf':{ab:'wis',sp:[[1,'Light'],[3,'Sleep'],[5,'Invisibility','on yourself only']]},
+  'Siren':{ab:'cha',sp:[[1,'Friends']]},
+  'Mark of Detection':{ab:'int',sp:[[1,'Detect Magic'],[1,'Detect Poison and Disease'],[3,'See Invisibility']]},
+  'Mark of Finding':{ab:'wis',sp:[[1,"Hunter's Mark"],[3,'Locate Object']]},
+  'Mark of Handling':{ab:'wis',sp:[[1,'Animal Friendship'],[1,'Speak with Animals']]},
+  'Mark of Healing':{ab:'wis',sp:[[1,'Cure Wounds']]},
+  'Mark of Hospitality':{ab:'cha',sp:[[1,'Prestidigitation'],[1,'Purify Food and Drink'],[1,'Unseen Servant']]},
+  'Mark of Making':{ab:'int',sp:[[1,'Mending'],[1,'Magic Weapon','lasts 1 hour without concentration']]},
+  'Mark of Passage':{ab:'dex',sp:[[1,'Misty Step']]},
+  'Mark of Scribing':{ab:'int',sp:[[1,'Message'],[1,'Comprehend Languages'],[3,'Magic Mouth']]},
+  'Mark of Sentinel':{ab:'wis',sp:[[1,'Shield']]},
+  'Mark of Shadow':{ab:'cha',sp:[[1,'Minor Illusion'],[1,'Invisibility']]},
+  'Mark of Storm':{ab:'cha',sp:[[1,'Gust'],[3,'Gust of Wind']]},
+  'Mark of Warding':{ab:'int',sp:[[1,'Alarm'],[1,'Mage Armor'],[3,'Arcane Lock','without its gold cost']]}};
+const AB_NAME={str:'Strength',dex:'Dexterity',con:'Constitution',int:'Intelligence',wis:'Wisdom',cha:'Charisma'};
+const spByName=n=>SP.find(x=>lc(x.n)===lc(n))||null;
+// the casting ability for a people's spells: its own, or the best of INT, WIS, and CHA when the people lets you choose
+function raceSpellAb(c,R){if(!R)return 'cha';if(R.ab!=='ics')return R.ab;const A=c.abil||{},o=(c.raceOpts||{}).spellAb;return o&&['int','wis','cha'].includes(o)?o:['int','wis','cha'].sort((a,b)=>(+A[b]||10)-(+A[a]||10))[0]}
+function raceSpellsHTML(c){const R=RACE_SPELLS[c.race];if(!R)return '';const L=+c.level||1,ab=raceSpellAb(c,R),m=Math.floor(((+(c.abil||{})[ab]||10)-10)/2),pb=profBonus(L);
+  const row=([lv,n,note])=>{const sp=SP.length?spByName(n):null,cant=sp?sp.lv===0:lv===1&&/^(Thaumaturgy|Dancing Lights|Minor Illusion|Light|Poison Spray|Shocking Grasp|Blade Ward|Produce Flame|Acid Splash|Druidcraft|Mage Hand|Chill Touch|Fire Bolt|Friends|Ray of Frost|Prestidigitation|Mending|Message|Gust)$/i.test(n),off=L<lv;
+    return `<li style="${off?'opacity:.5':''}">${sp?refChip(sp,esc(n)):`<b>${esc(n)}</b>`} <small style="color:var(--muted)">${off?`at level ${lv}`:cant?'cantrip, at will':'once per long rest without a slot'}${note?' · '+esc(note):''}</small></li>`};
+  return `<div class="sh-box" style="margin-bottom:12px"><div class="sh-row" style="gap:8px;flex-wrap:wrap;align-items:baseline"><b>People's spells</b><span class="note" style="margin:0">${esc(c.race)} · ${esc(AB_NAME[ab])}${R.ab==='ics'?' (your best of Intelligence, Wisdom, and Charisma)':''} · save DC ${8+pb+m} · spell Accuracy ${sgn(pb+m)}</span></div>
+    <ul class="sh-ul" style="margin-top:6px">${(R.sp||[]).map(row).join('')}${R.pick?`<li><b>Your choice:</b> <small style="color:var(--muted)">${esc(R.pick)}${(c.raceOpts||{}).cantrip?' · chosen: '+esc(c.raceOpts.cantrip):''}</small></li>`:''}</ul>
+    <div class="sh-lab">Innate magic from your people: it needs no school and no class, works in every realm, and a caster may also cast these with their own slots</div></div>`}
 const CW_RACE=[
   ['Human','Adaptable and ambitious; the most common people of Vestige.',{str:1,dex:1,con:1,int:1,wis:1,cha:1},30,'One extra language','Common'],
   ['High Elf','Graceful and long-lived, with a gift for magic.',{dex:2,int:1},30,'Darkvision; keen senses; hard to charm; one wizard cantrip; meditates instead of sleeping','Common'],
@@ -4399,6 +4462,7 @@ function renderSheet(){
       <div class="keyrow"><input class="sel" list="dl-sp${lv}" id="sp-add-${lv}" placeholder="Add a ${lv?ORDN(lv)+'-level spell':'cantrip'}…" style="max-width:none;flex:1"><button class="btn" type="button" onclick="sheetSpellAdd(${lv})">Add</button></div>
       <datalist id="dl-sp${lv}">${SP.filter(x=>x.lv===lv&&(sch.length?canTake(x):(!c.cls||!(x.cls||[]).length||(x.cls||[]).includes(c.cls)||(c.cls2&&(x.cls||[]).includes(c.cls2))))).slice(0,600).map(x=>`<option value="${esc(x.n)}">${esc(x.sc)}${spellNeed(x)>1?' · '+esc(spellRealm(x)):''}</option>`).join('')}</datalist></div>`};
   const spells=`<div class="sh-trio" style="grid-template-columns:2fr 1fr 1fr 1fr;margin-bottom:12px">${box('Spellcasting class',`<div class="sh-big" style="font-size:1.2rem">${esc([c.cls,c.cls2&&L2?c.cls2:''].filter(x=>x&&CAST_ABIL[x]).join(' / ')||c.cls||'—')}</div>`)}${box('Spellcasting ability',`<div class="sh-big">${ca?ca.toUpperCase():'—'}</div>`)}${box('Spell save DC',`<div class="sh-big">${ca?8+pb+sm+FO.acc:'—'}</div>${FO.vir?`<small title="${esc(FO.n)}: its Virtuoso material adds to a bard\'s spell Accuracy and save DCs">incl. Virtuoso +${FO.vir}</small>`:''}`)}${box('Spell accuracy',`<div class="sh-big">${ca?sgn(pb+sm+FO.acc):'—'}</div>`)}</div>
+    ${raceSpellsHTML(c)}
     ${!SP.length?'<div class="note">Spells are still loading…</div>':''}
     ${CAST_ABIL[c.cls]?(()=>{const here=c.here||'Human',all=Object.values(c.spells||{}).flat(),ok=all.filter(n=>{const sp=SP.find(x=>lc(x.n)===lc(n));return (((c.spBound||{})[lc(n)])||(sp&&spellHome(sp))||'Human')===here}).length;return `<div class="sh-box" style="margin-bottom:12px"><div class="sh-row" style="gap:8px;flex-wrap:wrap;align-items:center"><b>Casting in</b><select class="sel" onchange="sheetHere(this.value)" style="max-width:200px">${REALMS.map(r=>`<option${r.n===here?' selected':''}>${esc(r.n)}</option>`).join('')}</select><span class="note" style="margin:0">${ok} of ${all.length} known spells work here · dice ×${spellPow(c,here)}</span></div>
       <div class="sh-row" style="gap:8px;flex-wrap:wrap;margin-top:6px"><b>Focus</b><span class="note" style="margin:0">${FO.n?`<b>${esc(FO.n)}</b>: ${FO.acc?`+${FO.acc} spell Accuracy and save DC`:'no Accuracy bonus'}${FO.dmg?`, +${FO.dmg} to each spell's damage or healing`:''}${FO.buff?` · <b>${esc(FO.kind)}</b>: ${esc(focusBuffText(FO.kind))}`:''}`:'None equipped. Equip a focus (a Wand, Orb, Staff, Amulet, Rod, Tome, Holy Symbol, or a bard\'s instrument) to add to your spell Accuracy, save DC, and spell damage.'}</span></div>
@@ -5176,6 +5240,7 @@ function genCardHTML(g){const c=g.c,cw=g.cw,sk=Object.keys(c.skillB||{}).map(k=>
       ${sec('Personality',`<div class="gen-pers">${[['Trait',c.traits],['Ideal',c.ideals],['Bond',c.bonds],['Flaw',c.flaws]].filter(x=>x[1]).map(([k,v])=>`<div><b>${k}.</b> ${esc(v)}</div>`).join('')}</div>`)}
     </div><div>
       ${spells.length?sec('Spells',spells.map(([l,L])=>`<div class="gen-spl"><small>${l}</small><div class="chips">${L.map(x=>`<span class="chip">${esc(x)}</span>`).join('')}</div></div>`).join(''),nSp+(sch.length?' · '+sch.map(x=>esc(x.n)+(x.m>1?' mastery '+x.m:'')).join(', '):'')):''}
+      ${(()=>{const R=RACE_SPELLS[c.race];if(!R||!R.sp)return '';const L=c.level||1,got=R.sp.filter(x=>x[0]<=L);return got.length?sec("People's spells",`<div class="gen-spl"><small>${esc(c.race)}</small><div class="chips">${got.map(x=>`<span class="chip">${esc(x[1])}</span>`).join('')}</div></div>`,AB_NAME[raceSpellAb(c,R)]):''})()}
       ${gear}
     </div></div>
     <div class="gen-foot">How ${esc(c.name)} was made: ${esc(made)}. Levels, gear, and choices follow FAND's own rules; change anything on the sheet once you keep them.</div>
