@@ -201,6 +201,8 @@ log.push('harvest parts: +' + genAdded + ' materials (now ' + D.MATS.length + ')
       ds: r[4] || '', where: r[5] || '', by: BY[kind] || '', gath: kind, site: 1 };
     if (r[6]) ex.alch = r[6];
     if (pr.k !== 'supply') { ex.pot = pr.P; ex.pn = pr.name; }
+    // instrument materials for bards stay out of the generated blueprints and the gods' stock (only their instruments use them)
+    if (pr.k === 'virtuoso') ex.instr = 1;
     D.MATS.push(ex); have[name.toLowerCase()] = 1; added++;
   });
   D.MATS.sort(function (a, b) { return a.n < b.n ? -1 : a.n > b.n ? 1 : 0; });
@@ -367,7 +369,7 @@ log.push('material origins: ' + JSON.stringify(orgCount) + ', unique traits on '
   var H = require(f), TY = { O: 'Ore / Metal', W: 'Wood / Plant', G: 'Crystal / Gem', S: 'Stone', F: 'Hide / Cloth / Fiber', B: 'Bone / Fang / Horn / Scale', L: 'Blood / Organ', E: 'Essence / Soul / Core', K: 'Mechanism' };
   D.BPS = D.BPS.filter(function (b) { return !b.hi; }); // regenerated on every build, so fixes to the generator always apply
   var have = {}; D.BPS.forEach(function (b) { have[b.n.toLowerCase()] = 1; });
-  var byRT = {}; D.MATS.forEach(function (m) { if (!m.ty || m.supply) return; var k = m.realm + '|' + m.ty; (byRT[k] = byRT[k] || []).push(m); });
+  var byRT = {}; D.MATS.forEach(function (m) { if (!m.ty || m.supply || m.instr) return; var k = m.realm + '|' + m.ty; (byRT[k] = byRT[k] || []).push(m); });
   Object.keys(byRT).forEach(function (k) { byRT[k].sort(function (a, b) { return a.n < b.n ? -1 : 1; }); });
   function pick(realm, t, g, salt) { var L = byRT[realm + '|' + TY[t]]; if (!L || !L.length) return null; var best = Math.min.apply(null, L.map(function (m) { return Math.abs(m.g - g); })); var c = L.filter(function (m) { return Math.abs(m.g - g) === best; }); return c[salt % c.length]; }
   var R = ['I', 'II', 'III', 'IV', 'V'], added = 0, AC = { Body: function (L) { return 4 + Math.floor((L - 20) / 10); }, Shield: function (L) { return 2 + Math.floor((L - 20) / 15); } };
@@ -407,7 +409,7 @@ log.push('material origins: ' + JSON.stringify(orgCount) + ', unique traits on '
   G.FRAGMENTS.forEach(function (x) {
     D.MATS.push({ n: x.n, cat: 'Rune Fragment', realm: 'Mysterious', gr: 'Mysterious 10', tier: 2, g: 10, rank: 100, il: 50, rar: 'Artifact', price: 0, ty: 'Essence / Soul / Core', tc: 'E', org: 'Rune', src: x.src, ds: x.ds, rune: x.rune, frag: 1, site: 1, bonus: '', prop: '' });
   });
-  var byRT = {}; D.MATS.forEach(function (m) { if (!m.ty || m.supply || m.frag || m.gen || (m.from && m.from.length) || m.org === 'Creature' && !/Hide|Cloth|Fiber|Bone/.test(m.ty) || m.rune) return; var k = m.realm + '|' + m.ty; (byRT[k] = byRT[k] || []).push(m); });
+  var byRT = {}; D.MATS.forEach(function (m) { if (!m.ty || m.supply || m.instr || m.frag || m.gen || (m.from && m.from.length) || m.org === 'Creature' && !/Hide|Cloth|Fiber|Bone/.test(m.ty) || m.rune) return; var k = m.realm + '|' + m.ty; (byRT[k] = byRT[k] || []).push(m); });
   Object.keys(byRT).forEach(function (k) { byRT[k].sort(function (a, b) { return (b.used || 0) - (a.used || 0) || (a.n < b.n ? -1 : 1); }); });
   function pick(realm, t, g) { var L = byRT[realm + '|' + TY[t]] || byRT['Human|' + TY[t]]; if (!L || !L.length) return null; var best = Math.min.apply(null, L.map(function (m) { return Math.abs(m.g - g); })); return L.filter(function (m) { return Math.abs(m.g - g) === best; })[0]; }
   var have = {}; D.BPS.forEach(function (b) { have[b.n.toLowerCase()] = b; });
@@ -502,7 +504,7 @@ D.GODS.forEach(function (g) {
 (function () {
   var STOP = { the: 1, of: 1, and: 1, god: 1, goddess: 1, a: 1, an: 1, to: 1, in: 1, for: 1, with: 1, its: 1, their: 1, from: 1, all: 1, every: 1, be: 1, kept: 1, no: 1, never: 1, who: 1, are: 1, is: 1, on: 1, or: 1, that: 1, those: 1, each: 1, by: 1, at: 1 };
   var words = function (t) { return String(t || '').toLowerCase().split(/[^a-z]+/).filter(function (w) { return w.length > 2 && !STOP[w]; }); };
-  var pool = D.MATS.filter(function (m) { return !m.gen && m.rank; });
+  var pool = D.MATS.filter(function (m) { return !m.gen && m.rank && !m.instr; });
   var idx = {}; D.MATS.forEach(function (m) { idx[m.n.toLowerCase()] = m; });
   var used = {}, hay = pool.map(function (m) { return ' ' + words(m.n + ' ' + (m.pn || '') + ' ' + (m.tr ? m.tr.n + ' ' + m.tr.t : '') + ' ' + String(m.ds || '').slice(0, 240)).join(' ') + ' '; });
   var added = 0;

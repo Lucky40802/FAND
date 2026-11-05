@@ -80,6 +80,7 @@ var A = {
   emberglass: ['Emberglass', 'Weapon: +{P}d6 damage against undead and creatures of ice, and they can\'t regenerate until the start of your next turn.'],
   heir: ['Rightful Heir', 'Only the one who first claims it can use its other powers. Worn: +{B} to Persuasion and Intimidation, and allies within 10 ft get +1 to saves against fear.'],
   wardrune: ['Spellward', 'Worn: once per short rest, when a spell would hit you or force a save, roll a d6: on 5–6 (4–6 at Potency 6+), it fizzles against you.'],
+  virtuoso: ['Virtuoso', 'Bard focus (an instrument): +{B} to bard spell Accuracy and save DCs. Your Bardic Inspiration dice add +{B} when a creature uses one.'],
   songbound: ['Songbound', 'An instrument or weapon of it hums a war-song: allies within 15 ft gain +1 Accuracy while you are not incapacitated. At Potency 6+, also +1 damage.'],
   stormcall: ['Stormcaller', 'Once per long rest, call a storm over a 100-ft area for 10 minutes: heavy rain, high wind, and once per round a lightning strike for {P}d8 (Dexterity save DC {DC}).'],
   mirror: ['Mirrorbound', 'Once per long rest, step into a mirror, still water, or polished metal and out of another within 1 mile that you have seen.'],
@@ -166,6 +167,9 @@ var TYPE_DEFAULT = { O: 'metal', W: 'nature', G: 'gem', S: 'stone', F: 'supple',
 
 // materials made for one property (saving throws and initiative, which only gear and class can raise): name -> property
 var NAMED = {
+  // instrument materials for bards (owner's request, 2026-11-05): one per realm, each a Virtuoso focus material
+  'Songwood': 'virtuoso', 'Echo Spruce': 'virtuoso', 'Hellstring Gut': 'virtuoso', 'Hymnal Cedar': 'virtuoso', 'Wildchord Reed': 'virtuoso',
+  'Pit-Siren Gut': 'virtuoso', 'Resonance Silver': 'virtuoso', 'Starchord Silver': 'virtuoso', 'Void-Hum Wire': 'virtuoso', 'Last-Note Steel': 'virtuoso', 'First-Song Heartwood': 'virtuoso',
   // alloys named for the tales (data/alloys.js)
   'Starsilver': 'starsilver', 'Mirrorbronze': 'mirror', 'Dragon-Hoard Gold': 'hoard', 'Emberglass': 'emberglass', 'Songsteel': 'songbound',
   'Pactsteel': 'oathkeeper', 'Dawnsteel': 'radiant', 'Thunder Brass': 'stormcall', 'Moon-Steel': 'starsilver', 'Bell Metal': 'songbound',
@@ -343,7 +347,7 @@ var FAM = {
   wild: ['elem', 'random-type'], core: ['elem', 'elemental'], water: ['elem', 'cold'],
   warding: ['save'], steadfast: ['save'], clarity: ['save'], quick: ['save'], alert: ['save'], hoard: ['save'], time: ['charges'],
   keen: ['skill'], hush: ['skill'], tongue: ['skill'], lore: ['skill'], wildwise: ['skill'], mighty: ['skill'], heir: ['skill'], clock: ['charges'],
-  sovereign: ['focus'], necro: ['focus'], gem: ['focus'], nature: ['focus'], truename: ['focus'], bloom: ['focus'],
+  virtuoso: ['focus'], sovereign: ['focus'], necro: ['focus'], gem: ['focus'], nature: ['focus'], truename: ['focus'], bloom: ['focus'],
   sharp: ['weapon'], blood: ['weapon'], souldrink: ['weapon'], giantfell: ['weapon'], wyrmbane: ['weapon'], foeglow: ['weapon'], oathkeeper: ['weapon'],
   emberglass: ['weapon'], bind: ['weapon'], petrify: ['weapon'], gravity: ['weapon'], fiend: ['weapon'], returning: ['weapon'], mech: ['weapon'],
   salt: ['weapon'], glass: ['weapon'], sand: ['weapon'], oil: ['weapon'], metal: ['weapon'], null: ['weapon'],
