@@ -962,6 +962,8 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
 /* Home: the pages your role uses most */
 .qgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
 .home-qlink{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surf);text-decoration:none;color:var(--text2);transition:border-color .15s,transform .15s}
+.hq-more{cursor:pointer;font:inherit;text-align:left;border-style:dashed;align-items:flex-start;justify-content:center;background:transparent}.hq-more b{color:var(--acc)}
+.hq-pick{cursor:pointer;display:inline-flex;gap:6px;align-items:center}.hq-pick.on{border-color:var(--gold);background:var(--goldbg);color:var(--text)}.hq-pick input{margin:0}
 .home-qlink:hover{border-color:var(--acc);transform:translateY(-1px)}
 .home-qlink b{color:var(--text);font-family:var(--serif);font-size:1.05rem}
 .home-qlink small{font-size:.8rem;color:var(--muted);line-height:1.35}
@@ -2745,11 +2747,23 @@ applyTheme(store.get('theme',matchMedia&&matchMedia('(prefers-color-scheme: ligh
 //  Pages
 // ════════════════════════════════════════════════════════════════
 // Home's first section: the pages a player or a DM reaches for most, or (before they choose) the question.
-const ROLE_HOME={player:['sheet','party','dice','spells','journal','rules'],dm:['prep','encounter','combat','hidden','bestiary','hooks']};
+const ROLE_HOME={player:['sheet','party','dice','spells','journal','rules','chargen','classes','craft','guide'],dm:['prep','encounter','combat','hidden','bestiary','hooks','npcs','towers','shop','forge']};
+// the shortcuts can be chosen (owner's request, 2026-11-05): a list per role, kept on this device and in the account
+const homeQuick=r=>{const s=store.get('homeQuick.'+r,null),ok=id=>TABS.some(t=>t[0]===id)&&id!=='home'&&!(r==='player'&&DM_ONLY.includes(id));return (Array.isArray(s)&&s.length?s:ROLE_HOME[r]).filter(ok)};
+let HQ_EDIT=false;
+function hqToggle(id,on){const r=role(),L=homeQuick(r).filter(x=>x!==id);if(on)L.push(id);store.set('homeQuick.'+r,L.length?L:null);renderTab()}
+function hqReset(){store.set('homeQuick.'+role(),null);renderTab()}
+// the Choose shortcuts card stretches over whatever is left of the last row, so the grid never ends with a gap
+function hqFill(){const g=document.querySelector('.qgrid.hq'),m=g&&g.querySelector('.hq-more');if(!m)return;m.style.gridColumn='';
+  const cols=getComputedStyle(g).gridTemplateColumns.split(' ').filter(Boolean).length||1,cards=g.querySelectorAll('.home-qlink:not(.hq-more)').length,left=cols-(cards%cols);if(left>1)m.style.gridColumn='span '+left}
+window.addEventListener('resize',()=>{clearTimeout(hqFill.t);hqFill.t=setTimeout(hqFill,120)});
 function homeRoleHTML(){const r=role();
   if(!r)return `<section class="sec"><div class="callout" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div style="flex:1;min-width:220px"><b>How do you use FAND?</b><br><span class="note" style="margin:0">FAND puts the pages you use most first: your character for players, the table tools for DMs. Change it any time in Settings.</span></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" type="button" onclick="setRole('player')">I'm a player</button><button class="btn primary" type="button" onclick="setRole('dm')">I'm the DM</button><button class="btn" type="button" onclick="setRole('both')">Both</button></div></div></section>`;
   if(r==='both')return '';
-  return `<section class="sec"><div class="sec-h"><h3>${r==='dm'?'Your table':'Your character'}</h3><p>${ROLES[r]} view · <a href="${pageUrl('settings')}#set-play" data-go="settings">change</a></p></div><div class="qgrid">${ROLE_HOME[r].map(id=>{const t=TABS.find(x=>x[0]===id);return t?`<a class="home-qlink" href="${pageUrl(id)}" data-go="${id}"><b>${esc(t[1])}</b><small>${esc(NAV_BLURB[id]||'')}</small></a>`:''}).join('')}</div></section>`}
+  return `<section class="sec"><div class="sec-h"><h3>${r==='dm'?'Your table':'Your character'}</h3><p>${ROLES[r]} view · <a href="${pageUrl('settings')}#set-play" data-go="settings">change</a></p></div><div class="qgrid hq">${homeQuick(r).map(id=>{const t=TABS.find(x=>x[0]===id);return t?`<a class="home-qlink" href="${pageUrl(id)}" data-go="${id}"><b>${esc(t[1])}</b><small>${esc(NAV_BLURB[id]||'')}</small></a>`:''}).join('')}<button type="button" class="home-qlink hq-more" aria-expanded="${HQ_EDIT}" onclick="HQ_EDIT=!HQ_EDIT;renderTab()"><b>${HQ_EDIT?'✓ Done choosing':'＋ Choose shortcuts'}</b><small>${HQ_EDIT?'Close the list':'Pick which pages show here'}</small></button></div>${HQ_EDIT?hqEditHTML(r):''}</section>${(setTimeout(hqFill,0),'')}`}
+function hqEditHTML(r){const on=new Set(homeQuick(r));
+  return `<div class="panel hq-edit" style="margin-top:10px"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-bottom:6px"><b>Shortcuts on Home</b><span class="note" style="margin:0">${on.size} chosen · tick the pages you reach for most</span><button type="button" class="btn" style="margin-left:auto" onclick="hqReset()">Reset to the ${r==='dm'?'DM':'player'} set</button></div>
+    ${navGroups().map(([g,ids])=>{const L=ids.filter(id=>id!=='home'&&!(r==='player'&&DM_ONLY.includes(id))&&TABS.some(t=>t[0]===id));return L.length?`<div style="margin:8px 0 2px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">${esc(g)}</div><div class="chips">${L.map(id=>`<label class="chip hq-pick${on.has(id)?' on':''}"><input type="checkbox" ${on.has(id)?'checked':''} onchange="hqToggle('${id}',this.checked)"> ${esc((TABS.find(t=>t[0]===id)||[])[1]||id)}</label>`).join('')}</div>`:''}).join('')}</div>`}
 // Customise Home: move sections up and down, or hide the ones you don't use
 let HOME_EDIT=false;
 const homeL=()=>Object.assign({order:[],hidden:[]},store.get('homelayout',{}));
@@ -3208,6 +3222,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-11-05','Choose your Home shortcuts','The Your table and Your character shortcuts on Home now fill their rows: ten pages each by default (the DM gets NPCs, Towers, the Shop, and the Forge too; a player gets the Character generator, Classes, Craft, and the guide), and a Choose shortcuts card fills whatever is left of the last row. It opens a list of every page to tick the ones you want, with a reset to the default set.','home'],
   ['2026-11-05','Home links stay in place','The quick links on Home (Your table for a DM, Your character for a player) shared a name with the combat tracker\'s quick card, so they floated in a fixed spot over the page (the Hooks card most of all). They now sit in their grid as they should.','home'],
   ['2026-11-05','Your people\'s cantrips in the cantrip list','The spells your people gives you now appear right in the character sheet\'s spell lists, marked with your people: a Tiefling of Dispater sees Thaumaturgy among their cantrips (and Disguise Self under 1st level from level 3), a Dark Elf sees Dancing Lights, a Forest Gnome Minor Illusion. They need no school or slot and can\'t be removed by accident. The People\'s spells box also names the cantrip a High Elf or Astral Elf chose.','sheet'],
   ['2026-11-05','People, then type','Peoples with kinds are chosen in two steps now: pick Tiefling, Dragonborn, Human, Elf, Dwarf, Halfling, Gnome, Half-Elf, Genasi, Gith, Goliath, or Shifter, then its type (a Tiefling of Dispater, a Chromatic Dragonborn, a Mark of Making human, a Hill Dwarf, and so on). The character builder shows each people once with a "choose a type" step, the Character generator has a People and a Type menu (Any type picks one at random), and the character sheet has the same two menus. Each dragonmark sits with the people that carries it.','sheet'],
