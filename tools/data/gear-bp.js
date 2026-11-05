@@ -147,6 +147,30 @@ NEW.push({ n: 'Iron Mantle', cat: 'Armor', lv: 1, pr: 'Blacksmithing', sp: 'Blac
   { n: 'Choir-of-Ash Harp', cat: 'Instrument', lv: 50, pr: 'Carving', r: 'Legendary', m: [['Abyss', 'B', 5], ['Abyss', 'F', 5]], ds: 'Its strings hum with a hundred voices. When you cast a Healing or Resonance spell through it that restores hit points, one more creature within 30 feet regains half as much. A bard\'s spellcasting focus.' },
   { n: 'Primordial Bell', cat: 'Instrument', lv: 80, pr: 'Blacksmithing', r: 'Artifact', m: [['Primordial', 'O', 5], ['Primordial', 'G', 5]], ds: 'A bell cast before the realms were divided. Once per long rest, ring it: everyone of your choice within 120 feet who can hear it ends one condition, and you take an extra turn right after this one. A bard\'s spellcasting focus.' }
 ].forEach(function (b) { b.sp = b.pr; NEW.push(b); });
+// magic instruments in every realm (owner's request, 2026-11-05): a Lute, Lyre, Harp, Flute, Drum, and War Horn at each
+// realm tier, levels 6 to 96. Each is made with its realm's instrument material (Virtuoso: bard spell Accuracy and save
+// DCs), and like every instrument it is a bard's spellcasting focus; its kind sets the focus's buff.
+(function () {
+  var TIER = [
+    // level, realm, word, Virtuoso material, rarity
+    [6, 'Human', 'Songwood', 'Songwood', 'Uncommon'], [16, 'Mysterious', 'Echo', 'Echo Spruce', 'Uncommon'],
+    [26, 'Heaven', 'Hymnal', 'Hymnal Cedar', 'Rare', 'Hell', 'Hellstrung', 'Hellstring Gut'], [36, 'Chaos', 'Wildchord', 'Wildchord Reed', 'Very Rare'],
+    [46, 'Abyss', 'Pit-Siren', 'Pit-Siren Gut', 'Very Rare'], [56, 'Inner Realm', 'Resonant', 'Resonance Silver', 'Legendary'],
+    [66, 'Outer Realm', 'Starchord', 'Starchord Silver', 'Legendary'], [76, 'Void', 'Void-Hum', 'Void-Hum Wire', 'Legendary'],
+    [86, 'Inner Void', 'Last-Note', 'Last-Note Steel', 'Artifact'], [96, 'Primordial', 'First-Song', 'First-Song Heartwood', 'Artifact']];
+  var INST = [
+    // instrument, profession, second material type, what it does in the hand, uses the second realm of a split tier
+    ['Lute', 'Carving', 'F', 'Its strings carry a spell farther into a listener\'s heart.', 0], ['Lyre', 'Carving', 'F', 'Its clear voice makes a charm hard to shake.', 0],
+    ['Harp', 'Carving', 'F', 'Its notes reach the wounded from across a room.', 0], ['Flute', 'Carving', 'B', 'Its call carries a spell over a great distance.', 1],
+    ['Drum', 'Carving', 'F', 'Its beat spreads a spell wide.', 1], ['War Horn', 'Blacksmithing', 'B', 'Its blast rolls out across a battlefield.', 1]];
+  TIER.forEach(function (t, k) {
+    INST.forEach(function (x) {
+      var hell = x[4] && t[5], realm = hell ? t[5] : t[1], word = hell ? t[6] : t[2], mat = hell ? t[7] : t[3];
+      NEW.push({ n: word + ' ' + x[0], cat: 'Instrument', lv: t[0], pr: x[1], sp: x[1], r: t[4], mats: [mat],
+        ds: 'A ' + x[0].toLowerCase() + ' made with ' + mat + ' of the ' + realm + (/Realm$/.test(realm) ? '. ' : ' Realm. ') + x[3] + ' A bard\'s spellcasting focus: its level sets the focus bonus, its kind sets the focus\'s buff, and its ' + mat + ' gives Virtuoso (bard spell Accuracy and save DCs).' });
+    });
+  });
+})();
 NEW.forEach(function (b) { if (b.n === "Explorer's Pack") b.gp = 10; if (b.n === 'Backpack') b.gp = 2; });
 
 module.exports = {

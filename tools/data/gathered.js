@@ -321,5 +321,19 @@ module.exports = [
   ["Murmur Ore", "Inner Void", 7, "ore", "An ore that hums words almost understood.", "Deep Inner Void seams", null],
   ["Firstspeech Root", "Primordial", 6, "herb", "A root from the plant that heard the first words ever spoken.", "The first gardens", null],
   ["Worldwatcher Amber", "Primordial", 9, "ore", "Amber that holds an eye from the first creature that ever watched.", "The first forests", null],
-  ["Primeval Bear Hide", "Primordial", 10, "hide", "The hide of a bear from before the first dawn.", "Primordial wilds", null]
+  ["Primeval Bear Hide", "Primordial", 10, "hide", "The hide of a bear from before the first dawn.", "Primordial wilds", null],
+
+  // ===== INSTRUMENT MATERIALS FOR BARDS (owner's request, 2026-11-05) =====
+  // one per realm; each gives the Virtuoso property (bard spell Accuracy and save DCs through an instrument)
+  ["Songwood", "Human", 6, "herb", "Pale, tight-grained tonewood that keeps ringing long after a string is still; minstrels' guilds guard the groves.", "Old hillside groves where shepherds play", null],
+  ["Echo Spruce", "Mysterious", 6, "herb", "Fey spruce whose cut boards repeat the last note played on them a heartbeat later, softer each time.", "Echoing glens of the summer courts", null],
+  ["Hellstring Gut", "Hell", 6, "hide", "Gut cord twisted from devils' sinew that never slackens and hums a low note no mortal ear can quite place.", "Tanneries beside the infernal concert halls", null],
+  ["Hymnal Cedar", "Heaven", 6, "herb", "Sweet-scented cedar from the choir groves of Heaven, warm to the hand, that lifts every voice played near it.", "Choir groves on the terraces of the faithful", null],
+  ["Wildchord Reed", "Chaos", 6, "herb", "A reed that grows in shifting keys; cut and dried, it never plays the same tune twice the same way.", "Marshes where the music of Chaos pools", null],
+  ["Pit-Siren Gut", "Abyss", 6, "hide", "Strings made from the drained throat of a pit siren, still eager to call anyone close enough to hear.", "Siren lairs on the Abyss's black shores", null],
+  ["Resonance Silver", "Inner Realm", 6, "ore", "Silver that rings like a struck bell at a touch and keeps the note true however the air changes.", "Veins beneath the halls where Laws are spoken", null],
+  ["Starchord Silver", "Outer Realm", 6, "ore", "Thin silver wire drawn from fallen stars; strung on an instrument it sounds like distant constellations.", "Starfall craters beyond the edge of the realms", null],
+  ["Void-Hum Wire", "Void", 6, "ore", "Grey wire that hums faintly even in perfect silence, as if the Void itself were tuning up.", "Drifting wreckage in the quiet between worlds", null],
+  ["Last-Note Steel", "Inner Void", 6, "ore", "Dark steel said to hold the last note of every song ever sung; struck, it answers with a chord of them.", "The deepest silence of the Inner Void", null],
+  ["First-Song Heartwood", "Primordial", 6, "herb", "Heartwood from a tree that grew to the first song of creation; it remembers the tune and sings along.", "The oldest groves of the Primordial", null],
 ];
