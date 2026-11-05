@@ -961,10 +961,10 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
 @media (max-width:800px){.hcx-layout{grid-template-columns:minmax(0,1fr)}.hcx-menu{position:static;max-height:none}.hcx-list{overflow:visible}.hcx-layout.d .hcx-menu,.hcx-layout:not(.d) .hcx-detail{display:none}.hcx-back{display:inline-flex}.hcx-detail{padding:14px}}
 /* Home: the pages your role uses most */
 .qgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
-.qcard{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surf);text-decoration:none;color:var(--text2);transition:border-color .15s,transform .15s}
-.qcard:hover{border-color:var(--acc);transform:translateY(-1px)}
-.qcard b{color:var(--text);font-family:var(--serif);font-size:1.05rem}
-.qcard small{font-size:.8rem;color:var(--muted);line-height:1.35}
+.home-qlink{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surf);text-decoration:none;color:var(--text2);transition:border-color .15s,transform .15s}
+.home-qlink:hover{border-color:var(--acc);transform:translateY(-1px)}
+.home-qlink b{color:var(--text);font-family:var(--serif);font-size:1.05rem}
+.home-qlink small{font-size:.8rem;color:var(--muted);line-height:1.35}
 /* Loading: a progress bar while the data downloads (site pages), and placeholder cards */
 .boot{width:min(320px,80%);height:6px;border-radius:6px;background:var(--line);overflow:hidden;opacity:0;transition:opacity .2s}
 .boot.on{opacity:1}
@@ -2749,7 +2749,7 @@ const ROLE_HOME={player:['sheet','party','dice','spells','journal','rules'],dm:[
 function homeRoleHTML(){const r=role();
   if(!r)return `<section class="sec"><div class="callout" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div style="flex:1;min-width:220px"><b>How do you use FAND?</b><br><span class="note" style="margin:0">FAND puts the pages you use most first: your character for players, the table tools for DMs. Change it any time in Settings.</span></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" type="button" onclick="setRole('player')">I'm a player</button><button class="btn primary" type="button" onclick="setRole('dm')">I'm the DM</button><button class="btn" type="button" onclick="setRole('both')">Both</button></div></div></section>`;
   if(r==='both')return '';
-  return `<section class="sec"><div class="sec-h"><h3>${r==='dm'?'Your table':'Your character'}</h3><p>${ROLES[r]} view · <a href="${pageUrl('settings')}#set-play" data-go="settings">change</a></p></div><div class="qgrid">${ROLE_HOME[r].map(id=>{const t=TABS.find(x=>x[0]===id);return t?`<a class="qcard" href="${pageUrl(id)}" data-go="${id}"><b>${esc(t[1])}</b><small>${esc(NAV_BLURB[id]||'')}</small></a>`:''}).join('')}</div></section>`}
+  return `<section class="sec"><div class="sec-h"><h3>${r==='dm'?'Your table':'Your character'}</h3><p>${ROLES[r]} view · <a href="${pageUrl('settings')}#set-play" data-go="settings">change</a></p></div><div class="qgrid">${ROLE_HOME[r].map(id=>{const t=TABS.find(x=>x[0]===id);return t?`<a class="home-qlink" href="${pageUrl(id)}" data-go="${id}"><b>${esc(t[1])}</b><small>${esc(NAV_BLURB[id]||'')}</small></a>`:''}).join('')}</div></section>`}
 // Customise Home: move sections up and down, or hide the ones you don't use
 let HOME_EDIT=false;
 const homeL=()=>Object.assign({order:[],hidden:[]},store.get('homelayout',{}));
@@ -3208,6 +3208,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-11-05','Home links stay in place','The quick links on Home (Your table for a DM, Your character for a player) shared a name with the combat tracker\'s quick card, so they floated in a fixed spot over the page (the Hooks card most of all). They now sit in their grid as they should.','home'],
   ['2026-11-05','Your people\'s cantrips in the cantrip list','The spells your people gives you now appear right in the character sheet\'s spell lists, marked with your people: a Tiefling of Dispater sees Thaumaturgy among their cantrips (and Disguise Self under 1st level from level 3), a Dark Elf sees Dancing Lights, a Forest Gnome Minor Illusion. They need no school or slot and can\'t be removed by accident. The People\'s spells box also names the cantrip a High Elf or Astral Elf chose.','sheet'],
   ['2026-11-05','People, then type','Peoples with kinds are chosen in two steps now: pick Tiefling, Dragonborn, Human, Elf, Dwarf, Halfling, Gnome, Half-Elf, Genasi, Gith, Goliath, or Shifter, then its type (a Tiefling of Dispater, a Chromatic Dragonborn, a Mark of Making human, a Hill Dwarf, and so on). The character builder shows each people once with a "choose a type" step, the Character generator has a People and a Type menu (Any type picks one at random), and the character sheet has the same two menus. Each dragonmark sits with the people that carries it.','sheet'],
   ['2026-11-05','People\'s spells on the sheet','The innate magic of every people now shows on the character sheet\'s Spells page: a Tiefling of Dispater knows Thaumaturgy and gains Disguise Self at 3rd level and Detect Thoughts at 5th, a Dark Elf has Dancing Lights, Faerie Fire, and Darkness, and so on for 45 peoples (tieflings, genasi, gith, dragonmarks, and more). Each spell shows when it arrives, how often it can be cast, and the save DC and spell Accuracy with the people\'s casting ability. The Character generator\'s card lists them too.','sheet'],
