@@ -513,6 +513,8 @@ const crNum=c=>{if(!c)return -1;if(String(c).includes('/')){const [a,b]=c.split(
 // ════════════════════════════════════════════════════════════════
 //  Cards
 // ════════════════════════════════════════════════════════════════
+// a school's colour (stable per school), for the strip down a spell card
+const schCol=sc=>`hsl(${hashStr(String(sc||''))%360} 60% 58%)`;
 const CARD={
   prop(x){
     return `<button class="card" style="--strip:var(--gold)" data-ref="${ref(x)}">
@@ -543,7 +545,8 @@ const CARD={
       <div class="ds">${esc(m.tr?m.tr.t:(m.ds||m.basic||''))}</div>
     </button>`},
   mon(m){
-    const drops=(m.drops||[]).slice(0,3).map(d=>`<span class="chip"><span class="sw" style="background:${rcol(realmOf(d[1]))}"></span>${esc(d[0])}</span>`).join('');
+    // a part named after its creature shows only the part ("Pelt", not "Ape Pelt"); the full name is in the tooltip
+    const drops=(m.drops||[]).slice(0,3).map(d=>{const short=d[0].toLowerCase().startsWith(m.n.toLowerCase()+' ')?d[0].slice(m.n.length+1):d[0];return `<span class="chip" title="${esc(d[0])}"><span class="sw" style="background:${rcol(realmOf(d[1]))}"></span>${esc(short)}</span>`}).join('');
     return `<button class="card" style="--strip:${rcol(m.realm)}" data-ref="${ref(m)}">
       <div class="t">${artHTML(m)}<div class="nm">${esc(m.n)}</div>${isPinned(m)?'<span class="pin">★</span>':''}</div>
       <div class="badges">${realmB(m.realm+' '+m.g)}${m.gb?'<span class="b red" title="A god-level beast: CR 26 or more">God-beast</span>':''}${m.cr?`<span class="b">CR ${esc(m.cr)}</span><span class="b ${m.myth?'blue':'ghost'}" title="${esc(BOOKS[m.book]||m.book)}">${esc(m.myth?m.myth+' myth':m.book)}</span>`:`<span class="b">CR ${esc(m.sb?m.sb.cr:'?')}</span><span class="b gold">Homebrew</span>`}</div>
@@ -561,7 +564,7 @@ const CARD={
       ${g.wants?`<div class="ds"><b style="color:var(--text)">Wants:</b> ${esc(g.wants)}</div>`:''}
     </button>`},
   spell(s){
-    return `<button class="card" data-ref="${ref(s)}">
+    return `<button class="card" style="--strip:${schCol(s.sc)}" data-ref="${ref(s)}">
       <div class="t"><div class="nm">${esc(s.n)}</div>${isPinned(s)?'<span class="pin">★</span>':''}</div>
       <div class="badges"><span class="b acc">${esc(s.sc)}</span><span class="b ${s.lv===0?'gold':''}">${s.lv===0?'Cantrip':'Level '+s.lv}</span>${s.tier?`<span class="b ghost">${esc(s.tier)}</span>`:''}${(s.cls||[]).slice(0,3).map(c=>`<span class="b green">${esc(c)}</span>`).join('')}</div>
       <div class="ln">${esc(s.ct)} · ${esc(s.rng)} · ${esc(s.dur)}</div>
@@ -866,9 +869,19 @@ function renderTab(){
   else{$('sb').hidden=true;$('ctrl').hidden=true;$('content').innerHTML='';PAGES[TAB]();diceWatch();pageSym()}
   pageArt(TAB);
   $('content').scrollTop=0;
+  // a soft fade in when the page changes (not when the same page redraws)
+  if(renderTab._last!==TAB){renderTab._last=TAB;const pg=$('content').querySelector('.page');if(pg)pg.classList.add('pg-in')}
   if(typeof tourResume==='function')tourResume();
 }
 
+// a "⋯ More" menu for actions that don't need a button of their own (a <details>: closes on a pick or a click outside)
+const moreMenu=(items,label)=>`<details class="mmenu"><summary class="btn" aria-label="${esc(label||'More actions')}">⋯ ${esc(label||'More')}</summary><div class="mmenu-p" role="menu">${items.filter(Boolean).join('')}</div></details>`;
+document.addEventListener('click',e=>{document.querySelectorAll('details.mmenu[open]').forEach(d=>{if(!d.contains(e.target)||e.target.closest('.mmenu-p button,.mmenu-p a,.mmenu-p label input'))setTimeout(()=>d.removeAttribute('open'),0)})});
+// a class's crest: its symbol on its colour (the sheet's portrait, the party tabs)
+const CLASS_EMO={Barbarian:'🪓',Fighter:'⚔',Paladin:'🛡',Ranger:'🏹',Artificer:'🔧',Bard:'🪕',Cleric:'☀',Druid:'🌲',Monk:'👊',Rogue:'🗡',Warlock:'👁',Sorcerer:'🔥',Wizard:'🧙'};
+const CLASS_HUE={Barbarian:8,Fighter:28,Paladin:45,Ranger:110,Artificer:190,Bard:320,Cleric:50,Druid:135,Monk:200,Rogue:260,Warlock:285,Sorcerer:15,Wizard:235};
+function classCrest(cls,name,size){const e=CLASS_EMO[cls],i=e&&typeof ART!=='undefined'&&ART.sym?ART.sym[e]:null,h=CLASS_HUE[cls]!=null?CLASS_HUE[cls]:hashStr(name||'?')%360;
+  return `<span class="crest" style="--h:${h};${size?`--cs:${size}px`:''}" aria-hidden="true">${i!=null?symSVG(i,'crest-s'):`<b>${esc(String(name||cls||'?').trim().charAt(0).toUpperCase()||'?')}</b>`}</span>`}
 // the page's symbol beside its title (the first heading the page draws)
 function pageSym(){const C=$('content');if(pageSym.at===C.firstElementChild)return;pageSym.at=C.firstElementChild;if(TAB==='home'||C.querySelector('.fg-hero,.pgsym'))return;const top=C.getBoundingClientRect().top,h=[...C.querySelectorAll('h1,h2,.sec-h h3')].find(x=>x.getBoundingClientRect().top-top<260&&x.offsetParent);if(h)h.insertAdjacentHTML('afterbegin',pgSym(TAB,'pgsym'))}
 
@@ -902,14 +915,16 @@ let CTRL_OPEN=false;
 function renderControls(){
   const V=VIEWS[TAB],s=st(TAB);
   if(!V._opts)V._opts={};
-  const sel=V.filters.filter(f=>!f.hidden).map(f=>{
+  // the first two filters, sort, the view, and the list tools stay in the main row; the other filters and the toggles fold
+  // behind "More filters" (on a phone everything but the search and the side filter folds behind "Filters")
+  const FV=V.filters.filter(f=>!f.hidden),selA=FV.map(f=>{
     const o=V._opts[f.id]||(V._opts[f.id]=f.opts());
-    return `<select class="sel${s.f[f.id]?' is-set':''}" data-f="${f.id}" aria-label="${esc(f.label)}"><option value="">${esc(f.label)}</option>${o.map(([v,l])=>`<option value="${esc(v)}"${s.f[f.id]===v?' selected':''}>${esc(l)}</option>`).join('')}</select>`}).join('');
+    return `<select class="sel cx${s.f[f.id]?' is-set':''}" data-f="${f.id}" aria-label="${esc(f.label)}"><option value="">${esc(f.label)}</option>${o.map(([v,l])=>`<option value="${esc(v)}"${s.f[f.id]===v?' selected':''}>${esc(l)}</option>`).join('')}</select>`}),selMain=selA.slice(0,2).join(''),sel=selA.slice(2).join('');
   const tg=V.toggles.map(t=>`<button class="btn${s.tg[t.id]?' on':''}" data-tg="${t.id}" aria-pressed="${!!s.tg[t.id]}">${t.label}</button>`).join('');
-  const so=V.sorts.length>1?`<select class="sel" data-sort aria-label="Sort">${V.sorts.map(([id,l])=>`<option value="${id}"${s.sort===id?' selected':''}>Sort: ${l}</option>`).join('')}</select>`:'';
+  const so=V.sorts.length>1?`<select class="sel cx" data-sort aria-label="Sort">${V.sorts.map(([id,l])=>`<option value="${id}"${s.sort===id?' selected':''}>Sort: ${l}</option>`).join('')}</select>`:'';
   $('ctrl').innerHTML=`<button class="btn filters-btn" onclick="toggleDrawer()">${ICON.filter}&nbsp;${V.side.label}</button>
     <div class="field${s.q?' has':''}">${ICON.search}<input id="q" type="search" placeholder="Search ${V.title.toLowerCase()}…" value="${esc(s.q)}" autocomplete="off" spellcheck="false"><button class="clear" aria-label="Clear search" data-clear>×</button></div>
-    ${sel||tg?`<button class="btn more-btn${CTRL_OPEN?' on':''}" type="button" aria-expanded="${CTRL_OPEN}" aria-controls="ctrl-more" onclick="CTRL_OPEN=!CTRL_OPEN;this.closest('.ctrl').classList.toggle('open',CTRL_OPEN);this.classList.toggle('on',CTRL_OPEN);this.setAttribute('aria-expanded',CTRL_OPEN)">Filters<span class="b gold" id="ctrl-n" hidden></span></button>`:''}<div class="ctrl-more" id="ctrl-more">${sel}${tg}${so}<span class="seg" role="group" aria-label="View"><button class="${VIEWMODE[TAB]==='table'?'':'on'}" onclick="setMode('cards')" title="Card view">Cards</button><button class="${VIEWMODE[TAB]==='table'?'on':''}" onclick="setMode('table')" title="Table view">Table</button></span><button class="btn" onclick="randomItem()" title="Open a random item from this list">🎲 Random</button><button class="btn" onclick="exportCSV()" title="Download the current list as a spreadsheet">⇩ CSV</button></div><span class="count" id="cnt"></span><div class="chips-active" id="act"></div>`;
+    ${selMain}${so}${selA.length||tg?`<button class="btn more-btn${CTRL_OPEN?' on':''}${sel||tg?' has-rest':''}" type="button" aria-expanded="${CTRL_OPEN}" aria-controls="ctrl-more" onclick="CTRL_OPEN=!CTRL_OPEN;this.closest('.ctrl').classList.toggle('open',CTRL_OPEN);this.classList.toggle('on',CTRL_OPEN);this.setAttribute('aria-expanded',CTRL_OPEN);this.querySelector('.mb-dt').textContent=CTRL_OPEN?'Fewer filters':'More filters'"><span class="mb-ph">Filters</span><span class="mb-dt">${CTRL_OPEN?'Fewer filters':'More filters'}</span><span class="b gold" id="ctrl-n" hidden></span></button>`:''}<div class="ctrl-more" id="ctrl-more">${sel}${tg}</div><span class="seg cx" role="group" aria-label="View"><button class="${VIEWMODE[TAB]==='table'?'':'on'}" onclick="setMode('cards')" title="Card view">Cards</button><button class="${VIEWMODE[TAB]==='table'?'on':''}" onclick="setMode('table')" title="Table view">Table</button></span><button class="btn cx" onclick="randomItem()" title="Open a random item from this list">🎲 Random</button><button class="btn cx" onclick="exportCSV()" title="Download the current list as a spreadsheet">⇩ CSV</button><span class="count" id="cnt"></span><div class="chips-active" id="act"></div>`;
   $('ctrl').hidden=false;$('ctrl').classList.toggle('open',CTRL_OPEN);
   updateActive();
 }
@@ -1619,7 +1634,7 @@ function renderHome(){
     </section>`],
     ['role','Your character or table',()=>homeRoleHTML()],
     ['handouts','Handouts',()=>hoHomeHTML()],
-    ['stats','Counts',()=>`<section class="sec"><div class="stats">${stats.map(([t,v,l])=>`<button class="stat" data-go="${t}"><span class="v">${fmt(v)}</span><span class="l">${l}</span></button>`).join('')}</div></section>`],
+    ['stats','Counts',()=>`<section class="sec"><div class="stats">${stats.map(([t,v,l])=>`<button class="stat" data-go="${t}" title="Open ${esc((TABS.find(x=>x[0]===t)||[])[1]||t)}">${pgSym(t,'statsym')}<span class="v">${fmt(v)}</span><span class="l">${l}</span></button>`).join('')}</div></section>`],
     ['recent','Recently viewed',()=>(()=>{const rec=recentItems().slice(0,10);return rec.length?`<section class="sec"><div class="sec-h"><h3>Recently viewed</h3><p>on this device · <a href="#" onclick="store.set('recent',[]);renderHome();return false">clear</a></p></div><div class="chips">${rec.map(x=>refChip(x,esc(x._t==='god'?godKey(x):x.n),{bp:'Blueprint',mat:'Material',mon:'Monster',god:'God',rune:'Rune',spell:'Spell',sub:'Subclass',realm:'Realm',demon:'Demon',patron:'Patron',note:'Note'}[x._t]||'')).join('')}</div></section>`:''})()],
     ['pinned','Pinned',()=>pins.length?`<section class="sec"><div class="sec-h"><h3>Pinned</h3><p>${pins.length} saved on this device</p></div><div class="grid">${pins.slice(0,12).map(card).join('')}</div></section>`:''],
     ['builder','Character builder',()=>`<section class="sec"><div class="callout" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div style="flex:1;min-width:220px"><b>New to FAND or to tabletop games?</b><br><span class="note" style="margin:0">Make a character from scratch in five simple steps. No rulebook needed. The New player guide shows every feature, with short tutorials.</span></div><button class="btn primary" type="button" onclick="charWizard()">✨ Build a character for me</button><a class="btn" href="${pageUrl('guide')}" data-go="guide">📖 New player guide</a></div></section>`],
@@ -1907,7 +1922,7 @@ function renderRealms(){
     <div style="margin-bottom:16px">${cosmologyHTML()}</div>
     <div id="rm-wrap">${realmMapHTML()}</div>
     ${realmMapPhotoHTML('Human')}${(()=>{const f=store.get('placefocus',null);if(f){store.set('placefocus',null);setTimeout(()=>{const pin=[...document.querySelectorAll('.rmap-pin')].find(x=>x.dataset.pin===f);if(pin){pin.classList.add('on');pin.scrollIntoView({block:'center'})}},300)}return ''})()}
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Realms</h3><p>Ordered by tier. Higher tiers mean stronger materials, higher prices, and more Pressure on travelers.</p></div>
+    <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Realms</h3><p>Ordered by tier. Higher tiers mean stronger materials, higher prices, and more Pressure on travelers.</p></div>
     <div class="ladder" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr))">${REALMS.map(r=>{
       const mats=MATS.filter(m=>m.realm===r.n),mons=MONSTERS.filter(m=>m.realm===r.n),gods=GODS.filter(g=>g.home===r.n);
       const props={};mats.forEach(m=>{if(m.pn)props[m.pn]=(props[m.pn]||0)+1});
@@ -1940,7 +1955,7 @@ function profStagesHTML(p){const L=profStages(p);if(!L.length)return '';
 function renderProfessions(){
   const pick=(prof,lv)=>{const c=BPS.filter(b=>b.pr===prof&&b.ds);let best=null;c.forEach(b=>{if(!best||Math.abs(b.lv-lv)<Math.abs(best.lv-lv)||(Math.abs(b.lv-lv)===Math.abs(best.lv-lv)&&b.n<best.n))best=b});return best};
   $('content').innerHTML=`<div class="page">
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Professions</h3><p>Ten broad professions. Each old craft lives on as a specialty. You start with one specialty and gain more over time; crafting outside them is at disadvantage.</p></div>
+    <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Professions</h3><p>Ten broad professions. Each old craft lives on as a specialty. You start with one specialty and gain more over time; crafting outside them is at disadvantage.</p></div>
     <div class="panel" style="margin-bottom:14px"><b style="font-family:var(--serif)">Profession stages</b><p class="note" style="margin:4px 0 8px">Like classes, every profession has a stage every 20 levels (I to V), each opening a band of realms. A crafter can only work materials from realms their stage has reached; harvesting or scavenging parts from a deeper realm is at disadvantage. The profession bonus is half the profession level: <b>+1 every 2 levels</b> (+10 at level 20, +25 at level 50, +50 at level 100). It is added to the profession's crafting rolls, and for <b>Scavenging</b> to both its crafting and its scavenging rolls (Harvesting's also counts when gathering and mining).</p><div class="tablewrap"><table class="t"><thead><tr><th>Stage</th><th>Profession levels</th><th>Materials it can work</th><th class="num">Bonus</th></tr></thead><tbody>${Array.from({length:MAX_STAGE},(_,i)=>i+1).map(k=>`<tr><td>${ROMAN[k-1]}</td><td>${stageStart(k)}–${stageEnd(k)}</td><td>${REALMS.filter(r=>tierStage(r.tier)===k).map(r=>`<span class="b rlm" style="--rc:${r.color}">${esc(r.n)}</span>`).join(' ')}${k>1?' and below':''}</td><td class="num">+${Math.floor(stageStart(k)/2)} to +${Math.floor(stageEnd(k)/2)}</td></tr>`).join('')}</tbody></table></div></div>
     <details class="panel fold" style="margin-bottom:14px"><summary><b style="font-family:var(--serif)">Level by level, 1 to 100</b> <small style="color:var(--muted)">the same for every profession: +1 bonus every 2 levels</small></summary>
       <div class="tablewrap" style="margin-top:8px"><table class="t"><thead><tr><th class="num">Level</th><th class="num">Bonus</th><th>What it brings</th></tr></thead><tbody>${Array.from({length:100},(_,i)=>i+1).map(L=>{const u=[];if(L<=20)u.push(['Basic Recipes','Advanced Components','Rare Crafting','Masterwork Techniques','Legendary Creation'][Math.floor((L-1)/4)]);if(L>1&&(L-1)%20===0)u.push('Stage '+ROMAN[Math.floor((L-1)/20)]+': new title and a trial');if(L>20&&(L-1)%10===0)u.push('a stage feature');if(L%5===0)u.push('free specialty');return `<tr${L%2===0?' style="background:var(--goldbg)"':''}><td class="num">${L}</td><td class="num"><b>+${Math.floor(L/2)}</b></td><td>${u.join(' · ')}</td></tr>`}).join('')}</tbody></table></div>
@@ -2051,6 +2066,7 @@ const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the st
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
   ['2026-11-09','Heritage everywhere, and a fairer realm menu','The step-by-step builder\'s People step now ends with an optional Heritage (a second people, its type, and one trait), and the Character generator has a Heritage menu (None, Random, or a people). Peoples that choose a cantrip (High Elf, Astral Elf, a Draconic Sorcery kobold) can pick or change it right in the People\'s spells box on the sheet. And the realm a spell is bound to can now only be changed by the DM: players bring spells to a new realm with Attune.','sheet'],
+  ['2026-11-09','A visual pass','Every page header now has the same shape: the title, one line of description under it, and the page\'s actions on the right. The Party page keeps two buttons (Build one for me, Add character) and puts the rest under ⋯ More, and its character tabs show a class crest and an HP bar. The character sheet has a portrait (the class crest, or a picture you choose). On a phone the combat tracker folds its tools behind a bottom bar with a big Next turn button, and an empty fight offers Add the party and Add a monster. Spell cards carry a strip in their school\'s colour, Bestiary cards name parts without repeating the creature, lists keep their first filters in one row with the rest under More filters, the Home counts show what they open, and pages fade in.','home'],
   ['2026-11-06','Two peoples: heritage','A character can now have a second people as their heritage (on the sheet\'s FAND page, under their people). The main people keeps its ability bonuses, size, speed, and traits; the heritage adds its innate spells (listed as heritage spells on the Spells page), one of its traits you pick, its language, and its darkvision when it sees farther. A Tiefling of Dispater with a Wood Elf parent, say, keeps Thaumaturgy and gains Mask of the Wild or Fleet of Foot.','sheet'],
   ['2026-11-06','Attunement: bring your spells to a new realm','Casters no longer arrive in a new realm with nothing to cast. After a week in a realm, or a ritual at a temple or Magic Tower there, press Attune on the character sheet\'s Spells page: you can rebind as many spells you already know as your proficiency bonus to that realm for free, then one more after each long rest there. A rebound spell works in its new realm and no longer in the old one; Rune spells stay in their own realm.','sheet'],
   ['2026-11-05','Choose your Home shortcuts','The Your table and Your character shortcuts on Home now fill their rows: ten pages each by default (the DM gets NPCs, Towers, the Shop, and the Forge too; a player gets the Character generator, Classes, Craft, and the guide), and a Choose shortcuts card fills whatever is left of the last row. It opens a list of every page to tick the ones you want, with a reset to the default set.','home'],
@@ -2344,7 +2360,7 @@ function renderAbout(){
     ['Tools','This website and FAND.html; a GitHub repo with generator and check scripts.','tools'],
   ];
   $('content').innerHTML=`<div class="page">
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">About FAND</h3><p>Everything built in the FAND vault since the Patch Notes began. Current version: <b>${esc(META.version)}</b>${SITE&&SITE.b?` (build ${esc(SITE.b)}) · <a href="#" onclick="checkUpdate();return false">check for updates</a>`:''}.</p></div>
+    <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">About FAND</h3><p>Everything built in the FAND vault since the Patch Notes began. Current version: <b>${esc(META.version)}</b>${SITE&&SITE.b?` (build ${esc(SITE.b)}) · <a href="#" onclick="checkUpdate();return false">check for updates</a>`:''}.</p></div>
     <section class="sec">${appHTML()}</section>
     <section class="sec">${cosmologyHTML()}</section>
     <section class="sec"><div class="sec-h"><h3>At a glance</h3></div><div class="tablewrap"><table class="t"><thead><tr><th>Area</th><th>Now</th></tr></thead><tbody>${G.map(([a,t,l])=>`<tr><td style="white-space:nowrap;font-weight:600">${l?`<a href="${pageUrl(l)}" data-go="${l}" style="text-decoration:none">${a}</a>`:a}</td><td>${t}</td></tr>`).join('')}</tbody></table></div></section>
@@ -3167,7 +3183,7 @@ function dpSave(){const e=dicePoolExpr();if(!e)return;const sp=dpSpec(),plain=sp
 function diceSaved(){const L=store.get('dicesaved',[]);$('ds-list').innerHTML=L.length?L.map((x,i)=>`<div class="enc-row" style="display:flex;gap:8px;align-items:center;padding:7px 12px"><button class="btn primary" type="button" style="padding:4px 10px" onclick="${x.pool?`dicePoolRoll(store.get('dicesaved',[])[${i}].pool)`:`rollShow(${esc(JSON.stringify(x.e))})`}">🎲</button><b style="flex:1">${esc(x.n)}</b><span class="mono">${esc(x.e)}</span><button class="btn" type="button" style="padding:3px 8px" title="Remove" onclick="const L=store.get('dicesaved',[]);L.splice(${i},1);store.set('dicesaved',L);diceSaved()">✕</button></div>`).join(''):'<div class="note">No saved rolls yet. Save the ones you use every session, like a weapon\'s damage or an initiative roll.</div>'}
 function renderDice(){
   $('content').innerHTML=`<div class="page">
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Dice</h3><p>Roll anything at the table. Your history and saved rolls stay on this device.</p></div>
+    <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Dice</h3><p>Roll anything at the table. Your history and saved rolls stay on this device.</p></div>
     <div class="tools">
       <div class="tool" id="t-dice"><h3>Quick roll</h3><div class="sub">Type any roll, like 2d6+3, d20, or a mix like 2d6+1d8+3. Dice written anywhere on the site can be clicked to roll too.</div>
         <div class="form" style="grid-template-columns:2fr 1fr"><label>Roll<input id="dr-e" value="1d20" placeholder="2d6+3"></label><label style="align-self:end"><button class="btn primary" id="dr-go" type="button" style="width:100%">🎲 Roll</button></label></div>
@@ -3253,7 +3269,7 @@ function travelRoll(){const el=$('tr-out');if(!el)return;const realm=$('tr-realm
   el.innerHTML=`<div class="note">${miles} miles at ${esc(pace[2].toLowerCase())}: <b>${days} day${days>1?'s':''}</b>. An encounter comes on a d20 roll of 17+ each day.${R?` The ${esc(realm)} has Pressure ${R.pressure}: travellers below that Attunement suffer strain (Rules).`:''}${days>30?' (Showing the first 30 days.)':''}</div><div class="tablewrap"><table class="t"><thead><tr><th class="num">Day</th><th>Weather</th><th>On the road</th></tr></thead><tbody>${out.join('')}</tbody></table></div>`}
 function renderTools(){
   $('content').innerHTML=`<div class="page">
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Table tools</h3><p>Everything to run a session: the clock, NPCs, travel, conditions, scavenging, mining, treasure, and shops here, plus the pages below.</p></div>
+    <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Table tools</h3><p>Everything to run a session: the clock, NPCs, travel, conditions, scavenging, mining, treasure, and shops here, plus the pages below.</p></div>
     <div class="chips" style="margin:0 0 12px">${[['prep','📋 Session prep'],['combat','⚔ Combat tracker'],['encounter','🐉 Encounters'],['hooks','🪝 Hooks'],['dice','🎲 Dice'],['journal','📓 Journal'],['party','👥 Party'],['rules','📖 Rules']].map(([t,l])=>`<a class="chip" href="${pageUrl(t)}" data-go="${t}">${l}</a>`).join('')}</div>
     <div class="tools">
       <div class="tool" id="t-clock"><h3>Session clock</h3><div class="sub">Keep the in-game time: advance it by rounds, hours, or rests, and track how long torches and lanterns have left.</div><div id="ck-box"></div></div>
@@ -3661,7 +3677,7 @@ const costText=(g,fv)=>[g?gp(g):'',fv?fav(fv):''].filter(Boolean).join(' + ')||'
 function renderCraft(){
   const st=store.get('craft',{bp:'',qty:1,who:'',buy:''});
   $('content').innerHTML=`<div class="page">${datalists()}
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Crafting planner</h3><p>Pick a Blueprint to see every material, where to get it, what it costs, and what a crafter is missing.</p></div>
+    <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Crafting planner</h3><p>Pick a Blueprint to see every material, where to get it, what it costs, and what a crafter is missing.</p></div>
     <div class="tool"><div class="form" style="grid-template-columns:2fr 1fr 1.5fr 1.5fr">
       <label>Blueprint<input id="cf-bp" list="dl-bp" placeholder="Start typing a Blueprint…" value="${esc(st.bp)}"></label>
       <label>How many<input id="cf-q" type="number" min="1" value="${st.qty||1}"></label>
@@ -4439,7 +4455,7 @@ function renderSheet(){
   const weapons=s.gear.filter(b=>(b.design&&b.design.dmg)||(b.dc&&b.dm&&!ARMOR_CATS.includes(b.cat)));
   const atkRow=b=>{const props=b.design?b.design.props:(genOf(b)&&BASES[genOf(b)].props)||'',fin=/Finesse/i.test(props),rng=/Ammunition|ranged/i.test(props)||['Bow'].includes(b.cat);const ab=rng?M('dex'):fin?Math.max(M('str'),M('dex')):M('str');const fx=gearFx(b),item=(b.design&&b.design.atk!=null?b.design.atk:0)+fx.atk;const dmg=fxDmg(b.design?b.design.dmg:`${b.dc} ${b.dm}`,fx);
     return `<tr><td><b>${esc(b.n)}</b>${fx.src.length?`<br><small style="color:var(--muted)" ${fx.capDmg?'title="Capped: properties and traits add at most half the weapon\'s own damage"':''}>with ${esc(fx.src.join(', '))}${fx.capDmg?' (capped)':''}</small>`:''}</td><td class="num"><button class="sh-roll" type="button" data-roll="${d20x(ab+pb+item)}" data-what="${esc(b.n)} attack">${sgn(ab+pb+item)}</button></td><td>${esc(dmg.replace(/^(\d+d\d+)/,'$1'+(ab?(ab>0?' + ':' − ')+Math.abs(ab):'')))}</td></tr>`};
-  const head=`<div class="sh-head"><div class="sh-name">${inp('name','Character name')}<div class="sh-lab">Character name</div></div>
+  const head=`<div class="sh-head"><div class="sh-id"><div class="sh-port">${c.portrait?`<img src="${esc(c.portrait)}" alt="Portrait of ${esc(c.name||'the character')}">`:classCrest(c.cls,c.name,104)}<label class="sh-port-btn sh-noprint" title="Choose a picture for this character">📷<input type="file" accept="image/*" style="display:none" onchange="sheetPortrait(this)"></label>${c.portrait?'<button type="button" class="sh-port-x sh-noprint" title="Remove the picture" onclick="sheetPortrait(null)">✕</button>':''}</div><div class="sh-name">${inp('name','Character name')}<div class="sh-lab">Character name</div></div></div>
     <div class="sh-hgrid">
       <div><select data-s="cls" aria-label="Class"><option value="">Class…</option>${Object.keys(CLASS_DIE).sort().map(x=>`<option${x===c.cls?' selected':''}>${x}</option>`).join('')}</select><select data-s="sub" title="Subclass (chosen at level 3)"><option value="">Subclass…</option>${SUBS.filter(x=>x.par===c.cls).map(x=>`<option${x.n===c.sub?' selected':''}>${esc(x.n)}</option>`).join('')}</select>${inp('level','',`min="1" max="${MAX_LEVEL}" style="width:64px"`,'number')}<div class="sh-lab">Class &amp; level${si&&si.k>1?` · <b style="color:var(--gold2)">${esc(si.name)}</b>`:''}${c.cls2&&L2?` · ${esc(c.cls)} ${L1} / ${esc(si2&&si2.k>1?si2.name:c.cls2)} ${L2}`:''}</div></div>
       <div>${inp('bg','Background','list="dl-bgs"')}<datalist id="dl-bgs">${CW_BG.map(b=>`<option value="${esc(b[0])}">${esc(b[3])}</option>`).join('')}</datalist><div class="sh-lab">Background</div></div><div>${inp('player','Player name')}<div class="sh-lab">Player name</div></div>
@@ -4546,7 +4562,7 @@ function renderSheet(){
     <div class="sh-spells">${[0,1,2,3,4,5,6,7,8,9].map(spellLv).join('')}</div>
     <div class="note">Spells from a deeper realm than this character's stage are marked; slots come from the vault's Spell Slots rules${slots&&slots.extra?`, with +${slots.extra} from class changes`:''}${slots&&slots.pen?`, minus ${slots.pen} for extra schools`:''}.</div>`;
   $('content').innerHTML=`<div class="page sheet">
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Character sheet</h3><p>The classic 5e sheet, adjusted for FAND: fill it in like paper, and bonuses, AC, slots, and attacks are worked out with FAND's rules. FAND's own boxes are on the FAND page.</p></div>
+    <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Character sheet</h3><p>The classic 5e sheet, adjusted for FAND: fill it in like paper, and bonuses, AC, slots, and attacks are worked out with FAND's rules. FAND's own boxes are on the FAND page.</p></div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px" class="sh-noprint"><select class="sel" id="sh-who" aria-label="Character">${(()=>{const o=x=>`<option value="${x.id}"${x.id===c.id?' selected':''}>${esc(x.name||'Unnamed')}${x.cls?' · '+esc(x.cls)+' '+(x.level||1):''}</option>`,L=campList();if(!L.length)return PARTY.map(o).join('');const g=(t,l)=>l.length?`<optgroup label="${esc(t)}">${l.map(o).join('')}</optgroup>`:'';return L.map(k=>g(k.name,PARTY.filter(x=>x.camp===k.id))).join('')+g('Not shared',PARTY.filter(x=>!x.camp||!L.some(k=>k.id===x.camp)))})()}</select><button class="btn primary" type="button" onclick="charWizard()" title="A step-by-step guide that fills in the whole sheet for you">✨ Build a character for me</button><button class="btn" id="sh-new">+ Blank character</button>
       <span class="chips" style="margin-left:auto">${[['core','Page 1'],['details','Page 2: Details'],['spells','Page 3: Spells'],['gear','Equipment & Materials'],['fand','FAND']].map(([k,l])=>`<button class="chip${SHEET_TAB===k?' on':''}" data-shtab="${k}" style="${SHEET_TAB===k?'border-color:var(--gold);background:var(--goldbg)':''}">${l}</button>`).join('')}<button class="chip" id="sh-print">🖨 Print all</button><button class="btn" id="sh-share" type="button" title="Send this character to another phone or computer: a link or a QR code that carries the whole sheet">📱 Share</button><button class="btn" id="sh-blank" type="button" title="An empty FAND character sheet to fill in by hand">🖨 Print blank sheet</button><a class="btn" href="${pageUrl('hidden')}" title="The hidden classes: unlocked through quests and the Towers">🗝 Hidden classes</a><button class="btn" type="button" onclick="sheetDelete()" title="Delete this character" style="color:var(--red)">🗑 Delete</button></span></div>
     ${!PARTY.some(x=>x.cls)?`<div class="cw-next sh-noprint"><b>New to this?</b> Press <b>✨ Build a character for me</b>: answer five simple questions (no rulebook needed) and the whole sheet is filled in for you.</div>`:''}${campCharHTML(c)}${cwNextHTML(c)}
@@ -4768,6 +4784,10 @@ function sheetSetRace2(n){const c=sheetChar();if(!c||!n)return;if(c.race2!==n)de
 function sheetRace2Trait(t){const c=sheetChar();if(!c)return;if(t)c.race2Trait=t;else delete c.race2Trait;saveParty();renderSheet()}
 function sheetRaceFam(f){const c=sheetChar();if(!c)return;if(f==='__other'){const t=prompt('Your people:',c.race||'');if(t!=null&&t.trim())c.race=t.trim()}else if(f){const M=famMembers(f);if(!M.includes(c.race))c.race=M[0];if(M.length>1)toast('Now choose the type of '+f)}else return;saveParty();renderSheet()}
 function sheetSetRace(n){const c=sheetChar();if(!c||!n)return;c.race=n;saveParty();renderSheet()}
+// a character's portrait: any picture, cut to a 256 px square and kept with the character (a few kB, so it syncs)
+function sheetPortrait(input){const c=sheetChar();if(!c)return;if(!input){delete c.portrait;saveParty();renderSheet();return}const f=input.files&&input.files[0];if(!f)return;
+  const rd=new FileReader();rd.onload=()=>{const img=new Image();img.onload=()=>{const S=256,cv=document.createElement('canvas');cv.width=cv.height=S;const k=Math.min(img.width,img.height),x=cv.getContext('2d');
+    x.drawImage(img,(img.width-k)/2,(img.height-k)/2,k,k,0,0,S,S);c.portrait=cv.toDataURL('image/jpeg',.82);saveParty();renderSheet();toast('Portrait set')};img.onerror=()=>toast('That file is not a picture');img.src=rd.result};rd.readAsDataURL(f)}
 function sheetSkillAdd(){const c=sheetChar(),n=$('sk-new').value.trim();if(!n)return;c.custom=(c.custom||[]).concat({n,ab:$('sk-ab').value,prof:false});saveParty();renderSheet()}
 function sheetInvAdd(){const c=sheetChar(),n=gearName($('inv-n').value.trim()),q=Math.max(1,+$('inv-q').value||1);if(!n)return;invAdd(c,n,q,false,true);saveParty();renderSheet()}
 function sheetInvRm(i){const c=sheetChar();c.inv=(c.inv||[]).filter((_,j)=>j!==i);saveParty();renderSheet()}
@@ -4924,8 +4944,8 @@ function renderParty(){
   const V=PV(),vn=campViewName();if(!V.some(x=>x.id===PARTY_SEL))PARTY_SEL=V.length?V[0].id:null;
   const c=V.find(x=>x.id===PARTY_SEL);
   $('content').innerHTML=`<div class="page">${datalists()}
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Party${vn?` <span class="camp-in">· ${esc(vn)}</span>`:''}</h3><p>Characters, contracts, gear, materials, and money. Saved in this browser${CL.on?' (and in your account when you sign in)':''}; export to share or back up.</p>
-      <span style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap"><button class="btn primary" onclick="charWizard()" title="A step-by-step guide for new players">✨ Build one for me</button><button class="btn" data-go="chargen" title="A whole level 1 character in one tap">🎲 Generate one</button><button class="btn" onclick="addChar()">+ Add character</button>${V.length?`<button class="btn" onclick="partyRest('short')" title="Everyone takes a short rest: each caster gets a spell slot back">⛺ Short rest</button><button class="btn" onclick="partyRest('long')" title="Everyone takes a long rest: full hit points and spell slots">🌙 Long rest</button>`:''}<button class="btn" onclick="exportParty()">Export</button><button class="btn" onclick="clearPartyNotes()" title="Empty the Notes box of every character on this device">Clear all notes</button><label class="btn" style="cursor:pointer">Import<input type="file" accept=".json,application/json" style="display:none" onchange="importParty(this)"></label></span></div>
+    <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Party${vn?` <span class="camp-in">· ${esc(vn)}</span>`:''}</h3><p>Characters, contracts, gear, materials, and money. Saved in this browser${CL.on?' (and in your account when you sign in)':''}; export to share or back up.</p>
+      <span class="pg-act"><button class="btn primary" onclick="charWizard()" title="A step-by-step guide for new players">✨ Build one for me</button><button class="btn" onclick="addChar()">+ Add character</button>${moreMenu([`<button type="button" data-go="chargen" title="A whole level 1 character in one tap">🎲 Generate one</button>`,V.length?`<button type="button" onclick="partyRest('short')" title="Everyone takes a short rest: each caster gets a spell slot back">⛺ Short rest for everyone</button>`:'',V.length?`<button type="button" onclick="partyRest('long')" title="Everyone takes a long rest: full hit points and spell slots">🌙 Long rest for everyone</button>`:'','<hr>',`<button type="button" onclick="exportParty()">⇩ Export the party</button>`,`<label>⇧ Import a party<input type="file" accept=".json,application/json" style="display:none" onchange="importParty(this)"></label>`,`<button type="button" onclick="clearPartyNotes()" title="Empty the Notes box of every character on this device">Clear all notes</button>`])}</span></div>
     ${campTabsHTML()}
     ${standingHTML()}
     ${dmPanelHTML()}
@@ -4934,7 +4954,7 @@ function renderParty(){
   if(c)bindChar(c);
   campLinkJoin();
 }
-function partyChipsHTML(V){const chip=x=>{const s=charStats(x);return `<button class="chip" style="padding:6px 12px;font-size:.85rem${x.id===PARTY_SEL?';border-color:var(--gold);background:var(--goldbg)':''}" onclick="PARTY_SEL='${x.id}';renderParty()"><b>${esc(x.name||'Unnamed')}</b> <small>Lv ${x.level||1} ${esc(x.cls||'')} · AC ${s.ac}${x.camp&&CL.user?' · 🌐'+(x._by?' '+esc(x._by.n||''):''):''}</small></button>`},row=L=>`<div class="chips" style="margin-bottom:14px">${L.map(chip).join('')}</div>`,v=campView(),L=campList();
+function partyChipsHTML(V){const chip=x=>{const s=charStats(x),mx=+x.hpMax||0,hp=hpNow(x),pct=mx?Math.max(0,Math.min(100,hp/mx*100)):100;return `<button class="chip pc-tab${x.id===PARTY_SEL?' on':''}" onclick="PARTY_SEL='${x.id}';renderParty()">${x.portrait?`<img class="crest" src="${esc(x.portrait)}" alt="">`:classCrest(x.cls,x.name,30)}<span class="pc-tab-t"><b>${esc(x.name||'Unnamed')}</b> <small>Lv ${x.level||1} ${esc(x.cls||'')} · AC ${s.ac}${x.camp&&CL.user?' · 🌐'+(x._by?' '+esc(x._by.n||''):''):''}</small><span class="pc-hp" title="${hp} / ${mx||'?'} HP"><i style="width:${pct}%;background:${pct>50?'var(--green)':pct>25?'var(--gold)':'var(--red)'}"></i></span></span></button>`},row=L=>`<div class="chips" style="margin-bottom:14px">${L.map(chip).join('')}</div>`,v=campView(),L=campList();
   if(!PARTY.length)return `<div class="empty"><b>No characters yet</b>Add the party to track contracts, rivals, gear, and materials.</div>`;
   if(!V.length)return `<div class="empty"><b>No characters in ${esc(campViewName())} yet</b>${v==='solo'?'Every character is shared with a campaign.':'Open a character and choose this campaign under Share with, or build a new one.'} <div style="margin-top:10px"><button class="btn" type="button" onclick="campSetView('')">Show every character</button></div></div>`;
   if(v||!L.length)return row(V);
@@ -5019,7 +5039,7 @@ function renderEncounter(){
   // the results read the saved settings: save the starting ones so a first visit shows real budgets, not 0
   if(!store.get('enc',null))store.set('enc',st);
   $('content').innerHTML=`<div class="page">${datalists()}
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Encounter builder</h3><p>Balanced fights from a realm's Bestiary, using the standard XP budget by party level.</p></div>
+    <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Encounter builder</h3><p>Balanced fights from a realm's Bestiary, using the standard XP budget by party level.</p></div>
     <div class="tool"><div class="form" style="grid-template-columns:repeat(6,1fr)">
       <label>Party size<input id="en-size" type="number" min="1" max="10" value="${st.size}"></label>
       <label>Average level<input id="en-lv" type="number" min="1" max="100" value="${st.level}"></label>
@@ -5239,7 +5259,7 @@ function npcCardHTML(n){const f=n.fac?standInfo(n.fac):null;
 function renderNpcs(){if(!dmUnlocked())return npcLocked();const S=store.get('npcf',{q:'',fac:''}),q=lc(S.q||''),ed=NPCS.find(x=>x.id===NPC_EDIT);
   const L=NPCS.filter(n=>(!S.fac||n.fac===S.fac)&&(!q||lc([n.name,n.role,n.title,n.realm,n.looks,n.voice,n.wants,n.notes,n.fac&&standInfo(n.fac).n].join(' ')).includes(q)));
   const facs=[...new Set(NPCS.map(n=>n.fac).filter(Boolean))].map(standInfo);
-  $('content').innerHTML=`<div class="page"><div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">NPCs</h3><p>Your roster of named NPCs: a face, a role, who they answer to, how they feel about the party, and what they hide. Kept on this device; share one with the players as a handout.</p>
+  $('content').innerHTML=`<div class="page"><div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">NPCs</h3><p>Your roster of named NPCs: a face, a role, who they answer to, how they feel about the party, and what they hide. Kept on this device; share one with the players as a handout.</p>
       <span style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap"><button class="btn primary" onclick="npcNew()">+ New NPC</button><button class="btn" onclick="npcRandom()" title="A random NPC from the world of Vestige">🎲 Random NPC</button></span></div>
     ${ed?npcFormHTML(ed):''}
     ${NPCS.length?`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><input class="sel" id="npc-q" type="search" placeholder="Search NPCs…" value="${esc(S.q||'')}" style="max-width:280px" aria-label="Search NPCs"><select class="sel" id="npc-ff" style="max-width:240px" aria-label="Filter by faction"><option value="">Every faction</option>${facs.map(f=>`<option value="${esc(f.id)}"${f.id===S.fac?' selected':''}>${esc(f.n)}</option>`).join('')}</select><span class="note" style="margin:auto 0">${fmt(L.length)} of ${fmt(NPCS.length)}</span></div>
@@ -5248,7 +5268,7 @@ function renderNpcs(){if(!dmUnlocked())return npcLocked();const S=store.get('npc
   const ff=$('npc-ff');if(ff)ff.onchange=e=>{store.set('npcf',Object.assign(S,{fac:e.target.value}));renderNpcs()}}
 async function npcLocked(){await hcAuto();if(TAB!=='npcs')return;if(dmUnlocked())return renderNpcs();
   const lock=quickModes().length&&!PAT_SKIP&&window.crypto&&crypto.subtle?patLockHTML('renderNpcs'):hcLockHTML();
-  $('content').innerHTML=`<div class="page"><div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">NPCs</h3><p>The DM's roster of NPCs, with their secrets. It opens with the DM code.</p></div>${lock}</div>`;
+  $('content').innerHTML=`<div class="page"><div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">NPCs</h3><p>The DM's roster of NPCs, with their secrets. It opens with the DM code.</p></div>${lock}</div>`;
   if($('hc-pat')||$('hc-pin'))patLockBind(renderNpcs);else hcBindLock(renderNpcs)}
 // ════════════════════════════════════════════════════════════════
 //  Character generator: a whole level 1 character in one tap. Every choice the builder would ask for is made by the
@@ -5338,7 +5358,7 @@ function genCardHTML(g){const c=g.c,cw=g.cw,sk=Object.keys(c.skillB||{}).map(k=>
     <div class="gen-btns">${btns}</div></div></article>`}
 function renderCharGen(){const O=store.get('genopts',{})||{},sel=(id,lab,list,v)=>`<label>${lab}<select class="sel" id="${id}"><option value="">Random</option>${list.map(x=>`<option${x===v?' selected':''}>${esc(x)}</option>`).join('')}</select></label>`,lv=String(O.level||1);
   const emptyPic=typeof ART!=='undefined'&&ART.pg&&ART.pg.chargen!=null?`<span class="art lg" style="--ac:#ecc04f" aria-hidden="true"><svg viewBox="0 0 512 512" focusable="false">${ART.icons[ART.pg.chargen]}</svg></span>`:'';
-  $('content').innerHTML=`<div class="page"><div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Character generator</h3><p>A whole character in one tap, at any level from 1 to ${MAX_LEVEL}. Pick what you care about and leave the rest on Random: FAND makes every other choice by its own rules.</p></div>
+  $('content').innerHTML=`<div class="page"><div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Character generator</h3><p>A whole character in one tap, at any level from 1 to ${MAX_LEVEL}. Pick what you care about and leave the rest on Random: FAND makes every other choice by its own rules.</p></div>
     <div class="tool"><div class="form gen-form">${sel('gen-cls','Class',Object.keys(CW_CLASS),O.cls)}<label>People<select class="sel" id="gen-fam" onchange="genFam()"><option value="">Random</option>${peopleTop().map(f=>`<option${f===(O.fam||(O.race?famOf(O.race):''))?' selected':''}>${esc(f)}</option>`).join('')}</select></label><label id="gen-type-l"${famMembers(O.fam||(O.race?famOf(O.race):'')).length>1?'':' hidden'}>Type<select class="sel" id="gen-race">${genTypeOpts(O.fam||(O.race?famOf(O.race):''),O.race)}</select></label>${sel('gen-bg','Background',CW_BG.map(x=>x[0]),O.bg)}
       <label>Level<span class="gen-lv"><input class="sel" id="gen-level" type="number" min="1" max="${MAX_LEVEL}" value="${esc(lv)}" inputmode="numeric" aria-label="Level, 1 to ${MAX_LEVEL}">${[1,5,10,20,50].map(n=>`<button type="button" class="chip${String(n)===lv?' on':''}" onclick="genLv(${n})" aria-label="Level ${n}">${n}</button>`).join('')}</span></label>
       <label>Heritage<select class="sel" id="gen-her"><option value=""${!O.her?' selected':''}>None</option><option value="random"${O.her==='random'?' selected':''}>Random</option>${peopleTop().map(f=>`<option${f===O.her?' selected':''}>${esc(f)}</option>`).join('')}</select></label><label>Ability scores<select class="sel" id="gen-method"><option value="std"${O.method!=='roll'?' selected':''}>Standard array</option><option value="roll"${O.method==='roll'?' selected':''}>Roll 4d6, drop the lowest</option></select></label>
@@ -5352,7 +5372,7 @@ function renderCharGen(){const O=store.get('genopts',{})||{},sel=(id,lab,list,v)
 function renderJournal(){
   let J=store.get('journal',[]);if(!Array.isArray(J))J=[];if(J.some(e=>!e||typeof e!=='object')){J=J.filter(e=>e&&typeof e==='object');store.set('journal',J)}const q=lc(store.get('jq','')),list=J.map((e,i)=>[e,i]).reverse(),jhit=e=>!q||lc(e.t+' '+e.body).includes(q);
   $('content').innerHTML=`<div class="page">
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Session journal</h3><p>Notes from each session, saved on this device. Write <code>[[Owlbear]]</code> or <code>[[Demeter]]</code> to link any monster, god, material, Blueprint, realm, or spell.</p></div>
+    <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Session journal</h3><p>Notes from each session, saved on this device. Write <code>[[Owlbear]]</code> or <code>[[Demeter]]</code> to link any monster, god, material, Blueprint, realm, or spell.</p></div>
     <div class="tool" style="display:flex;flex-direction:column;gap:8px">
       <div class="form" style="grid-template-columns:2fr 1fr"><label>Title<input id="jn-t" placeholder="Session ${J.length+1}: …"></label><label>Date<input id="jn-d" type="date" value="${new Date().toISOString().slice(0,10)}"></label></div>
       <textarea id="jn-b" rows="5" placeholder="What happened? Who did the party meet? What did they find?" style="background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:8px 10px;color:var(--text);font:inherit"></textarea>
@@ -5588,7 +5608,7 @@ async function renderHidden(){
   const about=`<div class="cols" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-bottom:14px">${HC_TIERS.map(([t,d,col])=>`<div class="panel" style="border-top:3px solid ${col}"><b style="font-family:var(--serif);font-size:1.15rem;color:${col}">${t}</b> <span class="b ghost">${HC?ALL.filter(c=>c.tier===t).length:(HIDDEN.counts||{})[t]||0}</span><div style="margin-top:4px;font-size:.88rem;color:var(--text2)">${esc(d)}</div></div>`).join('')}</div>`;
   const lock=quickModes().length&&!PAT_SKIP&&window.crypto&&crypto.subtle?patLockHTML():hcLockHTML();
   if(!HC){$('content').innerHTML=`<div class="page">
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Hidden classes</h3><p>Beyond the basic classes are hidden classes. No one picks them at character creation: they are unlocked only through quests and by climbing the <a href="${pageUrl('towers')}" data-go="towers">Towers</a> that stand in every realm.</p></div>
+    <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Hidden classes</h3><p>Beyond the basic classes are hidden classes. No one picks them at character creation: they are unlocked only through quests and by climbing the <a href="${pageUrl('towers')}" data-go="towers">Towers</a> that stand in every realm.</p></div>
     ${about}
     ${player?`<div class="callout" style="margin-bottom:12px"><b>Looking for a hidden class?</b> The list is kept by your DM. Climb the <a href="${pageUrl('towers')}" data-go="towers">Towers</a>, follow rumours, and finish quests; when you earn one, your DM grants it on your <a href="${pageUrl('sheet')}" data-go="sheet">character sheet</a>, where its features appear.</div><details class="fold"><summary>I'm the DM: unlock the list</summary>${lock}</details>`:lock}
   </div>`;
@@ -5597,7 +5617,7 @@ async function renderHidden(){
   const sel=(k,label,vals)=>`<select class="sel" data-hcf="${k}" aria-label="${esc(label)}"><option value="">${label}</option>${vals.map(v=>`<option${v===st[k]?' selected':''}>${esc(v)}</option>`).join('')}</select>`,u=f=>[...new Set(ALL.map(f).filter(Boolean))].sort();
   const nf=['base','tower','prog'].filter(k=>st[k]).length;
   $('content').innerHTML=`<div class="page">
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Hidden classes ${dm?'<span class="b gold" style="vertical-align:middle">DM</span>':''}</h3><p>Every hidden class in Vestige: where it waits, what it asks, and what it grants. Players never see this list. <a href="#" data-hcx-lock>Lock it again</a></p></div>
+    <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Hidden classes ${dm?'<span class="b gold" style="vertical-align:middle">DM</span>':''}</h3><p>Every hidden class in Vestige: where it waits, what it asks, and what it grants. Players never see this list. <a href="#" data-hcx-lock>Lock it again</a></p></div>
     ${tiers}
     <div class="hcx-layout${st.sel&&ALL.some(c=>c.n===st.sel)?' d':''}" id="hcx">
       <aside class="hcx-menu" aria-label="Hidden class menu"><div class="hcx-mtop">
@@ -5861,7 +5881,7 @@ function trialBind(){
 async function renderTowers(){
   await hcAuto();
   $('content').innerHTML=`<div class="page">
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">The Towers</h3><p>Up to five Towers stand in every realm (${TOWERS.length} in all). No one built them: they grew out of the excess energy of unclaimed Runes, Laws no god holds, whose power has nowhere else to go; related Runes feed the same Tower. The deeper the realm, the taller its Towers. Climbing one is the only way, besides certain quests, to unlock a <a href="${pageUrl('hidden')}" data-go="hidden">hidden class</a>.</p></div>
+    <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">The Towers</h3><p>Up to five Towers stand in every realm (${TOWERS.length} in all). No one built them: they grew out of the excess energy of unclaimed Runes, Laws no god holds, whose power has nowhere else to go; related Runes feed the same Tower. The deeper the realm, the taller its Towers. Climbing one is the only way, besides certain quests, to unlock a <a href="${pageUrl('hidden')}" data-go="hidden">hidden class</a>.</p></div>
     ${trialTool()}
     <div class="callout" style="margin:14px 0">Every floor is one level, starting at the realm's own level: floor 5 of the Milestone Spire is a level-5 floor for a level-5 party, guarded by grade-5 monsters of the Human Realm. The Mysterious Towers start at level 11, Hell's and Heaven's at 21, and so on; past floor 10 the guardians stay grade 10. A boss waits on every 10th floor. Conquer a boss floor and you can teleport to it from then on. A party whose level is above a floor's level gets no gold, materials, or items there; a Class Change Book drops half the time for a party at the floor's level and a quarter of the time for an over-level party. Each floor is guarded by creatures of the Tower's realm whose grade matches the floor. Epic classes wait halfway up, Unique classes three quarters of the way, and Legendary classes at the top, ${HC?' Any floor of any Tower may also hide a secret room with a Legendary class\'s trial (3% a floor, 8% on boss floors), apart from the floor\'s mission (shown to you in the trial while the hidden class list is unlocked).':''} When a god claims one of a Tower's Runes, that Rune stops feeding it, so Towers can shrink, and new floors open when a Rune is lost.</div>
     ${TOWERS.map(t=>{const r=REALM[t.realm],rs=t.runes,cls=(HC||[]).filter(c=>hcInTower(c)&&hcTower(c)===t.id).sort((a,b)=>hcFloor(a)-hcFloor(b)),nLocked=sealedIn(t);
@@ -5913,7 +5933,7 @@ function renderClasses(){
   const S=typeof STAGES!=='undefined'?STAGES:{},classes=Object.keys(CLASS_DIE).sort();
   const casterNote=c=>({full:'Full caster',half:'Half caster',arti:'Half caster (Artificer)',pact:'Pact magic'})[CASTER[c]]||'No spellcasting';
   $('content').innerHTML=`<div class="page">
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Classes and class changes</h3><p>Every class turns into a stronger version of itself every 20 levels: the original class for levels 1–20, then <b>II at level 21</b> (a Ranger becomes a Ranger II), <b>III at 41</b>, <b>IV at 61</b>, and <b>V at 81</b> (level 100 is the cap). Each change has a trial to earn it and new features, and opens the next band of realms. Subclasses turn with their class, each with features of its own.</p></div>
+    <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Classes and class changes</h3><p>Every class turns into a stronger version of itself every 20 levels: the original class for levels 1–20, then <b>II at level 21</b> (a Ranger becomes a Ranger II), <b>III at 41</b>, <b>IV at 61</b>, and <b>V at 81</b> (level 100 is the cap). Each change has a trial to earn it and new features, and opens the next band of realms. Subclasses turn with their class, each with features of its own.</p></div>
     <div class="chips" style="margin-bottom:12px">${classes.map(c=>`<a class="chip" href="#cl-${pid(c)}" data-cl="cl-${pid(c)}">${esc(c)}</a>`).join('')}</div>
     <details class="panel fold" style="margin-bottom:14px"><summary><b style="font-family:var(--serif)">Playable peoples</b> <small style="color:var(--muted)">${CW_RACE.length} peoples: size, speed, darkvision, languages, and every trait</small></summary>${[...new Set(CW_RACE.map(r=>r[5]))].map(g=>`<h4 class="cw-gh" style="margin-top:10px">${esc(g)}</h4><div class="chips">${CW_RACE.filter(r=>r[5]===g).map(r=>`<button class="chip" type="button" onclick="peoplePop(${esc(JSON.stringify(r[0]))})">${esc(r[0])} <small>${esc((peopleInfo(r[0])||{}).size||'')}${(peopleInfo(r[0])||{}).dv?' · DV '+peopleInfo(r[0]).dv:''}</small></button>`).join('')}</div>`).join('')}</details>
     <details class="panel fold" style="margin-bottom:14px"><summary><b style="font-family:var(--serif)">Apostle classes</b> <small style="color:var(--muted)">one for each of the ${GODS.length} gods, given only to its true successor</small></summary>
@@ -6020,7 +6040,7 @@ function shopStock(){const S=shopState(),who=PARTY.find(x=>x.id===S.who)||PARTY[
 // the Shop hands out gear for coin, so it is the DM's: it opens only with the DM lock (the same passphrase, pattern, or PIN as Hidden classes)
 async function shopLocked(){await hcAuto();if(TAB!=='shop')return;if(HC)return renderShop();
   const lock=quickModes().length&&!PAT_SKIP&&window.crypto&&crypto.subtle?patLockHTML('renderShop'):hcLockHTML();
-  $('content').innerHTML=`<div class="page"><div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Shop</h3><p>The Shop is run by the DM. Ask your DM to open it when your party reaches a market; they unlock it with the DM code.</p></div>${lock}</div>`;
+  $('content').innerHTML=`<div class="page"><div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Shop</h3><p>The Shop is run by the DM. Ask your DM to open it when your party reaches a market; they unlock it with the DM code.</p></div>${lock}</div>`;
   const b=document.querySelector('#content .panel b'),n=document.querySelector('#content .panel p.note');if(b&&$('hc-form'))b.textContent='The Shop is locked';if(n&&$('hc-form'))n.textContent='Enter the DM passphrase to open the Shop.';
   if($('hc-pat')||$('hc-pin'))patLockBind(renderShop);else hcBindLock(renderShop)}
 function renderShop(){if(!HC)return shopLocked();const S=shopState(),c=PARTY.find(x=>x.id===S.who)||PARTY[0]||null;if(c&&S.who!==c.id)S.who=c.id;const rn=S.realm,C=shopCoin(rn),K=shopKeeper(rn,S.kind),st=shopStock(),dm=role()!=='player';
@@ -6028,7 +6048,7 @@ function renderShop(){if(!HC)return shopLocked();const S=shopState(),c=PARTY.fin
   const sellable=c?(c.inv||[]).map(([n,q])=>({n,q:+q||0,v:shopValue(n)})).filter(x=>x.q>0&&x.v>0):[];
   const others=c?Object.entries(c.purse||{}).filter(([z,v])=>z!==rn&&+v>0&&CURRENCY[z]&&CURRENCY[z].coin).concat(rn!=='Human'&&commonGp(c)>0?[['Human (common coins)',commonGp(c)]]:[]):[];
   $('content').innerHTML=`<div class="page shop">${datalists()}
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem;white-space:nowrap">Shop</h3><p>Buy and sell at a realm's market with a character's own coin. Shops charge 50% over list price, merchants buy at half the list price, and a moneychanger takes ${EXCHANGE_FEE*100}% to swap coin between realms. Every market also keeps a small <b>imports</b> shelf from other realms the shopper's stage has opened, at 2.5× list price; anything else is a special order for the DM.</p></div>
+    <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem;white-space:nowrap">Shop</h3><p>Buy and sell at a realm's market with a character's own coin. Shops charge 50% over list price, merchants buy at half the list price, and a moneychanger takes ${EXCHANGE_FEE*100}% to swap coin between realms. Every market also keeps a small <b>imports</b> shelf from other realms the shopper's stage has opened, at 2.5× list price; anything else is a special order for the DM.</p></div>
     <div class="tool"><div class="form" style="grid-template-columns:repeat(4,1fr)">
       <label>Market in<select id="sh-realm">${realmOpts(rn,r=>r.base)}</select></label>
       <label>Settlement<select id="sh-size">${[['1','Village'],['2','Town'],['3','City'],['4','Capital']].map(([v,l])=>`<option value="${v}"${+S.size===+v?' selected':''}>${l}</option>`).join('')}</select></label>
@@ -6076,7 +6096,7 @@ function renderMagic(){
   const q=lc(st.q||''),list=SP.filter(sp=>sp.sc===school&&(!q||lc(sp.n).includes(q))&&(st.lv===''||sp.lv===+st.lv)).sort((a,b)=>a.lv-b.lv||a.n.localeCompare(b.n));
   const sold=sp=>sp.tier!=='Primary'&&sp.lv<=rk[1]&&(!spellHome(sp)||spellHome(sp)===at);
   $('content').innerHTML=`<div class="page">
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem;white-space:nowrap">Magic Towers</h3><p>Every school of magic is kept by its own Magic Tower, where its spells are taught and sold. Learn a spell for good, or buy a one-use scroll for a fifth of the price. What you can buy depends on your rank in the tower; Primary spells, bound to a Rune, are never sold.</p></div>
+    <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem;white-space:nowrap">Magic Towers</h3><p>Every school of magic is kept by its own Magic Tower, where its spells are taught and sold. Learn a spell for good, or buy a one-use scroll for a fifth of the price. What you can buy depends on your rank in the tower; Primary spells, bound to a Rune, are never sold.</p></div>
     <div class="chips" style="margin-bottom:12px">${schools.map(sc=>`<button class="chip${sc===school?' on':''}" data-mts="${esc(sc)}" style="${sc===school?'background:var(--goldbg);border-color:var(--gold)':''}">${esc((MAGIC_TOWERS[sc]||[sc])[0])} <small>${esc(sc)}</small></button>`).join('')}</div>
     <div class="panel" style="border-top:3px solid ${(REALM[trealm]||{}).color||'var(--gold)'}"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="margin:0;font-size:1.3rem;font-family:var(--serif)">${esc(tname)}</h4><span class="note" style="margin:0">${esc(school)} · ${REALM[trealm]?refChip(REALM[trealm],esc(realmLabel(trealm))):esc(trealm)} · ${list.length} spells</span></div>
       <p style="font-style:italic;color:var(--text2);margin:6px 0">${esc(tdesc)}</p>${standTowerHTML(school)}
@@ -6105,7 +6125,7 @@ function renderPrep(){
   const avg=Math.max(1,Math.round(PARTY.reduce((a,c)=>a+(+c.level||1),0)/(PARTY.length||1))||3);
   const st=store.get('prep',{level:avg,size:Math.max(1,PARTY.length||4),realm:'',seed:(Math.random()*2**31)|0});
   $('content').innerHTML=`<div class="page prep">
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem;white-space:nowrap">Session prep</h3><p>Everything for one session in one place: hooks, people, three fights, a named foe, a Tower floor, the loot, and the deeds that would earn a level. Every part is rolled from this site's own data and links to its entry.</p></div>
+    <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem;white-space:nowrap">Session prep</h3><p>Everything for one session in one place: hooks, people, three fights, a named foe, a Tower floor, the loot, and the deeds that would earn a level. Every part is rolled from this site's own data and links to its entry.</p></div>
     <div class="tool sh-noprint"><div class="form" style="grid-template-columns:repeat(3,1fr)">
       <label>Party level<input id="pp-lv" type="number" min="1" max="100" value="${st.level}"></label>
       <label>Party size<input id="pp-size" type="number" min="1" max="10" value="${st.size}"></label>
@@ -6150,7 +6170,7 @@ function prepHTML(s){
 function renderHooks(){
   const st=store.get('hooks',{level:Math.max(1,Math.round(PARTY.reduce((a,c)=>a+(+c.level||1),0)/(PARTY.length||1))||3),realm:'',kinds:[],seed:1});
   $('content').innerHTML=`<div class="page">
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Adventure hooks</h3><p>Story starters built from this site's own gods, Runes, realms, monsters, and Blueprints, scaled to your party. Every name links to its entry.</p></div>
+    <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Adventure hooks</h3><p>Story starters built from this site's own gods, Runes, realms, monsters, and Blueprints, scaled to your party. Every name links to its entry.</p></div>
     <div class="tool"><div class="form" style="grid-template-columns:repeat(3,1fr)">
       <label>Party level<input id="hk-lv" type="number" min="1" max="100" value="${st.level}"></label>
       <label>Realm<select id="hk-realm"><option value="">Any realm the party can reach</option>${REALMS.map(r=>`<option${r.n===st.realm?' selected':''}>${esc(r.n)}</option>`).join('')}</select></label>
@@ -6593,16 +6613,18 @@ function cbQuickClose(){const q=$('qcard');if(!q||q.hidden)return;const back=q.c
 function cbQuickSync(){const q=$('qcard');if(!q||q.hidden)return;if(TAB!=='combat')return cbQuickClose();const t=[...document.querySelectorAll('.cbtile')].find(b=>b.dataset.id===q.dataset.id);if(t)cbQuick(q.dataset.id,t,true);else cbQuickClose()}
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){const q=$('qcard');if(q&&!q.hidden){cbQuickClose();e.stopPropagation()}}},true);
 document.addEventListener('mousedown',e=>{const q=$('qcard');if(q&&!q.hidden&&!e.target.closest('#qcard,.cbtile,.cb-pic'))cbQuickClose()});
+// phones: the tracker's tools fold away behind a bottom bar (Next turn, Add, More); More opens them all
+let CB_MORE=false;
 function renderCombat(){
   setTimeout(wakeSync,0);if(PV_SECOND&&$('pv').hidden)setTimeout(pvOpen,0);
   CB=store.get('combat',{round:1,turn:0,list:[]});if(cbPullHP(CB))store.set('combat',CB);
   const cur=CB.list[CB.turn];
   $('content').innerHTML=`<div class="page">${datalists()}
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Combat tracker</h3><p>Initiative, HP, and conditions. Damage applies FAND's flat AC automatically, and player characters' HP stays in step with the Party page.</p></div>
-    <div class="tool" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+    <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Combat tracker</h3><p>Initiative, HP, and conditions. Damage applies FAND's flat AC automatically, and player characters' HP stays in step with the Party page.</p></div>
+    <div class="tool cb-tool${CB_MORE?' open':''}" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
       <span style="font-family:var(--serif);font-size:1.3rem;font-weight:700">Round ${CB.round}</span>
       ${cur?`<span class="b gold">Turn: ${esc(cur.name)}</span>`:''}
-      <button class="btn primary" onclick="cbNext()">Next turn →</button>
+      <button class="btn primary cb-x" onclick="cbNext()">Next turn →</button>
       <button class="btn" onclick="cbRoll()">🎲 Roll monster initiative</button>
       <button class="btn" onclick="cbSort()">Sort by initiative</button>
       <span class="keyrow cb-addrow" style="flex:1;min-width:240px"><input class="sel" id="cb-n" type="number" min="1" value="1" aria-label="How many to add" title="How many to add" style="width:56px;flex:0 0 56px;min-width:0"><input class="sel" id="cb-add" list="dl-mon" placeholder="Add monster…" style="max-width:none;flex:1;min-width:0"><button class="btn" onclick="cbAddMon()">Add</button></span>
@@ -6628,9 +6650,10 @@ function renderCombat(){
         <td style="min-width:130px" data-l="HP"><b>${x.hp}</b> / ${x.max}${+x.thp?` <button class="b blue" style="border:0;cursor:pointer" onclick="cbTemp('${x.id}',1)" title="Temporary hit points: damage takes these first. Click to clear.">+${+x.thp} temp ✕</button>`:''}<div class="bar" style="margin-top:4px;position:relative"><i style="width:${pct}%;background:${pct>50?'var(--green)':pct>25?'var(--gold)':'var(--red)'}"></i>${+x.thp&&x.max?`<i style="position:absolute;left:0;top:0;height:100%;width:${Math.min(100,+x.thp/x.max*100)}%;background:var(--blue);opacity:.75"></i>`:''}</div>${x.pc&&down?cbDsHTML(x):''}</td>
         <td style="white-space:nowrap"><input type="number" min="0" id="dmg-${x.id}" placeholder="0" aria-label="Damage, healing, or temporary hit points for ${esc(x.name)}" style="width:64px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px;color:var(--text)"> <button class="btn" onclick="cbHit('${x.id}')">Hit</button> <button class="btn" onclick="cbHeal('${x.id}')">Heal</button> <button class="btn" onclick="cbTemp('${x.id}')" title="Give this many temporary hit points (they don't stack: the higher amount stays)">Temp</button></td>
         <td data-l="Conditions"><div class="chips">${x.cond.map(c=>{const t=(x.ct||{})[c];return `<span class="chip cb-cond"><button type="button" onclick="cbCond('${x.id}','${c}')" title="${c}: ${esc((typeof COND_TEXT!=='undefined'&&COND_TEXT[c])||'')} Click to remove.">${condSym(c)}${c} ✕</button><button type="button" class="cb-t${t===1?' last':''}" onclick="cbTimer('${x.id}','${c}')" title="${t?t+' round'+(t===1?'':'s')+' left: it ends at the start of '+esc(x.name)+'\'s turn when this reaches 0. Click to change.':'No timer: click to set how many rounds it lasts'}">⏱${t||''}</button></span>`}).join('')}<select class="sel" style="padding:2px 6px;font-size:.75rem" aria-label="Add a condition to ${esc(x.name)}" onchange="cbCond('${x.id}',this.value)"><option value="">+ condition</option>${CONDITIONS.filter(c=>!x.cond.includes(c)).map(c=>`<option>${c}</option>`).join('')}</select><input type="number" min="0" id="cbr-${x.id}" class="cb-rounds" placeholder="rounds" title="Rounds the next condition lasts (empty: no timer)" aria-label="Rounds the condition lasts"></div></td>
-        <td style="white-space:nowrap">${down&&m&&!x.sum&&(m.drops||[]).length?`<button class="btn" onclick="CB.harvest='${x.id}';saveCB();renderCombat()" title="Scavenge its corpse">🔪 Scavenge</button> `:''}<button class="btn" onclick="cbRemove('${x.id}')" title="Remove">✕</button></td></tr>`}).join(''):`<tr class="cb-empty"><td colspan="8"><div class="empty" style="padding:30px"><b>No combatants</b>Add monsters, the party, or send an encounter from the Encounter builder.</div></td></tr>`}
+        <td style="white-space:nowrap">${down&&m&&!x.sum&&(m.drops||[]).length?`<button class="btn" onclick="CB.harvest='${x.id}';saveCB();renderCombat()" title="Scavenge its corpse">🔪 Scavenge</button> `:''}<button class="btn" onclick="cbRemove('${x.id}')" title="Remove">✕</button></td></tr>`}).join(''):`<tr class="cb-empty"><td colspan="8"><div class="empty" style="padding:30px"><div class="cb-empty-art" aria-hidden="true">⚔</div><b>No combatants yet</b>Start a fight in one tap, or send one from the <a href="${pageUrl('encounter')}" data-go="encounter">Encounter builder</a>.<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px">${PARTY.length?'<button class="btn primary" type="button" onclick="cbAddParty()">+ Add the party</button>':''}<button class="btn" type="button" onclick="const i=$(\'cb-add\');if(i){i.scrollIntoView({block:\'center\'});i.focus()}">+ Add a monster</button></div></div></td></tr>`}
     </tbody></table></div>
-    <div class="note">An attack is an opposed roll: the attacker's d20 + Accuracy against the target's d20 + Dodge (🎲 rolls it); the higher roll wins and a tie misses. Hit subtracts the target's AC from the damage (a hit can deal 0 if AC is as high as the damage). Untick “Subtract AC” for damage that ignores armor.</div>${harvestHTML()}${spoilsHTML()}</div>`;
+    <div class="note">An attack is an opposed roll: the attacker's d20 + Accuracy against the target's d20 + Dodge (🎲 rolls it); the higher roll wins and a tie misses. Hit subtracts the target's AC from the damage (a hit can deal 0 if AC is as high as the damage). Untick “Subtract AC” for damage that ignores armor.</div>${harvestHTML()}${spoilsHTML()}</div>
+    <div class="cb-dock" role="toolbar" aria-label="Combat"><button class="btn primary cb-dock-next" type="button" onclick="cbNext()">Next turn →</button><button class="btn" type="button" onclick="const i=$('cb-add');if(i){i.scrollIntoView({block:'center'});i.focus()}">+ Add</button><button class="btn" type="button" aria-expanded="${CB_MORE}" onclick="CB_MORE=!CB_MORE;renderCombat();if(CB_MORE)document.querySelector('.cb-tool').scrollIntoView({block:'start'})">${CB_MORE?'✓ Less':'⋯ More'}</button></div>`;
   $('content').querySelectorAll('[data-cb]').forEach(el=>el.addEventListener('change',()=>{const x=CB.list.find(y=>y.id===el.dataset.cb);x[el.dataset.f]=+el.value||0;saveCB()}));
 }
 const cbFind=id=>CB.list.find(x=>x.id===id);
@@ -8405,7 +8428,7 @@ const setSec=(id,title,sub,body)=>`<section class="panel set-sec" id="set-${id}"
 function renderSettings(){const k=getKey(),u=CL.user,dark=document.documentElement.dataset.theme!=='light';
   const nav=[['account','Account'],['play','How you play'],['look','Appearance'],['ai','Assistant'],['data','Saved data'],['app','App']];
   $('content').innerHTML=`<div class="page set-wrap">
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Settings</h3><p>How FAND looks and behaves on this device, the assistant's key, and your saved data.</p></div>
+    <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Settings</h3><p>How FAND looks and behaves on this device, the assistant's key, and your saved data.</p></div>
     <div class="set-layout"><nav class="set-nav" aria-label="Settings sections">${nav.map(([id,l])=>`<a href="#" onclick="document.getElementById('set-${id}').scrollIntoView({behavior:'smooth'});return false">${l}</a>`).join('')}</nav>
     <div class="set-main">
       ${setSec('account','Account',CL.on?'Your characters and saved data follow your account to every device.':'',!CL.on?`<div class="note">Accounts aren't switched on for this copy of FAND.</div>`
@@ -8581,7 +8604,7 @@ const HELP=[
 ];
 function renderHelp(){
   $('content').innerHTML=`<div class="page set-wrap">
-    <div class="sec-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Help</h3><p>How to use FAND, and what to do when something looks wrong.</p></div>
+    <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Help</h3><p>How to use FAND, and what to do when something looks wrong.</p></div>
     <div class="set-layout"><nav class="set-nav" aria-label="Help sections">${HELP.map(([id,t])=>`<a href="#" onclick="document.getElementById('help-${id}').scrollIntoView({behavior:'smooth'});return false">${t}</a>`).join('')}</nav>
     <div class="set-main">${HELP.map(([id,t,b])=>`<section class="panel set-sec help" id="help-${id}"><h3>${t}</h3>${b}</section>`).join('')}</div></div></div>`;
   diceify($('content'))}
