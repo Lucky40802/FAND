@@ -77,12 +77,12 @@ kbd{font-family:var(--mono);font-size:.7rem;border:1px solid var(--line3);border
 /* Combat tracker on phones: each combatant is a card (name and remove, HP and AC, damage, conditions) */
 @media (max-width:700px){
   .cbt thead{display:none}
-  .cbt tbody tr:not(.cb-empty){display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"init name x" "hp hp ac" "dmg dmg dmg" "cond cond cond";gap:8px 10px;align-items:center;padding:12px;border-bottom:1px solid var(--line)}
+  .cbt tbody tr:not(.cb-empty){display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"init name x" "hp hp ac" "dodge dodge dodge" "dmg dmg dmg" "cond cond cond";gap:8px 10px;align-items:center;padding:12px;border-bottom:1px solid var(--line)}
   .cbt tbody tr:not(.cb-empty) td{display:block;padding:0;border:0;min-width:0!important}
   .cbt td:nth-child(1){grid-area:init}.cbt td:nth-child(2){grid-area:name;font-size:1.02rem}.cbt td:nth-child(3){grid-area:ac}
-  .cbt td:nth-child(4){grid-area:hp}.cbt td:nth-child(5){grid-area:dmg;display:flex!important;gap:6px}.cbt td:nth-child(6){grid-area:cond}.cbt td:nth-child(7){grid-area:x;text-align:right}
-  .cbt td:nth-child(5) input{flex:1;width:auto!important;min-width:0;font-size:16px;padding:8px!important}
-  .cbt td:nth-child(5) .btn{padding:8px 14px}
+  /* columns: init, name, AC, Dodge, HP, damage, conditions, remove */.cbt td:nth-child(4){grid-area:dodge}.cbt td:nth-child(5){grid-area:hp}.cbt td:nth-child(6){grid-area:dmg;display:flex!important;gap:6px;flex-wrap:wrap}.cbt td:nth-child(7){grid-area:cond}.cbt td:nth-child(8){grid-area:x;text-align:right}
+  .cbt td:nth-child(6) input{flex:1;width:auto!important;min-width:0;font-size:16px;padding:8px!important}
+  .cbt td:nth-child(6) .btn{padding:8px 14px}
   .cbt td[data-l]{display:flex!important;align-items:center;gap:6px}
   .cbt td[data-l]::before{content:attr(data-l);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
   .cbt td[data-l] input{font-size:16px}
@@ -199,8 +199,11 @@ select.sel.is-set{border-color:var(--gold);color:var(--text)}
 .count{margin-left:auto;font-size:.78rem;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
 .cb-addrow #cb-add{min-width:120px}@media (max-width:700px){.cb-addrow{flex:1 1 100%!important;order:-1}}
 @media (pointer:coarse){.sh-roll::after{content:'';position:absolute;inset:-8px -4px}}
-.filters-btn{display:none}.more-btn{display:none}.ctrl-more{display:contents}
-@media (max-width:700px){.more-btn{display:inline-flex}.ctrl:not(.open) .ctrl-more{display:none}.ctrl.open .ctrl-more{display:flex;flex-wrap:wrap;gap:8px;flex-basis:100%;align-items:center}.ctrl .field{flex:1 1 160px}}
+.filters-btn{display:none}
+/* list controls: desktop shows the main row and folds the rest behind More filters; a phone folds all but search */
+.more-btn{display:none}.more-btn.has-rest{display:inline-flex}.mb-ph{display:none}.ctrl:not(.open) .ctrl-more{display:none}.ctrl.open .ctrl-more{display:flex;flex-wrap:wrap;gap:8px;flex-basis:100%;align-items:center;order:5}
+.ctrl .count{margin-left:auto}
+@media (max-width:700px){.more-btn{display:inline-flex}.mb-ph{display:inline}.mb-dt{display:none}.ctrl:not(.open) .cx{display:none}.ctrl .field{flex:1 1 160px}}
 .content{flex:1;overflow-y:auto;padding:16px;scroll-behavior:smooth}
 .chips-active{display:flex;gap:6px;flex-wrap:wrap;width:100%}
 .chips-active:empty{display:none}
@@ -982,6 +985,56 @@ table.t.list td:first-child{font-weight:600;color:var(--text)}
 .home-qlink:hover{border-color:var(--acc);transform:translateY(-1px)}
 .home-qlink b{color:var(--text);font-family:var(--serif);font-size:1.05rem}
 .home-qlink small{font-size:.8rem;color:var(--muted);line-height:1.35}
+
+/* ── visual pass (2026-11-09) ─────────────────────────────────── */
+/* one page header: the title, a line of description under it, the page's actions on the right */
+.sec-h.pg-h{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:16px;row-gap:2px;align-items:center}
+.sec-h.pg-h>h3{grid-column:1;grid-row:1;white-space:normal}.sec-h.pg-h>p{grid-column:1;grid-row:2;max-width:78ch;margin:0}
+.sec-h.pg-h>:not(h3):not(p){grid-column:2;grid-row:1/span 2;justify-self:end;align-self:center;margin-left:0!important}
+.pg-act{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
+@media (max-width:700px){.sec-h.pg-h{grid-template-columns:1fr}.sec-h.pg-h>:not(h3):not(p){grid-column:1;grid-row:auto;justify-self:start;margin-top:8px}.pg-act{justify-content:flex-start}}
+/* "⋯ More" menus */
+.mmenu{position:relative;display:inline-block}.mmenu>summary{list-style:none;cursor:pointer}.mmenu>summary::-webkit-details-marker{display:none}
+.mmenu-p{position:absolute;right:0;top:calc(100% + 6px);z-index:80;min-width:230px;display:flex;flex-direction:column;padding:6px;background:var(--surf);border:1px solid var(--line3);border-radius:12px;box-shadow:0 14px 34px rgba(0,0,0,.28);animation:pop .14s ease-out}
+.mmenu-p>button,.mmenu-p>label,.mmenu-p>a{all:unset;box-sizing:border-box;display:block;padding:9px 12px;border-radius:8px;cursor:pointer;color:var(--text);font-size:.9rem}
+.mmenu-p>button:hover,.mmenu-p>label:hover,.mmenu-p>a:hover,.mmenu-p>button:focus-visible{background:var(--accbg,rgba(124,92,255,.12))}
+.mmenu-p hr{border:0;border-top:1px solid var(--line);margin:4px 2px}
+@media (max-width:700px){.mmenu-p{right:auto;left:0}}
+/* class crests and portraits */
+.crest{--cs:34px;width:var(--cs);height:var(--cs);flex:0 0 var(--cs);border-radius:50%;display:inline-grid;place-items:center;object-fit:cover;
+  background:radial-gradient(circle at 35% 30%,hsl(var(--h,260) 70% 68%),hsl(var(--h,260) 55% 38%));color:#fff;box-shadow:0 0 0 2px hsl(var(--h,260) 60% 75% / .55),0 2px 8px rgba(0,0,0,.25)}
+.crest .crest-s{width:58%;height:58%;color:#fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}.crest b{font-family:var(--serif);font-size:calc(var(--cs) * .48);line-height:1}
+img.crest{background:var(--surf2)}
+/* party tabs: crest, name, and a small HP bar */
+.pc-tab{display:inline-flex!important;gap:9px;align-items:center;padding:6px 12px 6px 6px!important;font-size:.85rem}
+.pc-tab.on{border-color:var(--gold)!important;background:var(--goldbg)!important}
+.pc-tab-t{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left}
+.pc-hp{display:block;width:100%;min-width:90px;height:4px;border-radius:3px;background:var(--line);overflow:hidden}.pc-hp i{display:block;height:100%}
+/* character sheet: the portrait above the name */
+.sh-id{display:flex;flex-direction:column;gap:10px;align-items:flex-start;align-self:stretch;justify-content:flex-end}
+.sh-port{position:relative;width:104px;height:104px}.sh-port>img{width:104px;height:104px;border-radius:50%;object-fit:cover;border:2px solid var(--ink);display:block}
+.sh-port .crest{border:2px solid var(--ink)}
+.sh-port-btn,.sh-port-x{position:absolute;bottom:0;right:-4px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--surf);border:1px solid var(--line3);cursor:pointer;font-size:.85rem;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.sh-port-x{top:0;bottom:auto;font-size:.7rem}
+@media print{.sh-port-btn,.sh-port-x{display:none}}
+/* combat tracker on phones: tools fold behind a bottom bar */
+.cb-dock{display:none}.cb-empty-art{font-size:2.4rem;opacity:.5;margin-bottom:4px}
+@media (max-width:700px){
+  .cb-tool:not(.open)>*:not(.cb-addrow):not(span:first-child):not(.b){display:none!important}
+  .cb-tool .cb-x{display:none!important}
+  .cb-dock{display:flex;gap:8px;position:fixed;left:8px;right:8px;bottom:calc(66px + env(safe-area-inset-bottom));z-index:45;padding:8px;border-radius:14px;background:var(--surf);border:1px solid var(--line3);box-shadow:0 10px 30px rgba(0,0,0,.3)}
+  .cb-dock .btn{min-height:44px}.cb-dock-next{flex:1;font-size:1.05rem}
+  .page:has(.cb-dock){padding-bottom:90px}
+}
+/* home counts: a symbol, and a hint that they open their page */
+.stat{position:relative;cursor:pointer;transition:transform .15s,border-color .15s,box-shadow .15s}
+.stat .statsym{position:absolute;right:12px;top:12px;width:22px;height:22px;opacity:.55;color:var(--gold2)}
+.stat::after{content:'→';position:absolute;right:14px;bottom:10px;opacity:0;transform:translateX(-4px);transition:opacity .15s,transform .15s;color:var(--acc)}
+.stat:hover::after,.stat:focus-visible::after{opacity:1;transform:none}
+/* a soft fade when a page opens */
+@keyframes pgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.page.pg-in{animation:pgIn .22s ease-out}
+@media (prefers-reduced-motion:reduce){.page.pg-in,.mmenu-p{animation:none}.stat,.stat::after{transition:none}}
 /* Loading: a progress bar while the data downloads (site pages), and placeholder cards */
 .boot{width:min(320px,80%);height:6px;border-radius:6px;background:var(--line);overflow:hidden;opacity:0;transition:opacity .2s}
 .boot.on{opacity:1}
@@ -1183,8 +1236,8 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"hidden",v:"9c788eb53d",b:"e2b18c12"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
-<script>(function(){var F=[["data/core.js?v=9c788eb53d",9405964],["data/art.js?v=9c788eb53d",633011],["data/vault.js?v=9c788eb53d",1144011],["app.js?v=e2b18c12",1648597]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");if(a){run(a.textContent);a.textContent=""}}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
+<script>const SITE={page:"hidden",v:"f16f534a45",b:"7224015d"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>(function(){var F=[["data/core.js?v=f16f534a45",9405964],["data/art.js?v=f16f534a45",633011],["data/vault.js?v=f16f534a45",1144011],["app.js?v=7224015d",1654857]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");if(a){run(a.textContent);a.textContent=""}}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 
 </body>
 </html>
