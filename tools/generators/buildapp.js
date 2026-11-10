@@ -1008,7 +1008,7 @@ var APP_URL = 'app.js?v=' + BUILD_ID;
 PAGES.forEach(function (pg) {
   // The page draws its frame at once; a small loader downloads the data with a progress bar, runs it, then starts the app
   // (kept in the page as <script type="text/x-fand">). If fetch can't be used (a file:// copy), it falls back to plain tags.
-  var files = ['core', 'art', 'vault'].concat(pg === 'spells' || pg === 'sheet' || pg === 'tools' || pg === 'magic' || pg === 'journal' || pg === 'chargen' ? ['spells'] : []).map(function (f) { return ['data/' + f + '.js?v=' + DATA_V, Buffer.byteLength(site['data/' + f + '.js'], 'utf8')]; }).concat([[APP_URL, Buffer.byteLength(site['app.js'], 'utf8')]]);
+  var files = ['core', 'art', 'vault'].concat(pg === 'spells' || pg === 'sheet' || pg === 'tools' || pg === 'magic' || pg === 'journal' || pg === 'chargen' || pg === 'encounter' ? ['spells'] : []).map(function (f) { return ['data/' + f + '.js?v=' + DATA_V, Buffer.byteLength(site['data/' + f + '.js'], 'utf8')]; }).concat([[APP_URL, Buffer.byteLength(site['app.js'], 'utf8')]]);
   var tags = '<script>const SITE={page:' + JSON.stringify(pg) + ',v:' + JSON.stringify(DATA_V) + ',b:' + JSON.stringify(BUILD_ID) + '};' + cloudLine + '</script>\n<script>' + LOADER.replace('__FILES__', JSON.stringify(files)) + '</script>';
   var html = tpl.slice(0, APP_A) + tags + '\n' + tpl.slice(APP_B + '</script>'.length);
   var info = PAGE_INFO[pg];

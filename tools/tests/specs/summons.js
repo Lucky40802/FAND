@@ -44,7 +44,7 @@ module.exports = [
     await p.click('button:has-text("Add summon")'); await p.waitForTimeout(300);
     t.ok(await xp() > before, 'XP goes up with summons');
     await p.evaluate(() => sendToCombat()); await p.waitForLoadState('load');
-    await p.waitForFunction(() => typeof CB !== 'undefined' && CB.list && CB.list.length > 0, null, { timeout: 20000 });
+    await p.waitForFunction(() => typeof CB !== 'undefined' && CB && CB.list && CB.list.length > 0, null, { timeout: 20000 });
     t.eq(await p.evaluate(() => CB.list.filter(x => x.sum).length), 4, 'two summons for each of the two orcs');
   } },
 ];
