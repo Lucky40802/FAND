@@ -92,6 +92,8 @@ kbd{font-family:var(--mono);font-size:.7rem;border:1px solid var(--line3);border
 .pv-row.on{border-color:var(--gold);background:var(--goldbg);box-shadow:0 0 0 2px var(--gold) inset}
 .pv-row.down{opacity:.45}
 .pv-row.sum{margin-left:28px;border-style:dashed;padding:10px 14px}
+/* phones: no empty turn-marker column (the current row is already gold), a smaller summon indent */
+@media (max-width:600px){.pv-row{gap:8px;padding:12px}.pv-row>.pv-mk:empty{display:none}.pv-row>.pv-mk{width:auto!important}.pv-row.sum{margin-left:14px}}
 .patpad{width:240px;max-width:100%;margin:0 auto;touch-action:none;user-select:none;-webkit-user-select:none}
 .patpad svg{width:100%;height:auto;display:block;cursor:pointer}
 .patpad .pd{fill:var(--surf3);stroke:var(--line3);stroke-width:2;transition:fill .1s}
@@ -1033,6 +1035,8 @@ img.crest{background:var(--surf2)}
 /* a soft fade when a page opens */
 @keyframes pgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .page.pg-in{animation:pgIn .22s ease-out}
+/* keyboard focus: buttons and dropdowns turn their outline off for the mouse, so give them the ring back for the keyboard */
+:is(button,a,select,summary,label,[tabindex],[role=button]):focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){.page.pg-in,.mmenu-p{animation:none}.stat,.stat::after{transition:none}}
 /* Loading: a progress bar while the data downloads (site pages), and placeholder cards */
 .boot{width:min(320px,80%);height:6px;border-radius:6px;background:var(--line);overflow:hidden;opacity:0;transition:opacity .2s}
@@ -1075,7 +1079,7 @@ img.crest{background:var(--surf2)}
 .tbl[hidden]{display:none}
 .tbl-top{display:flex;gap:8px;align-items:center;margin-bottom:12px}
 .tbl-tabs{display:flex;background:var(--surf);border:1px solid var(--line);border-radius:999px;padding:3px}.tbl-tabs button{border:0;background:none;padding:7px 14px;border-radius:999px;color:var(--text2);font-weight:600}.tbl-tabs button.on{background:var(--acc);color:#fff}
-.tbl-top .sel{max-width:200px}.tbl-name{font-family:var(--serif);font-size:1.1rem}
+.tbl-top .sel{max-width:200px;flex:1 1 auto;min-width:0}.tbl-top>.tbl-tabs,.tbl-top>.tbl-x{flex-shrink:0}.tbl-name{font-family:var(--serif);font-size:1.1rem}
 .tbl-x{margin-left:auto;width:44px;height:44px;border-radius:50%;border:1px solid var(--line3);background:var(--surf);font-size:1.1rem}
 .tbl-body{display:grid;gap:14px;flex:1;align-content:start}
 .tbl-a,.tbl-b{display:flex;flex-direction:column;gap:12px;min-width:0}
@@ -1235,8 +1239,8 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   <div class="set" id="qBox" style="max-width:640px"></div>
 </div>
 
-<script>const SITE={page:"workshop",v:"f16f534a45",b:"7224015d"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
-<script>(function(){var F=[["data/core.js?v=f16f534a45",9405964],["data/art.js?v=f16f534a45",633011],["data/vault.js?v=f16f534a45",1144011],["app.js?v=7224015d",1654857]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");if(a){run(a.textContent);a.textContent=""}}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
+<script>const SITE={page:"workshop",v:"99b6656abc",b:"e05b5db8"};const CLOUD={"url":"https://vppvpmwjqcgixtfxpukh.supabase.co","key":"sb_publishable_ghgNDfo7bBR1Tk73GP5MDA__aGhOWUo","google":false};</script>
+<script>(function(){var F=[["data/core.js?v=99b6656abc",9485990],["data/art.js?v=99b6656abc",633011],["data/vault.js?v=99b6656abc",1144011],["app.js?v=e05b5db8",1660806]],T=0,G=0,bar,txt;F.forEach(function(f){T+=f[1]});function prog(){bar=bar||document.getElementById("bootbar");txt=txt||document.getElementById("boots");if(!bar)return;bar.parentNode.classList.add("on");bar.style.width=Math.min(100,G/T*100).toFixed(1)+"%";if(txt)txt.textContent=(G/1048576).toFixed(1)+" of "+(T/1048576).toFixed(1)+" MB"+(G<T*.98&&!(navigator.serviceWorker&&navigator.serviceWorker.controller)?" · the first visit downloads the compendium; after that FAND opens at once, even offline":"")}function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);if(!r.body||!window.TextDecoder)return r.text().then(function(t){G+=t.length;prog();return t});var rd=r.body.getReader(),dec=new TextDecoder(),out=[];return rd.read().then(function pump(x){if(x.done){out.push(dec.decode());return out.join("")}G+=x.value.length;prog();out.push(dec.decode(x.value,{stream:true}));return rd.read().then(pump)})})}function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}function start(){var a=document.getElementById("fand-app");if(a){run(a.textContent);a.textContent=""}}function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\"loading\">FAND couldn’t load its data. Check your connection and <a href=\"\">try again</a>.</div>"})}if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();</script>
 
 </body>
 </html>

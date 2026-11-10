@@ -202,7 +202,7 @@ log.push('harvest parts: +' + genAdded + ' materials (now ' + D.MATS.length + ')
     if (r[6]) ex.alch = r[6];
     if (pr.k !== 'supply') { ex.pot = pr.P; ex.pn = pr.name; }
     // instrument materials for bards stay out of the generated blueprints and the gods' stock (only their instruments use them)
-    if (pr.k === 'virtuoso') ex.instr = 1;
+    if (/^(virtuoso|devout|wildbound|bloodspark|pactbound|arcanist)$/.test(pr.k)) ex.instr = 1;
     D.MATS.push(ex); have[name.toLowerCase()] = 1; added++;
   });
   D.MATS.sort(function (a, b) { return a.n < b.n ? -1 : a.n > b.n ? 1 : 0; });
