@@ -171,6 +171,44 @@ NEW.push({ n: 'Iron Mantle', cat: 'Armor', lv: 1, pr: 'Blacksmithing', sp: 'Blac
     });
   });
 })();
+// class focuses in every realm (owner's request, 2026-11-10): for each caster family two kinds of focus at each realm tier,
+// levels 6 to 96, made with that realm's class focus material (Devout, Wildbound, Bloodspark, Pactbound, Arcanist).
+(function () {
+  var REALMS = [[6, 'Human', 'Uncommon'], [16, 'Mysterious', 'Uncommon'], [26, 'Heaven', 'Rare', 'Hell'], [36, 'Chaos', 'Very Rare'],
+    [46, 'Abyss', 'Very Rare'], [56, 'Inner Realm', 'Legendary'], [66, 'Outer Realm', 'Legendary'], [76, 'Void', 'Legendary'],
+    [86, 'Inner Void', 'Artifact'], [96, 'Primordial', 'Artifact']];
+  var FAMS = [
+    // property, who, [focus, profession, use the second realm of a split tier], materials and words by realm
+    ['Devout', 'cleric and paladin', [['Holy Symbol', 'Enchanting', 0], ['Amulet', 'Enchanting', 1]],
+      { Human: ['Votive Silver', 'Votive'], Mysterious: ['Dawnpetal Pearl', 'Dawnpetal'], Hell: ['Penitent Iron', 'Penitent'], Heaven: ['Choirstone', 'Choirsung'],
+        Chaos: ['Pilgrim Glass', 'Pilgrim'], Abyss: ['Absolution Salt', 'Absolving'], 'Inner Realm': ['Covenant Gold', 'Covenant'], 'Outer Realm': ['Haloed Quartz', 'Haloed'],
+        Void: ['Vigil Ember', 'Vigil'], 'Inner Void': ['Last-Rite Bone', 'Last-Rite'], Primordial: ['First-Prayer Amber', 'First-Prayer'] }],
+    ['Wildbound', 'druid and ranger', [['Totem', 'Carving', 0], ['Staff', 'Carving', 1]],
+      { Human: ['Hearthoak Burl', 'Hearthoak'], Mysterious: ['Fairy-Ring Cap', 'Fairy-Ring'], Hell: ['Cinder-Root', 'Cinder-Root'], Heaven: ['Edenbark', 'Edenbark'],
+        Chaos: ['Wildmoss Knot', 'Wildmoss'], Abyss: ['Pit-Thorn', 'Pit-Thorn'], 'Inner Realm': ['Lawgrove Ash', 'Lawgrove'], 'Outer Realm': ['Comet-Seed', 'Comet-Seed'],
+        Void: ['Void-Lichen', 'Lichen'], 'Inner Void': ['Hollow Antler', 'Hollow-Antler'], Primordial: ['Elder Taproot', 'Elder-Root'] }],
+    ['Bloodspark', 'sorcerer', [['Crystal', 'Enchanting', 0], ['Orb', 'Enchanting', 1]],
+      { Human: ['Bloodruby', 'Bloodruby'], Mysterious: ['Glamour Opal', 'Glamour'], Hell: ['Brimstone Garnet', 'Brimstone'], Heaven: ['Seraph Spinel', 'Seraph'],
+        Chaos: ['Wildsurge Geode', 'Wildsurge'], Abyss: ['Demonheart Jet', 'Demonheart'], 'Inner Realm': ['Lineage Topaz', 'Lineage'], 'Outer Realm': ['Starborn Beryl', 'Starborn'],
+        Void: ['Null-Spark Shard', 'Null-Spark'], 'Inner Void': ['Riftblood Garnet', 'Riftblood'], Primordial: ['Dragonsire Ruby', 'Dragonsire'] }],
+    ['Pactbound', 'warlock', [['Rod', 'Enchanting', 0], ['Scepter', 'Enchanting', 1]],
+      { Human: ['Oathbound Onyx', 'Oathbound'], Mysterious: ['Bargain Moonstone', 'Bargain'], Hell: ['Contract Brass', 'Contract'], Heaven: ['Martyr-Seal Gold', 'Martyr-Seal'],
+        Chaos: ['Fickle Obsidian', 'Fickle'], Abyss: ['Debt-Iron', 'Debt-Iron'], 'Inner Realm': ['Clause Silver', 'Clause'], 'Outer Realm': ['Farstar Jet', 'Farstar'],
+        Void: ['Whisper-Void Pearl', 'Whisper-Void'], 'Inner Void': ['Patron-Eye Stone', 'Patron-Eye'], Primordial: ['First-Pact Obsidian', 'First-Pact'] }],
+    ['Arcanist', 'wizard and artificer', [['Wand', 'Carving', 0], ['Tome', 'Enchanting', 1]],
+      { Human: ['Scribe Ash', 'Scribe-Ash'], Mysterious: ['Moonvellum', 'Moonvellum'], Hell: ['Ashscript Ink', 'Ashscript'], Heaven: ['Gloria Vellum', 'Gloria'],
+        Chaos: ['Shifting Ink', 'Shifting'], Abyss: ['Abyssal Vellum', 'Abyssal'], 'Inner Realm': ['Theorem Silver', 'Theorem'], 'Outer Realm': ['Starlight Ink', 'Starlight'],
+        Void: ['Blank-Rune Slate', 'Blank-Rune'], 'Inner Void': ['Unwritten Paper', 'Unwritten'], Primordial: ['First-Word Slate', 'First-Word'] }]];
+  FAMS.forEach(function (F) {
+    REALMS.forEach(function (t) {
+      F[2].forEach(function (x) {
+        var realm = x[2] && t[3] ? t[3] : t[1], M = F[3][realm], mat = M[0];
+        NEW.push({ n: M[1] + ' ' + x[0], cat: 'Focus', lv: t[0], pr: x[1], sp: x[1], r: t[2], mats: [mat],
+          ds: 'A ' + x[0].toLowerCase() + ' made with ' + mat + ' of the ' + realm + (/Realm$/.test(realm) ? '. ' : ' Realm. ') + 'A spellcasting focus: its level sets the focus bonus, its kind sets the focus\'s buff, and its ' + mat + ' gives ' + F[0] + ' (' + F[1] + ' spell Accuracy and save DCs).' });
+      });
+    });
+  });
+})();
 NEW.forEach(function (b) { if (b.n === "Explorer's Pack") b.gp = 10; if (b.n === 'Backpack') b.gp = 2; });
 
 module.exports = {

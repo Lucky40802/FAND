@@ -115,6 +115,13 @@ Players who add their own key in Settings keep using it, with no daily limit.
 | `node checks/tmscan.js` | Trademarked or franchise names in the vault and `FAND.html` (book titles used as source labels are expected) |
 | `node checks/dupscan.js` | Duplicate and near-duplicate Blueprints |
 
+### Browser tests
+After a build, `node tools/tests/run.js` (from the repo root) drives the built `site/` in Chromium through Playwright and
+fails on any script error. It covers gear power totals and caps, summons, the Forge, class focus materials, portraits and
+full storage, keyboard focus and menus, phone layouts, the built data, and a sweep of every page on desktop and phone.
+`--quick` skips the sweep (about 1 minute instead of 4); words after it pick spec files or tests (`node tools/tests/run.js focus summons`).
+New tests go in `tools/tests/specs/`. Playwright: `npm install -g playwright && npx playwright install chromium`.
+
 ## Notes
 - The vault's own change log is its Patch Notes database (`FAND/Patch Notes/`). Changes made here that affect the vault should get a patch note there too.
 - Official D&D monster names appear in the data under the campaign's content policy: names, CR, and short original descriptions only, no book stat blocks or book text. The website shows **generated** stat blocks in the Monster Manual layout (`tools/data/statblock.js`), built from each monster's CR, body plan, and drops; they are original, not copied from any book.
