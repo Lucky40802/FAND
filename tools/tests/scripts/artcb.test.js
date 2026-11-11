@@ -1,0 +1,10 @@
+const { chromium } = require('../pw.js');const http=require('http'),fs=require('fs'),path=require('path');const ROOT=process.argv[2],S=process.env.S;
+const srv=http.createServer((q,r)=>{let f=path.join(ROOT,decodeURIComponent(q.url.split('?')[0]));fs.readFile(f,(e,d)=>{if(e){r.writeHead(404);r.end();return}r.writeHead(200,{'content-type':f.endsWith('.js')?'text/javascript':'text/html'});r.end(d)})});
+let fails=0;const ok=(c,m)=>{console.log((c?'  ok   ':'  FAIL ')+m);if(!c)fails++};
+(async()=>{await new Promise(r=>srv.listen(8843,r));const b=await chromium.launch();const ctx=await b.newContext({viewport:{width:1280,height:800}});
+await ctx.addInitScript(()=>{localStorage.setItem('fand.role',JSON.stringify('dm'));localStorage.setItem('fand.combat',JSON.stringify({round:1,turn:0,list:[]}))});
+const p=await ctx.newPage();p.on('pageerror',e=>{fails++;console.log('PAGEERROR',e.message)});await p.route('https://vppvpmwjqcgixtfxpukh.supabase.co/**',r=>r.abort());
+await p.goto('http://127.0.0.1:8843/combat.html');await p.waitForTimeout(1200);
+await p.evaluate(()=>{['Goblin','Owlbear','Young Red Dragon'].forEach(n=>{$('cb-add').value=n;$('cb-n').value=1;cbAddMon()})});await p.waitForTimeout(300);
+const n=await p.evaluate(()=>document.querySelectorAll('#content tr .art.xs svg').length);ok(n===3,'combat tracker shows a small picture for each monster ('+n+')');
+await p.screenshot({path:S+'/art-combat.png'});await b.close();srv.close();console.log(fails?fails+' FAILED':'ALL PASSED');process.exit(fails?1:0)})();

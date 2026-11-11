@@ -1,0 +1,12 @@
+const { chromium } = require('../pw.js');
+const http=require('http'),fs=require('fs'),path=require('path');const ROOT=process.argv[2];
+const srv=http.createServer((q,r)=>{let f=path.join(ROOT,decodeURIComponent(q.url.split('?')[0]));if(f.endsWith('/'))f+='index.html';fs.readFile(f,(e,d)=>{if(e){r.writeHead(404);r.end();return}r.writeHead(200,{'content-type':f.endsWith('.js')?'text/javascript':'text/html'});r.end(d)})});
+let fails=0;const ok=(c,m)=>{console.log((c?'  ok   ':'  FAIL ')+m);if(!c)fails++};
+const swipe=(p,sel,x0,y0,x1,y1)=>p.evaluate(([sel,x0,y0,x1,y1])=>{const el=document.querySelector(sel);const T=(x,y)=>new Touch({identifier:1,target:el,clientX:x,clientY:y});const fire=(type,x,y)=>el.dispatchEvent(new TouchEvent(type,{bubbles:true,cancelable:true,touches:type==='touchend'?[]:[T(x,y)],changedTouches:[T(x,y)]}));fire('touchstart',x0,y0);for(let i=1;i<=6;i++)fire('touchmove',x0+(x1-x0)*i/6,y0+(y1-y0)*i/6);fire('touchend',x1,y1)},[sel,x0,y0,x1,y1]);
+(async()=>{await new Promise(r=>srv.listen(8795,r));const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844},hasTouch:true,isMobile:true});p.on('pageerror',e=>{fails++;console.log('PAGEERROR',e.message)});await p.route('https://vppvpmwjqcgixtfxpukh.supabase.co/**',r=>r.abort());
+ await p.goto('http://127.0.0.1:8795/bestiary.html');await p.waitForSelector('.card');await p.tap('.card >> nth=0');await p.waitForSelector('#modal .mnav');
+ const a=await p.evaluate(()=>CUR.n);await swipe(p,'#modal .mh',300,300,100,310);await p.waitForTimeout(250);const b2=await p.evaluate(()=>CUR.n);ok(a!==b2,'swipe left: next item ('+a+' → '+b2+')');
+ await swipe(p,'#modal .mh',80,300,300,305);await p.waitForTimeout(250);ok(await p.evaluate(()=>CUR.n)===a,'swipe right: back to the previous');
+ await swipe(p,'#modal .mh',200,200,205,420);await p.waitForTimeout(300);ok(!(await p.evaluate(()=>$('mbg').classList.contains('open'))),'swipe down closes the window');
+ await p.goto('http://127.0.0.1:8795/dice.html');await p.waitForSelector('#t-style');await swipe(p,'#content',200,200,200,560);await p.waitForTimeout(600);ok(/Refreshed/.test(await p.textContent('#toast')),'pull down refreshes the page');
+ console.log(fails?fails+' FAILED':'ALL PASSED');await b.close();srv.close();process.exit(fails?1:0)})();
