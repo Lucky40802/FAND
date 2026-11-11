@@ -115,6 +115,17 @@ Players who add their own key in Settings keep using it, with no daily limit.
 | `node checks/tmscan.js` | Trademarked or franchise names in the vault and `FAND.html` (book titles used as source labels are expected) |
 | `node checks/dupscan.js` | Duplicate and near-duplicate Blueprints |
 
+### Content added for the site (tools/data)
+| File | Adds |
+|---|---|
+| `realm-atlas.js` | A write-up for every realm, the Inner Realm's dimensions and the Outer Realm's pocket dimensions, with their materials and gear |
+| `bestiary-deep.js` | Monsters of the deep realms and their dimensions (stat blocks and parts are generated) |
+| `spells-extra.js` | High-level spells for every school and more School of Resonance spells |
+| `gear-bp.js` | Tools, storage, instruments, class focuses, dimension gear and a full gear set for every deep realm |
+
+New materials from these files are kept out of the older generators (the Blueprints past level 20 and the gods' stock),
+so adding content never renames a Blueprint someone already owns.
+
 ### Browser tests
 After a build, `node tools/tests/run.js` (from the repo root) drives the built `site/` in Chromium through Playwright and
 fails on any script error. It covers gear power totals and caps, summons, the Forge, class focus materials, portraits and
