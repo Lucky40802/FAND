@@ -209,6 +209,63 @@ NEW.push({ n: 'Iron Mantle', cat: 'Armor', lv: 1, pr: 'Blacksmithing', sp: 'Blac
     });
   });
 })();
+// dimension gear (owner's request, 2026-11-11): what each Inner Realm dimension (levels 51-60) and Outer Realm pocket
+// (levels 61-70) makes from its own materials, from data/realm-atlas.js. Numbers follow the Blueprints past level 20.
+(function () {
+  var A = require('./realm-atlas.js'), TYPE = { Blacksmithing: 'O', Engineering: 'O', Carving: 'W', Tailoring: 'F', Enchanting: 'G' };
+  var BASE = { 'Inner Realm': 51, 'Outer Realm': 61 };
+  A.DIMS.forEach(function (d) {
+    (d.gear || []).forEach(function (x, i) {
+      // its main material: the dimension's material that suits the craft (metal for smiths, wood for carvers, hide or
+      // cloth for tailors), the stronger one for higher levels; failing that, any of the dimension's materials
+      var KIND = { Blacksmithing: 'ore', Engineering: 'ore', Carving: 'herb', Tailoring: 'hide' }[x[2]];
+      var fit = d.mats.filter(function (m) { return !KIND || m[2] === KIND || (x[2] === 'Carving' && m[2] === 'hide'); }).sort(function (a, b) { return a[1] - b[1]; });
+      if (!fit.length) fit = d.mats.slice().sort(function (a, b) { return a[1] - b[1]; });
+      var L = BASE[d.realm] + (x[7] || 0), mat = x[8] || fit[Math.min(fit.length - 1, Math.floor((x[7] || 0) * fit.length / 10))][0];
+      var b = { n: x[0], cat: x[1], lv: L, pr: x[2], sp: x[3], r: 'Legendary', mats: [mat], m: [[d.realm, TYPE[x[2]] || 'O', Math.min(10, 2 + (x[7] || 0))]], dim: d.n };
+      if (x[4]) { b.dc = Math.ceil(L * 0.65) + x[4]; b.dm = x[5]; }
+      if (x[6]) { b.slot = x[6]; b.ac = String(x[6] === 'Body' ? 4 + Math.floor((L - 20) / 10) : x[6] === 'Shield' ? 2 + Math.floor((L - 20) / 15) : 1 + Math.floor((L - 20) / 20)); }
+      b.ds = 'A ' + x[0].replace(/^(The |A |An )/, '').toLowerCase() + ' from ' + d.n + ', ' + d.kind.charAt(0).toLowerCase() + d.kind.slice(1) + ' in the ' + d.realm + ', made with ' + mat + ' (level ' + L + ').' +
+        (b.dc ? ' It deals ' + b.dc + ' ' + b.dm.toLowerCase() + ' damage.' : '') + (b.ac ? ' It gives ' + b.ac + ' AC.' : '') + (x[1] === 'Artifact' && !b.dc && !b.ac ? ' A spellcasting focus and keepsake of its dimension.' : '');
+      NEW.push(b);
+    });
+  });
+})();
+// a full set for every deep realm (owner's request, 2026-11-11): the realms past the Mysterious had few Blueprints at their
+// own levels. Every weapon kind, armor slot, shield and focus, at five steps through the realm's band of levels (every other level), made from
+// that realm's materials (picked by type and grade at build time). Numbers follow the Blueprints past level 20.
+(function () {
+  var REALMS = [['Hell', 21, 'Infernal'], ['Heaven', 21, 'Seraphic'], ['Chaos', 31, 'Wildforged'], ['Abyss', 41, 'Abyssal'], ['Inner Realm', 51, 'Anchor-Forged'],
+    ['Outer Realm', 61, 'Far-Shore'], ['Void', 71, 'Voidsteel'], ['Inner Void', 81, 'Hollowed'], ['Primordial', 91, 'Primeval']];
+  var KINDS = [
+    // noun, category, profession, specialty, main type, second type, die, damage type, slot
+    ['Greatsword', 'Sword', 'Blacksmithing', 'Blacksmithing', 'O', 'F', 'd12', 'Slashing'], ['Longsword', 'Sword', 'Blacksmithing', 'Blacksmithing', 'O', 'F', 'd8', 'Slashing'],
+    ['Rapier', 'Sword', 'Blacksmithing', 'Blacksmithing', 'O', 'F', 'd8', 'Piercing'], ['Dagger', 'Dagger', 'Blacksmithing', 'Blacksmithing', 'O', 'B', 'd4', 'Piercing'],
+    ['Greataxe', 'Axe', 'Blacksmithing', 'Blacksmithing', 'O', 'W', 'd12', 'Slashing'], ['Warhammer', 'Hammer', 'Blacksmithing', 'Blacksmithing', 'O', 'W', 'd8', 'Bludgeoning'],
+    ['Maul', 'Hammer', 'Blacksmithing', 'Blacksmithing', 'O', 'W', 'd12', 'Bludgeoning'], ['Glaive', 'Spear', 'Blacksmithing', 'Blacksmithing', 'O', 'W', 'd10', 'Slashing'],
+    ['Spear', 'Spear', 'Carving', 'Woodworking', 'W', 'O', 'd8', 'Piercing'], ['Longbow', 'Bow', 'Carving', 'Woodworking', 'W', 'F', 'd8', 'Piercing'],
+    ['Crossbow', 'Bow', 'Engineering', 'Clockwork Engineering', 'W', 'O', 'd10', 'Piercing'], ['Quarterstaff', 'Staff', 'Carving', 'Crystal Shaping', 'W', 'G', 'd6', 'Bludgeoning'],
+    ['Plate Cuirass', 'Armor', 'Blacksmithing', 'Blacksmithing', 'O', 'F', '', '', 'Body'], ['Helm', 'Armor', 'Blacksmithing', 'Blacksmithing', 'O', 'F', '', '', 'Head'],
+    ['Gauntlets', 'Armor', 'Blacksmithing', 'Blacksmithing', 'O', 'F', '', '', 'Hands'], ['Greaves', 'Armor', 'Blacksmithing', 'Blacksmithing', 'O', 'F', '', '', 'Feet'],
+    ['Pauldrons', 'Armor', 'Blacksmithing', 'Blacksmithing', 'O', 'F', '', '', 'Shoulders'], ['Cloak', 'Armor', 'Tailoring', 'Arcane Tailoring', 'F', 'E', '', '', 'Back'],
+    ['Robe', 'Armor', 'Tailoring', 'Arcane Tailoring', 'F', 'G', '', '', 'Body'], ['Tower Shield', 'Shield', 'Blacksmithing', 'Blacksmithing', 'O', 'W', '', '', 'Shield'],
+    ['Buckler', 'Shield', 'Blacksmithing', 'Blacksmithing', 'O', 'F', '', '', 'Shield'], ['Wand', 'Focus', 'Carving', 'Crystal Shaping', 'W', 'G'],
+    ['Orb', 'Focus', 'Enchanting', 'Soul Binding', 'G', 'E'], ['Amulet', 'Artifact', 'Enchanting', 'Soul Binding', 'G', 'O']];
+  var STEPS = [['', 1, 2], ['Fine ', 3, 4], ['Greater ', 5, 5], ['Superior ', 7, 7], ['Exalted ', 9, 9]]; // name prefix, level offset in the band, material grade
+  REALMS.forEach(function (R) {
+    STEPS.forEach(function (S) {
+      KINDS.forEach(function (k) {
+        var L = R[1] + S[1], n = S[0] + R[2] + ' ' + k[0], r = S[1] >= 9 || R[1] >= 61 ? 'Artifact' : 'Legendary';
+        var b = { n: n, cat: k[1], lv: L, pr: k[2], sp: k[3], r: r, m: [[R[0], k[4], S[2]], [R[0], k[5], Math.max(1, S[2] - 1)]], pp: 1 };
+        if (k[6]) { b.dc = Math.ceil(L * 0.65) + k[6]; b.dm = k[7]; }
+        if (k[8]) { b.slot = k[8]; b.ac = String(k[8] === 'Body' ? 4 + Math.floor((L - 20) / 10) : k[8] === 'Shield' ? (k[0] === 'Buckler' ? 1 : 2) + Math.floor((L - 20) / 15) : 1 + Math.floor((L - 20) / 20)); }
+        b.ds = (r === 'Artifact' ? 'An ' : 'A ') + r.toLowerCase() + ' ' + k[0].toLowerCase() + ' of the ' + R[0] + (/Realm$/.test(R[0]) ? '' : ' Realm') + ', for level ' + L + ', made from that realm\'s own materials.' +
+          (b.dc ? ' It deals ' + b.dc + ' ' + b.dm.toLowerCase() + ' damage.' : '') + (b.ac ? ' It gives ' + b.ac + ' AC.' : '') + (k[1] === 'Focus' ? ' A spellcasting focus.' : k[1] === 'Artifact' ? ' A spellcasting focus, worn.' : '');
+        NEW.push(b);
+      });
+    });
+  });
+})();
 NEW.forEach(function (b) { if (b.n === "Explorer's Pack") b.gp = 10; if (b.n === 'Backpack') b.gp = 2; });
 
 module.exports = {

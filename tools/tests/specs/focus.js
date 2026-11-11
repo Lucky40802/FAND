@@ -23,7 +23,7 @@ module.exports = [
       Object.keys(out).forEach(k => { out[k] = strip(out[k]); });
       out.bpCount = BPS.filter(b => /Devout|Wildbound|Bloodspark|Pactbound|Arcanist/.test(b.ds || '')).length;
       out.notFocus = BPS.filter(b => /Devout|Wildbound|Bloodspark|Pactbound|Arcanist/.test(b.ds || '') && !(genOf(b) && BASES[genOf(b)].focus)).map(b => b.n);
-      out.matsLeak = BPS.filter(b => !/Devout|Wildbound|Bloodspark|Pactbound|Arcanist|Virtuoso/.test(b.ds || '') && (b.mats || []).some(n => { const m = findMat(n); return m && m.instr; })).map(b => b.n).slice(0, 5);
+      out.matsLeak = BPS.filter(b => !/Devout|Wildbound|Bloodspark|Pactbound|Arcanist|Virtuoso/.test(b.ds || '') && (b.mats || []).some(n => { const m = findMat(n); return m && /^(Virtuoso|Devout|Wildbound|Bloodspark|Pactbound|Arcanist)$/.test(m.pn || ''); })).map(b => b.n).slice(0, 5);
       return out;
     });
     for (const k of ['clericSymbol', 'paladinAmulet', 'druidTotem', 'rangerStaff', 'sorcCrystal', 'warlockRod', 'wizardWand', 'artificerTome', 'bardLute', 'multiclass'])

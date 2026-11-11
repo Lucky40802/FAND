@@ -37,6 +37,7 @@ function jsonAt(s) {
   return { v: JSON.parse(t.slice(s, j + 1)), end: j };
 }
 var D = {};
+var ATLAS0 = require(path.join(__dirname, '..', 'data', 'realm-atlas.js'));
 var PR0 = require(path.join(__dirname, '..', 'data', 'properties.js'));
 ['BPS', 'SPELLS', 'MATS', 'MONSTERS', 'SUBS', 'GODS', 'DEMONS', 'PATRONS', 'MAT_FX'].forEach(function (k) {
   D[k] = span(k); if (!D[k]) throw new Error('missing ' + k + ' in ' + IN);
@@ -138,7 +139,7 @@ D.MONSTERS.forEach(function (m) {
 log.push('monsters: parsed ' + mp + ' of ' + D.MONSTERS.length);
 
 // ---- mythological creatures (data/myth.js), rebuilt on every run
-D.MONSTERS = D.MONSTERS.filter(function (m) { return !m.myth; });
+D.MONSTERS = D.MONSTERS.filter(function (m) { return !m.myth && !m.deep; });
 var haveMon = {}; D.MONSTERS.forEach(function (m) { haveMon[m.n.toLowerCase()] = 1; });
 function crBand(cr) { var b = [[0.5, 1], [2, 2], [4, 3], [6, 4], [8, 5], [11, 6], [14, 7], [17, 8], [21, 9]]; for (var i = 0; i < b.length; i++) if (cr <= b[i][0]) return b[i][1]; return 10; }
 var mythAdded = 0;
@@ -152,6 +153,19 @@ require(path.join(__dirname, '..', 'data', 'myth.js')).trim().split('\n').forEac
   D.MONSTERS.push(mo);
   haveMon[p[0].toLowerCase()] = 1; mythAdded++;
 });
+// ---- monsters of the deep realms and their dimensions (data/bestiary-deep.js), rebuilt on every run
+var deepAdded = 0, DIMN = {}; ATLAS0.DIMS.forEach(function (d) { DIMN[d.n] = d.realm; });
+require(path.join(__dirname, '..', 'data', 'bestiary-deep.js')).trim().split('\n').forEach(function (l) {
+  l = l.trim(); if (!l || l.charAt(0) === '/') return;
+  var p = l.split('|'); if (p.length < 7 || haveMon[p[0].toLowerCase()]) return;
+  var c = p[2], cr = p[1], crn = +cr; if (!R.T[c]) throw new Error('bestiary-deep: bad realm ' + c + ' in ' + p[0]);
+  if (p[4] && DIMN[p[4]] !== R.name(c)) throw new Error('bestiary-deep: ' + p[0] + ' names dimension ' + p[4] + ' outside its realm');
+  var mo = { n: p[0], grp: R.name(c) + ' Bestiary', realm: R.name(c), g: crBand(crn), tier: R.tier(c), cr: cr, book: 'FAND', hb: 1, deep: 1, plan: p[3], txt: p[5] + '.', hab: p[6], drops: [] };
+  if (p[4]) mo.dim = p[4];
+  if (crn >= 26) mo.gb = 1;
+  D.MONSTERS.push(mo); haveMon[p[0].toLowerCase()] = 1; deepAdded++;
+});
+log.push('deep-realm monsters: +' + deepAdded);
 D.MONSTERS.sort(function (a, b) { return a.n < b.n ? -1 : a.n > b.n ? 1 : 0; });
 log.push('mythological creatures: +' + mythAdded + ' (Bestiary now ' + D.MONSTERS.length + ')');
 
@@ -187,9 +201,16 @@ D.MATS.sort(function (a, b) { return a.n < b.n ? -1 : a.n > b.n ? 1 : 0; });
 var dropCounts = D.MONSTERS.map(function (m) { return (m.drops || []).length; });
 log.push('harvest parts: +' + genAdded + ' materials (now ' + D.MATS.length + '); drops per monster ' + Math.min.apply(null, dropCounts) + '-' + Math.max.apply(null, dropCounts) + '; body plans ' + JSON.stringify(kinds));
 
+// parts that only the deep-realm monsters (data/bestiary-deep.js) give stay out of the older generators too (the Blueprints
+// past level 20 and the gods' stock pick materials by realm, so new parts would otherwise rename Blueprints people own)
+(function () { var deep = {}; D.MONSTERS.forEach(function (m) { if (m.deep) deep[m.n] = 1; }); var n = 0;
+  D.MATS.forEach(function (m) { if (m.from && m.from.length && m.from.every(function (x) { return deep[x]; })) { m.instr = 1; n++; } });
+  log.push('deep-realm monster parts kept out of the older generators: ' + n); })();
 // ---- gathered materials (data/gathered.js): ores, herbs and flora, and small fauna in every realm, with alchemy effects.
 (function () {
   var G; try { G = require(path.join(__dirname, '..', 'data', 'gathered.js')); } catch (e) { if (e.code !== 'MODULE_NOT_FOUND') throw e; return; }
+  // the realm atlas's dimension materials (data/realm-atlas.js) come in the same way, found only in their dimension
+  G = G.concat(ATLAS0.DIMS.reduce(function (a, d) { return a.concat((d.mats || []).map(function (x) { return [x[0], d.realm, x[1], x[2], x[3], d.n + ', a dimension of the ' + d.realm, null, d.n]; })); }, []));
   var have = {}; D.MATS.forEach(function (m) { have[m.n.toLowerCase()] = 1; });
   var CODEK = { ore: 'O', herb: 'W', fauna: 'L', hide: 'F' }, BY = { ore: 'Harvesting (Mining)', herb: 'Harvesting (Foraging)', fauna: 'Scavenging', hide: 'Scavenging' }, added = 0;
   G.forEach(function (r) {
@@ -200,6 +221,7 @@ log.push('harvest parts: +' + genAdded + ' materials (now ' + D.MATS.length + ')
       tier: R.tier(c), g: g, rank: R.rank(c, g), il: R.level(c, g), rar: rarity(c, g), price: price(c, g, tc), ty: R.TYPES[tc],
       ds: r[4] || '', where: r[5] || '', by: BY[kind] || '', gath: kind, site: 1 };
     if (r[6]) ex.alch = r[6];
+    if (r[7]) { ex.dim = r[7]; ex.instr = 1; } // a dimension's materials stay in its own gear, out of the older generated Blueprints
     if (pr.k !== 'supply') { ex.pot = pr.P; ex.pn = pr.name; }
     // instrument materials for bards stay out of the generated blueprints and the gods' stock (only their instruments use them)
     if (/^(virtuoso|devout|wildbound|bloodspark|pactbound|arcanist)$/.test(pr.k)) ex.instr = 1;
@@ -420,7 +442,9 @@ log.push('material origins: ' + JSON.stringify(orgCount) + ', unique traits on '
     var mats = (x.mats || []).slice(), first = null;
     (x.m || []).forEach(function (q) { var m = pick(q[0], q[1], q[2]); if (m && mats.indexOf(m.n) < 0) { mats.push(m.n); if (!first) first = m; } });
     var b = { n: x.n, cat: x.cat, lv: x.lv, pr: x.pr, sp: x.sp, dc: x.dc || '', dm: x.dm || '', r: x.r, mg: 0, conns: [], mats: mats, gr: first ? first.gr : '', ds: x.ds, gear: 1 };
-    ['kit', 'kb', 'mine', 'cap', 'carry', 'grow', 'voidbag', 'devotion', 'needs', 'starter', 'slot', 'ac', 'gp', 'covers'].forEach(function (k) { if (x[k] != null) b[k] = x[k]; });
+    ['kit', 'kb', 'mine', 'cap', 'carry', 'grow', 'voidbag', 'devotion', 'needs', 'starter', 'slot', 'ac', 'gp', 'covers', 'dim'].forEach(function (k) { if (x[k] != null) b[k] = x[k]; });
+    // dimension gear carries its dimension material's property, like the Blueprints past level 20
+    if (x.dim || x.pp) { var m0 = D.MATS.find(function (m) { return m.n === mats[0]; }); if (m0 && m0.pn) { b.prop = m0.pn + ' (Potency ' + m0.pot + ')'; b.ds += ' Property: ' + b.prop + '.'; } if (m0) b.gr = m0.gr; }
     D.BPS.push(b); have[b.n.toLowerCase()] = b; added++;
   });
   Object.keys(G.TOOLS).forEach(function (n) { var b = have[n.toLowerCase()]; if (!b) return; var t = G.TOOLS[n]; ['kit', 'kb', 'kg', 'kr', 'mine'].forEach(function (k) { if (t[k] != null) b[k] = t[k]; }); tagged++; });
@@ -657,6 +681,20 @@ D.VAULT.notes = D.VAULT.notes.filter(function (n) { return !/^-+$/.test(n.n); })
     });
     D.SPELLS.sort(function (a, b) { return a.n < b.n ? -1 : 1; });
     log.push('School of Resonance spells added: ' + added);
+    // spells written for the site (data/spells-extra.js): high-level spells for every school, and more Resonance
+    var xadd = 0; require(path.join(__dirname, '..', 'data', 'spells-extra.js')).trim().split('\n').forEach(function (l) {
+      l = l.trim(); if (!l || l.charAt(0) === '/') return; var p = l.split('|'); if (p.length < 9) throw new Error('spells-extra: bad line ' + l.slice(0, 40));
+      if (have[p[0].toLowerCase()]) return; have[p[0].toLowerCase()] = 1;
+      var res = p[1] === 'Resonance', desc = p.slice(8).join('|');
+      D.SPELLS.push({ n: p[0], sc: p[1], lv: +p[2], ct: p[3], rng: p[4], dur: p[5], dmg: p[6] === 'None' ? '' : p[6], comp: p[7], tier: res ? 'Resonance' : 'Original', rune: '', cls: res ? ['Bard'] : [],
+        desc: desc + (res ? ' Resonance: needs the Bard\'s Resonance Phrase (a chant); registers as no school to Detect Magic.' : '') });
+      xadd++;
+    });
+    // spells that roll dice but list none in their notes (the dice are in the rules they follow)
+    var SFIX = { 'Absorb Elements': '1d6 (the triggering type)', 'Absorbing Ward': '1d6 (the triggering type)', 'Alter Self': '1d6 (natural weapons)', 'Life Transference': '4d8 Necrotic (to you; the target heals twice that)', 'Borrowed Vigor': '4d8 Necrotic (to you; the target heals twice that)', 'Bestow Curse': '1d8 Necrotic (one curse option)' }, sfix = 0;
+    D.SPELLS.forEach(function (x) { if (SFIX[x.n] && !x.dmg) { x.dmg = SFIX[x.n]; sfix++; } });
+    D.SPELLS.sort(function (a, b) { return a.n < b.n ? -1 : 1; });
+    log.push('site spells added: ' + xadd + '; damage dice filled in: ' + sfix);
     // a spell with no classes gets the classes that cast most of its school (50+ spells there)
     var bySchool = {}; D.SPELLS.forEach(function (x) { (x.cls || []).forEach(function (c) { var k = x.sc + '|' + c; bySchool[k] = (bySchool[k] || 0) + 1; }); });
     D.SPELLS.forEach(function (x) { if ((x.cls || []).length) return; x.cls = ['Artificer', 'Bard', 'Cleric', 'Druid', 'Paladin', 'Ranger', 'Sorcerer', 'Warlock', 'Wizard'].filter(function (c) { return (bySchool[x.sc + '|' + c] || 0) >= 50; }); });
@@ -900,7 +938,32 @@ D.SUBSTAGES = {};
   });
   log.push('property pages: ' + D.PROPS.length + ' (' + D.PROPS.filter(function (x) { return x.mats; }).length + ' carried by materials)');
 })();
-var CORE = ['BPS', 'MATS', 'MONSTERS', 'SUBS', 'GODS', 'DEMONS', 'PATRONS', 'MAT_FX', 'HIDDEN', 'STAGES', 'SUBSTAGES', 'PROF_STAGES', 'PEOPLES', 'CLASS_PROG', 'PROPS'];
+// ---- where every material is found (owner's request, 2026-11-11). Gathered materials keep their site (m.where) and
+// monster parts are found on their monster (the page says which, from the monster's habitat). Everything else gets a
+// line here: its own source note when it names a place, otherwise a region of its realm suited to what it is.
+(function () {
+  var hsh = function (s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; };
+  var VERB = { 'Ore / Metal': 'Mined in', 'Stone': 'Quarried in', 'Crystal / Gem': 'Found in the rock of', 'Wood / Plant': 'Grows in', 'Hide / Cloth / Fiber': 'Taken from the creatures of',
+    'Bone / Fang / Horn / Scale': 'Taken from the creatures of', 'Blood / Organ': 'Drawn from the creatures of', 'Essence / Soul / Core': 'Gathered where power pools in', 'Mechanism': 'Salvaged in', 'Supply': 'Sold by suppliers who stock it from' };
+  var n = 0;
+  D.MATS.forEach(function (m) {
+    if (m.where || (m.from && m.from.length) || m.found) return;
+    if (m.src && !/^(Used in|Gathered|Drops from)/.test(m.src)) { m.found = m.src; n++; return; }
+    var A = ATLAS0.REALMS[m.realm], regs = A && A.regions || []; if (!regs.length) return;
+    var r = regs[hsh(m.n) % regs.length][0], v = VERB[m.ty] || 'Found in';
+    m.found = v + ' ' + r.replace(/^The /, 'the ') + ', in the ' + m.realm + (/Realm$/.test(m.realm) ? '' : ' Realm'); n++;
+  });
+  log.push('where materials are found: ' + n + ' given a source line');
+})();
+// the realm atlas for the Realms page: write-ups, and each dimension with the names of its materials, gear and monsters
+D.ATLAS = { realms: ATLAS0.REALMS, dims: ATLAS0.DIMS.map(function (d) {
+  var o = {}; Object.keys(d).forEach(function (k) { if (k !== 'mats' && k !== 'gear') o[k] = d[k]; });
+  o.mats = D.MATS.filter(function (m) { return m.dim === d.n; }).map(function (m) { return m.n; });
+  o.gear = D.BPS.filter(function (b) { return b.dim === d.n; }).map(function (b) { return b.n; });
+  o.mons = D.MONSTERS.filter(function (m) { return m.dim === d.n; }).map(function (m) { return m.n; });
+  return o; }) };
+log.push('realm atlas: ' + Object.keys(D.ATLAS.realms).length + ' realms, ' + D.ATLAS.dims.length + ' dimensions, ' + D.ATLAS.dims.reduce(function (a, d) { return a + d.mats.length; }, 0) + ' dimension materials, ' + D.ATLAS.dims.reduce(function (a, d) { return a + d.gear.length; }, 0) + ' dimension Blueprints, ' + D.ATLAS.dims.reduce(function (a, d) { return a + d.mons.length; }, 0) + ' dimension monsters');
+var CORE = ['BPS', 'MATS', 'MONSTERS', 'SUBS', 'GODS', 'DEMONS', 'PATRONS', 'MAT_FX', 'HIDDEN', 'STAGES', 'SUBSTAGES', 'PROF_STAGES', 'PEOPLES', 'CLASS_PROG', 'PROPS', 'ATLAS'];
 var metaLine = 'const META=' + JSON.stringify(META) + ';';
 // pictures for monsters, gods, demons, and patrons (game-icons.net, CC BY 3.0): see generators/art.js
 var ART = require('./art').buildArt(D), artLine = 'const ART=' + JSON.stringify(ART) + ';';
