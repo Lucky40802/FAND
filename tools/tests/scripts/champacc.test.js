@@ -1,0 +1,18 @@
+const { chromium } = require('../pw.js');
+const http=require('http'),fs=require('fs'),path=require('path');const ROOT=process.argv[2];
+const srv=http.createServer((q,r)=>{let f=path.join(ROOT,decodeURIComponent(q.url.split('?')[0]));if(f.endsWith('/'))f+='index.html';fs.readFile(f,(e,d)=>{if(e){r.writeHead(404);r.end();return}r.writeHead(200,{'content-type':f.endsWith('.js')?'text/javascript':'text/html'});r.end(d)})});
+let fails=0;const ok=(c,m)=>{console.log((c?'  ok   ':'  FAIL ')+m);if(!c)fails++};
+(async()=>{await new Promise(r=>srv.listen(8795,r));const b=await chromium.launch();const p=await b.newPage({viewport:{width:1200,height:900}});p.on('pageerror',e=>{fails++;console.log('PAGEERROR',e.message)});await p.route('https://vppvpmwjqcgixtfxpukh.supabase.co/**',r=>r.abort());
+ await p.goto('http://127.0.0.1:8795/bestiary.html');await p.waitForFunction(()=>typeof champion==='function'&&typeof MONSTERS!=='undefined');
+ const r=await p.evaluate(()=>{const m=MONSTERS.find(x=>x.n==='Goblin')||MONSTERS.find(x=>x.sb&&(x.sb.ac2||[]).some(a=>/Weapon Attack/.test(a[1])));const c=champion(m,'Fighter',{fresh:true});
+   const h0=sbHTML(m),h=sbHTML(c);const g=re=>(s)=>+((re.exec(s)||[])[1]||'NaN').replace('−','-');const acc=g(/Accuracy<\/b> ([+−-]\d+)/),dod=g(/Dodge<\/b> ([+−-]\d+)/);
+   return {n:m.n,acc0:acc(h0),acc:acc(h),dod0:dod(h0),dod:dod(h),dex0:m.sb.ab[1],dex:c.sb.ab[1],feat:/\+2 Accuracy, \+2 Dodge/.test(h),champNote:/champion \+2/.test(h)}});
+ ok(!isNaN(r.acc0)&&!isNaN(r.acc),'normal and champion stat blocks show an Accuracy line ('+r.n+': '+r.acc0+' → '+r.acc+')');
+ ok(r.acc-r.acc0>=2,'champion Accuracy is at least 2 higher');
+ ok(r.dod===Math.floor((r.dex-10)/2)+2&&r.dod0===Math.floor((r.dex0-10)/2),'champion Dodge = DEX mod + 2 ('+r.dod0+' → '+r.dod+')');
+ ok(r.feat&&r.champNote,'champion text and Dodge line mention the +2');
+ await p.evaluate(()=>{const m=MONSTERS.find(x=>x.n==='Goblin')||MONSTERS.find(x=>x.sb);openItem(m)});await p.waitForTimeout(400);
+ await p.evaluate(()=>{const s=document.getElementById('mon-champ');s.value='Fighter';s.dispatchEvent(new Event('change'))});await p.waitForTimeout(300);
+ const pk=await p.evaluate(()=>document.getElementById('mon-champ-box').innerText);ok(/Accuracy/.test(pk)&&/Dodge/.test(pk)&&/was/.test(pk),'champion picker shows Accuracy and Dodge vs the normal monster: '+pk.replace(/\s+/g,' ').slice(0,140));
+ const cb=await p.evaluate(()=>{const c=champCur();const x=monCombatant(c,0);return {d:x.dodge,want:sbDodge(c.sb)}});ok(cb.d===cb.want,'combat tracker uses the champion Dodge ('+cb.d+')');
+ await p.evaluate(()=>localStorage.clear());console.log(fails?fails+' FAILED':'ALL PASSED');await b.close();srv.close();process.exit(fails?1:0)})();

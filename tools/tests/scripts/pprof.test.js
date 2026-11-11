@@ -1,0 +1,14 @@
+const { chromium } = require('../pw.js');
+const http=require('http'),fs=require('fs'),path=require('path');const ROOT=process.argv[2];
+const srv=http.createServer((q,r)=>{let f=path.join(ROOT,decodeURIComponent(q.url.split('?')[0]));if(f.endsWith('/'))f+='index.html';fs.readFile(f,(e,d)=>{if(e){r.writeHead(404);r.end();return}r.writeHead(200,{'content-type':f.endsWith('.js')?'text/javascript':'text/html'});r.end(d)})});
+let fails=0;const ok=(c,m)=>{console.log((c?'  ok   ':'  FAIL ')+m);if(!c)fails++};
+(async()=>{await new Promise(r=>srv.listen(8799,r));const b=await chromium.launch();const p=await b.newPage({viewport:{width:1200,height:900}});p.on('pageerror',e=>{fails++;console.log('PAGEERROR',e.message)});await p.route('https://vppvpmwjqcgixtfxpukh.supabase.co/**',r=>r.abort());
+ await p.goto('http://127.0.0.1:8799/sheet.html');await p.waitForFunction(()=>typeof peopleProf==='function'&&typeof PEOPLES!=='undefined');
+ const r=await p.evaluate(()=>{const orc={race:'Orc',prof:'',profLv:0},orcS={race:'Orc',prof:'Scavenging',profLv:6},hum={race:'Human',prof:'Cooking',profLv:2},dw={race:'Mountain Dwarf',prof:'',profLv:0};
+   return {orc:scavBonus(orc),orcS:scavBonus(orcS),humCook:peopleProf(hum,'Cooking'),humScav:peopleProf(hum,'Scavenging'),dw:peopleProf(dw,'Blacksmithing'),trait:(peopleInfo('Orc').traits||[]).find(t=>t[0]==='Born to the Trade'),miss:Object.keys(PEOPLES.info).filter(n=>!PEOPLES.info[n].prof)}});
+ ok(r.orc===1,'an orc with no profession adds +1 to Scavenging rolls');ok(r.orcS===4,'an orc scavenger at level 6 adds +3 +1 = 4');
+ ok(r.humCook===1&&r.humScav===0,'a human adds +1 only to the profession they have (Cooking)');ok(r.dw===1,'a mountain dwarf adds +1 to Blacksmithing');
+ ok(r.trait&&/Scavenging/.test(r.trait[1]),'the orc profile shows Born to the Trade');ok(!r.miss.length,'every people has a trade '+r.miss.join(','));
+ await p.evaluate(()=>{PARTY.push({id:'o1',name:'Grok',race:'Orc',level:3,cls:'Fighter',prof:'Cooking',profLv:4,gear:[],inv:[],abil:{}});saveParty();SHEET_ID='o1';SHEET_TAB='fand';renderSheet()});
+ const t=await p.evaluate(()=>document.querySelector('.sheet').textContent);ok(/Orc: \+1 to Scavenging rolls, even without the profession/.test(t),'the sheet notes the orc\'s Scavenging knack');ok(/Born to the Trade/.test(t),'the People box lists Born to the Trade');
+ await p.evaluate(()=>localStorage.clear());console.log(fails?fails+' FAILED':'ALL PASSED');await b.close();srv.close();process.exit(fails?1:0)})();

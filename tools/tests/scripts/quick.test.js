@@ -1,0 +1,17 @@
+const { chromium } = require('../pw.js');
+const http=require('http'),fs=require('fs'),path=require('path');const ROOT=process.argv[2];
+const srv=http.createServer((q,r)=>{let f=path.join(ROOT,decodeURIComponent(q.url.split('?')[0]));if(f.endsWith('/'))f+='index.html';fs.readFile(f,(e,d)=>{if(e){r.writeHead(404);r.end();return}r.writeHead(200,{'content-type':f.endsWith('.js')?'text/javascript':'text/html'});r.end(d)})});
+let fails=0;const ok=(c,m)=>{console.log((c?'  ok   ':'  FAIL ')+m);if(!c)fails++};
+(async()=>{await new Promise(r=>srv.listen(8785,r));const b=await chromium.launch();const p=await b.newPage({viewport:{width:1200,height:850}});p.on('pageerror',e=>{fails++;console.log('PAGEERROR',e.message)});await p.route('https://vppvpmwjqcgixtfxpukh.supabase.co/**',r=>r.abort());
+ await p.goto('http://127.0.0.1:8785/bestiary.html');await p.waitForSelector('.card');
+ await p.click('.card >> nth=0');await p.waitForSelector('#modal .qa');const mon=await p.evaluate(()=>CUR.n);
+ await p.click('#modal .qa button:has-text("Add to combat")');ok(await p.evaluate(n=>store.get('combat',{list:[]}).list.some(x=>x.mon===n),mon),'Add to combat puts '+mon+' in the tracker');
+ ok(await p.isVisible('#toast.act button:has-text("Open")'),'toast offers Open');
+ await p.click('#modal .qa button:has-text("Add to encounter")');await p.click('#modal .qa button:has-text("Add to encounter")');ok(await p.evaluate(n=>(store.get('enc',{}).list||[]).some(x=>x[0]===n&&x[1]===2),mon),'Add to encounter twice counts 2');
+ await p.click('#toast button');await p.waitForURL(/encounter/);ok(/encounter\.html/.test(p.url()),'Open goes to Encounters');
+ await p.waitForFunction(()=>typeof PARTY!=='undefined');await p.evaluate(()=>{PARTY.push({id:'g1',name:'Gil',level:2,gear:[],inv:[],abil:{}});saveParty()});
+ await p.goto('http://127.0.0.1:8785/blueprints.html');await p.waitForSelector('.card');await p.click('.card >> nth=0');await p.waitForSelector('#qa-to');const bp=await p.evaluate(()=>CUR.n);
+ await p.click('.qa-give button');ok(await p.evaluate(n=>PARTY.find(x=>x.id==='g1').gear.includes(n),bp),'Give puts the Blueprint in the character\'s gear');
+ await p.goto('http://127.0.0.1:8785/rules.html');await p.waitForSelector('.rule');ok(await p.evaluate(()=>document.querySelectorAll('#content .dice').length>0),'dice on the Rules page can be tapped ('+await p.evaluate(()=>document.querySelectorAll('#content .dice').length)+')');
+ await p.evaluate(()=>localStorage.clear());
+ console.log(fails?fails+' FAILED':'ALL PASSED');await b.close();srv.close();process.exit(fails?1:0)})();

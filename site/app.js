@@ -1109,6 +1109,19 @@ const hoEnc=h=>btoa(unescape(encodeURIComponent(JSON.stringify({t:h.t,k:h.k||'',
 function hoDec(c){try{const o=JSON.parse(decodeURIComponent(escape(atob(c.replace(/-/g,'+').replace(/_/g,'/')))));return o&&typeof o.t==='string'?{t:o.t.slice(0,120),k:String(o.k||'').slice(0,40),b:String(o.b||'').slice(0,4000)}:null}catch(e){return null}}
 const hoLink=h=>(SITE?new URL('index.html',location.href).href:location.href.split('#')[0])+'#handout='+hoEnc(h);
 const hoDMCamps=()=>typeof CL!=='undefined'&&CL.user?CL.camps.filter(k=>k.dm===CL.user.id):[];
+// a ready-made handout for players: the recent changes that touch their characters, in plain words (the DM edits it before
+// sending, and can strike anything their table doesn't use)
+const WHATS_NEW=`Recent changes to the rules and the character sheet:
+
+• Spells hit harder in the deeper realms. Spell dice now multiply ×1, ×2, ×6, ×9, ×12, ×16, ×22, ×27, ×32 and ×40 across the ten realms (or your level band, whichever is higher). A Fireball at level 25 is 48d6. The sheet shows each spell's dice.
+• A spellcasting focus (wand, orb, staff, amulet) adds to spell damage, Accuracy and save DC, and some boost a school of magic.
+• Mage Armor: if you know it and wear no body armor, your sheet adds +3 AC (untick "Mage Armor is up" when it isn't). If you know Shield, the sheet shows your AC with it.
+• Stronger item properties: Regenerating heals 5 HP per rank each turn, Lifedrinking deals extra necrotic damage and heals you that much, and Eye Ray fires more often and deals force damage.
+• Bonded summons (if the DM gives them to you): up to five summons that level with you, come back after every long rest, and grow by eating monster parts from your inventory. They join combat with you.
+• A second people (heritage), a cantrip picker for peoples that choose one, and more people options in the builder.
+
+Tell the DM what feels too strong or too weak.`;
+function whatsNewHandout(){openHandout({t:"What's new for players",k:'Notice',b:WHATS_NEW})}
 function openHandout(h){h=h||{t:'',k:'Letter',b:''};const camps=hoDMCamps();
   $('qBox').innerHTML=`<div class="mh"><div class="kind">For your players</div><h2 id="qTitle">Handout</h2><div class="mact"><button class="icon-btn" onclick="closeQuick()" aria-label="Close">${ICON.x}</button></div></div>
     <p class="note" style="margin-top:0">Players see only what is written here: change anything that would give too much away.</p>
@@ -2106,6 +2119,7 @@ const SITE_CHANGES=[
   ['2026-11-11','The deep realms, filled in','Every realm now has a full write-up in its window: what it is, what changes for travelers, its regions, who holds power, its dangers and adventure hooks. The Inner Realm has thirteen dimensions, whole worlds grown around the anchors of the strongest Laws: Aldermere (knights and dragons), Brassholm (a steam-driven empire), Kethra-Vael (an alien world under a violet sun), Gloamhollow (gothic horror), Thalassar (an ocean world), Skyreach (floating islands), the Ashfall Expanse, the Lantern Courts, Rimefast, Arcanopolis, the Verdant Deep, the Iron Front and the Glass Dunes. The Outer Realm has nineteen small, stranger pocket dimensions, from the Inverted Orchard, where things fall up, to Paperfold, the Echo Chamber, the Last Library and the Carnival at the End. Each dimension has its natives, materials and gear, all on the Realms page. 284 new monsters fill the deep realms (every realm past the Mysterious now has at least 50, with plenty at its own levels), 1,175 new Blueprints give every deep realm a full set of weapons, armor, shields and focuses through its levels, 117 new spells give every school high-level magic and the School of Resonance its hundredth spell, and every material now says where it is found.','realms'],
   ['2026-11-10','Class focus materials, safer saving, phones, and the keyboard','Every spellcasting class now has what bards got with Virtuoso: a focus property that adds +1 to +5 (by Potency) to that class\'s spell Accuracy and save DC through its own kinds of focus. Devout for clerics and paladins (Holy Symbol, Amulet), Wildbound for druids and rangers (Totem, Staff), Bloodspark for sorcerers (Crystal, Orb), Pactbound for warlocks (Rod, Scepter), and Arcanist for wizards and artificers (Wand, Tome). Each realm has one material of each, and the Blueprints list has a ready-made focus of each kind in every realm, levels 6 to 96. A plain Holy Symbol now counts as a focus on the sheet too. If the browser\'s storage fills up, FAND now says a change was not saved instead of losing it quietly; portraits are smaller, a portrait that does not fit is not kept, and Settings shows how much space is used. On a phone, the table screen\'s close button no longer slides off the edge and the player view drops its empty left column. With a keyboard, every button and dropdown now shows where you are, Escape closes the ⋯ More menus, and the picture and file buttons can be reached and pressed.','properties'],
   ['2026-11-10','Bonded summons in the combat tracker','Adding the party to the combat tracker (+ Party) now brings each character\'s bonded summons along: they act right after their summoner, show their Accuracy and damage per hit, and their hit points stay in step with the sheet. A summon brought to 0 is marked fallen until the next long rest. Their numbers now come from the typical monster of the character\'s realm band (at the default 50%: half its hit points, its AC, and a hit the size of its best attack), so five summons deal about as much as a same-level Fighter; before, a level 15 summon had three times a Fighter\'s hit points.','combat'],
+  ['2026-11-11','Encounters aimed at your party, a balance report, and a players\' note','The encounter builder can now aim for your party (on by default when the campaign has characters): it tries fights around the XP budget and keeps the one whose Party check plays like the difficulty you asked for, so Medium means medium for your table, armor and all. The Party check now reads a fight as Trivial to Deadly by comparing how long the party needs to win with how long its weakest member lasts, and says when that differs from the XP label. Under the builder, a Balance report builds sample characters for every realm and shows how fast they kill, and are killed by, that realm\'s typical monster; run it after changing a rule. On the About page, "What\'s new, for players" opens a handout with the recent changes that matter to players, ready to edit and send.','encounter'],
   ['2026-11-10','Party check in the encounter builder','A balance check of generated characters against every realm\'s monsters found weapon users and casters in step (a Fighter kills a same-realm monster in 2 to 5 rounds; a Fireball takes a third to a half of one) and monsters dropping a character in about 3 rounds from Hell on. But because AC comes off every hit, the XP budget can be far off for a real party: in the Human and Mysterious realms an armored Fighter barely takes damage, while a robed Wizard can drop in two rounds. The encounter builder now has a Party check under every encounter: for each character in the campaign, how many rounds they last if the monsters focus them and their best round of damage (weapon hits, Sneak Attack, or their best damage spell, each minus the target\'s AC), how long the party needs to get through the monsters, and a verdict: Easier than its XP, About right, or Harder than its XP.','encounter'],
   ['2026-11-10','Spell and hidden-class dice keep pace with the realms','A damage check showed every player\'s dice falling behind from the third realm on: monster hit points jump about 3.5× at Hell and Heaven, but spell and hidden-class dice only went from ×2 to ×3. The multiplier now follows a table instead of the realm\'s number: ×1, ×2, ×6, ×9, ×12, ×16, ×22, ×27, ×32, ×40 for realms (or 10-level bands) 1 to 10, whichever of the realm and the caster\'s level is higher, as before. A 3d6 feature at level 25 is now 18d6 instead of 9d6, about 15% of a typical monster there, instead of 8%. Enemy spellcasters keep the old ×band.','rules'],
   ['2026-11-09','Bonded summons','The DM can give a character bonded summons (on the sheet, with the DM passphrase): up to five summons bound for good. Each is a share of a same-level monster (50% by default, the DM sets it) for hit points, AC and damage, levels with the character, and comes back at full strength after every long rest, so it isn\'t lost to one bad round. Summons grow by absorbing monster parts from the inventory: one part per 10 levels each, of Potency up to the character\'s level, and each part adds its property, its trait, and a tenth more hit points.','sheet'],
@@ -2410,7 +2424,7 @@ function renderAbout(){
     <section class="sec">${cosmologyHTML()}</section>
     <section class="sec"><div class="sec-h"><h3>At a glance</h3></div><div class="tablewrap"><table class="t"><thead><tr><th>Area</th><th>Now</th></tr></thead><tbody>${G.map(([a,t,l])=>`<tr><td style="white-space:nowrap;font-weight:600">${l?`<a href="${pageUrl(l)}" data-go="${l}" style="text-decoration:none">${a}</a>`:a}</td><td>${t}</td></tr>`).join('')}</tbody></table></div></section>
     <section class="sec"><div class="sec-h"><h3>Picture credits</h3></div><p class="note" style="margin:0">The pictures of monsters, gods, demons, and patrons, and the symbols used across the site, are illustrations from <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a> by Lorc, Delapouite, and contributors, used under the <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">Creative Commons Attribution 3.0</a> licence and tinted to each one's realm.</p></section>
-    <section class="sec"><div class="sec-h"><h3>Website changes</h3><p>What changed on this site, newest first.</p></div><div class="tablewrap"><table class="t"><thead><tr><th>Date</th><th>Change</th></tr></thead><tbody>${SITE_CHANGES.map(([d,t,x,pg])=>`<tr><td style="white-space:nowrap">${esc(d)}</td><td><b>${pg?`<a href="${pageUrl(pg)}" data-go="${pg}">${esc(t)}</a>`:esc(t)}</b><br><span style="color:var(--text2)">${esc(x)}</span></td></tr>`).join('')}</tbody></table></div></section>
+    <section class="sec"><div class="sec-h"><h3>Website changes</h3><p>What changed on this site, newest first. <button class="btn" type="button" onclick="whatsNewHandout()" title="Open a handout for your players with the changes that matter to them">📜 What's new, for players</button></p></div><div class="tablewrap"><table class="t"><thead><tr><th>Date</th><th>Change</th></tr></thead><tbody>${SITE_CHANGES.map(([d,t,x,pg])=>`<tr><td style="white-space:nowrap">${esc(d)}</td><td><b>${pg?`<a href="${pageUrl(pg)}" data-go="${pg}">${esc(t)}</a>`:esc(t)}</b><br><span style="color:var(--text2)">${esc(x)}</span></td></tr>`).join('')}</tbody></table></div></section>
     <section class="sec"><div class="sec-h"><h3>Version history</h3><p>Open any version for its full patch notes from the vault.</p></div><div class="tablewrap"><table class="t"><thead><tr><th>Version</th><th>What changed</th></tr></thead><tbody>${V.slice().reverse().map(([v,t])=>`<tr><td style="white-space:nowrap"><span class="vtag">${v}</span></td><td>${esc(t)}${(()=>{const n=noteByName('Patch v'+v);return n?` <a href="#" data-ref="${ref(n)}">Full notes →</a>`:''})()}</td></tr>`).join('')}</tbody></table></div></section>
     <section class="sec cols">
       <div class="panel"><h4>Runes and lore</h4><ul>
@@ -5108,23 +5122,25 @@ function renderEncounter(){
   if(!store.get('enc',null))store.set('enc',st);
   $('content').innerHTML=`<div class="page">${datalists()}
     <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Encounter builder</h3><p>Balanced fights from a realm's Bestiary, using the standard XP budget by party level.</p></div>
-    <div class="tool"><div class="form" style="grid-template-columns:repeat(6,1fr)">
+    <div class="tool"><div class="form" style="grid-template-columns:repeat(7,1fr)">
       <label>Party size<input id="en-size" type="number" min="1" max="10" value="${st.size}"></label>
       <label>Average level<input id="en-lv" type="number" min="1" max="100" value="${st.level}"></label>
       <label>Realm<select id="en-realm"><option value="">Any realm</option>${REALMS.map(r=>`<option${r.n===st.realm?' selected':''}>${esc(r.n)}</option>`).join('')}</select></label>
       <label>Difficulty<select id="en-diff">${DIFFS.map(d=>`<option${d===st.diff?' selected':''}>${d}</option>`).join('')}</select></label>
       <label class="chk" style="align-self:end"><input type="checkbox" id="en-hb"${st.hb?' checked':''}> Homebrew only</label>
       <label class="chk" style="align-self:end" title="The strongest monster in a built encounter is a champion: a monster with a class"><input type="checkbox" id="en-champ"${st.champ?' checked':''}> ★ Lead with a champion</label>
+      <label class="chk" style="align-self:end" title="Build for the characters in the campaign: AC comes off every hit, so the XP budget alone can be far off"><input type="checkbox" id="en-aim"${st.aim!==false?' checked':''}> Aim for my party</label>
     </div>
     <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><button class="btn primary" onclick="rollEncounter()">🎲 Build encounter</button>
       <span class="keyrow" style="flex:1;min-width:260px"><input class="sel" id="en-add" list="dl-mon" placeholder="Or add a monster by name…" style="max-width:none;flex:1"><button class="btn" onclick="addEncMon()">Add</button></span>
       <button class="btn" onclick="encSpoils()" title="What this fight is likely to drop">🎁 Preview spoils</button>
       <button class="btn" onclick="sendToCombat()">Send to combat tracker →</button></div><div id="en-spoils" style="margin-top:10px"></div></div>
-    <div id="en-out" style="margin-top:14px"></div></div>`;
-  ['en-size','en-lv','en-realm','en-diff','en-hb','en-champ'].forEach(i=>$(i).addEventListener('change',()=>{saveEncInputs();encOut()}));
+    <div id="en-out" style="margin-top:14px"></div>
+    <details class="fold" id="en-bal" style="margin-top:14px"><summary><b>⚖ Balance report</b> <small style="color:var(--muted)">how characters stack up against each realm's monsters</small></summary><div class="note" style="margin:6px 0">Builds sample characters (a Fighter, a Wizard, a Rogue, a Cleric) in the middle of each realm's levels with the character generator, and runs them against the realm's typical monster with the Party check's arithmetic. Run it again after changing a rule to see what it did.</div><button class="btn" type="button" onclick="balRun()">Run the report</button><div id="en-bal-out" style="margin-top:8px"></div></details></div>`;
+  ['en-size','en-lv','en-realm','en-diff','en-hb','en-champ','en-aim'].forEach(i=>$(i).addEventListener('change',()=>{saveEncInputs();encOut()}));
   encOut();
 }
-function saveEncInputs(){const st=store.get('enc',{});Object.assign(st,{size:Math.min(10,Math.max(1,Math.round(+$('en-size').value)||4)),level:Math.min(MAX_LEVEL,Math.max(1,+$('en-lv').value||1)),realm:$('en-realm').value,diff:$('en-diff').value,hb:$('en-hb').checked,champ:$('en-champ').checked});store.set('enc',st);return st}
+function saveEncInputs(){const st=store.get('enc',{});Object.assign(st,{size:Math.min(10,Math.max(1,Math.round(+$('en-size').value)||4)),level:Math.min(MAX_LEVEL,Math.max(1,+$('en-lv').value||1)),realm:$('en-realm').value,diff:$('en-diff').value,hb:$('en-hb').checked,champ:$('en-champ').checked,aim:$('en-aim')?$('en-aim').checked:true});store.set('enc',st);return st}
 const monXP=m=>m.sb?m.sb.xp:0;
 // Deeper realms' monsters already scale their AC, HP, and damage by realm tier, and characters scale by stage, so the
 // budget is realm-relative: each realm tier past the Mysterious takes 10 levels off the party's level (a level-95 party in
@@ -5143,15 +5159,27 @@ function encPick(pool,size,budget,R){let best=null,bestScore=1e18;
   }
   return best}
 function rollEncounter(){
-  const st=saveEncInputs(),budget=encBudget(st)[DIFFS.indexOf(st.diff)];
-  const pool=MONSTERS.filter(m=>(!st.realm||m.realm===st.realm)&&(!st.hb||m.hb)&&monXP(m)>0&&monXP(m)<=budget);
-  if(!pool.length){st.list=[];store.set('enc',st);encOut('No monsters fit that budget in '+(st.realm||'any realm')+'. Try another realm or a higher level.');return}
-  let best=encPick(pool,st.size,budget,Math.random);
-  // a champion leads: the strongest monster gains a class, then the weakest drop out until the fight fits the budget again
-  if(st.champ&&best.length){const lead=best.reduce((a,m)=>monXP(m)>monXP(a)?m:a,best[0]);best[best.indexOf(lead)]=champRandom(lead);
-    const adj=p=>p.reduce((a,m)=>a+monXP(m),0)*xpMult(p.length);best.sort((a,b)=>monXP(b)-monXP(a));while(best.length>1&&adj(best)>budget*1.15)best.pop()}
+  const st=saveEncInputs(),want=DIFFS.indexOf(st.diff),budget=encBudget(st)[want];
+  const build=b=>{const pool=MONSTERS.filter(m=>(!st.realm||m.realm===st.realm)&&(!st.hb||m.hb)&&monXP(m)>0&&monXP(m)<=b);if(!pool.length)return [];
+    let best=encPick(pool,st.size,b,Math.random);
+    // a champion leads: the strongest monster gains a class, then the weakest drop out until the fight fits the budget again
+    if(st.champ&&best.length){const lead=best.reduce((a,m)=>monXP(m)>monXP(a)?m:a,best[0]);best[best.indexOf(lead)]=champRandom(lead);
+      const adj=p=>p.reduce((a,m)=>a+monXP(m),0)*xpMult(p.length);best.sort((a,b2)=>monXP(b2)-monXP(a));while(best.length>1&&adj(best)>b*1.15)best.pop()}
+    return best};
+  let best=build(budget),msg='';
+  if(!best.length){st.list=[];store.set('enc',st);encOut('No monsters fit that budget in '+(st.realm||'any realm')+'. Try another realm or a higher level.');return}
+  // aim by the party check (website rule, 2026-11-11): with characters in the campaign, try budgets around the XP one
+  // and keep the fight whose AC-aware reading matches the difficulty asked for (closest to the middle of its band)
+  const party=st.aim!==false?encParty():[];
+  if(party.length){const mid=want<0?0.1:want===3?1.8:(AWARE_BANDS[want]+AWARE_BANDS[want+1])/2,score=A=>A?Math.abs(A.di-want)*10+Math.abs(Math.log((A.pressure||0.01)/mid)):99;
+    let pick={m:best,A:encAware(st,best,party)};
+    // each candidate, and smaller versions of it (the weakest monsters dropped one at a time), so a fragile party can
+    // still get a fight between Easy and Hard
+    for(const k of [0.15,0.25,0.4,0.6,0.8,1,1.25,1.6,2,2.5,3.2,4])for(let i=0;i<3;i++){const m=build(budget*k);if(!m.length)continue;const S=m.slice().sort((x,y)=>monXP(y)-monXP(x));
+      for(let j=S.length;j>=1;j--){const sub=S.slice(0,j),A=encAware(st,sub,party);if(score(A)<score(pick.A))pick={m:sub,A}}}
+    best=pick.m;msg=pick.A&&pick.A.di===want?'Picked to play like '+st.diff+' for '+party.length+' character'+(party.length>1?'s':'')+' (Party check).':pick.A?'The closest to '+st.diff+' this realm offers for your party plays like '+pick.A.label+'.':''}
   const counts=new Map();best.forEach(m=>counts.set(m,(counts.get(m)||0)+1));
-  st.list=[...counts].map(([m,n])=>[m.n,n]);store.set('enc',st);encOut();
+  st.list=[...counts].map(([m,n])=>[m.n,n]);store.set('enc',st);encOut(msg);
 }
 function encDeed(d){if(!PARTY.length)return;PARTY.forEach(ch=>{ch.log=(ch.log||[]).concat({d:new Date().toISOString().slice(0,10),deed:d})});saveParty();toast('Logged for '+PARTY.length+' character'+(PARTY.length>1?'s':'')+': '+d+'. Level them up on the character sheet if the DM agrees.')}
 function addEncMon(){const v=$('en-add').value.trim(),m=MON_IDX.get(lc(v));if(!m){toast('No monster named “'+v+'”');return}const st=saveEncInputs();st.list=st.list||[];const r=st.list.find(x=>x[0]===m.n);if(r)r[1]++;else st.list.push([m.n,1]);store.set('enc',st);$('en-add').value='';encOut()}
@@ -5205,16 +5233,37 @@ function charRound(c,rn,tAC){const s=charStats(c),M=a=>Math.floor(((+(c.abil||{}
   // bonded summons add their hits, each against the target's AC
   const bd=c.bondOn?(c.bonds||[]).filter(s=>!s.dead).reduce((a,s)=>a+Math.max(0,bondNow(c,s).dmg-tAC),0):0,nb=c.bondOn?(c.bonds||[]).filter(s=>!s.dead).length:0,plus=bd?` + ${nb} summon${nb>1?'s':''}`:'';
   return sp>wpn?{v:sp+bd,how:spn+plus}:{v:wpn+bd,how:(hit>ab?n+' × '+Math.round(hit)+(sneak?' + Sneak Attack':''):'')+plus}}
-function encCheckHTML(st,list){const party=(typeof PV==='function'?PV():PARTY).filter(c=>+c.hpMax>0);if(!list.length||!party.length)return '';
-  const rn=st.realm||list[0].m.realm||'Human',mons=list.flatMap(x=>Array(x.k).fill(x.m)),mHP=mons.reduce((a,m)=>a+(+m.sb.hp||0),0),mAC=mons.reduce((a,m)=>a+(+m.sb.ac||0),0)/mons.length;
-  const R=party.map(c=>{const s=charStats(c),inc=mons.reduce((a,m)=>{const h=monHits(m.sb);return a+h.n*Math.max(0,h.h-s.ac)*0.85},0),raw=mons.reduce((a,m)=>{const h=monHits(m.sb);return a+h.n*h.h*0.85},0);
+// the AC-aware reading of a fight for the campaign's party: rounds to get through the monsters, rounds until the weakest
+// character drops if focused, and their ratio (pressure) read as a difficulty: under 0.25 Trivial, then Easy (0.5),
+// Medium (0.9), Hard (1.4), Deadly above
+const encParty=()=>(typeof PV==='function'?PV():PARTY).filter(c=>+c.hpMax>0);
+const AWARE_BANDS=[0.25,0.5,0.9,1.4];
+function encAware(st,mons,party){party=party||encParty();if(!mons.length||!party.length)return null;
+  const rn=st.realm||mons[0].realm||'Human',mHP=mons.reduce((a,m)=>a+(+m.sb.hp||0),0),mAC=mons.reduce((a,m)=>a+(+m.sb.ac||0),0)/mons.length,H=mons.map(m=>monHits(m.sb));
+  const R=party.map(c=>{const s=charStats(c),inc=H.reduce((a,h)=>a+h.n*Math.max(0,h.h-s.ac)*0.85,0),raw=H.reduce((a,h)=>a+h.n*h.h*0.85,0);
     return {c,ac:s.ac,hp:+c.hpMax,drop:inc>0?(+c.hpMax)/inc:Infinity,shrug:raw>0&&inc<raw*0.25,r:charRound(c,rn,mAC)}});
-  const dpr=R.reduce((a,x)=>a+x.r.v*0.85,0),clear=dpr>0?mHP/dpr:Infinity,minDrop=Math.min(...R.map(x=>x.drop)),f=x=>x===Infinity?'never':x<1?'under 1 round':x.toFixed(1)+' rounds';
-  const verdict=clear<=1.5&&minDrop>=6?['Easier than its XP','var(--green)','The party should clear it fast and take little damage.']:clear>=6||minDrop<=1.2?['Harder than its XP','var(--red)',minDrop<=1.2?'Someone can drop in a round if the monsters focus them.':'The party needs a long time to get through all those hit points.']:['About right','var(--muted)','The AC-aware estimate agrees with the XP budget.'];
-  return `<details class="fold enc-check"><summary><b>Party check</b> <span style="color:${verdict[1]}">${verdict[0]}</span> <small style="color:var(--muted)">AC-aware estimate for ${party.length} character${party.length>1?'s':''}</small></summary>
-    <div class="note" style="margin:6px 0">${verdict[2]} Here AC is taken off every hit, which the XP budget doesn't know. This assumes 85% of attacks land, the monsters focus one target, and each character uses their best attack or damage spell.</div>
+  const dpr=R.reduce((a,x)=>a+x.r.v*0.85,0),clear=dpr>0?mHP/dpr:Infinity,minDrop=Math.min(...R.map(x=>x.drop));
+  const pressure=clear===Infinity?99:minDrop===Infinity?0:clear/minDrop;let di=-1;AWARE_BANDS.forEach((b,i)=>{if(pressure>=b)di=i});
+  return {R,mHP,mAC,clear,minDrop,pressure,di,label:di<0?'Trivial':DIFFS[di]}}
+function encCheckHTML(st,list){const party=encParty();if(!list.length||!party.length)return '';
+  const A=encAware(st,list.flatMap(x=>Array(x.k).fill(x.m)),party);if(!A)return '';const {R,mHP,mAC,clear}=A,f=x=>x===Infinity?'never':x<1?'under 1 round':x.toFixed(1)+' rounds';
+  const count=list.reduce((a,x)=>a+x.k,0),adj=list.reduce((a,x)=>a+monXP(x.m)*x.k,0)*xpMult(count);let xi=-1;encBudget(st).forEach((b,i)=>{if(adj>=b)xi=i});
+  const same=A.di===xi,col=A.di>=3?'var(--red)':A.di===2?'var(--gold2)':'var(--green)';
+  const why=A.minDrop<=1.2?'Someone can drop in about a round if the monsters focus them.':A.clear>=6?'The party needs a long time to get through all those hit points.':A.minDrop===Infinity||A.minDrop>=8?'The monsters\' hits barely get past the party\'s armor.':'';
+  return `<details class="fold enc-check"><summary><b>Party check</b> plays like <span style="color:${col}">${A.label}</span>${same?' <small style="color:var(--muted)">(as its XP says)</small>':` <small style="color:var(--muted)">(${A.di>xi?'harder':'easier'} than its XP: ${xi<0?'Trivial':DIFFS[xi]})</small>`}</summary>
+    <div class="note" style="margin:6px 0">${why?why+' ':''}Here AC is taken off every hit, which the XP budget doesn't know. This assumes 85% of attacks land, the monsters focus one target, and each character uses their best attack or damage spell. It compares how long the party needs to win with how long the weakest character lasts.</div>
     <div class="tablewrap"><table class="t"><thead><tr><th>Character</th><th class="num">HP</th><th class="num">AC</th><th>Drops in</th><th>Best round</th></tr></thead><tbody>${R.map(x=>`<tr><td><b>${esc(x.c.name||'Unnamed')}</b></td><td class="num">${x.hp}</td><td class="num">${x.ac}</td><td>${f(x.drop)}${x.shrug?' <small style="color:var(--muted)">(armor stops most of it)</small>':''}</td><td>${Math.round(x.r.v)} <small style="color:var(--muted)">${esc(x.r.how)}</small></td></tr>`).join('')}</tbody></table></div>
     <div class="sh-row" style="margin-top:6px">The party gets through ${fmt(mHP)} monster HP (AC ${Math.round(mAC)}) in about <b>${f(clear)}</b>.</div></details>`}
+// Balance report (website rule, 2026-11-11): generated characters against each realm's median monster, AC off every hit
+function balRun(){const el=$('en-bal-out');if(!el)return;el.innerHTML='<div class="note">Building characters…</div>';setTimeout(()=>{
+  const med=a=>{a=a.filter(x=>x>0).sort((x,y)=>x-y);return a.length?a[Math.floor(a.length/2)]:0},f=x=>x===Infinity||x>=99?'never':x.toFixed(1);
+  const rows=[];for(let tier=1;tier<=10;tier++){const L=10*tier-5,rn=(REALMS.find(r=>r.tier===tier)||{}).n;const M=MONSTERS.filter(m=>m.sb&&(REALM[m.realm]||{}).tier===tier);if(!M.length)continue;
+    const mon={hp:med(M.map(m=>+m.sb.hp)),ac:med(M.map(m=>+m.sb.ac)),h:med(M.map(m=>monHits(m.sb).h)),n:med(M.map(m=>monHits(m.sb).n))};
+    const cell=cls=>{const S=[];for(let i=0;i<3;i++){const c=genFill({cls,level:L}).c,s=charStats(c),inc=mon.n*Math.max(0,mon.h-s.ac)*0.85,r=charRound(c,rn,mon.ac).v*0.85;S.push({kill:r>0?mon.hp/r:99,drop:inc>0?(+c.hpMax)/inc:99,ac:s.ac,hp:+c.hpMax})}
+      const av=k=>S.reduce((a,x)=>a+Math.min(99,x[k]),0)/S.length;return {kill:av('kill'),drop:av('drop'),ac:Math.round(av('ac')),hp:Math.round(av('hp'))}};
+    rows.push({tier,L,rn,mon,c:['Fighter','Wizard','Rogue','Cleric'].map(cell)})}
+  const flag=x=>x.drop>=10?' style="color:var(--blue,#5a8dd6)" title="Barely hurt: the monster\'s hits hardly get past this AC"':x.drop<1.5?' style="color:var(--red)" title="Drops very fast"':'';
+  el.innerHTML=`<div class="tablewrap"><table class="t"><thead><tr><th>Realm (level)</th><th>Typical monster</th>${['Fighter','Wizard','Rogue','Cleric'].map(k=>`<th>${k}<br><small>kills in · drops in</small></th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr><td><b>${esc(r.rn)}</b> <small>(${r.L})</small></td><td><small>HP ${fmt(r.mon.hp)} · AC ${r.mon.ac} · ${r.mon.n}×${r.mon.h}</small></td>${r.c.map(x=>`<td><span>${f(x.kill)}</span> · <span${flag(x)}>${f(x.drop)}</span><br><small style="color:var(--muted)">AC ${x.ac} · HP ${fmt(x.hp)}</small></td>`).join('')}</tr>`).join('')}</tbody></table></div><div class="note" style="margin:6px 0 0">Rounds for one character alone to kill one typical monster, and for that monster to drop them. Blue: the monster barely hurts them; red: they drop in under a round and a half. Sample characters are random, so numbers move a little between runs.</div>`},30)}
 function encSpoils(){const st=store.get('enc',{}),list=(st.list||[]).map(([n,k])=>({m:MON_IDX.get(lc(n)),k})).filter(x=>x.m);if(!list.length){toast('Build an encounter first');return}
   const count=list.reduce((a,x)=>a+x.k,0),adj=list.reduce((a,x)=>a+monXP(x.m)*x.k,0)*xpMult(count),th=encBudget(st);let di=-1;th.forEach((t,i)=>{if(adj>=t)di=i});
   const realm=st.realm||list[0].m.realm,sz=list.some(x=>x.m.champ)||DIFFS[di]==='Deadly'?2:di>=1?1:0,T=rollTreasure(realm,+st.level||1,sz),c=spoilCoins(T.gold,realm,T.favor),el=$('en-spoils');if(!el)return;

@@ -1,0 +1,17 @@
+const { chromium } = require('../pw.js');
+const http=require('http'),fs=require('fs'),path=require('path');const ROOT=process.argv[2];let FAKEB=null;
+const srv=http.createServer((q,r)=>{let f=path.join(ROOT,decodeURIComponent(q.url.split('?')[0]));if(f.endsWith('/'))f+='index.html';fs.readFile(f,(e,d)=>{if(e){r.writeHead(404);r.end();return}if(FAKEB&&/fresh=/.test(q.url))d=Buffer.from(String(d).replace(/,b:"[0-9a-f]+"/,',b:"'+FAKEB+'"'));r.writeHead(200,{'content-type':f.endsWith('.js')?'text/javascript':'text/html'});r.end(d)})});
+let fails=0;const ok=(c,m)=>{console.log((c?'  ok   ':'  FAIL ')+m);if(!c)fails++};
+(async()=>{await new Promise(r=>srv.listen(8782,r));const b=await chromium.launch();const p=await b.newPage({viewport:{width:1200,height:900}});p.on('pageerror',e=>{fails++;console.log('PAGEERROR',e.message)});
+ await p.route('https://vppvpmwjqcgixtfxpukh.supabase.co/**',r=>r.abort());
+ await p.goto('http://127.0.0.1:8782/settings.html');await p.waitForSelector('#set-look');
+ const f0=await p.evaluate(()=>parseFloat(getComputedStyle(document.body).fontSize));
+ await p.click('#set-look .seg button:has-text("Largest")');const f1=await p.evaluate(()=>parseFloat(getComputedStyle(document.body).fontSize));ok(f1>f0*1.3,'Largest text: '+f0+'px → '+f1+'px');
+ await p.click('#set-look input[onchange*="contrast"]');ok(await p.evaluate(()=>document.documentElement.dataset.contrast==='high'),'high contrast on');
+ await p.click('#set-look input[onchange*="motion"]');ok(await p.evaluate(()=>document.documentElement.dataset.motion==='reduce'&&lessMotion()),'less motion on');
+ await p.reload();await p.waitForSelector('#set-look');ok(await p.evaluate(()=>getComputedStyle(document.documentElement).getPropertyValue('--ts').trim()==='1.4'&&document.documentElement.dataset.contrast==='high'),'settings kept after reload (applied before the page draws)');
+ await p.screenshot({path:(process.env.S||'.')+'/'+'comfort.png'});
+ await p.click('#updBtn');await p.waitForFunction(()=>$('updMsg').textContent.length>0);ok(/newest/.test(await p.textContent('#updMsg')),'check for updates: newest → '+(await p.textContent('#updMsg')));
+ FAKEB='deadbeef';await p.click('#updBtn');await p.waitForFunction(()=>/newer/.test($('updMsg').textContent));ok(await p.isVisible('#updMsg button')&&await p.isVisible('#upd'),'a newer build shows Load it now and the banner');
+ await p.evaluate(()=>{['tscale','contrast','motion'].forEach(k=>localStorage.removeItem('fand.'+k))});
+ console.log(fails?fails+' FAILED':'ALL PASSED');await b.close();srv.close();process.exit(fails?1:0)})();

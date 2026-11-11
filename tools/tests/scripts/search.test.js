@@ -1,0 +1,17 @@
+const { chromium } = require('../pw.js');
+const http=require('http'),fs=require('fs'),path=require('path');const ROOT=process.argv[2];
+const srv=http.createServer((q,r)=>{let f=path.join(ROOT,decodeURIComponent(q.url.split('?')[0]));if(f.endsWith('/'))f+='index.html';fs.readFile(f,(e,d)=>{if(e){r.writeHead(404);r.end();return}r.writeHead(200,{'content-type':f.endsWith('.js')?'text/javascript':'text/html'});r.end(d)})});
+let fails=0;const ok=(c,m)=>{console.log((c?'  ok   ':'  FAIL ')+m);if(!c)fails++};
+(async()=>{await new Promise(r=>srv.listen(8789,r));const b=await chromium.launch();const p=await b.newPage({viewport:{width:1100,height:800}});p.on('pageerror',e=>{fails++;console.log('PAGEERROR',e.message)});await p.route('https://vppvpmwjqcgixtfxpukh.supabase.co/**',r=>r.abort());
+ await p.goto('http://127.0.0.1:8789/index.html');await p.waitForFunction(()=>typeof openPalette==='function');
+ const q=async t=>{await p.evaluate(t=>{openPalette();$('pq').value=t;paletteSearch()},t);return p.evaluate(()=>$('pres').innerText)};
+ let t=await q('monster realm:hell grade:5');ok(/bestiary/i.test(t)&&/filters/i.test(t)&&!/blueprints/i.test(t),'type + realm + grade filter: '+t.split('\n').slice(0,4).join(' | '));
+ ok(await p.evaluate(()=>PRES.filter(r=>r.x).every(r=>r.x._t==='mon'&&r.x.realm==='Hell'&&r.x.g===5)),'every result is a grade-5 Hell monster');
+ t=await q('rarity:legendary sword');ok(await p.evaluate(()=>PRES.filter(r=>r.x).length>0&&PRES.filter(r=>r.x).every(r=>/legend/i.test(r.x.r||r.x.rar)&&/sword/i.test(r.x.n))),'rarity filter with text');
+ t=await q('roll 2d6+3');ok(/Roll 2d6\+3/.test(t),'roll action offered');await p.keyboard.press('Enter');await p.waitForTimeout(300);ok(await p.isVisible('#dice-ov.on'),'Enter rolls the dice');await p.evaluate(()=>$('dice-ov').classList.remove('on'));
+ t=await q('dragn');ok(/did you mean/i.test(t)&&/Dragon/i.test(t),'typo "dragn" suggests dragons');
+ t=await q('new char');ok(/Build a new character/.test(t),'"new char" offers the builder');
+ await q('dragon');await p.keyboard.press('Enter');await p.waitForTimeout(300);await p.evaluate(()=>{closeModal&&closeModal()});
+ t=await q('');ok(/recent searches/i.test(t)&&/dragon/.test(t),'recent searches remembered');
+ await p.evaluate(()=>localStorage.clear());
+ console.log(fails?fails+' FAILED':'ALL PASSED');await b.close();srv.close();process.exit(fails?1:0)})();
