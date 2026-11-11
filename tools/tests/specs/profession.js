@@ -31,4 +31,19 @@ module.exports = [
     await p.selectOption('select[data-s="prof"]', ''); await p.waitForTimeout(200);
     t.eq(await p.evaluate(() => { const c = PARTY.find(x => x.id === 'dq'); return [c.prof, +c.profLv, c.prof2 || '']; }), ['Cooking', 3, '']);
   } },
+  { name: 'table rules: unlock level, cap, or no second profession', run: async t => {
+    let p = await t.open('settings');
+    await p.selectOption('#setProf2', 'both'); await p.waitForTimeout(150);
+    await p.fill('#setProf2At', '10'); await p.dispatchEvent('#setProf2At', 'change'); await p.waitForTimeout(100);
+    const r = await p.evaluate(() => {
+      const lowc = { prof: 'Blacksmithing', profLv: 6, prof2: 'Scavenging', prof2Lv: 4 }, hic = { prof: 'Blacksmithing', profLv: 12, prof2: 'Scavenging', prof2Lv: 20 };
+      const out = { rule: profRule(), low: profsOf(lowc).map(x => x.join(' ')), high: profsOf(hic).map(x => x.join(' ')), lowOpen: prof2Open(lowc).ok };
+      store.set('rules', { prof2: 'off' }); out.off = profsOf(hic).length; store.set('rules', { prof2: 'free' }); out.free = profLvIn(hic, 'Scavenging');
+      return out;
+    });
+    t.eq(r.rule, { mode: 'both', at: 10 }, 'the setting is saved');
+    t.eq(r.low, ['Blacksmithing 6'], 'below the unlock level the second profession does not count'); t.eq(r.lowOpen, false);
+    t.eq(r.high, ['Blacksmithing 12', 'Scavenging 12'], 'capped at the first profession\'s level');
+    t.eq(r.off, 1, 'not allowed: only the first counts'); t.eq(r.free, 20, 'free: its own level');
+  } },
 ];

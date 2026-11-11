@@ -627,10 +627,13 @@ function packMats(L, regenDs) {
     var u = {}, n = 0, tot = 0; L.forEach(function (m) { if (m[f] == null || typeof m[f] === 'number') return; tot++; var s = JSON.stringify(m[f]); if (!(s in u)) { u[s] = n++; } });
     if (tot > 200 && n < tot / 4) { T[f] = Object.keys(u).sort(function (a, b) { return u[a] - u[b]; }).map(function (s) { return JSON.parse(s); }); idx[f] = u; }
   });
-  var rows = L.map(function (m) { var o = {};
-    Object.keys(m).forEach(function (f) { var v = m[f]; if (f === 'ds' && m.dsg && regenDs) return; o[f] = idx[f] && v != null && typeof v !== 'number' ? idx[f][JSON.stringify(v)] : v; });
-    return o; });
-  var unpack = '(function(T,R){var art=function(w){return /^[aeiou]/i.test(w)?"an":"a"};R.forEach(function(m){for(var f in T)if(typeof m[f]==="number")m[f]=T[f][m[f]];' +
+  // each row is an array in the order of T.__K (the field names, written once instead of on every row: about a third of
+  // the file); a missing field is null and is left off when unpacked
+  var K = Object.keys(keys);
+  var rows = L.map(function (m) { var o = K.map(function (f) { var v = m[f]; if (v === undefined || (f === 'ds' && m.dsg && regenDs)) return null; return idx[f] && v != null && typeof v !== 'number' ? idx[f][JSON.stringify(v)] : v; });
+    while (o.length && o[o.length - 1] === null) o.pop(); return o; });
+  T.__K = K;
+  var unpack = '(function(T,R){var art=function(w){return /^[aeiou]/i.test(w)?"an":"a"},K=T.__K;delete T.__K;R=R.map(function(a){var m={};for(var i=0;i<a.length;i++)if(a[i]!==null)m[K[i]]=a[i];return m});R.forEach(function(m){for(var f in T)if(typeof m[f]==="number")m[f]=T[f][m[f]];' +
     'if(m.dsg&&m.ds==null){var mon=m.from&&m.from[0],part=mon?m.n.slice(mon.length).trim().toLowerCase():m.n.toLowerCase();' +
     'm.ds="The "+part+" of "+art(mon||"")+" "+(mon||"creature")+", harvested at grade "+m.g+" in the "+m.realm+" Realm."+(m.use?" Crafters use it for "+m.use.charAt(0).toLowerCase()+m.use.slice(1)+".":"")}});return R})';
   return unpack + '(' + JSON.stringify(T) + ',' + JSON.stringify(rows) + ')';

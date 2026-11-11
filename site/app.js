@@ -224,7 +224,18 @@ function dimCardHTML(d,open){const R=REALMS.find(x=>x.n===d.realm)||{},lv=d.real
     ${d.hooks&&d.hooks.length?`<p><b>Adventure hooks.</b></p><ul class="atl-l">${d.hooks.map(h=>`<li>${esc(h)}</li>`).join('')}</ul>`:''}
     ${d.mons&&d.mons.length?`<div class="dim-row"><span>Natives</span><div class="chips">${chips(d.mons,n=>MON_IDX.get(lc(n)))}</div></div>`:''}
     ${d.mats&&d.mats.length?`<div class="dim-row"><span>Materials</span><div class="chips">${chips(d.mats,findMat)}</div></div>`:''}
-    ${d.gear&&d.gear.length?`<div class="dim-row"><span>Made here</span><div class="chips">${chips(d.gear,findBP)}</div></div>`:''}</div></details>`}
+    ${d.gear&&d.gear.length?`<div class="dim-row"><span>Made here</span><div class="chips">${chips(d.gear,findBP)}</div></div>`:''}
+    <div class="dim-act"><button type="button" class="btn" onclick="dimEncounter(${esc(JSON.stringify(d.n))},this)">🎲 Random encounter</button><button type="button" class="btn" onclick="dimFight(${esc(JSON.stringify(d.n))})">⚔ Build a fight here</button><button type="button" class="btn" onclick="dimNpc(${esc(JSON.stringify(d.n))},this)">👤 Someone from here</button></div><div class="dim-out" aria-live="polite"></div></div></details>`}
+// at the table: what the party runs into in a dimension, a balanced fight there, and someone who lives there
+const DIM_SIT=['blocking the only way forward','fighting each other over a kill','guarding a cache of {mat}','ambushing travelers on the way in','hunting something larger, and in no mood to be interrupted','wounded and cornered, and twice as dangerous for it','following the party since they arrived','gathered around a breach where the Law-vein shows through'];
+function dimEncounter(n,btn){const d=dimByName(n);if(!d)return;const out=btn.closest('.dim-b').querySelector('.dim-out'),M=(d.mons||[]).map(x=>MON_IDX.get(lc(x))).filter(Boolean);if(!M.length)return;
+  const R=Math.random,m=M[Math.floor(R()*M.length)],cr=+String(m.cr||'1').split('/').reduce((a,b)=>a/b),k=cr<=5?2+Math.floor(R()*4):cr<=12?1+Math.floor(R()*3):1;
+  const sit=DIM_SIT[Math.floor(R()*DIM_SIT.length)].replace('{mat}',(d.mats||[])[Math.floor(R()*(d.mats||[1]).length)]||'something valuable');
+  out.innerHTML=`<div class="callout" style="margin-top:8px"><b>${k>1?k+' × ':''}${refChip(m)}</b> ${esc(sit)}.${d.dangers?`<div class="note" style="margin:4px 0 0">Here too: ${esc(d.dangers)}</div>`:''}</div>`}
+function dimFight(n){const d=dimByName(n);if(!d)return;const st=store.get('enc',{});Object.assign(st,{realm:d.realm,dim:d.n,list:[],autoroll:1});const L=d.realm==='Inner Realm'?55:d.realm==='Outer Realm'?65:st.level;if(!PARTY.length)st.level=L;store.set('enc',st);closeAll();go('encounter')}
+function dimNpc(n,btn){const d=dimByName(n);if(!d)return;const out=btn.closest('.dim-b').querySelector('.dim-out'),r=makeNPC(rng32((Math.random()*4294967296)>>>0),d.realm);r.dim=d.n;
+  const roles=String(d.life||'').replace(/\.$/,'').split(/,\s*(?:and\s+)?|\s+and\s+/).map(x=>x.trim()).filter(Boolean);if(roles.length)r.trait=(r.trait?r.trait+'; ':'')+'one of '+d.n+'\'s '+roles[Math.floor(Math.random()*roles.length)].replace(/^the /,'');
+  out.innerHTML=npcHTML(r)}
 // open a dimension: its realm's window, with the dimension unfolded and in view
 function openDim(n){const d=dimByName(n),r=d&&REALMS.find(x=>x.n===d.realm);if(!r)return;openItem(r,$('mbg').classList.contains('open'));setTimeout(()=>{const el=[...document.querySelectorAll('#modal .dim-card')].find(x=>x.dataset.dim===n);if(el){el.open=true;el.scrollIntoView({block:'start'})}},60)}
 // where a material is found, for every material: its gathering site, its monster's home, or its realm region
@@ -640,6 +651,7 @@ const VIEWS={
       {id:'r',label:'All rarities',opts:()=>opts(BPS,b=>b.r,(a,b)=>rarRank(a)-rarRank(b)),test:(b,v)=>b.r===v},
       {id:'lv',label:'All levels',opts:()=>[['1-4','Level 1–4'],['5-8','Level 5–8'],['9-12','Level 9–12'],['13-16','Level 13–16'],['17-19','Level 17–19'],['20-99','Level 20+']],test:(b,v)=>{const [lo,hi]=v.split('-').map(Number);return b.lv>=lo&&b.lv<=hi}},
       {id:'realm',label:'Any material realm',opts:()=>opts(BPS,b=>realmOf(b.gr),realmSort),test:(b,v)=>realmOf(b.gr)===v},
+      {id:'dim',label:'Any dimension',opts:()=>opts(BPS,b=>b.dim),test:(b,v)=>b.dim===v},
       {id:'gen',label:'Any general Blueprint',opts:()=>GEN.map(([n])=>[n,n+' ('+fmt((BP_BY_GEN().get(n)||[]).length)+')']).filter(o=>!/\(0\)$/.test(o[1])),test:(b,v)=>genOf(b)===v},
       {id:'mat',label:'',hidden:true,test:(b,v)=>b.mats.some(m=>lc(m)===lc(v)),chip:v=>'Uses '+v},
     ],
@@ -662,6 +674,7 @@ const VIEWS={
       {id:'rar',label:'All rarities',opts:()=>opts(MATS,m=>m.rar,(a,b)=>rarRank(a)-rarRank(b)),test:(m,v)=>m.rar===v},
       {id:'gen',label:'Vault and harvest parts',opts:()=>[['v','Vault materials ('+fmt(MATS.filter(m=>!m.gen).length)+')'],['g','Harvest parts ('+fmt(MATS.filter(m=>m.gen).length)+')']],test:(m,v)=>v==='g'?!!m.gen:!m.gen},
       {id:'org',label:'Any origin',opts:()=>opts(MATS,m=>m.org),test:(m,v)=>m.org===v},
+      {id:'dim',label:'Any dimension',opts:()=>opts(MATS,m=>m.dim||((m.from||[]).map(n=>(MON_IDX.get(lc(n))||{}).dim).find(Boolean))),test:(m,v)=>(m.dim||(m.from||[]).map(n=>(MON_IDX.get(lc(n))||{}).dim).find(Boolean))===v},
       {id:'tr',label:'',hidden:true,test:(m,v)=>!!m.tr&&m.tr.n===v,chip:v=>'Trait: '+v},
     ],
     toggles:[
@@ -681,6 +694,7 @@ const VIEWS={
       {id:'src',label:'All sources',opts:()=>[['hb','Homebrew'],...opts(MONSTERS,m=>m.book).map(([v,l])=>[v,l.replace(v,BOOKS[v]||v)])],test:(m,v)=>v==='hb'?!!m.hb:m.book===v},
       {id:'g',label:'All grades',opts:()=>Array.from({length:10},(_,i)=>[String(i+1),'Grade '+(i+1)]),test:(m,v)=>m.g===+v},
       {id:'myth',label:'Any mythology',opts:()=>opts(MONSTERS,m=>m.myth),test:(m,v)=>m.myth===v},
+      {id:'dim',label:'Any dimension',opts:()=>opts(MONSTERS,m=>m.dim),test:(m,v)=>m.dim===v},
       {id:'gb',label:'All creatures',opts:()=>[['gb','God-beasts only'],['kin','God-beasts and their spawn']],test:(m,v)=>v==='gb'?!!m.gb:!!(m.gb||(m.rel||[]).some(n=>{const x=MON_IDX.get(lc(n));return x&&x.gb}))},
     ],
     toggles:[{id:'pin',label:'★ Pinned',test:m=>isPinned(m)}],
@@ -1436,7 +1450,8 @@ const MODAL={
         +(spellLock(s)?`<div class="callout" style="border-color:var(--red);margin:8px 0">🔒 <b>Needs DM approval.</b> This spell ${esc(spellLock(s))}, so a character can learn or cast it only once the DM approves it for them.</div>`:'')
         +blk('Where it works',`<div class="note" style="margin:0 0 6px">${spellHome(s)?`A Rune spell: learnt only in the <b>${esc(spellHome(s))} Realm</b>, and cast only there.`:'Learnt in any realm the caster\'s stage opens, and cast only in the realm where it was learnt. Learn it again in another realm to use it there.'}</div>${spellScales(s)?`<div class="chips">${spellLearnIn(s).map(rn=>`<span class="chip" style="cursor:default;border-color:${(REALM[rn]||{}).color||'var(--line)'}"><small>${esc(rn)}</small> <b class="mono">${esc(spellAt(spellDmg(s),diceMult(realmPow(rn))))}</b></span>`).join('')}</div>`:''}`,spellScales(s)?'its dice in each realm: the realm\'s magic sets its power':'')
         +(/animate dead|animate remains|create undead|legion of bones|summon undead|unmarked grave/i.test(s.n)?`<div class="callout" style="border-color:var(--gold)">⚰ <b>In FAND, raising the dead follows the necromancy rules:</b> the chance depends on the corpse's level against yours (20% at your level, 2% one above), each point of INT is one summon slot, and each kind of undead keeps its own share of the original and needs its own kind of corpse. <a href="${pageUrl('rules')}" data-go="rules">Necromancy rules →</a></div>`:'')
-        +blk('Classes',(s.cls||[]).length?`<div class="chips">${s.cls.map(c=>`<button class="chip" data-go="spells" data-setup='${esc(JSON.stringify({f:{cls:c}}))}'>${esc(c)}</button>`).join('')}</div>`:'<div class="note" style="margin:0">No classes listed for this spell in the app data.</div>')};
+        +blk('Classes',(s.cls||[]).length?`<div class="chips">${s.cls.map(c=>`<button class="chip" data-go="spells" data-setup='${esc(JSON.stringify({f:{cls:c}}))}'>${esc(c)}</button>`).join('')}</div>`:'<div class="note" style="margin:0">No classes listed for this spell in the app data.</div>')
+        +(typeof SCHOOL_INFO!=='undefined'&&SCHOOL_INFO[s.sc]?blk('School of '+esc(s.sc),`<div class="note" style="margin:0">${esc(SCHOOL_INFO[s.sc][0])} ${esc(SCHOOL_INFO[s.sc][1])} <a href="#" onclick="store.set('magic',Object.assign(store.get('magic',{}),{school:${esc(JSON.stringify(s.sc))},q:''}));closeAll();go('magic');return false">Its tower →</a></div>`):'')};
   },
   sub(s){
     const src=subSource(s),sibs=SUBS.filter(x=>x.par===s.par&&x!==s);
@@ -2007,7 +2022,7 @@ function renderProfessions(){
   const pick=(prof,lv)=>{const c=BPS.filter(b=>b.pr===prof&&b.ds);let best=null;c.forEach(b=>{if(!best||Math.abs(b.lv-lv)<Math.abs(best.lv-lv)||(Math.abs(b.lv-lv)===Math.abs(best.lv-lv)&&b.n<best.n))best=b});return best};
   $('content').innerHTML=`<div class="page">
     <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Professions</h3><p>Ten broad professions. Each old craft lives on as a specialty. You start with one specialty and gain more over time; crafting outside them is at disadvantage.</p></div>
-    <div class="panel" style="margin-bottom:14px"><b style="font-family:var(--serif)">Two professions</b><p class="note" style="margin:4px 0 0">A character can take up a <b>second profession</b> (on the character sheet, under Profession). It starts at level 1 and levels on its own: each profession has its own level, stage, title and bonus (half its level), and the character can craft, harvest or scavenge with either. Specialties can come from both, one to start in each and one free every 5 levels in each.</p></div>
+    <div class="panel" style="margin-bottom:14px"><b style="font-family:var(--serif)">Two professions</b><p class="note" style="margin:4px 0 0">A character can take up a <b>second profession</b> (on the character sheet, under Profession). It starts at level 1 and levels on its own: each profession has its own level, stage, title and bonus (half its level), and the character can craft, harvest or scavenge with either. Specialties can come from both, one to start in each and one free every 5 levels in each. Your table can limit it in <a href="#" onclick="go('settings');return false">Settings → Table rules</a>: unlocked at a level of the first profession, never above the first, or not at all.</p></div>
     <div class="panel" style="margin-bottom:14px"><b style="font-family:var(--serif)">Profession stages</b><p class="note" style="margin:4px 0 8px">Like classes, every profession has a stage every 20 levels (I to V), each opening a band of realms. A crafter can only work materials from realms their stage has reached; harvesting or scavenging parts from a deeper realm is at disadvantage. The profession bonus is half the profession level: <b>+1 every 2 levels</b> (+10 at level 20, +25 at level 50, +50 at level 100). It is added to the profession's crafting rolls, and for <b>Scavenging</b> to both its crafting and its scavenging rolls (Harvesting's also counts when gathering and mining).</p><div class="tablewrap"><table class="t"><thead><tr><th>Stage</th><th>Profession levels</th><th>Materials it can work</th><th class="num">Bonus</th></tr></thead><tbody>${Array.from({length:MAX_STAGE},(_,i)=>i+1).map(k=>`<tr><td>${ROMAN[k-1]}</td><td>${stageStart(k)}–${stageEnd(k)}</td><td>${REALMS.filter(r=>tierStage(r.tier)===k).map(r=>`<span class="b rlm" style="--rc:${r.color}">${esc(r.n)}</span>`).join(' ')}${k>1?' and below':''}</td><td class="num">+${Math.floor(stageStart(k)/2)} to +${Math.floor(stageEnd(k)/2)}</td></tr>`).join('')}</tbody></table></div></div>
     <details class="panel fold" style="margin-bottom:14px"><summary><b style="font-family:var(--serif)">Level by level, 1 to 100</b> <small style="color:var(--muted)">the same for every profession: +1 bonus every 2 levels</small></summary>
       <div class="tablewrap" style="margin-top:8px"><table class="t"><thead><tr><th class="num">Level</th><th class="num">Bonus</th><th>What it brings</th></tr></thead><tbody>${Array.from({length:100},(_,i)=>i+1).map(L=>{const u=[];if(L<=20)u.push(['Basic Recipes','Advanced Components','Rare Crafting','Masterwork Techniques','Legendary Creation'][Math.floor((L-1)/4)]);if(L>1&&(L-1)%20===0)u.push('Stage '+ROMAN[Math.floor((L-1)/20)]+': new title and a trial');if(L>20&&(L-1)%10===0)u.push('a stage feature');if(L%5===0)u.push('free specialty');return `<tr${L%2===0?' style="background:var(--goldbg)"':''}><td class="num">${L}</td><td class="num"><b>+${Math.floor(L/2)}</b></td><td>${u.join(' · ')}</td></tr>`}).join('')}</tbody></table></div>
@@ -2117,6 +2132,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-11-11','Deep-realm fights rebalanced, dimensions at the table, table rules, a faster site, and the schools of magic','A balance check showed that past the Mysterious Realm a party killed any monster, boss or minion, in under a round, while minions hit as hard as bosses. Deep-realm monsters are now built as they would be in the Mysterious Realm and scaled by what characters of the realm\'s levels deal and withstand, so every realm plays like the Mysterious at its own levels: minions fall in a blow and barely scratch, on-level monsters take about two rounds, bosses about three and hit hard. Dimensions are ready for the table: a dimension filter in the Bestiary, Materials and Blueprints, a dimension choice in the encounter builder, and on every dimension a random encounter, a fight built there in one click, and someone who lives there. Settings has Table rules: whether a second profession is free, unlocks at a level of the first, can\'t pass the first, or isn\'t allowed. The site\'s data file is a fifth smaller (rows no longer repeat their field names), so pages load as fast as before the deep realms were added. And every school of magic has a write-up on its Magic Tower page and in each spell\'s window, with who casts it, which focuses favour it and its signature spells.','encounter'],
   ['2026-11-11','Two professions','A character can now hold a second profession, chosen on the character sheet (or in the Party editor) under the first. It starts at level 1 and levels on its own, with its own stage, title and bonus, and its specialties join the list. Crafting, the Forge, the Smelter, scavenging and mining all accept either profession, and the crafter pickers show both.','professions'],
   ['2026-11-11','The deep realms, filled in','Every realm now has a full write-up in its window: what it is, what changes for travelers, its regions, who holds power, its dangers and adventure hooks. The Inner Realm has thirteen dimensions, whole worlds grown around the anchors of the strongest Laws: Aldermere (knights and dragons), Brassholm (a steam-driven empire), Kethra-Vael (an alien world under a violet sun), Gloamhollow (gothic horror), Thalassar (an ocean world), Skyreach (floating islands), the Ashfall Expanse, the Lantern Courts, Rimefast, Arcanopolis, the Verdant Deep, the Iron Front and the Glass Dunes. The Outer Realm has nineteen small, stranger pocket dimensions, from the Inverted Orchard, where things fall up, to Paperfold, the Echo Chamber, the Last Library and the Carnival at the End. Each dimension has its natives, materials and gear, all on the Realms page. 284 new monsters fill the deep realms (every realm past the Mysterious now has at least 50, with plenty at its own levels), 1,175 new Blueprints give every deep realm a full set of weapons, armor, shields and focuses through its levels, 117 new spells give every school high-level magic and the School of Resonance its hundredth spell, and every material now says where it is found.','realms'],
   ['2026-11-10','Class focus materials, safer saving, phones, and the keyboard','Every spellcasting class now has what bards got with Virtuoso: a focus property that adds +1 to +5 (by Potency) to that class\'s spell Accuracy and save DC through its own kinds of focus. Devout for clerics and paladins (Holy Symbol, Amulet), Wildbound for druids and rangers (Totem, Staff), Bloodspark for sorcerers (Crystal, Orb), Pactbound for warlocks (Rod, Scepter), and Arcanist for wizards and artificers (Wand, Tome). Each realm has one material of each, and the Blueprints list has a ready-made focus of each kind in every realm, levels 6 to 96. A plain Holy Symbol now counts as a focus on the sheet too. If the browser\'s storage fills up, FAND now says a change was not saved instead of losing it quietly; portraits are smaller, a portrait that does not fit is not kept, and Settings shows how much space is used. On a phone, the table screen\'s close button no longer slides off the edge and the player view drops its empty left column. With a keyboard, every button and dropdown now shows where you are, Escape closes the ⋯ More menus, and the picture and file buttons can be reached and pressed.','properties'],
@@ -2682,6 +2698,17 @@ const SBGEN=(function(){var module={exports:{}};// Original stat blocks in the M
 
 var XP = { '0': 10, '1/8': 25, '1/4': 50, '1/2': 100, '1': 200, '2': 450, '3': 700, '4': 1100, '5': 1800, '6': 2300, '7': 2900, '8': 3900, '9': 5000, '10': 5900, '11': 7200, '12': 8400, '13': 10000, '14': 11500, '15': 13000, '16': 15000, '17': 18000, '18': 20000, '19': 22000, '20': 25000, '21': 33000, '22': 41000, '23': 50000, '24': 62000, '25': 75000, '26': 90000, '27': 105000, '28': 120000, '29': 135000, '30': 155000 };
 var GRADE_CR = ['1/2', '2', '4', '6', '8', '11', '14', '17', '21', '25'];
+// Deep-realm calibration (2026-11-11), from the balance report: generated characters at each realm's middle level (24 per
+// realm, eight classes). A typical Mysterious character (level 15) deals 38 a round to a monster with AC 15, has AC 8.5 and
+// 119 hit points. hp = how much harder a character of the realm hits (round damage against AC 25 ÷ 38); ac and
+// toughness = that realm's character AC and hit points ÷ 119. The Primordial is set 15% above the Inner Void, as each
+// realm before it rises (its measured damage dipped where generated characters found fewer Blueprints).
+var MYST = { ac: 8.5, hp: 119 };
+var DEEP = {
+  3: { hp: 176 / 38, ac: 9.7, toughness: 208 / 119 }, 4: { hp: 304 / 38, ac: 8.9, toughness: 308 / 119 }, 5: { hp: 413 / 38, ac: 9.5, toughness: 399 / 119 },
+  6: { hp: 593 / 38, ac: 11.6, toughness: 497 / 119 }, 7: { hp: 776 / 38, ac: 12.1, toughness: 587 / 119 }, 8: { hp: 1157 / 38, ac: 12.7, toughness: 695 / 119 },
+  9: { hp: 1460 / 38, ac: 13.6, toughness: 771 / 119 }, 10: { hp: 1679 / 38, ac: 14.3, toughness: 867 / 119 }
+};
 function crNum(c) { if (String(c).indexOf('/') > 0) { var p = String(c).split('/'); return +p[0] / +p[1]; } return +c; }
 function hash(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
 function mod(x) { return Math.floor((x - 10) / 2); }
@@ -2917,7 +2944,12 @@ function statblock(m, body, bestDrop) {
   // Past the Mysterious Realm a monster stands for a higher level (the encounter builder counts each realm tier past the
   // Mysterious as 10 levels): its hit points follow that level (CR + 10 per tier) and its damage CR + 6 per tier, so
   // fights at levels 21-100 last as long as they do at 1-20 (site scaling pass, 2026-11-04).
-  var deep = Math.max(0, (m.tier || 1) - 2), cHP = c + 10 * deep, cD = c + 6 * deep;
+  // (Replaced 2026-11-11, owner's request: the balance report showed parties past the Mysterious Realm killing any
+  // monster, boss or minion, in under a round, while minions hurt as much as bosses. Now a deep-realm monster is built
+  // as it would be in the Mysterious Realm, then scaled by the realm's calibration below, so every realm plays like the
+  // Mysterious at its own levels and challenge rating keeps its spread.)
+  var deepCal = DEEP[m.tier || 1] || null;
+  var deep = 0, cHP = c, cD = c;
   var hp = cHP < 1 ? ({ 0: 4, 0.125: 9, 0.25: 13, 0.5: 22 })[cHP] || 4 : Math.round(15 * cHP + 10);
   var die = sz[1], per = die / 2 + 0.5 + mods[2];
   var hd = Math.max(1, Math.round(hp / Math.max(1, per)));
@@ -2925,8 +2957,15 @@ function statblock(m, body, bestDrop) {
   // Realm scaling (campaign rule: everything scales through the realms). Deeper realms mean tougher, harder-hitting
   // monsters: +15% HP per realm tier past the Human Realm, and a flat bonus on every hit that keeps pace with the AC
   // that gear of that realm gives (+4 per tier), since AC is subtracted from each hit.
-  var tier0 = Math.max(0, (m.tier || 1) - 1), realmHit = 4 * tier0;
+  var tier0 = deepCal ? 1 : Math.max(0, (m.tier || 1) - 1), realmHit = 4 * tier0;
   if (tier0) { hd = Math.max(1, Math.round(hd * (1 + 0.15 * tier0))); hp = Math.max(1, Math.floor(hd * (die / 2 + 0.5)) + hd * mods[2]); }
+  // deep realms: hit points grow with what a party of the realm's levels deals in a round
+  if (deepCal) { hd = Math.max(1, Math.round(hd * deepCal.hp)); hp = Math.max(1, Math.floor(hd * (die / 2 + 0.5)) + hd * mods[2]); }
+  // and a hit's damage past a character's AC grows with characters' hit points there (what got through a Mysterious-
+  // level character's AC now gets through as large a share of a deep character's hit points; a hit that would not get
+  // through still does not); damage that ignores AC (breath, mind blasts) grows with hit points alone
+  var hitScale = function (d) { return !deepCal ? d : d > MYST.ac ? Math.round(deepCal.ac + (d - MYST.ac) * deepCal.toughness) : Math.max(1, Math.round(d * deepCal.ac / MYST.ac)); };
+  var saveScale = function (d) { return deepCal ? Math.max(1, Math.round(d * deepCal.toughness)) : d; };
   // AC scales through the realms as player damage does (deeper-realm materials hit harder): half the CR, natural armor,
   // +1 for each realm tier past the Human Realm, and +1 for every 5 grades within the realm.
   var tierBonus = Math.max(0, (m.tier || 1) - 1), gradeBonus = Math.floor((m.g || 1) / 5);
@@ -2952,21 +2991,22 @@ function statblock(m, body, bestDrop) {
   atks.forEach(function (a, i) {
     if (i > 0 && n === 1 && !a[3] && !kit) return; // a kit lists every attack the creature has, even if it makes one per turn
     var per = Math.max(1, Math.round(dpr / n)), d = a[2], avg = d / 2 + 0.5;
-    var dice = Math.max(1, Math.round((per - pri) / avg)), dmg = Math.max(1, Math.floor(dice * avg) + pri + realmHit);
+    var dice = Math.max(1, Math.round((per - pri) / avg)), dmg = Math.max(1, Math.floor(dice * avg) + pri + realmHit), flat = pri + realmHit;
+    if (deepCal) { var d0 = dmg, d1 = hitScale(d0); dice = Math.max(1, Math.round(dice * d1 / d0)); flat = d1 - Math.floor(dice * avg); if (flat < 0) { dice = Math.max(1, Math.floor(d1 / avg)); flat = d1 - Math.floor(dice * avg); } dmg = d1; }
     var ranged = a[3] === 'ranged', kind = a[1];
-    var txt = (ranged ? 'Ranged Weapon Attack: ' : 'Melee Weapon Attack: ') + 'Accuracy ' + sgn(hit) + ', ' + (ranged ? 'range 60/240 ft.' : 'reach ' + (/Large|Huge|Gargantuan/.test(sz[0]) ? 10 : 5) + ' ft.') + ', one target. Hit: ' + dmg + ' (' + dice + 'd' + d + ((pri + realmHit) ? ' ' + ((pri + realmHit) > 0 ? '+ ' : '− ') + Math.abs(pri + realmHit) : '') + ') ' + kind + ' damage';
-    if (elem && i === 0 && kind !== elem && c >= 2) { var ed = Math.max(1, Math.round(cD / 3)); txt += ' plus ' + Math.floor(ed * 3.5) + ' (' + ed + 'd6) ' + elem + ' damage'; }
+    var txt = (ranged ? 'Ranged Weapon Attack: ' : 'Melee Weapon Attack: ') + 'Accuracy ' + sgn(hit) + ', ' + (ranged ? 'range 60/240 ft.' : 'reach ' + (/Large|Huge|Gargantuan/.test(sz[0]) ? 10 : 5) + ' ft.') + ', one target. Hit: ' + dmg + ' (' + dice + 'd' + d + (flat ? ' ' + (flat > 0 ? '+ ' : '− ') + Math.abs(flat) : '') + ') ' + kind + ' damage';
+    if (elem && i === 0 && kind !== elem && c >= 2) { var ed = Math.max(1, Math.round(cD / 3)); if (deepCal) ed = Math.max(1, Math.round(ed * dmg / Math.max(1, d0))); txt += ' plus ' + Math.floor(ed * 3.5) + ' (' + ed + 'd6) ' + elem + ' damage'; }
     // what else a hit does: a new sentence ("If the target..."), extra damage ("plus..."), or more of this one ("and...")
     if (a[4]) txt += (/^[A-Z]/.test(a[4]) ? '. ' : /^plus /.test(a[4]) ? ' ' : ', ') + fill(a[4]);
     if (!kit && plan.poison && /Sting|Bite/.test(a[0]) && i > 0) txt += ', and the target must make a DC ' + dc + ' Constitution saving throw or be poisoned for 1 minute';
     actions.push([a[0], txt + '.']);
   });
   if (plan.breath && c >= 1) {
-    var bd = Math.max(2, Math.round(cD * 1.2 * (1 + 0.1 * tier0))), bt = elem || 'fire';
+    var bd = saveScale(Math.max(2, Math.round(cD * 1.2 * (1 + 0.1 * tier0)))), bt = elem || 'fire';
     actions.push(['Breath Weapon (Recharge 5–6)', 'The creature exhales ' + bt + ' in a ' + (c >= 17 ? 60 : c >= 10 ? 30 : 15) + '-foot cone. Each creature in that area must make a DC ' + dc + ' Dexterity saving throw, taking ' + Math.floor(bd * 3.5) + ' (' + bd + 'd6) ' + bt + ' damage on a failed save, or half as much on a successful one.']);
   }
   if (kit && kit.acts) kit.acts.forEach(function (x) { actions.push([x[0], fill(x[1])]); });
-  if (plan.mind && c >= 3) actions.push(['Mind Blast (Recharge 5–6)', 'Each creature of the creature\'s choice within 30 feet must succeed on a DC ' + dc + ' Intelligence saving throw or take ' + Math.floor(Math.max(2, Math.round(c)) * 3.5) + ' (' + Math.max(2, Math.round(c)) + 'd6) psychic damage and be stunned until the end of its next turn.']);
+  if (plan.mind && c >= 3) actions.push(['Mind Blast (Recharge 5–6)', 'Each creature of the creature\'s choice within 30 feet must succeed on a DC ' + dc + ' Intelligence saving throw or take ' + Math.floor(saveScale(Math.max(2, Math.round(c))) * 3.5) + ' (' + saveScale(Math.max(2, Math.round(c))) + 'd6) psychic damage and be stunned until the end of its next turn.']);
   // traits
   var traits = (kit ? kit.traits || [] : plan.traits || []).map(function (x) { return [x[0], fill(x[1])]; });
   if (bestDrop && bestDrop.tr) { var st = bestDrop.tr.t, up = /^Armor or a shield with this material gives \+(\d+) AC/.exec(st); if (up) ac += +up[1];
@@ -4259,12 +4299,20 @@ function sheetProfHTML(c,inp){
   const all=specsFor(c);
   const feats=[['prof','profLv'],['prof2','prof2Lv']].flatMap(([pk,lk])=>{const p=c[pk],pl=+c[lk]||0;return p?profStages(p).filter(x=>x.stage<=stageOf(pl)).flatMap(x=>x.features.filter(f=>f[0]<=pl).map(f=>[p,f])):[]});
   return one('prof','profLv','Profession')
-    +(c.prof||c.prof2?one('prof2','prof2Lv','Second profession'):'')
+    +(c.prof||c.prof2?(()=>{const o=prof2Open(c),cap=prof2Cap(c);return o.ok?one('prof2','prof2Lv','Second profession')+(c.prof2&&(+c.prof2Lv||0)>cap?`<div class="note" style="margin:4px 0 0">Counts as level ${cap}: your table caps a second profession at the first's level.</div>`:''):`<div class="note" style="margin:6px 0 0">${esc(o.why)}${c.prof2?' '+esc(c.prof2)+' is kept but doesn\'t count until then.':''}</div>`})():'')
     +(k&&k!=='*'&&k!==c.prof&&k!==c.prof2?`<div class="note" style="margin:4px 0 0">${esc(c.race)}: +${P.prof[k]} to ${esc(k)} rolls, even without the profession.</div>`:'')
     +(all.length?`<div class="chips">${all.map(x=>{const on=(c.specs||[]).includes(x);return `<button class="chip" type="button" onclick="sheetSpec(${esc(JSON.stringify(x))})" style="${on?'border-color:var(--gold);background:var(--goldbg)':''}">${on?'✓ ':''}${esc(x)}</button>`}).join('')}</div><div class="note" style="margin:0">Specialties: tap to mark the ones you hold (one to start, one free every 5 levels in each profession).</div>`:'')
     +(feats.length?`<ul class="sh-ul">${feats.map(([p,f])=>`<li><b>${esc(f[1])}</b> (${profs.length>1?esc(p)+' ':''}Lv ${f[0]}): ${esc(f[2])}</li>`).join('')}</ul>`:'')}
 // a character's professions and their levels (the main one first); a second profession levels on its own
-const profsOf=c=>[c&&c.prof?[c.prof,+c.profLv||0]:null,c&&c.prof2?[c.prof2,+c.prof2Lv||0]:null].filter(Boolean);
+// the table's rule for a second profession (Settings → Table rules): free, unlocked at a level of the first, capped at
+// the first's level, both, or not allowed
+const PROF2_MODES=[['free','Allowed freely'],['gate','Unlocks when the first profession reaches a level'],['cap','Allowed, never above the first profession\'s level'],['both','Unlocks at a level, and never above the first'],['off','Not allowed']];
+const profRule=()=>{const r=store.get('rules',{})||{};return {mode:PROF2_MODES.some(m=>m[0]===r.prof2)?r.prof2:'free',at:Math.max(1,Math.min(100,+r.prof2At||10))}};
+// whether a character may hold a second profession now, and if not, why
+function prof2Open(c){const R=profRule(),l1=+(c&&c.profLv)||0;if(R.mode==='off')return {ok:false,why:'Your table doesn\'t allow a second profession.'};
+  if((R.mode==='gate'||R.mode==='both')&&l1<R.at)return {ok:false,why:'A second profession unlocks when '+(c&&c.prof?c.prof:'the first profession')+' reaches level '+R.at+'.'};return {ok:true}}
+const prof2Cap=c=>{const R=profRule();return R.mode==='cap'||R.mode==='both'?(+c.profLv||0):100};
+const profsOf=c=>[c&&c.prof?[c.prof,+c.profLv||0]:null,c&&c.prof2&&prof2Open(c).ok?[c.prof2,Math.min(+c.prof2Lv||0,prof2Cap(c))]:null].filter(Boolean);
 const hasProfession=(c,p)=>!!p&&profsOf(c).some(x=>lc(x[0])===lc(p));
 const profLvIn=(c,p)=>{const x=profsOf(c).find(y=>lc(y[0])===lc(p||''));return x?x[1]:0};
 // the specialties a character's professions offer; changing a profession keeps only the specialties still offered
@@ -5093,7 +5141,7 @@ function charEditor(c){
       ${f('hp','HP','number')}${f('hpMax','Max HP','number')}
       ${f('acBonus','Other AC (traits, magic)','number')}
       ${f('profLv','Profession level','number','min="0" max="100"')}<label>Profession<select data-k="prof"><option value=""></option>${Object.keys(PROFS).filter(p=>p!==c.prof2).map(p=>`<option${p===c.prof?' selected':''}>${p}</option>`).join('')}</select></label>
-      ${c.prof||c.prof2?`${f('prof2Lv','Second profession level','number','min="0" max="100"')}<label>Second profession<select data-k="prof2"><option value="">None</option>${Object.keys(PROFS).filter(p=>p!==c.prof).map(p=>`<option${p===c.prof2?' selected':''}>${p}</option>`).join('')}</select></label>`:''}
+      ${(c.prof||c.prof2)&&prof2Open(c).ok?`${f('prof2Lv','Second profession level','number','min="0" max="100"')}<label>Second profession<select data-k="prof2"><option value="">None</option>${Object.keys(PROFS).filter(p=>p!==c.prof).map(p=>`<option${p===c.prof2?' selected':''}>${p}</option>`).join('')}</select></label>`:''}
       <label class="full">Specialties<select data-k="specs" multiple size="${Math.min(6,Math.max(2,specsAll.length))}">${specsAll.map(x=>`<option${(c.specs||[]).includes(x)?' selected':''}>${esc(x)}</option>`).join('')}</select></label>
       <label>God contract<select data-k="god"><option value="">None</option>${GODS.map(g=>`<option value="${esc(godKey(g))}"${godKey(g)===c.god?' selected':''}>${esc(godKey(g))} (${esc(g.grp.replace(' Pantheon',''))})</option>`).join('')}</select></label>
       <label>Gained by${ctWayOpts(c.ctHow,'','data-k="ctHow"')}</label>
@@ -5147,10 +5195,11 @@ function renderEncounter(){
   if(!store.get('enc',null))store.set('enc',st);
   $('content').innerHTML=`<div class="page">${datalists()}
     <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Encounter builder</h3><p>Balanced fights from a realm's Bestiary, using the standard XP budget by party level.</p></div>
-    <div class="tool"><div class="form" style="grid-template-columns:repeat(7,1fr)">
+    <div class="tool"><div class="form" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))">
       <label>Party size<input id="en-size" type="number" min="1" max="10" value="${st.size}"></label>
       <label>Average level<input id="en-lv" type="number" min="1" max="100" value="${st.level}"></label>
       <label>Realm<select id="en-realm"><option value="">Any realm</option>${REALMS.map(r=>`<option${r.n===st.realm?' selected':''}>${esc(r.n)}</option>`).join('')}</select></label>
+      <label>Dimension<select id="en-dim"><option value="">Anywhere in the realm</option>${dimsOf(st.realm||'').map(d=>`<option${d.n===st.dim?' selected':''}>${esc(d.n)}</option>`).join('')}</select></label>
       <label>Difficulty<select id="en-diff">${DIFFS.map(d=>`<option${d===st.diff?' selected':''}>${d}</option>`).join('')}</select></label>
       <label class="chk" style="align-self:end"><input type="checkbox" id="en-hb"${st.hb?' checked':''}> Homebrew only</label>
       <label class="chk" style="align-self:end" title="The strongest monster in a built encounter is a champion: a monster with a class"><input type="checkbox" id="en-champ"${st.champ?' checked':''}> ★ Lead with a champion</label>
@@ -5162,10 +5211,12 @@ function renderEncounter(){
       <button class="btn" onclick="sendToCombat()">Send to combat tracker →</button></div><div id="en-spoils" style="margin-top:10px"></div></div>
     <div id="en-out" style="margin-top:14px"></div>
     <details class="fold" id="en-bal" style="margin-top:14px"><summary><b>⚖ Balance report</b> <small style="color:var(--muted)">how characters stack up against each realm's monsters</small></summary><div class="note" style="margin:6px 0">Builds sample characters (a Fighter, a Wizard, a Rogue, a Cleric) in the middle of each realm's levels with the character generator, and runs them against the realm's typical monster with the Party check's arithmetic. Run it again after changing a rule to see what it did.</div><button class="btn" type="button" onclick="balRun()">Run the report</button><div id="en-bal-out" style="margin-top:8px"></div></details></div>`;
-  ['en-size','en-lv','en-realm','en-diff','en-hb','en-champ','en-aim'].forEach(i=>$(i).addEventListener('change',()=>{saveEncInputs();encOut()}));
+  ['en-size','en-lv','en-realm','en-dim','en-diff','en-hb','en-champ','en-aim'].forEach(i=>$(i).addEventListener('change',()=>{saveEncInputs();if(i==='en-realm')renderEncounter();else encOut()}));
   encOut();
+  // arriving from a dimension's "Build a fight here": build it at once
+  if(st.autoroll){delete st.autoroll;store.set('enc',st);rollEncounter()}
 }
-function saveEncInputs(){const st=store.get('enc',{});Object.assign(st,{size:Math.min(10,Math.max(1,Math.round(+$('en-size').value)||4)),level:Math.min(MAX_LEVEL,Math.max(1,+$('en-lv').value||1)),realm:$('en-realm').value,diff:$('en-diff').value,hb:$('en-hb').checked,champ:$('en-champ').checked,aim:$('en-aim')?$('en-aim').checked:true});store.set('enc',st);return st}
+function saveEncInputs(){const st=store.get('enc',{});Object.assign(st,{size:Math.min(10,Math.max(1,Math.round(+$('en-size').value)||4)),level:Math.min(MAX_LEVEL,Math.max(1,+$('en-lv').value||1)),realm:$('en-realm').value,dim:$('en-dim')&&dimsOf($('en-realm').value).some(d=>d.n===$('en-dim').value)?$('en-dim').value:'',diff:$('en-diff').value,hb:$('en-hb').checked,champ:$('en-champ').checked,aim:$('en-aim')?$('en-aim').checked:true});store.set('enc',st);return st}
 const monXP=m=>m.sb?m.sb.xp:0;
 // Deeper realms' monsters already scale their AC, HP, and damage by realm tier, and characters scale by stage, so the
 // budget is realm-relative: each realm tier past the Mysterious takes 10 levels off the party's level (a level-95 party in
@@ -5185,7 +5236,9 @@ function encPick(pool,size,budget,R){let best=null,bestScore=1e18;
   return best}
 function rollEncounter(){
   const st=saveEncInputs(),want=DIFFS.indexOf(st.diff),budget=encBudget(st)[want];
-  const build=b=>{const pool=MONSTERS.filter(m=>(!st.realm||m.realm===st.realm)&&(!st.hb||m.hb)&&monXP(m)>0&&monXP(m)<=b);if(!pool.length)return [];
+  const build=b=>{const base=m=>(!st.realm||m.realm===st.realm)&&(!st.hb||m.hb)&&monXP(m)>0&&monXP(m)<=b;
+    // in a dimension: its natives, and the realm's monsters that belong to no dimension only when no native fits
+    let pool=MONSTERS.filter(m=>base(m)&&(!st.dim||m.dim===st.dim));if(st.dim&&!pool.length)pool=MONSTERS.filter(m=>base(m)&&!m.dim);if(!pool.length)return [];
     let best=encPick(pool,st.size,b,Math.random);
     // a champion leads: the strongest monster gains a class, then the weakest drop out until the fight fits the budget again
     if(st.champ&&best.length){const lead=best.reduce((a,m)=>monXP(m)>monXP(a)?m:a,best[0]);best[best.indexOf(lead)]=champRandom(lead);
@@ -5377,11 +5430,11 @@ function makeNPC(R,realm){
   return {cls,sub,k,abil,clsName:si.name,subName:sub?subStageName(sub.n,k):'',look,voice,secret,level,name:pk(NPC_FIRST)+' '+pk(NPC_LAST),realm:r,g,rank,ct,prof,trait:pk(NPC_TRAITS),want:g&&g.wants?`Serves ${godKey(g)}'s will: ${g.wants.charAt(0).toLowerCase()+g.wants.slice(1).replace(/\.$/,'')}.`:pk(['Wants to clear a family debt.','Wants passage to a higher realm.','Wants revenge on a contractor of a rival god.','Wants a rare material nobody will sell them.','Wants to be left alone.']),carry,purse:Math.round((5+R()*40)*realmBase(r.n)/5)};
 }
 const NPC_SHOWN=[];
-function npcText(n){return `${n.name}, level ${n.level} ${n.clsName}${n.subName?' ('+n.subName+')':''}, ${n.prof}, from the ${/Realm$/.test(n.realm.n)?n.realm.n:n.realm.n+' Realm'}.${n.abil.length?' Abilities: '+n.abil.map(a=>a[0]+' ('+a[1]+')').join('; ')+'.':''} Looks: ${n.look}, ${NPC_MARK[n.realm.n]||'marked by their realm'}. Voice: ${n.voice}. ${n.g?`${n.rank} contract with ${godKey(n.g)}.`:'No god holds a contract with them.'} ${n.want} They ${n.trait}. Secret: ${n.secret}.`}
+function npcText(n){return `${n.name}, level ${n.level} ${n.clsName}${n.subName?' ('+n.subName+')':''}, ${n.prof}, from ${n.dim?n.dim+' in ':''}the ${/Realm$/.test(n.realm.n)?n.realm.n:n.realm.n+' Realm'}.${n.abil.length?' Abilities: '+n.abil.map(a=>a[0]+' ('+a[1]+')').join('; ')+'.':''} Looks: ${n.look}, ${NPC_MARK[n.realm.n]||'marked by their realm'}. Voice: ${n.voice}. ${n.g?`${n.rank} contract with ${godKey(n.g)}.`:'No god holds a contract with them.'} ${n.want} They ${n.trait}. Secret: ${n.secret}.`}
 function npcSave(i){const n=NPC_SHOWN[i];if(!n)return;const J=store.get('journal',[]);J.push({t:'NPC: '+n.name,d:new Date().toISOString().slice(0,10),body:npcText(n)});store.set('journal',J);toast(n.name+' saved to the Journal')}
 function npcHTML(n){
   const i=NPC_SHOWN.push(n)-1;
-  return `<div class="callout" style="border-color:var(--acc)"><div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b style="font-family:var(--serif);font-size:1.1rem">${esc(n.name)}</b><span class="note" style="margin:0">Level ${n.level} ${esc(n.clsName)}${n.subName?' ('+esc(n.subName)+')':''} · ${esc(n.prof)} · from the ${esc(/Realm$/.test(n.realm.n)?n.realm.n:n.realm.n+' Realm')}</span><button class="btn" style="margin-left:auto;padding:3px 10px;font-size:.8rem" onclick="npcSave(${i})">Save to Journal</button><button class="btn" style="padding:3px 10px;font-size:.8rem" onclick="npcKeep(${i})" title="Keep them in your NPC roster">Keep in NPCs</button></div>
+  return `<div class="callout" style="border-color:var(--acc)"><div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b style="font-family:var(--serif);font-size:1.1rem">${esc(n.name)}</b><span class="note" style="margin:0">Level ${n.level} ${esc(n.clsName)}${n.subName?' ('+esc(n.subName)+')':''} · ${esc(n.prof)} · from ${n.dim?esc(n.dim)+' in ':''}the ${esc(/Realm$/.test(n.realm.n)?n.realm.n:n.realm.n+' Realm')}</span><button class="btn" style="margin-left:auto;padding:3px 10px;font-size:.8rem" onclick="npcSave(${i})">Save to Journal</button><button class="btn" style="padding:3px 10px;font-size:.8rem" onclick="npcKeep(${i})" title="Keep them in your NPC roster">Keep in NPCs</button></div>
     <div style="line-height:1.6;margin-top:4px"><b>Looks:</b> ${esc(n.look)}; ${esc(NPC_MARK[n.realm.n]||'marked by their realm')}. <b>Voice:</b> ${esc(n.voice)}.</div>
     <div style="line-height:1.6;margin-top:4px">${n.g?`Holds a <b>${esc(n.rank)}</b> contract with ${refChip(n.g,esc(godKey(n.g)))}: ${esc(n.ct.power.charAt(0).toLowerCase()+n.ct.power.slice(1))}.`:'No god holds a contract with them.'} ${esc(n.want)} They ${esc(n.trait)}.
     ${n.abil.length||n.sub?`<details style="margin-top:4px"><summary class="note" style="margin:0;cursor:pointer">Class abilities</summary><div style="margin-top:4px;display:flex;flex-direction:column;gap:4px">${n.abil.length?n.abil.map(([a,t,from])=>`<div><b>${esc(a)}</b> <small style="color:var(--muted)">${esc(from)}</small>: ${esc(t)}</div>`).join(''):`<div><b>${esc(n.sub.n)}</b>: ${esc(String(n.sub.ds||'').replace(/\s*\([^()]*\)\s*$/,''))}</div>`}</div></details>`:''}
@@ -5398,7 +5451,7 @@ const npcSave2=()=>store.set('npcs',NPCS);
 function npcPic(n,cls){const b=n.pic&&n.pic.b?n.pic.b:typeof ART!=='undefined'&&ART.npc?ART.icons[ART.npc[n.role]!=null?ART.npc[n.role]:ART.npc.Other]:'';if(!b)return '';
   const f=n.fac&&standInfo(n.fac),tint=n.realm&&n.realm!=='Human'&&REALM[n.realm]?rcol(n.realm):n.att<0?'#e2513f':n.att>0?'#5fd08a':'#d8c7a4';
   return `<span class="art ${cls||''}" style="--ac:${tint}" aria-hidden="true"><svg viewBox="0 0 512 512" focusable="false">${b}</svg></span>`}
-function npcFromRandom(r){return {id:uid(),name:r.name,role:'Other',title:'Works in '+lc(r.prof),fac:r.g?'god:'+godKey(r.g):'',realm:r.realm.n,att:0,looks:r.look+'; '+(NPC_MARK[r.realm.n]||'marked by their realm'),voice:r.voice,wants:r.want,secret:r.secret.charAt(0).toUpperCase()+r.secret.slice(1)+'.',
+function npcFromRandom(r){return {id:uid(),name:r.name,role:'Other',home:r.dim||'',title:'Works in '+lc(r.prof),fac:r.g?'god:'+godKey(r.g):'',realm:r.realm.n,att:0,looks:r.look+'; '+(NPC_MARK[r.realm.n]||'marked by their realm'),voice:r.voice,wants:r.want,secret:r.secret.charAt(0).toUpperCase()+r.secret.slice(1)+'.',
   notes:`Level ${r.level} ${r.clsName}${r.subName?' ('+r.subName+')':''}. They ${r.trait}.${r.g?' '+r.rank+' contract with '+godKey(r.g)+'.':''}`,d:new Date().toISOString().slice(0,10)}}
 function npcRandom(){const n=npcFromRandom(makeNPC(rng32((Math.random()*4294967296)>>>0)));NPCS.unshift(n);npcSave2();NPC_EDIT=n.id;renderNpcs();toast(n.name+' added: change anything, then Save')}
 // from the Hooks page's random NPCs
@@ -6134,6 +6187,38 @@ function renderClasses(){
 // can buy depends on rank: Visitors cantrips to 3rd level, Members to 6th (10% off), Archmages 7th to 9th (25% off).
 // Primary spells, tied to a Rune, are never sold. Prices grow with the spell's level and its realm (Void-grade spells
 // cost Favor, like Void goods). Website proposals: the realms, ranks, and prices.
+// The schools of magic, written for the site (2026-11-11): what each school is and how it plays. Who casts it, which
+// focuses favour it, and its signature spells are read from the data, so they stay true as spells are added.
+const SCHOOL_INFO={
+  'Abjuration':['Magic that keeps things out: wards, shields, counterspells and banishments.','Plays defensively. An abjurer decides what gets through, protects the party from the worst hit of the fight and shuts down enemy casters.'],
+  'Blood Magic':['Power paid for in blood, yours or someone else\'s.','Hits hard and heals itself, but most spells cost hit points. Strongest when the caster is willing to bleed.'],
+  'Celestial':['The light of Heaven and the gods who rule from it.','Radiant damage, holy wards and blessings. Devastating against fiends and undead, generous to allies.'],
+  'Chronomancy':['Time bent, slowed, rewound and stolen.','Control rather than damage: extra turns, lost turns, undone mistakes. A chronomancer wins by changing when things happen.'],
+  'Conjuration':['Calling things from elsewhere: creatures, objects, and the caster themselves.','Summons, teleports and walls. Fills the battlefield with allies and obstacles and moves the party where it needs to be.'],
+  'Divination':['Knowing what should not be known.','Few damage spells, but it sees ambushes coming, finds what is hidden and lets the party choose its fights.'],
+  'Elemental':['Fire, water, earth and air, raw and loud.','Big areas and big numbers. The elementalist\'s choice of element is its answer to every resistance.'],
+  'Enchantment':['Minds bent to the caster\'s will.','Charms, commands and sleep. Ends fights without killing anyone, and opens doors no key could.'],
+  'Evocation':['Energy shaped into force, fire and lightning.','The classic blaster: the most direct damage in any school, aimed precisely so allies are spared.'],
+  'Healing':['Life restored, wounds closed, death delayed.','Keeps the party standing. Its high-level spells bring back the dead and end every affliction.'],
+  'Illusion':['What the senses report is a lie.','Deception, invisibility and phantoms. Clever play is rewarded; brute force is not its way.'],
+  'Infernal':['The fire and contracts of Hell.','Hellfire that ignores resistance, bargains with real power, and devils that answer the call, at a price.'],
+  'Nature Magic':['The wild world, its growth and its beasts.','Terrain, plants and animals. Turns the battlefield itself against the enemy and keeps the party fed and hidden.'],
+  'Necromancy':['Death, undeath and the life force between.','Drains life, raises servants and curses. Strong and sinister, and rarely welcome in polite company.'],
+  'Psionics':['The power of the mind alone.','Psychic damage, telepathy and mental control, cast with almost no outward sign.'],
+  'Resonance':['The Bard\'s own school: magic sung into being through a personal chant.','Subtle and flexible. It registers as no school to Detect Magic and trades raw power for stacking, lingering effects; silence is its weakness.'],
+  'Runic Magic':['Power written down: runes, glyphs and seals.','Prepared magic that waits to trigger. Traps, seals and inscriptions that outlast the caster.'],
+  'Shadow Magic':['Darkness given purpose.','Stealth, fear and movement through shadow. Strikes from where no one is looking.'],
+  'Transmutation':['Changing what things are.','Shapes, sizes and substances altered. The most versatile school: a solution to almost any problem, if you know the right spell.'],
+  'Void Magic':['Absence, force and the pull of nothing.','Force damage, gravity and erasure. Ignores most defenses and removes things from the world entirely at its peak.'],
+  'Wild Magic':['Chaos that refuses to be controlled.','Unpredictable and powerful. Every casting can surge, for better or worse; its masters learn to ride the luck.']};
+function schoolInfoHTML(sc){const I=SCHOOL_INFO[sc];if(!I)return '';const S=SP.filter(x=>x.sc===sc);
+  const cls=Object.keys(CLASS_SCHOOLS).filter(k=>CLASS_SCHOOLS[k].includes(sc)),foc=Object.keys(FOCUS_BUFF).filter(k=>FOCUS_BUFF[k].sch.includes(sc));
+  const lv=[0,1,2,3,4,5,6,7,8,9].map(l=>S.filter(x=>x.lv===l).length);
+  // signature spells: at cantrip, 3rd, 5th, 7th and 9th level, the one that rolls the most dice (or the first by name)
+  const sig=[0,3,5,7,9].map(l=>{const L=S.filter(x=>x.lv===l);if(!L.length)return null;const dice=x=>{const m=/(\d+)d(\d+)/.exec(x.dmg||'');return m?(+m[1])*(+m[2]+1)/2:0};return L.slice().sort((a,b)=>dice(b)-dice(a)||a.n.localeCompare(b.n))[0]}).filter(Boolean);
+  return `<div class="school-info"><p><b>${esc(I[0])}</b> ${esc(I[1])}</p>
+    <div class="kvg" style="margin:6px 0"><div><span>Spells</span><b>${fmt(S.length)}</b></div><div><span>By level</span><b class="mono" style="font-size:.78rem">${lv.join(' · ')}</b></div>${cls.length?`<div><span>Cast by</span><b>${esc(cls.join(', '))}</b></div>`:''}${foc.length?`<div><span>Favoured by</span><b>${esc(foc.join(', '))}</b></div>`:''}</div>
+    ${sig.length?`<div class="chips"><span class="note" style="margin:0 4px 0 0">Signature spells</span>${sig.map(x=>refChip(x,esc(x.n),x.lv?ORDN(x.lv):'cantrip')).join('')}</div>`:''}</div>`}
 const MAGIC_TOWERS={
   'Abjuration':['The Bastion of Wards','Heaven','A white tower ringed by seven floating walls of light, each one a ward its students must learn to raise before they may pass it.'],
   'Blood Magic':['The Crimson Conservatory','Hell','A red stone tower whose mortar is mixed with the blood of every teacher it has had. Lessons are paid for in coin, and practised in something warmer.'],
@@ -6270,7 +6355,7 @@ function renderMagic(){
     <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem;white-space:nowrap">Magic Towers</h3><p>Every school of magic is kept by its own Magic Tower, where its spells are taught and sold. Learn a spell for good, or buy a one-use scroll for a fifth of the price. What you can buy depends on your rank in the tower; Primary spells, bound to a Rune, are never sold.</p></div>
     <div class="chips" style="margin-bottom:12px">${schools.map(sc=>`<button class="chip${sc===school?' on':''}" data-mts="${esc(sc)}" style="${sc===school?'background:var(--goldbg);border-color:var(--gold)':''}">${esc((MAGIC_TOWERS[sc]||[sc])[0])} <small>${esc(sc)}</small></button>`).join('')}</div>
     <div class="panel" style="border-top:3px solid ${(REALM[trealm]||{}).color||'var(--gold)'}"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="margin:0;font-size:1.3rem;font-family:var(--serif)">${esc(tname)}</h4><span class="note" style="margin:0">${esc(school)} · ${REALM[trealm]?refChip(REALM[trealm],esc(realmLabel(trealm))):esc(trealm)} · ${list.length} spells</span></div>
-      <p style="font-style:italic;color:var(--text2);margin:6px 0">${esc(tdesc)}</p>${standTowerHTML(school)}
+      <p style="font-style:italic;color:var(--text2);margin:6px 0">${esc(tdesc)}</p>${schoolInfoHTML(school)}${standTowerHTML(school)}
       <div class="callout" style="border-color:var(--acc);margin:8px 0">🎴 <b>Getting here.</b> Find the tower in the ${esc(trealm)} Realm, or teleport with <b>its Tower Card</b>. A card takes you here once per long rest; you have <b>one hour</b> at the tower, then you are sent back to where you used it. To get a card, come here and <b>pay one spell slot</b>, or ride along on someone else's card and buy your own while you are here.${(()=>{const pool=PARTY.filter(c=>!(c.towerCards||[]).some(x=>x.t===school)),held=PARTY.filter(c=>(c.towerCards||[]).some(x=>x.t===school));if(!PARTY.length)return '<div class="note" style="margin:6px 0 0">Add characters on the Party page to hand out this tower\'s card.</div>';
       return `<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center">${pool.length?`<select class="sel" id="tc-who" style="max-width:200px">${pool.map(c=>`<option value="${c.id}"${who&&c.id===who.id?' selected':''}>${esc(c.name||'Unnamed')}${CASTER[c.cls]?'':' (not a caster)'}</option>`).join('')}</select>
         <button class="btn" type="button" onclick="towerCardTake($('tc-who').value,${esc(JSON.stringify(school))})" title="At the tower: pay one spell slot">🎴 Take it (spends a spell slot)</button>
@@ -8667,6 +8752,7 @@ function renderSettings(){const k=getKey(),u=CL.user,dark=document.documentEleme
         <div id="setGroqMsg" class="okline">${groqKey()?'A Groq key is saved.':''}</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 10px"><button class="btn primary" type="button" id="setGroqSave">Save Groq key</button><button class="btn" type="button" id="setGroqRemove" ${groqKey()?'':'disabled'}>Remove</button></div>
         <div class="note">Like the Anthropic key, it is stored only in this browser (never in your account or backups) and is sent only to Groq's API (api.groq.com). Usage is billed to your Groq account. Get a key at <a href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com</a>.</div>`)}
+      ${setSec('rules','Table rules','Choices your table makes about FAND\'s rules. They are saved with your other settings.',(()=>{const R=profRule();return `<div class="set-row"><span>Second profession<small>Whether a character can take up a second profession, and when</small></span><select class="sel" id="setProf2" aria-label="Second profession rule">${PROF2_MODES.map(([k,l])=>`<option value="${k}"${k===R.mode?' selected':''}>${esc(l)}</option>`).join('')}</select></div>${R.mode==='gate'||R.mode==='both'?`<div class="set-row"><span>Unlocks at first-profession level</span><input class="sel" id="setProf2At" type="number" min="1" max="100" value="${R.at}" style="width:90px" aria-label="Level the first profession needs"></div>`:''}`})())}
       ${setSec('data','Saved data','Everything FAND saves lives in this browser'+(u?' and in your account.':'. Sign in to keep it in an account too.'),`
         <div class="set-row"><span>Back up everything<small>A file with your characters, journal, plans, designs, dice, and settings</small></span><button class="btn" type="button" onclick="setExport()">Download backup</button></div>
         <div class="set-row"><span>Restore a backup<small>Replaces the same data on this device${u?' and in your account':''}</small></span><label class="btn" style="cursor:pointer">Choose file<input type="file" accept=".json,application/json" hidden onchange="setImport(this)"></label></div>
@@ -8678,6 +8764,8 @@ function renderSettings(){const k=getKey(),u=CL.user,dark=document.documentEleme
         <div class="okline" id="updMsg" style="min-height:0"></div>
         <div class="note">${SITE?'FAND keeps a copy of itself for offline play and loads the newest version whenever you\'re online. A new version can take up to 10 minutes to reach everyone after it is published; if a change still doesn\'t show, use Check for updates.':'This is the single-file version (FAND.html): download it again from the website for the newest version.'}</div>`)}
     </div></div></div>`;
+  if($('setProf2'))$('setProf2').onchange=()=>{const r=store.get('rules',{})||{};r.prof2=$('setProf2').value;store.set('rules',r);toast('Second-profession rule saved');renderSettings()};
+  if($('setProf2At'))$('setProf2At').onchange=()=>{const r=store.get('rules',{})||{};r.prof2At=Math.max(1,Math.min(100,Math.round(+$('setProf2At').value)||10));store.set('rules',r);toast('Saved')};
   if($('setShow')){$('setShow').onclick=()=>{const i=$('setKey');i.type=i.type==='password'?'text':'password';$('setShow').textContent=i.type==='password'?'Show':'Hide'};
     $('setSave').onclick=()=>{const v=$('setKey').value.trim();if(v&&!/^sk-ant-/.test(v)){$('setMsg').style.color='var(--red)';$('setMsg').textContent='That doesn\'t look like an Anthropic API key (they start with sk-ant-).';return}saveKey(v,$('setRemember').checked);toast(v?'API key saved':'API key removed');renderAI();renderSettings()};
     $('setKey').onkeydown=e=>{if(e.key==='Enter')$('setSave').click()};
