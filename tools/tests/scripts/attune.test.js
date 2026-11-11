@@ -1,0 +1,22 @@
+const {chromium}=require('../pw.js');const path=require('path');
+(async()=>{const b=await chromium.launch();let bad=0;const ok=(c,m)=>{console.log((c?'  ok   ':'  FAIL ')+m);if(!c)bad++};const p=await b.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.goto('file://'+path.resolve(process.argv[2],'sheet.html'));await p.waitForTimeout(1500);
+const r=await p.evaluate(async()=>{for(let i=0;i<60&&!SP.length;i++)await new Promise(r=>setTimeout(r,100));
+ const plain=SP.filter(s=>s.lv===1&&!spellHome(s)).slice(0,8).map(s=>s.n),rune=SP.find(s=>s.lv===1&&spellHome(s)&&spellHome(s)!=='Hell');
+ const c={id:'w',name:'Mira',cls:'Wizard',level:21,abil:{int:20},here:'Hell',spells:{0:[],1:plain.concat(rune?[rune.n]:[])},spBound:Object.fromEntries(plain.map(n=>[n.toLowerCase(),'Human']))};
+ PARTY=[c];SHEET_ID='w';SHEET_TAB='spells';saveParty();renderSheet();await new Promise(r=>setTimeout(r,200));
+ const t=()=>document.getElementById('content').innerText,btns=()=>document.querySelectorAll('button[onclick^="sheetRebind"]').length;
+ const before={attuneBtn:/Attune to the Hell/.test(t()),rebinds:btns()};
+ sheetAttune();await new Promise(r=>setTimeout(r,100));const A=PARTY[0].attuned.Hell.pts,after={line:/Attuned[\s\S]{0,30}to the Hell/.test(t()),rebinds:btns()};
+ for(let k=0;k<20;k++){const b=document.querySelector('button[onclick^="sheetRebind"]');if(!b)break;b.click();await new Promise(r=>setTimeout(r,30))}
+ const C=PARTY[0],moved=Object.values(C.spBound).filter(v=>v==='Hell').length,left=C.attuned.Hell.pts;
+ charRest(C,'long');const afterRest=C.attuned.Hell.pts;for(let k=0;k<30;k++)charRest(C,'long');const cap=C.attuned.Hell.pts;
+ const runeStill=rune?((C.spBound||{})[rune.n.toLowerCase()]||spellHome(rune)):'none';
+ return {pb:profBonus(21),before,A,after,moved,left,afterRest,cap,rune:rune&&rune.n,runeHome:rune&&spellHome(rune),runeStill}});
+console.log(JSON.stringify(r));
+ok(r.before.attuneBtn&&r.before.rebinds===0,'in a new realm: an Attune button, no rebinds yet');
+ok(r.A===r.pb&&r.after.line&&r.after.rebinds>0,'attuning gives proficiency-bonus rebinds ('+r.A+')');
+ok(r.moved===r.pb&&r.left===0,'rebinding moves exactly that many spells to Hell, then stops');
+ok(r.afterRest===1&&r.cap===2*r.pb,'each long rest adds one, banked up to twice the bonus');
+ok(!r.rune||r.runeStill===r.runeHome,'a Rune spell is never rebound');
+ok(!errs.length,'no errors '+errs.join(';'));console.log(bad?bad+' FAILED':'ALL PASSED');await b.close()})();

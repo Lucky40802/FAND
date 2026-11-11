@@ -4,6 +4,7 @@
 //   node tools/tests/run.js            run everything (about 4 minutes; the page sweep is most of it)
 //   node tools/tests/run.js focus ui   run only the spec files or tests whose name contains one of the words
 //   node tools/tests/run.js --quick    skip the slow whole-site sweep
+//   node tools/tests/run.js scripts    only the stand-alone scripts in tools/tests/scripts/ (about 12 minutes)
 //
 // Build first (cd tools && node generators/buildapp.js go): the tests drive the built site/ folder in a real
 // Chromium through Playwright. Each test gets a fresh browser context, so nothing in localStorage carries over,

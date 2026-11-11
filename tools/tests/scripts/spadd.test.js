@@ -1,0 +1,21 @@
+const { chromium } = require('../pw.js');
+const http=require('http'),fs=require('fs'),path=require('path');const ROOT=process.argv[2];
+const srv=http.createServer((q,r)=>{let f=path.join(ROOT,decodeURIComponent(q.url.split('?')[0]));if(f.endsWith('/'))f+='index.html';fs.readFile(f,(e,d)=>{if(e){r.writeHead(404);r.end();return}r.writeHead(200,{'content-type':f.endsWith('.js')?'text/javascript':'text/html'});r.end(d)})});
+let fails=0;const ok=(c,m)=>{console.log((c?'  ok   ':'  FAIL ')+m);if(!c)fails++};
+(async()=>{await new Promise(r=>srv.listen(8794,r));const b=await chromium.launch();
+ for(const vw of [{width:1200,height:850},{width:390,height:844}]){const p=await b.newPage({viewport:vw});p.on('pageerror',e=>{fails++;console.log('PAGEERROR',e.message)});await p.route('https://vppvpmwjqcgixtfxpukh.supabase.co/**',r=>r.abort());console.log('-- '+vw.width);
+ await p.goto('http://127.0.0.1:8794/spells.html');await p.waitForFunction(()=>typeof SP!=='undefined'&&SP.length>2000&&typeof PARTY!=='undefined');
+ await p.evaluate(()=>{openItem(SP.find(s=>s.n==='Emergency First-Aid'))});await p.waitForSelector('#modal .qa');
+ ok(await p.isVisible('#modal .qa button:has-text("Make a character")'),'with no party, the window offers to make a character');
+ await p.evaluate(()=>{hideModal();PARTY.push({id:'s1',name:'Ana',level:3,cls:'Cleric',gear:[],inv:[],abil:{}},{id:'s2',name:'Bo',level:3,cls:'Wizard',gear:[],inv:[],abil:{}});saveParty();openItem(SP.find(s=>s.n==='Emergency First-Aid'))});
+ await p.waitForSelector('#qa-sp-to');await p.selectOption('#qa-sp-to','s2');await p.click('#modal .qa button:has-text("Add to spells")');
+ const c=await p.evaluate(()=>PARTY.find(x=>x.id==='s2'));ok((c.spells||{})[0]&&c.spells[0].includes('Emergency First-Aid')&&c.spBound['emergency first-aid'],'Add to spells puts the cantrip on Bo\'s sheet with its realm '+JSON.stringify(c.spells));
+ await p.click('#modal .qa button:has-text("Add to spells")');ok(await p.evaluate(()=>PARTY.find(x=>x.id==='s2').spells[0].length===1),'adding it twice does not duplicate it');
+ await p.evaluate(()=>{hideModal();openItem(SP.find(s=>s.lv===3))});await p.waitForSelector('#qa-sp-to');await p.selectOption('#qa-sp-to','s2');await p.click('#modal .qa button:has-text("Add to spells")');
+ ok(await p.evaluate(()=>(PARTY.find(x=>x.id==='s2').spells[3]||[]).length===1),'a 3rd-level spell goes under level 3');
+ if(vw.width===390)await p.screenshot({path:process.env.S+'/spadd-390.png'});
+ await p.click('#toast button');await p.waitForURL(/sheet/);await p.waitForFunction(()=>typeof SHEET_ID!=='undefined'&&document.querySelector('.sheet'));
+ ok(await p.evaluate(()=>SHEET_ID==='s2'&&SHEET_TAB==='spells'),'Open sheet lands on Bo\'s spell page');
+ ok(/Emergency First-Aid/.test(await p.evaluate(()=>document.querySelector('.sheet').textContent)),'the spell shows on the sheet');
+ await p.evaluate(()=>localStorage.clear());await p.close()}
+ console.log(fails?fails+' FAILED':'ALL PASSED');await b.close();srv.close();process.exit(fails?1:0)})();

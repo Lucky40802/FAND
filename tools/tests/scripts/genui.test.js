@@ -1,0 +1,14 @@
+const {chromium}=require('../pw.js');const path=require('path');
+(async()=>{const b=await chromium.launch();const p=await b.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.goto('file://'+path.resolve(process.argv[2],'chargen.html'));await p.waitForSelector('.gen-go');
+let bad=0;const ok=(c,m)=>{console.log((c?'  ok   ':'  FAIL ')+m);if(!c)bad++};
+await p.click('.gen-lv .chip:has-text("10")');ok(await p.inputValue('#gen-level')==='10','level chip sets 10');
+await p.click('.gen-go');await p.waitForSelector('#gen-card');const n1=await p.textContent('.gen-name');
+ok(/Level 10/.test(await p.textContent('.gen-kicker')),'card at level 10');
+ok(await p.locator('.gen-ab .key').count()===2,'two key abilities');
+await p.click('.gen-go');await p.waitForSelector('.gen-hist');ok((await p.textContent('.gen-hist')).includes(n1),'earlier roll listed');
+await p.click('.gen-hist .chip');ok(await p.textContent('.gen-name')===n1,'earlier roll restored');
+await p.selectOption('#gen-cls','Wizard');await p.click('button:has-text("Reset choices")');ok(await p.inputValue('#gen-cls')===''&&await p.inputValue('#gen-level')==='1','reset clears choices');
+await p.setViewportSize({width:375,height:800});await p.click('.gen-go');await p.waitForSelector('#gen-card');
+ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'phone: no sideways scroll');
+ok(!errs.length,'no errors '+errs.join(';'));console.log(bad?bad+' FAILED':'ALL PASSED');await b.close()})();

@@ -1,0 +1,17 @@
+const { chromium } = require('../pw.js');
+const http=require('http'),fs=require('fs'),path=require('path');const ROOT=process.argv[2];
+const srv=http.createServer((q,r)=>{let f=path.join(ROOT,decodeURIComponent(q.url.split('?')[0]));if(f.endsWith('/'))f+='index.html';fs.readFile(f,(e,d)=>{if(e){r.writeHead(404);r.end();return}r.writeHead(200,{'content-type':f.endsWith('.js')?'text/javascript':'text/html'});r.end(d)})});
+let fails=0;const ok=(c,m)=>{console.log((c?'  ok   ':'  FAIL ')+m);if(!c)fails++};
+(async()=>{await new Promise(r=>srv.listen(8796,r));const b=await chromium.launch();const p=await b.newPage({viewport:{width:1300,height:900}});p.on('pageerror',e=>{fails++;console.log('PAGEERROR',e.message)});await p.route('https://vppvpmwjqcgixtfxpukh.supabase.co/**',r=>r.abort());
+ await p.goto('http://127.0.0.1:8796/sheet.html');await p.waitForFunction(()=>typeof PARTY!=='undefined');
+ await p.evaluate(()=>{PARTY.push({id:'s1',name:'Rhea',cls:'Fighter',level:3,hp:20,hpMax:24,tempHp:3,abil:{str:16,dex:12},skillB:{stealth:4},gear:[],inv:[]});saveParty();SHEET_ID='s1';SHEET_TAB='core';store.set('dicesound',false);renderSheet()});
+ await p.waitForSelector('.sh-roll');ok((await p.$$('.sh-roll')).length>20,'bonuses are roll buttons ('+(await p.$$('.sh-roll')).length+')');
+ await p.click('.sh-ab .sh-roll >> nth=0');await p.waitForSelector('#dice-ov.on');ok(/Strength (\(basic action\)|check) · 1d20 ?\+ ?3/.test(await p.textContent('.dice-expr')),'Strength basic action rolls 1d20+3: '+await p.textContent('.dice-expr'));
+ await p.evaluate(()=>$('dice-ov').classList.remove('on'));
+ await p.click('[data-what="Stealth"]');await p.waitForTimeout(100);ok(/Stealth · 1d20 ?\+ ?4/.test(await p.textContent('.dice-expr')),'Stealth rolls its bonus');await p.evaluate(()=>$('dice-ov').classList.remove('on'));
+ await p.fill('#hpAmt','5');await p.click('[data-hpa="-"]');ok(await p.evaluate(()=>{const c=PARTY.find(x=>x.id==='s1');return c.hp===18&&!c.tempHp}),'5 damage: temp HP 3 first, then 2 from HP (20 → 18)');
+ await p.click('[data-hpd="5"]');ok(await p.evaluate(()=>PARTY.find(x=>x.id==='s1').hp===23),'+5 heals to 23');await p.click('[data-hpd="5"]');ok(await p.evaluate(()=>PARTY.find(x=>x.id==='s1').hp===24),'healing stops at the maximum (24)');
+ await p.click('[data-cond="Poisoned"]');ok(await p.evaluate(()=>PARTY.find(x=>x.id==='s1').cond.includes('Poisoned'))&&await p.isVisible('.sh-conds .chip.on'),'Poisoned chip toggles on with its rule shown');
+ await p.screenshot({path:require('path').join(process.env.S||'.','sheetplay.png'),clip:{x:0,y:0,width:1300,height:900}});
+ await p.evaluate(()=>localStorage.clear());
+ console.log(fails?fails+' FAILED':'ALL PASSED');await b.close();srv.close();process.exit(fails?1:0)})();

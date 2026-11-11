@@ -1,0 +1,31 @@
+const { chromium } = require('../pw.js');
+const http=require('http'),fs=require('fs'),path=require('path');const ROOT=process.argv[2],S=process.env.S;
+const srv=http.createServer((q,r)=>{let f=path.join(ROOT,decodeURIComponent(q.url.split('?')[0]));if(f.endsWith('/'))f+='index.html';fs.readFile(f,(e,d)=>{if(e){r.writeHead(404);r.end();return}r.writeHead(200,{'content-type':f.endsWith('.js')?'text/javascript':'text/html'});r.end(d)})});
+let fails=0;const ok=(c,m)=>{console.log((c?'  ok   ':'  FAIL ')+m);if(!c)fails++};
+(async()=>{await new Promise(r=>srv.listen(8841,r));const b=await chromium.launch();
+ const mk=async(vp,theme)=>{const ctx=await b.newContext({viewport:vp});await ctx.addInitScript(t=>{if(t)localStorage.setItem('fand.theme',JSON.stringify(t));localStorage.setItem('fand.role',JSON.stringify('dm'))},theme);const p=await ctx.newPage();p.on('pageerror',e=>{fails++;console.log('PAGEERROR',e.message)});await p.route('https://vppvpmwjqcgixtfxpukh.supabase.co/**',r=>r.abort());return [ctx,p]};
+ let [ctx,p]=await mk({width:1280,height:900});
+ await p.goto('http://127.0.0.1:8841/bestiary.html');await p.waitForTimeout(1500);
+ const all=await p.evaluate(()=>({mon:MONSTERS.filter(x=>artIdx(x)<0).map(x=>x.n),god:GODS.filter(x=>artIdx(x)<0).length,demon:DEMONS.filter(x=>artIdx(x)<0).length,patron:PATRONS.filter(x=>artIdx(x)<0).length,n:ART.icons.length}));
+ ok(!all.mon.length&&!all.god&&!all.demon&&!all.patron,'every monster, god, demon and patron has a picture ('+all.n+' pictures) '+all.mon.slice(0,5).join(','));
+ const c=await p.evaluate(()=>{const cs=[...document.querySelectorAll('#content .card')];return {n:cs.length,a:cs.filter(x=>x.querySelector('.art svg path')).length}});
+ ok(c.n>10&&c.a===c.n,'Bestiary cards all show a picture ('+c.a+'/'+c.n+')');
+ await p.screenshot({path:S+'/art-bestiary.png'});
+ await p.evaluate(()=>showModal(MONSTERS.find(m=>m.n==='Ancient Red Dragon')));await p.waitForTimeout(300);
+ const md=await p.evaluate(()=>{const a=document.querySelector('#modal .mh .art.lg');return a?{ac:a.style.getPropertyValue('--ac'),w:a.getBoundingClientRect().width}:null});
+ ok(md&&md.w>80&&/#e8553f/i.test(md.ac),'Ancient Red Dragon page: a large red picture at the top ('+JSON.stringify(md)+')');
+ await p.screenshot({path:S+'/art-modal.png'});
+ await p.evaluate(()=>closeModal());
+ // the material card shares markup: no picture there
+ await p.goto('http://127.0.0.1:8841/materials.html');await p.waitForTimeout(1200);
+ ok(await p.evaluate(()=>!document.querySelector('#content .card .art:not(.ty)')&&!!document.querySelector('#content .card .art.ty')),'materials show a small type plate, not a creature picture');
+ for(const pg of ['gods','demons','patrons']){await p.goto('http://127.0.0.1:8841/'+pg+'.html');await p.waitForTimeout(1200);
+  const g=await p.evaluate(()=>{const cs=[...document.querySelectorAll('#content .grid .card')];return {n:cs.length,a:cs.filter(x=>x.querySelector('.art svg')).length}});
+  ok(g.n>5&&g.a===g.n,pg+' cards all show a picture ('+g.a+'/'+g.n+')');if(pg==='gods')await p.screenshot({path:S+'/art-gods.png'});if(pg==='demons')await p.screenshot({path:S+'/art-demons.png'})}
+ await p.evaluate(()=>showModal(GODS[0]));await p.waitForTimeout(300);ok(await p.evaluate(()=>!!document.querySelector('#modal .mh .art.lg')),'a god page shows its picture');await p.screenshot({path:S+'/art-god-modal.png'});
+ await ctx.close();
+ [ctx,p]=await mk({width:1280,height:900},'light');await p.goto('http://127.0.0.1:8841/bestiary.html');await p.waitForTimeout(1500);await p.screenshot({path:S+'/art-light.png'});await ctx.close();
+ [ctx,p]=await mk({width:390,height:844});await p.goto('http://127.0.0.1:8841/bestiary.html');await p.waitForTimeout(1500);await p.screenshot({path:S+'/art-phone.png'});
+ await p.evaluate(()=>showModal(MONSTERS.find(m=>m.n==='Beholder')));await p.waitForTimeout(300);await p.screenshot({path:S+'/art-phone-modal.png'});
+ ok(await p.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+1&&document.querySelector('#mbg').scrollWidth<=window.innerWidth+1),'phone: no sideways scroll');
+ await b.close();srv.close();console.log(fails?fails+' FAILED':'ALL PASSED');process.exit(fails?1:0)})();

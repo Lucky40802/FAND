@@ -1,0 +1,7 @@
+const { chromium } = require('../pw.js');
+const http=require('http'),fs=require('fs'),path=require('path');const ROOT=process.argv[2];
+const srv=http.createServer((q,r)=>{let f=path.join(ROOT,decodeURIComponent(q.url.split('?')[0]));if(f.endsWith('/'))f+='index.html';fs.readFile(f,(e,d)=>{if(e){r.writeHead(404);r.end();return}r.writeHead(200,{'content-type':f.endsWith('.js')?'text/javascript':'text/html'});r.end(d)})});
+(async()=>{await new Promise(r=>srv.listen(8792,r));const b=await chromium.launch();const p=await b.newPage();let err=0;p.on('pageerror',e=>{err++;console.log('PAGEERROR',e.message)});await p.route('https://vppvpmwjqcgixtfxpukh.supabase.co/**',r=>r.abort());
+ await p.goto('http://127.0.0.1:8792/sheet.html');await p.waitForFunction(()=>typeof charWizard==='function'&&typeof PARTY!=='undefined');
+ const r=await p.evaluate(()=>{charWizard();CW.cls='Fighter';CW.race=CW_RACE[0][0];CW.bg=CW_BG[0][0];CW.name='Test';CW.eqMode='kit';CW.eqAdd=['Mystery Box','Iron Armour','Iron Armour','Iron Armour'];const n=PARTY.length;cwCreate();const c=PARTY[PARTY.length-1];return {made:PARTY.length>n,cls:c.cls,gear:c.gear,inv:c.inv,equip:c.equip}});
+ console.log(JSON.stringify(r));console.log(r.made&&r.gear.filter(x=>x==='Iron Armour').length>=3&&r.inv.some(z=>z[0]==='Mystery Box')?'ok builder equips all and bags unknown items':'FAIL');console.log(err?'ERRORS':'no errors');await p.evaluate(()=>localStorage.clear());await b.close();srv.close()})();

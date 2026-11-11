@@ -1,0 +1,16 @@
+const {chromium}=require('../pw.js');const path=require('path');
+(async()=>{const b=await chromium.launch();let bad=0;const ok=(c,m)=>{console.log((c?'  ok   ':'  FAIL ')+m);if(!c)bad++};const p=await b.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.goto('file://'+path.resolve(process.argv[2],'sheet.html'));await p.waitForTimeout(1500);
+const r=await p.evaluate(async()=>{for(let i=0;i<60&&!SP.length;i++)await new Promise(r=>setTimeout(r,100));
+ const names=new Set(CW_RACE.map(x=>x[0]));const badPeople=Object.keys(RACE_SPELLS).filter(k=>!names.has(k));
+ const missing=[];Object.entries(RACE_SPELLS).forEach(([k,R])=>(R.sp||[]).forEach(x=>{if(!spByName(x[1]))missing.push(k+': '+x[1])}));
+ PARTY=[{id:'t',name:'Vex',race:'Tiefling of Dispater',cls:'Fighter',level:4,abil:{str:15,dex:13,con:14,int:10,wis:10,cha:14}}];SHEET_ID='t';SHEET_TAB='spells';saveParty();renderSheet();await new Promise(r=>setTimeout(r,300));
+ const t=document.getElementById('content').innerText;const i=t.indexOf("People's spells");
+ return {n:Object.keys(RACE_SPELLS).length,badPeople,missing,block:t.slice(i,i+400)}});
+console.log(JSON.stringify(r,null,1));
+ok(!r.badPeople.length,'every people name matches ('+r.n+' peoples)');
+ok(!r.missing.length,'every spell is on the site');
+ok(/Thaumaturgy[\s\S]*cantrip, at will/.test(r.block)&&/Disguise Self[\s\S]*once per long rest/.test(r.block)&&/Detect Thoughts[\s\S]*at level 5/.test(r.block)&&/Charisma/.test(r.block)&&/save DC 12/.test(r.block),'a level 4 Tiefling of Dispater: Thaumaturgy, Disguise Self, Detect Thoughts at 5, Charisma DC 12');
+await p.goto('file://'+path.resolve(process.argv[2],'chargen.html'));await p.waitForTimeout(1500);
+ok(await p.evaluate(()=>{$('gen-fam').value='Tiefling';genFam();$('gen-race').value='Tiefling of Dispater';$('gen-level').value='6';genGo();return /People's spells[\s\S]*Thaumaturgy[\s\S]*Detect Thoughts/i.test($('gen-card').innerText)}),'the generator card lists them');
+ok(!errs.length,'no errors '+errs.join(';'));console.log(bad?bad+' FAILED':'ALL PASSED');await b.close()})();

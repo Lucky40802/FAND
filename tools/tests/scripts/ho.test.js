@@ -1,0 +1,21 @@
+const { chromium } = require('../pw.js');
+const http=require('http'),fs=require('fs'),path=require('path');const ROOT=process.argv[2];
+const srv=http.createServer((q,r)=>{let f=path.join(ROOT,decodeURIComponent(q.url.split('?')[0]));if(f.endsWith('/'))f+='index.html';fs.readFile(f,(e,d)=>{if(e){r.writeHead(404);r.end();return}r.writeHead(200,{'content-type':f.endsWith('.js')?'text/javascript':'text/html'});r.end(d)})});
+let fails=0;const ok=(c,m)=>{console.log((c?'  ok   ':'  FAIL ')+m);if(!c)fails++};
+(async()=>{await new Promise(r=>srv.listen(8798,r));const b=await chromium.launch();const ctx=await b.newContext({viewport:{width:1100,height:850},permissions:['clipboard-read','clipboard-write']});const p=await ctx.newPage();p.on('pageerror',e=>{fails++;console.log('PAGEERROR',e.message)});await p.route('https://vppvpmwjqcgixtfxpukh.supabase.co/**',r=>r.abort());
+ await p.goto('http://127.0.0.1:8798/bestiary.html');await p.waitForSelector('.card');await p.click('.card >> nth=0');await p.waitForSelector('#hoBtn');await p.click('#hoBtn');
+ await p.waitForSelector('#hoT');const t=await p.inputValue('#hoT'),body=await p.inputValue('#hoB');ok(t.length>0&&!/\bHP\b|\bAC\b|Drops/i.test(body),'handout prefilled without stats: '+t+' — '+body.slice(0,60));
+ await p.fill('#hoB','A hulking shape in the mist. Smells of wet fur.');await p.click('[data-ho="show"]');ok(await p.isVisible('.ho-card >> text=hulking shape'),'Show on this screen');await p.click('.ho-card [data-hox]');
+ await p.click('[data-ho="link"]');await p.waitForTimeout(200);const link=await p.evaluate(()=>navigator.clipboard.readText());ok(/#handout=[\w-]+$/.test(link),'Share link copied');
+ const q=await ctx.newPage();q.on('pageerror',e=>{fails++;console.log('PAGEERROR2',e.message)});await q.route('https://vppvpmwjqcgixtfxpukh.supabase.co/**',r=>r.abort());await q.goto(link);await q.waitForSelector('.ho-card',{timeout:20000});ok(await q.isVisible('.ho-card >> text=Smells of wet fur'),'the link opens the handout for anyone');await q.screenshot({path:(process.env.S||'.')+'/'+'handout.png'});
+ // campaign flow with a stubbed backend
+ await p.evaluate(()=>{closeQuick();closeModal();const rows=[];window.__rows=rows;CL.user={id:'dm1',email:'d@x'};CL.camps=[{id:'c1',name:'Hoard',dm:'dm1'}];
+   const q={select(){return q},in(){return q},order(){return Promise.resolve({data:rows.slice(),error:null})},delete(){return {match:o=>{const i=rows.findIndex(r=>r.id===o.id);if(i>=0)rows.splice(i,1);return Promise.resolve({error:null})}}}};
+   CL.sb={from:()=>q,rpc:async(fn,a)=>{rows.unshift({id:'h'+rows.length,campaign_id:a.p_campaign,title:a.p_title,body:a.p_body,kind:a.p_kind,created_at:new Date().toISOString()});return {data:'h',error:null}},channel:()=>({on(){return this},subscribe(){return this}}),removeChannel(){}}});
+ await p.evaluate(()=>openHandout({t:'Map fragment',k:'Item',b:'Half a map, burned at the edge.'}));await p.click('[data-ho="send"]');await p.waitForTimeout(300);
+ ok(await p.evaluate(()=>window.__rows.length===1&&CL.handouts.length===1),'Send to campaign stores it');
+ await p.goto('http://127.0.0.1:8798/index.html');await p.waitForSelector('.hero');
+ await p.evaluate(()=>{CL.user={id:'p1',email:'p@x'};CL.camps=[{id:'c1',name:'Hoard',dm:'dm1'}];CL.handouts=[];hoEvent({eventType:'INSERT',new:{id:'h9',campaign_id:'c1',title:'A letter',body:'Meet me at the ford.',kind:'Letter',created_at:new Date().toISOString()}})});
+ ok(await p.isVisible('#toast.act >> text=New handout from your DM'),'player gets a message when a handout arrives');await p.click('#toast button');ok(await p.isVisible('.ho-card >> text=Meet me at the ford'),'Open shows it');await p.click('.ho-card [data-hox]');
+ ok(await p.isVisible('.ho-item >> text=A letter'),'Home lists the handout');
+ console.log(fails?fails+' FAILED':'ALL PASSED');await b.close();srv.close();process.exit(fails?1:0)})();

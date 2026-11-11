@@ -11,3 +11,6 @@ node_modules/
 vault/.claude/
 vault/.obsidian/plugins/
 vault/.obsidian/workspace*.json
+
+# browser test screenshots
+tools/tests/out/

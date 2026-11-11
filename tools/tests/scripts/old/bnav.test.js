@@ -1,0 +1,28 @@
+const { chromium } = require('../pw.js');
+const http=require('http'),fs=require('fs'),path=require('path');const ROOT=process.argv[2];
+const srv=http.createServer((q,r)=>{let f=path.join(ROOT,decodeURIComponent(q.url.split('?')[0]));if(f.endsWith('/'))f+='index.html';fs.readFile(f,(e,d)=>{if(e){r.writeHead(404);r.end();return}r.writeHead(200,{'content-type':f.endsWith('.js')?'text/javascript':'text/html'});r.end(d)})});
+let fails=0;const ok=(c,m)=>{console.log((c?'  ok   ':'  FAIL ')+m);if(!c)fails++};
+(async()=>{await new Promise(r=>srv.listen(8783,r));const b=await chromium.launch();
+ const p=await b.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true});p.on('pageerror',e=>{fails++;console.log('PAGEERROR',e.message)});
+ await p.route('https://vppvpmwjqcgixtfxpukh.supabase.co/**',r=>r.abort());
+ await p.goto('http://127.0.0.1:8783/index.html');await p.waitForSelector('#bnav a');
+ ok(await p.isVisible('#bnav'),'phone: bottom bar shown');ok(!(await p.isVisible('#tabs')),'phone: the top tab row gives way');
+ ok((await p.$$eval('#bnav > *',x=>x.map(e=>e.textContent))).join()==='Home,Search,Dice,Character,Menu','bar: Home, Search, Dice, Character, Menu');
+ ok(await p.isVisible('#bnav a.on[data-tab="home"]'),'current page highlighted');
+ const fab=await p.$eval('#aiFab',e=>e.getBoundingClientRect().bottom),bar=await p.$eval('#bnav',e=>e.getBoundingClientRect().top);ok(fab<=bar,'Ask FAND button sits above the bar');
+ await p.screenshot({path:(process.env.S||'.')+'/'+'bnav-home.png'});
+ await p.click('#bnav button:has-text("Menu")');ok(await p.isVisible('#mdrawer'),'Menu opens');ok((await p.$$('#mdrawer .md-grid a')).length>25,'Menu lists every page');
+ await p.screenshot({path:(process.env.S||'.')+'/'+'bnav-menu.png'});
+ await p.keyboard.press('Escape');ok(!(await p.isVisible('#mdrawer')),'Escape closes the menu');
+ await p.evaluate(()=>setRole('dm'));ok((await p.$$eval('#bnav > *',x=>x[3].textContent))==='Combat','DM: the bar has Combat');
+ await p.click('#bnav button:has-text("Menu")');ok(await p.isVisible('#mdrawer h4:has-text("DM")'),'DM: Menu starts with the DM group');
+ await Promise.all([p.waitForNavigation(),p.click('#mdrawer a[data-tab="dice"]')]);ok(/dice\.html/.test(p.url())&&await p.isVisible('#bnav a.on[data-tab="dice"]'),'a Menu link opens the page');
+ await p.click('#bnav button:has-text("Search")');ok(await p.isVisible('#pbg.open, #pq'),'Search opens the search box');
+ // undo
+ await p.goto('http://127.0.0.1:8783/party.html');await p.evaluate(()=>{PARTY.push({id:'u1',name:'Una',level:3,gear:[],inv:[],abil:{}});saveParty();PARTY_SEL='u1';renderParty()});
+ await p.evaluate(()=>partyDelete('u1'));ok(await p.evaluate(()=>!PARTY.some(x=>x.id==='u1')),'delete removes the character at once');
+ ok(await p.isVisible('#toast.act button:has-text("Undo")'),'toast offers Undo');await p.click('#toast button');ok(await p.evaluate(()=>PARTY.some(x=>x.id==='u1')&&!store.get('partygone',{}).u1),'Undo brings the character back');
+ await p.evaluate(()=>{store.set('pins',['bp|X']);PINS=new Set(['bp|X'])});await p.goto('http://127.0.0.1:8783/settings.html');await p.click('text=Clear pins');ok(await p.evaluate(()=>PINS.size===0),'pins cleared');await p.click('#toast button');ok(await p.evaluate(()=>PINS.size===1),'Undo restores pins');
+ const d=await b.newPage({viewport:{width:1200,height:800}});await d.route('https://vppvpmwjqcgixtfxpukh.supabase.co/**',r=>r.abort());await d.goto('http://127.0.0.1:8783/index.html');await d.waitForSelector('#tabs a');ok(!(await d.isVisible('#bnav'))&&await d.isVisible('#tabs'),'desktop: no bottom bar, tabs as before');
+ await p.evaluate(()=>localStorage.clear());
+ console.log(fails?fails+' FAILED':'ALL PASSED');await b.close();srv.close();process.exit(fails?1:0)})();
