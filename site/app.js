@@ -863,7 +863,7 @@ function closeNav(){if($('navpop').contains(document.activeElement)&&NAV_BTN&&do
 document.addEventListener('mousedown',e=>{if(!e.target.closest('#navpop')&&!e.target.closest('.navg'))closeNav()});
 $('navpop').addEventListener('click',e=>{const a=e.target.closest('a[data-tab]');if(!a)return;closeNav();if(SITE||e.ctrlKey||e.metaKey)return;e.preventDefault();go(a.dataset.tab)});
 window.addEventListener('resize',closeNav);
-function renderTabs(){
+function renderTabs(){dmPadBtn();
   const cur=navGroupOf(TAB);
   $('tabs').innerHTML=`<a class="tab${TAB==='home'?' on':''}" href="${pageUrl('home')}" data-tab="home">${pgSym('home')}Home</a>`+navGroups().map(([g,ids])=>{const n=ids.reduce((a,id)=>{const t=TABS.find(x=>x[0]===id);return a+(t&&t[2]||0)},0);return `<span class="navg"><button class="tab${g===cur?' on':''}" data-group="${esc(g)}" aria-haspopup="menu" aria-expanded="false">${pgSym('g:'+g)}${g}${g===cur?`<span class="n">· ${(TABS.find(t=>t[0]===TAB)||[])[1]||''}</span>`:''}<span class="car">▾</span></button></span>`}).join('');
   const on=$('tabs').querySelector('.tab.on');if(on){const T=$('tabs'),r=on.getBoundingClientRect(),tr=T.getBoundingClientRect();if(r.right>tr.right||r.left<tr.left)T.scrollLeft+=r.left-tr.left-16}
@@ -1313,6 +1313,50 @@ function vaultBlock(x){
   const key=t==='god'?godKey(x):x.n,d=(VDETAILS[t]||{})[key];if(!d)return '';
   return `<details class="fold" open style="border-top:1px solid var(--line);padding-top:10px"><summary>From the vault <span style="color:var(--muted)">· ${esc(d.f)}</span></summary><div><div class="note" style="margin:0 0 8px">The website's data above takes priority where the two differ.</div><div class="prose vault" style="font-family:var(--sans);font-size:.9rem">${mdVault(d.md)}</div></div></details>`;
 }
+// ── DM notepad (2026-11-12): pages of private notes for the DM, on every page from the header (Alt+N). Saved as you
+// type, with your other data (and to your account when signed in); never shared with a campaign's players. [[Name]] in a
+// note links to that monster, Blueprint, spell, god, realm or note.
+const dmPadData=()=>{const d=store.get('dmpad',null)||{};d.notes=Array.isArray(d.notes)?d.notes.filter(n=>n&&typeof n==='object'):[];return d};
+const dmPadSave=d=>store.set('dmpad',d);
+function dmPadBtn(){const b=$('dmPadBtn');if(b)b.hidden=role()==='player'}
+function dmPad(open){const P=$('dmpad');if(!P)return;const show=open==null?P.hidden:open;if(!show)dmPadFlush();P.hidden=!show;const b=$('dmPadBtn');if(b)b.setAttribute('aria-expanded',show?'true':'false');
+  document.body.classList.toggle('dmpad-open',show);if(show){dmPadRender();setTimeout(()=>{const t=$('dp-body');if(t)t.focus()},30)}else if(b)b.focus()}
+function dmPadNew(){const d=dmPadData(),n={id:uid(),t:'',body:'',at:Date.now()};d.notes.unshift(n);d.cur=n.id;dmPadSave(d);dmPadRender();setTimeout(()=>{const t=$('dp-title');if(t)t.focus()},30)}
+function dmPadCur(d){let n=d.notes.find(x=>x.id===d.cur);if(!n&&d.notes.length)n=d.notes[0];return n}
+const dmPadTitle=n=>(n.t||'').trim()||(n.body||'').trim().split('\n')[0].slice(0,40)||'Untitled page';
+// typing saves 0.4 s after the last key; anything that redraws or closes the notepad saves what is typed first
+let DP_TM=null,DP_FLUSH=null;const dmPadFlush=()=>{clearTimeout(DP_TM);if(DP_FLUSH)DP_FLUSH()};
+window.addEventListener('pagehide',dmPadFlush);
+function dmPadRender(){dmPadFlush();const P=$('dmpad');if(!P||P.hidden)return;const d=dmPadData();
+  if(d.lock&&!dmUnlocked()){P.innerHTML=`<div class="dp-head"><b>📝 DM notepad</b><button class="icon-btn" onclick="dmPad(false)" aria-label="Close notepad">${ICON.x}</button></div><div class="dp-locked"><p>The notepad is kept behind the DM passphrase on this device.</p><button class="btn primary" onclick="dmPad(false);go('hidden')">Unlock DM content</button></div>`;return}
+  if(!d.notes.length){const n={id:uid(),t:'Session notes',body:'',at:Date.now()};d.notes.push(n);d.cur=n.id;dmPadSave(d)}
+  const cur=dmPadCur(d),q=lc(d.q||''),list=d.notes.filter(n=>!q||lc(n.t+' '+n.body).includes(q)).sort((a,b)=>(b.pin?1:0)-(a.pin?1:0)||b.at-a.at);
+  const links=[...new Set(((cur.body||'').match(/\[\[([^\]]{1,80})\]\]/g)||[]).map(x=>x.slice(2,-2)))].map(n=>[n,resolveLink(n)]);
+  P.innerHTML=`<div class="dp-head"><b>📝 DM notepad</b><span class="dp-saved" id="dp-saved" aria-live="polite"></span><button class="btn" type="button" onclick="dmPadNew()">+ New page</button><button class="icon-btn" onclick="dmPad(false)" aria-label="Close notepad" title="Close (Esc)">${ICON.x}</button></div>
+    <div class="dp-wrap"><div class="dp-list"><input class="sel" id="dp-q" type="search" placeholder="Search notes…" aria-label="Search notes" value="${esc(d.q||'')}">
+      <div class="dp-items" role="listbox" aria-label="Pages">${list.map(n=>`<button type="button" role="option" aria-selected="${n.id===cur.id}" class="dp-item${n.id===cur.id?' on':''}" onclick="dmPadOpen('${n.id}')">${n.pin?'📌 ':''}<b>${esc(dmPadTitle(n))}</b><small>${esc(new Date(n.at).toLocaleDateString())}</small></button>`).join('')||'<div class="note" style="margin:6px">No page matches.</div>'}</div></div>
+    <div class="dp-ed"><input class="sel dp-title" id="dp-title" placeholder="Page title" aria-label="Page title" value="${esc(cur.t||'')}">
+      <textarea class="sel" id="dp-body" aria-label="Note" placeholder="Plans, secrets, what the party missed, who owes whom… Type [[a name]] to link a monster, item, spell, god or realm.">${esc(cur.body||'')}</textarea>
+      ${links.length?`<div class="chips dp-links"><span class="note" style="margin:0 4px 0 0">Linked</span>${links.map(([n,x])=>x?refChip(x):`<span class="chip" title="Nothing on the site has this name">${esc(n)}?</span>`).join('')}</div>`:''}
+      <div class="dp-act"><button class="btn" type="button" onclick="dmPadLink()" title="Add a link to the item that is open, or this page">🔗 Link what's open</button><button class="btn" type="button" onclick="dmPadStamp()">🕒 Time stamp</button><button class="btn" type="button" onclick="dmPadPin()">${cur.pin?'Unpin':'📌 Pin'}</button>
+        <button class="btn" type="button" onclick="dmPadCopy()">Copy</button><button class="btn" type="button" onclick="dmPadDel()">Delete page</button>
+        <label class="chk" style="margin-left:auto" title="Ask for the DM passphrase before showing the notepad on this device"><input type="checkbox" id="dp-lock"${d.lock?' checked':''}> Keep behind the DM passphrase</label></div></div></div>`;
+  const tEl=$('dp-title'),bEl=$('dp-body');
+  const save=()=>{clearTimeout(DP_TM);DP_FLUSH=()=>{DP_FLUSH=null;const D=dmPadData(),n=D.notes.find(x=>x.id===cur.id);if(!n)return;n.t=tEl.value;n.body=bEl.value;n.at=Date.now();dmPadSave(D);const s=$('dp-saved');if(s)s.textContent='Saved'};DP_TM=setTimeout(DP_FLUSH,400);const s=$('dp-saved');if(s)s.textContent='Saving…'};
+  $('dp-title').oninput=save;$('dp-body').oninput=save;$('dp-body').onblur=()=>{if(/\[\[/.test($('dp-body').value))setTimeout(dmPadRender,450)};
+  $('dp-q').oninput=e=>{const D=dmPadData();D.q=e.target.value;dmPadSave(D);const pos=e.target.selectionStart;dmPadRender();const q2=$('dp-q');q2.focus();q2.setSelectionRange(pos,pos)};
+  $('dp-lock').onchange=e=>{const D=dmPadData();D.lock=e.target.checked;dmPadSave(D);toast(D.lock?'The notepad now asks for the DM passphrase':'The notepad opens without the passphrase')}}
+function dmPadOpen(id){const d=dmPadData();d.cur=id;dmPadSave(d);dmPadRender()}
+function dmPadInsert(txt){const t=$('dp-body');if(!t)return;const a=t.selectionStart,b=t.selectionEnd;t.value=t.value.slice(0,a)+txt+t.value.slice(b);t.selectionStart=t.selectionEnd=a+txt.length;t.dispatchEvent(new Event('input'));t.focus()}
+function dmPadLink(){const x=$('mbg').classList.contains('open')&&CUR?CUR:null;if(x){dmPadInsert('[['+x.n.split(' - ')[0]+']] ');setTimeout(dmPadRender,450);return}
+  const t=TABS.find(y=>y[0]===TAB);dmPadInsert((t?t[1]:TAB)+' page ('+location.href.split('#')[0].split('/').pop()+') ')}
+function dmPadStamp(){dmPadInsert((($('dp-body').value&&!/\n$/.test($('dp-body').value))?'\n':'')+'— '+new Date().toLocaleString([], {dateStyle:'medium',timeStyle:'short'})+' —\n')}
+function dmPadPin(){const d=dmPadData(),n=dmPadCur(d);n.pin=!n.pin;dmPadSave(d);dmPadRender()}
+function dmPadCopy(){const n=dmPadCur(dmPadData()),txt=(n.t?n.t+'\n\n':'')+(n.body||'');(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast('Page copied'),()=>toast('Copy failed'))}
+function dmPadDel(){const d=dmPadData(),n=dmPadCur(d);if(!n)return;const i=d.notes.indexOf(n);d.notes.splice(i,1);d.cur=(d.notes[0]||{}).id;dmPadSave(d);dmPadRender();
+  undoToast('Deleted "'+dmPadTitle(n)+'"',()=>{const D=dmPadData();D.notes.splice(i,0,n);D.cur=n.id;dmPadSave(D);dmPadRender()})}
+document.addEventListener('keydown',e=>{if(e.altKey&&!e.ctrlKey&&!e.metaKey&&(e.key==='n'||e.key==='N'||e.code==='KeyN')&&role()!=='player'){e.preventDefault();dmPad()}
+  else if(e.key==='Escape'&&$('dmpad')&&!$('dmpad').hidden&&!$('mbg').classList.contains('open')&&!document.querySelector('details.mmenu[open]')){dmPad(false)}});
 function noteByName(name){const k=lc(name.split('/').pop().replace(/#.*$/,''));return NOTES.find(n=>lc(n.n)===k)}
 function resolveLink(target){
   let k=lc(target.split('/').pop().replace(/#.*$/,'').trim());if(k==='vestige'&&!NOTES.some(n=>lc(n.n)==='vestige'))k='atrious';
@@ -2132,6 +2176,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-11-12','A DM notepad','The DM now has a notepad on every page: the 📝 button in the header, or Alt+N. Keep as many pages as you like (session notes, villains, who owes whom); they save as you type, can be searched and pinned, and a deleted page can be brought back. Type [[a name]] to link any monster, Blueprint, spell, god or realm, or press Link what\'s open to link the item you are looking at; Time stamp marks the moment in the session. The notes are private: they are saved with your own data (and your account when you sign in) and never shared with a campaign\'s players, players don\'t see the button, and you can keep the notepad behind the DM passphrase on a shared device.','prep'],
   ['2026-11-11','Deep-realm fights rebalanced, dimensions at the table, table rules, a faster site, and the schools of magic','A balance check showed that past the Mysterious Realm a party killed any monster, boss or minion, in under a round, while minions hit as hard as bosses. Deep-realm monsters are now built as they would be in the Mysterious Realm and scaled by what characters of the realm\'s levels deal and withstand, so every realm plays like the Mysterious at its own levels: minions fall in a blow and barely scratch, on-level monsters take about two rounds, bosses about three and hit hard. Dimensions are ready for the table: a dimension filter in the Bestiary, Materials and Blueprints, a dimension choice in the encounter builder, and on every dimension a random encounter, a fight built there in one click, and someone who lives there. Settings has Table rules: whether a second profession is free, unlocks at a level of the first, can\'t pass the first, or isn\'t allowed. The site\'s data file is a fifth smaller (rows no longer repeat their field names), so pages load as fast as before the deep realms were added. And every school of magic has a write-up on its Magic Tower page and in each spell\'s window, with who casts it, which focuses favour it and its signature spells.','encounter'],
   ['2026-11-11','Two professions','A character can now hold a second profession, chosen on the character sheet (or in the Party editor) under the first. It starts at level 1 and levels on its own, with its own stage, title and bonus, and its specialties join the list. Crafting, the Forge, the Smelter, scavenging and mining all accept either profession, and the crafter pickers show both.','professions'],
   ['2026-11-11','The deep realms, filled in','Every realm now has a full write-up in its window: what it is, what changes for travelers, its regions, who holds power, its dangers and adventure hooks. The Inner Realm has thirteen dimensions, whole worlds grown around the anchors of the strongest Laws: Aldermere (knights and dragons), Brassholm (a steam-driven empire), Kethra-Vael (an alien world under a violet sun), Gloamhollow (gothic horror), Thalassar (an ocean world), Skyreach (floating islands), the Ashfall Expanse, the Lantern Courts, Rimefast, Arcanopolis, the Verdant Deep, the Iron Front and the Glass Dunes. The Outer Realm has nineteen small, stranger pocket dimensions, from the Inverted Orchard, where things fall up, to Paperfold, the Echo Chamber, the Last Library and the Carnival at the End. Each dimension has its natives, materials and gear, all on the Realms page. 284 new monsters fill the deep realms (every realm past the Mysterious now has at least 50, with plenty at its own levels), 1,175 new Blueprints give every deep realm a full set of weapons, armor, shields and focuses through its levels, 117 new spells give every school high-level magic and the School of Resonance its hundredth spell, and every material now says where it is found.','realms'],
