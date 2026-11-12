@@ -57,4 +57,41 @@ module.exports = [
     t.note(r.n + ' materials');
     t.eq(r.none, [], 'materials with no source');
   } },
+  { name: 'balance: in every deep realm, bosses last and minions do not', run: async t => {
+    const p = await t.open('encounter');
+    const r = await p.evaluate(() => {
+      const med = a => { a = a.filter(x => x > 0).sort((x, y) => x - y); return a.length ? a[Math.floor(a.length / 2)] : 0; }, crn = m => { const c = String(m.sb.cr); return c.includes('/') ? +c.split('/')[0] / +c.split('/')[1] : +c; };
+      const out = {};
+      for (let tier = 3; tier <= 10; tier++) {
+        const L = 10 * tier - 5, rn = REALMS.find(x => x.tier === tier).n, chars = ['Fighter', 'Wizard', 'Rogue', 'Cleric'].map(cls => genFill({ cls, level: L }).c);
+        const band = (lo, hi) => { const M = MONSTERS.filter(m => m.sb && REALM[m.realm].tier === tier && crn(m) >= lo && crn(m) <= hi); if (!M.length) return null;
+          const mon = { hp: med(M.map(m => +m.sb.hp)), ac: med(M.map(m => +m.sb.ac)), h: med(M.map(m => monHits(m.sb).h)), n: med(M.map(m => monHits(m.sb).n)) };
+          const party = chars.reduce((a, c) => a + charRound(c, rn, mon.ac).v * 0.85, 0), drop = chars.reduce((a, c) => { const inc = mon.n * Math.max(0, mon.h - charStats(c).ac) * 0.85; return a + (inc > 0 ? Math.min(99, (+c.hpMax) / inc) : 99); }, 0) / chars.length;
+          return { kill: mon.hp / party, drop }; };
+        out[rn] = { mid: band(11, 20), boss: band(21, 30), low: band(0, 10) };
+      }
+      return out;
+    });
+    const bad = [];
+    Object.entries(r).forEach(([rn, b]) => {
+      if (b.mid && (b.mid.kill < 0.8 || b.mid.kill > 5)) bad.push(rn + ': an on-level monster dies in ' + b.mid.kill.toFixed(1) + ' rounds');
+      if (b.boss && b.mid && b.boss.kill < b.mid.kill * 1.2) bad.push(rn + ': bosses die as fast as on-level monsters');
+      if (b.low && b.mid && b.low.drop < b.mid.drop * 1.3) bad.push(rn + ': weak monsters hurt as much as on-level ones');
+    });
+    t.eq(bad, [], 'deep-realm fights keep their shape');
+  } },
+  { name: 'dimensions at the table and schools of magic', run: async t => {
+    let p = await t.open('realms');
+    await p.evaluate(() => openDim('Thalassar')); await p.waitForTimeout(150);
+    await p.click('#modal .dim-card[data-dim="Thalassar"] button:has-text("Random encounter")');
+    t.ok(await p.evaluate(() => /\w/.test(document.querySelector('#modal .dim-card[data-dim="Thalassar"] .dim-out').innerText)), 'a random encounter is rolled');
+    await p.click('#modal .dim-card[data-dim="Thalassar"] button:has-text("Someone from here")');
+    t.ok(await p.evaluate(() => /from Thalassar/.test(document.querySelector('#modal .dim-card[data-dim="Thalassar"] .dim-out').innerText)), 'an NPC from the dimension');
+    p = await t.open('encounter', p);
+    await p.evaluate(() => { store.set('enc', { size: 4, level: 55, realm: 'Inner Realm', dim: 'Thalassar', diff: 'Medium', list: [] }); renderEncounter(); rollEncounter(); });
+    t.ok(await p.evaluate(() => { const L = store.get('enc', {}).list || []; return L.length > 0 && L.every(([n]) => (MON_IDX.get(lc(n)) || {}).dim === 'Thalassar'); }), 'a fight built in a dimension uses its natives');
+    p = await t.open('magic', p);
+    const sch = await p.evaluate(() => { const miss = [...new Set(SP.map(x => x.sc))].filter(sc => !SCHOOL_INFO[sc]); return { miss, shown: !!document.querySelector('.school-info') }; });
+    t.eq(sch.miss, [], 'every school has a write-up'); t.ok(sch.shown, 'the Magic Towers page shows it');
+  } },
 ];

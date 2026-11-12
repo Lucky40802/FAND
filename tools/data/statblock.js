@@ -5,6 +5,17 @@
 
 var XP = { '0': 10, '1/8': 25, '1/4': 50, '1/2': 100, '1': 200, '2': 450, '3': 700, '4': 1100, '5': 1800, '6': 2300, '7': 2900, '8': 3900, '9': 5000, '10': 5900, '11': 7200, '12': 8400, '13': 10000, '14': 11500, '15': 13000, '16': 15000, '17': 18000, '18': 20000, '19': 22000, '20': 25000, '21': 33000, '22': 41000, '23': 50000, '24': 62000, '25': 75000, '26': 90000, '27': 105000, '28': 120000, '29': 135000, '30': 155000 };
 var GRADE_CR = ['1/2', '2', '4', '6', '8', '11', '14', '17', '21', '25'];
+// Deep-realm calibration (2026-11-11), from the balance report: generated characters at each realm's middle level (24 per
+// realm, eight classes). A typical Mysterious character (level 15) deals 38 a round to a monster with AC 15, has AC 8.5 and
+// 119 hit points. hp = how much harder a character of the realm hits (round damage against AC 25 ÷ 38); ac and
+// toughness = that realm's character AC and hit points ÷ 119. The Primordial is set 15% above the Inner Void, as each
+// realm before it rises (its measured damage dipped where generated characters found fewer Blueprints).
+var MYST = { ac: 8.5, hp: 119 };
+var DEEP = {
+  3: { hp: 176 / 38, ac: 9.7, toughness: 208 / 119 }, 4: { hp: 304 / 38, ac: 8.9, toughness: 308 / 119 }, 5: { hp: 413 / 38, ac: 9.5, toughness: 399 / 119 },
+  6: { hp: 593 / 38, ac: 11.6, toughness: 497 / 119 }, 7: { hp: 776 / 38, ac: 12.1, toughness: 587 / 119 }, 8: { hp: 1157 / 38, ac: 12.7, toughness: 695 / 119 },
+  9: { hp: 1460 / 38, ac: 13.6, toughness: 771 / 119 }, 10: { hp: 1679 / 38, ac: 14.3, toughness: 867 / 119 }
+};
 function crNum(c) { if (String(c).indexOf('/') > 0) { var p = String(c).split('/'); return +p[0] / +p[1]; } return +c; }
 function hash(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
 function mod(x) { return Math.floor((x - 10) / 2); }
@@ -240,7 +251,12 @@ function statblock(m, body, bestDrop) {
   // Past the Mysterious Realm a monster stands for a higher level (the encounter builder counts each realm tier past the
   // Mysterious as 10 levels): its hit points follow that level (CR + 10 per tier) and its damage CR + 6 per tier, so
   // fights at levels 21-100 last as long as they do at 1-20 (site scaling pass, 2026-11-04).
-  var deep = Math.max(0, (m.tier || 1) - 2), cHP = c + 10 * deep, cD = c + 6 * deep;
+  // (Replaced 2026-11-11, owner's request: the balance report showed parties past the Mysterious Realm killing any
+  // monster, boss or minion, in under a round, while minions hurt as much as bosses. Now a deep-realm monster is built
+  // as it would be in the Mysterious Realm, then scaled by the realm's calibration below, so every realm plays like the
+  // Mysterious at its own levels and challenge rating keeps its spread.)
+  var deepCal = DEEP[m.tier || 1] || null;
+  var deep = 0, cHP = c, cD = c;
   var hp = cHP < 1 ? ({ 0: 4, 0.125: 9, 0.25: 13, 0.5: 22 })[cHP] || 4 : Math.round(15 * cHP + 10);
   var die = sz[1], per = die / 2 + 0.5 + mods[2];
   var hd = Math.max(1, Math.round(hp / Math.max(1, per)));
@@ -248,8 +264,15 @@ function statblock(m, body, bestDrop) {
   // Realm scaling (campaign rule: everything scales through the realms). Deeper realms mean tougher, harder-hitting
   // monsters: +15% HP per realm tier past the Human Realm, and a flat bonus on every hit that keeps pace with the AC
   // that gear of that realm gives (+4 per tier), since AC is subtracted from each hit.
-  var tier0 = Math.max(0, (m.tier || 1) - 1), realmHit = 4 * tier0;
+  var tier0 = deepCal ? 1 : Math.max(0, (m.tier || 1) - 1), realmHit = 4 * tier0;
   if (tier0) { hd = Math.max(1, Math.round(hd * (1 + 0.15 * tier0))); hp = Math.max(1, Math.floor(hd * (die / 2 + 0.5)) + hd * mods[2]); }
+  // deep realms: hit points grow with what a party of the realm's levels deals in a round
+  if (deepCal) { hd = Math.max(1, Math.round(hd * deepCal.hp)); hp = Math.max(1, Math.floor(hd * (die / 2 + 0.5)) + hd * mods[2]); }
+  // and a hit's damage past a character's AC grows with characters' hit points there (what got through a Mysterious-
+  // level character's AC now gets through as large a share of a deep character's hit points; a hit that would not get
+  // through still does not); damage that ignores AC (breath, mind blasts) grows with hit points alone
+  var hitScale = function (d) { return !deepCal ? d : d > MYST.ac ? Math.round(deepCal.ac + (d - MYST.ac) * deepCal.toughness) : Math.max(1, Math.round(d * deepCal.ac / MYST.ac)); };
+  var saveScale = function (d) { return deepCal ? Math.max(1, Math.round(d * deepCal.toughness)) : d; };
   // AC scales through the realms as player damage does (deeper-realm materials hit harder): half the CR, natural armor,
   // +1 for each realm tier past the Human Realm, and +1 for every 5 grades within the realm.
   var tierBonus = Math.max(0, (m.tier || 1) - 1), gradeBonus = Math.floor((m.g || 1) / 5);
@@ -275,21 +298,22 @@ function statblock(m, body, bestDrop) {
   atks.forEach(function (a, i) {
     if (i > 0 && n === 1 && !a[3] && !kit) return; // a kit lists every attack the creature has, even if it makes one per turn
     var per = Math.max(1, Math.round(dpr / n)), d = a[2], avg = d / 2 + 0.5;
-    var dice = Math.max(1, Math.round((per - pri) / avg)), dmg = Math.max(1, Math.floor(dice * avg) + pri + realmHit);
+    var dice = Math.max(1, Math.round((per - pri) / avg)), dmg = Math.max(1, Math.floor(dice * avg) + pri + realmHit), flat = pri + realmHit;
+    if (deepCal) { var d0 = dmg, d1 = hitScale(d0); dice = Math.max(1, Math.round(dice * d1 / d0)); flat = d1 - Math.floor(dice * avg); if (flat < 0) { dice = Math.max(1, Math.floor(d1 / avg)); flat = d1 - Math.floor(dice * avg); } dmg = d1; }
     var ranged = a[3] === 'ranged', kind = a[1];
-    var txt = (ranged ? 'Ranged Weapon Attack: ' : 'Melee Weapon Attack: ') + 'Accuracy ' + sgn(hit) + ', ' + (ranged ? 'range 60/240 ft.' : 'reach ' + (/Large|Huge|Gargantuan/.test(sz[0]) ? 10 : 5) + ' ft.') + ', one target. Hit: ' + dmg + ' (' + dice + 'd' + d + ((pri + realmHit) ? ' ' + ((pri + realmHit) > 0 ? '+ ' : '− ') + Math.abs(pri + realmHit) : '') + ') ' + kind + ' damage';
-    if (elem && i === 0 && kind !== elem && c >= 2) { var ed = Math.max(1, Math.round(cD / 3)); txt += ' plus ' + Math.floor(ed * 3.5) + ' (' + ed + 'd6) ' + elem + ' damage'; }
+    var txt = (ranged ? 'Ranged Weapon Attack: ' : 'Melee Weapon Attack: ') + 'Accuracy ' + sgn(hit) + ', ' + (ranged ? 'range 60/240 ft.' : 'reach ' + (/Large|Huge|Gargantuan/.test(sz[0]) ? 10 : 5) + ' ft.') + ', one target. Hit: ' + dmg + ' (' + dice + 'd' + d + (flat ? ' ' + (flat > 0 ? '+ ' : '− ') + Math.abs(flat) : '') + ') ' + kind + ' damage';
+    if (elem && i === 0 && kind !== elem && c >= 2) { var ed = Math.max(1, Math.round(cD / 3)); if (deepCal) ed = Math.max(1, Math.round(ed * dmg / Math.max(1, d0))); txt += ' plus ' + Math.floor(ed * 3.5) + ' (' + ed + 'd6) ' + elem + ' damage'; }
     // what else a hit does: a new sentence ("If the target..."), extra damage ("plus..."), or more of this one ("and...")
     if (a[4]) txt += (/^[A-Z]/.test(a[4]) ? '. ' : /^plus /.test(a[4]) ? ' ' : ', ') + fill(a[4]);
     if (!kit && plan.poison && /Sting|Bite/.test(a[0]) && i > 0) txt += ', and the target must make a DC ' + dc + ' Constitution saving throw or be poisoned for 1 minute';
     actions.push([a[0], txt + '.']);
   });
   if (plan.breath && c >= 1) {
-    var bd = Math.max(2, Math.round(cD * 1.2 * (1 + 0.1 * tier0))), bt = elem || 'fire';
+    var bd = saveScale(Math.max(2, Math.round(cD * 1.2 * (1 + 0.1 * tier0)))), bt = elem || 'fire';
     actions.push(['Breath Weapon (Recharge 5–6)', 'The creature exhales ' + bt + ' in a ' + (c >= 17 ? 60 : c >= 10 ? 30 : 15) + '-foot cone. Each creature in that area must make a DC ' + dc + ' Dexterity saving throw, taking ' + Math.floor(bd * 3.5) + ' (' + bd + 'd6) ' + bt + ' damage on a failed save, or half as much on a successful one.']);
   }
   if (kit && kit.acts) kit.acts.forEach(function (x) { actions.push([x[0], fill(x[1])]); });
-  if (plan.mind && c >= 3) actions.push(['Mind Blast (Recharge 5–6)', 'Each creature of the creature\'s choice within 30 feet must succeed on a DC ' + dc + ' Intelligence saving throw or take ' + Math.floor(Math.max(2, Math.round(c)) * 3.5) + ' (' + Math.max(2, Math.round(c)) + 'd6) psychic damage and be stunned until the end of its next turn.']);
+  if (plan.mind && c >= 3) actions.push(['Mind Blast (Recharge 5–6)', 'Each creature of the creature\'s choice within 30 feet must succeed on a DC ' + dc + ' Intelligence saving throw or take ' + Math.floor(saveScale(Math.max(2, Math.round(c))) * 3.5) + ' (' + saveScale(Math.max(2, Math.round(c))) + 'd6) psychic damage and be stunned until the end of its next turn.']);
   // traits
   var traits = (kit ? kit.traits || [] : plan.traits || []).map(function (x) { return [x[0], fill(x[1])]; });
   if (bestDrop && bestDrop.tr) { var st = bestDrop.tr.t, up = /^Armor or a shield with this material gives \+(\d+) AC/.exec(st); if (up) ac += +up[1];
