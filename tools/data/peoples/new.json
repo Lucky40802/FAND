@@ -2604,5 +2604,457 @@
     ]
    ]
   }
+ },
+ {
+  "name": "Corvum",
+  "short": "Clever crow and raven birdfolk with an eye for value and a gift for voices.",
+  "bonus": {
+   "dex": 2,
+   "int": 1
+  },
+  "speed": 30,
+  "traitsShort": "Glide; talons; judge an item's worth at a glance; mimic sounds and voices",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "4 1/2 to 5 1/2 feet",
+   "weight": "70 to 110 lb",
+   "age": "Grow up quickly and are adults by 12; most live to about 70.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Auran"
+   ],
+   "desc": "Corvum are black-feathered birdfolk with sharp eyes and sharper wits. They are traders, spies and collectors, and they never forget a face or a debt. Other peoples often find them hard to read and harder to cheat.",
+   "vestige": "The birdfolk come from the high forests of the Mysterious Realm, where whole villages are built into the canopy. They travel widely, and a birdfolk messenger or merchant is a common sight in the Human Realm.",
+   "traits": [
+    [
+     "Glide",
+     "Your wings can't lift you, but they carry you down. When you fall and aren't incapacitated, you can spread them: you take no falling damage and move up to 2 feet sideways for every foot you drop."
+    ],
+    [
+     "Talons",
+     "Your unarmed strikes can deal 1d4 slashing damage + your Strength modifier instead of the usual bludgeoning damage."
+    ],
+    [
+     "Appraising Eye",
+     "You have advantage on checks to judge an object's value, spot a forgery, or tell whether something is magical (not which magic)."
+    ],
+    [
+     "Mimicry",
+     "You can copy sounds and voices you have heard. A listener can tell it is a copy with a Wisdom (Insight) check against DC 8 + your Charisma modifier + your proficiency bonus."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Gallus",
+  "short": "Warm, community-minded songbird birdfolk who lift the spirits of those around them.",
+  "bonus": {
+   "dex": 2,
+   "wis": 1
+  },
+  "speed": 30,
+  "traitsShort": "Glide; talons; help an ally as a bonus action; a cheering song once per rest",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "4 to 5 feet",
+   "weight": "60 to 100 lb",
+   "age": "Grow up quickly and are adults by 12; most live to about 70.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Auran"
+   ],
+   "desc": "Gallus are songbirds and farmyard birds: robins, finches, roosters and hens. They live in close, noisy villages and care for each other fiercely. A gallus is rarely alone, and rarely quiet.",
+   "vestige": "The birdfolk come from the high forests of the Mysterious Realm, where whole villages are built into the canopy. They travel widely, and a birdfolk messenger or merchant is a common sight in the Human Realm.",
+   "traits": [
+    [
+     "Glide",
+     "Your wings can't lift you, but they carry you down. When you fall and aren't incapacitated, you can spread them: you take no falling damage and move up to 2 feet sideways for every foot you drop."
+    ],
+    [
+     "Talons",
+     "Your unarmed strikes can deal 1d4 slashing damage + your Strength modifier instead of the usual bludgeoning damage."
+    ],
+    [
+     "Helping Hand",
+     "You can take the Help action as a bonus action."
+    ],
+    [
+     "Rallying Song",
+     "Once per short or long rest, as an action, you sing: up to three allies within 30 feet who can hear you gain temporary hit points equal to your level + your Charisma modifier."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Luma",
+  "short": "Small, brightly feathered birdfolk who can flutter short distances and flash with colour.",
+  "bonus": {
+   "dex": 2,
+   "cha": 1
+  },
+  "speed": 25,
+  "traitsShort": "Small; glide; flutter a short way through the air; a dazzling flash once per rest",
+  "group": "More peoples",
+  "profile": {
+   "size": "Small",
+   "height": "3 to 3 1/2 feet",
+   "weight": "25 to 40 lb",
+   "age": "Grow up quickly and are adults by 12; most live to about 70.",
+   "type": "Humanoid",
+   "speed": 25,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Auran"
+   ],
+   "desc": "Luma are small birdfolk of brilliant colour, from hummingbirds to kingfishers. They are quick, curious and restless, and they love light, music and anything that shines.",
+   "vestige": "The birdfolk come from the high forests of the Mysterious Realm, where whole villages are built into the canopy. They travel widely, and a birdfolk messenger or merchant is a common sight in the Human Realm.",
+   "traits": [
+    [
+     "Glide",
+     "Your wings can't lift you, but they carry you down. When you fall and aren't incapacitated, you can spread them: you take no falling damage and move up to 2 feet sideways for every foot you drop."
+    ],
+    [
+     "Flutter",
+     "As a bonus action, you can fly up to 10 feet. You fall if you end your turn in the air."
+    ],
+    [
+     "Bright Plumage",
+     "Once per long rest, as an action, your feathers flash: each creature of your choice within 10 feet that can see you must make a Constitution saving throw (DC 8 + your Charisma modifier + your proficiency bonus) or be blinded until the end of your next turn."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Raptor",
+  "short": "Keen-eyed hawk and eagle birdfolk, born hunters who strike from above.",
+  "bonus": {
+   "dex": 2,
+   "wis": 1
+  },
+  "speed": 30,
+  "traitsShort": "Glide; talons; keen sight; a diving strike",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 feet",
+   "weight": "90 to 140 lb",
+   "age": "Grow up quickly and are adults by 12; most live to about 70.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Auran"
+   ],
+   "desc": "Raptors are hawks, eagles and falcons: proud, watchful birdfolk who serve as scouts, hunters and guards for their villages. Their eyes miss very little.",
+   "vestige": "The birdfolk come from the high forests of the Mysterious Realm, where whole villages are built into the canopy. They travel widely, and a birdfolk messenger or merchant is a common sight in the Human Realm.",
+   "traits": [
+    [
+     "Glide",
+     "Your wings can't lift you, but they carry you down. When you fall and aren't incapacitated, you can spread them: you take no falling damage and move up to 2 feet sideways for every foot you drop."
+    ],
+    [
+     "Talons",
+     "Your unarmed strikes can deal 1d6 slashing damage + your Strength modifier instead of the usual bludgeoning damage."
+    ],
+    [
+     "Keen Sight",
+     "You have advantage on Wisdom (Perception) checks that rely on sight, and attacking at long range doesn't give you disadvantage with ranged weapon attacks."
+    ],
+    [
+     "Diving Strike",
+     "When you glide or fall at least 10 feet straight before a melee attack hits, the attack deals an extra 1d6 damage. Once per turn."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Strig",
+  "short": "Large owl birdfolk: quiet, patient and at home in the dark.",
+  "bonus": {
+   "wis": 2,
+   "str": 1
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; glide; heavy talons; silent movement in dim light",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 to 6 1/2 feet",
+   "weight": "110 to 170 lb",
+   "age": "Grow up quickly and are adults by 12; most live to about 70.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Auran"
+   ],
+   "desc": "Strigs are owls: big, soft-feathered birdfolk who keep the night watch and the old lore of their villages. They are slow to speak and quick to act.",
+   "vestige": "The birdfolk come from the high forests of the Mysterious Realm, where whole villages are built into the canopy. They travel widely, and a birdfolk messenger or merchant is a common sight in the Human Realm.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Glide",
+     "Your wings can't lift you, but they carry you down. When you fall and aren't incapacitated, you can spread them: you take no falling damage and move up to 2 feet sideways for every foot you drop."
+    ],
+    [
+     "Talons",
+     "Your unarmed strikes can deal 1d6 slashing damage + your Strength modifier instead of the usual bludgeoning damage."
+    ],
+    [
+     "Silent Feathers",
+     "You have advantage on Dexterity (Stealth) checks made in dim light or darkness, or while gliding."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Cervan",
+  "short": "Tall, sure-footed deer folk who are hard to knock down and harder to stop.",
+  "bonus": {
+   "con": 2,
+   "str": 1
+  },
+  "speed": 35,
+  "traitsShort": "Speed 35; sure-footed; a charging kick; hard to knock prone",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "5 1/2 to 7 feet",
+   "weight": "150 to 250 lb",
+   "age": "Adults by their late teens; most live to about 80.",
+   "type": "Humanoid",
+   "speed": 35,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Sylvan"
+   ],
+   "desc": "Cervan are deer folk with long legs, large dark eyes and, for many, antlers. They are calm and patient until roused, and they stand by their friends to the end.",
+   "vestige": "The humblefolk are the forest-floor peoples of the Mysterious Realm: farmers, foragers and tinkers living in burrows and timber halls under the trees. Many have moved to the Human Realm's market towns.",
+   "traits": [
+    [
+     "Sure-Footed",
+     "You have advantage on saving throws and checks against being knocked prone or moved against your will, and forest undergrowth doesn't count as difficult terrain for you."
+    ],
+    [
+     "Charging Kick",
+     "If you move at least 20 feet straight toward a creature and then hit it with an unarmed strike on the same turn, the strike deals 1d8 bludgeoning damage + your Strength modifier, and a creature your size or smaller must make a Strength saving throw (DC 8 + your Strength modifier + your proficiency bonus) or be knocked prone."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Hedge",
+  "short": "Small hedgehog folk who curl into a ball of spines when threatened.",
+  "bonus": {
+   "con": 2,
+   "wis": 1
+  },
+  "speed": 25,
+  "traitsShort": "Small; keen smell; spines hurt anyone who grabs you; curl up for +2 AC",
+  "group": "More peoples",
+  "profile": {
+   "size": "Small",
+   "height": "2 1/2 to 3 1/2 feet",
+   "weight": "30 to 50 lb",
+   "age": "Adults by about 20; many live past 100.",
+   "type": "Humanoid",
+   "speed": 25,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Sylvan"
+   ],
+   "desc": "Hedges are hedgehog folk: small, stubborn and kind. Many are herbalists and healers who know every plant on the forest floor, and few creatures want to bite them twice.",
+   "vestige": "The humblefolk are the forest-floor peoples of the Mysterious Realm: farmers, foragers and tinkers living in burrows and timber halls under the trees. Many have moved to the Human Realm's market towns.",
+   "traits": [
+    [
+     "Keen Smell",
+     "You have advantage on Wisdom (Perception) checks that rely on smell."
+    ],
+    [
+     "Spines",
+     "A creature that grapples you, or hits you with an unarmed strike or a bite, takes 1d4 piercing damage."
+    ],
+    [
+     "Curl Up",
+     "As a bonus action, you curl into a ball: until the start of your next turn, you gain +2 AC and your speed is 0."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Jerbeen",
+  "short": "Small jerboa folk who leap great distances and stand together against danger.",
+  "bonus": {
+   "dex": 2,
+   "cha": 1
+  },
+  "speed": 30,
+  "traitsShort": "Small; huge leaps; brave beside an ally; slip past larger creatures",
+  "group": "More peoples",
+  "profile": {
+   "size": "Small",
+   "height": "2 1/2 to 3 feet",
+   "weight": "25 to 35 lb",
+   "age": "Adults by their late teens; most live to about 80.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 0,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Sylvan"
+   ],
+   "desc": "Jerbeens are jerboa folk with long ears, long feet and longer jumps. They live in big, close families, and a jerbeen alone is rare: they believe there is safety, and joy, in numbers.",
+   "vestige": "The humblefolk are the forest-floor peoples of the Mysterious Realm: farmers, foragers and tinkers living in burrows and timber halls under the trees. Many have moved to the Human Realm's market towns.",
+   "traits": [
+    [
+     "Long Leap",
+     "Your long jump is up to 20 feet and your high jump up to 10 feet, with or without a running start."
+    ],
+    [
+     "Strength in Numbers",
+     "While an ally is within 5 feet of you, you have advantage on saving throws against being frightened."
+    ],
+    [
+     "Nimble Escape",
+     "You can move through the space of any creature larger than you."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Mapach",
+  "short": "Raccoon folk tinkerers with clever hands and a talent for climbing.",
+  "bonus": {
+   "dex": 2,
+   "int": 1
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; climb speed 20; deft hands; tinker's tools",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "4 to 5 feet",
+   "weight": "60 to 100 lb",
+   "age": "Adults by their late teens; most live to about 80.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 20,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Sylvan"
+   ],
+   "desc": "Mapach are raccoon folk with masked faces and nimble black hands. They are tinkerers, scavengers and inventors, and to a mapach nothing is ever really rubbish.",
+   "vestige": "The humblefolk are the forest-floor peoples of the Mysterious Realm: farmers, foragers and tinkers living in burrows and timber halls under the trees. Many have moved to the Human Realm's market towns.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Climber",
+     "You have a climbing speed of 20 feet."
+    ],
+    [
+     "Deft Hands",
+     "You are proficient in Sleight of Hand and with tinker's tools, and you can use a bonus action to take the Use an Object action."
+    ]
+   ]
+  }
+ },
+ {
+  "name": "Vulpin",
+  "short": "Sly fox folk with sharp senses and quick reflexes.",
+  "bonus": {
+   "cha": 2,
+   "dex": 1
+  },
+  "speed": 30,
+  "traitsShort": "Darkvision; keen smell; slip away when an attack misses you",
+  "group": "More peoples",
+  "profile": {
+   "size": "Medium",
+   "height": "4 1/2 to 5 1/2 feet",
+   "weight": "70 to 120 lb",
+   "age": "Adults by their late teens; most live to about 80.",
+   "type": "Humanoid",
+   "speed": 30,
+   "fly": 0,
+   "swim": 0,
+   "climb": 0,
+   "dv": 60,
+   "senses": "",
+   "langs": [
+    "Common",
+    "Sylvan"
+   ],
+   "desc": "Vulpin are fox folk: charming, quick-tongued and quicker on their feet. They are traders, tricksters and wanderers, and they trust their noses more than other people's words.",
+   "vestige": "The humblefolk are the forest-floor peoples of the Mysterious Realm: farmers, foragers and tinkers living in burrows and timber halls under the trees. Many have moved to the Human Realm's market towns.",
+   "traits": [
+    [
+     "Darkvision",
+     "You see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You see only shades of gray in darkness."
+    ],
+    [
+     "Keen Smell",
+     "You have advantage on Wisdom (Perception) checks that rely on smell."
+    ],
+    [
+     "Trickster's Reflexes",
+     "When a creature you can see misses you with an attack, you can use your reaction to move up to half your speed without provoking opportunity attacks."
+    ]
+   ]
+  }
  }
 ]
