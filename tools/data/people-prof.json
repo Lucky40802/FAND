@@ -16,7 +16,9 @@
     "Giff": "Engineering", "Hadozee": "Navigation", "Plasmoid": "Alchemy", "Thri-kreen": "Harvesting", "Hexblood": "Enchanting", "Reborn": "Alchemy",
     "Aetherborn": "Enchanting", "Kor": "Navigation", "Merfolk": "Navigation", "Siren": "Navigation", "Naga (Amonkhet)": "Alchemy",
     "Hellbound": "Blacksmithing", "Haloed": "Enchanting", "Chaosborn": "Alchemy", "Abyssal Deepkin": "Harvesting", "Lawbound": "Engineering", "Starwalker": "Navigation", "Mistborn": "Navigation", "Firstblood": "Harvesting", "Runeborn": "Enchanting",
-    "Mark of Detection": "Alchemy", "Mark of Finding": "Scavenging", "Mark of Handling": "Harvesting", "Mark of Healing": "Alchemy", "Mark of Hospitality": "Cooking", "Mark of Making": "Blacksmithing", "Mark of Passage": "Navigation", "Mark of Scribing": "Enchanting", "Mark of Sentinel": "Blacksmithing", "Mark of Shadow": "Tailoring", "Mark of Storm": "Navigation", "Mark of Warding": "Engineering"
+    "Mark of Detection": "Alchemy", "Mark of Finding": "Scavenging", "Mark of Handling": "Harvesting", "Mark of Healing": "Alchemy", "Mark of Hospitality": "Cooking", "Mark of Making": "Blacksmithing", "Mark of Passage": "Navigation", "Mark of Scribing": "Enchanting", "Mark of Sentinel": "Blacksmithing", "Mark of Shadow": "Tailoring", "Mark of Storm": "Navigation", "Mark of Warding": "Engineering",
+    "Corvum": "Scavenging", "Gallus": "Cooking", "Luma": "Enchanting", "Raptor": "Harvesting", "Strig": "Navigation",
+    "Cervan": "Harvesting", "Hedge": "Alchemy", "Jerbeen": "Cooking", "Mapach": "Engineering", "Vulpin": "Scavenging"
   },
   "patterns": [["Dragonborn$", "Blacksmithing"], ["Tiefling", "Enchanting"], ["Goliath$", "Harvesting"], ["Shifter$", "Scavenging"]]
 }
