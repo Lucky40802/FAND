@@ -20,7 +20,7 @@ await p.evaluate(()=>npcRandom());await p.waitForTimeout(200);
 const r=await p.evaluate(()=>({n:NPCS.length,ed:NPC_EDIT===NPCS[0].id,name:NPCS[0].name,looks:NPCS[0].looks,secret:NPCS[0].secret}));ok(r.n===2&&r.ed&&r.name&&r.looks&&r.secret,'Random NPC fills a whole NPC and opens it for editing ('+r.name+')');
 await p.evaluate(()=>npcFormSave());await p.waitForTimeout(150);
 // search + filter
-await p.fill('#npc-q','hesta');await p.waitForTimeout(200);ok(await p.evaluate(()=>document.querySelectorAll('#content .grid .card').length===1&&document.activeElement.id==='npc-q'),'search narrows the roster (and keeps the cursor in the box)');
+await p.fill('#npc-q','hesta');await p.waitForFunction(()=>document.querySelectorAll('#content .grid .card').length===1,null,{timeout:3000}).catch(()=>{});ok(await p.evaluate(()=>document.querySelectorAll('#content .grid .card').length===1&&document.activeElement.id==='npc-q'),'search narrows the roster (and keeps the cursor in the box)');
 await p.fill('#npc-q','');await p.waitForTimeout(150);
 await p.evaluate(()=>{$('npc-ff').value='tower:Evocation';$('npc-ff').dispatchEvent(new Event('change'))});await p.waitForTimeout(150);ok(await p.evaluate(()=>document.querySelectorAll('#content .grid .card').length===1),'filter by faction');
 await p.evaluate(()=>{$('npc-ff').value='';$('npc-ff').dispatchEvent(new Event('change'))});

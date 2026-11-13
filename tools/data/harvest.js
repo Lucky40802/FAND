@@ -180,7 +180,7 @@ function plan(name, txt) {
   return 'beast';
 }
 function parts(m) {
-  var kind = plan(m.n, m.txt), list = BODY[kind].slice();
+  var kind = m.plan && BODY[m.plan] ? m.plan : plan(m.n, m.txt), list = BODY[kind].slice(); // a monster can name its own body plan
   if (kind === 'beast' && /boar|elephant|mammoth|walrus|tusk/i.test(m.n)) list.splice(2, 0, 'tusk');
   if (kind === 'beast' && /horse|elk|deer|stag|goat|ram\b|bull|bison|camel|antelope|moose/i.test(m.n)) { list.splice(1, 1, 'horn'); list.splice(2, 0, 'hoof'); }
   if (kind === 'beast' && /wolf|bear|ape|lion|tiger|panther|fox|cat\b|leopard|badger|hyena|jackal|baboon|weasel|rat\b|mastiff|dog/i.test(m.n)) list[0] = 'pelt';

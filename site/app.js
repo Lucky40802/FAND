@@ -208,6 +208,42 @@ const REALM_BLURB={
   'Inner Void':'Deeper still. What lives here makes things go missing.',
   'Primordial':'The realm of the progenitors, older than the gods themselves.'
 };
+// The realm atlas (built from tools/data/realm-atlas.js): a write-up for every realm, and the Inner Realm's dimensions
+// and the Outer Realm's pocket dimensions, each with its materials, gear and natives.
+const ATL=()=>typeof ATLAS!=='undefined'&&ATLAS?ATLAS:{realms:{},dims:[]};
+const dimsOf=realm=>ATL().dims.filter(d=>d.realm===realm);
+const dimByName=n=>ATL().dims.find(d=>d.n===n);
+function realmAtlasHTML(r){const A=ATL().realms[r.n];if(!A)return `<div class="prose">${esc(REALM_BLURB[r.n]||'')}</div>`;
+  const li=L=>L&&L.length?`<ul class="atl-l">${L.map(x=>Array.isArray(x)?`<li><b>${esc(x[0])}.</b> ${esc(x[1])}</li>`:`<li>${esc(x)}</li>`).join('')}</ul>`:'';
+  return `<div class="prose"><p>${esc(A.ds)}</p>${A.travel?`<p><b>Traveling here.</b> ${esc(A.travel)}</p>`:''}</div>`
+    +blk('Regions',li(A.regions))+blk('Who holds power',li(A.factions))+blk('Dangers',li(A.dangers))+blk('Adventure hooks',li(A.hooks))}
+function dimCardHTML(d,open){const R=REALMS.find(x=>x.n===d.realm)||{},lv=d.realm==='Inner Realm'?'51–60':d.realm==='Outer Realm'?'61–70':'';
+  const chips=(names,find)=>names.map(n=>{const x=find(n);return x?refChip(x):`<span class="chip">${esc(n)}</span>`}).join('');
+  return `<details class="fold dim-card" data-dim="${esc(d.n)}"${open?' open':''} style="--rc:${R.color||'var(--acc)'}"><summary><b>${esc(d.n)}</b> <small class="dim-k">${esc(d.kind)}${d.law?' · Law of '+esc(d.law):''}${lv?' · levels '+lv:''}</small></summary>
+    <div class="dim-b"><p>${esc(d.ds)}</p>${d.life?`<p><b>Who lives here.</b> ${esc(d.life)}</p>`:''}${d.dangers?`<p><b>Dangers.</b> ${esc(d.dangers)}</p>`:''}${d.travel?`<p><b>Getting in.</b> ${esc(d.travel)}</p>`:''}
+    ${d.hooks&&d.hooks.length?`<p><b>Adventure hooks.</b></p><ul class="atl-l">${d.hooks.map(h=>`<li>${esc(h)}</li>`).join('')}</ul>`:''}
+    ${d.mons&&d.mons.length?`<div class="dim-row"><span>Natives</span><div class="chips">${chips(d.mons,n=>MON_IDX.get(lc(n)))}</div></div>`:''}
+    ${d.mats&&d.mats.length?`<div class="dim-row"><span>Materials</span><div class="chips">${chips(d.mats,findMat)}</div></div>`:''}
+    ${d.gear&&d.gear.length?`<div class="dim-row"><span>Made here</span><div class="chips">${chips(d.gear,findBP)}</div></div>`:''}
+    <div class="dim-act"><button type="button" class="btn" onclick="dimEncounter(${esc(JSON.stringify(d.n))},this)">🎲 Random encounter</button><button type="button" class="btn" onclick="dimFight(${esc(JSON.stringify(d.n))})">⚔ Build a fight here</button><button type="button" class="btn" onclick="dimNpc(${esc(JSON.stringify(d.n))},this)">👤 Someone from here</button></div><div class="dim-out" aria-live="polite"></div></div></details>`}
+// at the table: what the party runs into in a dimension, a balanced fight there, and someone who lives there
+const DIM_SIT=['blocking the only way forward','fighting each other over a kill','guarding a cache of {mat}','ambushing travelers on the way in','hunting something larger, and in no mood to be interrupted','wounded and cornered, and twice as dangerous for it','following the party since they arrived','gathered around a breach where the Law-vein shows through'];
+function dimEncounter(n,btn){const d=dimByName(n);if(!d)return;const out=btn.closest('.dim-b').querySelector('.dim-out'),M=(d.mons||[]).map(x=>MON_IDX.get(lc(x))).filter(Boolean);if(!M.length)return;
+  const R=Math.random,m=M[Math.floor(R()*M.length)],cr=+String(m.cr||'1').split('/').reduce((a,b)=>a/b),k=cr<=5?2+Math.floor(R()*4):cr<=12?1+Math.floor(R()*3):1;
+  const sit=DIM_SIT[Math.floor(R()*DIM_SIT.length)].replace('{mat}',(d.mats||[])[Math.floor(R()*(d.mats||[1]).length)]||'something valuable');
+  out.innerHTML=`<div class="callout" style="margin-top:8px"><b>${k>1?k+' × ':''}${refChip(m)}</b> ${esc(sit)}.${d.dangers?`<div class="note" style="margin:4px 0 0">Here too: ${esc(d.dangers)}</div>`:''}</div>`}
+function dimFight(n){const d=dimByName(n);if(!d)return;const st=store.get('enc',{});Object.assign(st,{realm:d.realm,dim:d.n,list:[],autoroll:1});const L=d.realm==='Inner Realm'?55:d.realm==='Outer Realm'?65:st.level;if(!PARTY.length)st.level=L;store.set('enc',st);closeAll();go('encounter')}
+function dimNpc(n,btn){const d=dimByName(n);if(!d)return;const out=btn.closest('.dim-b').querySelector('.dim-out'),r=makeNPC(rng32((Math.random()*4294967296)>>>0),d.realm);r.dim=d.n;
+  const roles=String(d.life||'').replace(/\.$/,'').split(/,\s*(?:and\s+)?|\s+and\s+/).map(x=>x.trim()).filter(Boolean);if(roles.length)r.trait=(r.trait?r.trait+'; ':'')+'one of '+d.n+'\'s '+roles[Math.floor(Math.random()*roles.length)].replace(/^the /,'');
+  out.innerHTML=npcHTML(r)}
+// open a dimension: its realm's window, with the dimension unfolded and in view
+function openDim(n){const d=dimByName(n),r=d&&REALMS.find(x=>x.n===d.realm);if(!r)return;openItem(r,$('mbg').classList.contains('open'));setTimeout(()=>{const el=[...document.querySelectorAll('#modal .dim-card')].find(x=>x.dataset.dim===n);if(el){el.open=true;el.scrollIntoView({block:'start'})}},60)}
+// where a material is found, for every material: its gathering site, its monster's home, or its realm region
+function foundOf(m){if(m.where)return 'Gathered at '+m.where+'.';const f=(m.from||[]).map(n=>MON_IDX.get(lc(n))).filter(Boolean);
+  if(f.length){const x=f[0];return 'Harvested from '+(f.length>1?f.map(y=>y.n).join(', '):'the '+x.n)+(x.hab?', found in '+x.hab.charAt(0).toLowerCase()+x.hab.slice(1):'')+(x.realm?' ('+x.realm+(/Realm$/.test(x.realm)?'':' Realm')+')':'')+'.'}
+  if(m.found)return m.found.replace(/\.?$/,'.');if(m.from&&m.from.length)return 'Harvested from '+m.from.join(', ')+'.';return m.realm?'Found in the '+m.realm+(/Realm$/.test(m.realm)?'':' Realm')+'.':''}
+const dimNote=x=>{if(!x||!x.dim)return '';const d=dimByName(x.dim);if(!d)return '';const w={mat:'Found only in',bp:'Made in',mon:'Native to'}[x._t]||'From';
+  return `<div class="callout dim-note" style="margin-bottom:12px">${w} <button type="button" class="linkish" onclick="openDim(${esc(JSON.stringify(d.n))})"><b>${esc(d.n)}</b></button>, ${esc(d.kind.charAt(0).toLowerCase()+d.kind.slice(1))} in the ${esc(d.realm)}.</div>`};
 // Money: each realm's coin is worth its base material price ÷ 5 gp, so a grade-g material costs 5×g local coins.
 const CURRENCY={
   'Human':{coin:'Gold Piece',pl:'gp',gp:1,sub:'10 copper = 1 silver, 10 silver = 1 gold, 10 gold = 1 platinum',what:'Minted copper, silver, gold, and platinum coins.',note:'The common measure of value across Vestige; every price on this site is given in gp.'},
@@ -615,6 +651,7 @@ const VIEWS={
       {id:'r',label:'All rarities',opts:()=>opts(BPS,b=>b.r,(a,b)=>rarRank(a)-rarRank(b)),test:(b,v)=>b.r===v},
       {id:'lv',label:'All levels',opts:()=>[['1-4','Level 1–4'],['5-8','Level 5–8'],['9-12','Level 9–12'],['13-16','Level 13–16'],['17-19','Level 17–19'],['20-99','Level 20+']],test:(b,v)=>{const [lo,hi]=v.split('-').map(Number);return b.lv>=lo&&b.lv<=hi}},
       {id:'realm',label:'Any material realm',opts:()=>opts(BPS,b=>realmOf(b.gr),realmSort),test:(b,v)=>realmOf(b.gr)===v},
+      {id:'dim',label:'Any dimension',opts:()=>opts(BPS,b=>b.dim),test:(b,v)=>b.dim===v},
       {id:'gen',label:'Any general Blueprint',opts:()=>GEN.map(([n])=>[n,n+' ('+fmt((BP_BY_GEN().get(n)||[]).length)+')']).filter(o=>!/\(0\)$/.test(o[1])),test:(b,v)=>genOf(b)===v},
       {id:'mat',label:'',hidden:true,test:(b,v)=>b.mats.some(m=>lc(m)===lc(v)),chip:v=>'Uses '+v},
     ],
@@ -637,6 +674,7 @@ const VIEWS={
       {id:'rar',label:'All rarities',opts:()=>opts(MATS,m=>m.rar,(a,b)=>rarRank(a)-rarRank(b)),test:(m,v)=>m.rar===v},
       {id:'gen',label:'Vault and harvest parts',opts:()=>[['v','Vault materials ('+fmt(MATS.filter(m=>!m.gen).length)+')'],['g','Harvest parts ('+fmt(MATS.filter(m=>m.gen).length)+')']],test:(m,v)=>v==='g'?!!m.gen:!m.gen},
       {id:'org',label:'Any origin',opts:()=>opts(MATS,m=>m.org),test:(m,v)=>m.org===v},
+      {id:'dim',label:'Any dimension',opts:()=>opts(MATS,m=>m.dim||((m.from||[]).map(n=>(MON_IDX.get(lc(n))||{}).dim).find(Boolean))),test:(m,v)=>(m.dim||(m.from||[]).map(n=>(MON_IDX.get(lc(n))||{}).dim).find(Boolean))===v},
       {id:'tr',label:'',hidden:true,test:(m,v)=>!!m.tr&&m.tr.n===v,chip:v=>'Trait: '+v},
     ],
     toggles:[
@@ -656,6 +694,7 @@ const VIEWS={
       {id:'src',label:'All sources',opts:()=>[['hb','Homebrew'],...opts(MONSTERS,m=>m.book).map(([v,l])=>[v,l.replace(v,BOOKS[v]||v)])],test:(m,v)=>v==='hb'?!!m.hb:m.book===v},
       {id:'g',label:'All grades',opts:()=>Array.from({length:10},(_,i)=>[String(i+1),'Grade '+(i+1)]),test:(m,v)=>m.g===+v},
       {id:'myth',label:'Any mythology',opts:()=>opts(MONSTERS,m=>m.myth),test:(m,v)=>m.myth===v},
+      {id:'dim',label:'Any dimension',opts:()=>opts(MONSTERS,m=>m.dim),test:(m,v)=>m.dim===v},
       {id:'gb',label:'All creatures',opts:()=>[['gb','God-beasts only'],['kin','God-beasts and their spawn']],test:(m,v)=>v==='gb'?!!m.gb:!!(m.gb||(m.rel||[]).some(n=>{const x=MON_IDX.get(lc(n));return x&&x.gb}))},
     ],
     toggles:[{id:'pin',label:'★ Pinned',test:m=>isPinned(m)}],
@@ -824,7 +863,7 @@ function closeNav(){if($('navpop').contains(document.activeElement)&&NAV_BTN&&do
 document.addEventListener('mousedown',e=>{if(!e.target.closest('#navpop')&&!e.target.closest('.navg'))closeNav()});
 $('navpop').addEventListener('click',e=>{const a=e.target.closest('a[data-tab]');if(!a)return;closeNav();if(SITE||e.ctrlKey||e.metaKey)return;e.preventDefault();go(a.dataset.tab)});
 window.addEventListener('resize',closeNav);
-function renderTabs(){
+function renderTabs(){dmPadBtn();
   const cur=navGroupOf(TAB);
   $('tabs').innerHTML=`<a class="tab${TAB==='home'?' on':''}" href="${pageUrl('home')}" data-tab="home">${pgSym('home')}Home</a>`+navGroups().map(([g,ids])=>{const n=ids.reduce((a,id)=>{const t=TABS.find(x=>x[0]===id);return a+(t&&t[2]||0)},0);return `<span class="navg"><button class="tab${g===cur?' on':''}" data-group="${esc(g)}" aria-haspopup="menu" aria-expanded="false">${pgSym('g:'+g)}${g}${g===cur?`<span class="n">· ${(TABS.find(t=>t[0]===TAB)||[])[1]||''}</span>`:''}<span class="car">▾</span></button></span>`}).join('');
   const on=$('tabs').querySelector('.tab.on');if(on){const T=$('tabs'),r=on.getBoundingClientRect(),tr=T.getBoundingClientRect();if(r.right>tr.right||r.left<tr.left)T.scrollLeft+=r.left-tr.left-16}
@@ -1154,7 +1193,7 @@ function showModal(x){
   const M=MODAL[x._t](x);
   const i=MODAL_LIST.indexOf(x);
   const nav=i>=0&&MODAL_LIST.length>1?`<div class="mnav"><button class="btn" onclick="step(-1)" ${i===0?'disabled':''}>← Previous</button><span class="pos">${fmt(i+1)} / ${fmt(MODAL_LIST.length)}</span><button class="btn" onclick="step(1)" ${i===MODAL_LIST.length-1?'disabled':''}>Next →</button></div>`:'';
-  M.body+=vaultBlock(x);
+  M.body=dimNote(x)+M.body+vaultBlock(x);
   $('modal').innerHTML=`<div class="mh" style="${M.strip?'--strip:'+M.strip:''}">
       ${PICKABLE[x._t]&&artBody(x)?`<div class="mh-row">${role()!=='player'?`<button type="button" class="art-edit" onclick="artPicker(CUR)" title="Choose a different picture" aria-label="Choose a different picture for ${esc(x.n.split(' - ')[0])}">${artHTML(x,'lg')}<span class="art-pen" aria-hidden="true">✎</span></button>`:artHTML(x,'lg')}<div class="mh-txt">`:''}<div class="kind">${M.kind||TYPES[x._t].label}</div>
       <h2 id="mtitle">${M.title}</h2>${M.ep?`<div class="ep">${M.ep}</div>`:''}
@@ -1274,6 +1313,50 @@ function vaultBlock(x){
   const key=t==='god'?godKey(x):x.n,d=(VDETAILS[t]||{})[key];if(!d)return '';
   return `<details class="fold" open style="border-top:1px solid var(--line);padding-top:10px"><summary>From the vault <span style="color:var(--muted)">· ${esc(d.f)}</span></summary><div><div class="note" style="margin:0 0 8px">The website's data above takes priority where the two differ.</div><div class="prose vault" style="font-family:var(--sans);font-size:.9rem">${mdVault(d.md)}</div></div></details>`;
 }
+// ── DM notepad (2026-11-12): pages of private notes for the DM, on every page from the header (Alt+N). Saved as you
+// type, with your other data (and to your account when signed in); never shared with a campaign's players. [[Name]] in a
+// note links to that monster, Blueprint, spell, god, realm or note.
+const dmPadData=()=>{const d=store.get('dmpad',null)||{};d.notes=Array.isArray(d.notes)?d.notes.filter(n=>n&&typeof n==='object'):[];return d};
+const dmPadSave=d=>store.set('dmpad',d);
+function dmPadBtn(){const b=$('dmPadBtn');if(b)b.hidden=role()==='player'}
+function dmPad(open){const P=$('dmpad');if(!P)return;const show=open==null?P.hidden:open;if(!show)dmPadFlush();P.hidden=!show;const b=$('dmPadBtn');if(b)b.setAttribute('aria-expanded',show?'true':'false');
+  document.body.classList.toggle('dmpad-open',show);if(show){dmPadRender();setTimeout(()=>{const t=$('dp-body');if(t)t.focus()},30)}else if(b)b.focus()}
+function dmPadNew(){const d=dmPadData(),n={id:uid(),t:'',body:'',at:Date.now()};d.notes.unshift(n);d.cur=n.id;dmPadSave(d);dmPadRender();setTimeout(()=>{const t=$('dp-title');if(t)t.focus()},30)}
+function dmPadCur(d){let n=d.notes.find(x=>x.id===d.cur);if(!n&&d.notes.length)n=d.notes[0];return n}
+const dmPadTitle=n=>(n.t||'').trim()||(n.body||'').trim().split('\n')[0].slice(0,40)||'Untitled page';
+// typing saves 0.4 s after the last key; anything that redraws or closes the notepad saves what is typed first
+let DP_TM=null,DP_FLUSH=null;const dmPadFlush=()=>{clearTimeout(DP_TM);if(DP_FLUSH)DP_FLUSH()};
+window.addEventListener('pagehide',dmPadFlush);
+function dmPadRender(){dmPadFlush();const P=$('dmpad');if(!P||P.hidden)return;const d=dmPadData();
+  if(d.lock&&!dmUnlocked()){P.innerHTML=`<div class="dp-head"><b>📝 DM notepad</b><button class="icon-btn" onclick="dmPad(false)" aria-label="Close notepad">${ICON.x}</button></div><div class="dp-locked"><p>The notepad is kept behind the DM passphrase on this device.</p><button class="btn primary" onclick="dmPad(false);go('hidden')">Unlock DM content</button></div>`;return}
+  if(!d.notes.length){const n={id:uid(),t:'Session notes',body:'',at:Date.now()};d.notes.push(n);d.cur=n.id;dmPadSave(d)}
+  const cur=dmPadCur(d),q=lc(d.q||''),list=d.notes.filter(n=>!q||lc(n.t+' '+n.body).includes(q)).sort((a,b)=>(b.pin?1:0)-(a.pin?1:0)||b.at-a.at);
+  const links=[...new Set(((cur.body||'').match(/\[\[([^\]]{1,80})\]\]/g)||[]).map(x=>x.slice(2,-2)))].map(n=>[n,resolveLink(n)]);
+  P.innerHTML=`<div class="dp-head"><b>📝 DM notepad</b><span class="dp-saved" id="dp-saved" aria-live="polite"></span><button class="btn" type="button" onclick="dmPadNew()">+ New page</button><button class="icon-btn" onclick="dmPad(false)" aria-label="Close notepad" title="Close (Esc)">${ICON.x}</button></div>
+    <div class="dp-wrap"><div class="dp-list"><input class="sel" id="dp-q" type="search" placeholder="Search notes…" aria-label="Search notes" value="${esc(d.q||'')}">
+      <div class="dp-items" role="listbox" aria-label="Pages">${list.map(n=>`<button type="button" role="option" aria-selected="${n.id===cur.id}" class="dp-item${n.id===cur.id?' on':''}" onclick="dmPadOpen('${n.id}')">${n.pin?'📌 ':''}<b>${esc(dmPadTitle(n))}</b><small>${esc(new Date(n.at).toLocaleDateString())}</small></button>`).join('')||'<div class="note" style="margin:6px">No page matches.</div>'}</div></div>
+    <div class="dp-ed"><input class="sel dp-title" id="dp-title" placeholder="Page title" aria-label="Page title" value="${esc(cur.t||'')}">
+      <textarea class="sel" id="dp-body" aria-label="Note" placeholder="Plans, secrets, what the party missed, who owes whom… Type [[a name]] to link a monster, item, spell, god or realm.">${esc(cur.body||'')}</textarea>
+      ${links.length?`<div class="chips dp-links"><span class="note" style="margin:0 4px 0 0">Linked</span>${links.map(([n,x])=>x?refChip(x):`<span class="chip" title="Nothing on the site has this name">${esc(n)}?</span>`).join('')}</div>`:''}
+      <div class="dp-act"><button class="btn" type="button" onclick="dmPadLink()" title="Add a link to the item that is open, or this page">🔗 Link what's open</button><button class="btn" type="button" onclick="dmPadStamp()">🕒 Time stamp</button><button class="btn" type="button" onclick="dmPadPin()">${cur.pin?'Unpin':'📌 Pin'}</button>
+        <button class="btn" type="button" onclick="dmPadCopy()">Copy</button><button class="btn" type="button" onclick="dmPadDel()">Delete page</button>
+        <label class="chk" style="margin-left:auto" title="Ask for the DM passphrase before showing the notepad on this device"><input type="checkbox" id="dp-lock"${d.lock?' checked':''}> Keep behind the DM passphrase</label></div></div></div>`;
+  const tEl=$('dp-title'),bEl=$('dp-body');
+  const save=()=>{clearTimeout(DP_TM);DP_FLUSH=()=>{DP_FLUSH=null;const D=dmPadData(),n=D.notes.find(x=>x.id===cur.id);if(!n)return;n.t=tEl.value;n.body=bEl.value;n.at=Date.now();dmPadSave(D);const s=$('dp-saved');if(s)s.textContent='Saved'};DP_TM=setTimeout(DP_FLUSH,400);const s=$('dp-saved');if(s)s.textContent='Saving…'};
+  $('dp-title').oninput=save;$('dp-body').oninput=save;$('dp-body').onblur=()=>{if(/\[\[/.test($('dp-body').value))setTimeout(dmPadRender,450)};
+  $('dp-q').oninput=e=>{const D=dmPadData();D.q=e.target.value;dmPadSave(D);const pos=e.target.selectionStart;dmPadRender();const q2=$('dp-q');q2.focus();q2.setSelectionRange(pos,pos)};
+  $('dp-lock').onchange=e=>{const D=dmPadData();D.lock=e.target.checked;dmPadSave(D);toast(D.lock?'The notepad now asks for the DM passphrase':'The notepad opens without the passphrase')}}
+function dmPadOpen(id){const d=dmPadData();d.cur=id;dmPadSave(d);dmPadRender()}
+function dmPadInsert(txt){const t=$('dp-body');if(!t)return;const a=t.selectionStart,b=t.selectionEnd;t.value=t.value.slice(0,a)+txt+t.value.slice(b);t.selectionStart=t.selectionEnd=a+txt.length;t.dispatchEvent(new Event('input'));t.focus()}
+function dmPadLink(){const x=$('mbg').classList.contains('open')&&CUR?CUR:null;if(x){dmPadInsert('[['+x.n.split(' - ')[0]+']] ');setTimeout(dmPadRender,450);return}
+  const t=TABS.find(y=>y[0]===TAB);dmPadInsert((t?t[1]:TAB)+' page ('+location.href.split('#')[0].split('/').pop()+') ')}
+function dmPadStamp(){dmPadInsert((($('dp-body').value&&!/\n$/.test($('dp-body').value))?'\n':'')+'— '+new Date().toLocaleString([], {dateStyle:'medium',timeStyle:'short'})+' —\n')}
+function dmPadPin(){const d=dmPadData(),n=dmPadCur(d);n.pin=!n.pin;dmPadSave(d);dmPadRender()}
+function dmPadCopy(){const n=dmPadCur(dmPadData()),txt=(n.t?n.t+'\n\n':'')+(n.body||'');(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast('Page copied'),()=>toast('Copy failed'))}
+function dmPadDel(){const d=dmPadData(),n=dmPadCur(d);if(!n)return;const i=d.notes.indexOf(n);d.notes.splice(i,1);d.cur=(d.notes[0]||{}).id;dmPadSave(d);dmPadRender();
+  undoToast('Deleted "'+dmPadTitle(n)+'"',()=>{const D=dmPadData();D.notes.splice(i,0,n);D.cur=n.id;dmPadSave(D);dmPadRender()})}
+document.addEventListener('keydown',e=>{if(e.altKey&&!e.ctrlKey&&!e.metaKey&&(e.key==='n'||e.key==='N'||e.code==='KeyN')&&role()!=='player'){e.preventDefault();dmPad()}
+  else if(e.key==='Escape'&&$('dmpad')&&!$('dmpad').hidden&&!$('mbg').classList.contains('open')&&!document.querySelector('details.mmenu[open]')){dmPad(false)}});
 function noteByName(name){const k=lc(name.split('/').pop().replace(/#.*$/,''));return NOTES.find(n=>lc(n.n)===k)}
 function resolveLink(target){
   let k=lc(target.split('/').pop().replace(/#.*$/,'').trim());if(k==='vestige'&&!NOTES.some(n=>lc(n.n)==='vestige'))k='atrious';
@@ -1341,7 +1424,7 @@ const MODAL={
     const originMon=m.origin&&MON_IDX.get(lc(m.origin));
     const rows=[['Origin',esc(m.org||'')+(m.origin?`<small style="display:block;font-size:.75rem;color:var(--muted);font-weight:400">${m.org==='Creature'?'from ':''}${originMon?`<a href="#" data-ref="${ref(originMon)}">${esc(m.origin)}</a>`:esc(m.origin)}</small>`:'')],['Realm',`<span style="color:${rcol(m.realm)}">●</span> ${esc(m.realm)}`],['Grade',m.g],['Material rank',m.rank],['Item level',m.il],['Rarity',esc(m.rar||'')],['Potency',m.pot||''],['Type',esc(m.ty||m.cat)],
       ['Price',m.price?gp(m.price)+(localPrice(m.price,m.realm)?` <em style="font-style:normal;font-weight:400;color:var(--muted)">· ${localPrice(m.price,m.realm)}</em>`:'')+`<small style="display:block;font-size:.72rem;color:var(--muted);font-weight:400">merchants buy at ${gp(Math.floor(m.price/2))}</small>`:favorOf(m)?`${fav(favorOf(m))}<small style="display:block;font-size:.72rem;color:var(--muted);font-weight:400">not sold for coin; bought from a god or its contractors with Favor (temple discounts apply)</small>`:m.tier>=8?'Not sold':'—']];
-    const src=[m.where?`Gathered at ${esc(m.where)}${m.by?` by <b>${esc(m.by)}</b>`:''}.`:'',m.src&&!/^(Gathered|Drops from|Used in)/.test(m.src)?esc(m.src):'',m.use?`Used for: ${esc(m.use)}.`:''].filter(Boolean).join('<br>');
+    const src=[m.where?`Gathered at ${esc(m.where)}${m.by?` by <b>${esc(m.by)}</b>`:''}.`:'',m.src&&!/^(Gathered|Drops from|Used in)/.test(m.src)?esc(m.src):m.where?'':esc(foundOf(m)),m.use?`Used for: ${esc(m.use)}.`:''].filter(Boolean).join('<br>');
     return {title:esc(m.n),strip:rcol(m.realm),kind:'Material · '+esc(m.ty||m.cat),
       badges:`<button class="b" style="cursor:pointer" onclick="cmpToggle(${esc(JSON.stringify(m.n))})" title="Compare side by side on the Forge">⚖ Compare</button>${realmB(m.gr)}${rarB(m.rar)}${m.gen?'<span class="b blue">Harvest part</span>':''}${m.gath?`<span class="b green">${esc({ore:'Ore',herb:'Herb',fauna:'Small fauna',hide:'Hide'}[m.gath]||'Gathered')}</span>`:''}${m.supply?'<span class="b ghost">Supply</span>':''}${fx?'<span class="b gold">⚔ Weapon effect</span>':''}`,
       body:kv(rows)
@@ -1411,7 +1494,8 @@ const MODAL={
         +(spellLock(s)?`<div class="callout" style="border-color:var(--red);margin:8px 0">🔒 <b>Needs DM approval.</b> This spell ${esc(spellLock(s))}, so a character can learn or cast it only once the DM approves it for them.</div>`:'')
         +blk('Where it works',`<div class="note" style="margin:0 0 6px">${spellHome(s)?`A Rune spell: learnt only in the <b>${esc(spellHome(s))} Realm</b>, and cast only there.`:'Learnt in any realm the caster\'s stage opens, and cast only in the realm where it was learnt. Learn it again in another realm to use it there.'}</div>${spellScales(s)?`<div class="chips">${spellLearnIn(s).map(rn=>`<span class="chip" style="cursor:default;border-color:${(REALM[rn]||{}).color||'var(--line)'}"><small>${esc(rn)}</small> <b class="mono">${esc(spellAt(spellDmg(s),diceMult(realmPow(rn))))}</b></span>`).join('')}</div>`:''}`,spellScales(s)?'its dice in each realm: the realm\'s magic sets its power':'')
         +(/animate dead|animate remains|create undead|legion of bones|summon undead|unmarked grave/i.test(s.n)?`<div class="callout" style="border-color:var(--gold)">⚰ <b>In FAND, raising the dead follows the necromancy rules:</b> the chance depends on the corpse's level against yours (20% at your level, 2% one above), each point of INT is one summon slot, and each kind of undead keeps its own share of the original and needs its own kind of corpse. <a href="${pageUrl('rules')}" data-go="rules">Necromancy rules →</a></div>`:'')
-        +blk('Classes',(s.cls||[]).length?`<div class="chips">${s.cls.map(c=>`<button class="chip" data-go="spells" data-setup='${esc(JSON.stringify({f:{cls:c}}))}'>${esc(c)}</button>`).join('')}</div>`:'<div class="note" style="margin:0">No classes listed for this spell in the app data.</div>')};
+        +blk('Classes',(s.cls||[]).length?`<div class="chips">${s.cls.map(c=>`<button class="chip" data-go="spells" data-setup='${esc(JSON.stringify({f:{cls:c}}))}'>${esc(c)}</button>`).join('')}</div>`:'<div class="note" style="margin:0">No classes listed for this spell in the app data.</div>')
+        +(typeof SCHOOL_INFO!=='undefined'&&SCHOOL_INFO[s.sc]?blk('School of '+esc(s.sc),`<div class="note" style="margin:0">${esc(SCHOOL_INFO[s.sc][0])} ${esc(SCHOOL_INFO[s.sc][1])} <a href="#" onclick="store.set('magic',Object.assign(store.get('magic',{}),{school:${esc(JSON.stringify(s.sc))},q:''}));closeAll();go('magic');return false">Its tower →</a></div>`):'')};
   },
   sub(s){
     const src=subSource(s),sibs=SUBS.filter(x=>x.par===s.par&&x!==s);
@@ -1464,7 +1548,7 @@ const MODAL={
     const grades=Object.keys(byG).sort((a,b)=>a-b).map(g=>`<div style="display:flex;gap:10px;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--line)"><b style="width:64px;flex-shrink:0;font-size:.8rem;color:var(--muted)">Grade ${g}</b><div class="chips">${byG[g].sort(byName).slice(0,14).map(m=>refChip(m)).join('')}${byG[g].length>14?`<button class="chip" data-go="materials" data-setup='${esc(JSON.stringify({side:r.n,f:{g:g}}))}'>+${byG[g].length-14} more</button>`:''}</div></div>`).join('');
     return {title:esc(r.n),strip:r.color,kind:'Realm · Tier '+r.tier,
       badges:`<span class="b rlm" style="--rc:${r.color}">Tier ${r.tier}</span><span class="b ghost">Pressure ${r.pressure}</span><span class="b ghost">${r.base?'Base price '+gp(r.base):'Not sold'}</span>`,
-      body:`<div class="prose">${esc(REALM_BLURB[r.n]||'')}</div>`+realmMapPhotoHTML(r.n)
+      body:realmAtlasHTML(r)+(dimsOf(r.n).length?blk(r.n==='Outer Realm'?'Pocket dimensions':'Dimensions',dimsOf(r.n).map(d=>dimCardHTML(d,false)).join(''),dimsOf(r.n).length+' known'):'')+realmMapPhotoHTML(r.n)
         +(()=>{const v=[r.page,r.n+' Realm',r.n].filter(Boolean).map(noteByName).find(Boolean);return v?`<details class="fold" open style="border-top:1px solid var(--line);padding-top:10px"><summary>From the vault <span style="color:var(--muted)">· ${esc(v.f)}/${esc(v.n)}</span></summary><div class="prose vault" style="font-family:var(--sans);font-size:.9rem">${mdVault(v.md)}</div></details>`:''})()
         +kv([['Tier',r.tier],['Material ranks',`${(r.tier-1)*10+1}–${r.tier*10}`],['Item levels',`${Math.ceil(((r.tier-1)*10+1)/2)}–${r.tier*5}`],['Pressure',r.pressure],['Materials',fmt(mats.length)],['Monsters',fmt(mons.length)],['Gods at home',gods.length]])
         +blk('Money',(()=>{const c=CURRENCY[r.n];if(!c)return '';return c.coin?`<div class="callout"><b>${esc(c.coin)}</b> = ${gp(c.gp)}${c.gp>1?' each':''} · ${esc(c.sub)}<div style="margin-top:4px">${esc(c.what)} ${esc(c.note)}</div></div>`:`<div class="callout">${esc(c.note)}</div>`})())
@@ -1960,6 +2044,7 @@ function renderRealms(){
         <span class="ln">🪙 ${CURRENCY[r.n]&&CURRENCY[r.n].coin?`<b>${esc(CURRENCY[r.n].coin)}</b> = ${gp(CURRENCY[r.n].gp)}`:'No coin: favor and oath'}</span>
         ${top.length?`<span class="chips" style="margin-top:6px">${top.map(p=>`<span class="chip">✧ ${esc(p)}</span>`).join('')}</span>`:''}
       </button>`}).join('')}</div>
+    ${['Inner Realm','Outer Realm'].map(rn=>{const D=dimsOf(rn);return D.length?`<section class="sec"><div class="sec-h"><h3>${rn==='Inner Realm'?'Dimensions of the Inner Realm':'Pocket dimensions of the Outer Realm'}</h3><p>${rn==='Inner Realm'?'Whole worlds grown around the anchors of the strongest Laws, each shaped by the Law it holds (levels 51–60).':'Small broken pockets past the Astral, each with one rule gone wrong (levels 61–70).'}</p></div><div class="dim-grid">${D.map(d=>dimCardHTML(d,false)).join('')}</div></section>`:''}).join('')}
     <section class="sec"><div class="sec-h"><h3>Money</h3><p>Each realm mints its own coin, worth its base material price ÷ 5 gp, so a grade-<i>g</i> material costs 5 × <i>g</i> local coins (doubled at grade 9–10). Moneychangers take ${EXCHANGE_FEE*100}% to swap coin between realms.</p></div>${moneyTable()}</section>
     <section class="sec"><div class="sec-h"><h3>Tier table</h3></div>${tierTable()}</section>
   </div>`;
@@ -1981,6 +2066,7 @@ function renderProfessions(){
   const pick=(prof,lv)=>{const c=BPS.filter(b=>b.pr===prof&&b.ds);let best=null;c.forEach(b=>{if(!best||Math.abs(b.lv-lv)<Math.abs(best.lv-lv)||(Math.abs(b.lv-lv)===Math.abs(best.lv-lv)&&b.n<best.n))best=b});return best};
   $('content').innerHTML=`<div class="page">
     <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Professions</h3><p>Ten broad professions. Each old craft lives on as a specialty. You start with one specialty and gain more over time; crafting outside them is at disadvantage.</p></div>
+    <div class="panel" style="margin-bottom:14px"><b style="font-family:var(--serif)">Two professions</b><p class="note" style="margin:4px 0 0">A character can take up a <b>second profession</b> (on the character sheet, under Profession). It starts at level 1 and levels on its own: each profession has its own level, stage, title and bonus (half its level), and the character can craft, harvest or scavenge with either. Specialties can come from both, one to start in each and one free every 5 levels in each. Your table can limit it in <a href="#" onclick="go('settings');return false">Settings → Table rules</a>: unlocked at a level of the first profession, never above the first, or not at all.</p></div>
     <div class="panel" style="margin-bottom:14px"><b style="font-family:var(--serif)">Profession stages</b><p class="note" style="margin:4px 0 8px">Like classes, every profession has a stage every 20 levels (I to V), each opening a band of realms. A crafter can only work materials from realms their stage has reached; harvesting or scavenging parts from a deeper realm is at disadvantage. The profession bonus is half the profession level: <b>+1 every 2 levels</b> (+10 at level 20, +25 at level 50, +50 at level 100). It is added to the profession's crafting rolls, and for <b>Scavenging</b> to both its crafting and its scavenging rolls (Harvesting's also counts when gathering and mining).</p><div class="tablewrap"><table class="t"><thead><tr><th>Stage</th><th>Profession levels</th><th>Materials it can work</th><th class="num">Bonus</th></tr></thead><tbody>${Array.from({length:MAX_STAGE},(_,i)=>i+1).map(k=>`<tr><td>${ROMAN[k-1]}</td><td>${stageStart(k)}–${stageEnd(k)}</td><td>${REALMS.filter(r=>tierStage(r.tier)===k).map(r=>`<span class="b rlm" style="--rc:${r.color}">${esc(r.n)}</span>`).join(' ')}${k>1?' and below':''}</td><td class="num">+${Math.floor(stageStart(k)/2)} to +${Math.floor(stageEnd(k)/2)}</td></tr>`).join('')}</tbody></table></div></div>
     <details class="panel fold" style="margin-bottom:14px"><summary><b style="font-family:var(--serif)">Level by level, 1 to 100</b> <small style="color:var(--muted)">the same for every profession: +1 bonus every 2 levels</small></summary>
       <div class="tablewrap" style="margin-top:8px"><table class="t"><thead><tr><th class="num">Level</th><th class="num">Bonus</th><th>What it brings</th></tr></thead><tbody>${Array.from({length:100},(_,i)=>i+1).map(L=>{const u=[];if(L<=20)u.push(['Basic Recipes','Advanced Components','Rare Crafting','Masterwork Techniques','Legendary Creation'][Math.floor((L-1)/4)]);if(L>1&&(L-1)%20===0)u.push('Stage '+ROMAN[Math.floor((L-1)/20)]+': new title and a trial');if(L>20&&(L-1)%10===0)u.push('a stage feature');if(L%5===0)u.push('free specialty');return `<tr${L%2===0?' style="background:var(--goldbg)"':''}><td class="num">${L}</td><td class="num"><b>+${Math.floor(L/2)}</b></td><td>${u.join(' · ')}</td></tr>`}).join('')}</tbody></table></div>
@@ -2090,6 +2176,10 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-11-12','A DM notepad','The DM now has a notepad on every page: the 📝 button in the header, or Alt+N. Keep as many pages as you like (session notes, villains, who owes whom); they save as you type, can be searched and pinned, and a deleted page can be brought back. Type [[a name]] to link any monster, Blueprint, spell, god or realm, or press Link what\'s open to link the item you are looking at; Time stamp marks the moment in the session. The notes are private: they are saved with your own data (and your account when you sign in) and never shared with a campaign\'s players, players don\'t see the button, and you can keep the notepad behind the DM passphrase on a shared device.','prep'],
+  ['2026-11-11','Deep-realm fights rebalanced, dimensions at the table, table rules, a faster site, and the schools of magic','A balance check showed that past the Mysterious Realm a party killed any monster, boss or minion, in under a round, while minions hit as hard as bosses. Deep-realm monsters are now built as they would be in the Mysterious Realm and scaled by what characters of the realm\'s levels deal and withstand, so every realm plays like the Mysterious at its own levels: minions fall in a blow and barely scratch, on-level monsters take about two rounds, bosses about three and hit hard. Dimensions are ready for the table: a dimension filter in the Bestiary, Materials and Blueprints, a dimension choice in the encounter builder, and on every dimension a random encounter, a fight built there in one click, and someone who lives there. Settings has Table rules: whether a second profession is free, unlocks at a level of the first, can\'t pass the first, or isn\'t allowed. The site\'s data file is a fifth smaller (rows no longer repeat their field names), so pages load as fast as before the deep realms were added. And every school of magic has a write-up on its Magic Tower page and in each spell\'s window, with who casts it, which focuses favour it and its signature spells.','encounter'],
+  ['2026-11-11','Two professions','A character can now hold a second profession, chosen on the character sheet (or in the Party editor) under the first. It starts at level 1 and levels on its own, with its own stage, title and bonus, and its specialties join the list. Crafting, the Forge, the Smelter, scavenging and mining all accept either profession, and the crafter pickers show both.','professions'],
+  ['2026-11-11','The deep realms, filled in','Every realm now has a full write-up in its window: what it is, what changes for travelers, its regions, who holds power, its dangers and adventure hooks. The Inner Realm has thirteen dimensions, whole worlds grown around the anchors of the strongest Laws: Aldermere (knights and dragons), Brassholm (a steam-driven empire), Kethra-Vael (an alien world under a violet sun), Gloamhollow (gothic horror), Thalassar (an ocean world), Skyreach (floating islands), the Ashfall Expanse, the Lantern Courts, Rimefast, Arcanopolis, the Verdant Deep, the Iron Front and the Glass Dunes. The Outer Realm has nineteen small, stranger pocket dimensions, from the Inverted Orchard, where things fall up, to Paperfold, the Echo Chamber, the Last Library and the Carnival at the End. Each dimension has its natives, materials and gear, all on the Realms page. 284 new monsters fill the deep realms (every realm past the Mysterious now has at least 50, with plenty at its own levels), 1,175 new Blueprints give every deep realm a full set of weapons, armor, shields and focuses through its levels, 117 new spells give every school high-level magic and the School of Resonance its hundredth spell, and every material now says where it is found.','realms'],
   ['2026-11-10','Class focus materials, safer saving, phones, and the keyboard','Every spellcasting class now has what bards got with Virtuoso: a focus property that adds +1 to +5 (by Potency) to that class\'s spell Accuracy and save DC through its own kinds of focus. Devout for clerics and paladins (Holy Symbol, Amulet), Wildbound for druids and rangers (Totem, Staff), Bloodspark for sorcerers (Crystal, Orb), Pactbound for warlocks (Rod, Scepter), and Arcanist for wizards and artificers (Wand, Tome). Each realm has one material of each, and the Blueprints list has a ready-made focus of each kind in every realm, levels 6 to 96. A plain Holy Symbol now counts as a focus on the sheet too. If the browser\'s storage fills up, FAND now says a change was not saved instead of losing it quietly; portraits are smaller, a portrait that does not fit is not kept, and Settings shows how much space is used. On a phone, the table screen\'s close button no longer slides off the edge and the player view drops its empty left column. With a keyboard, every button and dropdown now shows where you are, Escape closes the ⋯ More menus, and the picture and file buttons can be reached and pressed.','properties'],
   ['2026-11-10','Bonded summons in the combat tracker','Adding the party to the combat tracker (+ Party) now brings each character\'s bonded summons along: they act right after their summoner, show their Accuracy and damage per hit, and their hit points stay in step with the sheet. A summon brought to 0 is marked fallen until the next long rest. Their numbers now come from the typical monster of the character\'s realm band (at the default 50%: half its hit points, its AC, and a hit the size of its best attack), so five summons deal about as much as a same-level Fighter; before, a level 15 summon had three times a Fighter\'s hit points.','combat'],
   ['2026-11-13','Ten new peoples: birdfolk and humblefolk','Two new families of forest peoples from the Mysterious Realm join the builder, the generator and the sheet. The birdfolk all glide: Corvum (crows and ravens, who judge value and mimic voices), Gallus (songbirds who help and rally allies), Luma (small bright birds who flutter and flash), Raptor (hawks with keen sight and a diving strike) and Strig (owls who see in the dark and move silently). The humblefolk: Cervan (sure-footed deer folk with a charging kick), Hedge (hedgehog folk who curl up behind their spines), Jerbeen (jerboa folk who leap far and stand together), Mapach (raccoon tinkerers who climb) and Vulpin (fox folk with keen noses and quick reflexes). Each has a full profile and a profession knack. The names others use for three existing peoples now show too: Dark Elf (drow), Deep Dwarf (duergar) and Shadow Elf (shadar-kai).','chargen'],
@@ -2654,6 +2744,17 @@ const SBGEN=(function(){var module={exports:{}};// Original stat blocks in the M
 
 var XP = { '0': 10, '1/8': 25, '1/4': 50, '1/2': 100, '1': 200, '2': 450, '3': 700, '4': 1100, '5': 1800, '6': 2300, '7': 2900, '8': 3900, '9': 5000, '10': 5900, '11': 7200, '12': 8400, '13': 10000, '14': 11500, '15': 13000, '16': 15000, '17': 18000, '18': 20000, '19': 22000, '20': 25000, '21': 33000, '22': 41000, '23': 50000, '24': 62000, '25': 75000, '26': 90000, '27': 105000, '28': 120000, '29': 135000, '30': 155000 };
 var GRADE_CR = ['1/2', '2', '4', '6', '8', '11', '14', '17', '21', '25'];
+// Deep-realm calibration (2026-11-11), from the balance report: generated characters at each realm's middle level (24 per
+// realm, eight classes). A typical Mysterious character (level 15) deals 38 a round to a monster with AC 15, has AC 8.5 and
+// 119 hit points. hp = how much harder a character of the realm hits (round damage against AC 25 ÷ 38); ac and
+// toughness = that realm's character AC and hit points ÷ 119. The Primordial is set 15% above the Inner Void, as each
+// realm before it rises (its measured damage dipped where generated characters found fewer Blueprints).
+var MYST = { ac: 8.5, hp: 119 };
+var DEEP = {
+  3: { hp: 176 / 38, ac: 9.7, toughness: 208 / 119 }, 4: { hp: 304 / 38, ac: 8.9, toughness: 308 / 119 }, 5: { hp: 413 / 38, ac: 9.5, toughness: 399 / 119 },
+  6: { hp: 593 / 38, ac: 11.6, toughness: 497 / 119 }, 7: { hp: 776 / 38, ac: 12.1, toughness: 587 / 119 }, 8: { hp: 1157 / 38, ac: 12.7, toughness: 695 / 119 },
+  9: { hp: 1460 / 38, ac: 13.6, toughness: 771 / 119 }, 10: { hp: 1679 / 38, ac: 14.3, toughness: 867 / 119 }
+};
 function crNum(c) { if (String(c).indexOf('/') > 0) { var p = String(c).split('/'); return +p[0] / +p[1]; } return +c; }
 function hash(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
 function mod(x) { return Math.floor((x - 10) / 2); }
@@ -2889,7 +2990,12 @@ function statblock(m, body, bestDrop) {
   // Past the Mysterious Realm a monster stands for a higher level (the encounter builder counts each realm tier past the
   // Mysterious as 10 levels): its hit points follow that level (CR + 10 per tier) and its damage CR + 6 per tier, so
   // fights at levels 21-100 last as long as they do at 1-20 (site scaling pass, 2026-11-04).
-  var deep = Math.max(0, (m.tier || 1) - 2), cHP = c + 10 * deep, cD = c + 6 * deep;
+  // (Replaced 2026-11-11, owner's request: the balance report showed parties past the Mysterious Realm killing any
+  // monster, boss or minion, in under a round, while minions hurt as much as bosses. Now a deep-realm monster is built
+  // as it would be in the Mysterious Realm, then scaled by the realm's calibration below, so every realm plays like the
+  // Mysterious at its own levels and challenge rating keeps its spread.)
+  var deepCal = DEEP[m.tier || 1] || null;
+  var deep = 0, cHP = c, cD = c;
   var hp = cHP < 1 ? ({ 0: 4, 0.125: 9, 0.25: 13, 0.5: 22 })[cHP] || 4 : Math.round(15 * cHP + 10);
   var die = sz[1], per = die / 2 + 0.5 + mods[2];
   var hd = Math.max(1, Math.round(hp / Math.max(1, per)));
@@ -2897,8 +3003,15 @@ function statblock(m, body, bestDrop) {
   // Realm scaling (campaign rule: everything scales through the realms). Deeper realms mean tougher, harder-hitting
   // monsters: +15% HP per realm tier past the Human Realm, and a flat bonus on every hit that keeps pace with the AC
   // that gear of that realm gives (+4 per tier), since AC is subtracted from each hit.
-  var tier0 = Math.max(0, (m.tier || 1) - 1), realmHit = 4 * tier0;
+  var tier0 = deepCal ? 1 : Math.max(0, (m.tier || 1) - 1), realmHit = 4 * tier0;
   if (tier0) { hd = Math.max(1, Math.round(hd * (1 + 0.15 * tier0))); hp = Math.max(1, Math.floor(hd * (die / 2 + 0.5)) + hd * mods[2]); }
+  // deep realms: hit points grow with what a party of the realm's levels deals in a round
+  if (deepCal) { hd = Math.max(1, Math.round(hd * deepCal.hp)); hp = Math.max(1, Math.floor(hd * (die / 2 + 0.5)) + hd * mods[2]); }
+  // and a hit's damage past a character's AC grows with characters' hit points there (what got through a Mysterious-
+  // level character's AC now gets through as large a share of a deep character's hit points; a hit that would not get
+  // through still does not); damage that ignores AC (breath, mind blasts) grows with hit points alone
+  var hitScale = function (d) { return !deepCal ? d : d > MYST.ac ? Math.round(deepCal.ac + (d - MYST.ac) * deepCal.toughness) : Math.max(1, Math.round(d * deepCal.ac / MYST.ac)); };
+  var saveScale = function (d) { return deepCal ? Math.max(1, Math.round(d * deepCal.toughness)) : d; };
   // AC scales through the realms as player damage does (deeper-realm materials hit harder): half the CR, natural armor,
   // +1 for each realm tier past the Human Realm, and +1 for every 5 grades within the realm.
   var tierBonus = Math.max(0, (m.tier || 1) - 1), gradeBonus = Math.floor((m.g || 1) / 5);
@@ -2924,21 +3037,22 @@ function statblock(m, body, bestDrop) {
   atks.forEach(function (a, i) {
     if (i > 0 && n === 1 && !a[3] && !kit) return; // a kit lists every attack the creature has, even if it makes one per turn
     var per = Math.max(1, Math.round(dpr / n)), d = a[2], avg = d / 2 + 0.5;
-    var dice = Math.max(1, Math.round((per - pri) / avg)), dmg = Math.max(1, Math.floor(dice * avg) + pri + realmHit);
+    var dice = Math.max(1, Math.round((per - pri) / avg)), dmg = Math.max(1, Math.floor(dice * avg) + pri + realmHit), flat = pri + realmHit;
+    if (deepCal) { var d0 = dmg, d1 = hitScale(d0); dice = Math.max(1, Math.round(dice * d1 / d0)); flat = d1 - Math.floor(dice * avg); if (flat < 0) { dice = Math.max(1, Math.floor(d1 / avg)); flat = d1 - Math.floor(dice * avg); } dmg = d1; }
     var ranged = a[3] === 'ranged', kind = a[1];
-    var txt = (ranged ? 'Ranged Weapon Attack: ' : 'Melee Weapon Attack: ') + 'Accuracy ' + sgn(hit) + ', ' + (ranged ? 'range 60/240 ft.' : 'reach ' + (/Large|Huge|Gargantuan/.test(sz[0]) ? 10 : 5) + ' ft.') + ', one target. Hit: ' + dmg + ' (' + dice + 'd' + d + ((pri + realmHit) ? ' ' + ((pri + realmHit) > 0 ? '+ ' : '− ') + Math.abs(pri + realmHit) : '') + ') ' + kind + ' damage';
-    if (elem && i === 0 && kind !== elem && c >= 2) { var ed = Math.max(1, Math.round(cD / 3)); txt += ' plus ' + Math.floor(ed * 3.5) + ' (' + ed + 'd6) ' + elem + ' damage'; }
+    var txt = (ranged ? 'Ranged Weapon Attack: ' : 'Melee Weapon Attack: ') + 'Accuracy ' + sgn(hit) + ', ' + (ranged ? 'range 60/240 ft.' : 'reach ' + (/Large|Huge|Gargantuan/.test(sz[0]) ? 10 : 5) + ' ft.') + ', one target. Hit: ' + dmg + ' (' + dice + 'd' + d + (flat ? ' ' + (flat > 0 ? '+ ' : '− ') + Math.abs(flat) : '') + ') ' + kind + ' damage';
+    if (elem && i === 0 && kind !== elem && c >= 2) { var ed = Math.max(1, Math.round(cD / 3)); if (deepCal) ed = Math.max(1, Math.round(ed * dmg / Math.max(1, d0))); txt += ' plus ' + Math.floor(ed * 3.5) + ' (' + ed + 'd6) ' + elem + ' damage'; }
     // what else a hit does: a new sentence ("If the target..."), extra damage ("plus..."), or more of this one ("and...")
     if (a[4]) txt += (/^[A-Z]/.test(a[4]) ? '. ' : /^plus /.test(a[4]) ? ' ' : ', ') + fill(a[4]);
     if (!kit && plan.poison && /Sting|Bite/.test(a[0]) && i > 0) txt += ', and the target must make a DC ' + dc + ' Constitution saving throw or be poisoned for 1 minute';
     actions.push([a[0], txt + '.']);
   });
   if (plan.breath && c >= 1) {
-    var bd = Math.max(2, Math.round(cD * 1.2 * (1 + 0.1 * tier0))), bt = elem || 'fire';
+    var bd = saveScale(Math.max(2, Math.round(cD * 1.2 * (1 + 0.1 * tier0)))), bt = elem || 'fire';
     actions.push(['Breath Weapon (Recharge 5–6)', 'The creature exhales ' + bt + ' in a ' + (c >= 17 ? 60 : c >= 10 ? 30 : 15) + '-foot cone. Each creature in that area must make a DC ' + dc + ' Dexterity saving throw, taking ' + Math.floor(bd * 3.5) + ' (' + bd + 'd6) ' + bt + ' damage on a failed save, or half as much on a successful one.']);
   }
   if (kit && kit.acts) kit.acts.forEach(function (x) { actions.push([x[0], fill(x[1])]); });
-  if (plan.mind && c >= 3) actions.push(['Mind Blast (Recharge 5–6)', 'Each creature of the creature\'s choice within 30 feet must succeed on a DC ' + dc + ' Intelligence saving throw or take ' + Math.floor(Math.max(2, Math.round(c)) * 3.5) + ' (' + Math.max(2, Math.round(c)) + 'd6) psychic damage and be stunned until the end of its next turn.']);
+  if (plan.mind && c >= 3) actions.push(['Mind Blast (Recharge 5–6)', 'Each creature of the creature\'s choice within 30 feet must succeed on a DC ' + dc + ' Intelligence saving throw or take ' + Math.floor(saveScale(Math.max(2, Math.round(c))) * 3.5) + ' (' + saveScale(Math.max(2, Math.round(c))) + 'd6) psychic damage and be stunned until the end of its next turn.']);
   // traits
   var traits = (kit ? kit.traits || [] : plan.traits || []).map(function (x) { return [x[0], fill(x[1])]; });
   if (bestDrop && bestDrop.tr) { var st = bestDrop.tr.t, up = /^Armor or a shield with this material gives \+(\d+) AC/.exec(st); if (up) ac += +up[1];
@@ -3751,7 +3865,7 @@ function craftOut(){
     const refine=m&&m.g>1?`${fmt(Math.pow(3,m.g-1)*need)} × ${esc(m.realm)} grade 1`:'';
     return `<tr><td>${m?refChip(m):esc(n)}${m&&m.tr?`<div style="font-size:.75rem;color:var(--gold2)">◆ ${esc(m.tr.n)}</div>`:''}</td><td>${m?esc(m.gr):''}</td><td class="num">${need}</td>${who?`<td class="num" style="color:${h>=need?'var(--green)':'var(--red)'}">${h}</td>`:''}<td class="num">${unit?gp(unit)+(st.buy&&m.realm===st.buy?' <small style="color:var(--green)">(native, ½)</small>':st.buy?' <small style="color:var(--red)">(foreign, ×2)</small>':''):favor?fav(favor):'—'}</td><td class="num">${unit&&miss?gp(unit*miss):favor&&miss?fav(favor*miss):'—'}</td><td style="font-size:.8rem;color:var(--text2)">${src}</td><td style="font-size:.78rem;color:var(--muted)">${refine?'or refine from '+refine:''}</td></tr>`;
   }).join('');
-  const prof=who?(lc(who.prof)===lc(b.pr)):null,spec=who&&b.sp?(who.specs||[]).map(lc).includes(lc(b.sp)):null;
+  const prof=who?hasProfession(who,b.pr):null,spec=who&&b.sp?(who.specs||[]).map(lc).includes(lc(b.sp)):null;
   const req=[`<b>${esc(b.pr)}</b>${b.sp&&b.sp!==b.pr?' · specialty <b>'+esc(b.sp)+'</b>':''} · level ${b.lv}`];
   if(who){req.push(prof?'<span class="b green">Has the profession</span>':'<span class="b red">Lacks the profession</span>');if(b.sp&&b.sp!==b.pr)req.push(spec?'<span class="b green">Has the specialty</span>':'<span class="b red">Crafts at disadvantage (outside their specialties)</span>')}
   if(/Infernal|Celestial|Void Smith/i.test(b.sp||''))req.push('<span class="b gold">Needs a smith with the matching realm specialty</span>');
@@ -3799,8 +3913,8 @@ function forgeReq(b){const ms=(b.mats||[]).map(findMat).filter(Boolean),tierOf=m
   return {g,station:FORGE_STATION[b.pr]||'workshop',realm,fuel:REALM_FUEL[realm]||'its own realm\'s fuel',name:FORGE_GRADES[g-1][0],how:FORGE_GRADES[g-1][1]}}
 const forgeText=F=>`Grade ${ROMAN[F.g-1]} (${F.name}) ${F.station}${F.g>1?`, fuelled with ${F.fuel}`:''}`;
 function craftCheck(b,who){
-  const st=store.get('craft',{}),mt0=Math.max(1,...b.mats.map(n=>((REALM[(findMat(n)||{}).realm]||{}).tier||1))),dc=(CRAFT_DC[b.r]||10)+realmDC(mt0),lv=who?+who.profLv||0:null,bonus=lv!=null?Math.floor(lv/2)+peopleProf(who,b.pr):0;
-  const hasProf=who?lc(who.prof||'')===lc(b.pr):null,hasSpec=who&&b.sp&&b.sp!==b.pr?(who.specs||[]).map(lc).includes(lc(b.sp)):true;
+  const st=store.get('craft',{}),mt0=Math.max(1,...b.mats.map(n=>((REALM[(findMat(n)||{}).realm]||{}).tier||1))),dc=(CRAFT_DC[b.r]||10)+realmDC(mt0),lv=who?profLvIn(who,b.pr):null,bonus=lv!=null?Math.floor(lv/2)+peopleProf(who,b.pr):0;
+  const hasProf=who?hasProfession(who,b.pr):null,hasSpec=who&&b.sp&&b.sp!==b.pr?(who.specs||[]).map(lc).includes(lc(b.sp)):true;
   const dis=[];if(who&&!hasSpec&&!(b.lv<=lv/2))dis.push('outside their specialties');const F=forgeReq(b),have=st.forge==null||st.forge===''?(st.noShop?0:F.g):+st.forge;let slow=false,fblock='';
   if(have<F.g){if(have===F.g-1){dis.push(have?`a grade ${ROMAN[have-1]} ${F.station}, one below the grade ${ROMAN[F.g-1]} it needs`:'no proper workspace or tools');slow=true}else fblock=`It needs a grade ${ROMAN[F.g-1]} ${F.station} (${F.name}); ${have?'a grade '+ROMAN[have-1]+' one':'working without one'} is too far below. ${F.how}`}
   const mt=Math.max(1,...b.mats.map(n=>((REALM[(findMat(n)||{}).realm]||{}).tier||1)));
@@ -4223,7 +4337,37 @@ function roStepMain(){const skn=k=>(SKILLS.find(y=>y[0]===k)||[])[1]||k,fixed=PE
 const peopleInfo=n=>typeof PEOPLES!=='undefined'&&PEOPLES.info?PEOPLES.info[n]||null:null;
 // a people's knack for one profession (data/people-prof.json): +1 to that profession's rolls, before or after taking it
 // up ('*' is the profession the character has); an orc adds +1 to Scavenging
-function peopleProf(c,prof){const P=c&&peopleInfo(c.race),o=P&&P.prof;if(!o||!prof)return 0;return (o[prof]||0)+(o['*']&&lc(c.prof||'')===lc(prof)?o['*']:0)}
+// Professions on the sheet: the main one and an optional second one, each with its own level, stage and title; the
+// specialties list covers both (campaign rule: a character can hold two professions, 2026-11-11)
+function sheetProfHTML(c,inp){
+  const one=(pk,lk,label)=>{const p=c[pk],lv=+c[lk]||0,pb=p?peopleProf(c,p):0;
+    return `<div class="sh-row" style="flex-wrap:wrap"><select data-s="${pk}" aria-label="${label}"><option value="">${pk==='prof'?'Profession…':'Second profession…'}</option>${Object.keys(PROFS).filter(x=>pk==='prof'?x!==c.prof2:x!==c.prof).map(x=>`<option${x===p?' selected':''}>${x}</option>`).join('')}</select><label class="note" style="margin:0">Level ${inp(lk,'0','class="sh-mini" min="0" max="100"','number')}</label>${p?`<b>${esc(profTitle(p,lv))}</b><small>stage ${ROMAN[stageOf(lv)-1]} · ${p==='Scavenging'?'crafting and scavenging':'profession'} bonus +${Math.floor(lv/2)+pb}${pb?` (+${pb} from ${esc(c.race)})`:''}</small>`:''}</div>`};
+  const P=peopleInfo(c.race),k=P&&P.prof&&Object.keys(P.prof)[0];
+  const profs=[c.prof,c.prof2].filter(p=>p&&PROFS[p]);
+  const all=specsFor(c);
+  const feats=[['prof','profLv'],['prof2','prof2Lv']].flatMap(([pk,lk])=>{const p=c[pk],pl=+c[lk]||0;return p?profStages(p).filter(x=>x.stage<=stageOf(pl)).flatMap(x=>x.features.filter(f=>f[0]<=pl).map(f=>[p,f])):[]});
+  return one('prof','profLv','Profession')
+    +(c.prof||c.prof2?(()=>{const o=prof2Open(c),cap=prof2Cap(c);return o.ok?one('prof2','prof2Lv','Second profession')+(c.prof2&&(+c.prof2Lv||0)>cap?`<div class="note" style="margin:4px 0 0">Counts as level ${cap}: your table caps a second profession at the first's level.</div>`:''):`<div class="note" style="margin:6px 0 0">${esc(o.why)}${c.prof2?' '+esc(c.prof2)+' is kept but doesn\'t count until then.':''}</div>`})():'')
+    +(k&&k!=='*'&&k!==c.prof&&k!==c.prof2?`<div class="note" style="margin:4px 0 0">${esc(c.race)}: +${P.prof[k]} to ${esc(k)} rolls, even without the profession.</div>`:'')
+    +(all.length?`<div class="chips">${all.map(x=>{const on=(c.specs||[]).includes(x);return `<button class="chip" type="button" onclick="sheetSpec(${esc(JSON.stringify(x))})" style="${on?'border-color:var(--gold);background:var(--goldbg)':''}">${on?'✓ ':''}${esc(x)}</button>`}).join('')}</div><div class="note" style="margin:0">Specialties: tap to mark the ones you hold (one to start, one free every 5 levels in each profession).</div>`:'')
+    +(feats.length?`<ul class="sh-ul">${feats.map(([p,f])=>`<li><b>${esc(f[1])}</b> (${profs.length>1?esc(p)+' ':''}Lv ${f[0]}): ${esc(f[2])}</li>`).join('')}</ul>`:'')}
+// a character's professions and their levels (the main one first); a second profession levels on its own
+// the table's rule for a second profession (Settings → Table rules): free, unlocked at a level of the first, capped at
+// the first's level, both, or not allowed
+const PROF2_MODES=[['free','Allowed freely'],['gate','Unlocks when the first profession reaches a level'],['cap','Allowed, never above the first profession\'s level'],['both','Unlocks at a level, and never above the first'],['off','Not allowed']];
+const profRule=()=>{const r=store.get('rules',{})||{};return {mode:PROF2_MODES.some(m=>m[0]===r.prof2)?r.prof2:'free',at:Math.max(1,Math.min(100,+r.prof2At||10))}};
+// whether a character may hold a second profession now, and if not, why
+function prof2Open(c){const R=profRule(),l1=+(c&&c.profLv)||0;if(R.mode==='off')return {ok:false,why:'Your table doesn\'t allow a second profession.'};
+  if((R.mode==='gate'||R.mode==='both')&&l1<R.at)return {ok:false,why:'A second profession unlocks when '+(c&&c.prof?c.prof:'the first profession')+' reaches level '+R.at+'.'};return {ok:true}}
+const prof2Cap=c=>{const R=profRule();return R.mode==='cap'||R.mode==='both'?(+c.profLv||0):100};
+const profsOf=c=>[c&&c.prof?[c.prof,+c.profLv||0]:null,c&&c.prof2&&prof2Open(c).ok?[c.prof2,Math.min(+c.prof2Lv||0,prof2Cap(c))]:null].filter(Boolean);
+const hasProfession=(c,p)=>!!p&&profsOf(c).some(x=>lc(x[0])===lc(p));
+const profLvIn=(c,p)=>{const x=profsOf(c).find(y=>lc(y[0])===lc(p||''));return x?x[1]:0};
+// the specialties a character's professions offer; changing a profession keeps only the specialties still offered
+const specsFor=c=>[...new Set([c.prof,c.prof2].filter(p=>p&&PROFS[p]).flatMap(p=>PROFS[p].abs.concat(BPS.filter(b=>b.pr===p&&b.sp&&b.sp!==b.pr).map(b=>b.sp))))].sort();
+function specsKeep(c){const ok=new Set(specsFor(c));c.specs=(c.specs||[]).filter(x=>ok.has(x))}
+const profLabel=c=>profsOf(c).map(([p,l])=>p+' '+l).join(', ');
+function peopleProf(c,prof){const P=c&&peopleInfo(c.race),o=P&&P.prof;if(!o||!prof)return 0;return (o[prof]||0)+(o['*']&&hasProfession(c,prof)?o['*']:0)}
 const peopleLine=n=>{const P=peopleInfo(n),r=CW_RACE.find(x=>x[0]===n);if(!P)return r?`speed ${r[3]} ft`:'';return [P.size,(P.type||'')+'',`speed ${P.speed||(r||[])[3]||30} ft`+(P.fly?`, fly ${P.fly}`:'')+(P.swim?`, swim ${P.swim}`:'')+(P.climb?`, climb ${P.climb}`:''),P.dv?`darkvision ${P.dv} ft`:'no darkvision'].filter(Boolean).join(' · ')};
 function peopleHTML(n){const P=peopleInfo(n),r=CW_RACE.find(x=>x[0]===n)||[n,'',{},30,'',''];const b=r[2]||{},bon=Object.entries(b).map(([a,v])=>a.toUpperCase()+' +'+v).join(', ');
   if(!P)return `<p>${esc(r[1])}</p><p class="note">${esc(r[4])}</p>`;
@@ -4570,7 +4714,7 @@ function renderSheet(){
       ${c.cls&&CLASS_MAIN[c.cls]?box('Steady Growth',[[c.cls,L1,c.growApplied||0],[c.cls2,L2,c.growApplied2||0]].filter(([k,l])=>k&&l>0&&CLASS_MAIN[k]).map(([k,l,done])=>{const n=steadyCount(l),p=n-done,g=growthOf(k);return `<div class="note" style="margin:0"><b>${esc(k)} ${l}</b>: ${esc(growthText(g))} a level · ${n} reached${p>0?` · <b style="color:var(--gold2)">${p} not yet added (${esc(growthText(Object.fromEntries(Object.entries(g).map(([a,v])=>[a,v*p]))))})</b>`:p<0?` · <span style="color:var(--red)">${-p} more added than reached</span>`:' · all added'}</div>`}).join('')+(steadyCount(L1)>(c.growApplied||0)||(c.cls2&&steadyCount(L2)>(c.growApplied2||0))?`<button class="btn" type="button" onclick="sheetGrow()" style="align-self:flex-start">Add Steady Growth</button>`:'')):''}
       ${box('Second class (dual classing)',`${c.cls2?`<div class="sh-row" style="flex-wrap:wrap"><b>${esc(c.cls)} ${L1}</b> / <b>${esc(c.cls2)} ${L2}</b> <small>(character level ${L})</small></div><div class="sh-row" style="flex-wrap:wrap"><label class="note" style="margin:0">Subclass <select data-s="sub2"><option value=""></option>${SUBS.filter(x=>x.par===c.cls2).map(x=>`<option${x.n===c.sub2?' selected':''}>${esc(x.n)}</option>`).join('')}</select></label><button class="btn" type="button" onclick="sheetLv2(1)"${L1<=1?' disabled':''}>Give a level to ${esc(c.cls2)}</button><button class="btn" type="button" onclick="sheetLv2(-1)"${L2<=0?' disabled':''}>Give one back to ${esc(c.cls)}</button><span style="cursor:pointer;color:var(--muted)" onclick="sheetCls2('')" title="Drop the second class">✕</span></div>`:`<div class="sh-row" style="flex-wrap:wrap"><select class="sel" id="cls2-new"><option value="">Choose a second class…</option>${Object.keys(CLASS_DIE).sort().filter(x=>x!==c.cls).map(x=>`<option>${x}</option>`).join('')}</select><button class="btn" type="button" onclick="sheetCls2($('cls2-new').value)">Take it</button></div>`}<div class="note" style="margin:0">Levels are shared (5e style): each class has its own levels, features, class changes, and Steady Growth; proficiency, stage, and realms follow the character's total level; spell slots combine (full casters count every level, half casters half). Taking a second class needs a teacher of it or a trial (DM's call).</div>`)}
       ${box('Custom skills',`${(c.custom||[]).map((k,i)=>`<div class="sh-row"><b>${esc(k.n)}</b> <small>(${(k.ab||'int').toUpperCase()})</small> <span style="cursor:pointer;color:var(--muted)" onclick="sheetSkillRm(${i})" title="Remove">✕</span></div>`).join('')}<div class="sh-row"><input class="sel" id="sk-new" placeholder="Add a skill (e.g. Runecraft)" style="flex:1;min-width:0"><select class="sel" id="sk-ab">${ABIL.map(([k])=>`<option value="${k}">${k.toUpperCase()}</option>`).join('')}</select><button class="btn" type="button" onclick="sheetSkillAdd()">Add</button></div><div class="note" style="margin:0">They appear under Skills on page 1.</div>`)}
-      ${box('Profession',`<div class="sh-row" style="flex-wrap:wrap"><select data-s="prof"><option value="">Profession…</option>${Object.keys(PROFS).map(x=>`<option${x===c.prof?' selected':''}>${x}</option>`).join('')}</select><label class="note" style="margin:0">Level ${inp('profLv','0','class="sh-mini" min="0" max="100"','number')}</label>${c.prof?`<b>${esc(profTitle(c.prof,+c.profLv||0))}</b><small>stage ${ROMAN[stageOf(+c.profLv||0)-1]} · ${c.prof==='Scavenging'?'crafting and scavenging':'profession'} bonus +${Math.floor((+c.profLv||0)/2)+peopleProf(c,c.prof)}${peopleProf(c,c.prof)?` (+${peopleProf(c,c.prof)} from ${esc(c.race)})`:''}</small>`:''}</div>${(()=>{const P=peopleInfo(c.race),k=P&&P.prof&&Object.keys(P.prof)[0];return k&&k!=='*'&&k!==c.prof?`<div class="note" style="margin:4px 0 0">${esc(c.race)}: +${P.prof[k]} to ${esc(k)} rolls, even without the profession.</div>`:''})()}${c.prof&&PROFS[c.prof]?(()=>{const all=[...new Set(PROFS[c.prof].abs.concat(BPS.filter(b=>b.pr===c.prof&&b.sp&&b.sp!==b.pr).map(b=>b.sp)))].sort();return `<div class="chips">${all.map(x=>{const on=(c.specs||[]).includes(x);return `<button class="chip" type="button" onclick="sheetSpec(${esc(JSON.stringify(x))})" style="${on?'border-color:var(--gold);background:var(--goldbg)':''}">${on?'✓ ':''}${esc(x)}</button>`}).join('')}</div><div class="note" style="margin:0">Specialties: tap to mark the ones you hold (one to start, one free every 5 levels).</div>`})():''}${(()=>{const pl=+c.profLv||0,f=c.prof?profStages(c.prof).filter(x=>x.stage<=stageOf(pl)).flatMap(x=>x.features.filter(f=>f[0]<=pl)):[];return f.length?`<ul class="sh-ul">${f.map(f=>`<li><b>${esc(f[1])}</b> (Lv ${f[0]}): ${esc(f[2])}</li>`).join('')}</ul>`:''})()}`)}
+      ${box('Profession',sheetProfHTML(c,inp))}
     </div>
     <div class="sh-col">
       ${box('Contracts',`${[{god:c.god,rank:c.rank,how:c.ctHow,i:-1},...(c.extra||[]).map((x,i)=>Object.assign({},x,{i}))].filter(x=>x.god).map(x=>{const g=godByKey(x.god),ct=x.rank?contractOf(x.rank):null;return `<div class="sh-feat"><div class="sh-row" style="flex-wrap:wrap"><b>${g?refChip(g,esc(godKey(g))):esc(x.god)}</b><select class="sel" style="max-width:150px" onchange="sheetCtRank(${x.i},this.value)">${CONTRACT_RANKS.map(r=>`<option${ct&&r===ct.r?' selected':''}>${r}</option>`).join('')}</select><span style="cursor:pointer;color:var(--muted);margin-left:auto" onclick="sheetCtRm(${x.i})" title="End this contract">✕</span></div>${x.how?`<small>Gained by: ${esc(ctWay(x.how))}</small><br>`:''}${g&&ct?`<small>Natural AC +${ct.ac} · temple discount ${ct.disc}% · ⟡${ct.favor} Favor per task</small><div>${esc(ct.power)}</div>${(g.csp||[]).length?`<div style="margin-top:4px"><b>Contract spells:</b> ${g.csp.slice(0,ctSpellMax(ct)+1).map((n,lv)=>esc(n)+' ('+(lv?'level '+lv:'cantrip')+')').join(', ')}</div>`:''}<div class="sh-row" style="gap:6px;margin-top:4px"><span>Favor with ${esc(godKey(g))} ⟡</span>${inp('favor.'+lc(godKey(g)).replace(/[^a-z0-9]+/g,'_'),'0','style="max-width:90px"','number')}</div>`:''}</div>`}).join('')||'<div class="note" style="margin:0">No contract yet.</div>'}<div class="sh-row sh-noprint" style="flex-wrap:wrap;margin-top:4px"><select class="sel" id="ct-god" style="flex:1;min-width:160px"><option value="">Contract with a god…</option>${GODS.map(g=>`<option value="${esc(godKey(g))}">${esc(godKey(g))}</option>`).join('')}</select><select class="sel" id="ct-rank">${CONTRACT_RANKS.map(r=>`<option>${r}</option>`).join('')}</select>${ctWayOpts('','ct-how','style="flex:1;min-width:160px"')}<button class="btn" type="button" onclick="sheetCtAdd()">Add contract</button></div><div class="note sh-noprint" style="margin:0">A contract is only gained by meeting a follower of the god, a ritual with its core material, finding its temple, or an item integrated with it. Serving several gods is allowed; Natural AC does not stack (the highest counts). Gods who share a Rune are rivals.</div>`)}
@@ -4631,7 +4775,7 @@ function renderSheet(){
   const SH_NAME={cls:'Class',level:'Level',insp:'Inspiration',hpMax:'Hit point maximum',hp:'Current hit points',tempHp:'Temporary hit points',traits:'Personality traits',ideals:'Ideals',bonds:'Bonds',flaws:'Flaws'};
   C.querySelectorAll('[data-s]').forEach(el=>{if(el.getAttribute('aria-label')||(el.placeholder||'').trim()||(el.title||'').trim())return;const k=el.dataset.s,d=/^ds\.([sf])(\d)$/.exec(k);
     const lab=SH_NAME[k]||(d?`Death save ${d[1]==='s'?'success':'failure'} ${+d[2]+1}`:k.split('.').pop().replace(/([a-z])([A-Z])/g,'$1 $2').replace(/^./,x=>x.toUpperCase()));el.setAttribute('aria-label',lab)});
-  C.querySelectorAll('[data-s]').forEach(el=>el.addEventListener('change',()=>{const v=el.dataset.chk?el.checked:el.type==='number'?(el.value===''?'':+el.value):el.value;setP(c,el.dataset.s,v);if(el.dataset.s==='hpMax'&&(c.hp===''||c.hp==null)&&+v>0)c.hp=+v;if(el.dataset.s==='cls'){c.savesSet=false;c.sub=''}if(el.dataset.s==='prof')c.specs=[];saveParty();const y=$('content').scrollTop;renderSheet();$('content').scrollTop=y}));
+  C.querySelectorAll('[data-s]').forEach(el=>el.addEventListener('change',()=>{const v=el.dataset.chk?el.checked:el.type==='number'?(el.value===''?'':+el.value):el.value;setP(c,el.dataset.s,v);if(el.dataset.s==='hpMax'&&(c.hp===''||c.hp==null)&&+v>0)c.hp=+v;if(el.dataset.s==='cls'){c.savesSet=false;c.sub=''}if(el.dataset.s==='prof'||el.dataset.s==='prof2'){if(el.dataset.s==='prof2'&&c.prof2&&!c.prof2Lv)c.prof2Lv=1;if(c.prof&&c.prof===c.prof2)c.prof2='';if(!c.prof&&c.prof2){c.prof=c.prof2;c.profLv=c.prof2Lv;c.prof2='';c.prof2Lv=''}specsKeep(c)}saveParty();const y=$('content').scrollTop;renderSheet();$('content').scrollTop=y}));
   C.querySelectorAll('[data-shtab]').forEach(b=>b.onclick=()=>{SHEET_TAB=b.dataset.shtab;renderSheet()});
   $('sh-who').onchange=e=>{SHEET_ID=e.target.value;renderSheet()};
   $('sh-new').onclick=()=>{const n={id:uid(),name:'',level:1,gear:[],inv:[],abil:{str:10,dex:10,con:10,int:10,wis:10,cha:10}};PARTY.push(n);saveParty();SHEET_ID=n.id;renderSheet()};
@@ -5023,7 +5167,7 @@ function exportParty(){const a=document.createElement('a');a.href=URL.createObje
 const CHAR_LISTS=['inv','extra','gear','undead','towerCards','schools','log','offered','custom','specs','features'],CHAR_MAPS=['spells','abil','spBound','purse','skillB','saveB','dmOk','raceOpts'];
 function cleanChar(x){const o=Object.assign({},x);delete o.camp;delete o._by;delete o._cs;if(typeof o.id!=='string'||!o.id)o.id=uid();if(o.name!=null)o.name=String(o.name);
   CHAR_LISTS.forEach(k=>{if(k in o&&!Array.isArray(o[k]))delete o[k]});CHAR_MAPS.forEach(k=>{if(k in o&&(!o[k]||typeof o[k]!=='object'||Array.isArray(o[k])))delete o[k]});
-  ['level','hp','hpMax','profLv'].forEach(k=>{if(k in o&&!isFinite(+o[k]))delete o[k]});
+  ['level','hp','hpMax','profLv','prof2Lv'].forEach(k=>{if(k in o&&!isFinite(+o[k]))delete o[k]});
   // a portrait must be a small picture saved by the sheet (a base64 JPEG, PNG or WebP), nothing else
   if('portrait' in o&&!(typeof o.portrait==='string'&&o.portrait.length<400000&&/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+\/=]+$/.test(o.portrait)))delete o.portrait;return o}
 function importParty(inp){const f=inp.files[0];inp.value='';if(!f)return;f.text().then(t=>{let d;try{d=JSON.parse(t)}catch(e){}if(!Array.isArray(d)){toast('That file is not a FAND party export');return}
@@ -5033,7 +5177,7 @@ function importParty(inp){const f=inp.files[0];inp.value='';if(!f)return;f.text(
 function charEditor(c){
   const s=charStats(c),classes=[...new Set(SUBS.map(x=>x.par))].sort();
   const subs=SUBS.filter(x=>x.par===c.cls);
-  const specsAll=c.prof&&PROFS[c.prof]?[...new Set(PROFS[c.prof].abs.concat(BPS.filter(b=>b.pr===c.prof&&b.sp&&b.sp!==b.pr).map(b=>b.sp)))].sort():[];
+  const specsAll=specsFor(c);
   const coinRealms=REALMS.filter(r=>CURRENCY[r.n]&&CURRENCY[r.n].coin);
   const f=(k,l,type='text',extra='')=>`<label>${l}<input data-k="${k}" type="${type}" value="${esc(c[k]??'')}" ${extra}></label>`;
   return `<div class="cols" style="align-items:start">
@@ -5044,7 +5188,8 @@ function charEditor(c){
       ${f('level','Level','number','min="1" max="100"')}${f('attune','Attunement','number','min="0" max="9"')}
       ${f('hp','HP','number')}${f('hpMax','Max HP','number')}
       ${f('acBonus','Other AC (traits, magic)','number')}
-      ${f('profLv','Profession level','number','min="0" max="100"')}<label>Profession<select data-k="prof"><option value=""></option>${Object.keys(PROFS).map(p=>`<option${p===c.prof?' selected':''}>${p}</option>`).join('')}</select></label>
+      ${f('profLv','Profession level','number','min="0" max="100"')}<label>Profession<select data-k="prof"><option value=""></option>${Object.keys(PROFS).filter(p=>p!==c.prof2).map(p=>`<option${p===c.prof?' selected':''}>${p}</option>`).join('')}</select></label>
+      ${(c.prof||c.prof2)&&prof2Open(c).ok?`${f('prof2Lv','Second profession level','number','min="0" max="100"')}<label>Second profession<select data-k="prof2"><option value="">None</option>${Object.keys(PROFS).filter(p=>p!==c.prof).map(p=>`<option${p===c.prof2?' selected':''}>${p}</option>`).join('')}</select></label>`:''}
       <label class="full">Specialties<select data-k="specs" multiple size="${Math.min(6,Math.max(2,specsAll.length))}">${specsAll.map(x=>`<option${(c.specs||[]).includes(x)?' selected':''}>${esc(x)}</option>`).join('')}</select></label>
       <label>God contract<select data-k="god"><option value="">None</option>${GODS.map(g=>`<option value="${esc(godKey(g))}"${godKey(g)===c.god?' selected':''}>${esc(godKey(g))} (${esc(g.grp.replace(' Pantheon',''))})</option>`).join('')}</select></label>
       <label>Gained by${ctWayOpts(c.ctHow,'','data-k="ctHow"')}</label>
@@ -5079,7 +5224,7 @@ function bindChar(c){
     if(k==='god'&&el.value&&(c.extra||[]).some(x=>x.god===el.value)){toast(el.value+' is already one of this character’s contracts');el.value=c.god||'';return}
     if(k==='god'&&el.value&&!c.ctHow){toast('Pick how the contract was gained first: a follower, a ritual, a temple, or an integrated item');el.value=c.god||'';const w=$('content').querySelector('[data-k="ctHow"]');if(w)w.focus();return}c[k]=el.multiple?[...el.selectedOptions].map(o=>o.value):el.type==='number'?+el.value:el.value;
     if(el.type==='number'){const lo=k==='level'?1:k==='acBonus'?-10:0,hi=k==='level'?MAX_LEVEL:k==='hp'&&+c.hpMax>0?+c.hpMax:1e6;c[k]=Math.min(hi,Math.max(lo,Math.round(+c[k]||0)));if(k==='hpMax'&&+c.hp>c[k])c.hp=c[k];if(k==='hpMax'&&(c.hp===''||c.hp==null)&&c[k]>0)c.hp=c[k]}
-    if(k==='cls')c.sub='';if(k==='prof')c.specs=[];saveParty();setTimeout(renderParty);
+    if(k==='cls')c.sub='';if(k==='prof'||k==='prof2'){if(c.prof&&c.prof===c.prof2)c.prof2='';if(!c.prof&&c.prof2){c.prof=c.prof2;c.profLv=c.prof2Lv;c.prof2='';c.prof2Lv=''}if(k==='prof2'&&c.prof2&&!c.prof2Lv)c.prof2Lv=1;specsKeep(c)}saveParty();setTimeout(renderParty);
   }));
   $('content').querySelectorAll('[data-purse]').forEach(el=>el.addEventListener('change',()=>{c.purse=c.purse||{};c.purse[el.dataset.purse]=Math.max(0,Math.round(+el.value||0));saveParty();setTimeout(renderParty)}));
 }
@@ -5098,10 +5243,11 @@ function renderEncounter(){
   if(!store.get('enc',null))store.set('enc',st);
   $('content').innerHTML=`<div class="page">${datalists()}
     <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Encounter builder</h3><p>Balanced fights from a realm's Bestiary, using the standard XP budget by party level.</p></div>
-    <div class="tool"><div class="form" style="grid-template-columns:repeat(7,1fr)">
+    <div class="tool"><div class="form" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))">
       <label>Party size<input id="en-size" type="number" min="1" max="10" value="${st.size}"></label>
       <label>Average level<input id="en-lv" type="number" min="1" max="100" value="${st.level}"></label>
       <label>Realm<select id="en-realm"><option value="">Any realm</option>${REALMS.map(r=>`<option${r.n===st.realm?' selected':''}>${esc(r.n)}</option>`).join('')}</select></label>
+      <label>Dimension<select id="en-dim"><option value="">Anywhere in the realm</option>${dimsOf(st.realm||'').map(d=>`<option${d.n===st.dim?' selected':''}>${esc(d.n)}</option>`).join('')}</select></label>
       <label>Difficulty<select id="en-diff">${DIFFS.map(d=>`<option${d===st.diff?' selected':''}>${d}</option>`).join('')}</select></label>
       <label class="chk" style="align-self:end"><input type="checkbox" id="en-hb"${st.hb?' checked':''}> Homebrew only</label>
       <label class="chk" style="align-self:end" title="The strongest monster in a built encounter is a champion: a monster with a class"><input type="checkbox" id="en-champ"${st.champ?' checked':''}> ★ Lead with a champion</label>
@@ -5113,10 +5259,12 @@ function renderEncounter(){
       <button class="btn" onclick="sendToCombat()">Send to combat tracker →</button></div><div id="en-spoils" style="margin-top:10px"></div></div>
     <div id="en-out" style="margin-top:14px"></div>
     <details class="fold" id="en-bal" style="margin-top:14px"><summary><b>⚖ Balance report</b> <small style="color:var(--muted)">how characters stack up against each realm's monsters</small></summary><div class="note" style="margin:6px 0">Builds sample characters (a Fighter, a Wizard, a Rogue, a Cleric) in the middle of each realm's levels with the character generator, and runs them against the realm's typical monster with the Party check's arithmetic. Run it again after changing a rule to see what it did.</div><button class="btn" type="button" onclick="balRun()">Run the report</button><div id="en-bal-out" style="margin-top:8px"></div></details></div>`;
-  ['en-size','en-lv','en-realm','en-diff','en-hb','en-champ','en-aim'].forEach(i=>$(i).addEventListener('change',()=>{saveEncInputs();encOut()}));
+  ['en-size','en-lv','en-realm','en-dim','en-diff','en-hb','en-champ','en-aim'].forEach(i=>$(i).addEventListener('change',()=>{saveEncInputs();if(i==='en-realm')renderEncounter();else encOut()}));
   encOut();
+  // arriving from a dimension's "Build a fight here": build it at once
+  if(st.autoroll){delete st.autoroll;store.set('enc',st);rollEncounter()}
 }
-function saveEncInputs(){const st=store.get('enc',{});Object.assign(st,{size:Math.min(10,Math.max(1,Math.round(+$('en-size').value)||4)),level:Math.min(MAX_LEVEL,Math.max(1,+$('en-lv').value||1)),realm:$('en-realm').value,diff:$('en-diff').value,hb:$('en-hb').checked,champ:$('en-champ').checked,aim:$('en-aim')?$('en-aim').checked:true});store.set('enc',st);return st}
+function saveEncInputs(){const st=store.get('enc',{});Object.assign(st,{size:Math.min(10,Math.max(1,Math.round(+$('en-size').value)||4)),level:Math.min(MAX_LEVEL,Math.max(1,+$('en-lv').value||1)),realm:$('en-realm').value,dim:$('en-dim')&&dimsOf($('en-realm').value).some(d=>d.n===$('en-dim').value)?$('en-dim').value:'',diff:$('en-diff').value,hb:$('en-hb').checked,champ:$('en-champ').checked,aim:$('en-aim')?$('en-aim').checked:true});store.set('enc',st);return st}
 const monXP=m=>m.sb?m.sb.xp:0;
 // Deeper realms' monsters already scale their AC, HP, and damage by realm tier, and characters scale by stage, so the
 // budget is realm-relative: each realm tier past the Mysterious takes 10 levels off the party's level (a level-95 party in
@@ -5136,7 +5284,9 @@ function encPick(pool,size,budget,R){let best=null,bestScore=1e18;
   return best}
 function rollEncounter(){
   const st=saveEncInputs(),want=DIFFS.indexOf(st.diff),budget=encBudget(st)[want];
-  const build=b=>{const pool=MONSTERS.filter(m=>(!st.realm||m.realm===st.realm)&&(!st.hb||m.hb)&&monXP(m)>0&&monXP(m)<=b);if(!pool.length)return [];
+  const build=b=>{const base=m=>(!st.realm||m.realm===st.realm)&&(!st.hb||m.hb)&&monXP(m)>0&&monXP(m)<=b;
+    // in a dimension: its natives, and the realm's monsters that belong to no dimension only when no native fits
+    let pool=MONSTERS.filter(m=>base(m)&&(!st.dim||m.dim===st.dim));if(st.dim&&!pool.length)pool=MONSTERS.filter(m=>base(m)&&!m.dim);if(!pool.length)return [];
     let best=encPick(pool,st.size,b,Math.random);
     // a champion leads: the strongest monster gains a class, then the weakest drop out until the fight fits the budget again
     if(st.champ&&best.length){const lead=best.reduce((a,m)=>monXP(m)>monXP(a)?m:a,best[0]);best[best.indexOf(lead)]=champRandom(lead);
@@ -5328,11 +5478,11 @@ function makeNPC(R,realm){
   return {cls,sub,k,abil,clsName:si.name,subName:sub?subStageName(sub.n,k):'',look,voice,secret,level,name:pk(NPC_FIRST)+' '+pk(NPC_LAST),realm:r,g,rank,ct,prof,trait:pk(NPC_TRAITS),want:g&&g.wants?`Serves ${godKey(g)}'s will: ${g.wants.charAt(0).toLowerCase()+g.wants.slice(1).replace(/\.$/,'')}.`:pk(['Wants to clear a family debt.','Wants passage to a higher realm.','Wants revenge on a contractor of a rival god.','Wants a rare material nobody will sell them.','Wants to be left alone.']),carry,purse:Math.round((5+R()*40)*realmBase(r.n)/5)};
 }
 const NPC_SHOWN=[];
-function npcText(n){return `${n.name}, level ${n.level} ${n.clsName}${n.subName?' ('+n.subName+')':''}, ${n.prof}, from the ${/Realm$/.test(n.realm.n)?n.realm.n:n.realm.n+' Realm'}.${n.abil.length?' Abilities: '+n.abil.map(a=>a[0]+' ('+a[1]+')').join('; ')+'.':''} Looks: ${n.look}, ${NPC_MARK[n.realm.n]||'marked by their realm'}. Voice: ${n.voice}. ${n.g?`${n.rank} contract with ${godKey(n.g)}.`:'No god holds a contract with them.'} ${n.want} They ${n.trait}. Secret: ${n.secret}.`}
+function npcText(n){return `${n.name}, level ${n.level} ${n.clsName}${n.subName?' ('+n.subName+')':''}, ${n.prof}, from ${n.dim?n.dim+' in ':''}the ${/Realm$/.test(n.realm.n)?n.realm.n:n.realm.n+' Realm'}.${n.abil.length?' Abilities: '+n.abil.map(a=>a[0]+' ('+a[1]+')').join('; ')+'.':''} Looks: ${n.look}, ${NPC_MARK[n.realm.n]||'marked by their realm'}. Voice: ${n.voice}. ${n.g?`${n.rank} contract with ${godKey(n.g)}.`:'No god holds a contract with them.'} ${n.want} They ${n.trait}. Secret: ${n.secret}.`}
 function npcSave(i){const n=NPC_SHOWN[i];if(!n)return;const J=store.get('journal',[]);J.push({t:'NPC: '+n.name,d:new Date().toISOString().slice(0,10),body:npcText(n)});store.set('journal',J);toast(n.name+' saved to the Journal')}
 function npcHTML(n){
   const i=NPC_SHOWN.push(n)-1;
-  return `<div class="callout" style="border-color:var(--acc)"><div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b style="font-family:var(--serif);font-size:1.1rem">${esc(n.name)}</b><span class="note" style="margin:0">Level ${n.level} ${esc(n.clsName)}${n.subName?' ('+esc(n.subName)+')':''} · ${esc(n.prof)} · from the ${esc(/Realm$/.test(n.realm.n)?n.realm.n:n.realm.n+' Realm')}</span><button class="btn" style="margin-left:auto;padding:3px 10px;font-size:.8rem" onclick="npcSave(${i})">Save to Journal</button><button class="btn" style="padding:3px 10px;font-size:.8rem" onclick="npcKeep(${i})" title="Keep them in your NPC roster">Keep in NPCs</button></div>
+  return `<div class="callout" style="border-color:var(--acc)"><div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b style="font-family:var(--serif);font-size:1.1rem">${esc(n.name)}</b><span class="note" style="margin:0">Level ${n.level} ${esc(n.clsName)}${n.subName?' ('+esc(n.subName)+')':''} · ${esc(n.prof)} · from ${n.dim?esc(n.dim)+' in ':''}the ${esc(/Realm$/.test(n.realm.n)?n.realm.n:n.realm.n+' Realm')}</span><button class="btn" style="margin-left:auto;padding:3px 10px;font-size:.8rem" onclick="npcSave(${i})">Save to Journal</button><button class="btn" style="padding:3px 10px;font-size:.8rem" onclick="npcKeep(${i})" title="Keep them in your NPC roster">Keep in NPCs</button></div>
     <div style="line-height:1.6;margin-top:4px"><b>Looks:</b> ${esc(n.look)}; ${esc(NPC_MARK[n.realm.n]||'marked by their realm')}. <b>Voice:</b> ${esc(n.voice)}.</div>
     <div style="line-height:1.6;margin-top:4px">${n.g?`Holds a <b>${esc(n.rank)}</b> contract with ${refChip(n.g,esc(godKey(n.g)))}: ${esc(n.ct.power.charAt(0).toLowerCase()+n.ct.power.slice(1))}.`:'No god holds a contract with them.'} ${esc(n.want)} They ${esc(n.trait)}.
     ${n.abil.length||n.sub?`<details style="margin-top:4px"><summary class="note" style="margin:0;cursor:pointer">Class abilities</summary><div style="margin-top:4px;display:flex;flex-direction:column;gap:4px">${n.abil.length?n.abil.map(([a,t,from])=>`<div><b>${esc(a)}</b> <small style="color:var(--muted)">${esc(from)}</small>: ${esc(t)}</div>`).join(''):`<div><b>${esc(n.sub.n)}</b>: ${esc(String(n.sub.ds||'').replace(/\s*\([^()]*\)\s*$/,''))}</div>`}</div></details>`:''}
@@ -5349,7 +5499,7 @@ const npcSave2=()=>store.set('npcs',NPCS);
 function npcPic(n,cls){const b=n.pic&&n.pic.b?n.pic.b:typeof ART!=='undefined'&&ART.npc?ART.icons[ART.npc[n.role]!=null?ART.npc[n.role]:ART.npc.Other]:'';if(!b)return '';
   const f=n.fac&&standInfo(n.fac),tint=n.realm&&n.realm!=='Human'&&REALM[n.realm]?rcol(n.realm):n.att<0?'#e2513f':n.att>0?'#5fd08a':'#d8c7a4';
   return `<span class="art ${cls||''}" style="--ac:${tint}" aria-hidden="true"><svg viewBox="0 0 512 512" focusable="false">${b}</svg></span>`}
-function npcFromRandom(r){return {id:uid(),name:r.name,role:'Other',title:'Works in '+lc(r.prof),fac:r.g?'god:'+godKey(r.g):'',realm:r.realm.n,att:0,looks:r.look+'; '+(NPC_MARK[r.realm.n]||'marked by their realm'),voice:r.voice,wants:r.want,secret:r.secret.charAt(0).toUpperCase()+r.secret.slice(1)+'.',
+function npcFromRandom(r){return {id:uid(),name:r.name,role:'Other',home:r.dim||'',title:'Works in '+lc(r.prof),fac:r.g?'god:'+godKey(r.g):'',realm:r.realm.n,att:0,looks:r.look+'; '+(NPC_MARK[r.realm.n]||'marked by their realm'),voice:r.voice,wants:r.want,secret:r.secret.charAt(0).toUpperCase()+r.secret.slice(1)+'.',
   notes:`Level ${r.level} ${r.clsName}${r.subName?' ('+r.subName+')':''}. They ${r.trait}.${r.g?' '+r.rank+' contract with '+godKey(r.g)+'.':''}`,d:new Date().toISOString().slice(0,10)}}
 function npcRandom(){const n=npcFromRandom(makeNPC(rng32((Math.random()*4294967296)>>>0)));NPCS.unshift(n);npcSave2();NPC_EDIT=n.id;renderNpcs();toast(n.name+' added: change anything, then Save')}
 // from the Hooks page's random NPCs
@@ -6085,6 +6235,38 @@ function renderClasses(){
 // can buy depends on rank: Visitors cantrips to 3rd level, Members to 6th (10% off), Archmages 7th to 9th (25% off).
 // Primary spells, tied to a Rune, are never sold. Prices grow with the spell's level and its realm (Void-grade spells
 // cost Favor, like Void goods). Website proposals: the realms, ranks, and prices.
+// The schools of magic, written for the site (2026-11-11): what each school is and how it plays. Who casts it, which
+// focuses favour it, and its signature spells are read from the data, so they stay true as spells are added.
+const SCHOOL_INFO={
+  'Abjuration':['Magic that keeps things out: wards, shields, counterspells and banishments.','Plays defensively. An abjurer decides what gets through, protects the party from the worst hit of the fight and shuts down enemy casters.'],
+  'Blood Magic':['Power paid for in blood, yours or someone else\'s.','Hits hard and heals itself, but most spells cost hit points. Strongest when the caster is willing to bleed.'],
+  'Celestial':['The light of Heaven and the gods who rule from it.','Radiant damage, holy wards and blessings. Devastating against fiends and undead, generous to allies.'],
+  'Chronomancy':['Time bent, slowed, rewound and stolen.','Control rather than damage: extra turns, lost turns, undone mistakes. A chronomancer wins by changing when things happen.'],
+  'Conjuration':['Calling things from elsewhere: creatures, objects, and the caster themselves.','Summons, teleports and walls. Fills the battlefield with allies and obstacles and moves the party where it needs to be.'],
+  'Divination':['Knowing what should not be known.','Few damage spells, but it sees ambushes coming, finds what is hidden and lets the party choose its fights.'],
+  'Elemental':['Fire, water, earth and air, raw and loud.','Big areas and big numbers. The elementalist\'s choice of element is its answer to every resistance.'],
+  'Enchantment':['Minds bent to the caster\'s will.','Charms, commands and sleep. Ends fights without killing anyone, and opens doors no key could.'],
+  'Evocation':['Energy shaped into force, fire and lightning.','The classic blaster: the most direct damage in any school, aimed precisely so allies are spared.'],
+  'Healing':['Life restored, wounds closed, death delayed.','Keeps the party standing. Its high-level spells bring back the dead and end every affliction.'],
+  'Illusion':['What the senses report is a lie.','Deception, invisibility and phantoms. Clever play is rewarded; brute force is not its way.'],
+  'Infernal':['The fire and contracts of Hell.','Hellfire that ignores resistance, bargains with real power, and devils that answer the call, at a price.'],
+  'Nature Magic':['The wild world, its growth and its beasts.','Terrain, plants and animals. Turns the battlefield itself against the enemy and keeps the party fed and hidden.'],
+  'Necromancy':['Death, undeath and the life force between.','Drains life, raises servants and curses. Strong and sinister, and rarely welcome in polite company.'],
+  'Psionics':['The power of the mind alone.','Psychic damage, telepathy and mental control, cast with almost no outward sign.'],
+  'Resonance':['The Bard\'s own school: magic sung into being through a personal chant.','Subtle and flexible. It registers as no school to Detect Magic and trades raw power for stacking, lingering effects; silence is its weakness.'],
+  'Runic Magic':['Power written down: runes, glyphs and seals.','Prepared magic that waits to trigger. Traps, seals and inscriptions that outlast the caster.'],
+  'Shadow Magic':['Darkness given purpose.','Stealth, fear and movement through shadow. Strikes from where no one is looking.'],
+  'Transmutation':['Changing what things are.','Shapes, sizes and substances altered. The most versatile school: a solution to almost any problem, if you know the right spell.'],
+  'Void Magic':['Absence, force and the pull of nothing.','Force damage, gravity and erasure. Ignores most defenses and removes things from the world entirely at its peak.'],
+  'Wild Magic':['Chaos that refuses to be controlled.','Unpredictable and powerful. Every casting can surge, for better or worse; its masters learn to ride the luck.']};
+function schoolInfoHTML(sc){const I=SCHOOL_INFO[sc];if(!I)return '';const S=SP.filter(x=>x.sc===sc);
+  const cls=Object.keys(CLASS_SCHOOLS).filter(k=>CLASS_SCHOOLS[k].includes(sc)),foc=Object.keys(FOCUS_BUFF).filter(k=>FOCUS_BUFF[k].sch.includes(sc));
+  const lv=[0,1,2,3,4,5,6,7,8,9].map(l=>S.filter(x=>x.lv===l).length);
+  // signature spells: at cantrip, 3rd, 5th, 7th and 9th level, the one that rolls the most dice (or the first by name)
+  const sig=[0,3,5,7,9].map(l=>{const L=S.filter(x=>x.lv===l);if(!L.length)return null;const dice=x=>{const m=/(\d+)d(\d+)/.exec(x.dmg||'');return m?(+m[1])*(+m[2]+1)/2:0};return L.slice().sort((a,b)=>dice(b)-dice(a)||a.n.localeCompare(b.n))[0]}).filter(Boolean);
+  return `<div class="school-info"><p><b>${esc(I[0])}</b> ${esc(I[1])}</p>
+    <div class="kvg" style="margin:6px 0"><div><span>Spells</span><b>${fmt(S.length)}</b></div><div><span>By level</span><b class="mono" style="font-size:.78rem">${lv.join(' · ')}</b></div>${cls.length?`<div><span>Cast by</span><b>${esc(cls.join(', '))}</b></div>`:''}${foc.length?`<div><span>Favoured by</span><b>${esc(foc.join(', '))}</b></div>`:''}</div>
+    ${sig.length?`<div class="chips"><span class="note" style="margin:0 4px 0 0">Signature spells</span>${sig.map(x=>refChip(x,esc(x.n),x.lv?ORDN(x.lv):'cantrip')).join('')}</div>`:''}</div>`}
 const MAGIC_TOWERS={
   'Abjuration':['The Bastion of Wards','Heaven','A white tower ringed by seven floating walls of light, each one a ward its students must learn to raise before they may pass it.'],
   'Blood Magic':['The Crimson Conservatory','Hell','A red stone tower whose mortar is mixed with the blood of every teacher it has had. Lessons are paid for in coin, and practised in something warmer.'],
@@ -6221,7 +6403,7 @@ function renderMagic(){
     <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem;white-space:nowrap">Magic Towers</h3><p>Every school of magic is kept by its own Magic Tower, where its spells are taught and sold. Learn a spell for good, or buy a one-use scroll for a fifth of the price. What you can buy depends on your rank in the tower; Primary spells, bound to a Rune, are never sold.</p></div>
     <div class="chips" style="margin-bottom:12px">${schools.map(sc=>`<button class="chip${sc===school?' on':''}" data-mts="${esc(sc)}" style="${sc===school?'background:var(--goldbg);border-color:var(--gold)':''}">${esc((MAGIC_TOWERS[sc]||[sc])[0])} <small>${esc(sc)}</small></button>`).join('')}</div>
     <div class="panel" style="border-top:3px solid ${(REALM[trealm]||{}).color||'var(--gold)'}"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="margin:0;font-size:1.3rem;font-family:var(--serif)">${esc(tname)}</h4><span class="note" style="margin:0">${esc(school)} · ${REALM[trealm]?refChip(REALM[trealm],esc(realmLabel(trealm))):esc(trealm)} · ${list.length} spells</span></div>
-      <p style="font-style:italic;color:var(--text2);margin:6px 0">${esc(tdesc)}</p>${standTowerHTML(school)}
+      <p style="font-style:italic;color:var(--text2);margin:6px 0">${esc(tdesc)}</p>${schoolInfoHTML(school)}${standTowerHTML(school)}
       <div class="callout" style="border-color:var(--acc);margin:8px 0">🎴 <b>Getting here.</b> Find the tower in the ${esc(trealm)} Realm, or teleport with <b>its Tower Card</b>. A card takes you here once per long rest; you have <b>one hour</b> at the tower, then you are sent back to where you used it. To get a card, come here and <b>pay one spell slot</b>, or ride along on someone else's card and buy your own while you are here.${(()=>{const pool=PARTY.filter(c=>!(c.towerCards||[]).some(x=>x.t===school)),held=PARTY.filter(c=>(c.towerCards||[]).some(x=>x.t===school));if(!PARTY.length)return '<div class="note" style="margin:6px 0 0">Add characters on the Party page to hand out this tower\'s card.</div>';
       return `<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center">${pool.length?`<select class="sel" id="tc-who" style="max-width:200px">${pool.map(c=>`<option value="${c.id}"${who&&c.id===who.id?' selected':''}>${esc(c.name||'Unnamed')}${CASTER[c.cls]?'':' (not a caster)'}</option>`).join('')}</select>
         <button class="btn" type="button" onclick="towerCardTake($('tc-who').value,${esc(JSON.stringify(school))})" title="At the tower: pay one spell slot">🎴 Take it (spends a spell slot)</button>
@@ -6393,8 +6575,8 @@ const scavDC=(m,S)=>scavBase(m)+scavStep(m)*(S.tries||0);
 // The rollers default to someone with the base profession (level 1, stage I): trained, +0. Pick "no training" for disadvantage.
 const BASE_SCAV={name:'A base Scavenger',prof:'Scavenging',profLv:1},BASE_MINE={name:'A base miner',prof:'Harvesting',profLv:1};
 const workerOf=(id,base)=>id==='none'?null:(PARTY.find(c=>c.id===id)||base);
-const scavTrained=(who,m)=>!!who&&lc(who.prof||'')==='scavenging'&&stageOf(+who.profLv||0)>=tierStage((REALM[m.realm]||{}).tier||1);
-const scavBonus=who=>who?(lc(who.prof||'')==='scavenging'?Math.floor((+who.profLv||0)/2):0)+peopleProf(who,'Scavenging'):0;
+const scavTrained=(who,m)=>!!who&&hasProfession(who,'Scavenging')&&stageOf(profLvIn(who,'Scavenging'))>=tierStage((REALM[m.realm]||{}).tier||1);
+const scavBonus=who=>who?Math.floor(profLvIn(who,'Scavenging')/2)+peopleProf(who,'Scavenging'):0;
 const scavPicks=(tot,dc)=>tot<dc?0:1+Math.floor((tot-dc)/2);
 const scavSoft=n=>{const x=findMat(n);return !!x&&['L','E'].includes(matCode(x))};
 // The Scavenge panel opens as a pop-up window (from the combat tracker and from any monster's window); it keeps its
@@ -6419,7 +6601,7 @@ function scavHTML(k,title){try{return scavHTML0(k,title)}catch(e){console.error(
 function scavHTML0(k,title){const C=SCAV[k],S=scavFix(C,C.get(),scavMon(C.get())),m=scavMon(S);if(!m)return '';
   const who=workerOf(S.who,BASE_SCAV),ok=scavTrained(who,m),dc=scavDC(m,S),tools=heldTools(who,S,[BASE_KIT]),tb=toolBonus(tools,m.realm),parts=Object.entries(S.left),remain=parts.filter(([n])=>canTake(n,tools)).reduce((a,[,q])=>a+q,0),inB=Object.values(S.basket||{}).reduce((a,b)=>a+b,0),tier=(REALM[m.realm]||{}).tier||1;
   return `<div class="panel" style="border-color:var(--gold)"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h4 style="margin:0;font-size:1.15rem">🔪 ${title}</h4><span class="note" style="margin:0">Scavenging DC <b>${dc}</b> (10 + grade ${m.g}${realmDC(tier)?' + '+realmDC(tier)+' for the '+esc(m.realm):''}${S.tries?` + ${scavStep(m)*S.tries} for ${S.tries} earlier ${S.tries>1?'tries':'try'}, +${scavStep(m)} each for a ${scavSize(m).toLowerCase()} corpse`:''}) · ${remain} part${remain===1?'':'s'} left</span><button class="btn" style="margin-left:auto" onclick="SCAV.${k}.close()">Close</button></div>
-    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0"><label class="note" style="margin:0">Scavenger <select class="sel" onchange="scavSet('${k}','who',this.value)"><option value="">A base Scavenger (Scavenging 1, +0)</option><option value="none"${S.who==='none'?' selected':''}>Someone with no training (+0, disadvantage)</option>${PARTY.map(c=>`<option value="${c.id}"${c.id===S.who?' selected':''}>${esc(c.name||'Unnamed')}${lc(c.prof||'')==='scavenging'?` (Scavenging ${+c.profLv||0}, +${scavBonus(c)})`:' (+0, no Scavenging)'}</option>`).join('')}</select></label>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0"><label class="note" style="margin:0">Scavenger <select class="sel" onchange="scavSet('${k}','who',this.value)"><option value="">A base Scavenger (Scavenging 1, +0)</option><option value="none"${S.who==='none'?' selected':''}>Someone with no training (+0, disadvantage)</option>${PARTY.map(c=>`<option value="${c.id}"${c.id===S.who?' selected':''}>${esc(c.name||'Unnamed')}${hasProfession(c,'Scavenging')?` (Scavenging ${profLvIn(c,'Scavenging')}, +${scavBonus(c)})`:' (+0, no Scavenging)'}</option>`).join('')}</select></label>
     <button class="btn primary" onclick="scavRoll('${k}')"${S.picks||!remain?' disabled':''}>🎲 Roll Scavenging</button>${!ok?`<span class="b gold">At disadvantage: no Scavenging profession, or below stage ${tierStage(tier)} (level ${stageStart(tierStage(tier))}+) for ${esc(m.realm)} corpses</span>`:''}</div>
     <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:0 0 8px"><span class="note" style="margin:0">Tools${tb?` (+${tb})`:''}:</span>${who&&who.id?(tools.length?tools.map(t=>refChip(t,esc(t.n),t.kb?'+'+t.kb:'')).join(''):'<span class="b gold">Bare hands only: nothing in their gear or pack</span>')+'<span class="note" style="margin:0">from their gear and pack</span>':TOOL_PICKS.map(n=>`<button class="chip${tools.some(t=>t.n===n)?' on':''}" type="button" onclick="scavTool('${k}',${esc(JSON.stringify(n))})">${tools.some(t=>t.n===n)?'✓ ':''}${esc(n)}</button>`).join('')}</div>
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 8px"><label class="note" style="margin:0">Killed by <select class="sel" onchange="scavKill('${k}',this.value)"${S.tries?' disabled title="Set before the first roll"':''}><option value="">Unknown or none (whole corpse)</option>${Object.keys(KILL_FX).map(t=>`<option${t===S.kt?' selected':''}>${t}</option>`).join('')}</select></label>${S.kt&&KILL_FX[S.kt]?`<span class="note" style="margin:0">${esc(S.kt)} ${esc(KILL_FX[S.kt][0])}.</span>`:''}</div>
@@ -6643,8 +6825,8 @@ function mineNew(realm,levels,seed){const R=mineRng(realm+'|'+levels+'|'+seed),p
     L.push({l,veins,hazard,mon,searches:0})}
   return {realm,levels,seed,tier,L,who:'',log:[]}}
 const mineDC=(n)=>{const m=findMat(n);return m?gatherDC(m):10};
-const mineTrained=(who,realm)=>!!who&&lc(who.prof||'')==='harvesting'&&stageOf(+who.profLv||0)>=tierStage((REALM[realm]||{}).tier||1);
-const mineBonus=who=>who?(lc(who.prof||'')==='harvesting'?Math.floor((+who.profLv||0)/2):0)+peopleProf(who,'Harvesting'):0;
+const mineTrained=(who,realm)=>!!who&&hasProfession(who,'Harvesting')&&stageOf(profLvIn(who,'Harvesting'))>=tierStage((REALM[realm]||{}).tier||1);
+const mineBonus=who=>who?Math.floor(profLvIn(who,'Harvesting')/2)+peopleProf(who,'Harvesting'):0;
 const minePick=S=>heldTools(workerOf(S.who,BASE_MINE),S,["Miner's Pick"]).filter(t=>t.mine).sort((a,b)=>(b.kb||0)-(a.kb||0))[0];
 function mineRoll(S,pb){const who=workerOf(S.who,BASE_MINE),ok=mineTrained(who,S.realm),b=mineBonus(who)+(pb||0),r1=1+Math.floor(Math.random()*20),r2=1+Math.floor(Math.random()*20),d=ok?r1:Math.min(r1,r2);return {d,tot:d+b,b,txt:`${d}${ok?'':` <small>(${r1}, ${r2}, disadvantage)</small>`} + ${b} = ${d+b}`}}
 function mineSearch(l){const S=store.get('mine',null);if(!S)return;const lv=S.L[l-1];if(!lv)return;const r=mineRoll(S),extra=SCAV_STEP*lv.searches;lv.searches++;
@@ -6665,7 +6847,7 @@ function renderMineTool(){const el=$('mn-box');if(!el)return;const S=store.get('
   if(!S){el.innerHTML=form;mineBind();return}const MR=MINE_REALM[S.realm]||MINE_REALM.Human,who=workerOf(S.who,BASE_MINE),ok=mineTrained(who,S.realm);
   el.innerHTML=form+`<div style="margin-top:10px"><b>${esc(S.realm)} shaft, ${S.levels} level${S.levels>1?'s':''} (${S.levels*MINE_LEVEL_FT} ft)</b><div class="note" style="margin:2px 0">${esc(MR.rock[0].toUpperCase()+MR.rock.slice(1))}. ${esc(MR.air)} Digging each level takes a crew of four ${2+S.tier} days.</div>
     ${mineSVG(S)}
-    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0"><label class="note" style="margin:0">Miner <select class="sel" id="mn-who"><option value="">A base miner (Harvesting 1, +0)</option><option value="none"${S.who==='none'?' selected':''}>Someone with no training (+0, disadvantage)</option>${PARTY.map(c=>`<option value="${c.id}"${c.id===S.who?' selected':''}>${esc(c.name||'Unnamed')}${lc(c.prof||'')==='harvesting'?` (Harvesting ${+c.profLv||0}, +${mineBonus(c)})`:' (+0, no Harvesting)'}</option>`).join('')}</select></label>${!ok?`<span class="b gold">At disadvantage: no Harvesting profession, or below stage ${tierStage(S.tier)} for the ${esc(S.realm)}</span>`:''}</div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0"><label class="note" style="margin:0">Miner <select class="sel" id="mn-who"><option value="">A base miner (Harvesting 1, +0)</option><option value="none"${S.who==='none'?' selected':''}>Someone with no training (+0, disadvantage)</option>${PARTY.map(c=>`<option value="${c.id}"${c.id===S.who?' selected':''}>${esc(c.name||'Unnamed')}${hasProfession(c,'Harvesting')?` (Harvesting ${profLvIn(c,'Harvesting')}, +${mineBonus(c)})`:' (+0, no Harvesting)'}</option>`).join('')}</select></label>${!ok?`<span class="b gold">At disadvantage: no Harvesting profession, or below stage ${tierStage(S.tier)} for the ${esc(S.realm)}</span>`:''}</div>
     <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:0 0 6px">${(()=>{const p=minePick(S);return who&&who.id?(p?`<span class="note" style="margin:0">Pick:</span>${refChip(p,esc(p.n),p.kb?'+'+p.kb:'')}`:'<span class="b gold">No pick in their gear or pack: they can search, but not dig</span>'):`<button class="chip${p?' on':''}" type="button" onclick="(S=>{S.tools=minePick(S)?[]:[&quot;Miner's Pick&quot;];store.set('mine',S);renderMineTool()})(store.get('mine',null))">${p?'✓ ':''}Miner's Pick</button><span class="note" style="margin:0">${p?'':'Without a pick, veins can be found but not dug.'}</span>`})()}</div>
     ${S.L.map(lv=>{const g0=Math.max(1,lv.l-1),g1=Math.min(10,lv.l+1),hz=lv.hazard&&MR.hz.find(h=>h[0]===lv.hazard),m=lv.mon&&MON_IDX.get(lc(lv.mon)),hid=lv.veins.filter(v=>!v.found).length;
       return `<div class="panel" style="margin-top:8px;padding:10px 12px"><div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b>Level ${lv.l}</b><span class="note" style="margin:0">${lv.l*MINE_LEVEL_FT} ft · grades ${g0}–${g1}${hid?` · ${hid} vein${hid>1?'s':''} not found yet`:''}</span><button class="btn" style="margin-left:auto" onclick="mineSearch(${lv.l})">🔍 Search${lv.searches?` (+${SCAV_STEP*lv.searches} DC)`:''}</button></div>
@@ -7535,7 +7717,7 @@ function renderForge(){const FULL=dmUnlocked();if(!FULL&&!renderForge._auto){ren
   const INV=invIndex(),invN=invMats(INV).length;
   $('content').innerHTML=`<div class="page forge">${datalists()}<div class="fg-bgwrap" aria-hidden="true"><canvas id="fg-fx"></canvas></div>
     <div class="fg-hero"><div class="fg-hero-t"><span class="fg-hell">🔥 The Hell Forge</span><span class="fg-heaven">☀ The Heaven Forge</span></div><div class="fg-hero-sub"><span class="fg-hell">Hellfire and brimstone: the dark-mode forge</span><span class="fg-heaven">Sunlight and gold: the light-mode forge</span></div><p>Bring your party's materials to the anvil. Choose a design, set a material in each part, and see how high the item will reach and what forge it needs. Strike three times, and if the roll holds, the item is yours: only then is it fully revealed.</p>
-      <div class="fg-hero-s"><span>🧺 ${invN} kind${invN===1?'':'s'} of material in the party's packs</span><span>⚒ ${PARTY.filter(c=>c.prof).length} crafter${PARTY.filter(c=>c.prof).length===1?'':'s'}</span><span>📜 ${DESIGNS.filter(d=>d.forged).length} forged so far</span></div></div>
+      <div class="fg-hero-s"><span>🧺 ${invN} kind${invN===1?'':'s'} of material in the party's packs</span><span>⚒ ${PARTY.filter(c=>c.prof||c.prof2).length} crafter${PARTY.filter(c=>c.prof||c.prof2).length===1?'':'s'}</span><span>📜 ${DESIGNS.filter(d=>d.forged).length} forged so far</span></div></div>
     ${invN?'':`<div class="callout" style="border-color:var(--gold)">The party's inventories hold no materials yet. Materials come only from your characters' packs: add them on the <a href="${pageUrl('party')}" data-go="party">Party page</a> or the character sheet, or bring them back from a hunt.</div>`}
     ${FULL&&forgeDMok()?`<div class="callout fg-dmbar" style="margin-bottom:14px;border-color:var(--acc);display:flex;gap:10px;align-items:center;flex-wrap:wrap"><b>🎲 DM forge</b><div class="seg" role="group" aria-label="Forge mode"><button type="button" class="${forgeDM()?'':'on'}" aria-pressed="${!forgeDM()}" onclick="FORGE.dm=false;saveForge();renderForge()">Normal forge</button><button type="button" class="${forgeDM()?'on':''}" aria-pressed="${forgeDM()}" onclick="FORGE.dm=true;saveForge();renderForge()">DM forge</button></div><span class="note" style="margin:0">${forgeDM()?'Making equipment out of anything: any material or made-up thing in any part, any quality, no roll, nothing taken from the packs.':'Switch on to create equipment for the table out of anything, with no roll.'}</span></div>`:''}
     ${FULL?'':`<div class="callout fg-pv" style="margin-bottom:14px;border-color:var(--gold)"><b>🔒 Player view.</b> Plan your item here: choose a design and fill its parts from your pack. The DM opens the full Forge with the DM code, hires smiths, sees the odds, calls for your roll, and can make equipment out of anything in the DM forge. <span id="fg-lock"><button class="btn" type="button" style="margin-left:6px;padding:3px 10px" onclick="fgUnlockForm()">I'm the DM</button></span></div>`}
@@ -7977,9 +8159,9 @@ function invTake(M,n,q,first){const hs=(M.get(lc(artOf(n)))||[]).slice().sort((a
     else h.c.inv=(h.c.inv||[]).map(([x,v])=>lc(x)===lc(artOf(n))?[x,Math.max(0,(+v||0)-k)]:[x,v]).filter(([,v])=>v>0)})}
 // the forger's level against the item's level sets the odds: at or above it, advantage, plus +1 quality for every 5 levels
 // to spare (up to +5); below it, −2 for every level of difference
-function forgeCheck(b,c){const k=craftCheck(b,c),lv=+c.profLv||0,gap=lv-b.lv,qb=gap>0?Math.min(5,Math.floor(gap/5)):0,pen=gap<0?gap*2:0;
+function forgeCheck(b,c){const k=craftCheck(b,c),lv=profLvIn(c,b.pr),gap=lv-b.lv,qb=gap>0?Math.min(5,Math.floor(gap/5)):0,pen=gap<0?gap*2:0;
   const fb=k.have<k.F.g-1?`It needs a grade ${ROMAN[k.F.g-1]} ${k.F.station} (${k.F.name}); ${k.have?'a grade '+ROMAN[k.have-1]+' one':'working without one'} is too far below.`:'';
-  const blocked=lc(c.prof||'')!==lc(b.pr)?`${c.name||'They'} ${c.prof?'work '+c.prof+', not '+b.pr:'have no profession'}: ${b.pr} is needed.`:fb;
+  const blocked=!hasProfession(c,b.pr)?`${c.name||'They'} ${c.prof||c.prof2?'work '+profsOf(c).map(x=>x[0]).join(' and ')+', not '+b.pr:'have no profession'}: ${b.pr} is needed.`:fb;
   const mode=gap>=0&&!k.dis.length?'adv':gap<0&&k.dis.length?'dis':'';
   return {dc:k.dc+(b.dcMod||0),base:k.bonus,qb,pen,bonus:k.bonus+qb+pen,gap,lv,mode,dis:k.dis,blocked,F:k.F,time:k.time}}
 function forgeQ(d,m,smith){if(d===1&&!smith)return 'ruin';if(d===20||m>=10)return 'Masterwork';if(m>=5)return 'Fine';if(m>=0||smith)return 'Standard';return m>=-3?'Flawed':'fail'}
@@ -8169,7 +8351,7 @@ function forgeEstimateHTML(r,ready,formGap){forgeSmithOk();if(forgeDM())return f
       <div class="fg-pows">${A.map(x=>`<label class="fg-pow${p.includes(x.id)?' on':''}"><input type="checkbox" ${p.includes(x.id)?'checked':''} onchange="forgePickToggle(${esc(JSON.stringify(x.id))})"> <span><b>${x.k==='p'?'✧':'◆'} ${esc(x.n)}</b>${x.k==='p'?` <span class="b ghost">Potency ${x.pot}</span>${x.pots.length>1?` <small style="color:var(--gold2)">merged from ${x.pots.join(' + ')}</small>`:''}`:' <small>trait</small>'}</span></label>`).join('')}</div>
       ${cb.length?`<div class="note" style="margin:4px 0 0">✦ ${cb.every(x=>COMBOS_FOUND.includes(x[2]))?`These powers together unlock <b>${cb.map(x=>esc(x[2])).join(', ')}</b>.`:'Something stirs between these powers… forge it to find out.'}</div>`:''}`:''}
     <div class="blk" style="margin-top:10px"><h4>🔥 At the anvil</h4></div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">${PARTY.length?`<label class="note" style="margin:0">Forger <select class="sel" id="ff-who"><option value="">Choose…</option>${PARTY.map(x=>`<option value="${x.id}"${x.id===FF.who?' selected':''}>${esc(x.name||'Unnamed')}${x.prof?' ('+esc(x.prof)+' '+(+x.profLv||0)+')':''}</option>`).join('')}</select></label>`:'<span class="note" style="margin:0">Add a character on the Party page first.</span>'}
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">${PARTY.length?`<label class="note" style="margin:0">Forger <select class="sel" id="ff-who"><option value="">Choose…</option>${PARTY.map(x=>`<option value="${x.id}"${x.id===FF.who?' selected':''}>${esc(x.name||'Unnamed')}${x.prof||x.prof2?' ('+esc(profLabel(x))+')':''}</option>`).join('')}</select></label>`:'<span class="note" style="margin:0">Add a character on the Party page first.</span>'}
       ${dmUnlocked()?`<label class="note" style="margin:0">or hire <select class="sel" id="ff-smith" style="max-width:330px"><option value="">no one</option>${(()=>{const R=smithRoster(r.cost),cur=+FF.smith,G={};R.forEach(S=>{(G[S.realm]=G[S.realm]||[]).push(S)});
         const extra=cur&&!R.some(S=>S.lv===cur)?hireOf(cur,r.cost):null;
         return (extra?`<option value="${extra.lv}" selected>${esc(extra.n)} · ${fmt(extra.fee)} gp</option>`:'')+Object.keys(G).map(z=>`<optgroup label="${esc(z)}">${G[z].map(S=>`<option value="${S.lv}"${cur===S.lv?' selected':''}${smithCan(S,b,F)?'':' disabled'}>${esc(S.who)} · ${S.master?'the realm\'s master':S.role} · ${fmt(S.fee)} gp${forgeNums()?' (level '+S.lv+')':''}</option>`).join('')}</optgroup>`).join('')})()}</select></label>`:''}</div>
@@ -8354,9 +8536,9 @@ const wsCopy=(w,n)=>{const o=wsData(w.data||{});delete o.evo;delete o.shared;ret
 let SMELT={who:'',all:false};
 function smeltHTML(){const A=MATS.filter(m=>m.alloy&&Array.isArray(m.recipe)),M=invIndex(),c=PARTY.find(x=>x.id===SMELT.who)||null,dm=forgeDM();
   const rows=A.map(m=>({m,parts:m.recipe.map(n=>({n,have:invHas(M,n)}))})).filter(x=>SMELT.all||x.parts.some(p=>p.have)).sort((a,b)=>(a.m.tier-b.m.tier)||(a.m.g-b.m.g)||byName(a.m,b.m));
-  const smith=c&&(lc(c.prof||'')==='blacksmithing'||dm);
+  const smith=c&&(hasProfession(c,'Blacksmithing')||dm);
   return `<section class="sec"><div class="sec-h"><h3>🔥 The Smelter: alloys</h3><p>Melt metals together into an alloy: one of each component from the party's packs makes one of the alloy, in the smelter's pack. It takes a smith (Blacksmithing) and an afternoon at the furnace. ${A.length} alloys are known, from pewter and bronze to star-metal.</p></div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:8px">${PARTY.length?`<label class="note" style="margin:0">Smelter <select class="sel" onchange="SMELT.who=this.value;renderForge()"><option value="">Choose…</option>${PARTY.map(x=>`<option value="${x.id}"${x.id===SMELT.who?' selected':''}>${esc(x.name||'Unnamed')}${x.prof?' ('+esc(x.prof)+')':''}</option>`).join('')}</select></label>`:''}
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:8px">${PARTY.length?`<label class="note" style="margin:0">Smelter <select class="sel" onchange="SMELT.who=this.value;renderForge()"><option value="">Choose…</option>${PARTY.map(x=>`<option value="${x.id}"${x.id===SMELT.who?' selected':''}>${esc(x.name||'Unnamed')}${x.prof||x.prof2?' ('+esc(profsOf(x).map(y=>y[0]).join(', '))+')':''}</option>`).join('')}</select></label>`:''}
       <label class="note" style="margin:0;display:flex;gap:4px;align-items:center"><input type="checkbox" ${SMELT.all?'checked':''} onchange="SMELT.all=this.checked;renderForge()"> Show every alloy, not only ones the party has a metal for</label>${c&&!smith?'<span class="note" style="margin:0;color:var(--red)">Only a Blacksmith can smelt.</span>':''}</div>
     ${rows.length?`<div class="tablewrap"><table class="t"><thead><tr><th>Alloy</th><th>Realm</th><th>Made from</th><th></th></tr></thead><tbody>${rows.map(({m,parts})=>{const ok=parts.every(p=>p.have>0);return `<tr><td>${refChip(m)}${m.pn?` <small style="color:var(--muted)">✧ ${esc(m.pn)}</small>`:''}</td><td>${esc(m.gr||'')}</td><td>${parts.map(p=>`<span style="color:var(--${p.have?'green':'muted'})">${esc(p.n)}${p.have?' ✓':''}</span>`).join(' + ')}</td><td>${ok&&smith?`<button class="btn" onclick="smelt(${esc(JSON.stringify(m.n))})">Smelt</button>`:''}</td></tr>`}).join('')}</tbody></table></div>`:'<div class="note">No one in the party carries a metal for any alloy yet. Tick “Show every alloy” to see the recipes.</div>'}</section>`}
 function smelt(n){const m=findMat(n),c=PARTY.find(x=>x.id===SMELT.who);if(!m||!c)return;const M=invIndex();if(m.recipe.some(x=>invHas(M,x)<1)){toast('Missing a metal');return}
@@ -8618,6 +8800,7 @@ function renderSettings(){const k=getKey(),u=CL.user,dark=document.documentEleme
         <div id="setGroqMsg" class="okline">${groqKey()?'A Groq key is saved.':''}</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 10px"><button class="btn primary" type="button" id="setGroqSave">Save Groq key</button><button class="btn" type="button" id="setGroqRemove" ${groqKey()?'':'disabled'}>Remove</button></div>
         <div class="note">Like the Anthropic key, it is stored only in this browser (never in your account or backups) and is sent only to Groq's API (api.groq.com). Usage is billed to your Groq account. Get a key at <a href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com</a>.</div>`)}
+      ${setSec('rules','Table rules','Choices your table makes about FAND\'s rules. They are saved with your other settings.',(()=>{const R=profRule();return `<div class="set-row"><span>Second profession<small>Whether a character can take up a second profession, and when</small></span><select class="sel" id="setProf2" aria-label="Second profession rule">${PROF2_MODES.map(([k,l])=>`<option value="${k}"${k===R.mode?' selected':''}>${esc(l)}</option>`).join('')}</select></div>${R.mode==='gate'||R.mode==='both'?`<div class="set-row"><span>Unlocks at first-profession level</span><input class="sel" id="setProf2At" type="number" min="1" max="100" value="${R.at}" style="width:90px" aria-label="Level the first profession needs"></div>`:''}`})())}
       ${setSec('data','Saved data','Everything FAND saves lives in this browser'+(u?' and in your account.':'. Sign in to keep it in an account too.'),`
         <div class="set-row"><span>Back up everything<small>A file with your characters, journal, plans, designs, dice, and settings</small></span><button class="btn" type="button" onclick="setExport()">Download backup</button></div>
         <div class="set-row"><span>Restore a backup<small>Replaces the same data on this device${u?' and in your account':''}</small></span><label class="btn" style="cursor:pointer">Choose file<input type="file" accept=".json,application/json" hidden onchange="setImport(this)"></label></div>
@@ -8629,6 +8812,8 @@ function renderSettings(){const k=getKey(),u=CL.user,dark=document.documentEleme
         <div class="okline" id="updMsg" style="min-height:0"></div>
         <div class="note">${SITE?'FAND keeps a copy of itself for offline play and loads the newest version whenever you\'re online. A new version can take up to 10 minutes to reach everyone after it is published; if a change still doesn\'t show, use Check for updates.':'This is the single-file version (FAND.html): download it again from the website for the newest version.'}</div>`)}
     </div></div></div>`;
+  if($('setProf2'))$('setProf2').onchange=()=>{const r=store.get('rules',{})||{};r.prof2=$('setProf2').value;store.set('rules',r);toast('Second-profession rule saved');renderSettings()};
+  if($('setProf2At'))$('setProf2At').onchange=()=>{const r=store.get('rules',{})||{};r.prof2At=Math.max(1,Math.min(100,Math.round(+$('setProf2At').value)||10));store.set('rules',r);toast('Saved')};
   if($('setShow')){$('setShow').onclick=()=>{const i=$('setKey');i.type=i.type==='password'?'text':'password';$('setShow').textContent=i.type==='password'?'Show':'Hide'};
     $('setSave').onclick=()=>{const v=$('setKey').value.trim();if(v&&!/^sk-ant-/.test(v)){$('setMsg').style.color='var(--red)';$('setMsg').textContent='That doesn\'t look like an Anthropic API key (they start with sk-ant-).';return}saveKey(v,$('setRemember').checked);toast(v?'API key saved':'API key removed');renderAI();renderSettings()};
     $('setKey').onkeydown=e=>{if(e.key==='Enter')$('setSave').click()};
