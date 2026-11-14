@@ -2570,48 +2570,80 @@ function vaultBlock(x){
   const key=t==='god'?godKey(x):x.n,d=(VDETAILS[t]||{})[key];if(!d)return '';
   return `<details class="fold" open style="border-top:1px solid var(--line);padding-top:10px"><summary>From the vault <span style="color:var(--muted)">· ${esc(d.f)}</span></summary><div><div class="note" style="margin:0 0 8px">The website's data above takes priority where the two differ.</div><div class="prose vault" style="font-family:var(--sans);font-size:.9rem">${mdVault(d.md)}</div></div></details>`;
 }
-// ── DM notepad (2026-11-12): pages of private notes for the DM, on every page from the header (Alt+N). Saved as you
-// type, with your other data (and to your account when signed in); never shared with a campaign's players. [[Name]] in a
-// note links to that monster, Blueprint, spell, god, realm or note.
-const dmPadData=()=>{const d=store.get('dmpad',null)||{};d.notes=Array.isArray(d.notes)?d.notes.filter(n=>n&&typeof n==='object'):[];return d};
-const dmPadSave=d=>store.set('dmpad',d);
+// ── DM notepad (2026-11-12; in the account's database since 2026-11-14): pages of private notes for the DM, on every page
+// from the header (Alt+N). Each page is a row of the dm_notes table (tools/cloud/schema.sql), readable and writable only
+// by the signed-in account that wrote it, so the notes follow the account, not the browser. This device keeps only its
+// own preferences (the open page, the search, the passphrase lock). [[Name]] in a note links to that monster, Blueprint,
+// spell, god, realm or note.
+const DP={notes:[],uid:null,state:'idle',err:'',dirty:new Set(),retry:null};
+const dmPadUI=()=>store.get('dmpadui',null)||{};
+const dmPadUISet=o=>store.set('dmpadui',Object.assign(dmPadUI(),o));
+const dmPadDB=()=>CL&&CL.on&&CL.user&&CL.sb?CL.sb:null;
+const dmPadRow=n=>({owner:CL.user.id,id:n.id,title:String(n.t||'').slice(0,200),body:String(n.body||''),pinned:!!n.pin,updated_at:new Date(n.at||Date.now()).toISOString()});
+const dmPadMissing=e=>!!e&&(e.code==='42P01'||e.code==='PGRST205'||/dm_notes/.test(e.message||'')&&/(exist|find|schema cache)/i.test(e.message||''));
+// read the account's pages; the first time, move pages kept in this browser before the notepad used the account
+async function dmPadLoad(){const db=dmPadDB();if(!db)return;DP.uid=CL.user.id;DP.state='loading';dmPadRender();
+  const {data,error}=await db.from('dm_notes').select('id,title,body,pinned,updated_at').order('updated_at',{ascending:false});
+  if(error){DP.state='error';DP.err=dmPadMissing(error)?'setup':'net';dmPadRender();return}
+  DP.notes=(data||[]).map(r=>({id:r.id,t:r.title||'',body:r.body||'',pin:!!r.pinned,at:Date.parse(r.updated_at)||Date.now()}));DP.state='ready';DP.err='';
+  let old=null;try{old=JSON.parse(localStorage.getItem('fand.dmpad')||'null')}catch(e){}
+  const keep=old&&Array.isArray(old.notes)?old.notes.filter(n=>n&&n.id&&(n.t||n.body)&&!DP.notes.some(x=>x.id===n.id)):[];
+  if(keep.length){const rows=keep.map(n=>dmPadRow({id:String(n.id).slice(0,40),t:n.t,body:n.body,pin:n.pin,at:n.at}));const {error:e2}=await db.from('dm_notes').upsert(rows,{onConflict:'owner,id'});
+    if(!e2){DP.notes=keep.map(n=>({id:String(n.id).slice(0,40),t:n.t||'',body:n.body||'',pin:!!n.pin,at:n.at||Date.now()})).concat(DP.notes);toast(keep.length+' page'+(keep.length>1?'s':'')+' moved from this browser to your account')}}
+  if(old&&(!keep.length||DP.notes.length>=keep.length)){try{localStorage.removeItem('fand.dmpad')}catch(e){}}
+  if(old&&old.lock!=null&&dmPadUI().lock==null)dmPadUISet({lock:!!old.lock});
+  dmPadRender()}
+// write one page (or every page waiting to be written); a failed write waits and tries again
+async function dmPadPush(id){const db=dmPadDB();if(!db)return;if(id)DP.dirty.add(id);const ids=[...DP.dirty];if(!ids.length)return;
+  const rows=ids.map(i=>DP.notes.find(n=>n.id===i)).filter(Boolean).map(dmPadRow);ids.forEach(i=>DP.dirty.delete(i));
+  const {error}=rows.length?await db.from('dm_notes').upsert(rows,{onConflict:'owner,id'}):{error:null};
+  const s=$('dp-saved');if(error){ids.forEach(i=>DP.dirty.add(i));if(s)s.textContent=dmPadMissing(error)?'Not saved: the database isn\'t set up':'Not saved yet: offline, retrying';clearTimeout(DP.retry);DP.retry=setTimeout(()=>dmPadPush(),10000)}
+  else if(s&&!DP.dirty.size)s.textContent='Saved to your account'}
+window.addEventListener('online',()=>{if(DP.dirty.size)dmPadPush()});
 function dmPadBtn(){const b=$('dmPadBtn');if(b)b.hidden=role()==='player'}
 function dmPad(open){const P=$('dmpad');if(!P)return;const show=open==null?P.hidden:open;if(!show)dmPadFlush();P.hidden=!show;const b=$('dmPadBtn');if(b)b.setAttribute('aria-expanded',show?'true':'false');
-  document.body.classList.toggle('dmpad-open',show);if(show){dmPadRender();setTimeout(()=>{const t=$('dp-body');if(t)t.focus()},30)}else if(b)b.focus()}
-function dmPadNew(){const d=dmPadData(),n={id:uid(),t:'',body:'',at:Date.now()};d.notes.unshift(n);d.cur=n.id;dmPadSave(d);dmPadRender();setTimeout(()=>{const t=$('dp-title');if(t)t.focus()},30)}
-function dmPadCur(d){let n=d.notes.find(x=>x.id===d.cur);if(!n&&d.notes.length)n=d.notes[0];return n}
+  document.body.classList.toggle('dmpad-open',show);if(show){if(dmPadDB()&&(DP.uid!==CL.user.id||DP.state==='idle'||DP.state==='error'))dmPadLoad();else dmPadRender();setTimeout(()=>{const t=$('dp-body');if(t)t.focus()},30)}else if(b)b.focus()}
+function dmPadNew(){if(DP.state!=='ready')return;const n={id:uid(),t:'',body:'',at:Date.now()};DP.notes.unshift(n);dmPadUISet({cur:n.id});dmPadPush(n.id);dmPadRender();setTimeout(()=>{const t=$('dp-title');if(t)t.focus()},30)}
+function dmPadCur(){const u=dmPadUI();return DP.notes.find(x=>x.id===u.cur)||DP.notes[0]}
 const dmPadTitle=n=>(n.t||'').trim()||(n.body||'').trim().split('\n')[0].slice(0,40)||'Untitled page';
 // typing saves 0.4 s after the last key; anything that redraws or closes the notepad saves what is typed first
 let DP_TM=null,DP_FLUSH=null;const dmPadFlush=()=>{clearTimeout(DP_TM);if(DP_FLUSH)DP_FLUSH()};
 window.addEventListener('pagehide',dmPadFlush);
-function dmPadRender(){dmPadFlush();const P=$('dmpad');if(!P||P.hidden)return;const d=dmPadData();
-  if(d.lock&&!dmUnlocked()){P.innerHTML=`<div class="dp-head"><b>📝 DM notepad</b><button class="icon-btn" onclick="dmPad(false)" aria-label="Close notepad">${ICON.x}</button></div><div class="dp-locked"><p>The notepad is kept behind the DM passphrase on this device.</p><button class="btn primary" onclick="dmPad(false);go('hidden')">Unlock DM content</button></div>`;return}
-  if(!d.notes.length){const n={id:uid(),t:'Session notes',body:'',at:Date.now()};d.notes.push(n);d.cur=n.id;dmPadSave(d)}
-  const cur=dmPadCur(d),q=lc(d.q||''),list=d.notes.filter(n=>!q||lc(n.t+' '+n.body).includes(q)).sort((a,b)=>(b.pin?1:0)-(a.pin?1:0)||b.at-a.at);
+function dmPadShell(inner){return `<div class="dp-head"><b>📝 DM notepad</b><span class="dp-saved" id="dp-saved" aria-live="polite"></span><button class="icon-btn" onclick="dmPad(false)" aria-label="Close notepad" title="Close (Esc)">${ICON.x}</button></div>${inner}`}
+function dmPadRender(){dmPadFlush();const P=$('dmpad');if(!P||P.hidden)return;const ui=dmPadUI();
+  if(ui.lock&&!dmUnlocked()){P.innerHTML=dmPadShell(`<div class="dp-locked"><p>The notepad is kept behind the DM passphrase on this device.</p><button class="btn primary" onclick="dmPad(false);go('hidden')">Unlock DM content</button></div>`);return}
+  if(!(CL&&CL.on)){P.innerHTML=dmPadShell(`<div class="dp-locked"><p>The DM notepad saves to your FAND account, and accounts aren't set up on this copy of the site.</p></div>`);return}
+  if(!CL.user){DP.notes=[];DP.uid=null;DP.state='idle';DP.dirty.clear();P.innerHTML=dmPadShell(`<div class="dp-locked"><p><b>Sign in to use the notepad.</b> Your notes are saved to your account, so they follow you to every device, and only you can read them.</p><button class="btn primary" onclick="dmPad(false);go('account')">Sign in</button></div>`);return}
+  if(DP.uid!==CL.user.id||DP.state==='idle'){dmPadLoad();return}
+  if(DP.state==='loading'){P.innerHTML=dmPadShell(`<div class="dp-locked"><p>Loading your notes…</p></div>`);return}
+  if(DP.state==='error'){P.innerHTML=dmPadShell(`<div class="dp-locked">${DP.err==='setup'?'<p><b>The notepad\'s database table isn\'t set up yet.</b> Whoever runs this site\'s Supabase project needs to run <code>tools/cloud/schema.sql</code> again in its SQL Editor (it adds the <code>dm_notes</code> table).</p>':'<p>Your notes couldn\'t be loaded. Check your connection.</p>'}<button class="btn" onclick="dmPadLoad()">Try again</button></div>`);return}
+  if(!DP.notes.length){const n={id:uid(),t:'Session notes',body:'',at:Date.now()};DP.notes.push(n);dmPadUISet({cur:n.id});dmPadPush(n.id)}
+  const cur=dmPadCur(),q=lc(ui.q||''),list=DP.notes.filter(n=>!q||lc(n.t+' '+n.body).includes(q)).sort((a,b)=>(b.pin?1:0)-(a.pin?1:0)||b.at-a.at);
   const links=[...new Set(((cur.body||'').match(/\[\[([^\]]{1,80})\]\]/g)||[]).map(x=>x.slice(2,-2)))].map(n=>[n,resolveLink(n)]);
-  P.innerHTML=`<div class="dp-head"><b>📝 DM notepad</b><span class="dp-saved" id="dp-saved" aria-live="polite"></span><button class="btn" type="button" onclick="dmPadNew()">+ New page</button><button class="icon-btn" onclick="dmPad(false)" aria-label="Close notepad" title="Close (Esc)">${ICON.x}</button></div>
-    <div class="dp-wrap"><div class="dp-list"><input class="sel" id="dp-q" type="search" placeholder="Search notes…" aria-label="Search notes" value="${esc(d.q||'')}">
-      <div class="dp-items" role="listbox" aria-label="Pages">${list.map(n=>`<button type="button" role="option" aria-selected="${n.id===cur.id}" class="dp-item${n.id===cur.id?' on':''}" onclick="dmPadOpen('${n.id}')">${n.pin?'📌 ':''}<b>${esc(dmPadTitle(n))}</b><small>${esc(new Date(n.at).toLocaleDateString())}</small></button>`).join('')||'<div class="note" style="margin:6px">No page matches.</div>'}</div></div>
+  P.innerHTML=`<div class="dp-head"><b>📝 DM notepad</b><span class="dp-saved" id="dp-saved" aria-live="polite">${DP.dirty.size?'Not saved yet: retrying':'In your account'}</span><button class="btn" type="button" onclick="dmPadNew()">+ New page</button><button class="icon-btn" onclick="dmPad(false)" aria-label="Close notepad" title="Close (Esc)">${ICON.x}</button></div>
+    <div class="dp-wrap"><div class="dp-list"><input class="sel" id="dp-q" type="search" placeholder="Search notes…" aria-label="Search notes" value="${esc(ui.q||'')}">
+      <div class="dp-items" role="listbox" aria-label="Pages">${list.map(n=>`<button type="button" role="option" aria-selected="${n.id===cur.id}" class="dp-item${n.id===cur.id?' on':''}" onclick="dmPadOpen('${esc(n.id)}')">${n.pin?'📌 ':''}<b>${esc(dmPadTitle(n))}</b><small>${esc(new Date(n.at).toLocaleDateString())}</small></button>`).join('')||'<div class="note" style="margin:6px">No page matches.</div>'}</div></div>
     <div class="dp-ed"><input class="sel dp-title" id="dp-title" placeholder="Page title" aria-label="Page title" value="${esc(cur.t||'')}">
       <textarea class="sel" id="dp-body" aria-label="Note" placeholder="Plans, secrets, what the party missed, who owes whom… Type [[a name]] to link a monster, item, spell, god or realm.">${esc(cur.body||'')}</textarea>
       ${links.length?`<div class="chips dp-links"><span class="note" style="margin:0 4px 0 0">Linked</span>${links.map(([n,x])=>x?refChip(x):`<span class="chip" title="Nothing on the site has this name">${esc(n)}?</span>`).join('')}</div>`:''}
       <div class="dp-act"><button class="btn" type="button" onclick="dmPadLink()" title="Add a link to the item that is open, or this page">🔗 Link what's open</button><button class="btn" type="button" onclick="dmPadStamp()">🕒 Time stamp</button><button class="btn" type="button" onclick="dmPadPin()">${cur.pin?'Unpin':'📌 Pin'}</button>
         <button class="btn" type="button" onclick="dmPadCopy()">Copy</button><button class="btn" type="button" onclick="dmPadDel()">Delete page</button>
-        <label class="chk" style="margin-left:auto" title="Ask for the DM passphrase before showing the notepad on this device"><input type="checkbox" id="dp-lock"${d.lock?' checked':''}> Keep behind the DM passphrase</label></div></div></div>`;
+        <label class="chk" style="margin-left:auto" title="Ask for the DM passphrase before showing the notepad on this device"><input type="checkbox" id="dp-lock"${ui.lock?' checked':''}> Keep behind the DM passphrase</label></div></div></div>`;
   const tEl=$('dp-title'),bEl=$('dp-body');
-  const save=()=>{clearTimeout(DP_TM);DP_FLUSH=()=>{DP_FLUSH=null;const D=dmPadData(),n=D.notes.find(x=>x.id===cur.id);if(!n)return;n.t=tEl.value;n.body=bEl.value;n.at=Date.now();dmPadSave(D);const s=$('dp-saved');if(s)s.textContent='Saved'};DP_TM=setTimeout(DP_FLUSH,400);const s=$('dp-saved');if(s)s.textContent='Saving…'};
-  $('dp-title').oninput=save;$('dp-body').oninput=save;$('dp-body').onblur=()=>{if(/\[\[/.test($('dp-body').value))setTimeout(dmPadRender,450)};
-  $('dp-q').oninput=e=>{const D=dmPadData();D.q=e.target.value;dmPadSave(D);const pos=e.target.selectionStart;dmPadRender();const q2=$('dp-q');q2.focus();q2.setSelectionRange(pos,pos)};
-  $('dp-lock').onchange=e=>{const D=dmPadData();D.lock=e.target.checked;dmPadSave(D);toast(D.lock?'The notepad now asks for the DM passphrase':'The notepad opens without the passphrase')}}
-function dmPadOpen(id){const d=dmPadData();d.cur=id;dmPadSave(d);dmPadRender()}
+  const save=()=>{clearTimeout(DP_TM);DP_FLUSH=()=>{DP_FLUSH=null;const n=DP.notes.find(x=>x.id===cur.id);if(!n)return;if(n.t===tEl.value&&n.body===bEl.value)return;n.t=tEl.value;n.body=bEl.value;n.at=Date.now();dmPadPush(n.id)};DP_TM=setTimeout(DP_FLUSH,400);const s=$('dp-saved');if(s)s.textContent='Saving…'};
+  tEl.oninput=save;bEl.oninput=save;bEl.onblur=()=>{if(/\[\[/.test(bEl.value))setTimeout(dmPadRender,450)};
+  $('dp-q').oninput=e=>{dmPadUISet({q:e.target.value});const pos=e.target.selectionStart;dmPadRender();const q2=$('dp-q');q2.focus();q2.setSelectionRange(pos,pos)};
+  $('dp-lock').onchange=e=>{dmPadUISet({lock:e.target.checked});toast(e.target.checked?'The notepad now asks for the DM passphrase':'The notepad opens without the passphrase')}}
+function dmPadOpen(id){dmPadFlush();dmPadUISet({cur:id});dmPadRender()}
 function dmPadInsert(txt){const t=$('dp-body');if(!t)return;const a=t.selectionStart,b=t.selectionEnd;t.value=t.value.slice(0,a)+txt+t.value.slice(b);t.selectionStart=t.selectionEnd=a+txt.length;t.dispatchEvent(new Event('input'));t.focus()}
 function dmPadLink(){const x=$('mbg').classList.contains('open')&&CUR?CUR:null;if(x){dmPadInsert('[['+x.n.split(' - ')[0]+']] ');setTimeout(dmPadRender,450);return}
   const t=TABS.find(y=>y[0]===TAB);dmPadInsert((t?t[1]:TAB)+' page ('+location.href.split('#')[0].split('/').pop()+') ')}
 function dmPadStamp(){dmPadInsert((($('dp-body').value&&!/\n$/.test($('dp-body').value))?'\n':'')+'— '+new Date().toLocaleString([], {dateStyle:'medium',timeStyle:'short'})+' —\n')}
-function dmPadPin(){const d=dmPadData(),n=dmPadCur(d);n.pin=!n.pin;dmPadSave(d);dmPadRender()}
-function dmPadCopy(){const n=dmPadCur(dmPadData()),txt=(n.t?n.t+'\n\n':'')+(n.body||'');(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast('Page copied'),()=>toast('Copy failed'))}
-function dmPadDel(){const d=dmPadData(),n=dmPadCur(d);if(!n)return;const i=d.notes.indexOf(n);d.notes.splice(i,1);d.cur=(d.notes[0]||{}).id;dmPadSave(d);dmPadRender();
-  undoToast('Deleted "'+dmPadTitle(n)+'"',()=>{const D=dmPadData();D.notes.splice(i,0,n);D.cur=n.id;dmPadSave(D);dmPadRender()})}
+function dmPadPin(){dmPadFlush();const n=dmPadCur();if(!n)return;n.pin=!n.pin;n.at=Date.now();dmPadPush(n.id);dmPadRender()}
+function dmPadCopy(){const n=dmPadCur(),txt=(n.t?n.t+'\n\n':'')+(n.body||'');(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast('Page copied'),()=>toast('Copy failed'))}
+async function dmPadDel(){dmPadFlush();const n=dmPadCur(),db=dmPadDB();if(!n||!db)return;const i=DP.notes.indexOf(n);DP.notes.splice(i,1);DP.dirty.delete(n.id);dmPadUISet({cur:(DP.notes[0]||{}).id});dmPadRender();
+  const {error}=await db.from('dm_notes').delete().match({owner:CL.user.id,id:n.id});if(error){DP.notes.splice(i,0,n);dmPadRender();toast('Couldn\'t delete: '+(dmPadMissing(error)?'the database isn\'t set up':'check your connection'));return}
+  undoToast('Deleted "'+dmPadTitle(n)+'"',()=>{DP.notes.splice(i,0,n);dmPadUISet({cur:n.id});dmPadPush(n.id);dmPadRender()})}
 document.addEventListener('keydown',e=>{if(e.altKey&&!e.ctrlKey&&!e.metaKey&&(e.key==='n'||e.key==='N'||e.code==='KeyN')&&role()!=='player'){e.preventDefault();dmPad()}
   else if(e.key==='Escape'&&$('dmpad')&&!$('dmpad').hidden&&!$('mbg').classList.contains('open')&&!document.querySelector('details.mmenu[open]')){dmPad(false)}});
 function noteByName(name){const k=lc(name.split('/').pop().replace(/#.*$/,''));return NOTES.find(n=>lc(n.n)===k)}
@@ -3433,6 +3465,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-11-14','The DM notepad lives in your account','The DM notepad now saves to your FAND account, in its own table in the site\'s database, instead of in the browser: your notes follow you to every device you sign in on, and only your account can read them (the database itself refuses anyone else, including a campaign\'s players). Sign in to use it. Pages you wrote before are moved into your account the first time you open the notepad signed in. If you lose your connection, the notepad says so and saves as soon as it can.','prep'],
   ['2026-11-12','A DM notepad','The DM now has a notepad on every page: the 📝 button in the header, or Alt+N. Keep as many pages as you like (session notes, villains, who owes whom); they save as you type, can be searched and pinned, and a deleted page can be brought back. Type [[a name]] to link any monster, Blueprint, spell, god or realm, or press Link what\'s open to link the item you are looking at; Time stamp marks the moment in the session. The notes are private: they are saved with your own data (and your account when you sign in) and never shared with a campaign\'s players, players don\'t see the button, and you can keep the notepad behind the DM passphrase on a shared device.','prep'],
   ['2026-11-11','Deep-realm fights rebalanced, dimensions at the table, table rules, a faster site, and the schools of magic','A balance check showed that past the Mysterious Realm a party killed any monster, boss or minion, in under a round, while minions hit as hard as bosses. Deep-realm monsters are now built as they would be in the Mysterious Realm and scaled by what characters of the realm\'s levels deal and withstand, so every realm plays like the Mysterious at its own levels: minions fall in a blow and barely scratch, on-level monsters take about two rounds, bosses about three and hit hard. Dimensions are ready for the table: a dimension filter in the Bestiary, Materials and Blueprints, a dimension choice in the encounter builder, and on every dimension a random encounter, a fight built there in one click, and someone who lives there. Settings has Table rules: whether a second profession is free, unlocks at a level of the first, can\'t pass the first, or isn\'t allowed. The site\'s data file is a fifth smaller (rows no longer repeat their field names), so pages load as fast as before the deep realms were added. And every school of magic has a write-up on its Magic Tower page and in each spell\'s window, with who casts it, which focuses favour it and its signature spells.','encounter'],
   ['2026-11-11','Two professions','A character can now hold a second profession, chosen on the character sheet (or in the Party editor) under the first. It starts at level 1 and levels on its own, with its own stage, title and bonus, and its specialties join the list. Crafting, the Forge, the Smelter, scavenging and mining all accept either profession, and the crafter pickers show both.','professions'],
@@ -9906,7 +9939,7 @@ document.addEventListener('click',e=>{if(e.target.closest('#qBox [data-go]'))clo
 var CL={on:typeof CLOUD!=='undefined'&&!!(CLOUD&&CLOUD.url&&CLOUD.key),sb:null,user:null,avatars:{},ready:null,signing:null,camps:[],members:{},
   dirty:new Set(),cdirty:new Set(),cgone:[],timer:0,ctimer:0,rtimer:0,pushing:false,cpushing:false,err:'',last:0,touched:false,chan:null,step:'',email:'',hc:false,later:false};
 // kept on each device only: appearance, screen state (filters, searches, recently viewed), and the hidden-class locks
-const CL_LOCAL=new Set(['recentq','theme','wakelock','tooltab','viewmode','charwiz','jedit','clsfocus','placefocus','diceanim','recent','spells','hc','hclv','jq','magic','rmap','dpool','hcpat','hcpin','hcqm','hcguard','hclog','anthropicKey','groqKey','groqModel']);
+const CL_LOCAL=new Set(['dmpad','dmpadui','recentq','theme','wakelock','tooltab','viewmode','charwiz','jedit','clsfocus','placefocus','diceanim','recent','spells','hc','hclv','jq','magic','rmap','dpool','hcpat','hcpin','hcqm','hcguard','hclog','anthropicKey','groqKey','groqModel']);
 const clSkip=k=>!k||k.startsWith('__')||CL_LOCAL.has(k);
 // A Home Screen app on an iPhone is often closed and restarted while you switch to Mail to read the code, which lost the
 // "type your code" step. The email waiting for a code is kept on this device for an hour (as long as the code lasts).

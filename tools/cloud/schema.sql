@@ -5,6 +5,7 @@
 -- campaigns            a DM's campaign and its invite code
 -- campaign_members     who is in each campaign, as 'dm' or 'player'
 -- campaign_characters  the characters shared with a campaign: every member can read them, the owner and the DM can change them
+-- dm_notes             the DM notepad's pages, each readable and writable only by the account that wrote it
 --
 -- The site never writes campaigns, members, or characters directly: the fand_* functions below check who is asking
 -- and do the change. Row-level security keeps every row readable only by its owner or by members of its campaign.
@@ -349,5 +350,34 @@ create policy "own delete" on public.blueprints for delete to authenticated usin
 revoke all on public.blueprints from anon;
 grant select on public.blueprints to anon;
 grant select, insert, update, delete on public.blueprints to authenticated;
--- make the site's API see new tables (the Workshop's `blueprints`) right away
+
+-- ── the DM notepad ───────────────────────────────────────────────
+-- Each page of a DM's notepad is one row, owned by the account that wrote it. Only that account can read, add, change
+-- or delete its pages: nobody else, signed in or not, and never a campaign's players. `id` is the page's id from the
+-- site; `title` and `body` are what the DM typed.
+create table if not exists public.dm_notes (
+  owner uuid not null default auth.uid() references auth.users (id) on delete cascade,
+  id text not null check (char_length(id) between 1 and 40),
+  title text not null default '' check (char_length(title) <= 200),
+  body text not null default '' check (octet_length(body) < 200000),
+  pinned boolean not null default false,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  primary key (owner, id)
+);
+create index if not exists dm_notes_owner_idx on public.dm_notes (owner, updated_at desc);
+alter table public.dm_notes enable row level security;
+drop policy if exists "own read" on public.dm_notes;
+create policy "own read" on public.dm_notes for select to authenticated using (owner = (select auth.uid()));
+drop policy if exists "own insert" on public.dm_notes;
+create policy "own insert" on public.dm_notes for insert to authenticated with check (owner = (select auth.uid()));
+drop policy if exists "own update" on public.dm_notes;
+create policy "own update" on public.dm_notes for update to authenticated
+  using (owner = (select auth.uid())) with check (owner = (select auth.uid()));
+drop policy if exists "own delete" on public.dm_notes;
+create policy "own delete" on public.dm_notes for delete to authenticated using (owner = (select auth.uid()));
+revoke all on public.dm_notes from anon;
+grant select, insert, update, delete on public.dm_notes to authenticated;
+
+-- make the site's API see new tables (the Workshop's `blueprints`, the DM notepad's `dm_notes`) right away
 notify pgrst, 'reload schema';
