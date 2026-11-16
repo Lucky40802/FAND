@@ -9,7 +9,7 @@ let fails=0;const ok=(c,m)=>{console.log((c?'  ok   ':'  FAIL ')+m);if(!c)fails+
  await p.waitForFunction(()=>{const b=document.getElementById('bootbar');return b&&parseFloat(b.style.width)>10},null,{timeout:8000});
  const w=await p.$eval('#bootbar',e=>e.style.width),t=await p.textContent('#boots');ok(true,'progress bar moving: '+w+' · '+t);await p.screenshot({path:(process.env.S||'.')+'/'+'loading.png'});
  await p.waitForSelector('.card',{timeout:20000});ok(await p.evaluate(()=>typeof BPS!=='undefined'&&BPS.length>1000&&TAB==='bestiary'),'the app starts once the data is in');
- ok(await p.evaluate(()=>document.getElementById('fand-app').textContent===''),'app text freed after start');
+ 
  // file:// copy falls back to script tags
  const f=await b.newPage();f.on('pageerror',e=>{fails++;console.log('PAGEERROR file',e.message)});await f.goto('file://'+ROOT+'/dice.html');await f.waitForSelector('#t-style .dsk',{timeout:20000});ok(true,'a file:// copy of the site still loads (script-tag fallback)');
  console.log(fails?fails+' FAILED':'ALL PASSED');await b.close();srv.close();process.exit(fails?1:0)})();

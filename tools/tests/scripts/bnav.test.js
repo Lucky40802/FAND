@@ -16,10 +16,10 @@ let fails=0;const ok=(c,m)=>{console.log((c?'  ok   ':'  FAIL ')+m);if(!c)fails+
  await p.keyboard.press('Escape');ok(!(await p.isVisible('#mdrawer')),'Escape closes the menu');
  await p.evaluate(()=>setRole('dm'));ok((await p.$$eval('#bnav > *',x=>x[3].textContent))==='Combat','DM: the bar has Combat');
  await p.click('#bnav button:has-text("Menu")');ok(await p.isVisible('#mdrawer h4:has-text("DM")'),'DM: Menu starts with the DM group');
- await Promise.all([p.waitForNavigation(),p.click('#mdrawer a[data-tab="dice"]')]);ok(/dice\.html/.test(p.url())&&await p.isVisible('#bnav a.on[data-tab="dice"]'),'a Menu link opens the page');
+ await Promise.all([p.waitForNavigation(),p.click('#mdrawer a[data-tab="dice"]')]);await p.waitForSelector('#bnav a.on[data-tab="dice"]',{timeout:15000}).catch(()=>{});ok(/dice\.html/.test(p.url())&&await p.isVisible('#bnav a.on[data-tab="dice"]'),'a Menu link opens the page');
  await p.click('#bnav button:has-text("Search")');ok(await p.isVisible('#pbg.open, #pq'),'Search opens the search box');
  // undo
- await p.goto('http://127.0.0.1:8783/party.html');await p.evaluate(()=>{PARTY.push({id:'u1',name:'Una',level:3,gear:[],inv:[],abil:{}});saveParty();PARTY_SEL='u1';renderParty()});
+ await p.goto('http://127.0.0.1:8783/party.html');await p.waitForFunction(()=>typeof PARTY!=='undefined'&&typeof renderParty==='function');await p.evaluate(()=>{PARTY.push({id:'u1',name:'Una',level:3,gear:[],inv:[],abil:{}});saveParty();PARTY_SEL='u1';renderParty()});
  await p.evaluate(()=>partyDelete('u1'));ok(await p.evaluate(()=>!PARTY.some(x=>x.id==='u1')),'delete removes the character at once');
  ok(await p.isVisible('#toast.act button:has-text("Undo")'),'toast offers Undo');await p.click('#toast button');ok(await p.evaluate(()=>PARTY.some(x=>x.id==='u1')&&!store.get('partygone',{}).u1),'Undo brings the character back');
  await p.evaluate(()=>{store.set('pins',['bp|X']);PINS=new Set(['bp|X'])});await p.goto('http://127.0.0.1:8783/settings.html');await p.click('text=Clear pins');ok(await p.evaluate(()=>PINS.size===0),'pins cleared');await p.click('#toast button');ok(await p.evaluate(()=>PINS.size===1),'Undo restores pins');

@@ -4,7 +4,7 @@ const srv=http.createServer((q,r)=>{let f=path.join(ROOT,decodeURIComponent(q.ur
 let fails=0;const ok=(c,m)=>{console.log((c?'  ok   ':'  FAIL ')+m);if(!c)fails++};
 (async()=>{await new Promise(r=>srv.listen(8791,r));const b=await chromium.launch();const p=await b.newPage({viewport:{width:1200,height:900}});p.on('pageerror',e=>{fails++;console.log('PAGEERROR',e.message)});await p.route('https://vppvpmwjqcgixtfxpukh.supabase.co/**',r=>r.abort());
  // an old forged design (Potency on the 1-10 scale) is migrated once
- await p.goto('http://127.0.0.1:8791/properties.html');await p.evaluate(()=>{localStorage.clear();store.set('designs',[{n:'Old Blade',forged:{marks:0},powers:[{k:'p',n:'Burning',pot:4,t:'x'}],prop:'Burning (Potency 4)'}])});
+ await p.goto('http://127.0.0.1:8791/properties.html');await p.waitForFunction(()=>typeof store!=='undefined'&&typeof PROPS!=='undefined');await p.evaluate(()=>{localStorage.clear();store.set('designs',[{n:'Old Blade',forged:{marks:0},powers:[{k:'p',n:'Burning',pot:4,t:'x'}],prop:'Burning (Potency 4)'}])});
  await p.goto('http://127.0.0.1:8791/properties.html');await p.waitForFunction(()=>typeof PROPS!=='undefined'&&document.querySelector('.card'));
  const l=await p.evaluate(()=>({n:PROPS.length,cards:document.querySelectorAll('.card').length,d:store.get('designs',[])[0]}));
  ok(l.n>=92&&l.cards>0,'Properties page lists '+l.n+' properties ('+l.cards+' cards shown)');
