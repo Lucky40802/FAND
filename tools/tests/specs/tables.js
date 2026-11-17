@@ -123,4 +123,13 @@ module.exports = [
     await p.evaluate(() => liveClose()); await signIn(p, 'dm1'); await p.evaluate(() => { CL.camps = [{ id: 'k1', name: 'Ashfall', dm: 'dm1' }]; renderCombat(); }); await p.click('button:has-text("Live: Ashfall")'); await p.waitForTimeout(200);
     t.eq(await p.evaluate(() => __FAKE.t.campaign_combat.length), 0, 'stopping removes it');
   } },
+  { name: 'content check: new peoples match their traits; Bladesinging casts in light armor', run: async t => {
+    const p = await t.open('sheet');
+    const r = await p.evaluate(() => {
+      const leather = BPS.find(b => b.cat !== 'Shield' && armorPiece(b).weight === 'Light' && armorPiece(b).slot !== 'Mount');
+      const st = sub => { const c = { id: 'w', name: 'W', cls: 'Wizard', sub, level: 5 }; return castArmor(c, [leather]); };
+      return { blade: st('Bladesinging'), evoc: !!st('School of Evocation'), lt: !!leather };
+    });
+    t.ok(r.lt, 'a light armor piece exists'); t.eq(r.blade, null, 'a Bladesinger in light armor casts freely'); t.ok(r.evoc, 'other wizards still pay');
+  } },
 ];
