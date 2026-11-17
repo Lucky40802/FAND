@@ -6,6 +6,9 @@
 -- campaign_members     who is in each campaign, as 'dm' or 'player'
 -- campaign_characters  the characters shared with a campaign: every member can read them, the owner and the DM can change them
 -- dm_notes             the DM notepad's pages, each readable and writable only by the account that wrote it
+-- user_characters, journal_entries  each account's characters and journal, one row each, only its own
+-- campaign_pages       a campaign's wiki: the DM writes, members read the published pages
+-- campaign_combat      a campaign's fight as players see it, live: the DM writes, members read
 --
 -- The site never writes campaigns, members, or characters directly: the fand_* functions below check who is asking
 -- and do the change. Row-level security keeps every row readable only by its owner or by members of its campaign.
@@ -379,5 +382,94 @@ create policy "own delete" on public.dm_notes for delete to authenticated using 
 revoke all on public.dm_notes from anon;
 grant select, insert, update, delete on public.dm_notes to authenticated;
 
--- make the site's API see new tables (the Workshop's `blueprints`, the DM notepad's `dm_notes`) right away
+-- ── characters and the journal, one row each ─────────────────────
+-- Each character and each journal entry of an account is its own row, so two devices editing different ones never
+-- overwrite each other and a long journal is not rewritten whole. `data` is the character or entry as the site keeps
+-- it; a deleted one stays as a row with deleted = true for a while, so other devices learn it is gone. Only the
+-- account itself can read or write its rows. (The site also keeps the older whole-list copy in user_data.)
+create table if not exists public.user_characters (
+  owner uuid not null default auth.uid() references auth.users (id) on delete cascade,
+  id text not null check (char_length(id) between 1 and 40),
+  data jsonb not null default '{}'::jsonb check (octet_length(data::text) < 400000),
+  deleted boolean not null default false,
+  updated_at timestamptz not null default now(),
+  primary key (owner, id)
+);
+create table if not exists public.journal_entries (
+  owner uuid not null default auth.uid() references auth.users (id) on delete cascade,
+  id text not null check (char_length(id) between 1 and 40),
+  data jsonb not null default '{}'::jsonb check (octet_length(data::text) < 200000),
+  deleted boolean not null default false,
+  updated_at timestamptz not null default now(),
+  primary key (owner, id)
+);
+do $$ declare t text; begin
+  foreach t in array array['user_characters', 'journal_entries'] loop
+    execute format('alter table public.%I enable row level security', t);
+    execute format('drop policy if exists "own rows" on public.%I', t);
+    execute format('create policy "own rows" on public.%I for all to authenticated using (owner = (select auth.uid())) with check (owner = (select auth.uid()))', t);
+    execute format('revoke all on public.%I from anon', t);
+    execute format('grant select, insert, update, delete on public.%I to authenticated', t);
+  end loop;
+end $$;
+
+-- ── a campaign's wiki ────────────────────────────────────────────
+-- Pages the DM writes for a campaign (places, people, quests). The DM reads and writes all of them; the campaign's
+-- members read only the pages the DM has published.
+create table if not exists public.campaign_pages (
+  campaign_id uuid not null references public.campaigns (id) on delete cascade,
+  id text not null check (char_length(id) between 1 and 40),
+  title text not null default '' check (char_length(title) <= 200),
+  kind text not null default '' check (char_length(kind) <= 40),
+  body text not null default '' check (octet_length(body) < 200000),
+  published boolean not null default false,
+  updated_at timestamptz not null default now(),
+  primary key (campaign_id, id)
+);
+alter table public.campaign_pages enable row level security;
+drop policy if exists "dm or published" on public.campaign_pages;
+create policy "dm or published" on public.campaign_pages for select to authenticated
+  using (private.fand_is_dm(campaign_id) or (published and private.fand_is_member(campaign_id)));
+drop policy if exists "dm writes" on public.campaign_pages;
+create policy "dm writes" on public.campaign_pages for insert to authenticated with check (private.fand_is_dm(campaign_id));
+drop policy if exists "dm edits" on public.campaign_pages;
+create policy "dm edits" on public.campaign_pages for update to authenticated
+  using (private.fand_is_dm(campaign_id)) with check (private.fand_is_dm(campaign_id));
+drop policy if exists "dm deletes" on public.campaign_pages;
+create policy "dm deletes" on public.campaign_pages for delete to authenticated using (private.fand_is_dm(campaign_id));
+revoke all on public.campaign_pages from anon;
+grant select, insert, update, delete on public.campaign_pages to authenticated;
+
+-- ── a campaign's fight, live ─────────────────────────────────────
+-- The DM's combat tracker as players see it (names, turn order, the round, how hurt each monster looks), one row per
+-- campaign. The DM writes it; every member reads it and gets each change at once.
+create table if not exists public.campaign_combat (
+  campaign_id uuid primary key references public.campaigns (id) on delete cascade,
+  data jsonb not null default '{}'::jsonb check (octet_length(data::text) < 100000),
+  updated_at timestamptz not null default now()
+);
+alter table public.campaign_combat enable row level security;
+drop policy if exists "members read" on public.campaign_combat;
+create policy "members read" on public.campaign_combat for select to authenticated using (private.fand_is_member(campaign_id));
+drop policy if exists "dm writes" on public.campaign_combat;
+create policy "dm writes" on public.campaign_combat for insert to authenticated with check (private.fand_is_dm(campaign_id));
+drop policy if exists "dm edits" on public.campaign_combat;
+create policy "dm edits" on public.campaign_combat for update to authenticated
+  using (private.fand_is_dm(campaign_id)) with check (private.fand_is_dm(campaign_id));
+drop policy if exists "dm deletes" on public.campaign_combat;
+create policy "dm deletes" on public.campaign_combat for delete to authenticated using (private.fand_is_dm(campaign_id));
+revoke all on public.campaign_combat from anon;
+grant select, insert, update, delete on public.campaign_combat to authenticated;
+do $$ begin
+  if exists (select 1 from pg_publication where pubname = 'supabase_realtime') then
+    if not exists (select 1 from pg_publication_tables where pubname = 'supabase_realtime' and tablename = 'campaign_combat') then
+      alter publication supabase_realtime add table public.campaign_combat;
+    end if;
+    if not exists (select 1 from pg_publication_tables where pubname = 'supabase_realtime' and tablename = 'campaign_pages') then
+      alter publication supabase_realtime add table public.campaign_pages;
+    end if;
+  end if;
+end $$;
+
+-- make the site's API see new tables (the Workshop's `blueprints`, the DM notepad's `dm_notes`, and the rest) right away
 notify pgrst, 'reload schema';

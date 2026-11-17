@@ -2795,7 +2795,7 @@
  },
  {
   "name": "Strig",
-  "short": "Large owl birdfolk: quiet, patient and at home in the dark.",
+  "short": "Big-eyed owl birdfolk: quiet, patient and at home in the dark.",
   "bonus": {
    "wis": 2,
    "str": 1
@@ -3032,7 +3032,7 @@
    "speed": 30,
    "fly": 0,
    "swim": 0,
-   "climb": 0,
+   "climb": 20,
    "dv": 60,
    "senses": "",
    "langs": [
