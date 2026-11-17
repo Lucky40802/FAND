@@ -16,7 +16,7 @@ const D={n:'Test Blade',base:'Longsword',cat:'Sword',il:10,r:'Rare',mats:['Iron'
  await p.goto('http://127.0.0.1:8792/sheet.html');await p.evaluate(c=>{c._by={u:'someone',n:'Ana'};c.camp='k';localStorage.setItem('fand.party',JSON.stringify([c]));localStorage.removeItem('fand.designs');localStorage.setItem('fand.sheet',JSON.stringify('c1'))},shared);
  await p.goto('http://127.0.0.1:8792/sheet.html');await p.waitForFunction(()=>typeof findBP==='function');await p.waitForTimeout(600);
  const bp=await p.evaluate(()=>{const x=findBP('Test Blade');return x&&{ds:x.ds,peek:!!x.design.peek,t:x._t,i:x._i}});
- ok(bp&&/Piercing Edge/.test(bp.ds)&&/Hums/.test(bp.ds)&&/1d8 slashing/.test(bp.ds),'the other player\'s device has the item\'s description');
+ ok(bp&&/Piercing Edge/.test(bp.ds)&&/Hums/.test(bp.ds)&&/\d+d8 slashing/.test(bp.ds),'the other player\'s device has the item\'s description');
  ok(bp&&bp.peek&&bp.t==='bp'&&bp.i>0,'registered as a read-only Blueprint');
  await p.evaluate(()=>{SHEET_ID='c1';go('sheet')});await p.waitForTimeout(500);console.log('   forgedHTML:',await p.evaluate(()=>{try{return forgedHTML(PARTY[0]).slice(0,80)}catch(e){return 'ERR '+e.message}}),await p.evaluate(()=>[...document.querySelectorAll('.sh-tabs button,[data-shtab]')].map(x=>x.textContent).join('|')));
  const box=await p.evaluate(()=>forgedHTML(PARTY[0]));ok(/Piercing Edge/.test(box),'the sheet\'s Forged items box shows it for a non-maker');

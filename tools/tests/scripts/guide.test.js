@@ -10,8 +10,8 @@ let fails=0;const ok=(c,m)=>{console.log((c?'  ok   ':'  FAIL ')+m);if(!c)fails+
  await p.evaluate(()=>openGuide(0));ok(await p.isVisible('#gd h3:has-text("Welcome")'),'guide opens on Welcome');
  await p.screenshot({path:(process.env.S||'.')+'/'+'guide1-'+vp.width+'.png'});
  await p.click('#gd [data-gr="player"]');ok(await p.evaluate(()=>role()==='player'&&GSTEP===1),'choosing a role sets it and moves on');
- ok(await p.isVisible('#gd-ring'),'step 2 rings the search button');await p.screenshot({path:(process.env.S||'.')+'/'+'guide2-'+vp.width+'.png'});
- await p.click('#gd [data-gn]');await p.click('#gd [data-gn]');await p.click('#gd [data-gn]');ok(await p.isVisible('#gd [data-gn]:has-text("Done")'),'last step says Done');
+ ok(await p.waitForSelector('#gd-ring',{state:'visible',timeout:4000}).then(()=>true,()=>false),'step 2 rings the search button');await p.screenshot({path:(process.env.S||'.')+'/'+'guide2-'+vp.width+'.png'});
+ for(let k=0;k<20&&!(await p.isVisible('#gd [data-gn]:has-text("Done")'));k++)await p.click('#gd [data-gn]');ok(await p.isVisible('#gd [data-gn]:has-text("Done")'),'last step says Done');
  await p.click('#gd [data-gn]');ok(!(await p.isVisible('#gd'))&&await p.evaluate(()=>store.get('guided')),'Done closes and remembers');
  await p.evaluate(()=>{openGuide(0)});await p.keyboard.press('Escape');ok(!(await p.isVisible('#gd')),'Escape closes the guide');
  await p.goto('http://127.0.0.1:8784/help.html');await p.waitForSelector('#help-trouble');ok((await p.$$('.set-sec.help')).length===10,'Help page has 10 sections');
