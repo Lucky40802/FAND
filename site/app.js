@@ -184,7 +184,7 @@ function actToast(msg,label,fn){const t=$('toast');t.innerHTML=`<span>${esc(msg)
 const undoToast=(msg,undo)=>actToast(msg,'Undo',()=>{undo();toast('Restored')});
 function toast(msg){const t=$('toast');t.textContent=msg;t.classList.remove('act');t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('show'),1800)}
 // set() returns false when the browser refuses (its storage is full): the change is then not saved, so say so
-const store={get(k,d){try{const v=localStorage.getItem('fand.'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){let ok=true;try{localStorage.setItem('fand.'+k,JSON.stringify(v))}catch(e){ok=false;storeFull(e)}cloudMark(k);return ok}};
+const store={get(k,d){try{const v=localStorage.getItem('fand.'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){if(k==='journal')journalStamp(v);let ok=true;try{localStorage.setItem('fand.'+k,JSON.stringify(v))}catch(e){ok=false;storeFull(e)}cloudMark(k);if(k==='combat')liveSchedule();return ok}};
 function storeFull(e){if(e&&!/quota|full|exceed/i.test(String(e.name)+' '+String(e.message)))return;const now=Date.now();if(now-(storeFull.t||0)<8000)return;storeFull.t=now;
   setTimeout(()=>{try{toast('Not saved: this browser\'s storage is full. Remove some portraits, or download a backup in Settings and clear old data.')}catch(x){}},0)}
 // how much this site keeps in the browser (characters, portraits, notes): characters × 2 bytes, as browsers count it
@@ -1161,12 +1161,79 @@ document.addEventListener('keydown',e=>{const v=$('hoView');if(e.key==='Escape'&
 // campaign handouts (needs the campaign_handouts table from schema.sql; without it this stays quiet)
 async function hoLoad(){if(typeof CL==='undefined'||!CL.user||!CL.sb||!CL.camps.length){if(typeof CL!=='undefined')CL.handouts=[];return}
   const {data,error}=await CL.sb.from('campaign_handouts').select('id,campaign_id,title,body,kind,created_at').in('campaign_id',CL.camps.map(k=>k.id)).order('created_at',{ascending:false});
+  liveLoad().catch(()=>{});
   if(error){CL.handouts=[];return}CL.handouts=(data||[]).sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at))).slice(0,30);hoSubscribe();if(TAB==='home')renderHome()}
 function hoSubscribe(){if(CL.hochan){CL.sb.removeChannel(CL.hochan);CL.hochan=null}const ch=CL.sb.channel('fand-handouts');CL.camps.forEach(k=>ch.on('postgres_changes',{event:'*',schema:'public',table:'campaign_handouts',filter:'campaign_id=eq.'+k.id},hoEvent));CL.hochan=ch.subscribe()}
 function hoEvent(p){const r=p.new||{};if(p.eventType==='DELETE'){CL.handouts=(CL.handouts||[]).filter(x=>x.id!==(p.old||{}).id)}else if(r.id&&!(CL.handouts||[]).some(x=>x.id===r.id)){CL.handouts=[r].concat(CL.handouts||[]);const k=CL.camps.find(c=>c.id===r.campaign_id);if(!k||k.dm!==CL.user.id)actToast('New handout from your DM: '+r.title,'Open',()=>showHandout({t:r.title,k:r.kind,b:r.body}))}if(TAB==='home')renderHome()}
 async function hoDelete(id){const {error}=await CL.sb.from('campaign_handouts').delete().match({id});if(error){toast(clMsg(error));return}CL.handouts=CL.handouts.filter(x=>x.id!==id);if(TAB==='home')renderHome();toast('Handout removed')}
 function hoHomeHTML(){const v=campView(),L=(typeof CL!=='undefined'&&CL.handouts||[]).filter(h=>!v||v==='solo'||h.campaign_id===v),dm=hoDMCamps().length;if(!L.length&&!dm)return '';
   return `<section class="sec"><div class="sec-h"><h3>Handouts</h3><p>${dm?'What you have shared with your players':'From your DM'}</p>${dm?'<button class="btn" type="button" onclick="openHandout()">📜 New handout</button>':''}</div>${L.length?`<div class="ho-list">${L.slice(0,8).map(h=>{const k=CL.camps.find(c=>c.id===h.campaign_id),mine=k&&k.dm===CL.user.id;return `<div class="ho-item"><button type="button" class="ho-open" onclick='showHandout(${esc(JSON.stringify({t:h.title,k:h.kind,b:h.body}))})'><small>${esc(h.kind||'Handout')}${k?' · '+esc(k.name):''}</small><b>${esc(h.title)}</b></button>${mine?`<button type="button" class="icon-btn" title="Remove for everyone" aria-label="Remove handout" onclick="hoDelete('${esc(h.id)}')">${ICON.x}</button>`:''}</div>`}).join('')}</div>`:'<div class="note">Nothing shared yet. Open any monster, item, or god and tap 📜, or write a new handout.</div>'}</section>`}
+// ── live initiative: the DM's tracker, as the Player view shows it, on every player's phone (campaign_combat) ──
+var LIVE={data:{},chan:null,timer:null,open:null};
+const liveCamp=()=>{const c=store.get('livecamp','');return c&&hoDMCamps().some(k=>k.id===c)?c:''};
+function liveOf(C){const L=C.list||[];return {round:+C.round||1,turn:+C.turn||0,at:Date.now(),list:L.slice(0,60).map(x=>{const by=x.sum&&L.find(y=>y.id===x.sum.by),mine=!!(x.pc||by&&by.pc);
+  return {n:String(x.name||'?').slice(0,60),pc:!!x.pc,hp:mine?+x.hp||0:null,max:mine?+x.max||0:null,st:pvState(x)[0],cond:(x.cond||[]).slice(0,8).map(c=>String(c).slice(0,30)),sum:x.sum?(mine&&by?String(by.name).slice(0,60)+'\'s summon':'Summoned'):''}})}}
+function liveSchedule(){if(typeof CL==='undefined'||!CL.user||!liveCamp())return;clearTimeout(LIVE.timer);LIVE.timer=setTimeout(livePush,600)}
+async function livePush(){const c=liveCamp();if(!c||!CL.user)return;const {error}=await CL.sb.from('campaign_combat').upsert({campaign_id:c,data:liveOf(store.get('combat',{round:1,turn:0,list:[]})),updated_at:new Date().toISOString()},{onConflict:'campaign_id'});
+  if(error)toast(dbMissing(error,'campaign_combat')?'Live initiative needs the latest database setup: run tools/cloud/schema.sql again in Supabase':clMsg(error))}
+async function liveStart(id){const k=hoDMCamps().find(x=>x.id===id);if(!k)return;store.set('livecamp',id);await livePush();toast('Players in '+k.name+' now see the turn order on their phones');if(TAB==='combat')renderCombat()}
+async function liveStop(){const c=liveCamp();store.set('livecamp','');if(c)await CL.sb.from('campaign_combat').delete().match({campaign_id:c});toast('Players no longer see this fight');if(TAB==='combat')renderCombat()}
+function liveBtnHTML(){const camps=hoDMCamps();if(!camps.length)return '';const c=liveCamp(),k=camps.find(x=>x.id===c);
+  return k?`<button class="btn primary" onclick="liveStop()" title="Players in ${esc(k.name)} see the turn order and how hurt everyone looks, live">📡 Live: ${esc(k.name)} · Stop</button>`:`<select class="sel" style="width:auto" aria-label="Show this fight on players' phones" onchange="if(this.value)liveStart(this.value)"><option value="">📡 Show on players' phones…</option>${camps.map(x=>`<option value="${esc(x.id)}">${esc(x.name)}</option>`).join('')}</select>`}
+async function liveLoad(){if(typeof CL==='undefined'||!CL.user||!CL.sb||!CL.camps.length){LIVE.data={};return}
+  const {data,error}=await CL.sb.from('campaign_combat').select('campaign_id,data,updated_at').in('campaign_id',CL.camps.map(k=>k.id));if(error)return;
+  LIVE.data={};(data||[]).forEach(r=>{if(r.data&&Array.isArray(r.data.list))LIVE.data[r.campaign_id]=r.data});liveSubscribe();if(TAB==='home')renderHome()}
+function liveSubscribe(){if(LIVE.chan){CL.sb.removeChannel(LIVE.chan);LIVE.chan=null}const ch=CL.sb.channel('fand-live');CL.camps.forEach(k=>ch.on('postgres_changes',{event:'*',schema:'public',table:'campaign_combat',filter:'campaign_id=eq.'+k.id},liveEvent));LIVE.chan=ch.subscribe()}
+function liveEvent(p){const r=p.new||{},id=r.campaign_id||(p.old||{}).campaign_id;if(!id)return;const had=!!LIVE.data[id];
+  if(p.eventType==='DELETE'||!r.data||!Array.isArray(r.data.list))delete LIVE.data[id];else LIVE.data[id]=r.data;
+  const k=CL.camps.find(c=>c.id===id),dm=k&&CL.user&&k.dm===CL.user.id;
+  if(!had&&LIVE.data[id]&&!dm)actToast('Combat started in '+(k?k.name:'your campaign'),'Watch',()=>liveOpen(id));
+  if(LIVE.open===id)liveRender();if(TAB==='home')renderHome()}
+function liveRender(){const v=$('liveView'),id=LIVE.open,D=LIVE.data[id],k=(CL.camps||[]).find(c=>c.id===id);if(!v)return;
+  if(!D){v.innerHTML=`<div style="max-width:720px;margin:0 auto"><div class="empty">The fight is over.</div><button class="btn primary" onclick="liveClose()">Close</button></div>`;return}
+  const col={Unhurt:'var(--green)',Hurt:'var(--green)',Bloodied:'var(--gold)','Near death':'var(--red)',Down:'var(--muted)'},cur=D.list[D.turn];
+  v.innerHTML=`<div style="max-width:720px;margin:0 auto"><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px"><span style="font-family:var(--serif);font-size:1.8rem;font-weight:700">Round ${+D.round||1}</span>${cur?`<span class="b gold" style="font-size:.95rem">${esc(cur.n)}'s turn</span>`:''}<span class="note" style="margin:0">${esc(k?k.name:'')} · live</span><button class="btn primary" style="margin-left:auto" onclick="liveClose()">Close</button></div>
+    ${D.list.map((x,i)=>{const pct=x.max?Math.max(0,Math.min(100,x.hp/x.max*100)):0,c=col[x.st]||'var(--muted)';return `<div class="pv-row${i===D.turn?' on':''}${x.st==='Down'?' down':''}"><span class="pv-mk" style="font-size:1.3rem;width:1.4em">${i===D.turn?'▶':''}</span><div style="flex:1;min-width:0"><div style="font-size:1.2rem;font-weight:700">${esc(x.n)}${x.pc?' <span class="b green">PC</span>':''}${x.sum?` <span class="b acc">✨ ${esc(x.sum)}</span>`:''}</div>
+      ${x.max?`<div style="margin-top:4px"><b>${+x.hp}</b> / ${+x.max} HP<div class="bar" style="margin-top:4px"><i style="width:${pct}%;background:${c}"></i></div></div>`:`<div style="margin-top:4px;font-weight:600;color:${c}">${esc(x.st)}</div>`}
+      ${(x.cond||[]).length?`<div class="chips" style="margin-top:6px">${x.cond.map(t=>`<span class="chip">${esc(t)}</span>`).join('')}</div>`:''}</div></div>`}).join('')||'<div class="empty">No combatants yet.</div>'}
+    <div class="note">Follows your DM's combat tracker live. Monsters show how hurt they look, never their numbers.</div></div>`}
+function liveOpen(id){let v=$('liveView');if(!v){v=document.createElement('div');v.id='liveView';v.className='pv';v.setAttribute('role','dialog');v.setAttribute('aria-label','Live combat');document.body.appendChild(v)}LIVE.open=id;liveRender();v.hidden=false}
+function liveClose(){const v=$('liveView');if(v)v.hidden=true;LIVE.open=null}
+document.addEventListener('keydown',e=>{const v=$('liveView');if(e.key==='Escape'&&v&&!v.hidden)liveClose()});
+function liveHomeHTML(){if(typeof CL==='undefined'||!CL.user)return '';const L=Object.entries(LIVE.data).map(([id,D])=>[CL.camps.find(k=>k.id===id),id,D]).filter(x=>x[0]);
+  const W=CL.camps||[];if(!L.length&&!W.length)return '';
+  return `<section class="sec"><div class="sec-h"><h3>Your campaigns</h3><p>Live fights and each campaign's wiki</p></div><div class="chips">${L.map(([k,id,D])=>{const cur=D.list[D.turn];return `<button type="button" class="chip live-chip" onclick="liveOpen('${esc(id)}')">⚔ ${esc(k.name)}: round ${+D.round||1}${cur?', '+esc(cur.n)+'\'s turn':''}</button>`}).join('')}${W.map(k=>`<button type="button" class="chip" onclick="wikiOpen('${esc(k.id)}')">📖 ${esc(k.name)} wiki</button>`).join('')}</div></section>`}
+// ── campaign wiki (campaign_pages): the DM writes pages; players read the ones the DM publishes ──
+var WIKI={camp:null,pages:[],cur:null,edit:false,err:''};
+const wikiDM=()=>{const k=(CL.camps||[]).find(x=>x.id===WIKI.camp);return !!(k&&CL.user&&k.dm===CL.user.id)};
+async function wikiOpen(id){WIKI.camp=id;WIKI.cur=null;WIKI.edit=false;WIKI.err='';WIKI.pages=[];$('qBox').style.maxWidth='760px';$('qbg').classList.add('open');wikiRender('Loading…');
+  const {data,error}=await CL.sb.from('campaign_pages').select('id,title,kind,body,published,updated_at').eq('campaign_id',id).order('title');
+  if(error){WIKI.err=dbMissing(error,'campaign_pages')?'The wiki needs the latest database setup: whoever runs the site\'s Supabase project runs tools/cloud/schema.sql again.':clMsg(error)}else WIKI.pages=data||[];wikiRender()}
+function wikiMd(b){const T=new Map(WIKI.pages.map(p=>[lc(p.title),p.id]));return dmPadMd(b).replace(/<input type="checkbox"/g,'<input type="checkbox" disabled').replace(/<span class="dp-miss"[^>]*>([^<]*)<\/span>/g,(m,n)=>{const id=T.get(lc(n.replace(/&amp;/g,'&').replace(/&#39;/g,"'").replace(/&quot;/g,'"')));return id?`<a href="#" data-wiki="${esc(id)}">${n}</a>`:m})}
+function wikiRender(msg){const k=(CL.camps||[]).find(x=>x.id===WIKI.camp),dm=wikiDM(),L=WIKI.pages.filter(p=>dm||p.published),cur=L.find(p=>p.id===WIKI.cur);
+  const list=`<div class="wk-list">${dm?'<button class="btn primary" type="button" data-wk="new">+ New page</button>':''}${L.map(p=>`<button type="button" class="dp-item${cur&&cur.id===p.id?' on':''}" data-wkp="${esc(p.id)}">${dm?(p.published?'🌐 ':'🔒 '):''}<b>${esc(p.title||'Untitled')}</b><small>${esc(p.kind||'')}</small></button>`).join('')||`<div class="note">${dm?'No pages yet. Write up places, people and factions; publish a page when the players should see it.':'Your DM hasn\'t published any pages yet.'}</div>`}</div>`;
+  let main='';
+  if(msg)main=`<p class="note">${esc(msg)}</p>`;else if(WIKI.err)main=`<p class="note" style="color:var(--red)">${esc(WIKI.err)}</p>`;
+  else if(cur&&WIKI.edit)main=`<label class="note" style="display:block;margin:0 0 4px">Title</label><input class="sel" id="wkT" maxlength="200" value="${esc(cur.title||'')}" style="max-width:none;width:100%">
+    <label class="note" style="display:block;margin:8px 0 4px">Kind <small>(place, person, faction…)</small></label><input class="sel" id="wkK" maxlength="40" value="${esc(cur.kind||'')}" style="max-width:none;width:100%">
+    <label class="note" style="display:block;margin:8px 0 4px">Text <small>## heading, **bold**, - list, [[a monster, item or another page]]</small></label><textarea class="sel" id="wkB" rows="12" style="max-width:none;width:100%;resize:vertical;font:inherit">${esc(cur.body||'')}</textarea>
+    <label class="chk" style="margin-top:8px"><input type="checkbox" id="wkP"${cur.published?' checked':''}> Published: players in this campaign can read it</label>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="btn primary" type="button" data-wk="save">Save</button><button class="btn" type="button" data-wk="cancel">Cancel</button><button class="btn" type="button" data-wk="del" style="margin-left:auto">Delete page</button></div><div class="okline" id="wkMsg"></div>`;
+  else if(cur)main=`<div class="kind">${esc(cur.kind||'Page')}${dm?(cur.published?' · published':' · draft, only you see it'):''}</div><h3 style="font-family:var(--serif);margin:2px 0 8px">${esc(cur.title||'Untitled')}</h3><div class="dp-read wk-read">${wikiMd(cur.body)||'<p class="note">Nothing written yet.</p>'}</div>${dm?'<div style="margin-top:10px"><button class="btn" type="button" data-wk="edit">✎ Edit</button></div>':''}`;
+  else main=`<p class="note">${L.length?'Pick a page.':''}</p>`;
+  $('qBox').innerHTML=`<div class="mh"><div class="kind">Campaign wiki</div><h2 id="qTitle">${esc(k?k.name:'Campaign')}</h2><div class="mact"><button class="icon-btn" onclick="closeQuick()" aria-label="Close">${ICON.x}</button></div></div><div class="wk-wrap">${list}<div class="wk-main">${main}</div></div>`;
+  $('qBox').onclick=async e=>{const a=e.target.closest('a[data-wiki]');if(a){e.preventDefault();WIKI.cur=a.dataset.wiki;WIKI.edit=false;wikiRender();return}
+    const p=e.target.closest('[data-wkp]');if(p){WIKI.cur=p.dataset.wkp;WIKI.edit=false;wikiRender();return}
+    const b=e.target.closest('[data-wk]');if(!b)return;const w=b.dataset.wk;
+    if(w==='new'){const n={id:uid(),title:'New page',kind:'',body:'',published:false};WIKI.pages.push(n);WIKI.cur=n.id;WIKI.edit=true;wikiRender();setTimeout(()=>{const t=$('wkT');if(t){t.focus();t.select()}},30);return}
+    if(w==='edit'){WIKI.edit=true;wikiRender();return}
+    if(w==='cancel'){WIKI.edit=false;const c=WIKI.pages.find(x=>x.id===WIKI.cur);if(c&&!c.updated_at){WIKI.pages=WIKI.pages.filter(x=>x!==c);WIKI.cur=null}wikiRender();return}
+    if(w==='save'){const c=WIKI.pages.find(x=>x.id===WIKI.cur);if(!c)return;const row={campaign_id:WIKI.camp,id:c.id,title:$('wkT').value.trim().slice(0,200)||'Untitled',kind:$('wkK').value.trim().slice(0,40),body:$('wkB').value,published:$('wkP').checked,updated_at:new Date().toISOString()};
+      b.disabled=true;const {error}=await CL.sb.from('campaign_pages').upsert(row,{onConflict:'campaign_id,id'});b.disabled=false;
+      if(error){$('wkMsg').style.color='var(--red)';$('wkMsg').textContent=dbMissing(error,'campaign_pages')?'The wiki needs the latest database setup (tools/cloud/schema.sql).':clMsg(error);return}
+      Object.assign(c,row);WIKI.pages.sort((x,y)=>lc(x.title).localeCompare(lc(y.title)));WIKI.edit=false;wikiRender();toast(row.published?'Saved and published':'Saved as a draft');return}
+    if(w==='del'){const c=WIKI.pages.find(x=>x.id===WIKI.cur);if(!c)return;if(c.updated_at){const {error}=await CL.sb.from('campaign_pages').delete().match({campaign_id:WIKI.camp,id:c.id});if(error){toast(clMsg(error));return}}
+      WIKI.pages=WIKI.pages.filter(x=>x!==c);WIKI.cur=null;WIKI.edit=false;wikiRender();toast('Page deleted')}}}
 // Quick actions in a window: a monster goes straight into the combat tracker or the encounter builder; a Blueprint or a
 // material goes to a character in the party.
 // the character chosen in a window's quick actions, kept when the window redraws (e.g. once the vault text loads)
@@ -1206,7 +1273,7 @@ function showModal(x){
         <button class="icon-btn" onclick="closeModal()" title="Close (Esc)" aria-label="Close">${ICON.x}</button>
       </div>
     </div>
-    <div class="mb">${modalQuick(x)}${noteHTML(x)}${M.body}</div>${nav}`;
+    <div class="mb">${modalQuick(x)}${noteHTML(x)}${dmPadBack(x)}${M.body}</div>${nav}`;
   diceify($('modal'));
   noteBind(x);$('hoBtn').onclick=()=>openHandout(hoText(x));const cb=$('cmpBtn');if(cb)cb.onclick=()=>{cmpItemToggle(x);cb.classList.toggle('on',cmpHas(x))};
   const pb=$('pinBtn');if(pb)pb.onclick=()=>{togglePin(x);pb.classList.toggle('on');pb.innerHTML=isPinned(x)?ICON.starf:ICON.star;if(VIEWS[TAB])renderList();else if(TAB==='home')renderTab()};
@@ -1361,29 +1428,81 @@ function dmPadRender(){dmPadFlush();const P=$('dmpad');if(!P||P.hidden)return;co
   if(DP.state==='loading'){P.innerHTML=dmPadShell(`<div class="dp-locked"><p>Loading your notes…</p></div>`);return}
   if(DP.state==='error'){P.innerHTML=dmPadShell(`<div class="dp-locked">${DP.err==='setup'?'<p><b>The notepad\'s database table isn\'t set up yet.</b> Whoever runs this site\'s Supabase project needs to run <code>tools/cloud/schema.sql</code> again in its SQL Editor (it adds the <code>dm_notes</code> table).</p>':'<p>Your notes couldn\'t be loaded. Check your connection.</p>'}<button class="btn" onclick="dmPadLoad()">Try again</button></div>`);return}
   if(!DP.notes.length){const n={id:uid(),t:'Session notes',body:'',at:Date.now()};DP.notes.push(n);dmPadUISet({cur:n.id});dmPadPush(n.id)}
-  const cur=dmPadCur(),q=lc(ui.q||''),list=DP.notes.filter(n=>!q||lc(n.t+' '+n.body).includes(q)).sort((a,b)=>(b.pin?1:0)-(a.pin?1:0)||b.at-a.at);
+  const cur=dmPadCur(),read=ui.view==='read',q=lc(ui.q||''),list=DP.notes.filter(n=>!q||lc(n.t+' '+n.body).includes(q)).sort((a,b)=>(b.pin?1:0)-(a.pin?1:0)||b.at-a.at);
   const links=[...new Set(((cur.body||'').match(/\[\[([^\]]{1,80})\]\]/g)||[]).map(x=>x.slice(2,-2)))].map(n=>[n,resolveLink(n)]);
   P.innerHTML=`<div class="dp-head"><b>📝 DM notepad</b><span class="dp-saved" id="dp-saved" aria-live="polite">${DP.dirty.size?'Not saved yet: retrying':'In your account'}</span><button class="btn" type="button" onclick="dmPadNew()">+ New page</button><button class="icon-btn" onclick="dmPad(false)" aria-label="Close notepad" title="Close (Esc)">${ICON.x}</button></div>
     <div class="dp-wrap"><div class="dp-list"><input class="sel" id="dp-q" type="search" placeholder="Search notes…" aria-label="Search notes" value="${esc(ui.q||'')}">
       <div class="dp-items" role="listbox" aria-label="Pages">${list.map(n=>`<button type="button" role="option" aria-selected="${n.id===cur.id}" class="dp-item${n.id===cur.id?' on':''}" onclick="dmPadOpen('${esc(n.id)}')">${n.pin?'📌 ':''}<b>${esc(dmPadTitle(n))}</b><small>${esc(new Date(n.at).toLocaleDateString())}</small></button>`).join('')||'<div class="note" style="margin:6px">No page matches.</div>'}</div></div>
     <div class="dp-ed"><input class="sel dp-title" id="dp-title" placeholder="Page title" aria-label="Page title" value="${esc(cur.t||'')}">
-      <textarea class="sel" id="dp-body" aria-label="Note" placeholder="Plans, secrets, what the party missed, who owes whom… Type [[a name]] to link a monster, item, spell, god or realm.">${esc(cur.body||'')}</textarea>
+      <div class="dp-tools" role="toolbar" aria-label="Formatting">${read?'':`<button type="button" class="btn" onclick="dmPadFmt('h')" title="Heading" aria-label="Heading">H</button><button type="button" class="btn" onclick="dmPadFmt('b')" title="Bold" aria-label="Bold"><b>B</b></button><button type="button" class="btn" onclick="dmPadFmt('li')" title="Bulleted list">• List</button><button type="button" class="btn" onclick="dmPadFmt('ck')" title="Checklist">☐ Checklist</button>`}<button type="button" class="btn" id="dp-view" onclick="dmPadView()" style="margin-left:auto">${read?'✎ Edit':'👁 Read'}</button></div>
+      ${read?`<div class="dp-read" id="dp-read">${dmPadMd(cur.body)||'<p class="note">Nothing written yet. Tap ✎ Edit.</p>'}</div>`:`<textarea class="sel" id="dp-body" aria-label="Note" placeholder="Plans, secrets, what the party missed, who owes whom… Type [[a name]] to link a monster, item, spell, god or realm. ## makes a heading, **bold**, - a list, - [ ] a checklist.">${esc(cur.body||'')}</textarea>`}
       ${links.length?`<div class="chips dp-links"><span class="note" style="margin:0 4px 0 0">Linked</span>${links.map(([n,x])=>x?refChip(x):`<span class="chip" title="Nothing on the site has this name">${esc(n)}?</span>`).join('')}</div>`:''}
       <div class="dp-act"><button class="btn" type="button" onclick="dmPadLink()" title="Add a link to the item that is open, or this page">🔗 Link what's open</button><button class="btn" type="button" onclick="dmPadStamp()">🕒 Time stamp</button><button class="btn" type="button" onclick="dmPadPin()">${cur.pin?'Unpin':'📌 Pin'}</button>
-        <button class="btn" type="button" onclick="dmPadCopy()">Copy</button><button class="btn" type="button" onclick="dmPadDel()">Delete page</button>
+        <button class="btn" type="button" onclick="dmPadCopy()">Copy</button><button class="btn" type="button" onclick="dmPadShare()" title="Send this page to your players as a handout; the rest of the notepad stays private">📜 Share with players</button><button class="btn" type="button" onclick="dmPadDel()">Delete page</button></div>
+      <div class="dp-act"><button class="btn" type="button" onclick="dmPadSession()" title="A new page with the party, the fight you have ready, recent loot and a checklist">▶ Start session</button><button class="btn" type="button" onclick="dmPadRecap()" title="What happened since the session started: fights, loot, journal entries and the checklist">🧾 Session recap</button>
         <label class="chk" style="margin-left:auto" title="Ask for the DM passphrase before showing the notepad on this device"><input type="checkbox" id="dp-lock"${ui.lock?' checked':''}> Keep behind the DM passphrase</label></div></div></div>`;
   const tEl=$('dp-title'),bEl=$('dp-body');
-  const save=()=>{clearTimeout(DP_TM);DP_FLUSH=()=>{DP_FLUSH=null;const n=DP.notes.find(x=>x.id===cur.id);if(!n)return;if(n.t===tEl.value&&n.body===bEl.value)return;n.t=tEl.value;n.body=bEl.value;n.at=Date.now();dmPadPush(n.id)};DP_TM=setTimeout(DP_FLUSH,400);const s=$('dp-saved');if(s)s.textContent='Saving…'};
-  tEl.oninput=save;bEl.oninput=save;bEl.onblur=()=>{if(/\[\[/.test(bEl.value))setTimeout(dmPadRender,450)};
+  const save=()=>{clearTimeout(DP_TM);DP_FLUSH=()=>{DP_FLUSH=null;const n=DP.notes.find(x=>x.id===cur.id);if(!n)return;if(n.t===tEl.value&&(!bEl||n.body===bEl.value))return;n.t=tEl.value;if(bEl)n.body=bEl.value;n.at=Date.now();dmPadPush(n.id)};DP_TM=setTimeout(DP_FLUSH,400);const s=$('dp-saved');if(s)s.textContent='Saving…'};
+  tEl.oninput=save;if(bEl){bEl.oninput=save;bEl.onblur=()=>{if(/\[\[/.test(bEl.value))setTimeout(dmPadRender,450)}}
+  const rd=$('dp-read');if(rd){rd.onchange=e=>{const c=e.target.closest('[data-ln]');if(c)dmPadTick(+c.dataset.ln,c.checked)};rd.onclick=e=>{const a=e.target.closest('a[data-ref]');if(a)e.preventDefault()}}
   $('dp-q').oninput=e=>{dmPadUISet({q:e.target.value});const pos=e.target.selectionStart;dmPadRender();const q2=$('dp-q');q2.focus();q2.setSelectionRange(pos,pos)};
   $('dp-lock').onchange=e=>{dmPadUISet({lock:e.target.checked});toast(e.target.checked?'The notepad now asks for the DM passphrase':'The notepad opens without the passphrase')}}
 function dmPadOpen(id){dmPadFlush();dmPadUISet({cur:id});dmPadRender()}
-function dmPadInsert(txt){const t=$('dp-body');if(!t)return;const a=t.selectionStart,b=t.selectionEnd;t.value=t.value.slice(0,a)+txt+t.value.slice(b);t.selectionStart=t.selectionEnd=a+txt.length;t.dispatchEvent(new Event('input'));t.focus()}
+function dmPadEditMode(){if(!$('dp-body')&&$('dp-read')){dmPadUISet({view:'edit'});dmPadRender()}return $('dp-body')}
+function dmPadInsert(txt){const t=dmPadEditMode();if(!t)return;const a=t.selectionStart,b=t.selectionEnd;t.value=t.value.slice(0,a)+txt+t.value.slice(b);t.selectionStart=t.selectionEnd=a+txt.length;t.dispatchEvent(new Event('input'));t.focus()}
 function dmPadLink(){const x=$('mbg').classList.contains('open')&&CUR?CUR:null;if(x){dmPadInsert('[['+x.n.split(' - ')[0]+']] ');setTimeout(dmPadRender,450);return}
   const t=TABS.find(y=>y[0]===TAB);dmPadInsert((t?t[1]:TAB)+' page ('+location.href.split('#')[0].split('/').pop()+') ')}
-function dmPadStamp(){dmPadInsert((($('dp-body').value&&!/\n$/.test($('dp-body').value))?'\n':'')+'— '+new Date().toLocaleString([], {dateStyle:'medium',timeStyle:'short'})+' —\n')}
+function dmPadStamp(){if(!dmPadEditMode())return;dmPadInsert((($('dp-body').value&&!/\n$/.test($('dp-body').value))?'\n':'')+'— '+new Date().toLocaleString([], {dateStyle:'medium',timeStyle:'short'})+' —\n')}
 function dmPadPin(){dmPadFlush();const n=dmPadCur();if(!n)return;n.pin=!n.pin;n.at=Date.now();dmPadPush(n.id);dmPadRender()}
 function dmPadCopy(){const n=dmPadCur(),txt=(n.t?n.t+'\n\n':'')+(n.body||'');(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast('Page copied'),()=>toast('Copy failed'))}
+// formatting: ## heading, **bold**, - list, - [ ] checklist. The read view shows them, with tick-boxes that save.
+function dmPadFmt(k){const t=dmPadEditMode();if(!t)return;const v=t.value,a=t.selectionStart,b=t.selectionEnd;
+  if(k==='b'){const s=v.slice(a,b)||'bold text';t.value=v.slice(0,a)+'**'+s+'**'+v.slice(b);t.selectionStart=a+2;t.selectionEnd=a+2+s.length}
+  else{const pre={h:'## ',li:'- ',ck:'- [ ] '}[k],ls=v.lastIndexOf('\n',a-1)+1;let le=v.indexOf('\n',b);if(le<0)le=v.length;
+    const all=v.slice(ls,le).split('\n'),off=all.every(x=>x.startsWith(pre)),rep=all.map(x=>off?x.slice(pre.length):pre+x.replace(/^(#{1,3}\s+|[-*]\s+(\[[ xX]\]\s+)?)/,'')).join('\n');
+    t.value=v.slice(0,ls)+rep+v.slice(le);t.selectionStart=t.selectionEnd=ls+rep.length}
+  t.dispatchEvent(new Event('input'));t.focus()}
+function dmPadView(){dmPadFlush();dmPadUISet({view:dmPadUI().view==='read'?'edit':'read'});dmPadRender()}
+function dmPadInline(s){return String(s).split(/(\[\[[^\]]{1,80}\]\])/).map((p,i)=>{if(i%2){const n=p.slice(2,-2),x=resolveLink(n);return x?`<a href="#" data-ref="${ref(x)}">${esc(n)}</a>`:`<span class="dp-miss" title="Nothing on the site has this name">${esc(n)}</span>`}
+  return esc(p).replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/(^|[^*])\*([^*\n]+)\*/g,'$1<em>$2</em>')}).join('')}
+function dmPadMd(src){const L=String(src||'').split('\n');let out='',list=null;const close=()=>{if(list){out+='</ul>';list=null}};
+  L.forEach((l,i)=>{let m;
+    if((m=/^\s*[-*]\s+\[([ xX])\]\s?(.*)$/.exec(l))){if(list!=='ck'){close();out+='<ul class="dp-ck">';list='ck'}out+=`<li><label><input type="checkbox" data-ln="${i}"${m[1]!==' '?' checked':''}> <span>${dmPadInline(m[2])}</span></label></li>`;return}
+    if((m=/^\s*[-*]\s+(.*)$/.exec(l))){if(list!=='ul'){close();out+='<ul>';list='ul'}out+=`<li>${dmPadInline(m[1])}</li>`;return}
+    close();if((m=/^(#{1,3})\s+(.*)$/.exec(l))){const h=m[1].length+3;out+=`<h${h}>${dmPadInline(m[2])}</h${h}>`;return}
+    if(l.trim())out+=`<p>${dmPadInline(l)}</p>`});close();return out}
+function dmPadTick(ln,on){const n=dmPadCur();if(!n)return;const L=String(n.body||'').split('\n');if(L[ln]==null)return;L[ln]=L[ln].replace(/\[[ xX]\]/,on?'[x]':'[ ]');n.body=L.join('\n');n.at=Date.now();dmPadPush(n.id);
+  const P=$('dp-read'),y=P?P.scrollTop:0;dmPadRender();const P2=$('dp-read');if(P2)P2.scrollTop=y}
+const dmPadPlain=b=>String(b||'').replace(/\[\[([^\]]{1,80})\]\]/g,'$1').replace(/\*\*([^*]+)\*\*/g,'$1');
+// one page as a handout: players get only this text, in the campaign the DM picks
+function dmPadShare(){dmPadFlush();const n=dmPadCur();if(!n)return;let b=dmPadPlain(n.body).trim();if(b.length>4000){b=b.slice(0,3990)+'…';toast('Handouts hold 4,000 characters: the end of this page is cut')}
+  dmPad(false);openHandout({t:dmPadTitle(n).slice(0,120),k:'Notes',b})}
+// pages that link to an item, shown in the item's window (DM only)
+function dmPadBack(x){if(role()==='player'||!x||!x.n||!dmPadDB())return '';if(DP.uid!==CL.user.id||DP.state==='idle'){DP.uid=CL.user.id;dmPadLoad().then(()=>{if(CUR===x&&$('mbg').classList.contains('open')){const el=$('dp-back');if(el)el.outerHTML=dmPadBack(x)}});return '<div id="dp-back"></div>'}
+  if(DP.state!=='ready')return '<div id="dp-back"></div>';const me=lc(x.n.split(' - ')[0]),hits=DP.notes.filter(n=>((n.body||'').match(/\[\[([^\]]{1,80})\]\]/g)||[]).some(m=>{const y=resolveLink(m.slice(2,-2));return y===x||lc(m.slice(2,-2))===me}));
+  return hits.length?`<div class="dp-back" id="dp-back"><span>📝 In your notepad:</span>${hits.slice(0,8).map(n=>`<button type="button" class="chip" onclick="closeModal();dmPad(true);dmPadOpen('${esc(n.id)}')">${esc(dmPadTitle(n))}</button>`).join('')}</div>`:'<div id="dp-back"></div>'}
+// ── sessions: a start page filled from the party and what is ready, and a recap of what happened since ──
+const sessDay=()=>new Date().toISOString().slice(0,10);
+function sessStartText(){const L=[],enc=store.get('enc',{}),C=store.get('combat',{round:1,turn:0,list:[]}),d=new Date().toLocaleDateString([], {dateStyle:'long'});
+  L.push('## Party');PARTY.forEach(c=>{const cs=Array.isArray(c.cond)&&c.cond.length?' ('+c.cond.join(', ')+')':'';L.push(`- **${c.name||'Unnamed'}** · ${c.cls||'?'} ${c.level||1}${c.hpMax?`, HP ${c.hp??c.hpMax}/${c.hpMax}`:''}${cs}`)});if(!PARTY.length)L.push('- (no characters on the Party page)');
+  if(enc.realm||enc.dim)L.push('','## Where','- '+[enc.dim,enc.realm].filter(Boolean).join(', ')+(enc.level?' · party level '+enc.level:''));
+  if((enc.list||[]).length){L.push('','## Fight ready');enc.list.forEach(([n,k])=>L.push(`- ${k>1?k+' × ':''}[[${n}]]`))}
+  if(C.list&&C.list.length)L.push('','## Combat in the tracker','- Round '+C.round+': '+C.list.map(x=>x.name).join(', '));
+  const loot=[];PARTY.forEach(c=>(c.log||[]).forEach(e=>{if(/^Spoils/.test(e.deed||''))loot.push([e.d||'',(c.name||'?')+': '+e.deed.replace(/^Spoils from the .*? fight: /,'')])}));loot.sort((a,b)=>b[0].localeCompare(a[0]));
+  if(loot.length){L.push('','## Recent loot');loot.slice(0,6).forEach(x=>L.push('- '+x[1]))}
+  L.push('','## Plan','- [ ] ','','## Notes','');return {t:'Session: '+d,body:L.join('\n')}}
+function dmPadSession(){if(DP.state!=='ready')return;dmPadFlush();const s=sessStartText(),n={id:uid(),t:s.t,body:s.body,at:Date.now()};DP.notes.unshift(n);dmPadUISet({cur:n.id,view:'edit'});store.set('sess',{at:Date.now(),d:sessDay(),page:n.id});dmPadPush(n.id);dmPadRender();toast('Session started')}
+function sessRecapText(){const S=store.get('sess',null),since=S&&S.d||sessDay(),L=[];
+  const F=store.get('fights',[]).filter(f=>(f.d||'')>=since).reverse();if(F.length){L.push('## Fights');F.forEach(f=>L.push(`- ${f.mons}: ${f.won?'won':'not won'} in ${f.rounds} round${f.rounds>1?'s':''}${f.dropped&&f.dropped.length?'; dropped: '+f.dropped.map(x=>x.n).join(', '):''}`))}
+  const loot=[];PARTY.forEach(c=>(c.log||[]).forEach(e=>{if(/^Spoils/.test(e.deed||'')&&(e.d||'')>=since)loot.push((c.name||'?')+': '+e.deed.replace(/^Spoils from the .*? fight: /,''))}));if(loot.length){L.push('','## Loot');loot.forEach(x=>L.push('- '+x))}
+  const J=(store.get('journal',[])||[]).filter(e=>e&&(e.d||'')>=since&&!/^Recap/.test(e.t||''));if(J.length){L.push('','## Journal');J.forEach(e=>L.push('- '+(e.t||'Untitled')))}
+  const pg=S&&DP.notes.find(n=>n.id===S.page);if(pg){const ck=String(pg.body||'').split('\n').map(l=>/^\s*[-*]\s+\[([ xX])\]\s?(.*)$/.exec(l)).filter(m=>m&&m[2].trim());const done=ck.filter(m=>m[1]!==' '),open=ck.filter(m=>m[1]===' ');
+    if(done.length){L.push('','## Done');done.forEach(m=>L.push('- '+m[2]))}if(open.length){L.push('','## Still to do');open.forEach(m=>L.push('- [ ] '+m[2]))}
+    const notes=/##\s*Notes\s*\n([\s\S]*)$/.exec(pg.body||'');if(notes&&notes[1].trim()){L.push('','## Notes',notes[1].trim())}}
+  if(!L.length)L.push('Nothing recorded yet: fights ended in the tracker, loot given out, journal entries and the session page\'s checklist show up here.');
+  return {t:'Recap: '+new Date(since+'T12:00').toLocaleDateString([], {dateStyle:'long'}),body:L.join('\n'),since}}
+function dmPadRecap(){if(DP.state!=='ready')return;dmPadFlush();const r=sessRecapText(),n={id:uid(),t:r.t,body:r.body,at:Date.now()};DP.notes.unshift(n);dmPadUISet({cur:n.id,view:'read'});dmPadPush(n.id);dmPadRender();
+  actToast('Recap written','Add to journal',()=>{const J=store.get('journal',[]);J.push({t:r.t,d:sessDay(),body:dmPadPlain(r.body)});store.set('journal',J);toast('Recap added to the Journal')})}
 async function dmPadDel(){dmPadFlush();const n=dmPadCur(),db=dmPadDB();if(!n||!db)return;const i=DP.notes.indexOf(n);DP.notes.splice(i,1);DP.dirty.delete(n.id);dmPadUISet({cur:(DP.notes[0]||{}).id});dmPadRender();
   const {error}=await db.from('dm_notes').delete().match({owner:CL.user.id,id:n.id});if(error){DP.notes.splice(i,0,n);dmPadRender();toast('Couldn\'t delete: '+(dmPadMissing(error)?'the database isn\'t set up':'check your connection'));return}
   undoToast('Deleted "'+dmPadTitle(n)+'"',()=>{DP.notes.splice(i,0,n);dmPadUISet({cur:n.id});dmPadPush(n.id);dmPadRender()})}
@@ -1776,7 +1895,7 @@ function renderHome(){
       <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="randomItem(BPS.concat(MATS,MONSTERS,GODS))">🎲 Show me something random</button></div>
     </section>`],
     ['role','Your character or table',()=>homeRoleHTML()],
-    ['handouts','Handouts',()=>hoHomeHTML()],
+    ['handouts','Handouts',()=>liveHomeHTML()+hoHomeHTML()],
     ['stats','Counts',()=>`<section class="sec"><div class="stats">${stats.map(([t,v,l])=>`<button class="stat" data-go="${t}" title="Open ${esc((TABS.find(x=>x[0]===t)||[])[1]||t)}">${pgSym(t,'statsym')}<span class="v">${fmt(v)}</span><span class="l">${l}</span></button>`).join('')}</div></section>`],
     ['recent','Recently viewed',()=>(()=>{const rec=recentItems().slice(0,10);return rec.length?`<section class="sec"><div class="sec-h"><h3>Recently viewed</h3><p>on this device · <a href="#" onclick="store.set('recent',[]);renderHome();return false">clear</a></p></div><div class="chips">${rec.map(x=>refChip(x,esc(x._t==='god'?godKey(x):x.n),{bp:'Blueprint',mat:'Material',mon:'Monster',god:'God',rune:'Rune',spell:'Spell',sub:'Subclass',realm:'Realm',demon:'Demon',patron:'Patron',note:'Note'}[x._t]||'')).join('')}</div></section>`:''})()],
     ['pinned','Pinned',()=>pins.length?`<section class="sec"><div class="sec-h"><h3>Pinned</h3><p>${pins.length} saved on this device</p></div><div class="grid">${pins.slice(0,12).map(card).join('')}</div></section>`:''],
@@ -7081,7 +7200,7 @@ function renderCombat(){
       <button class="btn" onclick="cbSort()">Sort by initiative</button>
       <span class="keyrow cb-addrow" style="flex:1;min-width:240px"><input class="sel" id="cb-n" type="number" min="1" value="1" aria-label="How many to add" title="How many to add" style="width:56px;flex:0 0 56px;min-width:0"><input class="sel" id="cb-add" list="dl-mon" placeholder="Add monster…" style="max-width:none;flex:1;min-width:0"><button class="btn" onclick="cbAddMon()">Add</button></span>
       <button class="btn" onclick="cbAddParty()">+ Party</button>
-      <button class="btn" onclick="pvOpen()" title="A view to show the players: turn order and how hurt everyone looks, no monster numbers">👁 Player view</button>
+      <button class="btn" onclick="pvOpen()" title="A view to show the players: turn order and how hurt everyone looks, no monster numbers">👁 Player view</button>${liveBtnHTML()}
       <button class="btn" onclick="cbAddCustom()">+ Custom</button>
       <button class="btn${CB.sumOpen?' primary':''}" onclick="CB.sumOpen=!CB.sumOpen;saveCB();renderCombat()" title="Call a creature into the fight on someone's side">✨ Summon</button>
       <label class="note" style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" id="cb-ac" ${CB.noAC?'':'checked'} onchange="CB.noAC=!this.checked;saveCB()"> Subtract AC from damage</label><label class="note" style="display:flex;gap:6px;align-items:center;margin:0">Damage type <select class="sel" style="padding:2px 6px" onchange="CB.dt=this.value;saveCB()"><option value="">—</option>${Object.keys(KILL_FX).map(t=>`<option${t===CB.dt?' selected':''}>${t}</option>`).join('')}</select></label>
@@ -9112,7 +9231,7 @@ document.addEventListener('click',e=>{if(e.target.closest('#qBox [data-go]'))clo
 var CL={on:typeof CLOUD!=='undefined'&&!!(CLOUD&&CLOUD.url&&CLOUD.key),sb:null,user:null,avatars:{},ready:null,signing:null,camps:[],members:{},
   dirty:new Set(),cdirty:new Set(),cgone:[],timer:0,ctimer:0,rtimer:0,pushing:false,cpushing:false,err:'',last:0,touched:false,chan:null,step:'',email:'',hc:false,later:false};
 // kept on each device only: appearance, screen state (filters, searches, recently viewed), and the hidden-class locks
-const CL_LOCAL=new Set(['dmpad','dmpadui','recentq','theme','wakelock','tooltab','viewmode','charwiz','jedit','clsfocus','placefocus','diceanim','recent','spells','hc','hclv','jq','magic','rmap','dpool','hcpat','hcpin','hcqm','hcguard','hclog','anthropicKey','groqKey','groqModel']);
+const CL_LOCAL=new Set(['dmpad','dmpadui','livecamp','recentq','theme','wakelock','tooltab','viewmode','charwiz','jedit','clsfocus','placefocus','diceanim','recent','spells','hc','hclv','jq','magic','rmap','dpool','hcpat','hcpin','hcqm','hcguard','hclog','anthropicKey','groqKey','groqModel']);
 const clSkip=k=>!k||k.startsWith('__')||CL_LOCAL.has(k);
 // A Home Screen app on an iPhone is often closed and restarted while you switch to Mail to read the code, which lost the
 // "type your code" step. The email waiting for a code is kept on this device for an hour (as long as the code lasts).
@@ -9168,20 +9287,57 @@ async function cloudPull(){
   R.forEach((r,k)=>{if(clSkip(k)||k==='party'||k==='partygone')return;const L=+M.ts[k]||0,ts=+r.ts||0;
     if(ts>L){clRaw(k,r.value);M.ts[k]=ts;changed.push(k)}else if(L>ts)CL.dirty.add(k)});
   clKeys().forEach(k=>{if(R.has(k)||k==='party'||k==='partygone')return;if(!M.ts[k])M.ts[k]=Date.now();CL.dirty.add(k)});
-  const G=Object.assign({},store.get('partygone',{})),rg=R.get('partygone');
+  const G=Object.assign({},store.get('partygone',{})),rg=R.get('partygone'),rc=await rtPull('user_characters');
   if(rg&&rg.value&&typeof rg.value==='object')Object.entries(rg.value).forEach(([id,t])=>{if(!(G[id]>=t))G[id]=t});
+  if(rc)Object.entries(rc.gone).forEach(([id,t])=>{if(!(G[id]>=t))G[id]=t});
   if(Object.keys(G).length){clRaw('partygone',G);if(!rg||JSON.stringify(rg.value)!==JSON.stringify(G)){M.ts.partygone=Date.now();CL.dirty.add('partygone')}}
-  const rp=R.get('party'),rem=rp&&Array.isArray(rp.value)?rp.value:[],merged=partyMerge(PARTY,rem,G);
+  const rp=R.get('party'),rem=rp&&Array.isArray(rp.value)?rp.value:[],merged=partyMerge(PARTY,rc?rem.concat(rc.live):rem,G);
   if(partySig(merged)!==partySig(PARTY)){PARTY=merged;partyHashInit();clRaw('party',PARTY);changed.push('party')}
   if(!rp||partySig(clOwnParty())!==partySig(rem)){M.ts.party=Date.now();CL.dirty.add('party')}
-  clMetaSave();CL.last=Date.now();return changed}
+  const rj=await rtPull('journal_entries');
+  if(rj){let J=store.get('journal',[]);if(!Array.isArray(J))J=[];if(J.some(e=>e&&!e.id)){store.set('journal',J);J=store.get('journal',[])}
+    const JG=Object.assign({},store.get('journalgone',{}));Object.entries(rj.gone).forEach(([id,t])=>{if(!(JG[id]>=t))JG[id]=t});if(JSON.stringify(JG)!==JSON.stringify(store.get('journalgone',{})))clRaw('journalgone',JG);
+    const JM=journalMerge(J,rj.live,JG);if(jSig(JM)!==jSig(J)){clRaw('journal',JM);JH=null;if(!changed.includes('journal'))changed.push('journal')}}
+  clMetaSave();CL.last=Date.now();setTimeout(rtSyncAll,0);return changed}
 async function cloudPush(){if(!CL.user||CL.pushing||!CL.dirty.size)return;CL.pushing=true;const M=clMeta(),keys=[...CL.dirty];CL.dirty.clear();
   try{const rows=keys.map(k=>({user_id:CL.user.id,key:k,value:k==='party'?clOwnParty():store.get(k,null),ts:+M.ts[k]||(M.ts[k]=Date.now())}));clMetaSave();
     for(let i=0;i<rows.length;i+=50){const {error}=await CL.sb.from('user_data').upsert(rows.slice(i,i+50));if(error)throw error}
-    CL.err='';CL.last=Date.now()}
+    CL.err='';CL.last=Date.now();if(keys.some(k=>k==='party'||k==='partygone'||k==='journal'||k==='journalgone'))rtSyncAll()}
   catch(e){keys.forEach(k=>CL.dirty.add(k));CL.err=clMsg(e)}
   finally{CL.pushing=false;clStatus()}
   if(CL.dirty.size&&!CL.err)clSchedule()}
+// ── characters and journal entries, one row each (user_characters, journal_entries) ──
+// The account still keeps the whole list in user_data; each character and journal entry is also its own row, so two
+// devices that change different entries never overwrite each other, and a deleted one is kept as a "deleted" row so it
+// stays deleted everywhere. If the tables aren't set up yet (schema.sql not run again), this is skipped quietly.
+const RT={off:{},sent:{}};
+const dbMissing=(e,t)=>!!e&&(e.code==='42P01'||e.code==='PGRST205'||new RegExp(t).test(e.message||'')&&/(exist|find|schema cache)/i.test(e.message||''));
+const rtHash=o=>JSON.stringify(o,(k,v)=>k==='_by'||k==='_cs'?undefined:v);
+async function rtPush(table,list,gone){if(RT.off[table]||!CL.user||!CL.sb)return;const S=RT.sent[table]||(RT.sent[table]={}),rows=[],marks=[];
+  (list||[]).forEach(x=>{if(!x||!CL_ID.test(String(x.id)))return;const h=rtHash(x);if(S[x.id]===h||h.length>390000)return;rows.push({owner:CL.user.id,id:String(x.id),data:x,deleted:false,updated_at:new Date(+x._m||Date.now()).toISOString()});marks.push([x.id,h])});
+  Object.entries(gone||{}).forEach(([id,t])=>{if(!CL_ID.test(id)||S[id]==='gone'||(list||[]).some(x=>x&&x.id===id))return;rows.push({owner:CL.user.id,id,data:{},deleted:true,updated_at:new Date(+t||Date.now()).toISOString()});marks.push([id,'gone'])});
+  for(let i=0;i<rows.length;i+=25){const {error}=await CL.sb.from(table).upsert(rows.slice(i,i+25),{onConflict:'owner,id'});
+    if(error){if(dbMissing(error,table))RT.off[table]=true;return}marks.slice(i,i+25).forEach(([id,h])=>{S[id]=h})}}
+async function rtPull(table){if(RT.off[table]||!CL.user||!CL.sb)return null;const {data,error}=await CL.sb.from(table).select('id,data,deleted,updated_at');
+  if(error){if(dbMissing(error,table))RT.off[table]=true;return null}
+  const S=RT.sent[table]||(RT.sent[table]={}),live=[],gone={};
+  (data||[]).forEach(r=>{if(!r||!CL_ID.test(String(r.id)))return;const t=Date.parse(r.updated_at)||0;if(r.deleted){gone[r.id]=t;S[r.id]='gone'}else if(r.data&&typeof r.data==='object'&&!Array.isArray(r.data)){const x=Object.assign({},r.data,{id:r.id});if(x._m==null)x._m=t;live.push(x);S[r.id]=rtHash(x)}});
+  return {live,gone}}
+const rtSyncAll=()=>Promise.all([rtPush('user_characters',clOwnParty(),store.get('partygone',{})),rtPush('journal_entries',(store.get('journal',[])||[]).filter(e=>e&&e.id),store.get('journalgone',{}))]).catch(()=>{});
+// journal entries: an id each (old entries get one made from their text, so every device names them alike) and a change stamp
+var JH=null;
+const jHash=e=>JSON.stringify(e,(k,v)=>k==='_m'?undefined:v);
+function jLegacyId(e,used){const t=JSON.stringify([e.t||'',e.d||'',e.body||'']);let h=2166136261;for(let i=0;i<t.length;i++){h^=t.charCodeAt(i);h=Math.imul(h,16777619)>>>0}let id='j'+h.toString(36),k=1;while(used.has(id))id='j'+h.toString(36)+'-'+(k++);return id}
+function journalStamp(J){if(!Array.isArray(J))return;if(!JH){JH={};let old=[];try{old=JSON.parse(localStorage.getItem('fand.journal')||'[]')}catch(e){}(Array.isArray(old)?old:[]).forEach(e=>{if(e&&e.id)JH[e.id]=jHash(e)})}
+  const now=Date.now(),seen=new Set(),used=new Set(J.map(e=>e&&e.id).filter(Boolean));let gone=null;const G0=()=>gone||(gone=Object.assign({},store.get('journalgone',{})));
+  const G1=store.get('journalgone',{})||{};
+  J.forEach(e=>{if(!e||typeof e!=='object')return;if(!e.id||!/^[A-Za-z0-9_-]{1,40}$/.test(String(e.id))||seen.has(e.id)){e.id=jLegacyId(e,used);used.add(e.id)}seen.add(e.id);const h=jHash(e);
+    if(JH[e.id]!==h){if(JH[e.id]!==undefined||e._m==null)e._m=now;JH[e.id]=h}if(G1[e.id]){const g=G0();delete g[e.id];e._m=now}});
+  Object.keys(JH).forEach(id=>{if(seen.has(id))return;delete JH[id];G0()[id]=now});
+  if(gone){Object.keys(gone).forEach(id=>{if(now-gone[id]>180*864e5)delete gone[id]});store.set('journalgone',gone)}}
+function journalMerge(L,R,G){const by=new Map(),order=[];const put=e=>{if(!e||typeof e!=='object'||!e.id)return;const o=by.get(e.id);if(!o)order.push(e.id);if(!o||(+e._m||0)>(+o._m||0))by.set(e.id,e)};
+  L.forEach(put);R.slice().sort((a,b)=>String(a.d||'').localeCompare(String(b.d||''))||(+a._m||0)-(+b._m||0)).forEach(put);return order.map(id=>by.get(id)).filter(e=>!(G[e.id]>=(+e._m||0)))}
+const jSig=J=>JSON.stringify(J.map(e=>[e.id,+e._m||0,jHash(e)]));
 // data that changed on another device: the party is redrawn in place; anything else needs the page loaded again
 function clApply(changed){if(changed.includes('party'))clRerender();if(!changed.some(k=>k!=='party'))return;
   let at=0;try{at=+sessionStorage.getItem('fand.__reload')||0}catch(e){}
@@ -9443,7 +9599,7 @@ function campPanelHTML(){if(!CL.on)return '';
 function campMoreHTML(k,dm,ms){const me=CL.user.id,open=CAMP_MORE.has(k.id);return `<details class="camp-more"${open?' open':''} ontoggle="campMoreT('${k.id}',this.open)"><summary>Manage${dm?'':' · leave'}</summary>
         <div class="camp-code"><small>Invite code</small><code>${esc(k.invite)}</code></div>
         <div class="chips">${ms.map(m=>`<span class="chip" style="cursor:default;display:inline-flex;align-items:center;gap:6px">${clAvHTML(m.user_id,m.name,22)}${m.role==='dm'?'👑 ':''}${esc(m.name||'Unnamed')}${m.user_id===me?' <small>(you)</small>':''}${dm&&m.user_id!==me?` <a href="#" title="Remove from the campaign" aria-label="Remove ${esc(m.name||'player')}" onclick="campKick('${k.id}','${m.user_id}');return false">✕</a>`:''}</span>`).join('')}</div>
-        <div class="camp-btns">${dm?`<button class="btn" onclick="campNewCode('${k.id}')" title="A new code; the old one stops working">New code</button><button class="btn" onclick="campRename('${k.id}')">Rename</button><button class="btn" onclick="campDelete('${k.id}')">Delete</button>`:`<button class="btn" onclick="campLeave('${k.id}')">Leave</button>`}</div></details>`}
+        <div class="camp-btns"><button class="btn" onclick="wikiOpen('${k.id}')">📖 Wiki</button>${dm?`<button class="btn" onclick="campNewCode('${k.id}')" title="A new code; the old one stops working">New code</button><button class="btn" onclick="campRename('${k.id}')">Rename</button><button class="btn" onclick="campDelete('${k.id}')">Delete</button>`:`<button class="btn" onclick="campLeave('${k.id}')">Leave</button>`}</div></details>`}
 // The Party page shows campaigns as tabs: All characters, one tab per campaign, and Not shared. The open tab holds that
 // campaign's members, invite, and settings, and the characters below are only its own.
 function campTabsHTML(){if(!CL.on)return '';if(!CL.user||!CL.camps.length)return campPanelHTML();
