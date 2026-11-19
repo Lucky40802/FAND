@@ -1013,7 +1013,7 @@ var PAGE_INFO = {
   hidden: ['Hidden classes', 'Hidden classes of Vestige, unlocked only through quests and the Towers: Unique (one of a kind), Epic (a basic class specialised), and Legendary (following a Rune progenitor).'],
   towers: ['Towers', 'The Towers in every realm, built from the excess energy of unclaimed Runes: their floors, guardians, the Runes that feed them, and the hidden classes they hold.'],
   sheet: ['Character sheet', 'Create and play a character on a full sheet: abilities, saves, skills, AC from worn gear, attacks, spells and slots, contracts, class stage, and backstory, worked out with FAND\'s rules.'],
-  archive: ['Archive', 'Notes and mind maps in your FAND account: keep them private, share them with a campaign, or send a link anyone can open.'],
+  archive: ['Archive', 'Every note in one place: notes, mind maps, NPC contacts, quests, the party notebook and the session journal, in your FAND account. Private until you share them with a campaign or by link.'],
   journal: ['Session journal', 'Notes from each session of the campaign, saved on your device, with links to every monster, god, material, and realm.'],
   prep: ['Session prep', 'One page that rolls a whole session for your party: hooks, NPCs, three fights, a named foe, a Tower floor, loot, and the deeds that earn a level.'],
   chargen: ['Character generator', 'A whole level 1 character in one tap: pick a class, a people, and a background or leave them random, and FAND rolls the rest by its own rules.'],
@@ -1075,7 +1075,7 @@ var APP_URL = 'app.js?v=' + BUILD_ID;
 PAGES.forEach(function (pg) {
   // The page draws its frame at once; a small loader downloads the data with a progress bar, runs it, then starts the app
   // (kept in the page as <script type="text/x-fand">). If fetch can't be used (a file:// copy), it falls back to plain tags.
-  var files = ['core', 'art', 'vault'].concat(pg === 'spells' || pg === 'sheet' || pg === 'tools' || pg === 'magic' || pg === 'journal' || pg === 'chargen' || pg === 'encounter' || pg === 'combat' ? ['spells'] : []).map(function (f) { return ['data/' + f + '.js?v=' + DATA_V, Buffer.byteLength(site['data/' + f + '.js'], 'utf8')]; }).concat([[APP_URL, Buffer.byteLength(site['app.js'], 'utf8')]]);
+  var files = ['core', 'art', 'vault'].concat(pg === 'spells' || pg === 'sheet' || pg === 'tools' || pg === 'magic' || pg === 'journal' || pg === 'archive' || pg === 'chargen' || pg === 'encounter' || pg === 'combat' ? ['spells'] : []).map(function (f) { return ['data/' + f + '.js?v=' + DATA_V, Buffer.byteLength(site['data/' + f + '.js'], 'utf8')]; }).concat([[APP_URL, Buffer.byteLength(site['app.js'], 'utf8')]]);
   var tags = '<script>const SITE={page:' + JSON.stringify(pg) + ',v:' + JSON.stringify(DATA_V) + ',b:' + JSON.stringify(BUILD_ID) + '};' + cloudLine + '</script>\n<script>' + LOADER.replace('__FILES__', JSON.stringify(files)) + '</script>';
   var html = tpl.slice(0, APP_A) + tags + '\n' + tpl.slice(APP_B + '</script>'.length);
   var info = PAGE_INFO[pg];
