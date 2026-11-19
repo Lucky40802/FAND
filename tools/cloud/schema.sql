@@ -9,8 +9,9 @@
 -- user_characters, journal_entries  each account's characters and journal, one row each, only its own
 -- campaign_pages       a campaign's wiki: the DM writes, members read the published pages
 -- campaign_combat      a campaign's fight as players see it, live: the DM writes, members read
--- archive_items        the Archive: notes and mind maps anyone signed in can make; the owner shares one with a campaign
---                      (members read it, or edit it if allowed) or makes a link anyone can open
+-- archive_items        the Archive: notes, mind maps, NPC contacts and quests anyone signed in can make; the owner shares
+--                      one with a campaign (all members, or only its DM; read, or edit if allowed) or makes a link anyone
+--                      can open; each campaign also has one party notebook every member edits
 --
 -- The site never writes campaigns, members, or characters directly: the fand_* functions below check who is asking
 -- and do the change. Row-level security keeps every row readable only by its owner or by members of its campaign.
@@ -480,7 +481,7 @@ end $$;
 create table if not exists public.archive_items (
   id uuid primary key default gen_random_uuid(),
   owner uuid not null default auth.uid() references auth.users (id) on delete cascade,
-  kind text not null default 'note' check (kind in ('note', 'map')),
+  kind text not null default 'note',
   title text not null default '' check (char_length(title) <= 200),
   body text not null default '' check (octet_length(body) < 200000),
   data jsonb not null default '{}'::jsonb check (octet_length(data::text) < 300000),
@@ -490,18 +491,29 @@ create table if not exists public.archive_items (
   updated_at timestamptz not null default now(),
   updated_by uuid default auth.uid()
 );
+-- kinds: a note, a mind map, an NPC contact, a quest, and a campaign's party notebook (one per campaign, every member edits)
+alter table public.archive_items drop constraint if exists archive_items_kind_check;
+alter table public.archive_items add constraint archive_items_kind_check check (kind in ('note', 'map', 'npc', 'quest', 'party'));
+-- who in the campaign sees a shared item: everyone, or only the DM (a player's secrets and theories)
+alter table public.archive_items add column if not exists audience text not null default 'all';
+alter table public.archive_items drop constraint if exists archive_items_audience_check;
+alter table public.archive_items add constraint archive_items_audience_check check (audience in ('all', 'dm'));
+create unique index if not exists archive_items_party on public.archive_items (campaign_id) where kind = 'party';
 create index if not exists archive_items_owner on public.archive_items (owner);
 create index if not exists archive_items_campaign on public.archive_items (campaign_id);
 alter table public.archive_items enable row level security;
 drop policy if exists "owner or campaign reads" on public.archive_items;
 create policy "owner or campaign reads" on public.archive_items for select to authenticated
-  using (owner = (select auth.uid()) or (campaign_id is not null and private.fand_is_member(campaign_id)));
+  using (owner = (select auth.uid()) or (campaign_id is not null and private.fand_is_member(campaign_id)
+    and (audience = 'all' or private.fand_is_dm(campaign_id))));
 drop policy if exists "owner adds" on public.archive_items;
 create policy "owner adds" on public.archive_items for insert to authenticated
-  with check (owner = (select auth.uid()) and (campaign_id is null or private.fand_is_member(campaign_id)));
+  with check (owner = (select auth.uid()) and (campaign_id is null or private.fand_is_member(campaign_id))
+    and (kind <> 'party' or (campaign_id is not null and can_edit and audience = 'all')));
 drop policy if exists "owner or allowed members edit" on public.archive_items;
 create policy "owner or allowed members edit" on public.archive_items for update to authenticated
-  using (owner = (select auth.uid()) or (can_edit and campaign_id is not null and private.fand_is_member(campaign_id)))
+  using (owner = (select auth.uid()) or (can_edit and campaign_id is not null and private.fand_is_member(campaign_id)
+    and (audience = 'all' or private.fand_is_dm(campaign_id))))
   with check (campaign_id is null or private.fand_is_member(campaign_id));
 drop policy if exists "owner deletes" on public.archive_items;
 create policy "owner deletes" on public.archive_items for delete to authenticated using (owner = (select auth.uid()));
@@ -512,11 +524,14 @@ create or replace function private.fand_archive_guard() returns trigger language
 begin
   if old.owner is distinct from auth.uid() then
     if new.owner is distinct from old.owner or new.campaign_id is distinct from old.campaign_id
-       or new.can_edit is distinct from old.can_edit or new.link is distinct from old.link or new.kind is distinct from old.kind then
+       or new.can_edit is distinct from old.can_edit or new.link is distinct from old.link or new.kind is distinct from old.kind
+       or new.audience is distinct from old.audience then
       raise exception 'only the owner can change how an archive item is shared';
     end if;
   elsif new.owner is distinct from old.owner then
     raise exception 'an archive item keeps its owner';
+  elsif old.kind = 'party' and (new.kind <> 'party' or new.campaign_id is distinct from old.campaign_id or not new.can_edit or new.audience <> 'all') then
+    raise exception 'a party notebook stays the campaign''s, editable by every member';
   end if;
   new.updated_by := auth.uid();
   return new;
