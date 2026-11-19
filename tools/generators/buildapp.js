@@ -984,7 +984,7 @@ log.push('accounts: ' + (CLOUD ? 'on (' + CLOUD.url + ')' : 'off (no url and key
 var noScriptEnd = function (js) { return js.replace(/<\/(script)/gi, '<\\/$1'); };
 var single = '<script>\n' + noScriptEnd(VENDOR) + '\n</script>\n' + (SUPA ? '<script>\n' + noScriptEnd(SUPA) + '\n</script>\n' : '') + '<script>\nconst SITE=null;\n' + cloudLine + '\n' + ['BPS', 'SPELLS', 'VAULT', 'VAULT_DETAILS'].concat(CORE.slice(1)).map(lit).join('\n') + '\n' + metaLine + '\n' + artLine + '\n</script>';
 var out = tpl.split('<!--__DATA__-->').join(single);
-var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'properties', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'magic', 'classes', 'subclasses', 'demons', 'patrons', 'forge', 'workshop', 'craft', 'shop', 'party', 'chargen', 'sheet', 'encounter', 'prep', 'hooks', 'npcs', 'journal', 'hidden', 'towers', 'combat', 'rules', 'dice', 'tools', 'about', 'guide', 'help', 'account', 'settings'];
+var PAGES = ['home', 'lore', 'codex', 'blueprints', 'materials', 'properties', 'bestiary', 'realms', 'gods', 'runes', 'professions', 'spells', 'magic', 'classes', 'subclasses', 'demons', 'patrons', 'forge', 'workshop', 'craft', 'shop', 'party', 'chargen', 'sheet', 'encounter', 'prep', 'hooks', 'npcs', 'journal', 'archive', 'hidden', 'towers', 'combat', 'rules', 'dice', 'tools', 'about', 'guide', 'help', 'account', 'settings'];
 var site = {};
 var PAGE_INFO = {
   home: ['Home', 'FAND (Fantasy and Numerous Disasters) campaign compendium: Blueprints, materials, monsters, realms, gods, spells, rules, and table tools for the world of Vestige.'],
@@ -1013,6 +1013,7 @@ var PAGE_INFO = {
   hidden: ['Hidden classes', 'Hidden classes of Vestige, unlocked only through quests and the Towers: Unique (one of a kind), Epic (a basic class specialised), and Legendary (following a Rune progenitor).'],
   towers: ['Towers', 'The Towers in every realm, built from the excess energy of unclaimed Runes: their floors, guardians, the Runes that feed them, and the hidden classes they hold.'],
   sheet: ['Character sheet', 'Create and play a character on a full sheet: abilities, saves, skills, AC from worn gear, attacks, spells and slots, contracts, class stage, and backstory, worked out with FAND\'s rules.'],
+  archive: ['Archive', 'Notes and mind maps in your FAND account: keep them private, share them with a campaign, or send a link anyone can open.'],
   journal: ['Session journal', 'Notes from each session of the campaign, saved on your device, with links to every monster, god, material, and realm.'],
   prep: ['Session prep', 'One page that rolls a whole session for your party: hooks, NPCs, three fights, a named foe, a Tower floor, loot, and the deeds that earn a level.'],
   chargen: ['Character generator', 'A whole level 1 character in one tap: pick a class, a people, and a background or leave them random, and FAND rolls the rest by its own rules.'],
