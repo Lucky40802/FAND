@@ -301,7 +301,7 @@ var PAGE_SYMBOLS = {
   patrons: 'pentacle', codex: 'book-pile', bestiary: 'dragon-head', materials: 'ore', properties: 'sparkles', blueprints: 'scroll-quill',
   forge: 'anvil-impact', workshop: 'hammer-nails', craft: 'crafting', shop: 'shop', professions: 'war-pick', classes: 'swordman',
   subclasses: 'two-handed-sword', hidden: 'hood', spells: 'spell-book', magic: 'wizard-staff', prep: 'notebook', sheet: 'id-card',
-  party: 'campfire', journal: 'quill-ink', hooks: 'compass', npcs: 'meeple-group', chargen: 'meeple', encounter: 'battle-gear', combat: 'sword-clash', dice: 'perspective-dice-six-faces-random',
+  party: 'campfire', journal: 'quill-ink', archive: 'archive-register', hooks: 'compass', npcs: 'meeple-group', chargen: 'meeple', encounter: 'battle-gear', combat: 'sword-clash', dice: 'perspective-dice-six-faces-random',
   tools: 'toolbox', guide: 'treasure-map', rules: 'rule-book', help: 'help', about: 'info', account: 'cowled', settings: 'cog',
   'g:World': 'world', 'g:Creatures & Materials': 'dragon-head', 'g:Items & Crafting': 'anvil-impact', 'g:Magic & Classes': 'magic-swirl',
   'g:Play': 'perspective-dice-six-faces-random', 'g:Reference': 'book-cover', 'g:DM': 'crowned-skull'

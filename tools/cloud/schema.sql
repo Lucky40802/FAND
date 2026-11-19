@@ -9,6 +9,8 @@
 -- user_characters, journal_entries  each account's characters and journal, one row each, only its own
 -- campaign_pages       a campaign's wiki: the DM writes, members read the published pages
 -- campaign_combat      a campaign's fight as players see it, live: the DM writes, members read
+-- archive_items        the Archive: notes and mind maps anyone signed in can make; the owner shares one with a campaign
+--                      (members read it, or edit it if allowed) or makes a link anyone can open
 --
 -- The site never writes campaigns, members, or characters directly: the fand_* functions below check who is asking
 -- and do the change. Row-level security keeps every row readable only by its owner or by members of its campaign.
@@ -468,6 +470,71 @@ do $$ begin
     if not exists (select 1 from pg_publication_tables where pubname = 'supabase_realtime' and tablename = 'campaign_pages') then
       alter publication supabase_realtime add table public.campaign_pages;
     end if;
+  end if;
+end $$;
+
+-- ── the Archive: notes and mind maps ─────────────────────────────
+-- Anyone signed in keeps notes and mind maps here. The owner can share one with a campaign they are in (its members read
+-- it, and edit it if the owner allows) and can make a link: whoever has the link can open it (fand_archive_open) and save
+-- their own copy. Only the owner changes who it is shared with.
+create table if not exists public.archive_items (
+  id uuid primary key default gen_random_uuid(),
+  owner uuid not null default auth.uid() references auth.users (id) on delete cascade,
+  kind text not null default 'note' check (kind in ('note', 'map')),
+  title text not null default '' check (char_length(title) <= 200),
+  body text not null default '' check (octet_length(body) < 200000),
+  data jsonb not null default '{}'::jsonb check (octet_length(data::text) < 300000),
+  campaign_id uuid references public.campaigns (id) on delete set null,
+  can_edit boolean not null default false,
+  link text unique check (link is null or link ~ '^[A-Za-z0-9]{20,40}$'),
+  updated_at timestamptz not null default now(),
+  updated_by uuid default auth.uid()
+);
+create index if not exists archive_items_owner on public.archive_items (owner);
+create index if not exists archive_items_campaign on public.archive_items (campaign_id);
+alter table public.archive_items enable row level security;
+drop policy if exists "owner or campaign reads" on public.archive_items;
+create policy "owner or campaign reads" on public.archive_items for select to authenticated
+  using (owner = (select auth.uid()) or (campaign_id is not null and private.fand_is_member(campaign_id)));
+drop policy if exists "owner adds" on public.archive_items;
+create policy "owner adds" on public.archive_items for insert to authenticated
+  with check (owner = (select auth.uid()) and (campaign_id is null or private.fand_is_member(campaign_id)));
+drop policy if exists "owner or allowed members edit" on public.archive_items;
+create policy "owner or allowed members edit" on public.archive_items for update to authenticated
+  using (owner = (select auth.uid()) or (can_edit and campaign_id is not null and private.fand_is_member(campaign_id)))
+  with check (campaign_id is null or private.fand_is_member(campaign_id));
+drop policy if exists "owner deletes" on public.archive_items;
+create policy "owner deletes" on public.archive_items for delete to authenticated using (owner = (select auth.uid()));
+revoke all on public.archive_items from anon;
+grant select, insert, update, delete on public.archive_items to authenticated;
+-- a member who may edit changes the text, never the owner or the sharing; every edit records who made it
+create or replace function private.fand_archive_guard() returns trigger language plpgsql set search_path = '' as $$
+begin
+  if old.owner is distinct from auth.uid() then
+    if new.owner is distinct from old.owner or new.campaign_id is distinct from old.campaign_id
+       or new.can_edit is distinct from old.can_edit or new.link is distinct from old.link or new.kind is distinct from old.kind then
+      raise exception 'only the owner can change how an archive item is shared';
+    end if;
+  elsif new.owner is distinct from old.owner then
+    raise exception 'an archive item keeps its owner';
+  end if;
+  new.updated_by := auth.uid();
+  return new;
+end $$;
+drop trigger if exists fand_archive_guard on public.archive_items;
+create trigger fand_archive_guard before update on public.archive_items for each row execute function private.fand_archive_guard();
+-- open an item by its link (signed in or not): only the item itself, never anything else of its owner's
+create or replace function public.fand_archive_open(p_link text) returns table (id uuid, kind text, title text, body text, data jsonb, updated_at timestamptz, mine boolean)
+language sql stable security definer set search_path = '' as $$
+  select a.id, a.kind, a.title, a.body, a.data, a.updated_at, a.owner = auth.uid()
+  from public.archive_items a where p_link ~ '^[A-Za-z0-9]{20,40}$' and a.link = p_link
+$$;
+revoke execute on function public.fand_archive_open(text) from public;
+grant execute on function public.fand_archive_open(text) to anon, authenticated;
+do $$ begin
+  if exists (select 1 from pg_publication where pubname = 'supabase_realtime')
+     and not exists (select 1 from pg_publication_tables where pubname = 'supabase_realtime' and tablename = 'archive_items') then
+    alter publication supabase_realtime add table public.archive_items;
   end if;
 end $$;
 
