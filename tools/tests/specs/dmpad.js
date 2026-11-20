@@ -73,7 +73,11 @@ module.exports = [
   } },
   { name: 'notepad on a phone fits the screen', phone: true, run: async t => {
     const p = await t.open('index');
-    await p.evaluate(fakeDB); await signIn(p, 'dm-one'); await p.evaluate(() => { setRole('dm'); dmPad(true); }); await p.waitForTimeout(200);
+    await p.addStyleTag({ content: 'html{font-size:19px}' }); // phones set to larger text
+    await p.evaluate(fakeDB); await signIn(p, 'dm-one');
+    await p.evaluate(() => { __FAKE.rows = [{ owner: 'dm-one', id: 'l1', title: 'Session notes #0001 - LizardFolk and the long road', body: 'x', pinned: false, updated_at: new Date(Date.now() - 864e5).toISOString() }]; setRole('dm'); dmPad(true); }); await p.waitForTimeout(200);
+    await p.click('#dmpad button:has-text("New page")'); await p.waitForTimeout(200);
     t.ok(await p.evaluate(() => { const r = $('dmpad').getBoundingClientRect(); return r.right <= innerWidth + 1 && document.documentElement.scrollWidth <= innerWidth + 1; }), 'no sideways scroll');
+    t.ok(await p.evaluate(() => { const P = $('dmpad'); return P.scrollWidth <= P.clientWidth + 1 && ['#dp-q', '#dp-title', '#dp-body', '#dp-view'].every(q => document.querySelector(q).getBoundingClientRect().right <= innerWidth); }), 'a long page name doesn\'t push the notepad off the screen');
   } },
 ];
