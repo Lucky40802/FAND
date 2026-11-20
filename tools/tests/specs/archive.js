@@ -113,9 +113,22 @@ module.exports = [
     await p.click('#dmpad button:has-text("To Archive")'); await p.waitForTimeout(200);
     t.ok(await p.evaluate(() => __FAKE.rows.some(r => r.owner === 'dm1' && r.title === 'Plot' && !r.campaign_id && /Act one/.test(r.body))), 'the page is copied into the Archive, private');
   } },
-  { name: 'archive on a phone fits the screen', phone: true, run: async t => {
+  { name: 'archive on a phone: a section picker, the list or the open item, a map you can tap', phone: true, run: async t => {
     const p = await t.open('archive');
-    await p.evaluate(fakeDB); await as(p, 'pl1'); await p.click('[data-nbnew="map"]'); await p.waitForTimeout(200);
+    await p.evaluate(fakeDB); await p.evaluate(() => { __FAKE.mem.k1 = ['pl1']; }); await as(p, 'pl1', CAMP);
+    t.ok(await p.isVisible('#nb-pick') && !(await p.isVisible('.nb-side [data-nbsec="note"]')), 'a section picker instead of the sidebar list');
+    await p.click('[data-nbnew="note"]'); await p.fill('#ar-title', 'Villains'); await p.waitForTimeout(700);
+    t.ok(!(await p.isVisible('#ar-items')) && await p.isVisible('[data-nbback]') && !(await p.isVisible('#nb-pick')), 'an open note fills the screen, with a way back');
+    await p.click('[data-nbback]'); await p.waitForTimeout(150);
+    t.ok(await p.isVisible('#ar-items') && await p.isVisible('#nb-pick'), 'back to the list');
+    await p.selectOption('#nb-pick', 'journal'); await p.waitForTimeout(150); t.ok(await p.isVisible('#jn-add'), 'the picker opens the journal');
+    await p.selectOption('#nb-pick', 'party:k1'); await p.waitForTimeout(250); t.ok(await p.isVisible('#ar-body') && await p.isVisible('[data-nbback]'), 'and the party notebook');
+    await p.click('[data-nbback]'); await p.waitForTimeout(150);
+    await p.click('[data-nbnew="map"]'); await p.waitForTimeout(400);
+    const b = await p.locator('#ar-board').boundingBox(); t.ok(b.y + b.height <= 844, 'the board fits the screen: ' + JSON.stringify(b));
+    await p.touchscreen.tap(b.x + 60, b.y + 120); await p.waitForTimeout(80); await p.touchscreen.tap(b.x + 60, b.y + 120); await p.waitForTimeout(250);
+    await p.keyboard.type('From a tap'); await p.keyboard.press('Enter'); await p.waitForTimeout(800);
+    t.ok(await p.evaluate(() => __FAKE.rows.some(r => r.kind === 'map' && r.data.nodes.some(n => n.t === 'From a tap'))), 'double-tap adds a card you can type in');
     t.ok(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'no sideways scroll');
   } },
   { name: 'archive is one page: sections in a sidebar, the journal and the DM notepad inside it', run: async t => {
