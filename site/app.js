@@ -1716,7 +1716,7 @@ const dmPadTitle=n=>(n.t||'').trim()||(n.body||'').trim().split('\n')[0].slice(0
 // typing saves 0.4 s after the last key; anything that redraws or closes the notepad saves what is typed first
 let DP_TM=null,DP_FLUSH=null;const dmPadFlush=()=>{clearTimeout(DP_TM);if(DP_FLUSH)DP_FLUSH()};
 window.addEventListener('pagehide',dmPadFlush);
-function dmPadShell(inner){return `<div class="dp-head"><b>📝 DM notepad</b><span class="dp-saved" id="dp-saved" aria-live="polite"></span><button class="icon-btn" onclick="dmPad(false)" aria-label="Close notepad" title="Close (Esc)">${ICON.x}</button></div>${inner}`}
+function dmPadShell(inner){return `<div class="dp-head"><button class="btn dp-bk" type="button" onclick="dmPad(false)" aria-label="Back: close the notepad">‹ Back</button><b>📝 <span class="dp-long">DM </span>notepad</b><span class="dp-saved" id="dp-saved" aria-live="polite"></span><button class="icon-btn" onclick="dmPad(false)" aria-label="Close notepad" title="Close (Esc)">${ICON.x}</button></div>${inner}`}
 function dmPadRender(){dmPadFlush();const P=$('dmpad');if(!P||P.hidden)return;const ui=dmPadUI();
   if(ui.lock&&!dmUnlocked()){P.innerHTML=dmPadShell(`<div class="dp-locked"><p>The notepad is kept behind the DM passphrase on this device.</p><button class="btn primary" onclick="dmPad(false);go('hidden')">Unlock DM content</button></div>`);return}
   if(!(CL&&CL.on)){P.innerHTML=dmPadShell(`<div class="dp-locked"><p>The DM notepad saves to your FAND account, and accounts aren't set up on this copy of the site.</p></div>`);return}
@@ -1727,7 +1727,7 @@ function dmPadRender(){dmPadFlush();const P=$('dmpad');if(!P||P.hidden)return;co
   if(!DP.notes.length){const n={id:uid(),t:'Session notes',body:'',at:Date.now()};DP.notes.push(n);dmPadUISet({cur:n.id});dmPadPush(n.id)}
   const cur=dmPadCur(),vw=ui.view||'edit',read=vw==='read',q=lc(ui.q||''),list=DP.notes.filter(n=>!q||lc(n.t+' '+n.body).includes(q)).sort((a,b)=>(b.pin?1:0)-(a.pin?1:0)||b.at-a.at);
   const links=[...new Set(((cur.body||'').match(/\[\[([^\]]{1,80})\]\]/g)||[]).map(x=>x.slice(2,-2)))].map(n=>[n,resolveLink(n)]);
-  P.innerHTML=`<div class="dp-head"><b>📝 DM notepad</b><span class="dp-saved" id="dp-saved" aria-live="polite">${DP.dirty.size?'Not saved yet: retrying':'In your account'}</span><button class="btn" type="button" onclick="dmPadNew()">+ New page</button><button class="icon-btn" onclick="dmPad(false)" aria-label="Close notepad" title="Close (Esc)">${ICON.x}</button></div>
+  P.innerHTML=`<div class="dp-head"><button class="btn dp-bk" type="button" onclick="dmPad(false)" aria-label="Back: close the notepad">‹ Back</button><b>📝 <span class="dp-long">DM </span>notepad</b><span class="dp-saved" id="dp-saved" aria-live="polite">${DP.dirty.size?'Not saved yet: retrying':'In your account'}</span><button class="btn" type="button" onclick="dmPadNew()">+ New page</button><button class="icon-btn" onclick="dmPad(false)" aria-label="Close notepad" title="Close (Esc)">${ICON.x}</button></div>
     <div class="dp-wrap"><div class="dp-list"><input class="sel" id="dp-q" type="search" placeholder="Search notes…" aria-label="Search notes" value="${esc(ui.q||'')}">
       <div class="dp-items" role="listbox" aria-label="Pages">${list.map(n=>`<button type="button" role="option" aria-selected="${n.id===cur.id}" class="dp-item${n.id===cur.id?' on':''}" onclick="dmPadOpen('${esc(n.id)}')">${n.pin?'📌 ':''}<b>${esc(dmPadTitle(n))}</b><small>${esc(new Date(n.at).toLocaleDateString())}</small></button>`).join('')||'<div class="note" style="margin:6px">No page matches.</div>'}</div></div>
     <div class="dp-ed"><input class="sel dp-title" id="dp-title" placeholder="Page title" aria-label="Page title" value="${esc(cur.t||'')}">
@@ -2629,6 +2629,7 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-11-21','A back button in the notepad','On a phone the DM notepad fills the screen, which hid the app\'s back button. It now has its own ‹ Back at the top left. The back button at the top of the home-screen app also closes whatever is open first (the notepad, a window, the table screen, the live fight, a handout, an open note in the Archive) before it goes back a page.','home'],
   ['2026-11-21','DM notepad fits a phone','On a phone, a page with a long name (like "Session notes #0001 - LizardFolk") stretched the DM notepad wider than the screen, cutting off the search box, the page, its buttons and the Read, Mind map and Graph views. Page tabs now keep a fixed width and shorten long names with "…", and the notepad stays inside the screen, also with the phone\'s text set larger.','home'],
   ['2026-11-20','The Archive on phones','The Archive works properly on a phone. A Section picker at the top replaces the sidebar (it was a strip hidden off the side of the screen), with the New buttons in a row below it. The list and the open note no longer stack: tap a note and it fills the screen, and ← takes you back to the list. Mind maps fit the screen with their tools along the top, double-tapping adds a card or opens one to write in (phones don\'t send double-clicks), and the party notebook has its way back too. A new note no longer takes over the title box if you are already typing somewhere else.','archive'],
   ['2026-11-19','One Archive for every note, and player notes','The Archive is now the one page for notes: a sidebar of sections holds everything, notes and mind maps, 👤 Contacts, 📜 Quests, each campaign\'s 📓 party notebook, the 📔 Journal, the DM notepad (for the DM) and the 🕸 Graph, and the menu has a single entry for it. Contacts keep where you met someone, what they want, how they feel about the party, their faction and when you last saw them. Quests keep who gave them, the reward and where, with their clues as a checklist, and open quests come first. The party notebook is one per campaign and every member edits it. Tag anything (the tag box, or #tags in the text) and filter by tag from the sidebar. A note shared with a campaign can be for everyone or for the DM only, so a player\'s secrets and theories stay between them and the DM. The character sheet has 📝 Quick note: jot down a name or a clue without leaving the sheet, and it goes into today\'s session notes. The site\'s Supabase project needs tools/cloud/schema.sql run again.','archive'],
@@ -7394,7 +7395,16 @@ function renderMineTool(){const el=$('mn-box');if(!el)return;const S=store.get('
 function mineBind(){const go=$('mn-go');if(go)go.onclick=()=>{const S=store.get('mine',null);if(S&&S.log.length&&!confirm('Fill in this shaft and dig a new one?'))return;const lv=Math.max(1,Math.min(10,+$('mn-lv').value||5));store.set('mine',mineNew($('mn-realm').value,lv,Date.now()));renderMineTool()};
   const w=$('mn-who');if(w)w.onchange=()=>{const S=store.get('mine',null);if(!S)return;S.who=w.value;store.set('mine',S);renderMineTool()}}
 // the installed app has no browser Back button: this one steps back (closing an open window first), or goes Home
-function appBack(){if(history.length>1)history.back();else go('home')}
+function appBack(){const open=id=>{const e=$(id);return e&&!e.hidden};
+  if(open('dmpad')){dmPad(false);return}
+  if($('qbg').classList.contains('open')){closeQuick();return}
+  if(open('hoView')){$('hoView').hidden=true;return}
+  if(open('liveView')){liveClose();return}
+  if(typeof TBL!=='undefined'&&TBL.open){closeTable();return}
+  if($('pv')&&!$('pv').hidden&&!PV_SECOND){pvClose();return}
+  if($('mbg').classList.contains('open')){closeModal();return}
+  if(TAB==='archive'&&ARC.cur&&document.querySelector('[data-nbback]')){document.querySelector('[data-nbback]').click();return}
+  if(history.length>1)history.back();else go('home')}
 if(navigator.standalone)document.documentElement.classList.add('standalone');
 // Table screen: a full-screen view for the table. "Character": big hit points with quick damage and healing, AC, initiative,
 // conditions, and dice (with advantage). "Initiative": the combat tracker's order in big type, with Next turn. The screen

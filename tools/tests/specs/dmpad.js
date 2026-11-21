@@ -80,4 +80,17 @@ module.exports = [
     t.ok(await p.evaluate(() => { const r = $('dmpad').getBoundingClientRect(); return r.right <= innerWidth + 1 && document.documentElement.scrollWidth <= innerWidth + 1; }), 'no sideways scroll');
     t.ok(await p.evaluate(() => { const P = $('dmpad'); return P.scrollWidth <= P.clientWidth + 1 && ['#dp-q', '#dp-title', '#dp-body', '#dp-view'].every(q => document.querySelector(q).getBoundingClientRect().right <= innerWidth); }), 'a long page name doesn\'t push the notepad off the screen');
   } },
+  { name: 'back: the notepad has a Back button on a phone; the app\'s back button closes what is open first', phone: true, run: async t => {
+    const p = await t.open('bestiary');
+    await p.evaluate(fakeDB); await signIn(p, 'dm-one'); await p.evaluate(() => { setRole('dm'); dmPad(true); }); await p.waitForTimeout(200);
+    t.ok(await p.isVisible('#dmpad .dp-bk') && !(await p.isVisible('#dmpad [aria-label="Close notepad"]')), 'a Back button where the ✕ was');
+    await p.click('#dmpad .dp-bk'); await p.waitForTimeout(100); t.ok(await p.evaluate(() => $('dmpad').hidden), 'Back closes the notepad');
+    // the app's back button (shown when FAND runs from the home screen)
+    await p.evaluate(() => document.documentElement.classList.add('standalone')); t.ok(await p.isVisible('.top .backbtn'), 'the header back button shows in the home-screen app');
+    await p.evaluate(() => { openItem(MON_IDX.get('wolf')); dmPad(true); }); await p.waitForTimeout(200);
+    await p.evaluate(() => appBack()); await p.waitForTimeout(100);
+    t.ok(await p.evaluate(() => $('dmpad').hidden && $('mbg').classList.contains('open')), 'first back: closes the notepad, the window stays');
+    await p.evaluate(() => appBack()); await p.waitForTimeout(200);
+    t.ok(await p.evaluate(() => !$('mbg').classList.contains('open') && /bestiary/.test(location.pathname)), 'second back: closes the window, still on the page');
+  } },
 ];
