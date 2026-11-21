@@ -112,7 +112,7 @@ module.exports = [
     const row = await p.evaluate(() => __FAKE.t.campaign_combat[0]);
     t.ok(row && row.campaign_id === 'k1' && row.data.round === 2, 'the fight is shared with the campaign');
     t.eq(row.data.list.map(x => [x.n, x.hp, x.st]), [['Ara', 12, 'Bloodied'], ['Ogre', null, 'Bloodied']], 'PCs show HP; monsters only how hurt they look');
-    t.ok(!JSON.stringify(row.data).includes('59') && !('ac' in row.data.list[1]), 'no monster numbers leave the DM\'s device');
+    t.ok(!JSON.stringify(row.data.list).includes('59') && !('ac' in row.data.list[1]) && row.data.list[1].max === null && row.data.list[1].hp === null, 'no monster numbers leave the DM\'s device');
     await p.evaluate(() => { CB.list[1].hp = 0; saveCB(); }); await p.waitForTimeout(900);
     t.eq(await p.evaluate(() => __FAKE.t.campaign_combat[0].data.list[1].st), 'Down', 'changes follow live');
     // a player's phone

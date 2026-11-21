@@ -5,7 +5,7 @@ let fails=0;const ok=(c,m)=>{console.log((c?'  ok   ':'  FAIL ')+m);if(!c)fails+
 (async()=>{await new Promise(r=>srv.listen(8834,r));const b=await chromium.launch();
  const mk=async(role)=>{const ctx=await b.newContext({viewport:{width:1280,height:900}});await ctx.addInitScript(r=>{if(sessionStorage.getItem('s'))return;sessionStorage.setItem('s','1');if(r)localStorage.setItem('fand.role',JSON.stringify(r));
    localStorage.setItem('fand.party',JSON.stringify([{id:'a',name:'Bran',level:5,abil:{},gear:[],inv:[],purse:{Human:10},god:'Ares'},{id:'b',name:'Tess',level:5,abil:{},gear:[],inv:[],purse:{Human:0}}]))},role);
-   const p=await ctx.newPage();p.on('pageerror',e=>{fails++;console.log('PAGEERROR',e.message)});await p.route('https://vppvpmwjqcgixtfxpukh.supabase.co/**',r=>r.abort());return [ctx,p]};
+   const p=await ctx.newPage();p.on('pageerror',e=>{fails++;console.log('PAGEERROR',e.message)});p.on('dialog',d=>d.accept().catch(()=>{}));await p.route('https://vppvpmwjqcgixtfxpukh.supabase.co/**',r=>r.abort());return [ctx,p]};
  let [ctx,p]=await mk('dm');
  // ── Spoils ──
  await p.goto('http://127.0.0.1:8834/combat.html');await p.waitForTimeout(1200);
