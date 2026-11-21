@@ -1035,6 +1035,9 @@ img.crest{background:var(--surf2)}
 .dp-ed textarea{flex:1;min-height:200px;resize:none;font-size:.95rem;line-height:1.5}
 .dp-act{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.dp-act .chk{font-size:.78rem}
 .dp-locked{padding:20px;text-align:center}
+#undoBtn:disabled{opacity:.35;cursor:default}
+.dp-bk{display:none;min-height:36px;padding:0 10px;flex:0 0 auto}
+@media (max-width:600px){.dp-bk{display:inline-flex}.dp-long{display:none}.dp-head .icon-btn[aria-label="Close notepad"]{display:none}}
 .dp-tools{display:flex;gap:4px;flex-wrap:wrap}.dp-tools .btn{min-height:32px;padding:0 10px}
 .dp-read{flex:1;min-height:200px;overflow:auto;border:1px solid var(--line);border-radius:8px;padding:8px 12px;background:var(--surf);line-height:1.5}.dp-read h4,.dp-read h5,.dp-read h6{font-family:var(--serif);margin:12px 0 4px}.dp-read p{margin:4px 0}.dp-read ul{margin:4px 0;padding-left:20px}
 .dp-read ul.dp-ck{list-style:none;padding-left:2px}.dp-ck label{display:flex;gap:6px;align-items:flex-start;cursor:pointer}.dp-ck input{margin-top:4px}.dp-ck input:checked+span{text-decoration:line-through;color:var(--muted)}.dp-miss{border-bottom:1px dashed var(--muted)}
@@ -1250,6 +1253,7 @@ try{var d=document.documentElement,g=function(k){var v=localStorage.getItem('fan
   </button>
   <button class="icon-btn" onclick="openQuick()" aria-label="Quick rules" title="Quick rules"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M9 8h7M9 12h5"/></svg></button>
   <button class="icon-btn" id="installBtn" hidden onclick="installApp()" aria-label="Install FAND as an app" title="Install FAND as an app on this computer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></button>
+  <button class="icon-btn" id="undoBtn" onclick="undoDo()" aria-label="Undo" title="Nothing to undo" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg></button>
   <button class="icon-btn" id="dmPadBtn" hidden onclick="dmPad()" aria-label="DM notepad" title="DM notepad (Alt+N)" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg></button>
   <button class="icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle light or dark theme" title="Toggle theme"></button>
   <button class="icon-btn acct-btn" id="acctBtn" hidden onclick="clAcctClick(this)" aria-haspopup="menu" aria-expanded="false" aria-label="Sign in" title="Sign in"></button>
@@ -1491,7 +1495,48 @@ function actToast(msg,label,fn){const t=$('toast');t.innerHTML=`<span>${esc(msg)
 const undoToast=(msg,undo)=>actToast(msg,'Undo',()=>{undo();toast('Restored')});
 function toast(msg){const t=$('toast');t.textContent=msg;t.classList.remove('act');t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('show'),1800)}
 // set() returns false when the browser refuses (its storage is full): the change is then not saved, so say so
-const store={get(k,d){try{const v=localStorage.getItem('fand.'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){if(k==='journal')journalStamp(v);let ok=true;try{localStorage.setItem('fand.'+k,JSON.stringify(v))}catch(e){ok=false;storeFull(e)}cloudMark(k);if(k==='combat')liveSchedule();return ok}};
+// ── Undo and Redo: every change to saved data (store.set) is kept as a step, for this browser tab. Changes that come
+// within a second of each other, or keep changing the same thing (typing), make one step. Undo puts the earlier values
+// back the same way the site saves them, so the account and the campaign get the undone version too.
+var UNDO={steps:[],redo:[],busy:false,max:40};
+// things that are about how the page looks or where you are, not your data: never part of an undo
+var UNDO_SKIP=new Set(['dmpad','dmpadui','livecamp','recentq','theme','wakelock','tooltab','viewmode','charwiz','jedit','clsfocus','placefocus','diceanim','recent','spells','hc','hclv','jq','magic','rmap','dpool','hcpat','hcpin','hcqm','hcguard','hclog','anthropicKey','groqKey','groqModel','campview','role','partygone','journalgone','askmass','onboard','tour','diceskin','homeorder','homehide','sbtab','sess','standOpen','dmOpen','homelayout','toursDone','guided','genopts','dicesound','forgeSound','dicelog','scavpop','sbt','cmp','trialtrack','fightPaceOn','groqforge']);
+const UNDO_NAMES={party:'the party',combat:'the combat tracker',journal:'the journal',enc:'the encounter',npcs:'the NPCs',designs:'your designs',pins:'your pins',fights:'the fight reports',rules:'the table rules',prep:'the session prep',stand:'faction standing',hooks:'the hooks',dice:'the dice'};
+function undoLoad(){try{const o=JSON.parse(sessionStorage.getItem('fand.__undo')||'null');if(o&&Array.isArray(o.steps)){UNDO.steps=o.steps;UNDO.redo=o.redo||[]}}catch(e){}}
+function undoSave(){for(let i=0;i<40;i++){try{sessionStorage.setItem('fand.__undo',JSON.stringify({steps:UNDO.steps,redo:UNDO.redo}));return}catch(e){if(UNDO.redo.length)UNDO.redo.shift();else if(UNDO.steps.length>1)UNDO.steps.shift();else{try{sessionStorage.removeItem('fand.__undo')}catch(x){}return}}}}
+undoLoad();setTimeout(()=>undoBtn(),0);
+function undoRec(k,js){if(UNDO.busy||!k||k.startsWith('__')||UNDO_SKIP.has(k))return;let old=null;try{old=localStorage.getItem('fand.'+k)}catch(e){return}if(old===js)return; // saving the same thing again is not a change
+  let tab='';try{tab=TAB}catch(e){}const now=Date.now(),L=UNDO.steps[UNDO.steps.length-1];
+  const same=L&&Object.keys(L.k).length===1&&L.k.hasOwnProperty(k);
+  if(L&&(now-L.at<1000||same&&now-L.at<4000&&L.tab===tab)){if(!L.k.hasOwnProperty(k))L.k[k]=old;L.at=now}
+  else{UNDO.steps.push({at:now,tab,k:{[k]:old}});if(UNDO.steps.length>UNDO.max)UNDO.steps.shift()}
+  UNDO.redo=[];clearTimeout(UNDO.t);UNDO.t=setTimeout(()=>{undoSave();undoBtn()},300)}
+const undoLabel=st=>{const ks=Object.keys(st.k);return ks.length===1?(UNDO_NAMES[ks[0]]||ks[0]):ks.map(k=>UNDO_NAMES[k]||k).slice(0,3).join(', ')};
+function undoBtn(){const b=$('undoBtn');if(!b)return;const L=UNDO.steps[UNDO.steps.length-1];b.disabled=!L;b.title=L?'Undo the last change to '+undoLabel(L)+' (Ctrl+Z)':'Nothing to undo';b.setAttribute('aria-label',L?'Undo the last change to '+undoLabel(L):'Undo (nothing to undo)')}
+// put one step's values back; returns the step that would put them forward again
+function undoApply(st){const back={at:Date.now(),tab:st.tab,k:{}};UNDO.busy=true;
+  try{Object.keys(st.k).forEach(k=>{let cur=null;try{cur=localStorage.getItem('fand.'+k)}catch(e){}back.k[k]=cur;const raw=st.k[k];
+    if(k==='party'){let v=[];try{v=JSON.parse(raw||'[]')}catch(e){}if(!Array.isArray(v))v=[];PARTY.length=0;v.forEach(c=>PARTY.push(c));saveParty();return}
+    if(raw==null){try{localStorage.removeItem('fand.'+k)}catch(e){}cloudMark(k);return}
+    let v;try{v=JSON.parse(raw)}catch(e){return}store.set(k,v)})}
+  finally{UNDO.busy=false}
+  // the pages keep some of the data in memory: read it again
+  if(st.k.hasOwnProperty('pins'))PINS=new Set(store.get('pins',[]));
+  if(st.k.hasOwnProperty('combat')&&typeof CB!=='undefined'&&CB)CB=store.get('combat',{round:1,turn:0,list:[]});
+  if(st.k.hasOwnProperty('designs')&&typeof DESIGNS!=='undefined'){DESIGNS=store.get('designs',[]);if(typeof designPlace==='function')designPlace(true)}
+  if(st.k.hasOwnProperty('npcs')&&typeof NPCS!=='undefined'){NPCS=store.get('npcs',[]);if(!Array.isArray(NPCS))NPCS=[]}
+  if(st.k.hasOwnProperty('party')&&typeof PARTY_SEL!=='undefined'&&PARTY_SEL&&!PARTY.some(c=>c.id===PARTY_SEL))PARTY_SEL=null;
+  UNDO.busy=true;try{const y=$('content').scrollTop;if(typeof renderTab==='function')renderTab();$('content').scrollTop=y}finally{UNDO.busy=false}return back}
+function undoDo(){const st=UNDO.steps.pop();if(!st){toast('Nothing to undo');return}if(typeof dmPadFlush==='function')dmPadFlush();
+  UNDO.redo.push(undoApply(st));undoSave();undoBtn();actToast('Undone: the last change to '+undoLabel(st),'Redo',redoDo)}
+function redoDo(){const st=UNDO.redo.pop();if(!st){toast('Nothing to redo');return}
+  UNDO.steps.push(undoApply(st));undoSave();undoBtn();actToast('Redone: the change to '+undoLabel(st),'Undo',undoDo)}
+// Ctrl+Z / Ctrl+Shift+Z (or Ctrl+Y) undo and redo, except while typing in a box (there they undo the typing)
+document.addEventListener('keydown',e=>{if(!(e.ctrlKey||e.metaKey)||e.altKey)return;const a=document.activeElement;if(a&&(/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)||a.isContentEditable))return;
+  const k=e.key.toLowerCase();if(k==='z'&&!e.shiftKey){e.preventDefault();undoDo()}else if(k==='z'&&e.shiftKey||k==='y'){e.preventDefault();redoDo()}});
+// changes to many things at once ask first (Settings → Saved data can turn this off)
+function massOk(what){if(store.get('askmass',true)===false)return true;return confirm(what+'\n\nYou can undo it afterwards with ↶ Undo. (Settings → Saved data can turn off this question.)')}
+const store={get(k,d){try{const v=localStorage.getItem('fand.'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){if(k==='journal')journalStamp(v);let ok=true;const js=JSON.stringify(v);undoRec(k,js);try{localStorage.setItem('fand.'+k,js)}catch(e){ok=false;storeFull(e)}cloudMark(k);if(k==='combat')liveSchedule();return ok}};
 function storeFull(e){if(e&&!/quota|full|exceed/i.test(String(e.name)+' '+String(e.message)))return;const now=Date.now();if(now-(storeFull.t||0)<8000)return;storeFull.t=now;
   setTimeout(()=>{try{toast('Not saved: this browser\'s storage is full. Remove some portraits, or download a backup in Settings and clear old data.')}catch(x){}},0)}
 // how much this site keeps in the browser (characters, portraits, notes): characters × 2 bytes, as browsers count it
@@ -3023,7 +3068,7 @@ const dmPadTitle=n=>(n.t||'').trim()||(n.body||'').trim().split('\n')[0].slice(0
 // typing saves 0.4 s after the last key; anything that redraws or closes the notepad saves what is typed first
 let DP_TM=null,DP_FLUSH=null;const dmPadFlush=()=>{clearTimeout(DP_TM);if(DP_FLUSH)DP_FLUSH()};
 window.addEventListener('pagehide',dmPadFlush);
-function dmPadShell(inner){return `<div class="dp-head"><b>📝 DM notepad</b><span class="dp-saved" id="dp-saved" aria-live="polite"></span><button class="icon-btn" onclick="dmPad(false)" aria-label="Close notepad" title="Close (Esc)">${ICON.x}</button></div>${inner}`}
+function dmPadShell(inner){return `<div class="dp-head"><button class="btn dp-bk" type="button" onclick="dmPad(false)" aria-label="Back: close the notepad">‹ Back</button><b>📝 <span class="dp-long">DM </span>notepad</b><span class="dp-saved" id="dp-saved" aria-live="polite"></span><button class="icon-btn" onclick="dmPad(false)" aria-label="Close notepad" title="Close (Esc)">${ICON.x}</button></div>${inner}`}
 function dmPadRender(){dmPadFlush();const P=$('dmpad');if(!P||P.hidden)return;const ui=dmPadUI();
   if(ui.lock&&!dmUnlocked()){P.innerHTML=dmPadShell(`<div class="dp-locked"><p>The notepad is kept behind the DM passphrase on this device.</p><button class="btn primary" onclick="dmPad(false);go('hidden')">Unlock DM content</button></div>`);return}
   if(!(CL&&CL.on)){P.innerHTML=dmPadShell(`<div class="dp-locked"><p>The DM notepad saves to your FAND account, and accounts aren't set up on this copy of the site.</p></div>`);return}
@@ -3034,7 +3079,7 @@ function dmPadRender(){dmPadFlush();const P=$('dmpad');if(!P||P.hidden)return;co
   if(!DP.notes.length){const n={id:uid(),t:'Session notes',body:'',at:Date.now()};DP.notes.push(n);dmPadUISet({cur:n.id});dmPadPush(n.id)}
   const cur=dmPadCur(),vw=ui.view||'edit',read=vw==='read',q=lc(ui.q||''),list=DP.notes.filter(n=>!q||lc(n.t+' '+n.body).includes(q)).sort((a,b)=>(b.pin?1:0)-(a.pin?1:0)||b.at-a.at);
   const links=[...new Set(((cur.body||'').match(/\[\[([^\]]{1,80})\]\]/g)||[]).map(x=>x.slice(2,-2)))].map(n=>[n,resolveLink(n)]);
-  P.innerHTML=`<div class="dp-head"><b>📝 DM notepad</b><span class="dp-saved" id="dp-saved" aria-live="polite">${DP.dirty.size?'Not saved yet: retrying':'In your account'}</span><button class="btn" type="button" onclick="dmPadNew()">+ New page</button><button class="icon-btn" onclick="dmPad(false)" aria-label="Close notepad" title="Close (Esc)">${ICON.x}</button></div>
+  P.innerHTML=`<div class="dp-head"><button class="btn dp-bk" type="button" onclick="dmPad(false)" aria-label="Back: close the notepad">‹ Back</button><b>📝 <span class="dp-long">DM </span>notepad</b><span class="dp-saved" id="dp-saved" aria-live="polite">${DP.dirty.size?'Not saved yet: retrying':'In your account'}</span><button class="btn" type="button" onclick="dmPadNew()">+ New page</button><button class="icon-btn" onclick="dmPad(false)" aria-label="Close notepad" title="Close (Esc)">${ICON.x}</button></div>
     <div class="dp-wrap"><div class="dp-list"><input class="sel" id="dp-q" type="search" placeholder="Search notes…" aria-label="Search notes" value="${esc(ui.q||'')}">
       <div class="dp-items" role="listbox" aria-label="Pages">${list.map(n=>`<button type="button" role="option" aria-selected="${n.id===cur.id}" class="dp-item${n.id===cur.id?' on':''}" onclick="dmPadOpen('${esc(n.id)}')">${n.pin?'📌 ':''}<b>${esc(dmPadTitle(n))}</b><small>${esc(new Date(n.at).toLocaleDateString())}</small></button>`).join('')||'<div class="note" style="margin:6px">No page matches.</div>'}</div></div>
     <div class="dp-ed"><input class="sel dp-title" id="dp-title" placeholder="Page title" aria-label="Page title" value="${esc(cur.t||'')}">
@@ -3936,6 +3981,8 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-11-21','Undo and Redo','The header has ↶ Undo: it takes back the last change to your data (a character, the party, the combat tracker, the journal, encounters, the shop and the rest), and its toast offers Redo. Ctrl+Z and Ctrl+Shift+Z work too when you are not typing in a box. Quick edits to the same thing (typing a name) are one step, and the steps last until you close the tab, across pages. Changes to many things at once now ask first: a rest for the whole party, splitting loot, clearing the combat tracker, ending a fight, clearing pins, and a faction\'s standing for everyone. Settings → Saved data turns the question off; Undo works either way.','settings'],
+  ['2026-11-21','A back button in the notepad','On a phone the DM notepad fills the screen, which hid the app\'s back button. It now has its own ‹ Back at the top left. The back button at the top of the home-screen app also closes whatever is open first (the notepad, a window, the table screen, the live fight, a handout, an open note in the Archive) before it goes back a page.','home'],
   ['2026-11-21','DM notepad fits a phone','On a phone, a page with a long name (like "Session notes #0001 - LizardFolk") stretched the DM notepad wider than the screen, cutting off the search box, the page, its buttons and the Read, Mind map and Graph views. Page tabs now keep a fixed width and shorten long names with "…", and the notepad stays inside the screen, also with the phone\'s text set larger.','home'],
   ['2026-11-20','The Archive on phones','The Archive works properly on a phone. A Section picker at the top replaces the sidebar (it was a strip hidden off the side of the screen), with the New buttons in a row below it. The list and the open note no longer stack: tap a note and it fills the screen, and ← takes you back to the list. Mind maps fit the screen with their tools along the top, double-tapping adds a card or opens one to write in (phones don\'t send double-clicks), and the party notebook has its way back too. A new note no longer takes over the title box if you are already typing somewhere else.','archive'],
   ['2026-11-19','One Archive for every note, and player notes','The Archive is now the one page for notes: a sidebar of sections holds everything, notes and mind maps, 👤 Contacts, 📜 Quests, each campaign\'s 📓 party notebook, the 📔 Journal, the DM notepad (for the DM) and the 🕸 Graph, and the menu has a single entry for it. Contacts keep where you met someone, what they want, how they feel about the party, their faction and when you last saw them. Quests keep who gave them, the reward and where, with their clues as a checklist, and open quests come first. The party notebook is one per campaign and every member edits it. Tag anything (the tag box, or #tags in the text) and filter by tag from the sidebar. A note shared with a campaign can be for everyone or for the DM only, so a player\'s secrets and theories stay between them and the DM. The character sheet has 📝 Quick note: jot down a name or a clue without leaving the sheet, and it goes into today\'s session notes. The site\'s Supabase project needs tools/cloud/schema.sql run again.','archive'],
@@ -6486,7 +6533,7 @@ function campViewName(){const v=campView();if(!v)return '';if(v==='solo')return 
 function campSetView(v){store.set('campview',v||'');const L=PV();if(!L.some(c=>c.id===PARTY_SEL))PARTY_SEL=L.length?L[0].id:null;
   if(TAB!=='party'){go('party');return}renderParty();const n=campViewName();toast(n?'Showing '+n:'Showing every character')}
 function partyRest(kind){const L=PV().filter(c=>!c.camp||typeof clCanEdit!=='function'||clCanEdit(c));if(!L.length){toast('Add a character first');return}
-  if(!confirm((kind==='long'?'Long rest for ':'Short rest for ')+L.map(c=>c.name||'Unnamed').join(', ')+'?\n'+(kind==='long'?'Full hit points, every spell slot, half their hit dice back, death saves cleared.':'Each caster gets back their highest used spell slot (and a Warlock\'s pact slots). Spend hit dice on each sheet.')))return;
+  if(!massOk((kind==='long'?'Long rest for ':'Short rest for ')+L.map(c=>c.name||'Unnamed').join(', ')+'?\n'+(kind==='long'?'Full hit points, every spell slot, half their hit dice back, death saves cleared.':'Each caster gets back their highest used spell slot (and a Warlock\'s pact slots). Spend hit dice on each sheet.')))return;
   const before=JSON.stringify(PARTY),J0=JSON.stringify(store.get('journal',[]));
   const lines=L.map(c=>{const r=charRest(c,kind,'auto'),got=[r.slot&&'a level '+r.slot+' slot',r.pact&&'pact slots'].filter(Boolean);return '- '+(c.name||'Unnamed')+(kind==='long'?(c.hpMax?': '+c.hp+' HP':''):got.length?': '+got.join(' and ')+' back':'')});
   saveParty();const J=store.get('journal',[]);J.push({t:kind==='long'?'Long rest':'Short rest',d:new Date().toISOString().slice(0,10),body:(kind==='long'?'The party took a long rest.':'The party took a short rest.')+'\n'+lines.join('\n')});store.set('journal',J);
@@ -6535,6 +6582,7 @@ function standOf(c,id){const e=(c.standing||{})[id];let s=e?+e.s||0:0;if(/^god:/
 // the factions this party has met: anything moved for someone, plus the gods they hold contracts with
 function standKnown(){const ids=new Set();PV().forEach(c=>{Object.keys(c.standing||{}).forEach(k=>ids.add(k));charGods(c).forEach(g=>{const G=godByKey(g);ids.add('god:'+(G?godKey(G):g))})});return [...ids].map(standInfo)}
 function standMove(id,d,why,who){const f=standInfo(id),T=who?PV().filter(c=>c.id===who):PV().filter(c=>clCanEdit(c));if(!T.length){toast('Add a character first');return}
+  if(T.length>1&&!massOk((d>0?'Raise':'Lower')+' '+f.n+'\'s standing for all '+T.length+' characters?'))return;
   const snap=T.map(c=>JSON.stringify(c)),moved=[];
   T.forEach(c=>{const from=standOf(c,id),to=Math.max(-2,Math.min(3,from+d));if(to===from)return;c.standing=c.standing||{};c.standing[id]={s:to,n:f.n,k:f.k};
     c.standingLog=(c.standingLog||[]).concat({d:new Date().toISOString().slice(0,10),f:id,n:f.n,from,to,why:why||''}).slice(-60);moved.push(c.name||'Unnamed')});
@@ -6580,7 +6628,7 @@ function standSet(cid,id,v){const c=PARTY.find(x=>x.id===cid);if(!c||!clCanEdit(
 function standAddRow(){const id=($('dm-addf')||{}).value;if(!id)return;const f=standInfo(id),T=PV().filter(c=>clCanEdit(c));if(!T.length)return;
   T.forEach(c=>{c.standing=c.standing||{};if(!c.standing[id])c.standing[id]={s:standOf(c,id),n:f.n,k:f.k}});saveParty();renderParty();toast(f.n+' added to the grid')}
 function standDropRow(id){const f=standInfo(id),T=PV().filter(c=>clCanEdit(c)&&(c.standing||{})[id]);if(!T.length)return;
-  if(!confirm('Take '+f.n+' off the grid for '+T.map(c=>c.name||'Unnamed').join(', ')+'? Their history with it stays.'))return;const snaps=T.map(c=>JSON.stringify(c));
+  if(!(T.length>1?massOk:confirm)('Take '+f.n+' off the grid for '+T.map(c=>c.name||'Unnamed').join(', ')+'? Their history with it stays.'))return;const snaps=T.map(c=>JSON.stringify(c));
   T.forEach(c=>{delete c.standing[id]});saveParty();renderParty();undoToast(f.n+' taken off the grid',()=>{T.forEach((c,i)=>{const o=JSON.parse(snaps[i]);Object.keys(c).forEach(k=>{if(!(k in o))delete c[k]});Object.assign(c,o)});saveParty();renderParty()})}
 function standLogEdit(cid,i,act){const c=PARTY.find(x=>x.id===cid);if(!c||!clCanEdit(c)||!(c.standingLog||[])[i])return;const snap=JSON.stringify(c),e=c.standingLog[i];
   if(act==='del'){c.standingLog.splice(i,1);saveParty();renderParty();dmUndo(c,snap,'History entry removed (the standing itself is unchanged)');return}
@@ -6848,6 +6896,7 @@ function encAware(st,mons,party,raw){party=party||encParty();if(!mons.length||!p
 const fightPace=()=>{const F=store.get('fights',[]).filter(f=>f.pred&&f.pred.clear>0&&f.won);if(F.length<3)return null;const r=F.map(f=>f.rounds/f.pred.clear).sort((a,b)=>a-b);return Math.max(0.5,Math.min(3,r[Math.floor(r.length/2)]))};
 function cbEndFight(){const L=CB.list||[],pcs=L.filter(x=>x.pc),mons=L.filter(x=>x.mon&&!x.sum).map(x=>({x,m:MON_IDX.get(lc(x.mon))})).filter(o=>o.m&&o.m.sb);
   if(!pcs.length||!mons.length){toast('A fight report needs characters and monsters in the tracker');return}
+  if(!massOk('End the fight? It saves a fight report and clears all '+L.length+' combatants from the tracker.'))return;
   const party=PARTY.filter(c=>pcs.some(x=>x.pc===c.id)&&+c.hpMax>0),cnt={};mons.forEach(o=>cnt[o.m.realm]=(cnt[o.m.realm]||0)+1);const realm=Object.keys(cnt).sort((a,b)=>cnt[b]-cnt[a])[0];
   const A=encAware({realm},mons.map(o=>o.m),party,true),names={};mons.forEach(o=>names[o.m.n]=(names[o.m.n]||0)+1);
   const rep={id:uid(),d:new Date().toISOString().slice(0,10),realm,rounds:+CB.round||1,mons:Object.entries(names).map(([n,k])=>k>1?k+'× '+n:n).join(', '),won:mons.every(o=>o.x.hp<=0),
@@ -8284,7 +8333,7 @@ function spoilsGive(k,i,id){const S=CB.spoils,x=S&&S[k][i],c=PARTY.find(p=>p.id=
   invAdd(c,x.n,x.q||1,true,true);x.to=id;spoilsLog(c,(x.q>1?x.q+' × ':'')+x.n);saveParty();saveCB();renderCombat();
   undoToast((x.q>1?x.q+' × ':'')+x.n+' → '+(c.name||'them'),()=>{Object.assign(c,JSON.parse(before));Object.keys(c).forEach(key=>{if(!(key in JSON.parse(before)))delete c[key]});x.to='';saveParty();saveCB();if(TAB==='combat')renderCombat()})}
 function spoilsAddCoins(c,n){const S=CB.spoils,C=S.coins;if(C.favor){c.favor=(+c.favor||0)+n;return}if(C.realm){c.purse=c.purse||{};c.purse[C.realm]=(+c.purse[C.realm]||0)+n}else{c.coins=c.coins||{};c.coins.gp=(+c.coins.gp||0)+n}}
-function spoilsSplit(){const S=CB.spoils,P=PARTY.filter(c=>clCanEdit(c));if(!S||!S.left||!P.length)return;const snap=P.map(c=>JSON.stringify(c)),was=S.left,each=Math.floor(S.left/P.length);let rest=S.left-each*P.length;
+function spoilsSplit(){const S=CB.spoils,P=PARTY.filter(c=>clCanEdit(c));if(!S||!S.left||!P.length)return;if(P.length>1&&!massOk('Split the coins between all '+P.length+' characters?'))return;const snap=P.map(c=>JSON.stringify(c)),was=S.left,each=Math.floor(S.left/P.length);let rest=S.left-each*P.length;
   P.forEach(c=>{const n=each+(rest>0?1:0);if(rest>0)rest--;if(n){spoilsAddCoins(c,n);spoilsLog(c,fmt(n)+' '+(n===1?S.coins.coin.toLowerCase():S.coins.pl))}});S.left=0;saveParty();saveCB();renderCombat();
   undoToast(`Split ${fmt(was)} ${S.coins.pl} between ${P.length}`,()=>{P.forEach((c,i)=>Object.assign(c,JSON.parse(snap[i])));S.left=was;saveParty();saveCB();if(TAB==='combat')renderCombat()})}
 function spoilsCoinsTo(id){const S=CB.spoils,c=PARTY.find(p=>p.id===id);if(!S||!S.left)return;if(!c){toast('Choose who gets the coins');return}const snap=JSON.stringify(c),was=S.left;spoilsAddCoins(c,was);spoilsLog(c,fmt(was)+' '+(was===1?S.coins.coin.toLowerCase():S.coins.pl));S.left=0;saveParty();saveCB();renderCombat();
@@ -8362,7 +8411,16 @@ function renderMineTool(){const el=$('mn-box');if(!el)return;const S=store.get('
 function mineBind(){const go=$('mn-go');if(go)go.onclick=()=>{const S=store.get('mine',null);if(S&&S.log.length&&!confirm('Fill in this shaft and dig a new one?'))return;const lv=Math.max(1,Math.min(10,+$('mn-lv').value||5));store.set('mine',mineNew($('mn-realm').value,lv,Date.now()));renderMineTool()};
   const w=$('mn-who');if(w)w.onchange=()=>{const S=store.get('mine',null);if(!S)return;S.who=w.value;store.set('mine',S);renderMineTool()}}
 // the installed app has no browser Back button: this one steps back (closing an open window first), or goes Home
-function appBack(){if(history.length>1)history.back();else go('home')}
+function appBack(){const open=id=>{const e=$(id);return e&&!e.hidden};
+  if(open('dmpad')){dmPad(false);return}
+  if($('qbg').classList.contains('open')){closeQuick();return}
+  if(open('hoView')){$('hoView').hidden=true;return}
+  if(open('liveView')){liveClose();return}
+  if(typeof TBL!=='undefined'&&TBL.open){closeTable();return}
+  if($('pv')&&!$('pv').hidden&&!PV_SECOND){pvClose();return}
+  if($('mbg').classList.contains('open')){closeModal();return}
+  if(TAB==='archive'&&ARC.cur&&document.querySelector('[data-nbback]')){document.querySelector('[data-nbback]').click();return}
+  if(history.length>1)history.back();else go('home')}
 if(navigator.standalone)document.documentElement.classList.add('standalone');
 // Table screen: a full-screen view for the table. "Character": big hit points with quick damage and healing, AC, initiative,
 // conditions, and dice (with advantage). "Initiative": the combat tracker's order in big type, with Next turn. The screen
@@ -8478,7 +8536,7 @@ function renderCombat(){
       <label class="note" style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" id="cb-ac" ${CB.noAC?'':'checked'} onchange="CB.noAC=!this.checked;saveCB()"> Subtract AC from damage</label><label class="note" style="display:flex;gap:6px;align-items:center;margin:0">Damage type <select class="sel" style="padding:2px 6px" onchange="CB.dt=this.value;saveCB()"><option value="">—</option>${Object.keys(KILL_FX).map(t=>`<option${t===CB.dt?' selected':''}>${t}</option>`).join('')}</select></label>
       ${'wakeLock'in navigator?`<label class="note" style="display:flex;gap:6px;align-items:center;margin:0" title="Stops the phone or tablet from dimming and locking while this page is open"><input type="checkbox" id="cb-wake" ${store.get('wakelock',false)?'checked':''} onchange="store.set('wakelock',this.checked);wakeSync()"> Keep screen on</label>`:''}
       <button class="btn primary" onclick="openTable('init')" title="A full-screen view for the table">🎲 Table screen</button>
-      <button class="btn" onclick="cbEndFight()" title="Save how the fight went (rounds, who dropped, damage) next to what the Party check predicted, then clear the tracker">📋 End fight</button><button class="btn" onclick="const was=store.get('combat',null);store.set('combat',{round:1,turn:0,list:[]});renderCombat();undoToast('Combat cleared',()=>{store.set('combat',was);if(TAB==='combat')renderCombat()})">Clear</button>
+      <button class="btn" onclick="cbEndFight()" title="Save how the fight went (rounds, who dropped, damage) next to what the Party check predicted, then clear the tracker">📋 End fight</button><button class="btn" onclick="if((CB.list||[]).length>1&&!massOk('Clear all '+CB.list.length+' combatants from the tracker?'))return;const was=store.get('combat',null);store.set('combat',{round:1,turn:0,list:[]});renderCombat();undoToast('Combat cleared',()=>{store.set('combat',was);if(TAB==='combat')renderCombat()})">Clear</button>
       ${PARTY.length?`<span class="rest-btns" style="display:inline-flex;gap:6px"><button class="btn" onclick="partyRest('short')" title="The whole party takes a short rest">⛺ Short rest</button><button class="btn" onclick="partyRest('long')" title="The whole party takes a long rest">🌙 Long rest</button></span>`:''}
     </div>
     ${cbSummonHTML()}
@@ -10314,6 +10372,8 @@ function renderSettings(){const k=getKey(),u=CL.user,dark=document.documentEleme
         <div class="note">Like the Anthropic key, it is stored only in this browser (never in your account or backups) and is sent only to Groq's API (api.groq.com). Usage is billed to your Groq account. Get a key at <a href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com</a>.</div>`)}
       ${setSec('rules','Table rules','Choices your table makes about FAND\'s rules. They are saved with your other settings.',(()=>{const R=profRule();return `<div class="set-row"><span>Second profession<small>Whether a character can take up a second profession, and when</small></span><select class="sel" id="setProf2" aria-label="Second profession rule">${PROF2_MODES.map(([k,l])=>`<option value="${k}"${k===R.mode?' selected':''}>${esc(l)}</option>`).join('')}</select></div>${R.mode==='gate'||R.mode==='both'?`<div class="set-row"><span>Unlocks at first-profession level</span><input class="sel" id="setProf2At" type="number" min="1" max="100" value="${R.at}" style="width:90px" aria-label="Level the first profession needs"></div>`:''}`})())}
       ${setSec('data','Saved data','Everything FAND saves lives in this browser'+(u?' and in your account.':'. Sign in to keep it in an account too.'),`
+        <div class="set-row"><span>Ask before changing many things at once<small>A rest for the whole party, splitting loot, clearing the tracker, ending a fight, clearing pins, a faction's standing for everyone. ↶ Undo (Ctrl+Z) takes back any change either way.</small></span><label class="chk"><input type="checkbox" id="setAskMass"${store.get('askmass',true)!==false?' checked':''} onchange="store.set('askmass',this.checked);toast(this.checked?'FAND asks before changes to many things':'Changes to many things happen at once (↶ Undo still works)')"> Ask first</label></div>
+        <div class="set-row"><span>Undo history<small>${UNDO.steps.length?UNDO.steps.length+' change'+(UNDO.steps.length>1?'s':'')+' you can undo in this tab, the last to '+esc(undoLabel(UNDO.steps[UNDO.steps.length-1])):'Nothing to undo yet in this tab'}. Kept until you close the tab.</small></span><button class="btn" type="button" onclick="undoDo();renderSettings()"${UNDO.steps.length?'':' disabled'}>↶ Undo</button></div>
         <div class="set-row"><span>Back up everything<small>A file with your characters, journal, plans, designs, dice, and settings</small></span><button class="btn" type="button" onclick="setExport()">Download backup</button></div>
         <div class="set-row"><span>Restore a backup<small>Replaces the same data on this device${u?' and in your account':''}</small></span><label class="btn" style="cursor:pointer">Choose file<input type="file" accept=".json,application/json" hidden onchange="setImport(this)"></label></div>
         ${(()=>{const U=storeUsage();return `<div class="set-row"><span>Space used on this device<small>${kbmb(U.bytes)} of about 5 MB${U.pics?` (portraits ${kbmb(U.pics)})`:''}. When it is full, changes can't be saved; FAND will say so.</small></span><meter min="0" max="5242880" low="3500000" high="4500000" optimum="0" value="${U.bytes}" aria-label="Space used" style="width:120px"></meter></div>`})()}
@@ -10334,7 +10394,7 @@ function renderSettings(){const k=getKey(),u=CL.user,dark=document.documentEleme
     $('setGroq').onkeydown=e=>{if(e.key==='Enter')$('setGroqSave').click()};
     $('setGroqRemove').onclick=()=>{saveGroq('');toast('Groq key removed');renderSettings()};
     $('setRemove').onclick=()=>{saveKey('',false);toast('API key removed');renderAI();renderSettings()}}}
-function clearPins(){const was=[...PINS];PINS=new Set();store.set('pins',[]);renderSettings();undoToast('Pins cleared',()=>{PINS=new Set(was);store.set('pins',was);if(TAB==='settings')renderSettings()})}
+function clearPins(){if(PINS.size>1&&!massOk('Clear all '+PINS.size+' pins?'))return;const was=[...PINS];PINS=new Set();store.set('pins',[]);renderSettings();undoToast('Pins cleared',()=>{PINS=new Set(was);store.set('pins',was);if(TAB==='settings')renderSettings()})}
 // backups: every key this site saves (never the API key or account bookkeeping)
 function setExport(){const data={};try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('fand.')&&k!==KEY_NAME&&k!==GROQ_KEY&&!k.startsWith('fand.__'))data[k.slice(5)]=localStorage.getItem(k)}}catch(e){}
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({fand:'backup',at:new Date().toISOString(),data},null,1)],{type:'application/json'}));a.download='FAND backup '+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();toast('Backup downloaded')}

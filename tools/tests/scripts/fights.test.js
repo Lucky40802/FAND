@@ -1,7 +1,7 @@
 // Fight reports: End fight saves rounds, drops and damage beside the Party check's prediction; the table's pace
 const {chromium}=require('../pw.js');const path=require('path');
 (async()=>{const b=await chromium.launch();let bad=0;const ok=(c,m)=>{console.log((c?'  ok   ':'  FAIL ')+m);if(!c)bad++};
-const ctx=await b.newContext({serviceWorkers:'block'});const p=await ctx.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
+const ctx=await b.newContext({serviceWorkers:'block'});const p=await ctx.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));p.on('dialog',d=>d.accept().catch(()=>{}));
 await p.goto('file://'+path.resolve(process.argv[2],'chargen.html'));await p.waitForTimeout(2000);
 await p.evaluate(()=>{PARTY.length=0;['Fighter','Wizard'].forEach(k=>{const c=genFill({cls:k,level:5}).c;c.name=k;PARTY.push(c)});saveParty();store.set('fights',[])});
 await p.goto('file://'+path.resolve(process.argv[2],'combat.html'));await p.waitForTimeout(1500);

@@ -1,5 +1,5 @@
 const {chromium}=require('../pw.js');const path=require('path');
-(async()=>{const b=await chromium.launch();let bad=0;const ok=(c,m)=>{console.log((c?'  ok   ':'  FAIL ')+m);if(!c)bad++};const p=await b.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
+(async()=>{const b=await chromium.launch();let bad=0;const ok=(c,m)=>{console.log((c?'  ok   ':'  FAIL ')+m);if(!c)bad++};const p=await b.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));p.on('dialog',d=>d.accept().catch(()=>{}));
 await p.goto('file://'+path.resolve(process.argv[2],'chargen.html'));await p.waitForTimeout(2000);
 const r=await p.evaluate(()=>{const R=(s=>()=>{s=(s*16807)%2147483647;return (s-1)/2147483646})(5);const avg=(rn,L)=>{let g=0,f=0;for(let i=0;i<300;i++){const ts=[0,1,2].map(sz=>rollTreasure(rn,L,sz,R));g+=8*ts[1].gold+ts[2].gold;f+=8*ts[1].favor+ts[2].favor}return [Math.round(g/300),Math.round(f/300)]};
  const sp=lv=>{const x={lv,_realm:'Void',rune:null};return spellPrice(x)};
