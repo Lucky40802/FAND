@@ -41,7 +41,7 @@ module.exports = [
     // pages, delete and undo go to the table
     await p.click('#dmpad button:has-text("+ New page")'); await p.fill('#dp-title', 'Villains'); await p.waitForTimeout(700);
     t.eq(await p.evaluate(() => __FAKE.rows.filter(r => r.owner === 'dm-one').length), 2, 'a new page is a new row in this account');
-    await p.click('#dmpad button:has-text("Delete page")'); await p.waitForTimeout(200);
+    await p.click('#dmpad .dp-more summary').then(() => p.click('#dmpad button:has-text("Delete page")')); await p.waitForTimeout(200);
     t.ok(await p.evaluate(() => !__FAKE.rows.some(r => r.title === 'Villains')), 'deleting removes the row');
     await p.click('text=Undo'); await p.waitForTimeout(200);
     t.ok(await p.evaluate(() => __FAKE.rows.some(r => r.title === 'Villains')), 'undo puts it back');

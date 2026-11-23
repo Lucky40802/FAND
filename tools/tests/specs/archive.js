@@ -110,7 +110,7 @@ module.exports = [
     t.eq(await p.evaluate(() => [...document.querySelectorAll('#dp-board .mm-node')].map(n => n.innerText.trim())), ['Plot', 'Act one', 'meet Wolf', 'Act two'], 'the page as a mind map');
     await p.click('#dmpad button:has-text("Graph")'); await p.waitForTimeout(250);
     t.ok(await p.evaluate(() => document.querySelectorAll('#dp-graph g.gr-n').length === 2), 'the notepad graph: the page and the monster it links');
-    await p.click('#dmpad button:has-text("To Archive")'); await p.waitForTimeout(200);
+    await p.click('#dmpad .dp-more summary').then(() => p.click('#dmpad button:has-text("To Archive")')); await p.waitForTimeout(200);
     t.ok(await p.evaluate(() => __FAKE.rows.some(r => r.owner === 'dm1' && r.title === 'Plot' && !r.campaign_id && /Act one/.test(r.body))), 'the page is copied into the Archive, private');
   } },
   { name: 'archive on a phone: a section picker, the list or the open item, a map you can tap', phone: true, run: async t => {
