@@ -7,7 +7,7 @@ module.exports = [
   { name: 'combat: summons act after their summoner, count down, and leave with them', run: async t => {
     const p = await t.open('combat');
     const wolf = await p.evaluate(f => { store.set('combat', f); renderCombat(); const m = [...MON_IDX.values()].find(m => /^wolf$/i.test(m.n) && m.sb) || [...MON_IDX.values()].find(m => /wolf/i.test(m.n) && m.sb); return m.n; }, fight());
-    await p.click('button[title^="Call a creature"]');
+    await p.click('.cb-moremenu summary').then(() => p.click('button[title^="Call a creature"]'));
     await p.selectOption('#sm-by', 'a'); await p.fill('#sm-mon', wolf); await p.fill('#sm-n', '2'); await p.fill('#sm-r', '2');
     await p.click('.cb-sum button.primary'); await p.waitForTimeout(300);
     const order = () => p.evaluate(() => CB.list.map(x => x.id === 'a' || x.id === 'g' || x.id === 'o' ? x.name : 'S' + (x.sum ? x.sum.left : '?')));

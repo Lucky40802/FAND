@@ -2622,7 +2622,7 @@ function wikiRender(msg){const k=(CL.camps||[]).find(x=>x.id===WIKI.camp),dm=wik
   $('qBox').onclick=async e=>{const a=e.target.closest('a[data-wiki]');if(a){e.preventDefault();WIKI.cur=a.dataset.wiki;WIKI.edit=false;wikiRender();return}
     const p=e.target.closest('[data-wkp]');if(p){WIKI.cur=p.dataset.wkp;WIKI.edit=false;wikiRender();return}
     const b=e.target.closest('[data-wk]');if(!b)return;const w=b.dataset.wk;
-    if(w==='new'){const n={id:uid(),title:'New page',kind:'',body:'',published:false};WIKI.pages.push(n);WIKI.cur=n.id;WIKI.edit=true;wikiRender();setTimeout(()=>{const t=$('wkT');if(t){t.focus();t.select()}},30);return}
+    if(w==='new'){const n={id:uid(),title:'New page',kind:'',body:'',published:false};WIKI.pages.push(n);WIKI.cur=n.id;WIKI.edit=true;wikiRender();setTimeout(()=>{const t=$('wkT'),f=document.activeElement,busy=f&&f!==t&&$('qBox').contains(f)&&/^(INPUT|TEXTAREA|SELECT)$/.test(f.tagName);if(t&&!busy){t.focus();t.select()}},30);return}
     if(w==='edit'){WIKI.edit=true;wikiRender();return}
     if(w==='cancel'){WIKI.edit=false;const c=WIKI.pages.find(x=>x.id===WIKI.cur);if(c&&!c.updated_at){WIKI.pages=WIKI.pages.filter(x=>x!==c);WIKI.cur=null}wikiRender();return}
     if(w==='save'){const c=WIKI.pages.find(x=>x.id===WIKI.cur);if(!c)return;const row={campaign_id:WIKI.camp,id:c.id,title:$('wkT').value.trim().slice(0,200)||'Untitled',kind:$('wkK').value.trim().slice(0,40),body:$('wkB').value,published:$('wkP').checked,updated_at:new Date().toISOString()};
