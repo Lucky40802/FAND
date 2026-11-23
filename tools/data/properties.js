@@ -216,7 +216,7 @@ var NAMED = {
   // the Abyss's cursed twins of common materials (data/alloys.js, cursed)
   'Abyssal Gold': 'midas', 'Abyssal Silver': 'hollowmirror', 'Abyssal Iron': 'rusthunger', 'Abyssal Copper': 'leechcurrent', 'Abyssal Oak': 'stranglingroot',
   'Abyssal Crystal': 'whispershard', 'Abyssal Leather': 'flayedhide', 'Abyssal Bone': 'gravebound',
-  'Abyssal Steel': 'bloodthirst', 'Abyssal Brass': 'cacophony', 'Abyssal Lead': 'leaden', 'Abyssal Tin': 'brittle', 'Abyssal Ash': 'cinder', 'Abyssal Feathers': 'skyward', 'Abyssal Mithral': 'shadowless', 'Abyssal Obsidian': 'glassheart', 'Abyssal Ivory': 'palehunger', 'Abyssal Ruby': 'bleedinggem', 'Abyssal Diamond': 'unbreakable', 'Abyssal Amber': 'frozenmoment', 'Abyssal Jade': 'envy', 'Abyssal Platinum': 'debtor', 'Abyssal Moonstone': 'lunatic', 'Abyssal Horn': 'beastblood',
+  'Abyssal Steel': 'bloodthirst', 'Abyssal Brass': 'cacophony', 'Abyssal Lead': 'leaden', 'Abyssal Tin': 'brittle', 'Abyssal Ashwood': 'cinder', 'Abyssal Feathers': 'skyward', 'Abyssal Mithral': 'shadowless', 'Abyssal Heartglass': 'glassheart', 'Abyssal Ivory': 'palehunger', 'Abyssal Ruby': 'bleedinggem', 'Abyssal Diamond': 'unbreakable', 'Abyssal Amber': 'frozenmoment', 'Abyssal Jade': 'envy', 'Abyssal Platinum': 'debtor', 'Abyssal Moonstone': 'lunatic', 'Abyssal Horn': 'beastblood',
   // alloys named for the tales (data/alloys.js)
   'Starsilver': 'starsilver', 'Mirrorbronze': 'mirror', 'Dragon-Hoard Gold': 'hoard', 'Emberglass': 'emberglass', 'Songsteel': 'songbound',
   'Pactsteel': 'oathkeeper', 'Dawnsteel': 'radiant', 'Thunder Brass': 'stormcall', 'Moon-Steel': 'starsilver', 'Bell Metal': 'songbound',
