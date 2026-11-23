@@ -84,6 +84,10 @@ module.exports = [
     const p = await t.open('bestiary');
     await p.evaluate(fakeDB); await signIn(p, 'dm-one'); await p.evaluate(() => { setRole('dm'); dmPad(true); }); await p.waitForTimeout(200);
     t.ok(await p.isVisible('#dmpad .dp-bk') && !(await p.isVisible('#dmpad [aria-label="Close notepad"]')), 'a Back button where the ✕ was');
+    await p.click('#dmpad .dp-more summary'); await p.waitForTimeout(150);
+    t.ok(await p.evaluate(() => { const r = document.querySelector('#dmpad .dp-more .more-pop').getBoundingClientRect(); return r.left >= 0 && r.right <= innerWidth && r.bottom <= innerHeight && r.width > innerWidth * 0.8; }), '⋯ More opens as a sheet across the bottom of the screen, all of it on screen');
+    t.ok(await p.isVisible('#dmpad button:has-text("Session recap")') && await p.isVisible('#dmpad button:has-text("Delete page")'), 'its items can be seen');
+    await p.mouse.click(195, 60); await p.waitForTimeout(100); t.ok(await p.evaluate(() => !document.querySelector('#dmpad .dp-more').open), 'tapping outside closes it');
     await p.click('#dmpad .dp-bk'); await p.waitForTimeout(100); t.ok(await p.evaluate(() => $('dmpad').hidden), 'Back closes the notepad');
     // the app's back button (shown when FAND runs from the home screen)
     await p.evaluate(() => document.documentElement.classList.add('standalone')); t.ok(await p.isVisible('.top .backbtn'), 'the header back button shows in the home-screen app');
