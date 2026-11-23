@@ -278,8 +278,15 @@ var FIEND_GRP = [
 ];
 
 // ---- emoji used around the site, drawn as game-icons symbols instead (the page swaps them in as it draws; see symbolize()).
-// Interface marks (arrows, ✕, ★, ✓) and system emoji (🔍 🔊 🖨 ⚠ 🗑 …) stay as text.
+// Arrows, ✕, ★, ✓ and ▶ stay as text (they take the page's colour); everything else is drawn as a symbol.
 var SYMBOLS = {
+  // interface marks too, so nothing on the page is a full-colour emoji against the site's colours
+  '🔒': 'padlock', '🔗': 'linked-rings', '🧠': 'brain', '👤': 'person', '🔊': 'speaker', '⏱': 'stopwatch', '🔇': 'speaker-off', '⚙': 'cog',
+  '👥': 'meeple-group', '📔': 'notebook', '📋': 'checklist', '🔍': 'magnifying-glass', '📡': 'radar-sweep', '🌐': 'world', '📄': 'papers', '📌': 'pin',
+  '🖨': 'paper', '⚠': 'hazard-sign', '🗂': 'files', '🧾': 'tied-scroll', '🗄': 'locked-chest', '🗑': 'trash-can', '⬇': 'cloud-download', '🎒': 'backpack',
+  '🕒': 'pocket-watch', '🕘': 'pocket-watch', '❓': 'help', '📷': 'photo-camera', '☕': 'coffee-cup', '✅': 'check-mark', '⛔': 'cancel', '📱': 'smartphone',
+  '🙏': 'prayer', '⭕': 'circle', '✴': 'star-formation', '🧢': 'billed-cap', '🩴': 'sandal', '🎻': 'violin', '🔔': 'ringing-bell', '🌍': 'earth-africa-europe',
+  '⚜': 'fleur-de-lys', '✉': 'envelope',
   '🎲': 'perspective-dice-six-faces-random', '⚔': 'crossed-swords', '🔱': 'trident', '🗡': 'plain-dagger', '🪓': 'battle-axe', '🛡': 'shield',
   '🔨': 'claw-hammer', '⛓': 'crossed-chains', '🏹': 'bow-arrow', '⛑': 'visored-helm', '🏏': 'flanged-mace', '⚒': 'anvil-impact', '📜': 'scroll-unfurled',
   '🔪': 'bowie-knife', '✨': 'sparkles', '⚖': 'scales', '⛏': 'war-pick', '🔥': 'flame', '🧤': 'gloves', '🎁': 'present', '🥾': 'leather-boot',
