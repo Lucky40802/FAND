@@ -2,6 +2,19 @@
 // in the Human realm, the realms' own metals mixed beyond it. Website additions (original), built into the material list.
 // A name chosen for a property rule (data/properties.js) carries that property: Starsilver, Songsteel, Mirrorbronze.
 module.exports = {
+  // the Abyss's cursed twins (owner's request, 2026-11-23): [name, realm, grade, type, the common material it is a twin of,
+  // description, where it is found]. Each carries its own cursed property (data/properties.js): stronger than the common
+  // material, with a curse whose reach grows with Potency.
+  cursed: [
+    ['Abyssal Gold', 'Abyss', 6, 'O', 'Gold', 'Gold that sank into the Abyss and learned greed. It is warm, heavier than it looks, and faintly hums when coin is near. Whatever it touches becomes more of it.', 'Demon hoards, the beds of the Abyss\'s molten rivers, and wherever a Midas-cursed thing has been'],
+    ['Abyssal Silver', 'Abyss', 6, 'O', 'Silver', 'Black-mirrored silver that shows everything but whoever holds it. It cuts the unholy as well as silver does, and remembers every face it has failed to show.', 'Drowned temple bells and the mirror-pools of the Abyss'],
+    ['Abyssal Iron', 'Abyss', 5, 'O', 'Iron', 'Red-black iron that sweats rust onto other metal and never rusts itself. It is always hungry.', 'Veins that bleed from the Abyss\'s iron cliffs, and the wrecks of armies that fought there'],
+    ['Abyssal Copper', 'Abyss', 5, 'O', 'Copper', 'Green copper that crackles with a current drawn from whoever holds it. It bites the hand as well as the enemy.', 'Storm-scarred plains of the Abyss, fused into the glass where lightning struck'],
+    ['Abyssal Oak', 'Abyss', 6, 'W', 'Oak', 'Grey oak from trees that grow down instead of up. Its grain is hard as iron and its roots keep growing after it is cut, toward whoever carries it.', 'The upside-down forests that hang beneath the Abyss\'s cliffs'],
+    ['Abyssal Crystal', 'Abyss', 7, 'G', 'Crystal', 'Smoky crystal with a voice in it. Spells cast through it are stronger, and it has opinions.', 'Geodes in the walls of the Abyss\'s deepest pits'],
+    ['Abyssal Leather', 'Abyss', 5, 'F', 'Leather', 'Leather from no animal anyone will name. It stays supple, it turns blades, and it drinks.', 'The tanneries of demon markets, sold by the hide to anyone who does not ask'],
+    ['Abyssal Bone', 'Abyss', 6, 'B', 'Bone', 'Bone that will not stay dead, from the Abyss\'s ossuary fields. Things it kills get up again.', 'The ossuary fields of the Abyss, where the dead are stacked like firewood']
+  ],
   // base ores the real alloys need that the vault lacks: [name, realm, grade, description, where found]
   ores: [
     ['Zinc', 'Human', 1, 'Bluish-grey metal smelted from calamine; on its own it is brittle, but it turns copper into brass.', 'Calamine beds in limestone hills'],

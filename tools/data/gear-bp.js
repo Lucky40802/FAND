@@ -110,7 +110,64 @@ var STARTER = [
   ["Priest's Pack", 'Storage', '', '', 'Tailoring', ['Leather'], { cap: 10, carry: 1, ds: 'A backpack with a blanket, candles, a tinderbox, an alms box, incense, a censer, vestments, rations, and a waterskin.' }],
   ["Scholar's Pack", 'Storage', '', '', 'Tailoring', ['Leather'], { cap: 10, carry: 1, ds: 'A backpack with a book of lore, ink, an ink pen, 10 sheets of parchment, a little bag of sand, and a small knife.' }],
   ["Entertainer's Pack", 'Storage', '', '', 'Tailoring', ['Leather'], { cap: 10, carry: 1, ds: 'A backpack with a bedroll, two costumes, candles, rations, a waterskin, and a disguise kit.' }],
-  ["Diplomat's Pack", 'Storage', '', '', 'Tailoring', ['Leather'], { cap: 10, carry: 1, ds: 'A chest with cases for maps and scrolls, fine clothes, ink, a pen, a lamp, oil, paper, perfume, sealing wax, and soap.' }]
+  ["Diplomat's Pack", 'Storage', '', '', 'Tailoring', ['Leather'], { cap: 10, carry: 1, ds: 'A chest with cases for maps and scrolls, fine clothes, ink, a pen, a lamp, oil, paper, perfume, sealing wax, and soap.' }],
+  // the everyday gear every table expects (owner's request, 2026-11-23: "component bags are not there ... look for similar holes")
+  // bags and cases: each holds a few things on top of what its owner can carry
+  ['Component Pouch', 'Storage', '', '', 'Tailoring', ['Leather'], { cap: 5, carry: 1, cpouch: 1, ds: 'A watertight belt pouch of little compartments for spell components: bat guano, a pinch of sulfur, a bit of fleece. It holds 5 small things on top of what you carry, and a spellcaster can cast through it as a plain focus: +1 spell damage per 10 levels of the pouch, but none of a true focus\'s Accuracy or school edge. Spells that name a costly component still need that component.' }],
+  ['Quiver', 'Storage', '', '', 'Tailoring', ['Leather'], { cap: 3, carry: 1, ds: 'A leather quiver worn at the hip or back. It holds 3 stacks of arrows or bolts (60) on top of what you carry, and they come out fast enough to draw as part of an attack.' }],
+  ['Scroll Case', 'Storage', '', '', 'Carving', ['Bone', 'Leather'], { cap: 4, carry: 1, ds: 'A capped bone tube for scrolls and maps. It holds 4 of them on top of what you carry, and keeps them dry and uncreased.' }],
+  ['Potion Belt', 'Storage', '', '', 'Tailoring', ['Leather'], { cap: 4, carry: 1, ds: 'A belt of padded loops for vials. It holds 4 stacks of potions on top of what you carry, and drinking one from it takes a bonus action instead of an action.' }],
+  ['Bandolier', 'Storage', '', '', 'Tailoring', ['Leather'], { cap: 3, carry: 1, ds: 'A shoulder strap of loops and pockets for darts, daggers, sling bullets or flasks. It holds 3 stacks on top of what you carry.' }],
+  ['Sack', 'Storage', '', '', 'Tailoring', ['Leather'], { cap: 3, carry: 1, ds: 'A plain cloth sack with a drawstring. It holds 3 things on top of what you carry, but anything fragile inside breaks if you fall.' }],
+  // tools and kits
+  ["Healer's Kit", 'Tool', '', '', 'Alchemy', ['Leather'], { ds: 'A pouch of bandages, salves and splints with 10 uses. Spend a use to stabilize a creature at 0 hit points without a check; spend one during a short rest and the patient regains an extra 1d4 hit points.' }],
+  ['Herbalism Kit', 'Tool', '', '', 'Alchemy', ['Leather', 'Iron'], { ds: 'Clippers, a mortar and pestle, pouches and vials for gathering and drying herbs. +2 to foraging rolls, and it is what makes healing potions and antitoxin.' }],
+  ["Alchemist's Supplies", 'Tool', '', '', 'Alchemy', ['Crystal', 'Iron'], { ds: 'Glass beakers, a metal frame, a small burner and tongs. An alchemist needs them to brew, and +2 to rolls to identify a potion or poison.' }],
+  ["Poisoner's Kit", 'Tool', '', '', 'Alchemy', ['Crystal', 'Leather'], { ds: 'Vials, a mortar and pestle, gloves and a strainer for harvesting and preparing poisons. +2 to rolls to make, identify or apply poison.' }],
+  ['Disguise Kit', 'Tool', '', '', 'Tailoring', ['Leather'], { ds: 'Cosmetics, hair dye, small props and a few pieces of clothing. +2 to checks to pass yourself off as someone else.' }],
+  ['Forgery Kit', 'Tool', '', '', 'Tailoring', ['Leather'], { ds: 'Papers, inks, seals, sealing wax, gold and silver leaf and fine pens for copying a document or a hand. +2 to rolls to make or spot a forgery.' }],
+  ["Navigator's Tools", 'Tool', '', '', 'Engineering', ['Brass', 'Leather'], { ds: 'A sextant, a compass, calipers, a ruler and charts. With them you can\'t get lost at sea or in open country on a clear night, and +2 to Survival rolls to find your way.' }],
+  ["Climber's Kit", 'Tool', '', '', 'Blacksmithing', ['Iron', 'Leather'], { ds: 'Pitons, boot tips, gloves and a harness. While it is anchored you can\'t fall more than 25 feet, and you can\'t move more than 25 feet from where you anchored it without undoing it.' }],
+  ["Smith's Tools", 'Tool', '', '', 'Blacksmithing', ['Iron', 'Oak'], { ds: 'Hammers, tongs, a file and a whetstone. A blacksmith needs them to work metal away from a forge, and they repair a damaged weapon or armor during a long rest.' }],
+  ["Tinker's Tools", 'Tool', '', '', 'Engineering', ['Iron', 'Brass'], { ds: 'Small hand tools, thread, needles, a whetstone, cloth, leather and glue for mending everyday things. They repair a broken object during a short rest.' }],
+  ["Cook's Utensils", 'Tool', '', '', 'Cooking', ['Iron', 'Oak'], { ds: 'A pot, knives, forks, a stirring spoon and a ladle. A cook needs them to make meals on the road, and a meal made with them at a short rest gives everyone who eats it 1 extra hit point per hit die they spend.' }],
+  ['Fishing Tackle', 'Tool', '', '', 'Carving', ['Oak', 'Iron'], { ds: 'A rod, silk line, cork floats, hooks, sinkers and lures. +2 to Survival rolls to catch fish, and a day of fishing feeds two.' }],
+  ['Mess Kit', 'Tool', '', '', 'Blacksmithing', ['Tin'], { ds: 'A tin box with a cup and cutlery. It opens out into a frying pan and a plate.' }],
+  ['Tinderbox', 'Tool', '', '', 'Blacksmithing', ['Iron', 'Flint'], { ds: 'Flint, fire steel and tinder in a small box. Lighting a torch or anything else easy to burn takes an action; lighting anything else takes a minute.' }],
+  ['Bedroll', 'Tool', '', '', 'Tailoring', ['Leather'], { ds: 'A rolled blanket and pad. Sleeping on bare ground without one, a long rest gives back only half the usual hit dice.' }],
+  ['Tent', 'Tool', '', '', 'Tailoring', ['Leather', 'Oak'], { ds: 'A two-person canvas shelter. Inside it you are sheltered from rain, snow and wind for a rest.' }],
+  ['Waterskin', 'Tool', '', '', 'Tailoring', ['Leather'], { ds: 'A leather skin that holds 4 pints of water: a day\'s drinking for one.' }],
+  ['Torch', 'Tool', '', '', 'Carving', ['Oak'], { ds: 'Burns for 1 hour, giving bright light for 20 feet and dim light for 20 more. Used as a weapon it deals 1 fire damage.' }],
+  ['Hooded Lantern', 'Tool', '', '', 'Blacksmithing', ['Iron', 'Crystal'], { ds: 'Burns a flask of oil for 6 hours: bright light for 30 feet and dim light for 30 more. Lowering the hood cuts it to dim light for 5 feet.' }],
+  ['Hempen Rope', 'Tool', '', '', 'Tailoring', ['Leather'], { ds: '50 feet of rope. It holds 1,000 pounds and can be burst with a DC 17 Strength check.' }],
+  ['Silk Rope', 'Tool', '', '', 'Tailoring', ['Leather'], { ds: '50 feet of light silk rope, half the weight of hemp. It holds 1,000 pounds and can be burst with a DC 17 Strength check.' }],
+  ['Pitons', 'Tool', '', '', 'Blacksmithing', ['Iron'], { ds: 'Ten iron spikes for hammering into rock to hold a rope.' }],
+  ['Hunting Trap', 'Tool', '', '', 'Blacksmithing', ['Iron'], { ds: 'A sawtoothed steel jaw. A creature that steps on it makes a DC 13 Dexterity save or takes 1d4 piercing damage and stops moving; escaping takes a DC 13 Strength check.' }],
+  ['Ball Bearings', 'Tool', '', '', 'Blacksmithing', ['Iron'], { ds: 'A bag of 1,000 tiny metal balls. Spilled, they cover a 10-foot square: anyone moving across it makes a DC 10 Dexterity save or falls prone.' }],
+  ['Caltrops', 'Tool', '', '', 'Blacksmithing', ['Iron'], { ds: 'A bag of four-pointed spikes that cover a 5-foot square. A creature entering it makes a DC 15 Dexterity save or takes 1 piercing damage and moves 10 feet slower until healed.' }],
+  ['Block and Tackle', 'Tool', '', '', 'Engineering', ['Iron', 'Oak'], { ds: 'Pulleys, a cable and a hook. With them you can lift four times the weight you normally could.' }],
+  ['Magnifying Glass', 'Tool', '', '', 'Engineering', ['Crystal', 'Brass'], { ds: 'A ground lens in a brass rim. Advantage on checks to appraise or examine a small or detailed object, and it can light a fire in bright sun.' }],
+  ['Spyglass', 'Tool', '', '', 'Engineering', ['Crystal', 'Brass'], { ds: 'Objects seen through it look twice as close.' }],
+  ['Abacus', 'Tool', '', '', 'Carving', ['Oak', 'Bone'], { ds: 'A frame of beads for counting. +2 to checks to keep accounts or find a mistake in them.' }],
+  ['Signet Ring', 'Tool', '', '', 'Blacksmithing', ['Gold'], { ds: 'A ring carved with a family\'s or guild\'s seal, for pressing into wax.' }],
+  ['Playing Cards', 'Tool', '', '', 'Tailoring', ['Leather'], { ds: 'A deck of cards for games of chance and skill.' }],
+  ['Dice Set', 'Tool', '', '', 'Carving', ['Bone'], { ds: 'A set of bone dice for games of chance.' }],
+  ['Holy Water', 'Potion', '', '', 'Alchemy', ['Silver'], { ds: 'A flask of water blessed by a cleric. Thrown (20 ft), it deals 2d6 radiant damage to a fiend or undead it hits.' }],
+  ['Sling Bullets', 'Ammunition', '', '', 'Blacksmithing', ['Lead'], { q: 20 }],
+  // the rest of the artisan's tools, each tied to the profession that uses it
+  ["Brewer's Supplies", 'Tool', '', '', 'Cooking', ['Oak', 'Copper'], { ds: 'A copper kettle, a mash tun, tubing and siphons. With them a cook brews ale and spirits, and can tell spoiled or poisoned drink by taste.' }],
+  ["Calligrapher's Supplies", 'Tool', '', '', 'Tailoring', ['Leather'], { ds: 'Fine inks, quills and parchment. +2 to rolls to write a document that looks right, or to read a faded or coded one.' }],
+  ["Carpenter's Tools", 'Tool', '', '', 'Carving', ['Iron', 'Oak'], { ds: 'A saw, a hammer, nails, a hatchet, a square and a plane. A carver needs them to build or mend wooden things away from a workshop.' }],
+  ["Cartographer's Tools", 'Tool', '', '', 'Navigation', ['Brass', 'Leather'], { ds: "Quills, ink, parchment, compasses and calipers. +2 to rolls to map a place you have walked or to read a map's mistakes." }],
+  ["Cobbler's Tools", 'Tool', '', '', 'Tailoring', ['Iron', 'Leather'], { ds: 'A hammer, an awl, a knife, a shoe stand and thread. Boots mended with them on a long rest let their wearer travel a day longer before a forced-march check.' }],
+  ["Glassblower's Tools", 'Tool', '', '', 'Engineering', ['Iron'], { ds: 'A blowpipe, a marver, blocks and tweezers. They make vials, lenses and glass components.' }],
+  ["Jeweler's Tools", 'Tool', '', '', 'Blacksmithing', ['Iron', 'Brass'], { ds: 'A small saw and hammer, files, pliers and tweezers. +2 to rolls to appraise or set a gem, and needed to cut one.' }],
+  ["Leatherworker's Tools", 'Tool', '', '', 'Tailoring', ['Iron', 'Leather'], { ds: 'A knife, a mallet, an edger, a hole punch and thread. A tailor needs them to work hide away from a workshop.' }],
+  ["Mason's Tools", 'Tool', '', '', 'Engineering', ['Iron'], { ds: 'A trowel, a hammer, a chisel, brushes and a square. They build and mend stonework, and +2 to rolls to spot a weak wall or a hidden door in stone.' }],
+  ["Painter's Supplies", 'Tool', '', '', 'Tailoring', ['Oak', 'Leather'], { ds: 'An easel, canvas, paints, brushes and charcoal. +2 to rolls to copy a likeness or a heraldic device.' }],
+  ["Potter's Tools", 'Tool', '', '', 'Carving', ['Oak'], { ds: "Potter's needles, ribs, scrapers, a knife and calipers. They make jars, pots and clay components." }],
+  ["Weaver's Tools", 'Tool', '', '', 'Tailoring', ['Oak'], { ds: 'A spindle, thread and needles, and a small loom. They make and mend cloth.' }],
+  ["Woodcarver's Tools", 'Tool', '', '', 'Carving', ['Iron', 'Oak'], { ds: 'A knife, a gouge and a small saw. A carver needs them to shape arrows, bows and small wooden things.' }]
 ];
 // 5e list prices in gp: a character who leaves an item out of their starting kit gets this much back
 var STARTER_GP = { Club: 0.1, Dagger: 2, Greatclub: 0.2, Handaxe: 5, Javelin: 0.5, 'Light Hammer': 2, Mace: 5, Quarterstaff: 0.2, Sickle: 1, Spear: 1, 'Light Crossbow': 25, Dart: 0.05,
@@ -118,11 +175,17 @@ var STARTER_GP = { Club: 0.1, Dagger: 2, Greatclub: 0.2, Handaxe: 5, Javelin: 0.
   Scimitar: 25, Shortsword: 10, Trident: 5, 'War Pick': 5, Warhammer: 15, Whip: 2, 'Hand Crossbow': 75, 'Heavy Crossbow': 50, Longbow: 50, 'Padded Armor': 5, 'Leather Armor': 10,
   'Studded Leather': 45, 'Hide Armor': 10, 'Chain Shirt': 50, 'Scale Mail': 50, 'Ring Mail': 30, Breastplate: 400, 'Chain Mail': 75, 'Half Plate': 750, 'Splint Armor': 200,
   'Plate Armor': 1500, Shovel: 2, Pickaxe: 2, Shield: 10, 'Wooden Shield': 10, Arrows: 1, Bolts: 1, 'Arcane Focus': 10, 'Holy Symbol': 5, 'Druidic Focus': 1, Spellbook: 50, "Thieves' Tools": 25, Lute: 35, Bagpipes: 30, Drum: 6, Dulcimer: 25, Flute: 2, Horn: 3, Lyre: 30, 'Pan Flute': 12, Shawm: 2, Viol: 30,
+"Component Pouch": 25, Quiver: 1, 'Scroll Case': 1, 'Potion Belt': 2, Bandolier: 1, Sack: 0.01, "Healer's Kit": 5, 'Herbalism Kit': 5, "Alchemist's Supplies": 50,
+  "Poisoner's Kit": 50, 'Disguise Kit': 25, 'Forgery Kit': 15, "Navigator's Tools": 25, "Climber's Kit": 25, "Smith's Tools": 20, "Tinker's Tools": 50, "Cook's Utensils": 1,
+  'Fishing Tackle': 1, 'Mess Kit': 0.2, Tinderbox: 0.5, Bedroll: 1, Tent: 2, Waterskin: 0.2, Torch: 0.01, 'Hooded Lantern': 5, 'Hempen Rope': 1, 'Silk Rope': 10, Pitons: 0.5,
+  'Hunting Trap': 5, 'Ball Bearings': 1, Caltrops: 1, 'Block and Tackle': 1, 'Magnifying Glass': 100, Spyglass: 1000, Abacus: 2, 'Signet Ring': 5, 'Playing Cards': 0.5,
+  'Dice Set': 0.1, 'Holy Water': 25, 'Sling Bullets': 0.04,
+  "Brewer's Supplies": 20, "Calligrapher's Supplies": 10, "Carpenter's Tools": 8, "Cartographer's Tools": 15, "Cobbler's Tools": 5, "Glassblower's Tools": 30, "Jeweler's Tools": 25, "Leatherworker's Tools": 5, "Mason's Tools": 10, "Painter's Supplies": 10, "Potter's Tools": 10, "Weaver's Tools": 1, "Woodcarver's Tools": 1,
   "Dungeoneer's Pack": 12, "Burglar's Pack": 16, "Priest's Pack": 19, "Scholar's Pack": 40, "Entertainer's Pack": 40, "Diplomat's Pack": 39 };
 STARTER.forEach(function (x) {
   var e = x[6] || {}, b = { n: x[0], cat: x[1], lv: 1, pr: x[4], sp: x[4], r: 'Common', mats: x[5], starter: 1, dc: x[2], dm: x[3],
     ds: e.ds || ('A plain ' + x[0].toLowerCase() + ', the kind a new adventurer starts with.' + (x[2] ? ' It deals ' + x[2] + ' ' + x[3].toLowerCase() + ' damage.' : '') + (e.ac ? ' It gives +' + e.ac + ' AC.' : '') + (e.q ? ' A bundle of ' + e.q + '.' : '')) };
-  ['slot', 'ac', 'cap', 'carry', 'covers'].forEach(function (k) { if (e[k] != null) b[k] = e[k]; });
+  ['slot', 'ac', 'cap', 'carry', 'covers', 'cpouch'].forEach(function (k) { if (e[k] != null) b[k] = e[k]; });
   if (STARTER_GP[x[0]] != null) b.gp = STARTER_GP[x[0]];
   if (e.covers) b.ds += ' A full suit: it covers the ' + e.covers.join(', ').replace(/, ([^,]*)$/, ' and $1') + ' slots, so other armor in those slots adds no AC on top.';
   if (e.cap) b.ds += ' Holds ' + e.cap + ' items on top of the 20 a character can carry.';

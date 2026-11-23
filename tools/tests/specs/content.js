@@ -94,4 +94,33 @@ module.exports = [
     const sch = await p.evaluate(() => { const miss = [...new Set(SP.map(x => x.sc))].filter(sc => !SCHOOL_INFO[sc]); return { miss, shown: !!document.querySelector('.school-info') }; });
     t.eq(sch.miss, [], 'every school has a write-up'); t.ok(sch.shown, 'the Magic Towers page shows it');
   } },
+  { name: 'everyday gear: bags, kits, tools and camping gear all have a Blueprint', run: async t => {
+    const p = await t.open('blueprints');
+    const r = await p.evaluate(() => {
+      const want = ['Component Pouch', 'Quiver', 'Scroll Case', 'Potion Belt', 'Bandolier', 'Sack', "Healer's Kit", 'Herbalism Kit', "Alchemist's Supplies", "Poisoner's Kit", 'Disguise Kit', 'Forgery Kit',
+        "Navigator's Tools", "Climber's Kit", "Smith's Tools", "Tinker's Tools", "Cook's Utensils", 'Fishing Tackle', 'Mess Kit', 'Tinderbox', 'Bedroll', 'Tent', 'Waterskin', 'Torch', 'Hooded Lantern',
+        'Hempen Rope', 'Silk Rope', 'Pitons', 'Hunting Trap', 'Ball Bearings', 'Block and Tackle', 'Magnifying Glass', 'Abacus', 'Signet Ring', 'Playing Cards', 'Dice Set', 'Holy Water', 'Sling Bullets',
+        "Brewer's Supplies", "Calligrapher's Supplies", "Carpenter's Tools", "Cartographer's Tools", "Cobbler's Tools", "Glassblower's Tools", "Jeweler's Tools", "Leatherworker's Tools",
+        "Mason's Tools", "Painter's Supplies", "Potter's Tools", "Weaver's Tools", "Woodcarver's Tools"];
+      const find = w => BPS.find(b => b.n === w || b.n === 'Plain ' + w);
+      return { miss: want.filter(w => !find(w)), noPrice: want.filter(w => find(w) && !(find(w).gp > 0)), bags: ['Component Pouch', 'Quiver', 'Potion Belt'].map(w => [find(w).cap, find(w).carry]),
+        focus: focusOf({ id: 'z', cls: 'Wizard', level: 5, gear: ['Component Pouch'], inv: [] }), better: focusOf({ id: 'z', cls: 'Wizard', level: 5, gear: ['Component Pouch', 'Arcane Focus'], inv: [] }).n };
+    });
+    t.eq(r.miss, [], 'every piece of everyday gear has a Blueprint'); t.eq(r.noPrice, [], 'and a price');
+    t.eq(r.bags, [[5, 1], [3, 1], [4, 1]], 'bags and cases add carrying room');
+    t.ok(r.focus.n === 'Component Pouch' && r.focus.acc === 0 && r.focus.dmg >= 1, 'a component pouch is a plain spellcasting focus: ' + JSON.stringify(r.focus));
+    t.eq(r.better, 'Arcane Focus', 'a true focus is used over it');
+  } },
+  { name: 'cursed materials: the Abyss\'s dark twins, their curses growing with Potency', run: async t => {
+    const p = await t.open('materials');
+    const r = await p.evaluate(() => ({ cursed: MATS.filter(m => m.cursed).map(m => [m.n, m.twin, m.realm, !!m.pn, (findMat(m.twin) || {}).dark === m.n]),
+      midas: [PROPS.find(x => x.n === 'Midas Curse').steps[0].text, PROPS.find(x => x.n === 'Midas Curse').steps[9].text] }));
+    t.eq(r.cursed.length, 8, 'eight cursed twins');
+    t.ok(r.cursed.every(x => x[2] === 'Abyss' && x[3] && x[4]), 'each from the Abyss, with its own property, linked both ways: ' + JSON.stringify(r.cursed));
+    t.ok(/up to 10 lb a day/.test(r.midas[0]) && /up to 100 lb a day/.test(r.midas[1]), 'Abyssal Gold\'s Midas touch reaches further with Potency');
+    await p.evaluate(() => openItem(findMat('Abyssal Gold'))); await p.waitForTimeout(200);
+    const txt = await p.innerText('#modal'); t.ok(/Cursed/.test(txt) && /dark twin of/.test(txt) && /Midas Curse/.test(txt), 'its page says it is cursed and names its twin');
+    await p.evaluate(() => openItem(findMat('Gold'))); await p.waitForTimeout(200);
+    t.ok(/cursed twin in the Abyss/.test(await p.innerText('#modal')), 'Gold points to its cursed twin');
+  } },
 ];
