@@ -113,9 +113,10 @@ module.exports = [
   } },
   { name: 'cursed materials: the Abyss\'s dark twins, their curses growing with Potency', run: async t => {
     const p = await t.open('materials');
-    const r = await p.evaluate(() => ({ cursed: MATS.filter(m => m.cursed).map(m => [m.n, m.twin, m.realm, !!m.pn, (findMat(m.twin) || {}).dark === m.n]),
+    const r = await p.evaluate(() => ({ cursed: MATS.filter(m => m.cursed).map(m => [m.n, m.twin, m.realm, !!m.pn, (findMat(m.twin) || {}).dark === m.n]), props: MATS.filter(m => m.cursed).map(m => m.pn),
       midas: [PROPS.find(x => x.n === 'Midas Curse').steps[0].text, PROPS.find(x => x.n === 'Midas Curse').steps[9].text] }));
-    t.eq(r.cursed.length, 8, 'eight cursed twins');
+    t.eq(r.cursed.length, 24, 'twenty-four cursed twins');
+    t.eq(new Set(r.props).size, 24, 'each with a curse of its own');
     t.ok(r.cursed.every(x => x[2] === 'Abyss' && x[3] && x[4]), 'each from the Abyss, with its own property, linked both ways: ' + JSON.stringify(r.cursed));
     t.ok(/up to 10 lb a day/.test(r.midas[0]) && /up to 100 lb a day/.test(r.midas[1]), 'Abyssal Gold\'s Midas touch reaches further with Potency');
     await p.evaluate(() => openItem(findMat('Abyssal Gold'))); await p.waitForTimeout(200);

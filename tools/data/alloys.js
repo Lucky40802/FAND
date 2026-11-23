@@ -13,7 +13,23 @@ module.exports = {
     ['Abyssal Oak', 'Abyss', 6, 'W', 'Oak', 'Grey oak from trees that grow down instead of up. Its grain is hard as iron and its roots keep growing after it is cut, toward whoever carries it.', 'The upside-down forests that hang beneath the Abyss\'s cliffs'],
     ['Abyssal Crystal', 'Abyss', 7, 'G', 'Crystal', 'Smoky crystal with a voice in it. Spells cast through it are stronger, and it has opinions.', 'Geodes in the walls of the Abyss\'s deepest pits'],
     ['Abyssal Leather', 'Abyss', 5, 'F', 'Leather', 'Leather from no animal anyone will name. It stays supple, it turns blades, and it drinks.', 'The tanneries of demon markets, sold by the hide to anyone who does not ask'],
-    ['Abyssal Bone', 'Abyss', 6, 'B', 'Bone', 'Bone that will not stay dead, from the Abyss\'s ossuary fields. Things it kills get up again.', 'The ossuary fields of the Abyss, where the dead are stacked like firewood']
+    ['Abyssal Bone', 'Abyss', 6, 'B', 'Bone', 'Bone that will not stay dead, from the Abyss\'s ossuary fields. Things it kills get up again.', 'The ossuary fields of the Abyss, where the dead are stacked like firewood'],
+    ['Abyssal Steel', 'Abyss', 6, 'O', 'Steel', 'Steel folded in the Abyss\'s forges with blood instead of water. It is sharper than any honest steel and will not stay in its sheath.', 'The forges of the Abyss\'s war-camps, and the blades of demons who fell in them'],
+    ['Abyssal Brass', 'Abyss', 5, 'O', 'Brass', 'Brass that rings without being struck, a long, sour note that never fades. Struck, it is deafening.', 'The bell-towers of drowned Abyssal cities'],
+    ['Abyssal Lead', 'Abyss', 5, 'O', 'Lead', 'Lead heavier than it has any right to be. Armor of it stops almost anything, and drags its wearer down.', 'The bottom of the Abyss\'s sunken seas'],
+    ['Abyssal Tin', 'Abyss', 5, 'O', 'Tin', 'Bright tin that makes a promise: one perfect blow. It keeps it, and then it breaks.', 'The tinker-markets of the Abyss, where nothing is sold that lasts'],
+    ['Abyssal Ash', 'Abyss', 6, 'W', 'Ash', 'Ash wood that smoulders without burning, warm to the touch and hungry for fire.', 'The cinder-groves around the Abyss\'s burning pits'],
+    ['Abyssal Feathers', 'Abyss', 6, 'F', 'Feathers', 'Black feathers from birds that fell upward into the Abyss. They still remember the sky, and pull toward it.', 'Shed by the upside-down flocks of the Abyss\'s lowest skies'],
+    ['Abyssal Mithral', 'Abyss', 8, 'O', 'Mithral', 'Mithral so light it hardly exists, mined where souls are refined into metal. Armor of it hides its wearer from everything, death included.', 'The soul-refineries of the Abyss, guarded by their owners'],
+    ['Abyssal Obsidian', 'Abyss', 6, 'S', 'Obsidian', 'Volcanic glass with a heartbeat in it. Edges of it cut through armor, and the one who carries it becomes as brittle as it is.', 'Cooled from the Abyss\'s weeping volcanoes'],
+    ['Abyssal Ivory', 'Abyss', 6, 'B', 'Ivory', 'Pale ivory from beasts that starve forever. It feeds its bearer strength, and feeds on their meals.', 'The tusk-fields of the Abyss\'s starving herds'],
+    ['Abyssal Ruby', 'Abyss', 7, 'G', 'Ruby', 'A ruby with a pulse, wet to the touch. Fire cast through it burns brighter, and the price is paid in blood.', 'Pried from the hearts of fallen fire-demons'],
+    ['Abyssal Diamond', 'Abyss', 8, 'G', 'Diamond', 'A flawless black diamond that cannot be scratched or broken, like the promises it holds its owner to.', 'The vaults where the Abyss\'s lords keep their contracts'],
+    ['Abyssal Amber', 'Abyss', 7, 'G', 'Amber', 'Amber with a moment trapped inside: a falling leaf that never lands. It can stop time, and it takes years in payment.', 'The resin-rivers of the Abyss\'s petrified forests'],
+    ['Abyssal Jade', 'Abyss', 6, 'G', 'Jade', 'Green jade that is lucky for its owner and only its owner. Luck has to come from somewhere.', 'The gambling dens of the Abyss, lost in wagers'],
+    ['Abyssal Platinum', 'Abyss', 7, 'O', 'Platinum', 'Platinum that never runs out, stamped with a devil\'s seal. Every coin it gives is a coin owed.', 'Paid out by the Abyss\'s moneylenders, who always know where their coins are'],
+    ['Abyssal Moonstone', 'Abyss', 6, 'G', 'Moonstone', 'A moonstone that shows a moon that is always full. It sharpens the senses, and under the real full moon, it takes the mind.', 'The moon-pools of the Abyss, where the reflection is the only moon'],
+    ['Abyssal Horn', 'Abyss', 6, 'B', 'Horn', 'Horn that keeps growing after it is cut. Worn, it gives a beast\'s strength, and slowly a beast\'s shape.', 'The horned herds of the Abyss\'s endless plains']
   ],
   // base ores the real alloys need that the vault lacks: [name, realm, grade, description, where found]
   ores: [
