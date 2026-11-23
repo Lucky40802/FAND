@@ -36,4 +36,24 @@ module.exports = [
     const p = await t.open('index');
     t.ok(!(await p.isVisible('#hdrMore')) && await p.isVisible('#themeBtn'), 'the full header');
   } },
+  { name: 'phone bottom bar: choose its buttons in Settings', phone: true, run: async t => {
+    let p = await t.open('settings');
+    const bar = () => p.$$eval('#bnav > *', x => x.map(e => e.textContent.trim()));
+    t.eq(await bar(), ['Home', 'Search', 'Dice', 'Character', 'Menu'], 'the usual bar');
+    await p.selectOption('[data-bslot="1"]', 'archive'); await p.waitForTimeout(150);
+    await p.selectOption('[data-bslot="2"]', 'qnote'); await p.waitForTimeout(150);
+    await p.selectOption('[data-bslot="3"]', 'undo'); await p.waitForTimeout(150);
+    t.eq(await bar(), ['Home', 'Archive', 'Quick note', 'Undo', 'Menu'], 'your own buttons, Menu last');
+    await p.selectOption('[data-bslot="0"]', 'undo'); await p.waitForTimeout(150);
+    t.eq(await bar(), ['Undo', 'Archive', 'Quick note', 'Home', 'Menu'], 'picking a button that is already there swaps them');
+    p = await t.open('party', p);
+    t.eq(await bar(), ['Undo', 'Archive', 'Quick note', 'Home', 'Menu'], 'kept on every page');
+    await p.click('#bnav button:has-text("Quick note")'); t.ok(await p.isVisible('#qn-t'), 'Quick note opens from the bar');
+    await p.evaluate(() => closeQuick());
+    await p.click('#bnav a:has-text("Archive")'); await p.waitForTimeout(800); t.ok(/archive/.test(p.url()), 'a page button goes to the page');
+    p = await t.open('settings', p);
+    await p.click('button:has-text("Reset to the usual buttons")'); await p.waitForTimeout(150);
+    t.eq(await bar(), ['Home', 'Search', 'Dice', 'Character', 'Menu'], 'reset');
+    await p.click('#bnav button:has-text("Menu")'); t.ok(await p.isVisible('#mdrawer a:has-text("Choose the buttons on this bar")'), 'the Menu links to the setting');
+  } },
 ];
