@@ -252,6 +252,10 @@ log.push('harvest parts: +' + genAdded + ' materials (now ' + D.MATS.length + ')
   A.ores.forEach(function (r) { n += add(r[0], r[1], r[2], 'O', { ds: r[3], where: r[4], by: 'Harvesting (Mining)', gath: 'ore' }); });
   A.alloys.forEach(function (r) { n += add(r[0], r[1], r[2], 'O', { ds: r[4] + ' ' + r[5], where: 'Smelted from ' + r[3].join(', '), by: 'Blacksmithing (Smelting)', recipe: r[3].slice(), alloy: 1 }); });
   A.herbs.forEach(function (r) { n += add(r[0], r[1], r[2], 'W', { ds: r[3], where: r[4], by: 'Harvesting (Foraging)', gath: 'herb', alch: r[5] }); });
+  // the Abyss's cursed twins: each keeps a link to the common material it twins, and the common one links back
+  (A.cursed || []).forEach(function (r) { n += add(r[0], r[1], r[2], r[3], { ds: r[5], where: r[6], by: 'Found in the Abyss (Scavenging or Harvesting)', cursed: 1, twin: r[4] }); });
+  (A.cursed || []).forEach(function (r) { var c = D.MATS.find(function (m) { return m.n === r[0]; }), b = D.MATS.find(function (m) { return m.n === r[4]; });
+    if (c) { c.cursed = 1; c.twin = r[4]; } if (b) b.dark = r[0]; });
   D.MATS.sort(function (a, b) { return a.n < b.n ? -1 : a.n > b.n ? 1 : 0; });
   log.push('alloys, base ores, and herbs: +' + n);
 })();
@@ -442,7 +446,7 @@ log.push('material origins: ' + JSON.stringify(orgCount) + ', unique traits on '
     var mats = (x.mats || []).slice(), first = null;
     (x.m || []).forEach(function (q) { var m = pick(q[0], q[1], q[2]); if (m && mats.indexOf(m.n) < 0) { mats.push(m.n); if (!first) first = m; } });
     var b = { n: x.n, cat: x.cat, lv: x.lv, pr: x.pr, sp: x.sp, dc: x.dc || '', dm: x.dm || '', r: x.r, mg: 0, conns: [], mats: mats, gr: first ? first.gr : '', ds: x.ds, gear: 1 };
-    ['kit', 'kb', 'mine', 'cap', 'carry', 'grow', 'voidbag', 'devotion', 'needs', 'starter', 'slot', 'ac', 'gp', 'covers', 'dim'].forEach(function (k) { if (x[k] != null) b[k] = x[k]; });
+    ['kit', 'kb', 'mine', 'cap', 'carry', 'grow', 'voidbag', 'devotion', 'needs', 'starter', 'slot', 'ac', 'gp', 'covers', 'dim', 'cpouch'].forEach(function (k) { if (x[k] != null) b[k] = x[k]; });
     // dimension gear carries its dimension material's property, like the Blueprints past level 20
     if (x.dim || x.pp) { var m0 = D.MATS.find(function (m) { return m.n === mats[0]; }); if (m0 && m0.pn) { b.prop = m0.pn + ' (Potency ' + m0.pot + ')'; b.ds += ' Property: ' + b.prop + '.'; } if (m0) b.gr = m0.gr; }
     D.BPS.push(b); have[b.n.toLowerCase()] = b; added++;

@@ -76,6 +76,16 @@ var A = {
   heartwood: ['Heartwood', 'Worn: +{B} AC against bludgeoning (resistance to it at Potency 6+). Once per day, speak with trees for 10 minutes.'],
   returning: ['Ever-Returning', 'Thrown weapon: it flies back to your hand at the end of your turn. Ranged weapon: no penalty at long range, and +{B} Accuracy beyond normal range.'],
   oathkeeper: ['Oathkeeper', '+{P}d6 damage against a creature that has broken an oath to you or your god, and you always know when someone lies to you about a promise.'],
+  // cursed twins of common materials, from the Abyss (owner's request, 2026-11-23): a real gain, and a curse that grows with Potency.
+  // A curse can't be shed by unequipping: it ends only with Remove Curse (for a day) or by destroying the item.
+  midas: ['Midas Curse', 'Cursed. Whatever it touches turns to Abyssal Gold, up to {P10} lb a day: a hit turns that much of the target\'s gear to gold (a creature also makes a Constitution save, DC {DC}, or the struck limb turns to gold until a Remove Curse; a creature turned whole is petrified as a golden statue). Its bearer\'s bare hands do the same to anything they hold. Past the day\'s limit it takes its bearer instead: 1 level of exhaustion for each further touch.'],
+  hollowmirror: ['Hollow Reflection', 'Weapon: counts as silvered and magical, and +{P}d6 psychic damage. Cursed: its bearer casts no reflection. Their reflection lives on in mirrors and still water and hates them: once per long rest the DM may have it make one attack (+{P} to hit, {P}d6 psychic) from any mirror or water within 30 ft.'],
+  rusthunger: ['Rust Hunger', 'Weapon: +{P}d6 acid damage, and a hit takes 1 AC off the target\'s metal armor until it is repaired. Cursed: after each long rest it eats one other metal item its bearer carries (the least valuable first) unless it is fed {P} lb of iron.'],
+  leechcurrent: ['Leeching Current', 'Weapon: +{P}d8 lightning damage. Cursed: each hit also costs its bearer {B} hit points, drawn up through the hand, and the bearer has disadvantage on saves against lightning.'],
+  stranglingroot: ['Strangling Root', 'Armor: +{B} AC, and you regain {P} hit points at the start of each turn while touching soil or wood. Cursed: after it has been worn for 7 days it can\'t be taken off without Remove Curse, and its roots slow its wearer by 5 ft for every further week.'],
+  whispershard: ['Whispering Shard', 'Focus: +{B} to spell attacks and save DCs, and +{P} damage to one spell each turn. Cursed: it whispers. After each long rest its bearer makes a Wisdom save (DC {DC}); on a failure, the DM chooses one of their actions in their next fight.'],
+  flayedhide: ['Flayed Hide', 'Armor: +{B} AC and resistance to necrotic damage. Cursed: its wearer regains no more than half their hit points from a rest unless it has been fed blood since the last one ({P5} hit points of damage dealt to a living creature by its wearer\'s hand).'],
+  gravebound: ['Gravebound', 'Weapon: +{P}d6 necrotic damage, and a creature it kills rises as a zombie at the next midnight, under no one\'s command. Cursed: every undead within {P10} miles knows where its bearer is.'],
   hoard: ['Hoard-Cursed', 'Worn: +{B} to every saving throw. After each long rest, make a Wisdom save (DC {DC}) or refuse to part with it, or let anyone touch it, until your next long rest.'],
   emberglass: ['Emberglass', 'Weapon: +{P}d6 damage against undead and creatures of ice, and they can\'t regenerate until the start of your next turn.'],
   heir: ['Rightful Heir', 'Only the one who first claims it can use its other powers. Worn: +{B} to Persuasion and Intimidation, and allies within 10 ft get +1 to saves against fear.'],
@@ -187,6 +197,9 @@ var NAMED = {
   'Clause Silver': 'pactbound', 'Farstar Jet': 'pactbound', 'Whisper-Void Pearl': 'pactbound', 'Patron-Eye Stone': 'pactbound', 'First-Pact Obsidian': 'pactbound',
   'Scribe Ash': 'arcanist', 'Moonvellum': 'arcanist', 'Ashscript Ink': 'arcanist', 'Gloria Vellum': 'arcanist', 'Shifting Ink': 'arcanist', 'Abyssal Vellum': 'arcanist',
   'Theorem Silver': 'arcanist', 'Starlight Ink': 'arcanist', 'Blank-Rune Slate': 'arcanist', 'Unwritten Paper': 'arcanist', 'First-Word Slate': 'arcanist',
+  // the Abyss's cursed twins of common materials (data/alloys.js, cursed)
+  'Abyssal Gold': 'midas', 'Abyssal Silver': 'hollowmirror', 'Abyssal Iron': 'rusthunger', 'Abyssal Copper': 'leechcurrent', 'Abyssal Oak': 'stranglingroot',
+  'Abyssal Crystal': 'whispershard', 'Abyssal Leather': 'flayedhide', 'Abyssal Bone': 'gravebound',
   // alloys named for the tales (data/alloys.js)
   'Starsilver': 'starsilver', 'Mirrorbronze': 'mirror', 'Dragon-Hoard Gold': 'hoard', 'Emberglass': 'emberglass', 'Songsteel': 'songbound',
   'Pactsteel': 'oathkeeper', 'Dawnsteel': 'radiant', 'Thunder Brass': 'stormcall', 'Moon-Steel': 'starsilver', 'Bell Metal': 'songbound',
@@ -374,7 +387,9 @@ var FAM = {
   sight: ['sense'],
   eyeray: ['charges'], rebirth: ['charges'], luck: ['charges'], law: ['charges'], fey: ['charges'], ink: ['charges'], unseen: ['charges'],
   wardrune: ['charges'], songbound: ['charges'], stormcall: ['charges'], ash: ['charges'], fungus: ['charges'], bell: ['charges'], seed: ['charges'],
-  progenitor: ['relic'], divine: ['relic']
+  progenitor: ['relic'], divine: ['relic'],
+  midas: ['weapon'], hollowmirror: ['elem', 'psychic'], rusthunger: ['elem', 'acid'], leechcurrent: ['elem', 'lightning'], stranglingroot: ['armor'],
+  whispershard: ['focus'], flayedhide: ['armor'], gravebound: ['elem', 'necrotic']
 };
 var FAM_NAME = { elem: 'Elemental', save: 'Saving throws', skill: 'Skills', focus: 'Spell focus', weapon: 'Weapon', armor: 'Armor and toughness', move: 'Movement', charges: 'Limited-use power', sense: 'Senses', relic: 'Relic' };
 // a property's page: its family, its text at each step, and what each step adds
