@@ -10,7 +10,7 @@ ok(await p.evaluate(()=>{const c=genFill({cls:'Fighter',level:1}).c;return !c.ge
 // level 30 fighter: same designs, levels near 30 and never above
 const f=await p.evaluate(()=>{const k=genFill({cls:'Fighter',level:1}).c,c=genFill({cls:'Fighter',level:30}).c,G=c.genGear,bp=n=>BPS.find(b=>b.n===n);
   const kitGens=k.gear.map(n=>bp(n)).filter(x=>x&&genOf(x)).map(genOf).sort(),newGens=c.gear.filter(n=>!G.arts.includes(n)).map(bp).filter(x=>x&&genOf(x)).map(genOf).sort();
-  return {up:G.up.map(n=>[n,bp(n).lv,genOf(bp(n))]),same:JSON.stringify(kitGens)===JSON.stringify(newGens),maxLv:Math.max(...G.up.map(n=>bp(n).lv)),minLv:Math.min(...G.up.map(n=>bp(n).lv)),pots:G.pots.length,arts:G.arts.length,artOk:G.arts.every(n=>bp(n).cat==='Artifact'&&bp(n).lv<=30),potOk:G.pots.every(n=>bp(n).cat==='Potion'&&bp(n).lv<=30&&c.inv.some(x=>x[0]===n)),gp:c.coins.gp,kgp:k.coins.gp,pack:c.gear.includes("Dungeoneer's Pack")}});
+  return {up:G.up.map(n=>[n,bp(n).lv,genOf(bp(n))]),same:JSON.stringify(kitGens)===JSON.stringify(newGens),maxLv:Math.max(...G.up.map(n=>bp(n).lv)),minLv:Math.min(...G.up.map(n=>bp(n).lv)),pots:G.pots.length,arts:G.arts.length,artOk:G.arts.every(n=>(bp(n).cat0||bp(n).cat)==='Artifact'&&bp(n).lv<=30),potOk:G.pots.every(n=>(bp(n).cat0||bp(n).cat)==='Potion'&&bp(n).lv<=30&&c.inv.some(x=>x[0]===n)),gp:c.coins.gp,kgp:k.coins.gp,pack:c.gear.includes("Dungeoneer's Pack")}});
 ok(f.up.length>=3&&f.same,'level 30 Fighter: weapons and armor upgraded to the same designs ('+f.up.map(x=>x[0]+' '+x[2]+' lv'+x[1]).join(', ')+')');
 ok(f.maxLv<=30&&f.minLv>=1,'upgrades are never above the character\'s level (levels '+f.minLv+' to '+f.maxLv+')');
 ok(f.pots===4&&f.potOk&&f.arts===2&&f.artOk,'4 potions in the pack and 2 artifacts, all at or below level 30');

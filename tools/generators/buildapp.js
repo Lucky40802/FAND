@@ -447,7 +447,7 @@ log.push('material origins: ' + JSON.stringify(orgCount) + ', unique traits on '
     var mats = (x.mats || []).slice(), first = null;
     (x.m || []).forEach(function (q) { var m = pick(q[0], q[1], q[2]); if (m && mats.indexOf(m.n) < 0) { mats.push(m.n); if (!first) first = m; } });
     var b = { n: x.n, cat: x.cat, lv: x.lv, pr: x.pr, sp: x.sp, dc: x.dc || '', dm: x.dm || '', r: x.r, mg: 0, conns: [], mats: mats, gr: first ? first.gr : '', ds: x.ds, gear: 1 };
-    ['kit', 'kb', 'mine', 'cap', 'carry', 'grow', 'voidbag', 'devotion', 'needs', 'starter', 'slot', 'ac', 'gp', 'covers', 'dim', 'cpouch'].forEach(function (k) { if (x[k] != null) b[k] = x[k]; });
+    ['kit', 'kb', 'mine', 'cap', 'carry', 'grow', 'voidbag', 'devotion', 'needs', 'starter', 'slot', 'ac', 'gp', 'covers', 'dim', 'cpouch', 'q', 'ammo'].forEach(function (k) { if (x[k] != null) b[k] = x[k]; });
     // dimension gear carries its dimension material's property, like the Blueprints past level 20
     if (x.dim || x.pp) { var m0 = D.MATS.find(function (m) { return m.n === mats[0]; }); if (m0 && m0.pn) { b.prop = m0.pn + ' (Potency ' + m0.pot + ')'; b.ds += ' Property: ' + b.prop + '.'; } if (m0) b.gr = m0.gr; }
     D.BPS.push(b); have[b.n.toLowerCase()] = b; added++;
@@ -583,6 +583,89 @@ D.GODS.forEach(function (g) {
     b.dm = b.dm || (type === 'Variable' ? '' : type); b.dc = m ? m[1] : ''; n++;
   });
   log.push('blueprints with the damage type in the dice field fixed: ' + n);
+})();
+// ---- Categories (owner's request, 2026-11-23: "categorise everything properly"): the vault filed thousands of
+// Blueprints under Artifact (rings, engines, traps, glyphs, saddles, maps, food) and some ammunition under Bow. Each
+// Blueprint is filed by what it is: its specialty first for the crafts that only make one kind of thing, then its noun.
+// The old category stays as cat0, so the rules that read categories (which general Blueprint an item is) don't change.
+(function () {
+  var moved = {}, set = function (b, c) { if (b.cat === c) return; if (b.cat0 == null) b.cat0 = b.cat; b.cat = c; moved[c] = (moved[c] || 0) + 1; };
+  var noun = function (n) { return String(n).replace(/\s*(?:x\s?\d+|\(\d+\)|,\s*\d+)\s*$/i, '').replace(/\s+-\s+.*$/, ''); };
+  var AMMO = /\b(arrows?|arrowheads?|arrow ?tips?|bolts?|quarrels?|sling (?:bullets?|stones?)|bullets?|(?:chain|grape|lead|iron|stone) ?shot|cannon ?balls?|blowgun needles?|bolt magazine)\b/i;
+  var NOT_AMMO = /proof|slit|loop|shutter|volley|carrier|frame|glyph|quiver|trap|launcher|thrower|carriage|roof|shield|barrage|rack/i;
+  var BOW = /\b(short|long|cross|great|composite|recurve|horse|hand)?bow\b(?!\s*(bolts?|quarrels?))/i;
+  var SP = { 'Clockwork Engineering': 'Mechanism', Golemancy: 'Mechanism', 'Siege Engineering': 'Siege Engine', 'Glyph Inscription': 'Glyph', Sigilcraft: 'Glyph', 'Beast Taming': 'Beast Gear' };
+  var WEAPON = [['Spear', /\b(javelin|spear|lance|pike|halberd|glaive|trident|harpoon|naginata|partisan|pilum)\b/i], ['Sword', /\b(sword|blade|sabre|saber|scimitar|katana|rapier|shotel|falchion|cutlass|khopesh|gladius)\b/i],
+    ['Axe', /\b(axe|hatchet|tomahawk)\b/i], ['Hammer', /\b(hammer|mace|maul|flail|morningstar|club)\b/i], ['Dagger', /\b(dagger|knife|kris|stiletto|dirk)\b/i],
+    ['Bow', /\b(bow|crossbow|sling|blowgun|musket|pistol|arquebus)\b/i], ['Staff', /\bstaff\b/i]];
+  var SLOT = function (n) { return /helm|helmet|hood|crown/i.test(n) ? 'Head' : /gauntlet|vambrace|bracer|glove/i.test(n) ? 'Hands' : /greave|boot|sabaton/i.test(n) ? 'Feet' : /pauldron/i.test(n) ? 'Shoulders' : 'Body'; };
+  var RULES = [ // category, noun test (checked in order; only Blueprints filed under Artifact unless the rule says otherwise)
+    ['Vehicle', /\b(ship'?s? helm|pilot helm|ship navigation|ship sails?|planar ship)\b/i],
+    ['Armor', /\b(helm|helmet|gauntlets?|greaves|cuirass|breastplate|pauldrons?|vambraces|bracers|hauberk|chain ?mail|plate armou?r)\b/i],
+    ['Beast Gear', /\b(saddle|harness|bridle|barding|collar|reins|stirrups?|horseshoes?|yoke|muzzle|leash)\b/i],
+    ['Mechanism', /\b(automaton|engine|mechanism|machine|clockwork|gauge|calculator|analy[sz]er|stabili[sz]er|contraption|golem|construct|apparatus)\b/i],
+    ['Jewelry', /\b(ring|amulet|pendant|necklace|circlet|crown|tiara|brooch|bracelet|bangle|earrings?|locket|torc|diadem|signet|anklet|current-ring)\b/i],
+    ['Talisman', /\b(talisman|charm|fetish|totem|idol|token|effigy)\b/i],
+    ['Siege Engine', /\b(ballista|catapult|trebuchet|cannon|bombard|battering ram|siege|mangonel|onager|scorpion|ram)\b/i],
+    ['Trap', /\b(trap|snare|caltrops?|tripwire)\b/i],
+    ['Explosive', /\b(bomb|grenade|explosive|charge|powder keg|blasting|firebomb)\b/i, ['Artifact', 'Potion']],
+    ['Glyph', /\b(glyph|sigil|runes?|inscription|ward|seal|array|tablet|runestone|tattoo)\b/i],
+    ['Clothing', /\b(cloak|cape|mantle|hood|mask|veil|robes?|wrap|scarf|gloves|sash|belt|hat|shawl|coat|tunic|boots|shoes|sandals|gown|vestments?)\b/i],
+    ['Map', /\b(map|chart|atlas)\b/i],
+    ['Book', /\b(book|tome|grimoire|codex|journal|log ?book|navigator's log|navigation log|manual|scrolls?|treatise|almanac|ledger)\b/i],
+    ['Food', /\b(feast|meal|supper|dish|broth|stew|soup|bread|pie|rations?|banquet|cake|jerky)\b/i, ['Artifact', 'Potion']],
+    ['Potion', /\b(potion|elixir|draught|tonic|philter|vial|flask|oil|salve|balm|tincture|poison|venom|antidote|powder)\b/i],
+    ['Storage', /\b(bag|pouch|pack|chest|box|case|satchel|quiver|bandolier|crate|barrel|coffer|cask|sack|strongbox|trunk)\b/i, ['Artifact', 'Bow']],
+    ['Instrument', /\b(drum|flute|lute|harp|lyre|bagpipes|viol|fiddle|chimes|war horn)\b/i],
+    ['Vehicle', /\b(cart|wagon|carriage|boat|ship|skiff|sled|sledge|raft|barge|chariot|airship|canoe|gondola)\b/i],
+    ['Fortification', /\b(arrow slit|arrow loop|murder hole|battlements?|palisade|rampart|portcullis|fortress|walls?|gate|bastion|barricade|shutter|bunker)\b/i],
+    ['Structure', /\b(bridge|tower|platform|throne|table|chamber|door|altar|shrine|statue|forge|anvil|workshop|furnace|kiln|roof|hut|house|well|beacon|network)\b/i],
+    ['Tool', /\b(kit|compass|lens|sextant|spyglass|telescope|lantern|lamp|tools?|brush|pick|shovel|hook|rope|chains?|net|lock|key|whistle|scales?|tongs|chisel|needles?|mortar|pestle|crucible|mirror|reader|tracker|detector|finder|lure|marker|quill|ink|set)\b/i],
+    ['Focus', /\b(orb|wand|rod|scepter|sceptre|focus|crystal ball|prism)\b/i],
+    ['Structure', /\bframe\b/i]];
+  // names that say more than the specialty does: a ward-stone charm is a charm, a reinforced gate is a fortification
+  // weapon names that can only be a weapon, even when the vault gave no damage
+  var SURE = /\b(shotel|scimitar|katana|rapier|falchion|cutlass|khopesh|gladius|halberd|glaive|naginata|tomahawk|morningstar|stiletto)\b/i;
+  // the vault's own ammunition: what it fits, how many, and extra damage by level (as the realm sets do), so the sheet can use it
+  var ammoOf = function (b) { if (b.ammo) return; var n = b.n, q = +((/(?:x\s?|\(|,\s*)(\d+)\)?\s*$/i.exec(n) || [])[1]) || (/ballista/i.test(n) ? 5 : 20);
+    var fits = /ballista|siege|chain shot|cannon/i.test(n) ? 'siege' : /arrowheads?|arrow ?tips?/i.test(n) ? 'parts' : /arrow/i.test(n) ? 'bow' : /bolt|quarrel/i.test(n) ? 'crossbow' : /sling|bullet|stone/i.test(n) ? 'sling' : /needle|dart/i.test(n) ? 'blowgun' : /shot/i.test(n) ? 'firearm' : 'bow';
+    b.ammo = { fits: fits, qty: q, dmg: Math.floor((+b.lv || 1) / 5), pierce: 0 }; };
+  var OVER = ['Vehicle', 'Jewelry', 'Talisman', 'Trap', 'Fortification'], SIEGE = /\b(battery|siege)\b/i;
+  // the build reads its last output back in: start every Blueprint from the category it came with
+  // " x1" on a name says nothing (one item is one item) and only clutters the A–Z order; real bundles (x20) keep theirs
+  var x1 = 0; D.BPS.forEach(function (b) { if (!b.design && /\s+x\s?1$/i.test(b.n)) { b.n = b.n.replace(/\s+x\s?1$/i, ''); x1++; } });
+  D.BPS.forEach(function (b) { if (b.ammo && !b.gear && !b.starter) delete b.ammo; if (b.cat0 != null) { b.cat = b.cat0; delete b.cat0; if (b.slot0 === null) { delete b.slot; } delete b.slot0; } });
+  D.BPS.forEach(function (b) {
+    if (b.starter || b.design) return;
+    var n = noun(b.n), c = b.cat;
+    // ammunition filed as a bow, a dagger or an artifact
+    if (AMMO.test(n) && !NOT_AMMO.test(n) && !BOW.test(n) && ['Bow', 'Artifact', 'Dagger', 'Spear', 'Tool'].indexOf(c) >= 0) { set(b, 'Ammunition'); ammoOf(b); return; }
+    // a weapon filed under the wrong kind (a shotel as an artifact, a javelin as a staff or a bow)
+    if (c === 'Artifact' && SIEGE.test(n)) return set(b, 'Siege Engine');
+    if (c === 'Artifact' && !b.dc && SURE.test(n)) { var w0 = WEAPON.find(function (x) { return x[1].test(n); }); if (w0) return set(b, w0[0]); }
+    if (b.dc && (c === 'Artifact' || /javelin|pilum/i.test(n))) { var w = WEAPON.find(function (x) { return x[1].test(n); }); if (w) return set(b, w[0]); }
+    if (c !== 'Artifact' && c !== 'Potion' && c !== 'Bow') return;
+    if (c === 'Artifact' && /spike strip/i.test(n)) return set(b, 'Trap');
+    if (c === 'Artifact' && SP[b.sp] && !AMMO.test(n) && !RULES.some(function (x) { return OVER.indexOf(x[0]) >= 0 && x[1].test(n); }) && !/\b(gate|bridge|walls?)\b/i.test(n)) return set(b, SP[b.sp]);
+    var r = RULES.find(function (x) { return (x[2] || ['Artifact']).indexOf(c) >= 0 && x[1].test(n); });
+    if (!r) return;
+    set(b, r[0]);
+    if (r[0] === 'Armor' && !b.slot) { b.slot = SLOT(n); b.slot0 = null; }
+  });
+  // a second, finer pass: the relics, cores and vessels left under Artifact, and poisons, oils, navigation, light and restraints
+  var FINE = [['Relic', /\b(relic|restoration|reconstruction|recovery|reassembly|communion|reliquary)\b/i, ['Artifact']],
+    ['Navigation', /\b(compass|sextant|astrolabe|octant|pelorus|barometer|binoculars|dividers|spyglass|telescope|sight tube|navigator'?s?|navigation|reckoning|chronometer|globe|chip log|rope log)\b/i, ['Tool', 'Artifact', 'Book', 'Potion']],
+    ['Vessel', /\b(vessel|pot|jar|urn|bottle|chalice|cup|goblet|flagon|amphora)\b/i, ['Artifact', 'Tool']],
+    ['Arcane Core', /\b(core|crystal|sphere|gem|eye|heart|shard)\b/i, ['Artifact']],
+    ['Poison', /^(?!.*\b(antidote|blade|relic|ward|resist)).*\b(poison|venom|toxin)\b/i, ['Potion', 'Artifact']],
+    ['Food', /\b(mead|tea|drink|ale|wine|cider)\b/i, ['Artifact']],
+    ['Oil & Coating', /\b(oil|polish|coating|adhesive|consolidant|lacquer|varnish|wax|glue|treatment|solution)\b/i, ['Potion', 'Artifact']],
+    ['Light Source', /\b(lantern|lamp|torch|candles?)\b/i, ['Tool', 'Artifact']],
+    ['Restraint', /\b(manacles|shackles|chains?|cage|net|bindings?|fetters)\b/i, ['Tool', 'Artifact']]];
+  D.BPS.forEach(function (b) { if (b.starter || b.design) return; var n = noun(b.n), r = FINE.find(function (x) { return x[2].indexOf(b.cat) >= 0 && x[1].test(n); });
+    if (!r && b.cat === 'Artifact' && b.sp === 'Relic Restoration') r = ['Relic']; if (r) set(b, r[0]); });
+  log.push('blueprint names without " x1": ' + x1);
+  log.push('blueprint categories: ' + Object.keys(moved).sort().map(function (k) { return k + ' +' + moved[k]; }).join(', '));
 })();
 // ---- Audit fixes: duplicate names make the second entry unreachable (links and search find the first)
 (function () {

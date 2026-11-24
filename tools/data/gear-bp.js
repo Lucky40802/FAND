@@ -154,6 +154,13 @@ var STARTER = [
   ['Dice Set', 'Tool', '', '', 'Carving', ['Bone'], { ds: 'A set of bone dice for games of chance.' }],
   ['Holy Water', 'Potion', '', '', 'Alchemy', ['Silver'], { ds: 'A flask of water blessed by a cleric. Thrown (20 ft), it deals 2d6 radiant damage to a fiend or undead it hits.' }],
   ['Sling Bullets', 'Ammunition', '', '', 'Blacksmithing', ['Lead'], { q: 20 }],
+  // the rest of the everyday ammunition and the gear that goes with it (owner's request, 2026-11-23: "add more arrowhead ... make sure there is no gaps")
+  ['Blowgun Needles', 'Ammunition', '', '', 'Blacksmithing', ['Iron'], { q: 50 }], ['Firearm Shot', 'Ammunition', '', '', 'Blacksmithing', ['Lead'], { q: 20, ds: 'Twenty lead balls with wadding, for a musket, pistol, arquebus or hand cannon. A firearm also needs a Powder Horn.' }],
+  ['Ballista Bolts', 'Ammunition', '', '', 'Carving', ['Oak', 'Iron'], { q: 5, ds: 'Five iron-headed bolts as long as a spear, for a ballista or a scorpion.' }], ['Arrowheads', 'Ammunition', '', '', 'Blacksmithing', ['Iron'], { q: 20, ds: 'Twenty loose iron arrowheads. Fit them to plain shafts with Fletcher\'s Tools (an hour for twenty) to make arrows.' }],
+  ['Bolt Case', 'Storage', '', '', 'Tailoring', ['Leather'], { cap: 2, carry: 1, ds: 'A stiff leather case for crossbow bolts, worn at the belt. It holds 2 stacks of bolts (40) on top of what you carry.' }],
+  ["Fletcher's Tools", 'Tool', '', '', 'Carving', ['Iron', 'Feathers'], { ds: 'A knife, glue, thread, a fletching jig and a bundle of feathers. A fletcher needs them to make and mend arrows and bolts, and to fit new arrowheads.' }],
+  ['Spare Bowstrings', 'Tool', '', '', 'Tailoring', ['Leather'], { ds: 'Three waxed bowstrings in a pouch. Restringing a bow takes an action; a snapped string without a spare ends the bow\'s fight.' }],
+  ['Powder Horn', 'Tool', '', '', 'Carving', ['Leather'], { ds: 'A sealed horn of black powder, enough for 20 shots. A firearm can\'t fire without powder, and wet powder won\'t light.' }],
   // the rest of the artisan's tools, each tied to the profession that uses it
   ["Brewer's Supplies", 'Tool', '', '', 'Cooking', ['Oak', 'Copper'], { ds: 'A copper kettle, a mash tun, tubing and siphons. With them a cook brews ale and spirits, and can tell spoiled or poisoned drink by taste.' }],
   ["Calligrapher's Supplies", 'Tool', '', '', 'Tailoring', ['Leather'], { ds: 'Fine inks, quills and parchment. +2 to rolls to write a document that looks right, or to read a faded or coded one.' }],
@@ -179,13 +186,13 @@ var STARTER_GP = { Club: 0.1, Dagger: 2, Greatclub: 0.2, Handaxe: 5, Javelin: 0.
   "Poisoner's Kit": 50, 'Disguise Kit': 25, 'Forgery Kit': 15, "Navigator's Tools": 25, "Climber's Kit": 25, "Smith's Tools": 20, "Tinker's Tools": 50, "Cook's Utensils": 1,
   'Fishing Tackle': 1, 'Mess Kit': 0.2, Tinderbox: 0.5, Bedroll: 1, Tent: 2, Waterskin: 0.2, Torch: 0.01, 'Hooded Lantern': 5, 'Hempen Rope': 1, 'Silk Rope': 10, Pitons: 0.5,
   'Hunting Trap': 5, 'Ball Bearings': 1, Caltrops: 1, 'Block and Tackle': 1, 'Magnifying Glass': 100, Spyglass: 1000, Abacus: 2, 'Signet Ring': 5, 'Playing Cards': 0.5,
-  'Dice Set': 0.1, 'Holy Water': 25, 'Sling Bullets': 0.04,
+  'Dice Set': 0.1, 'Holy Water': 25, 'Sling Bullets': 0.04, 'Blowgun Needles': 1, 'Firearm Shot': 3, 'Ballista Bolts': 5, Arrowheads: 0.5, 'Bolt Case': 1, "Fletcher's Tools": 15, 'Spare Bowstrings': 1, 'Powder Horn': 3,
   "Brewer's Supplies": 20, "Calligrapher's Supplies": 10, "Carpenter's Tools": 8, "Cartographer's Tools": 15, "Cobbler's Tools": 5, "Glassblower's Tools": 30, "Jeweler's Tools": 25, "Leatherworker's Tools": 5, "Mason's Tools": 10, "Painter's Supplies": 10, "Potter's Tools": 10, "Weaver's Tools": 1, "Woodcarver's Tools": 1,
   "Dungeoneer's Pack": 12, "Burglar's Pack": 16, "Priest's Pack": 19, "Scholar's Pack": 40, "Entertainer's Pack": 40, "Diplomat's Pack": 39 };
 STARTER.forEach(function (x) {
   var e = x[6] || {}, b = { n: x[0], cat: x[1], lv: 1, pr: x[4], sp: x[4], r: 'Common', mats: x[5], starter: 1, dc: x[2], dm: x[3],
     ds: e.ds || ('A plain ' + x[0].toLowerCase() + ', the kind a new adventurer starts with.' + (x[2] ? ' It deals ' + x[2] + ' ' + x[3].toLowerCase() + ' damage.' : '') + (e.ac ? ' It gives +' + e.ac + ' AC.' : '') + (e.q ? ' A bundle of ' + e.q + '.' : '')) };
-  ['slot', 'ac', 'cap', 'carry', 'covers', 'cpouch'].forEach(function (k) { if (e[k] != null) b[k] = e[k]; });
+  ['slot', 'ac', 'cap', 'carry', 'covers', 'cpouch', 'q'].forEach(function (k) { if (e[k] != null) b[k] = e[k]; });
   if (STARTER_GP[x[0]] != null) b.gp = STARTER_GP[x[0]];
   if (e.covers) b.ds += ' A full suit: it covers the ' + e.covers.join(', ').replace(/, ([^,]*)$/, ' and $1') + ' slots, so other armor in those slots adds no AC on top.';
   if (e.cap) b.ds += ' Holds ' + e.cap + ' items on top of the 20 a character can carry.';
@@ -329,6 +336,97 @@ NEW.push({ n: 'Iron Mantle', cat: 'Armor', lv: 1, pr: 'Blacksmithing', sp: 'Blac
     });
   });
 })();
+// ammunition in every realm (owner's request, 2026-11-23: "add more arrowhead ... add arrow blueprint and ammunition
+// blueprint ... make sure there is no gaps"): every kind of shot for every kind of ranged weapon (bows, crossbows, slings,
+// blowguns, firearms, ballistas) and loose arrowheads, at two steps in each realm's band of levels, made from that realm's
+// own materials. ammo: what it fits, how many a craft makes, extra damage per hit, and AC a hit ignores.
+(function () {
+  var REALMS = [['Human', 1, "Hunter's", 'Common'], ['Mysterious', 11, 'Fey-Fletched', 'Uncommon'], ['Hell', 21, 'Infernal', 'Rare'], ['Heaven', 21, 'Seraphic', 'Rare'],
+    ['Chaos', 31, 'Wildforged', 'Rare'], ['Abyss', 41, 'Abyssal', 'Very Rare'], ['Inner Realm', 51, 'Anchor-Forged', 'Legendary'], ['Outer Realm', 61, 'Far-Shore', 'Legendary'],
+    ['Void', 71, 'Voidsteel', 'Legendary'], ['Inner Void', 81, 'Hollowed', 'Artifact'], ['Primordial', 91, 'Primeval', 'Artifact']];
+  var FITS = { bow: 'bows', crossbow: 'crossbows', sling: 'slings and slingshots', blowgun: 'blowguns', firearm: 'firearms', siege: 'ballistas and scorpions', parts: 'plain arrow shafts' };
+  var KINDS = [
+    // noun, fits, how many, profession, specialty, main type, second type, damage per level, pierce per level, what else it does
+    ['Broadhead Arrows', 'bow', 20, 'Carving', 'Woodworking', 'O', 'W', 4, 0, 'Wide heads that cut deep.'],
+    ['Bodkin Arrows', 'bow', 20, 'Carving', 'Woodworking', 'O', 'W', 10, 8, 'Narrow heads that punch through armor.'],
+    ['Barbed Arrows', 'bow', 20, 'Carving', 'Woodworking', 'B', 'W', 5, 0, 'A creature hit has its speed cut by 10 feet until it spends an action to pull the arrow out.'],
+    ['Fire Arrows', 'bow', 10, 'Alchemy', 'Alchemy', 'E', 'W', 5, 0, 'The damage is fire, and a hit sets alight anything flammable it strikes; the arrow burns away.'],
+    ['Arrowheads', 'parts', 20, 'Blacksmithing', 'Blacksmithing', 'O', 'B', 5, 0, 'Fit them to plain shafts with Fletcher\'s Tools (an hour for twenty): the arrows they make carry these numbers.'],
+    ['Heavy Bolts', 'crossbow', 20, 'Blacksmithing', 'Blacksmithing', 'O', 'W', 4, 0, 'Thick, heavy bolts that hit like a hammer.'],
+    ['Piercing Quarrels', 'crossbow', 20, 'Blacksmithing', 'Blacksmithing', 'O', 'W', 10, 6, 'Square-headed quarrels that split plate.'],
+    ['Sling Bullets', 'sling', 20, 'Blacksmithing', 'Blacksmithing', 'O', 'S', 5, 0, 'Weighted, shaped shot that flies true.'],
+    ['Venom Needles', 'blowgun', 50, 'Alchemy', 'Alchemy', 'O', 'E', 10, 0, 'Each hit: Constitution save or poisoned for 1 minute.'],
+    ['Firearm Shot', 'firearm', 20, 'Blacksmithing', 'Engineering', 'O', 'E', 4, 2, 'Balls with wadding and a charge of powder in a paper cartridge.'],
+    ['Ballista Bolts', 'siege', 5, 'Carving', 'Siege Engineering', 'W', 'O', 2, 4, 'Bolts as long as a spear, for a ballista or a scorpion.']];
+  var STEPS = [['', 2, 3], ['Fine ', 7, 7]]; // name prefix, level offset in the band, material grade
+  REALMS.forEach(function (R) {
+    STEPS.forEach(function (S) {
+      KINDS.forEach(function (k) {
+        var L = R[1] + S[1], n = S[0] + R[2] + ' ' + k[0], dmg = Math.max(1, Math.floor(L / k[7])), pierce = k[8] ? Math.max(1, Math.floor(L / k[8])) : 0;
+        if (k[1] === 'blowgun') dmg = Math.max(0, Math.floor(L / k[7]));
+        var dc = 10 + Math.floor(L / 5), extra = k[1] === 'blowgun' ? k[9].replace('Constitution save', 'Constitution save (DC ' + dc + ')') : k[9];
+        var b = { n: n, cat: 'Ammunition', lv: L, pr: k[3], sp: k[4], r: R[3], m: [[R[0], k[5], S[2]], [R[0], k[6], Math.max(1, S[2] - 1)]], q: k[2],
+          ammo: { fits: k[1], qty: k[2], dmg: dmg, pierce: pierce } };
+        b.ds = 'A bundle of ' + k[2] + ' ' + k[0].toLowerCase() + ' of the ' + R[0] + (/Realm$/.test(R[0]) ? '' : ' Realm') + ', for level ' + L + ', made from that realm\'s own materials. For ' + FITS[k[1]] + ': ' +
+          (dmg ? '+' + dmg + ' damage per hit' : 'no extra damage') + (pierce ? ', and a hit ignores ' + pierce + ' AC' : '') + '. ' + extra;
+        NEW.push(b);
+      });
+    });
+  });
+})();
+// the thin categories filled out (owner's request, 2026-11-24: "look for categories with less item and add item"): books,
+// explosives, vehicles, poisons, traps, light sources, restraints, storage, clothing, fortifications and oils had a handful
+// of Blueprints each. Each kind here comes in every realm (at the middle of its band of levels), from that realm's own
+// materials, with numbers that grow with its level (b = level ÷ 10 rounded up, dc = 10 + level ÷ 5).
+(function () {
+  var REALMS = [['Human', 1, 'Stalwart', 'Common'], ['Mysterious', 11, 'Feywrought', 'Uncommon'], ['Hell', 21, 'Infernal', 'Rare'], ['Heaven', 21, 'Seraphic', 'Rare'],
+    ['Chaos', 31, 'Wildforged', 'Rare'], ['Abyss', 41, 'Abyssal', 'Very Rare'], ['Inner Realm', 51, 'Anchor-Forged', 'Legendary'], ['Outer Realm', 61, 'Far-Shore', 'Legendary'],
+    ['Void', 71, 'Void-Touched', 'Legendary'], ['Inner Void', 81, 'Hollowed', 'Artifact'], ['Primordial', 91, 'Primeval', 'Artifact']];
+  var KINDS = [
+    // noun, category, profession, specialty, main type, second type, what it does (L level, b, dc, d), extra fields
+    ['Bestiary Folio', 'Book', 'Enchanting', 'Enchanting', 'F', 'E', function (L, b) { return 'Notes and sketches of the realm\'s creatures: advantage on checks to recall a creature\'s weaknesses, and +' + b + ' to them.'; }],
+    ['Survival Almanac', 'Book', 'Navigation', 'Navigation', 'F', 'W', function (L, b) { return 'Paths, weather and edible things of its realm: +' + b + ' to Survival and foraging checks there.'; }],
+    ['Fire Bomb', 'Explosive', 'Alchemy', 'Alchemy', 'E', 'O', function (L, b, dc) { return 'Thrown (20/60 ft): ' + Math.max(2, Math.ceil(L / 3)) + 'd6 fire damage in a 10-foot radius, Dexterity save DC ' + dc + ' for half.'; }],
+    ['Smoke Bomb', 'Explosive', 'Alchemy', 'Alchemy', 'E', 'F', function (L, b) { return 'Thrown (20/60 ft): a 20-foot cloud of thick smoke that lasts ' + (1 + b) + ' minutes; the area is heavily obscured.'; }],
+    ['Thunderclap Charge', 'Explosive', 'Engineering', 'Engineering', 'E', 'O', function (L, b, dc) { return 'Set and lit (a 1-round fuse): ' + Math.max(2, Math.ceil(L / 3)) + 'd8 thunder damage within 15 feet, Constitution save DC ' + dc + ' or deafened and knocked prone. Double damage to objects and structures.'; }],
+    ['Wagon', 'Vehicle', 'Carving', 'Woodworking', 'W', 'O', function (L) { return 'Carries 2 tons and six riders at 30 feet a round behind two draft beasts; ' + (30 + L * 2) + ' hit points.'; }],
+    ['Skiff', 'Vehicle', 'Carving', 'Woodworking', 'W', 'F', function (L) { return 'A light boat for four, rowed or sailed at 30 feet a round; ' + (20 + L * 2) + ' hit points.'; }],
+    ['Blade Venom', 'Poison', 'Alchemy', 'Alchemy', 'L', 'E', function (L, b, dc) { return 'Coats one weapon or three pieces of ammunition for 1 minute: a hit deals +' + b + 'd6 poison damage, Constitution save DC ' + dc + ' for half.'; }],
+    ['Sleep Draught', 'Poison', 'Alchemy', 'Alchemy', 'L', 'W', function (L, b, dc) { return 'Slipped into food or drink: Constitution save DC ' + dc + ' or asleep for 1 hour (a slap or damage wakes them).'; }],
+    ['Snare Trap', 'Trap', 'Engineering', 'Engineering', 'F', 'O', function (L, b, dc) { return 'Hidden (Perception DC ' + dc + ' to spot): a creature that steps in is restrained until it breaks free (Strength DC ' + dc + ').'; }],
+    ['Spike Pit Kit', 'Trap', 'Engineering', 'Engineering', 'O', 'W', function (L, b, dc) { return 'Dug and hidden in an hour: a creature that falls in takes ' + Math.max(1, Math.ceil(L / 5)) + 'd10 piercing damage (Dexterity DC ' + dc + ' to catch the edge).'; }],
+    ['Lantern', 'Light Source', 'Blacksmithing', 'Blacksmithing', 'O', 'G', function (L) { return 'Bright light for 30 feet and dim light 30 feet beyond, for ' + (6 + L) + ' hours a filling.'; }],
+    ['Torch Bundle', 'Light Source', 'Carving', 'Woodworking', 'W', 'F', function (L, b) { return 'Five torches, each burning an hour with bright light for 20 feet; swung as a club, +' + b + ' fire damage.'; }],
+    ['Manacles', 'Restraint', 'Blacksmithing', 'Blacksmithing', 'O', 'O', function (L, b, dc) { return 'Slipping free: Dexterity DC ' + dc + '; breaking them: Strength DC ' + (dc + 5) + '; ' + (10 + L) + ' hit points.'; }],
+    ['Weighted Net', 'Restraint', 'Tailoring', 'Tailoring', 'F', 'O', function (L, b, dc) { return 'Thrown (5/15 ft): a Large or smaller creature hit is restrained until it frees itself (Strength DC ' + dc + ') or the net (' + (5 + L) + ' hit points) is cut.'; }],
+    ['Satchel', 'Storage', 'Tailoring', 'Tailoring', 'F', 'F', function () { return 'A shoulder bag. It holds 2 items on top of the 20 a character can carry.'; }, { cap: 2, carry: 1 }],
+    ['Strongbox', 'Storage', 'Blacksmithing', 'Blacksmithing', 'O', 'W', function (L, b, dc) { return 'A locked iron box (lock DC ' + dc + '), set down rather than carried. It holds 6 items.'; }, { cap: 6, carry: 0 }],
+    ["Traveler's Cloak", 'Clothing', 'Tailoring', 'Tailoring', 'F', 'F', function (L, b) { return 'Made for its realm\'s weather: the wearer is comfortable in it, and gains +' + b + ' to Stealth there.'; }],
+    ['Gloves', 'Clothing', 'Tailoring', 'Tailoring', 'F', 'B', function (L, b) { return '+' + b + ' to Sleight of Hand and to climbing checks.'; }],
+    ['Palisade Section', 'Fortification', 'Carving', 'Woodworking', 'W', 'O', function (L, b) { return 'Twenty feet of wall, 10 feet high: AC ' + (10 + b) + ', ' + (50 + L * 5) + ' hit points; four workers raise it in an hour.'; }],
+    ['Watchtower Kit', 'Fortification', 'Engineering', 'Engineering', 'W', 'O', function (L, b) { return 'A 30-foot tower for four lookouts, who see twice as far: AC ' + (10 + b) + ', ' + (100 + L * 10) + ' hit points.'; }],
+    ['Weapon Oil', 'Oil & Coating', 'Alchemy', 'Alchemy', 'E', 'W', function (L, b) { return 'Coats a weapon for 1 hour: +' + b + ' damage per hit, and its damage counts as magical.'; }],
+    ['Armor Polish', 'Oil & Coating', 'Alchemy', 'Alchemy', 'E', 'O', function () { return 'Polishes a suit for a day: rust and acid can\'t harm it, and the first hit against the wearer in each fight deals 1 less damage.'; }],
+    // farming (owner's request, 2026-11-24: fill out the thin categories, farming included)
+    ['Grain Field', 'Crop', 'Harvesting', 'Farming', 'W', 'S', function (L, b) { return 'A field of the realm\'s grain: it feeds twenty people for a season, and each harvest gives 2d6 + ' + b + ' bundles to sell or trade.'; }],
+    ['Herb Garden', 'Crop', 'Harvesting', 'Farming', 'W', 'L', function (L, b) { return 'Beds of the realm\'s herbs: one alchemy reagent of the realm a week, and +' + b + ' to Alchemy rolls that use them fresh.'; }],
+    ['Draft Beasts', 'Livestock', 'Harvesting', 'Beast Taming', 'L', 'W', function (L) { return 'A pair of the realm\'s draft animals: they pull a wagon or plough and carry ' + (300 + L * 10) + ' lb each.'; }],
+    ['War Beast Line', 'Livestock', 'Harvesting', 'Beast Taming', 'L', 'B', function (L, b) { return 'A breeding line of the realm\'s war beasts: one trained mount or guard animal a year, with +' + b + ' to its attacks.'; }],
+    ['Soil Tonic', 'Fertilizer', 'Harvesting', 'Farming', 'S', 'E', function () { return 'Spread on a field before planting: its next harvest is half again as large.'; }],
+    ['Growth Charm', 'Fertilizer', 'Enchanting', 'Farming', 'E', 'W', function (L, b) { return 'Buried at a field\'s heart: the realm\'s crops grow there whatever the soil or weather, and ' + b + ' days sooner.'; }]];
+  REALMS.forEach(function (R) {
+    KINDS.forEach(function (k) {
+      var L = R[1] + 4, b = Math.ceil(L / 10), dc = 10 + Math.floor(L / 5), n = R[2] + ' ' + k[0];
+      var x = { n: n, cat: k[1], lv: L, pr: k[2], sp: k[3], r: R[3], m: [[R[0], k[4], 5], [R[0], k[5], 4]] };
+      if (k[7]) Object.keys(k[7]).forEach(function (f) { x[f] = k[7][f]; });
+      x.ds = 'A ' + k[0].replace(/^(\w)/, function (c) { return c.toLowerCase(); }) + ' of the ' + R[0] + (/Realm$/.test(R[0]) ? '' : ' Realm') + ', for level ' + L + ', made from that realm\'s own materials. ' + k[6](L, b, dc);
+      NEW.push(x);
+    });
+  });
+})();
+// the everyday ammunition shoots plain: no extra damage, but the sheet and the Forge know what it fits
+NEW.forEach(function (b) { var F = { Arrows: 'bow', Bolts: 'crossbow', 'Sling Bullets': 'sling', 'Blowgun Needles': 'blowgun', 'Firearm Shot': 'firearm', 'Ballista Bolts': 'siege', Arrowheads: 'parts' }[b.n];
+  if (F && b.starter) b.ammo = { fits: F, qty: b.q || 20, dmg: 0, pierce: 0 }; });
 NEW.forEach(function (b) { if (b.n === "Explorer's Pack") b.gp = 10; if (b.n === 'Backpack') b.gp = 2; });
 
 module.exports = {
