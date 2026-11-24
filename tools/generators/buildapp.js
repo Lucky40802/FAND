@@ -1146,10 +1146,14 @@ var LOADER = '(function(){var F=__FILES__,T=0,G=0,bar,txt;F.forEach(function(f){
   'function run(c){var s=document.createElement("script");s.text=c;document.body.appendChild(s)}' +
   'function ready(f){if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",f);else f()}' +
   'function start(){var a=document.getElementById("fand-app");if(a){run(a.textContent);a.textContent=""}}' +
-  'function tags(i){if(i>=F.length)return ready(start);var s=document.createElement("script");s.src=F[i][0];s.onload=function(){tags(i+1)};s.onerror=fail;document.body.appendChild(s)}' +
+  // script tags (all at once, kept in order) let the browser keep each file's compiled code between visits
+  'function tags(){var n=0,bad=0;F.forEach(function(f){var s=document.createElement("script");s.src=f[0];s.async=false;s.onload=function(){if(++n===F.length&&!bad)ready(start)};s.onerror=function(){if(!bad++)fail()};document.head.appendChild(s)})}' +
   'function fail(){ready(function(){var c=document.getElementById("content");if(c)c.innerHTML="<div class=\\"loading\\">FAND couldn’t load its data. Check your connection and <a href=\\"\\">try again</a>.</div>"})}' +
-  'if(!window.fetch||!/^https?:$/.test(location.protocol))return tags(0);' +
-  'Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start()})},function(){tags(0)})})();';
+  // the first visit fetches with a progress bar; once the files are saved (the offline worker, or this browser loaded this
+  // exact version before) the page uses plain script tags, which skips compiling ~13 MB of script again on every page
+  'var key=F.map(function(f){return f[0]}).join(),warm=!!(navigator.serviceWorker&&navigator.serviceWorker.controller);try{warm=warm||localStorage.getItem("fand-loaded")===key}catch(e){}' +
+  'if(!window.fetch||!/^https?:$/.test(location.protocol)||warm)return tags();' +
+  'Promise.all(F.map(function(f){return get(f[0])})).then(function(cs){ready(function(){cs.forEach(run);start();try{localStorage.setItem("fand-loaded",key)}catch(e){}})},function(){tags()})})();';
 // this build's stamp (the app and its data together): Settings → App shows it, and "Check for updates" compares it with
 // the newest page on the server
 var BUILD_ID = require('crypto').createHash('sha1').update(tpl + DATA_V).digest('hex').slice(0, 8);

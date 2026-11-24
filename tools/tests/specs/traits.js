@@ -34,3 +34,24 @@ module.exports = [
     t.ok(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'no sideways scroll');
   } },
 ];
+module.exports.push(
+  { name: 'traits: monster traits and class features, and trait: / feature: in the search', run: async t => {
+    let p = await t.open('index');
+    await p.keyboard.press('Control+k'); await p.fill('#pq', 'feature:rage'); await p.waitForTimeout(200);
+    let txt = await p.innerText('#pres');
+    t.ok(/Class features/i.test(txt) && /Barbarian feature · level 1/.test(txt) && !/material trait/.test(txt), 'feature: lists only class features: ' + txt.slice(0, 200));
+    await p.fill('#pq', 'trait:magic resistance'); await p.waitForTimeout(200);
+    txt = await p.innerText('#pres'); t.ok(/Magic Resistance/.test(txt) && /monster trait · [\d,]+ monsters/.test(txt), 'trait: finds monster traits, with how many monsters have them');
+    await p.fill('#pq', 'feature:'); await p.waitForTimeout(200);
+    t.ok(/All [\d,]+ in the trait browser/.test(await p.innerText('#pres')), 'an empty filter lists them all, with a link to the browser');
+    await p.fill('#pq', 'feature:rage'); await p.waitForTimeout(200); await p.click('#pres .pal-i:has-text("Barbarian feature")'); await p.waitForTimeout(1200);
+    t.ok(/classes/.test(p.url()), 'a class feature opens the Classes page');
+    p = await t.open('index', p);
+    await p.evaluate(() => traitBrowse('', 'mon')); await p.waitForTimeout(200);
+    t.ok(await p.evaluate(() => [...document.querySelectorAll('#tb-out .tb-h .b')].every(b => b.textContent === 'Monster')), 'the Monsters filter');
+    await p.fill('#tb-q', 'undead nature'); await p.waitForTimeout(200);
+    const who = await p.evaluate(() => document.querySelector('#tb-out [data-tbm]').dataset.tbm);
+    await p.click('#tb-out [data-tbm]'); await p.waitForTimeout(1200);
+    t.ok((await p.innerText('#modal')).includes(who), 'a monster chip opens that monster');
+  } },
+);
