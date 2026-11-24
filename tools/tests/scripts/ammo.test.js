@@ -8,13 +8,13 @@ const r=await p.evaluate(()=>{const A=BPS.filter(b=>b.cat==='Ammunition'),kinds=
   const realms={};A.filter(b=>b.ammo).forEach(b=>{const m=(b.mats||[]).map(findMat).find(Boolean);if(m)realms[m.realm]=(realms[m.realm]||0)+1});
   const cats={};BPS.forEach(b=>cats[b.cat]=(cats[b.cat]||0)+1);
   return {n:A.length,withAmmo:A.filter(b=>b.ammo).length,gaps,realms,shotel:(BPS.find(b=>b.n==='Shotel')||{}).cat,arrowheads:(BPS.find(b=>b.n==='Bronze Arrowheads x20')||{}).cat,helm:(BPS.find(b=>b.n==='Arrow Proof Helm')||{}).cat,
-    thin:Object.entries(cats).filter(([k,v])=>v<20&&!['Crop','Livestock','Fertilizer'].includes(k)),art:cats.Artifact,glyph:cats.Glyph,cats:Object.keys(cats).length,amulet:(()=>{const x=BPS.find(b=>b.n==='Exalted Abyssal Amulet');return x?[x.cat,x.cat0,genOf(x)]:null})()}});
+    thin:Object.entries(cats).filter(([k,v])=>v<20),art:cats.Artifact,glyph:cats.Glyph,cats:Object.keys(cats).length,amulet:(()=>{const x=BPS.find(b=>b.n==='Exalted Abyssal Amulet');return x?[x.cat,x.cat0,genOf(x)]:null})()}});
 console.log('   ',JSON.stringify(r));
 ok(r.n>=260&&r.withAmmo>=255,'ammunition Blueprints: '+r.n);
 for(const k of ['bow','crossbow','sling','blowgun','firearm','siege','parts'])ok(r.gaps[k][1]<=10&&r.gaps[k][2]>=95,k+': no gap over 10 levels, up to level 95+ '+JSON.stringify(r.gaps[k]));
 ok(Object.keys(r.realms).length>=11,'from every realm\'s materials ('+Object.keys(r.realms).length+')');
 ok(r.shotel==='Sword'&&r.arrowheads==='Ammunition'&&r.helm==='Armor','misfiled items fixed (Shotel '+r.shotel+', arrowheads '+r.arrowheads+', helm '+r.helm+')');
-ok(!r.thin.length,'no item type is left with under 20 Blueprints (farming aside): '+JSON.stringify(r.thin));
+ok(!r.thin.length,'no item type is left with under 20 Blueprints: '+JSON.stringify(r.thin));
 ok(r.art<1000&&r.glyph>300,'Artifact is no longer a catch-all ('+r.art+' left; Glyph '+r.glyph+')');
 ok(r.amulet&&r.amulet[0]==='Jewelry'&&r.amulet[2]==='Amulet','a re-filed amulet is still an Amulet focus: '+JSON.stringify(r.amulet));
 const opts=await p.$$eval('select',S=>{const s=S.find(x=>[...x.options].some(o=>/All item types/.test(o.text)));return s?[...s.options].map(o=>o.text).join('|'):''});ok(/Ammunition/.test(opts)&&/Glyph/.test(opts)&&/Siege Engine/.test(opts),'Blueprints page filter lists the categories');

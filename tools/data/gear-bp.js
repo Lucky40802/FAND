@@ -406,7 +406,14 @@ NEW.push({ n: 'Iron Mantle', cat: 'Armor', lv: 1, pr: 'Blacksmithing', sp: 'Blac
     ['Palisade Section', 'Fortification', 'Carving', 'Woodworking', 'W', 'O', function (L, b) { return 'Twenty feet of wall, 10 feet high: AC ' + (10 + b) + ', ' + (50 + L * 5) + ' hit points; four workers raise it in an hour.'; }],
     ['Watchtower Kit', 'Fortification', 'Engineering', 'Engineering', 'W', 'O', function (L, b) { return 'A 30-foot tower for four lookouts, who see twice as far: AC ' + (10 + b) + ', ' + (100 + L * 10) + ' hit points.'; }],
     ['Weapon Oil', 'Oil & Coating', 'Alchemy', 'Alchemy', 'E', 'W', function (L, b) { return 'Coats a weapon for 1 hour: +' + b + ' damage per hit, and its damage counts as magical.'; }],
-    ['Armor Polish', 'Oil & Coating', 'Alchemy', 'Alchemy', 'E', 'O', function () { return 'Polishes a suit for a day: rust and acid can\'t harm it, and the first hit against the wearer in each fight deals 1 less damage.'; }]];
+    ['Armor Polish', 'Oil & Coating', 'Alchemy', 'Alchemy', 'E', 'O', function () { return 'Polishes a suit for a day: rust and acid can\'t harm it, and the first hit against the wearer in each fight deals 1 less damage.'; }],
+    // farming (owner's request, 2026-11-24: fill out the thin categories, farming included)
+    ['Grain Field', 'Crop', 'Harvesting', 'Farming', 'W', 'S', function (L, b) { return 'A field of the realm\'s grain: it feeds twenty people for a season, and each harvest gives 2d6 + ' + b + ' bundles to sell or trade.'; }],
+    ['Herb Garden', 'Crop', 'Harvesting', 'Farming', 'W', 'L', function (L, b) { return 'Beds of the realm\'s herbs: one alchemy reagent of the realm a week, and +' + b + ' to Alchemy rolls that use them fresh.'; }],
+    ['Draft Beasts', 'Livestock', 'Harvesting', 'Beast Taming', 'L', 'W', function (L) { return 'A pair of the realm\'s draft animals: they pull a wagon or plough and carry ' + (300 + L * 10) + ' lb each.'; }],
+    ['War Beast Line', 'Livestock', 'Harvesting', 'Beast Taming', 'L', 'B', function (L, b) { return 'A breeding line of the realm\'s war beasts: one trained mount or guard animal a year, with +' + b + ' to its attacks.'; }],
+    ['Soil Tonic', 'Fertilizer', 'Harvesting', 'Farming', 'S', 'E', function () { return 'Spread on a field before planting: its next harvest is half again as large.'; }],
+    ['Growth Charm', 'Fertilizer', 'Enchanting', 'Farming', 'E', 'W', function (L, b) { return 'Buried at a field\'s heart: the realm\'s crops grow there whatever the soil or weather, and ' + b + ' days sooner.'; }]];
   REALMS.forEach(function (R) {
     KINDS.forEach(function (k) {
       var L = R[1] + 4, b = Math.ceil(L / 10), dc = 10 + Math.floor(L / 5), n = R[2] + ' ' + k[0];
