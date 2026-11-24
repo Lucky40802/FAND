@@ -50,8 +50,12 @@ const fakeTrades = () => {
     rpc: (fn, a) => {
       if (fn === 'fand_request_trade') { const ch = PARTY.find(c => c.id === a.p_character && c.camp === a.p_campaign); if (!ch || (ch._by && ch._by.u !== me())) return Promise.resolve({ error: { message: 'Only your own characters, shared with the campaign, can ask for a trade.' } });
         const id = 't' + (++F.n); F.rows.push({ id, campaign_id: a.p_campaign, character_id: a.p_character, requester: me(), kind: a.p_kind, item: a.p_item, qty: a.p_qty, offer: a.p_offer, note: a.p_note, status: 'open', price: null, reply: '', created_at: new Date(Date.now() + F.n).toISOString() }); return Promise.resolve({ data: id, error: null }) }
-      if (fn === 'fand_answer_trade') { const r = F.rows.find(x => x.id === a.p_id); if (!r || r.status !== 'open' || !((a.p_status !== 'withdrawn' && dm(r.campaign_id)) || (a.p_status === 'withdrawn' && r.requester === me()))) return Promise.resolve({ error: { message: 'That request is no longer open, or it is not yours to answer.' } });
-        Object.assign(r, { status: a.p_status, price: a.p_status === 'done' ? a.p_price : null, reply: a.p_reply }); return Promise.resolve({ error: null }) }
+      if (fn === 'fand_answer_trade') { const r = F.rows.find(x => x.id === a.p_id), st = r && r.status;
+        const ok = r && ((a.p_status === 'done' && ['open', 'agreed'].includes(st) && dm(r.campaign_id)) || (a.p_status === 'declined' && ['open', 'agreed', 'countered'].includes(st) && dm(r.campaign_id)) || (a.p_status === 'withdrawn' && ['open', 'countered', 'agreed'].includes(st) && r.requester === me()));
+        if (!ok) return Promise.resolve({ error: { message: 'That request is no longer open, or it is not yours to answer.' } });
+        Object.assign(r, { status: a.p_status, price: a.p_status === 'done' ? a.p_price : null }, a.p_status === 'withdrawn' ? {} : { reply: a.p_reply }); return Promise.resolve({ error: null }) }
+      if (fn === 'fand_counter_trade') { const r = F.rows.find(x => x.id === a.p_id); if (!r || !['open', 'agreed'].includes(r.status) || !dm(r.campaign_id)) return Promise.resolve({ error: { message: 'no' } }); Object.assign(r, { status: 'countered', price: a.p_price, reply: a.p_reply }); return Promise.resolve({ error: null }) }
+      if (fn === 'fand_reply_counter') { const r = F.rows.find(x => x.id === a.p_id); if (!r || r.status !== 'countered' || r.requester !== me()) return Promise.resolve({ error: { message: 'no' } }); if (a.p_accept) { r.status = 'agreed'; r.offer = r.price } else r.status = 'withdrawn'; return Promise.resolve({ error: null }) }
       return Promise.resolve({ error: null });
     },
     channel: () => { const ch = { on: () => ch, subscribe: () => ch }; return ch }, removeChannel: () => {},
@@ -170,5 +174,30 @@ module.exports.push(
     t.eq(await p.evaluate(() => myShops().length), 2, 'Undo brings it back');
     await p.evaluate(() => { setRole('player'); HC = null; renderShop(); }); await p.waitForTimeout(150);
     t.ok(!/Gilded Anvil/.test(await p.innerText('#content')), 'players never see the DM\'s shop list');
+  } },
+);
+module.exports.push(
+  { name: 'haggling: the DM counters, the player agrees, the DM completes at that price; or the player turns it down', run: async t => {
+    const p = await t.open('shop');
+    await p.evaluate(fakeTrades); await p.evaluate(() => { window.__TR.rows.length = 0; });
+    await p.evaluate(asPlayer); await p.waitForTimeout(150);
+    await p.fill('#tr-item', 'Steel'); await p.fill('#tr-qty', '2'); await p.fill('#tr-offer', '5'); await p.click('button:has-text("Send to the DM")'); await p.waitForTimeout(200);
+    await p.fill('#tr-item', 'Rope'); await p.click('button:has-text("Send to the DM")'); await p.waitForTimeout(200);
+    const [steel, rope] = await p.evaluate(() => __TR.rows.map(r => r.id));
+    await p.evaluate(asDM); await p.waitForTimeout(300);
+    await p.fill('#tp-' + steel, '12'); await p.fill('#tm-' + steel, 'Steel is dear this season'); await p.click(`[data-tr="${steel}"] button:text-is("Counter")`); await p.waitForTimeout(200);
+    await p.fill('#tp-' + rope, '3'); await p.click(`[data-tr="${rope}"] button:text-is("Counter")`); await p.waitForTimeout(200);
+    t.eq(await p.evaluate(() => __TR.rows.map(r => [r.status, r.price])), [['countered', 12], ['countered', 3]], 'both countered, prices in gp each');
+    t.ok(/Counter-offers waiting for the player/.test(await p.innerText('.tr-dm')), 'the DM sees them waiting');
+    await p.evaluate(asPlayer); await p.waitForTimeout(200);
+    t.ok(/DM's price: 12 gp each/.test(await p.innerText('.tr-ask')) && /Steel is dear/.test(await p.innerText('.tr-ask')), 'the player sees the counter and the reply');
+    await p.click('.tr-ask .tr-row:has-text("Steel") button:has-text("Agree")'); await p.waitForTimeout(200);
+    await p.click('.tr-ask .tr-row:has-text("Rope") button:has-text("Turn down")'); await p.waitForTimeout(200);
+    t.eq(await p.evaluate(() => __TR.rows.map(r => [r.status, r.offer])), [['agreed', 12], ['withdrawn', null]], 'Steel agreed at 12, Rope turned down');
+    await p.evaluate(asDM); await p.waitForTimeout(300);
+    t.eq(await p.inputValue('#tp-' + steel), '12', 'the agreed price is filled in');
+    t.ok(await p.isVisible(`[data-tr="${steel}"] button:has-text("Complete")`) && !(await p.isVisible(`[data-tr="${steel}"] button:text-is("Counter")`)), 'Complete, no more counters: ' + await p.innerText(`[data-tr="${steel}"]`));
+    await p.click(`[data-tr="${steel}"] button:has-text("Complete")`); await p.waitForTimeout(250);
+    t.eq(await p.evaluate(() => [PARTY[0].inv.find(z => z[0] === 'Steel')[1], commonGp(PARTY[0]), __TR.rows[0].status]), [2, 26, 'done'], 'completed: 2 Steel for 24 gp');
   } },
 );

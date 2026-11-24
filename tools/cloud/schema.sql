@@ -565,12 +565,15 @@ create table if not exists public.campaign_trades (
   qty int not null default 1 check (qty between 1 and 9999),
   offer numeric check (offer is null or (offer >= 0 and offer < 1000000000)),
   note text not null default '' check (char_length(note) <= 500),
-  status text not null default 'open' check (status in ('open', 'done', 'declined', 'withdrawn')),
+  status text not null default 'open' check (status in ('open', 'countered', 'agreed', 'done', 'declined', 'withdrawn')),
   price numeric check (price is null or (price >= 0 and price < 1000000000)),
   reply text not null default '' check (char_length(reply) <= 500),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+-- haggling (added later): the DM can counter a price ('countered'); the player agrees ('agreed') and the DM completes it
+alter table public.campaign_trades drop constraint if exists campaign_trades_status_check;
+alter table public.campaign_trades add constraint campaign_trades_status_check check (status in ('open', 'countered', 'agreed', 'done', 'declined', 'withdrawn'));
 create index if not exists campaign_trades_campaign on public.campaign_trades (campaign_id, created_at desc);
 create index if not exists campaign_trades_requester on public.campaign_trades (requester);
 alter table public.campaign_trades enable row level security;
@@ -605,11 +608,32 @@ language plpgsql security definer set search_path = '' as $$
 begin
   update public.campaign_trades t set status = p_status,
       price = case when p_status = 'done' and p_price >= 0 then least(p_price, 999999999) else null end,
-      reply = left(coalesce(p_reply, ''), 500), updated_at = now()
-    where t.id = p_id and t.status = 'open' and (
-      (p_status in ('done', 'declined') and private.fand_is_dm(t.campaign_id)) or (p_status = 'withdrawn' and t.requester = (select auth.uid())));
+      reply = case when p_status = 'withdrawn' then t.reply else left(coalesce(p_reply, ''), 500) end, updated_at = now()
+    where t.id = p_id and (
+      (p_status = 'done' and t.status in ('open', 'agreed') and private.fand_is_dm(t.campaign_id)) or
+      (p_status = 'declined' and t.status in ('open', 'agreed', 'countered') and private.fand_is_dm(t.campaign_id)) or
+      (p_status = 'withdrawn' and t.status in ('open', 'countered', 'agreed') and t.requester = (select auth.uid())));
   if not found then raise exception 'That request is no longer open, or it is not yours to answer.'; end if;
 end $$;
+-- haggling: the DM names a counter price (gp each) with a reply; the player agrees to it (it becomes the offer) or turns it down
+create or replace function public.fand_counter_trade(p_id uuid, p_price numeric, p_reply text) returns void
+language plpgsql security definer set search_path = '' as $$
+begin
+  update public.campaign_trades t set status = 'countered', price = greatest(0, least(coalesce(p_price, 0), 999999999)),
+      reply = left(coalesce(p_reply, ''), 500), updated_at = now()
+    where t.id = p_id and t.status in ('open', 'agreed') and private.fand_is_dm(t.campaign_id);
+  if not found then raise exception 'That request is no longer open, or it is not yours to answer.'; end if;
+end $$;
+create or replace function public.fand_reply_counter(p_id uuid, p_accept boolean) returns void
+language plpgsql security definer set search_path = '' as $$
+begin
+  update public.campaign_trades t set status = case when p_accept then 'agreed' else 'withdrawn' end,
+      offer = case when p_accept then t.price else t.offer end, updated_at = now()
+    where t.id = p_id and t.status = 'countered' and t.requester = (select auth.uid());
+  if not found then raise exception 'That counter-offer is no longer open, or it is not yours.'; end if;
+end $$;
+revoke execute on function public.fand_counter_trade(uuid, numeric, text), public.fand_reply_counter(uuid, boolean) from public, anon;
+grant execute on function public.fand_counter_trade(uuid, numeric, text), public.fand_reply_counter(uuid, boolean) to authenticated;
 revoke execute on function public.fand_request_trade(uuid, text, text, text, int, numeric, text), public.fand_answer_trade(uuid, text, numeric, text) from public, anon;
 grant execute on function public.fand_request_trade(uuid, text, text, text, int, numeric, text), public.fand_answer_trade(uuid, text, numeric, text) to authenticated;
 do $$ begin
