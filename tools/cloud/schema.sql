@@ -553,5 +553,71 @@ do $$ begin
   end if;
 end $$;
 
+-- trade requests: from the Shop, a player asks the DM to sell them something, or to buy something from their character's pack.
+-- The player sees their own requests; the campaign's DM sees them all and answers. Every change goes through the functions below.
+create table if not exists public.campaign_trades (
+  id uuid primary key default gen_random_uuid(),
+  campaign_id uuid not null references public.campaigns (id) on delete cascade,
+  character_id text not null check (character_id ~ '^[A-Za-z0-9_-]{1,40}$'),
+  requester uuid not null default auth.uid() references auth.users (id) on delete cascade,
+  kind text not null check (kind in ('buy', 'sell')),
+  item text not null check (char_length(item) between 1 and 120),
+  qty int not null default 1 check (qty between 1 and 9999),
+  offer numeric check (offer is null or (offer >= 0 and offer < 1000000000)),
+  note text not null default '' check (char_length(note) <= 500),
+  status text not null default 'open' check (status in ('open', 'done', 'declined', 'withdrawn')),
+  price numeric check (price is null or (price >= 0 and price < 1000000000)),
+  reply text not null default '' check (char_length(reply) <= 500),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+create index if not exists campaign_trades_campaign on public.campaign_trades (campaign_id, created_at desc);
+create index if not exists campaign_trades_requester on public.campaign_trades (requester);
+alter table public.campaign_trades enable row level security;
+drop policy if exists "requester or dm reads" on public.campaign_trades;
+create policy "requester or dm reads" on public.campaign_trades for select to authenticated
+  using (requester = (select auth.uid()) or private.fand_is_dm(campaign_id));
+revoke all on public.campaign_trades from anon;
+revoke insert, update, delete on public.campaign_trades from authenticated;
+grant select on public.campaign_trades to authenticated;
+create or replace function public.fand_request_trade(p_campaign uuid, p_character text, p_kind text, p_item text, p_qty int, p_offer numeric, p_note text) returns uuid
+language plpgsql security definer set search_path = '' as $$
+declare tid uuid;
+begin
+  if not exists (select 1 from public.campaign_characters c where c.campaign_id = p_campaign and c.id = p_character and c.owner = (select auth.uid())) then
+    raise exception 'Only your own characters, shared with the campaign, can ask for a trade.';
+  end if;
+  if (select count(*) from public.campaign_trades t where t.campaign_id = p_campaign and t.requester = (select auth.uid()) and t.status = 'open') >= 20 then
+    raise exception 'You already have 20 requests waiting for the DM.';
+  end if;
+  insert into public.campaign_trades (campaign_id, character_id, requester, kind, item, qty, offer, note)
+    values (p_campaign, p_character, (select auth.uid()), p_kind, left(btrim(coalesce(p_item, '')), 120), greatest(1, least(coalesce(p_qty, 1), 9999)),
+      case when p_offer is null or p_offer < 0 then null else least(p_offer, 999999999) end, left(coalesce(p_note, ''), 500))
+    returning id into tid;
+  -- keep the newest 300 per campaign
+  delete from public.campaign_trades where campaign_id = p_campaign and status <> 'open' and id in (
+    select id from public.campaign_trades where campaign_id = p_campaign order by created_at desc offset 300);
+  return tid;
+end $$;
+-- the DM marks a request done or declined (with the price paid and a reply); the player who asked can withdraw it
+create or replace function public.fand_answer_trade(p_id uuid, p_status text, p_price numeric, p_reply text) returns void
+language plpgsql security definer set search_path = '' as $$
+begin
+  update public.campaign_trades t set status = p_status,
+      price = case when p_status = 'done' and p_price >= 0 then least(p_price, 999999999) else null end,
+      reply = left(coalesce(p_reply, ''), 500), updated_at = now()
+    where t.id = p_id and t.status = 'open' and (
+      (p_status in ('done', 'declined') and private.fand_is_dm(t.campaign_id)) or (p_status = 'withdrawn' and t.requester = (select auth.uid())));
+  if not found then raise exception 'That request is no longer open, or it is not yours to answer.'; end if;
+end $$;
+revoke execute on function public.fand_request_trade(uuid, text, text, text, int, numeric, text), public.fand_answer_trade(uuid, text, numeric, text) from public, anon;
+grant execute on function public.fand_request_trade(uuid, text, text, text, int, numeric, text), public.fand_answer_trade(uuid, text, numeric, text) to authenticated;
+do $$ begin
+  if exists (select 1 from pg_publication where pubname = 'supabase_realtime')
+     and not exists (select 1 from pg_publication_tables where pubname = 'supabase_realtime' and tablename = 'campaign_trades') then
+    alter publication supabase_realtime add table public.campaign_trades;
+  end if;
+end $$;
+
 -- make the site's API see new tables (the Workshop's `blueprints`, the DM notepad's `dm_notes`, and the rest) right away
 notify pgrst, 'reload schema';

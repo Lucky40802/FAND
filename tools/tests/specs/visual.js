@@ -56,4 +56,16 @@ module.exports = [
     t.eq(await bar(), ['Home', 'Search', 'Dice', 'Character', 'Menu'], 'reset');
     await p.click('#bnav button:has-text("Menu")'); t.ok(await p.isVisible('#mdrawer a:has-text("Choose the buttons on this bar")'), 'the Menu links to the setting');
   } },
+  { name: 'passive Perception follows the Perception bonus as you type, and editing the sheet never errors', run: async t => {
+    const p = await t.open('sheet');
+    const pp = () => p.evaluate(() => [...document.querySelectorAll('.sh-pp')].map(x => x.textContent));
+    await p.evaluate(() => { PARTY.length = 0; PARTY.push({ id: 'pp1', name: 'Ara', cls: 'Wizard', level: 5, abil: { wis: 16 }, skillB: { perception: 3 }, gear: [], inv: [] }); saveParty(); SHEET_ID = 'pp1'; SHEET_TAB = 'core'; renderSheet(); });
+    t.eq(await pp(), ['13', '13'], 'passive Perception is 10 + the Perception bonus, on the play card and the sheet');
+    await p.fill('input[data-s="skillB.perception"]', '6'); t.eq(await pp(), ['16', '16'], 'it follows the box while you type');
+    await p.dispatchEvent('input[data-s="skillB.perception"]', 'change'); await p.waitForTimeout(150);
+    t.eq(await pp(), ['16', '16'], 'and stays right after the sheet redraws');
+    t.eq(await p.evaluate(() => PARTY[0].skillB.perception), 6, 'saved');
+    await p.click('input[data-s="skillB.perception"]'); await p.keyboard.press('Control+a'); await p.keyboard.type('2'); await p.click('.pk-card'); await p.waitForTimeout(200);
+    t.eq(await pp(), ['12', '12'], 'typing then tapping away (the change that used to error) works');
+  } },
 ];
