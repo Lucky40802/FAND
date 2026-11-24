@@ -1219,7 +1219,7 @@ site['sw.js'] = [
   'const CACHE="fand-' + DATA_V + '-' + SITE_V + '";',
   'const FILES=' + JSON.stringify(PRECACHE) + ';',
   '// Each file is saved on its own, so one file a phone refuses to store (the data is large) cannot stop the update.',
-  'self.addEventListener("install",e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>Promise.all(FILES.map(f=>fetch(new Request(f,{cache:"reload"})).then(res=>res.ok?c.put(f,res):null).catch(()=>null)))))});',
+  'self.addEventListener("install",e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>Promise.all(FILES.map(f=>fetch(new Request(f,{cache:/[?&]v=/.test(f)?"force-cache":"reload"})).then(res=>res.ok?c.put(f,res):null).catch(()=>null)))))});',
   'self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith("fand-")&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});',
   'self.addEventListener("fetch",e=>{const r=e.request;if(r.method!=="GET")return;const u=new URL(r.url);if(u.origin!==location.origin)return;',
   '  // pages and anything unversioned: the network first (always the newest site when online), the saved copy offline;',
