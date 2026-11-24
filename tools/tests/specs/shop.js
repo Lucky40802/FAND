@@ -201,3 +201,21 @@ module.exports.push(
     t.eq(await p.evaluate(() => [PARTY[0].inv.find(z => z[0] === 'Steel')[1], commonGp(PARTY[0]), __TR.rows[0].status]), [2, 26, 'done'], 'completed: 2 Steel for 24 gp');
   } },
 );
+module.exports.push(
+  { name: 'NPC shopkeepers: an NPC gets a shop stocked for their trade, and opens it after', run: async t => {
+    let p = await t.open('npcs');
+    await p.evaluate(() => { HC = []; setRole('dm'); store.set('myshops', []); NPCS.length = 0; NPCS.push({ id: 'n1', name: 'Hesta Coldbrook', role: 'Smith', voice: 'gravel and ash', realm: 'Human' }); npcSave2(); renderNpcs(); });
+    await p.waitForTimeout(200);
+    await p.click('button:has-text("🛒 Shop")'); await p.waitForTimeout(200);
+    const m = await p.evaluate(() => ({ name: MSE.name, keeper: MSE.keeper, line: MSE.line, realm: MSE.realm, npc: MSE.npc, n: MSE.items.length, smith: MSE.items.filter(x => findBP(x.n) || findMat(x.n)).length }));
+    t.ok(m.name === "Hesta Coldbrook's Smithy" && m.keeper === 'Hesta Coldbrook' && /gravel and ash/.test(m.line) && m.realm === 'Human' && m.npc === 'n1', 'named for them, in their voice: ' + JSON.stringify(m));
+    t.ok(m.n > 2 && m.smith === m.n, 'stocked for a smithy (' + m.n + ' items)');
+    await p.click('#mse button:has-text("Save shop")'); await p.waitForTimeout(1500);
+    t.ok(/shop/.test(p.url()) && await p.evaluate(() => { const s = myShop(shopState().custom); return !!s && s.npc === 'n1'; }), 'saving opens their shop on the Shop page');
+    p = await t.open('npcs', p);
+    await p.evaluate(() => { HC = []; setRole('dm'); renderNpcs(); }); await p.waitForTimeout(200);
+    t.ok(await p.isVisible('button:has-text("🛒 Their shop")'), 'the card now says Their shop');
+    await p.click('button:has-text("🛒 Their shop")'); await p.waitForTimeout(1500);
+    t.ok(/shop/.test(p.url()) && await p.evaluate(() => myShops().length === 1), 'it opens the same shop, no copy');
+  } },
+);
