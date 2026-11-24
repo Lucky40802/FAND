@@ -99,3 +99,44 @@ module.exports.push(
     t.ok(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'no sideways scroll');
   } },
 );
+module.exports.push(
+  { name: 'trade history: Shop trades and answered requests are logged for the DM, filtered, undone, downloaded', run: async t => {
+    const p = await t.open('shop');
+    await p.evaluate(fakeTrades); await p.evaluate(() => store.set('tradelog', []));
+    // a player request, then the DM
+    await p.evaluate(asPlayer); await p.waitForTimeout(150);
+    await p.fill('#tr-item', 'Rope'); await p.fill('#tr-note', 'for the climb'); await p.click('button:has-text("Send to the DM")'); await p.waitForTimeout(200);
+    await p.evaluate(asDM); await p.evaluate(() => { PARTY.push({ id: 'bo', name: 'Bo', cls: 'Fighter', level: 3, coins: { gp: 40 }, gear: [], inv: [['Iron', 2]] }); saveParty(); store.set('tlopen', true); renderShop(); }); await p.waitForTimeout(300);
+    const rq = await p.evaluate(() => __TR.rows[0].id);
+    await p.fill('#tp-' + rq, '2'); await p.fill('#tm-' + rq, 'Here you go'); await p.click(`[data-tr="${rq}"] button:has-text("Agree")`); await p.waitForTimeout(250);
+    // a DM trade with Bo, and a market sale
+    await p.evaluate(() => shopAtAdd('bo')); await p.waitForTimeout(150);
+    await p.fill('#dt-n', 'Steel'); await p.fill('#dt-p', '5'); await p.click('button:has-text("Sell to them")'); await p.waitForTimeout(150);
+    await p.evaluate(() => { SHOPST.who = 'bo'; renderShop(); }); await p.waitForTimeout(100);
+    const list = () => p.$$eval('#tl .tl-row', r => r.map(x => x.querySelector('.tl-what').textContent.replace(/\s+/g, ' ').trim()));
+    let L = await list();
+    t.ok(L.length === 2 && /Bo bought Steel for 5 gp/.test(L[0]) && /Ara bought Rope for 2 gp/.test(L[1]) && /for the climb/.test(L[1]) && /Here you go/.test(L[1]), 'newest first: the DM trade and the answered request: ' + JSON.stringify(L));
+    t.ok(/bought 7 gp/.test(await p.innerText('#tl .tl-sum')), 'with totals');
+    await p.selectOption('#tl-who', 'ara'); await p.waitForTimeout(150);
+    t.eq((await list()).length, 1, 'filter by player'); await p.selectOption('#tl-who', ''); await p.waitForTimeout(100);
+    await p.selectOption('#tl-src', 'dm'); await p.waitForTimeout(150);
+    t.ok((await list()).every(x => /Bo/.test(x)), 'filter by kind'); await p.selectOption('#tl-src', ''); await p.waitForTimeout(100);
+    await p.fill('#tl-q', 'rope'); await p.waitForTimeout(400);
+    t.ok((await list()).length === 1 && await p.evaluate(() => document.activeElement.id === 'tl-q'), 'search, and typing keeps the focus');
+    await p.fill('#tl-q', ''); await p.waitForTimeout(400);
+    // a trade that is undone leaves no entry
+    await p.fill('#dt-n', 'Iron'); await p.fill('#dt-p', '1'); await p.click('button:has-text("Sell to them")'); await p.waitForTimeout(150);
+    t.eq((await list()).length, 3, 'logged');
+    await p.click('#toast button'); await p.waitForTimeout(150);
+    t.eq((await list()).length, 2, 'undone, and gone from the history');
+    const [dl] = await Promise.all([p.waitForEvent('download'), p.click('#tl button:has-text("Download CSV")')]);
+    const csv = require('fs').readFileSync(await dl.path(), 'utf8');
+    t.ok(/^When,Who,Trade,Item/.test(csv) && /Rope/.test(csv) && /Steel/.test(csv) && dl.suggestedFilename() === 'fand-trade-history.csv', 'the CSV has every row');
+    t.eq(await p.evaluate(() => store.get('tradelog').length), 1, 'Shop trades are kept with the DM (requests stay in the campaign)');
+  } },
+  { name: 'trade history is the DM\'s: players do not see it', run: async t => {
+    const p = await t.open('shop');
+    await p.evaluate(fakeTrades); await p.evaluate(asPlayer); await p.waitForTimeout(150);
+    t.ok(!(await p.isVisible('#tl')), 'not on the player\'s Shop page');
+  } },
+);
