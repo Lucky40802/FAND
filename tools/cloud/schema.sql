@@ -565,12 +565,15 @@ create table if not exists public.campaign_trades (
   qty int not null default 1 check (qty between 1 and 9999),
   offer numeric check (offer is null or (offer >= 0 and offer < 1000000000)),
   note text not null default '' check (char_length(note) <= 500),
-  status text not null default 'open' check (status in ('open', 'done', 'declined', 'withdrawn')),
+  status text not null default 'open' check (status in ('open', 'countered', 'agreed', 'done', 'declined', 'withdrawn')),
   price numeric check (price is null or (price >= 0 and price < 1000000000)),
   reply text not null default '' check (char_length(reply) <= 500),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+-- haggling (added later): the DM can counter a price ('countered'); the player agrees ('agreed') and the DM completes it
+alter table public.campaign_trades drop constraint if exists campaign_trades_status_check;
+alter table public.campaign_trades add constraint campaign_trades_status_check check (status in ('open', 'countered', 'agreed', 'done', 'declined', 'withdrawn'));
 create index if not exists campaign_trades_campaign on public.campaign_trades (campaign_id, created_at desc);
 create index if not exists campaign_trades_requester on public.campaign_trades (requester);
 alter table public.campaign_trades enable row level security;
@@ -605,11 +608,32 @@ language plpgsql security definer set search_path = '' as $$
 begin
   update public.campaign_trades t set status = p_status,
       price = case when p_status = 'done' and p_price >= 0 then least(p_price, 999999999) else null end,
-      reply = left(coalesce(p_reply, ''), 500), updated_at = now()
-    where t.id = p_id and t.status = 'open' and (
-      (p_status in ('done', 'declined') and private.fand_is_dm(t.campaign_id)) or (p_status = 'withdrawn' and t.requester = (select auth.uid())));
+      reply = case when p_status = 'withdrawn' then t.reply else left(coalesce(p_reply, ''), 500) end, updated_at = now()
+    where t.id = p_id and (
+      (p_status = 'done' and t.status in ('open', 'agreed') and private.fand_is_dm(t.campaign_id)) or
+      (p_status = 'declined' and t.status in ('open', 'agreed', 'countered') and private.fand_is_dm(t.campaign_id)) or
+      (p_status = 'withdrawn' and t.status in ('open', 'countered', 'agreed') and t.requester = (select auth.uid())));
   if not found then raise exception 'That request is no longer open, or it is not yours to answer.'; end if;
 end $$;
+-- haggling: the DM names a counter price (gp each) with a reply; the player agrees to it (it becomes the offer) or turns it down
+create or replace function public.fand_counter_trade(p_id uuid, p_price numeric, p_reply text) returns void
+language plpgsql security definer set search_path = '' as $$
+begin
+  update public.campaign_trades t set status = 'countered', price = greatest(0, least(coalesce(p_price, 0), 999999999)),
+      reply = left(coalesce(p_reply, ''), 500), updated_at = now()
+    where t.id = p_id and t.status in ('open', 'agreed') and private.fand_is_dm(t.campaign_id);
+  if not found then raise exception 'That request is no longer open, or it is not yours to answer.'; end if;
+end $$;
+create or replace function public.fand_reply_counter(p_id uuid, p_accept boolean) returns void
+language plpgsql security definer set search_path = '' as $$
+begin
+  update public.campaign_trades t set status = case when p_accept then 'agreed' else 'withdrawn' end,
+      offer = case when p_accept then t.price else t.offer end, updated_at = now()
+    where t.id = p_id and t.status = 'countered' and t.requester = (select auth.uid());
+  if not found then raise exception 'That counter-offer is no longer open, or it is not yours.'; end if;
+end $$;
+revoke execute on function public.fand_counter_trade(uuid, numeric, text), public.fand_reply_counter(uuid, boolean) from public, anon;
+grant execute on function public.fand_counter_trade(uuid, numeric, text), public.fand_reply_counter(uuid, boolean) to authenticated;
 revoke execute on function public.fand_request_trade(uuid, text, text, text, int, numeric, text), public.fand_answer_trade(uuid, text, numeric, text) from public, anon;
 grant execute on function public.fand_request_trade(uuid, text, text, text, int, numeric, text), public.fand_answer_trade(uuid, text, numeric, text) to authenticated;
 do $$ begin
@@ -693,6 +717,76 @@ do $$ begin
   if exists (select 1 from pg_publication where pubname = 'supabase_realtime')
      and not exists (select 1 from pg_publication_tables where pubname = 'supabase_realtime' and tablename = 'campaign_swaps') then
     alter publication supabase_realtime add table public.campaign_swaps;
+  end if;
+end $$;
+
+-- shared loot: the DM shares items from the loot pool with a campaign; each player claims need, greed or pass for their
+-- character, with a d20 rolled here so nobody can fudge it; the DM awards each item. Members read; changes go through
+-- the functions below.
+create table if not exists public.campaign_loot (
+  id uuid primary key default gen_random_uuid(),
+  campaign_id uuid not null references public.campaigns (id) on delete cascade,
+  n text not null check (char_length(n) between 1 and 120),
+  q int not null default 1 check (q between 1 and 9999),
+  src text not null default '' check (char_length(src) <= 120),
+  status text not null default 'open' check (status in ('open', 'given', 'withdrawn')),
+  claims jsonb not null default '[]'::jsonb check (octet_length(claims::text) < 8000),
+  given_to text check (given_to is null or given_to ~ '^[A-Za-z0-9_-]{1,40}$'),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+create index if not exists campaign_loot_campaign on public.campaign_loot (campaign_id, created_at desc);
+alter table public.campaign_loot enable row level security;
+drop policy if exists "members read" on public.campaign_loot;
+create policy "members read" on public.campaign_loot for select to authenticated using (private.fand_is_member(campaign_id));
+revoke all on public.campaign_loot from anon;
+revoke insert, update, delete on public.campaign_loot from authenticated;
+grant select on public.campaign_loot to authenticated;
+create or replace function public.fand_share_loot(p_campaign uuid, p_items jsonb, p_src text) returns int
+language plpgsql security definer set search_path = '' as $$
+declare it jsonb; k int := 0;
+begin
+  if not private.fand_is_dm(p_campaign) then raise exception 'Only the DM can share loot.'; end if;
+  if jsonb_typeof(p_items) <> 'array' or jsonb_array_length(p_items) > 60 then raise exception 'Share up to 60 items at a time.'; end if;
+  for it in select * from jsonb_array_elements(p_items) loop
+    if coalesce(btrim(it->>'n'), '') = '' then continue; end if;
+    insert into public.campaign_loot (campaign_id, n, q, src) values (p_campaign, left(btrim(it->>'n'), 120),
+      greatest(1, least(coalesce((it->>'q')::int, 1), 9999)), left(coalesce(p_src, ''), 120));
+    k := k + 1;
+  end loop;
+  delete from public.campaign_loot where campaign_id = p_campaign and status <> 'open' and id in (
+    select id from public.campaign_loot where campaign_id = p_campaign order by created_at desc offset 200);
+  return k;
+end $$;
+-- a player claims for one of their own characters: need, greed or pass; claiming again replaces their claim and rerolls
+create or replace function public.fand_claim_loot(p_id uuid, p_char text, p_mode text) returns int
+language plpgsql security definer set search_path = '' as $$
+declare r public.campaign_loot; roll int := 1 + floor(random() * 20)::int; nm text;
+begin
+  select * into r from public.campaign_loot where id = p_id;
+  if r.id is null or r.status <> 'open' then raise exception 'That loot is no longer up for claims.'; end if;
+  if p_mode not in ('need', 'greed', 'pass') then raise exception 'Claim need, greed or pass.'; end if;
+  select coalesce(c.data->>'name', '') into nm from public.campaign_characters c where c.campaign_id = r.campaign_id and c.id = p_char and c.owner = (select auth.uid());
+  if nm is null then raise exception 'Only your own character, shared with the campaign, can claim.'; end if;
+  update public.campaign_loot set claims = coalesce((select jsonb_agg(x) from jsonb_array_elements(r.claims) x where x->>'char' <> p_char), '[]'::jsonb)
+      || jsonb_build_array(jsonb_build_object('char', p_char, 'name', left(nm, 60), 'mode', p_mode, 'roll', case when p_mode = 'pass' then 0 else roll end)),
+    updated_at = now() where id = p_id;
+  return case when p_mode = 'pass' then 0 else roll end;
+end $$;
+-- the DM gives it to a character (their device moves it), or takes it back to the pool
+create or replace function public.fand_award_loot(p_id uuid, p_char text) returns void
+language plpgsql security definer set search_path = '' as $$
+begin
+  update public.campaign_loot l set status = case when p_char is null then 'withdrawn' else 'given' end, given_to = p_char, updated_at = now()
+    where l.id = p_id and l.status = 'open' and private.fand_is_dm(l.campaign_id);
+  if not found then raise exception 'That loot is no longer open, or it is not yours to give.'; end if;
+end $$;
+revoke execute on function public.fand_share_loot(uuid, jsonb, text), public.fand_claim_loot(uuid, text, text), public.fand_award_loot(uuid, text) from public, anon;
+grant execute on function public.fand_share_loot(uuid, jsonb, text), public.fand_claim_loot(uuid, text, text), public.fand_award_loot(uuid, text) to authenticated;
+do $$ begin
+  if exists (select 1 from pg_publication where pubname = 'supabase_realtime')
+     and not exists (select 1 from pg_publication_tables where pubname = 'supabase_realtime' and tablename = 'campaign_loot') then
+    alter publication supabase_realtime add table public.campaign_loot;
   end if;
 end $$;
 

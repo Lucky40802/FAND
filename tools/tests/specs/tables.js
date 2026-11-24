@@ -50,12 +50,12 @@ module.exports = [
     t.ok(/\*\*Ara\*\* · Wizard 4, HP 20\/30/.test(body) && /2 × \[\[Wolf\]\]/.test(body) && /Wolf Pelt/.test(body) && /- \[ \] /.test(body), 'the page has the party, the fight ready and recent loot: ' + body.slice(0, 200));
     await p.fill('#dp-body', body.replace('- [ ] ', '- [x] Meet the duke\n- [ ] Find the map')); await p.waitForTimeout(600);
     await p.evaluate(() => { store.set('fights', [{ id: 'f', d: new Date().toISOString().slice(0, 10), mons: '2× Wolf', won: true, rounds: 3, dropped: [] }]); });
-    await p.evaluate(() => { document.querySelector('#dmpad .dp-more').open = true; }); await p.click('#dmpad button:has-text("Session recap")'); await p.waitForTimeout(200);
+    await p.waitForFunction(t => { const d = document.querySelector('#dmpad .dp-more'); if (d) d.open = true; const b = [...document.querySelectorAll('#dmpad button')].find(x => x.textContent.includes(t)); if (!b || !b.offsetParent) return false; b.click(); return true; }, 'Session recap', { timeout: 10000 }); await p.waitForTimeout(200);
     const rec = await p.evaluate(() => dmPadCur().body);
     t.ok(/2× Wolf: won in 3 rounds/.test(rec) && /Ara: 2 × Wolf Pelt/.test(rec) && /## Done\n- Meet the duke/.test(rec) && /- \[ \] Find the map/.test(rec), 'the recap: ' + rec);
     await p.click('#toast button'); await p.waitForTimeout(100);
     t.ok(await p.evaluate(() => store.get('journal', []).some(e => /^Recap/.test(e.t))), 'the recap goes into the journal');
-    await p.evaluate(() => { dmPadCur().body = 'Secret: [[Wolf]] den is under the mill'; }); await p.evaluate(() => { document.querySelector('#dmpad .dp-more').open = true; }); await p.click('#dmpad button:has-text("Share with players")'); await p.waitForTimeout(150);
+    await p.evaluate(() => { dmPadCur().body = 'Secret: [[Wolf]] den is under the mill'; }); await p.waitForFunction(t => { const d = document.querySelector('#dmpad .dp-more'); if (d) d.open = true; const b = [...document.querySelectorAll('#dmpad button')].find(x => x.textContent.includes(t)); if (!b || !b.offsetParent) return false; b.click(); return true; }, 'Share with players', { timeout: 10000 }); await p.waitForTimeout(150);
     t.eq(await p.inputValue('#hoB'), 'Secret: Wolf den is under the mill', 'the handout gets this page only, links as plain names');
     t.ok(await p.evaluate(() => $('dmpad').hidden), 'the notepad closes so the handout is in front');
   } },

@@ -41,7 +41,7 @@ module.exports = [
     // pages, delete and undo go to the table
     await p.click('#dmpad button:has-text("+ New page")'); await p.fill('#dp-title', 'Villains'); await p.waitForTimeout(700);
     t.eq(await p.evaluate(() => __FAKE.rows.filter(r => r.owner === 'dm-one').length), 2, 'a new page is a new row in this account');
-    await p.evaluate(() => { document.querySelector('#dmpad .dp-more').open = true; }); await p.click('#dmpad button:has-text("Delete page")'); await p.waitForTimeout(200);
+    await p.waitForFunction(t => { const d = document.querySelector('#dmpad .dp-more'); if (d) d.open = true; const b = [...document.querySelectorAll('#dmpad button')].find(x => x.textContent.includes(t)); if (!b || !b.offsetParent) return false; b.click(); return true; }, 'Delete page', { timeout: 10000 }); await p.waitForTimeout(200);
     t.ok(await p.evaluate(() => !__FAKE.rows.some(r => r.title === 'Villains')), 'deleting removes the row');
     await p.click('text=Undo'); await p.waitForTimeout(200);
     t.ok(await p.evaluate(() => __FAKE.rows.some(r => r.title === 'Villains')), 'undo puts it back');
