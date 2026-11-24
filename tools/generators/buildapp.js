@@ -253,6 +253,7 @@ log.push('harvest parts: +' + genAdded + ' materials (now ' + D.MATS.length + ')
   A.alloys.forEach(function (r) { n += add(r[0], r[1], r[2], 'O', { ds: r[4] + ' ' + r[5], where: 'Smelted from ' + r[3].join(', '), by: 'Blacksmithing (Smelting)', recipe: r[3].slice(), alloy: 1 }); });
   A.herbs.forEach(function (r) { n += add(r[0], r[1], r[2], 'W', { ds: r[3], where: r[4], by: 'Harvesting (Foraging)', gath: 'herb', alch: r[5] }); });
   // the Abyss's cursed twins: each keeps a link to the common material it twins, and the common one links back
+  D.MATS.forEach(function (m) { if (m.cursed && !(A.cursed || []).some(function (r) { return r[0] === m.n; })) { delete m.cursed; delete m.twin; } delete m.dark; });
   (A.cursed || []).forEach(function (r) { n += add(r[0], r[1], r[2], r[3], { ds: r[5], where: r[6], by: 'Found in the Abyss (Scavenging or Harvesting)', cursed: 1, twin: r[4] }); });
   (A.cursed || []).forEach(function (r) { var c = D.MATS.find(function (m) { return m.n === r[0]; }), b = D.MATS.find(function (m) { return m.n === r[4]; });
     if (c) { c.cursed = 1; c.twin = r[4]; } if (b) b.dark = r[0]; });

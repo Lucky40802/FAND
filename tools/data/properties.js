@@ -86,6 +86,22 @@ var A = {
   whispershard: ['Whispering Shard', 'Focus: +{B} to spell attacks and save DCs, and +{P} damage to one spell each turn. Cursed: it whispers. After each long rest its bearer makes a Wisdom save (DC {DC}); on a failure, the DM chooses one of their actions in their next fight.'],
   flayedhide: ['Flayed Hide', 'Armor: +{B} AC and resistance to necrotic damage. Cursed: its wearer regains no more than half their hit points from a rest unless it has been fed blood since the last one ({P5} hit points of damage dealt to a living creature by its wearer\'s hand).'],
   gravebound: ['Gravebound', 'Weapon: +{P}d6 necrotic damage, and a creature it kills rises as a zombie at the next midnight, under no one\'s command. Cursed: every undead within {P10} miles knows where its bearer is.'],
+  bloodthirst: ['Bloodthirst', 'Weapon: +{P}d6 damage, and it crits on 19–20 (18–20 at Potency 30+). Cursed: once drawn it can\'t be sheathed until it has drawn blood. If a fight ends without it hitting, it bites its bearer for {P}d6 piercing damage.'],
+  cacophony: ['Cacophony', 'Weapon: +{P}d6 thunder damage, and once per short rest a hit deafens the target for 1 minute (Constitution save, DC {DC}). Cursed: it never stops ringing. Its bearer can\'t be stealthy, can\'t be silenced by magic, and wakes every sleeper within {P10} ft.'],
+  leaden: ['Leaden Weight', 'Armor: +{P} AC and resistance to bludgeoning, piercing and slashing damage from nonmagical attacks. Cursed: its wearer moves 10 ft slower, can\'t swim or float, and sinks {P10} ft a round in water.'],
+  brittle: ['Brittle Promise', 'Weapon: its first hit in each fight deals an extra {P}d10 damage. Cursed: on an attack roll of 1 it shatters into worthless tin. It reforms in its bearer\'s pack at dawn, and the bearer takes {P}d4 psychic damage as it does.'],
+  cinder: ['Cinder Curse', 'Weapon: +{P}d6 fire damage, and what it hits smoulders, taking {B}d6 fire at the start of its next turn. Cursed: its bearer is vulnerable to fire, and every fire within 30 ft leans toward them.'],
+  skyward: ['Skyward Pull', 'Worn: a fly speed of {P5} ft. Cursed: the sky wants its wearer back. Outdoors in any wind they make a Strength save (DC {DC}) at the start of each turn or are pulled {P10} ft straight up; the pull ends only when they touch something rooted.'],
+  shadowless: ['Shadowless', 'Armor: +{B} AC, weighs nothing, never hinders Stealth, and its wearer leaves no tracks. Cursed: its wearer casts no shadow and has no soul for death to find: if they die, no magic short of a god\'s can bring them back.'],
+  glassheart: ['Glass Heart', 'Weapon: treats the target\'s AC as {B} lower, and a crit deals an extra {P}d12 damage. Cursed: its bearer takes double damage from bludgeoning, and a crit against them shatters one of their items (the DM chooses).'],
+  palehunger: ['Pale Hunger', 'Worn: {P5} extra hit points, and its bearer can\'t be frightened. Cursed: it eats what they eat. They need twice the food and water, and a day without it costs a level of exhaustion that rest won\'t remove.'],
+  bleedinggem: ['Bleeding Gem', 'Focus: +{B} to spell attacks and save DCs, and fire spells cast through it deal +{P}d6 fire damage. Cursed: every spell cast through it costs its caster {B} hit points per spell level.'],
+  unbreakable: ['Unbreakable Oath', 'Worn: critical hits against its wearer count as normal hits, and +{B} to saves against charm. Cursed: every promise its wearer makes binds them. If they break one, they make a Charisma save (DC {DC}) or are stunned for {B} rounds, and the item tells the one they broke it to.'],
+  frozenmoment: ['Frozen Moment', 'Once per long rest, stop time for everyone but its bearer for {B} rounds (the bearer can\'t harm others while it lasts). Cursed: each use ages its bearer {P} years, and they can\'t remember the year that was taken.'],
+  envy: ['Envious Luck', 'Worn: {B} times per long rest, reroll a d20 and use either roll. Cursed: it steals the luck it gives. Whenever its wearer rerolls, an ally within 30 ft (the DM chooses) has disadvantage on their next d20 roll.'],
+  debtor: ['Debtor\'s Seal', 'Worn: +{B} to Persuasion and Deception, and its wearer always has {P10} gp in their purse, however much they spend. Cursed: every coin it gives is a debt. When the debt passes {P10}00 gp, a devil comes to collect, in coin, service or flesh.'],
+  lunatic: ['Lunatic Moon', 'Worn: darkvision 60 ft and +{B} to Insight and Perception. Cursed: under a full moon its wearer makes a Wisdom save (DC {DC}) each hour or acts at random (roll a d4: attack the nearest creature, flee, babble, or stand still) until the next hour.'],
+  beastblood: ['Beastblood', 'Worn: +{B} to Strength checks and saves, and a charge (20 ft straight) adds {P}d8 damage to the next hit. Cursed: its wearer is turning into a beast. After each long rest they make a Wisdom save (DC {DC}) or gain a beast trait (horns, fur, a tail); after three failures they become a beast for a day.'],
   hoard: ['Hoard-Cursed', 'Worn: +{B} to every saving throw. After each long rest, make a Wisdom save (DC {DC}) or refuse to part with it, or let anyone touch it, until your next long rest.'],
   emberglass: ['Emberglass', 'Weapon: +{P}d6 damage against undead and creatures of ice, and they can\'t regenerate until the start of your next turn.'],
   heir: ['Rightful Heir', 'Only the one who first claims it can use its other powers. Worn: +{B} to Persuasion and Intimidation, and allies within 10 ft get +1 to saves against fear.'],
@@ -200,6 +216,7 @@ var NAMED = {
   // the Abyss's cursed twins of common materials (data/alloys.js, cursed)
   'Abyssal Gold': 'midas', 'Abyssal Silver': 'hollowmirror', 'Abyssal Iron': 'rusthunger', 'Abyssal Copper': 'leechcurrent', 'Abyssal Oak': 'stranglingroot',
   'Abyssal Crystal': 'whispershard', 'Abyssal Leather': 'flayedhide', 'Abyssal Bone': 'gravebound',
+  'Abyssal Steel': 'bloodthirst', 'Abyssal Brass': 'cacophony', 'Abyssal Lead': 'leaden', 'Abyssal Tin': 'brittle', 'Abyssal Ashwood': 'cinder', 'Abyssal Feathers': 'skyward', 'Abyssal Mithral': 'shadowless', 'Abyssal Heartglass': 'glassheart', 'Abyssal Ivory': 'palehunger', 'Abyssal Ruby': 'bleedinggem', 'Abyssal Diamond': 'unbreakable', 'Abyssal Amber': 'frozenmoment', 'Abyssal Jade': 'envy', 'Abyssal Platinum': 'debtor', 'Abyssal Moonstone': 'lunatic', 'Abyssal Horn': 'beastblood',
   // alloys named for the tales (data/alloys.js)
   'Starsilver': 'starsilver', 'Mirrorbronze': 'mirror', 'Dragon-Hoard Gold': 'hoard', 'Emberglass': 'emberglass', 'Songsteel': 'songbound',
   'Pactsteel': 'oathkeeper', 'Dawnsteel': 'radiant', 'Thunder Brass': 'stormcall', 'Moon-Steel': 'starsilver', 'Bell Metal': 'songbound',
@@ -389,7 +406,8 @@ var FAM = {
   wardrune: ['charges'], songbound: ['charges'], stormcall: ['charges'], ash: ['charges'], fungus: ['charges'], bell: ['charges'], seed: ['charges'],
   progenitor: ['relic'], divine: ['relic'],
   midas: ['weapon'], hollowmirror: ['elem', 'psychic'], rusthunger: ['elem', 'acid'], leechcurrent: ['elem', 'lightning'], stranglingroot: ['armor'],
-  whispershard: ['focus'], flayedhide: ['armor'], gravebound: ['elem', 'necrotic']
+  whispershard: ['focus'], flayedhide: ['armor'], gravebound: ['elem', 'necrotic'],
+  bloodthirst: ['weapon'], cacophony: ['elem', 'thunder'], leaden: ['armor'], brittle: ['weapon'], cinder: ['elem', 'fire'], skyward: ['move'], shadowless: ['armor'], glassheart: ['weapon'], palehunger: ['armor'], bleedinggem: ['focus'], unbreakable: ['save'], frozenmoment: ['charges'], envy: ['charges'], debtor: ['skill'], lunatic: ['sense'], beastblood: ['skill']
 };
 var FAM_NAME = { elem: 'Elemental', save: 'Saving throws', skill: 'Skills', focus: 'Spell focus', weapon: 'Weapon', armor: 'Armor and toughness', move: 'Movement', charges: 'Limited-use power', sense: 'Senses', relic: 'Relic' };
 // a property's page: its family, its text at each step, and what each step adds
