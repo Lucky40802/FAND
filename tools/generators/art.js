@@ -330,7 +330,12 @@ var ITEM_SYMBOLS = {
   Artifact: 'gem-pendant', Armor: 'breastplate', Potion: 'round-potion', Sword: 'broadsword', Bow: 'bow-arrow', Staff: 'wizard-staff', Shield: 'shield',
   Hammer: 'warhammer', Dagger: 'plain-dagger', Axe: 'battle-axe', Tool: 'spanner', Food: 'meal', Structure: 'stone-tower', Map: 'treasure-map', Crop: 'wheat',
   Spear: 'spears', Livestock: 'cow', Instrument: 'lyre', Fortification: 'stone-wall', Storage: 'chest', Fertilizer: 'sprout', Focus: 'crystal-ball',
-  Ammunition: 'quiver', Book: 'open-book'
+  Ammunition: 'quiver', Book: 'open-book',
+  // the categories the build files vault Blueprints under (2026-11-24)
+  Glyph: 'rune-stone', Mechanism: 'gears', Talisman: 'totem', 'Siege Engine': 'catapult', 'Beast Gear': 'saddle', Jewelry: 'gem-necklace',
+  Trap: 'wolf-trap', Vehicle: 'ship-wheel', Explosive: 'unlit-bomb', Clothing: 'cape',
+  Relic: 'relic-blade', Vessel: 'amphora', 'Arcane Core': 'crystal-shine', Poison: 'poison-bottle', 'Oil & Coating': 'oil-drum', Navigation: 'compass',
+  'Light Source': 'lantern-flame', Restraint: 'manacles'
 };
 // ---- the picture picker's choices (loaded only when a DM opens it): creature and fantasy icons, coordinates trimmed to one decimal ----
 var PICK_RE = /skull|dragon|demon|daemon|devil|imp\b|beast|wolf|bear|lion|tiger|cat\b|dog|hound|horse|unicorn|pegasus|griffin|eagle|hawk|owl|raven|crow|bat\b|bird|snake|serpent|cobra|hydra|wyvern|kraken|tentacle|squid|octopus|fish|shark|whale|crab|turtle|frog|toad|lizard|croc|dino|rex|spider|scorpion|insect|bee|wasp|beetle|centipede|mantis|ant\b|worm|slime|ooze|blob|mushroom|tree|ent\b|vine|thorn|ghost|spectre|zombie|vampire|mummy|reaper|death|lich|skeleton|bone|angel|wing|halo|fairy|elf|goblin|orc|ogre|troll|giant|golem|robot|knight|helm|warrior|sword|wizard|witch|hood|cultist|mask|monk|ninja|pirate|viking|king|queen|crown|throne|mermaid|siren|harpy|centaur|minotaur|medusa|cyclops|sphinx|gargoyle|mimic|eye|brain|horn|fang|claw|jaw|teeth|mouth|fire|flame|ice|frost|lightning|thunder|storm|tornado|wave|water|rock|stone|crystal|gem|sun|moon|star|cosmic|portal|vortex|rune|magic|spell|potion|staff|wand|orb|god|holy|cross|ankh|egypt|anubis|horus|thor|zeus|trident|hades|tarot|totem|idol|statue/;

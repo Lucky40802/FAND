@@ -404,7 +404,7 @@ function forgedDesc(d){const F=d&&d.forged;if(!F)return '';const P=d.powers||[],
     d.dmg?`It deals ${d.dmg}${d.vers?' ('+d.vers+' two-handed)':''}${d.atk!=null?', with '+(d.atk>=0?'+':'')+d.atk+' Accuracy':''}.`:d.ac!=null?`It gives AC ${d.ac}.`:'',
     ...P.map(x=>`${x.n}${x.k==='p'?' (Potency '+x.pot+')':''}: ${x.t||''}`.trim()),
     F.quirk?`${F.quirk.n}: ${F.quirk.t}`:'',(d.combos||[]).length?`Combos: ${d.combos.join(', ')}.`:''].filter(Boolean).join('\n')}
-function designBP(d){const so=d.sort||{},m=/^(\S+)\s+(.*)$/.exec(d.dmg||'');return {n:d.n,design:d,pr:so.pr||d.pr||'Blacksmithing',sp:so.sp||'',cat:so.cat||d.cat||'Item',r:d.r||'Common',lv:d.il||1,mats:(d.mats||[]).slice(),ds:d.lore||forgedDesc(d)||so.ds||'',prop:d.prop||'',mg:false,gr:d.gr||'',ac:d.ac!=null?String(d.ac):'',dc:m?m[1]:'',dm:m?m[2]:'',slot:d.slot||''}}
+function designBP(d){const so=d.sort||{},m=/^(\S+)\s+(.*)$/.exec(d.dmg||'');return {n:d.n,design:d,ammo:d.ammo||null,pr:so.pr||d.pr||'Blacksmithing',sp:so.sp||'',cat:so.cat||d.cat||'Item',r:d.r||'Common',lv:d.il||1,mats:(d.mats||[]).slice(),ds:d.lore||forgedDesc(d)||so.ds||'',prop:d.prop||'',mg:false,gr:d.gr||'',ac:d.ac!=null?String(d.ac):'',dc:m?m[1]:'',dm:m?m[2]:'',slot:d.slot||''}}
 // Potency runs 1-50 (website rule); its rank (Potency / 5, 1-10) sets a property's numbers. Designs forged before the
 // scale was widened kept Potency 1-10: they are moved to the new scale once (x5) and marked potV 2.
 const potRank=p=>Math.min(10,Math.max(1,Math.floor((+p||0)/5)));
@@ -685,15 +685,24 @@ const opts=(arr,f,sort)=>{const c={};arr.forEach(x=>{const v=f(x);if(v!==''&&v!=
 const CT_KINDS=[['a','Action'],['b','Bonus action'],['r','Reaction'],['m','Minutes'],['h','Hours']];
 const ctKind=ct=>{ct=lc(ct||'');return /bonus/.test(ct)?'b':/reaction/.test(ct)?'r':/action/.test(ct)?'a':/minute/.test(ct)?'m':/hour/.test(ct)?'h':''};
 const realmSort=(a,b)=>((REALM[a]||{}).tier||99)-((REALM[b]||{}).tier||99)||a.localeCompare(b);
+// Blueprint item types in groups (the filter, and the Item type sort's order)
+const BP_GROUPS={'Weapons':['Sword','Axe','Hammer','Dagger','Spear','Bow','Staff','Ammunition'],'Armor and clothing':['Armor','Shield','Clothing'],
+  'Magic':['Focus','Glyph','Talisman','Jewelry','Relic','Arcane Core','Artifact'],'Consumables':['Potion','Poison','Oil & Coating','Food','Explosive'],
+  'Gear and tools':['Tool','Navigation','Light Source','Restraint','Instrument','Storage','Vessel','Book','Map'],'Engineering':['Mechanism','Siege Engine','Trap','Vehicle'],
+  'Building':['Structure','Fortification'],'Farm and beasts':['Crop','Livestock','Fertilizer','Beast Gear']};
+const BP_GROUP_ORDER=Object.values(BP_GROUPS).flat(),bpGroupRank=b=>{const i=BP_GROUP_ORDER.indexOf(b.cat);return i<0?999:i};
+const LV_BANDS=[[1,10,'Human'],[11,20,'Mysterious'],[21,30,'Hell & Heaven'],[31,40,'Chaos'],[41,50,'Abyss'],[51,60,'Inner Realm'],[61,70,'Outer Realm'],[71,80,'Void'],[81,90,'Inner Void'],[91,100,'Primordial']];
 
 const VIEWS={
   blueprints:{type:'bp',arr:BPS,title:'Blueprints',
     side:{label:'Profession',key:'pr',sub:'sp',order:Object.keys(PROFS)},
     hay:b=>[b.n,b.ds,b.pr,b.sp,b.cat,b.prop,b.mats.join(' ')].join(' '),
     filters:[
+      {id:'grp',label:'All item groups',opts:()=>Object.keys(BP_GROUPS).map(g=>[g,g+' ('+fmt(BPS.filter(b=>BP_GROUPS[g].includes(b.cat)).length)+')']),test:(b,v)=>(BP_GROUPS[v]||[]).includes(b.cat)},
       {id:'cat',label:'All item types',opts:()=>opts(BPS,b=>b.cat),test:(b,v)=>b.cat===v},
       {id:'r',label:'All rarities',opts:()=>opts(BPS,b=>b.r,(a,b)=>rarRank(a)-rarRank(b)),test:(b,v)=>b.r===v},
-      {id:'lv',label:'All levels',opts:()=>[['1-4','Level 1–4'],['5-8','Level 5–8'],['9-12','Level 9–12'],['13-16','Level 13–16'],['17-19','Level 17–19'],['20-99','Level 20+']],test:(b,v)=>{const [lo,hi]=v.split('-').map(Number);return b.lv>=lo&&b.lv<=hi}},
+      // levels by the realm whose band they sit in (Blueprints run 1 to 100, ten levels to a realm)
+      {id:'lv',label:'All levels',opts:()=>LV_BANDS.map(([lo,hi,r])=>[lo+'-'+hi,`Level ${lo}–${hi} · ${r} (${fmt(BPS.filter(b=>b.lv>=lo&&b.lv<=hi).length)})`]),test:(b,v)=>{const [lo,hi]=v.split('-').map(Number);return b.lv>=lo&&b.lv<=hi}},
       {id:'realm',label:'Any material realm',opts:()=>opts(BPS,b=>realmOf(b.gr),realmSort),test:(b,v)=>realmOf(b.gr)===v},
       {id:'dim',label:'Any dimension',opts:()=>opts(BPS,b=>b.dim),test:(b,v)=>b.dim===v},
       {id:'gen',label:'Any general Blueprint',opts:()=>GEN.map(([n])=>[n,n+' ('+fmt((BP_BY_GEN().get(n)||[]).length)+')']).filter(o=>!/\(0\)$/.test(o[1])),test:(b,v)=>genOf(b)===v},
@@ -706,7 +715,9 @@ const VIEWS={
       {id:'prop',label:'Has property',test:b=>!!b.prop},
       {id:'pin',label:'★ Pinned',test:b=>isPinned(b)},
     ],
-    sorts:[['name','Name A–Z',byName],['lv','Level ↑',(a,b)=>a.lv-b.lv||byName(a,b)],['lvd','Level ↓',(a,b)=>b.lv-a.lv||byName(a,b)],['rar','Rarity',(a,b)=>rarRank(a.r)-rarRank(b.r)||a.lv-b.lv]],
+    sorts:[['name','Name A–Z',byName],['lv','Level ↑',(a,b)=>a.lv-b.lv||byName(a,b)],['lvd','Level ↓',(a,b)=>b.lv-a.lv||byName(a,b)],['rar','Rarity',(a,b)=>rarRank(a.r)-rarRank(b.r)||a.lv-b.lv],
+      ['type','Item type',(a,b)=>bpGroupRank(a)-bpGroupRank(b)||String(a.cat).localeCompare(String(b.cat))||a.lv-b.lv||byName(a,b)],['prof','Profession',(a,b)=>String(a.pr).localeCompare(String(b.pr))||String(a.sp||'').localeCompare(String(b.sp||''))||a.lv-b.lv||byName(a,b)],
+      ['realm','Realm',(a,b)=>realmSort(realmOf(a.gr)||'Human',realmOf(b.gr)||'Human')||a.lv-b.lv||byName(a,b)]],
   },
   materials:{type:'mat',arr:MATS,title:'Materials',
     side:{label:'Realm',key:'realm',order:REALMS.map(r=>r.n),color:true},
@@ -2735,6 +2746,7 @@ const SITE_CHANGES=[
   ['2026-11-11','The deep realms, filled in','Every realm now has a full write-up in its window: what it is, what changes for travelers, its regions, who holds power, its dangers and adventure hooks. The Inner Realm has thirteen dimensions, whole worlds grown around the anchors of the strongest Laws: Aldermere (knights and dragons), Brassholm (a steam-driven empire), Kethra-Vael (an alien world under a violet sun), Gloamhollow (gothic horror), Thalassar (an ocean world), Skyreach (floating islands), the Ashfall Expanse, the Lantern Courts, Rimefast, Arcanopolis, the Verdant Deep, the Iron Front and the Glass Dunes. The Outer Realm has nineteen small, stranger pocket dimensions, from the Inverted Orchard, where things fall up, to Paperfold, the Echo Chamber, the Last Library and the Carnival at the End. Each dimension has its natives, materials and gear, all on the Realms page. 284 new monsters fill the deep realms (every realm past the Mysterious now has at least 50, with plenty at its own levels), 1,175 new Blueprints give every deep realm a full set of weapons, armor, shields and focuses through its levels, 117 new spells give every school high-level magic and the School of Resonance its hundredth spell, and every material now says where it is found.','realms'],
   ['2026-11-10','Class focus materials, safer saving, phones, and the keyboard','Every spellcasting class now has what bards got with Virtuoso: a focus property that adds +1 to +5 (by Potency) to that class\'s spell Accuracy and save DC through its own kinds of focus. Devout for clerics and paladins (Holy Symbol, Amulet), Wildbound for druids and rangers (Totem, Staff), Bloodspark for sorcerers (Crystal, Orb), Pactbound for warlocks (Rod, Scepter), and Arcanist for wizards and artificers (Wand, Tome). Each realm has one material of each, and the Blueprints list has a ready-made focus of each kind in every realm, levels 6 to 96. A plain Holy Symbol now counts as a focus on the sheet too. If the browser\'s storage fills up, FAND now says a change was not saved instead of losing it quietly; portraits are smaller, a portrait that does not fit is not kept, and Settings shows how much space is used. On a phone, the table screen\'s close button no longer slides off the edge and the player view drops its empty left column. With a keyboard, every button and dropdown now shows where you are, Escape closes the ⋯ More menus, and the picture and file buttons can be reached and pressed.','properties'],
   ['2026-11-10','Bonded summons in the combat tracker','Adding the party to the combat tracker (+ Party) now brings each character\'s bonded summons along: they act right after their summoner, show their Accuracy and damage per hit, and their hit points stay in step with the sheet. A summon brought to 0 is marked fallen until the next long rest. Their numbers now come from the typical monster of the character\'s realm band (at the default 50%: half its hit points, its AC, and a hit the size of its best attack), so five summons deal about as much as a same-level Fighter; before, a level 15 summon had three times a Fighter\'s hit points.','combat'],
+  ['2026-11-24','Ammunition everywhere, and every Blueprint filed by what it is','Ammunition for every ranged weapon in every realm: broadhead, bodkin, barbed and fire arrows, loose arrowheads, heavy bolts and piercing quarrels, weighted sling bullets, venom needles, firearm shot and ballista bolts, at two steps in each realm\'s band of levels from its own materials, plus the everyday Blowgun Needles, Firearm Shot, Ballista Bolts, Arrowheads, a Bolt Case, Fletcher\'s Tools, Spare Bowstrings and a Powder Horn. The Forge has an Ammunition group (Arrows, Broadhead, Bodkin and Barbed Arrows, Arrowheads, Crossbow Bolts, Heavy Bolts, Piercing Quarrels, Sling Bullets, Blowgun Needles, Firearm Shot, Ballista Bolts): the head\'s material adds damage per hit and armor-piercing kinds ignore some AC. On the sheet a ranged weapon shoots the best ammunition you carry for it and adds its numbers. And the Blueprints are filed properly: about 2,400 that the vault had under Artifact are now Glyph, Mechanism, Talisman, Tool, Siege Engine, Beast Gear, Jewelry, Food, Structure, Fortification, Map, Trap, Vehicle, Explosive, Clothing and the rest, misfiled ammunition is Ammunition, and a Shotel is a sword. Relics, arcane cores, vessels, poisons, oils and coatings, navigation gear, light sources and restraints have types of their own. On the Blueprints page a new item-group filter (Weapons, Armor and clothing, Magic, Consumables, Gear and tools, Engineering, Building, Farm and beasts), sorting by item type, profession or realm, and level bands that follow the realms (1–10 Human up to 91–100 Primordial) replace the old Level 1–4 … Level 20+ choices; and "x1" is gone from the end of hundreds of names. The thin types are filled out too: bestiary folios and survival almanacs, fire bombs, smoke bombs and thunderclap charges, wagons and skiffs, blade venom and sleep draughts, snares and spike pits, lanterns and torch bundles, manacles and weighted nets, satchels and strongboxes, traveler\'s cloaks and gloves, palisades and watchtowers, weapon oil and armor polish, each in every realm with numbers for its level.','blueprints'],
   ['2026-11-16','Cast from the sheet, fight reports, and a choice of damage floor','Each spell on the character sheet has a Cast button: it rolls the casting-in-armor check first when it applies (a fizzle still spends the slot), rolls the spell\'s dice, and ticks the lowest free slot of its level or higher. The combat tracker has End fight: it saves how the fight went (rounds, who dropped and in which round, damage the characters took) beside what the Party check predicted, then clears the tracker. After three won fights the reports show how your table\'s pace compares, and the Party check can use it. On the Rules page (Armor Class) the DM can choose the damage floor: at least 1 (the rule), at least the realm tier, or at least a quarter of the hit. The DM\'s Hidden classes page gets a dice check against each realm\'s typical monster. And two fixes: Done and Reset under Customise Home now work on the first click after scrolling down, and the Forge\'s shortcut bar lights the part you clicked even when the page can\'t scroll it up to the bar.','combat'],
   ['2026-11-15','A hit always hurts','A hit that gets past the Dodge now always deals at least 1 damage, however high the target\'s AC: a 12-damage hit on AC 15 deals 1 instead of 0. The combat tracker, the damage calculator, the Party check, the balance report and the rules use it.','rules'],
   ['2026-11-13','Casting in armor','Spellcasters now pay for armor their class isn\'t trained for, so a Wizard can\'t simply wear plate. Each class is trained for some armor (Fighters and Paladins all of it; Clerics, Druids, Rangers and Artificers light and medium with shields; Bards and Warlocks light; Wizards and Sorcerers none; heavy-armor Cleric domains, the Armorer, Valor, Swords and the Hexblade more). Weight comes from the material, so any metal piece is heavy. Each step over your training (light 1, medium 2, heavy 3; a shield without shield training adds 1) costs −2 spell Accuracy and save DC, and spells fail on a d20 roll of 3 × steps or lower, the slot spent. Some subclasses train more (the heavy-armor Cleric domains and the Armorer all armor; Valor, Swords and the Hexblade medium), and remember that any metal piece counts as heavy. The sheet shows the penalty under Spellcasting and includes it in the numbers, the Party check counts it, the Armor Class rules explain it, and the character generator and the builder\'s starting kit now give casters armor they can cast in.','sheet'],
@@ -4254,7 +4266,8 @@ function contractTable(g){
 const CONDITIONS=['Blinded','Charmed','Deafened','Frightened','Grappled','Incapacitated','Invisible','Paralyzed','Petrified','Poisoned','Prone','Restrained','Stunned','Unconscious','Exhaustion','Concentrating'];
 const uid=()=>Math.random().toString(36).slice(2,9);
 const BP_IDX=new Map();BPS.forEach(b=>{if(!BP_IDX.has(lc(b.n)))BP_IDX.set(lc(b.n),b)});
-let findBP=n=>BP_IDX.get(lc(n||''));
+// a name saved before the build dropped " x1" from the vault's names still finds its Blueprint
+let findBP=n=>BP_IDX.get(lc(n||''))||(/\s+x\s?1$/i.test(n||'')?BP_IDX.get(lc(n).replace(/\s+x\s?1$/,'')):undefined);
 const godByKey=n=>GOD_IDX.get(lc(n||''));
 let PARTY=store.get('party',[]);
 // variants were removed: a pack holding "Wolf Hide (Tanned)" now holds Wolf Hide (added to any Wolf Hide already there)
@@ -5273,8 +5286,8 @@ function renderSheet(){
   const skillVal=sk=>(+((c.skillB||{})[sk[0]])||0)+(s.gb[sk[0]]||0);
   const speedPen=s.drawback.filter(o=>/^Speed −(\d+)/.test(o.d)).reduce((a,o)=>a+(+o.d.match(/\d+/)[0]),0);
   const weapons=s.gear.filter(b=>(b.design&&b.design.dmg)||(b.dc&&b.dm&&!ARMOR_CATS.includes(b.cat)));
-  const atkRow=b=>{const props=b.design?b.design.props:(genOf(b)&&BASES[genOf(b)].props)||'',fin=/Finesse/i.test(props),rng=/Ammunition|ranged/i.test(props)||['Bow'].includes(b.cat);const ab=rng?M('dex'):fin?Math.max(M('str'),M('dex')):M('str');const fx=gearFx(b),item=(b.design&&b.design.atk!=null?b.design.atk:0)+fx.atk;const dmg=fxDmg(b.design?b.design.dmg:`${b.dc} ${b.dm}`,fx);
-    return `<tr><td><b>${esc(b.n)}</b>${fx.src.length?`<br><small style="color:var(--muted)" ${fx.capDmg?'title="Capped: properties and traits add at most half the weapon\'s own damage"':''}>with ${esc(fx.src.join(', '))}${fx.capDmg?' (capped)':''}</small>`:''}</td><td class="num"><button class="sh-roll" type="button" data-roll="${d20x(ab+pb+item)}" data-what="${esc(b.n)} attack">${sgn(ab+pb+item)}</button></td><td>${esc(dmg.replace(/^(\d+d\d+)/,'$1'+(ab?(ab>0?' + ':' − ')+Math.abs(ab):'')))}</td></tr>`};
+  const atkRow=b=>{const props=b.design?b.design.props:(genOf(b)&&BASES[genOf(b)].props)||'',fin=/Finesse/i.test(props),rng=/Ammunition|ranged/i.test(props)||['Bow'].includes(b.cat);const ab=rng?M('dex'):fin?Math.max(M('str'),M('dex')):M('str');const fx=gearFx(b),item=(b.design&&b.design.atk!=null?b.design.atk:0)+fx.atk;const ak=rng?ammoKind(b):'',am=ak?bestAmmo(c,ak):null,dmg=fxDmg(b.design?b.design.dmg:`${b.dc} ${b.dm}`,fx)+(am&&am.A.dmg?` + ${am.A.dmg}`:'');
+    return `<tr><td><b>${esc(b.n)}</b>${am?`<br><small style="color:var(--muted)" title="The best ammunition for it that ${esc(c.name||'the character')} carries">shooting ${esc(am.b.n)}${am.A.dmg?' (+'+am.A.dmg+')':''}${am.A.pierce?', ignores '+am.A.pierce+' AC':''}</small>`:''}${fx.src.length?`<br><small style="color:var(--muted)" ${fx.capDmg?'title="Capped: properties and traits add at most half the weapon\'s own damage"':''}>with ${esc(fx.src.join(', '))}${fx.capDmg?' (capped)':''}</small>`:''}</td><td class="num"><button class="sh-roll" type="button" data-roll="${d20x(ab+pb+item)}" data-what="${esc(b.n)} attack">${sgn(ab+pb+item)}</button></td><td>${esc(dmg.replace(/^(\d+d\d+)/,'$1'+(ab?(ab>0?' + ':' − ')+Math.abs(ab):'')))}</td></tr>`};
   const head=`<div class="sh-head"><div class="sh-id"><div class="sh-port">${c.portrait?`<img src="${esc(c.portrait)}" alt="Portrait of ${esc(c.name||'the character')}">`:classCrest(c.cls,c.name,104)}<label class="sh-port-btn sh-noprint" title="Choose a picture for this character">📷<input type="file" accept="image/*" style="display:none" onchange="sheetPortrait(this)"></label>${c.portrait?'<button type="button" class="sh-port-x sh-noprint" title="Remove the picture" onclick="sheetPortrait(null)">✕</button>':''}</div><div class="sh-name">${inp('name','Character name')}<div class="sh-lab">Character name</div></div></div>
     <div class="sh-hgrid">
       <div><select data-s="cls" aria-label="Class"><option value="">Class…</option>${Object.keys(CLASS_DIE).sort().map(x=>`<option${x===c.cls?' selected':''}>${x}</option>`).join('')}</select><select data-s="sub" title="Subclass (chosen at level 3)"><option value="">Subclass…</option>${SUBS.filter(x=>x.par===c.cls).map(x=>`<option${x.n===c.sub?' selected':''}>${esc(x.n)}</option>`).join('')}</select>${inp('level','',`min="1" max="${MAX_LEVEL}" style="width:64px"`,'number')}<div class="sh-lab">Class &amp; level${si&&si.k>1?` · <b style="color:var(--gold2)">${esc(si.name)}</b>`:''}${c.cls2&&L2?` · ${esc(c.cls)} ${L1} / ${esc(si2&&si2.k>1?si2.name:c.cls2)} ${L2}`:''}</div></div>
@@ -5545,6 +5558,11 @@ const WORN_WORDS=[[/\b(ring|rings|band|signet)\b|-ring\b/i,'Finger'],[/\b(amulet
   [/\b(charm|token|stone|crystal|gem|idol|fetish|relic|sigil|glyph|rune|seal|coin|figurine|totem|bone|tooth|feather|shard|jewel|heartstone)\b/i,'Carried (pouch or pocket)'],
   [/\b(orb|wand|rod|scepter|sceptre|tome|book|lantern|lamp|torch|mirror|compass|bell|horn|whistle|key|lens|sextant|gauge|astrolabe|map|chart|atlas|scroll|symbol|focus|crowbar|rasp|comb|pot|leash|timer|log|tables|rule|staff|barometer|predictor|hook|net|rope|chain|tongs|hammer|pick|shovel|saw|needle)\b/i,'One hand when used'],
   [/\b(kit|set|tools|instruments|manacles|caltrops)\b/i,'Carried in the bag']];
+// what a ranged weapon shoots (bow, crossbow, sling, blowgun, firearm, ballista), from its template and name
+function ammoKind(b){const base=b.design?b.design.base:genOf(b),n=(base||'')+' '+(b.n||'');
+  return /blowgun/i.test(n)?'blowgun':/crossbow|arbalest|gastraphetes/i.test(n)?'crossbow':/sling|pellet bow/i.test(n)?'sling':/arquebus|musket|pistol|blunderbuss|hand cannon|fire lance|repeater|flintlock|firearm|\bgun\b/i.test(n)?'firearm':/ballista|scorpion/i.test(n)?'siege':/\bbow\b|bow$|yumi|longbow|shortbow|greatbow/i.test(n)?'bow':''}
+// the best ammunition a character carries (equipped or in the bag) for a kind: most extra damage plus AC it ignores
+function bestAmmo(c,kind){if(!c||!kind)return null;let best=null;[...(c.gear||[]),...(c.inv||[]).filter(x=>+x[1]>0).map(x=>x[0])].forEach(n=>{const b=findBP(n),A=b&&b.ammo;if(A&&A.fits===kind&&(!best||(+A.dmg||0)+(+A.pierce||0)>(+best.A.dmg||0)+(+best.A.pierce||0)))best={b,A}});return best}
 function wornOn(b){if(!b)return '';if(typeof b==='string')b={n:b};const n=b.n||'',cat=b.cat||'';
   if(b.slot&&SLOT_LABEL[b.slot])return SLOT_LABEL[b.slot];
   if(cat==='Shield')return SLOT_LABEL.Shield;
@@ -5553,13 +5571,15 @@ function wornOn(b){if(!b)return '';if(typeof b==='string')b={n:b};const n=b.n||'
   if(WORN_WEAPONS.includes(cat)){if(/\b(hand crossbow|sling|dart)\b/i.test(n))return 'One hand';if(cat==='Bow'||cat==='Staff'||/\b(great\w*|maul|halberd|glaive|pike|lance|quarterstaff|scythe|zweihander|claymore)\b/i.test(n))return 'Both hands';if(cat==='Spear'||/\b(warhammer|longsword|battleaxe|bastard)\b/i.test(n))return 'One or both hands';return 'One hand'}
   if(cat==='Ammunition')return 'Quiver or pouch';
   if(cat==='Potion'||cat==='Food')return 'Not worn: used from the bag';
-  if(['Crop','Fertilizer','Livestock','Structure','Fortification'].includes(cat))return 'Not worn';
+  if(['Crop','Fertilizer','Livestock','Structure','Fortification','Siege Engine','Vehicle'].includes(cat))return 'Not worn';
+  if(cat==='Trap')return 'Not worn: set down where it is used';if(cat==='Glyph')return 'Not worn: inscribed where it is used';if(cat==='Explosive')return 'Thrown or set from the bag';if(cat==='Beast Gear')return 'On a mount or beast';
   if(cat==='Storage'&&/\b(chest|vault|strongbox|box|trunk)\b/i.test(n))return 'Not worn: set down';
   for(const [re,w] of WORN_WORDS)if(re.test(n))return w;
   if(cat==='Armor')return SLOT_LABEL.Body;
   if(cat==='Tool'||cat==='Focus')return 'One hand when used';
   if(cat==='Instrument'||cat==='Map'||cat==='Book')return 'Held when used';
   if(cat==='Storage')return 'Back or belt';
+  if(cat==='Jewelry'||cat==='Talisman')return 'Worn';if(cat==='Poison'||cat==='Oil & Coating')return 'Not worn: used from the bag';if(cat==='Navigation')return 'Held when used';if(cat==='Light Source')return 'One hand when used';if(cat==='Restraint')return 'Carried in the bag';if(cat==='Clothing')return 'Worn over armor';if(cat==='Mechanism')return 'Carried, or set up where it works';
   return b.cat?'Carried or held':'Where you choose'}
 // equipped items that crowd the same place: one per armor slot, and two hands' worth of things held
 function wornClashes(names){const by={},hands=names.reduce((a,n)=>{const w=wornOn(gearItem(n)||n);(by[w]=by[w]||[]).push(n);return a+(w==='Both hands'||w==='Off hand (set down to brace it)'?2:/^(One hand|Off hand|One or both hands)/.test(w)?1:0)},0),out=[];
@@ -6229,7 +6249,7 @@ function genLevel(c,to){to=Math.max(1,Math.min(MAX_LEVEL,Math.round(+to)||1));co
 // artifacts, and coin that grow with the level. Packs and tools stay as they are.
 function genGear(c,L){if(L<=1)return c;const near=list=>{const ok=list.filter(b=>(+b.lv||1)<=L);if(!ok.length)return null;const top=Math.max(...ok.map(b=>+b.lv||1)),band=ok.filter(b=>(+b.lv||1)>=Math.max(1,Math.min(top,L)-9));return cwPick(band.length?band:ok)};
   const pick={},up=[];c.gear=(c.gear||[]).map(n=>{const x=BPS.find(b=>b.n===n),g=x&&genOf(x);if(!g)return n;const key=g+(x.cat==='Armor'?'|'+armorPiece(x).weight+'|'+armorPiece(x).slot:'');if(!(key in pick)){const same=b=>x.cat!=='Armor'||(armorPiece(b).weight===armorPiece(x).weight&&armorPiece(b).slot===armorPiece(x).slot),v=near((BP_BY_GEN().get(g)||[]).filter(b=>b.n!==n&&same(b)));pick[key]=v&&(+v.lv||1)>(+x.lv||1)?v.n:null;if(pick[key])up.push(pick[key])}return pick[key]||n});
-  const extra=(cat,k)=>{const L2=BPS.filter(b=>b.cat===cat&&(+b.lv||1)<=L&&!c.gear.includes(b.n)),out=[];for(let i=0;i<k&&L2.length;i++){const v=near(L2.filter(b=>!out.includes(b.n)));if(!v)break;out.push(v.n)}return out};
+  const extra=(cat,k)=>{const L2=BPS.filter(b=>(b.cat0||b.cat)===cat&&(+b.lv||1)<=L&&!c.gear.includes(b.n)),out=[];for(let i=0;i<k&&L2.length;i++){const v=near(L2.filter(b=>!out.includes(b.n)));if(!v)break;out.push(v.n)}return out};
   const pots=extra('Potion',Math.min(5,1+Math.floor(L/10))),arts=extra('Artifact',L>=50?3:L>=20?2:L>=5?1:0);
   pots.forEach(n=>invAdd(c,n,1,1,true));arts.forEach(n=>c.gear.push(n));
   const gold=genGold(L),fv=genFavor(L);c.coins=c.coins||{};c.coins.gp=(+c.coins.gp||0)+gold;if(fv)c.favor=(+c.favor||0)+fv;c.genGear={up,pots,arts,gp:gold,favor:fv};return c}
@@ -8211,6 +8231,27 @@ GEN.push(
   SH('Aspis','Shield',3),SH('Scutum','Tower',4),SH('Parma','Buckler',1),SH('Pelta','Shield',2),SH('Wicker Shield','Shield',2),SH('Hide Shield','Shield',2),
   SH('Adarga','Shield',2),SH('Rotella','Shield',3),SH('Bouche Shield','Shield',3),SH('Lantern Shield','Buckler',2),SH('Mantlet','Tower',6)
 );
+// ammunition (owner's request, 2026-11-23: "add arrow blueprint and ammunition blueprint in forge"): what every ranged weapon
+// shoots. The head (or shot) is the main part: a good material adds damage to each hit (Item Level ÷ 5, ÷ 4 for heavy kinds),
+// armor-piercing kinds also make a hit ignore some AC, and a craft makes a bundle. The sheet adds it to the weapon it fits.
+const AMMO_FITS={bow:'bows',crossbow:'crossbows',sling:'slings and slingshots',blowgun:'blowguns',firearm:'firearms',siege:'ballistas and scorpions',parts:'plain arrow shafts (Fletcher\'s Tools)'};
+const AM=(n,icon,fits,qty,slots,o)=>[n,Object.assign({group:'Ammunition',icon,cat:'Ammunition',ammo:Object.assign({fits,qty},o||{}),props:`Ammunition for ${AMMO_FITS[fits]}; a craft makes ${qty}`,slots:mk(slots)})];
+const P_HEAD=(name)=>Object.assign(P.point(1),{name:name||'Arrowheads'}),P_SHAFT=(name)=>Object.assign(P.haft(name||'Shafts'),{ok:['W','B','O']}),P_FLETCH=(name)=>Object.assign(P.grip(name||'Fletching'),{ok:['F','B'],why:'Feathers, hide, or thin bone.'});
+const P_SHOT=(name)=>({name:name||'Shot',role:'primary',qty:1,kind:'blunt',ok:['O','S','B','G'],ideal:{S:/flint|basalt|granite|river/i},why:'Something small and heavy: metal, stone, dense bone, or a gem.'});
+GEN.push(
+  AM('Arrows','🏹','bow',20,[P_HEAD(),P_SHAFT(),P_FLETCH()]),
+  AM('Broadhead Arrows','🏹','bow',20,[P_HEAD('Broadheads'),P_SHAFT(),P_FLETCH()],{heavy:true}),
+  AM('Bodkin Arrows','🏹','bow',20,[P_HEAD('Bodkin points'),P_SHAFT(),P_FLETCH()],{pierce:true}),
+  AM('Barbed Arrows','🏹','bow',20,[Object.assign(P_HEAD('Barbed heads'),{ideal:{B:/fang|tooth|claw|barb|spine|hook/i}}),P_SHAFT(),P_FLETCH()],{note:'A creature hit has its speed cut by 10 feet until it spends an action to pull the arrow out.'}),
+  AM('Arrowheads','🔺','parts',20,[P_HEAD('Heads')],{note:'Fit them to plain shafts with Fletcher\'s Tools (an hour for twenty): the arrows they make carry these numbers.'}),
+  AM('Crossbow Bolts','🎯','crossbow',20,[P_HEAD('Bolt heads'),P_SHAFT(),Object.assign(P_FLETCH('Vanes'),{ok:['F','W','B']})]),
+  AM('Heavy Bolts','🎯','crossbow',20,[P_HEAD('Bolt heads'),P_SHAFT(),Object.assign(P_FLETCH('Vanes'),{ok:['F','W','B']})],{heavy:true}),
+  AM('Piercing Quarrels','🎯','crossbow',20,[P_HEAD('Square heads'),P_SHAFT(),Object.assign(P_FLETCH('Vanes'),{ok:['F','W','B']})],{pierce:true}),
+  AM('Sling Bullets','🪨','sling',20,[P_SHOT('Bullets')]),
+  AM('Blowgun Needles','📍','blowgun',50,[Object.assign(P_HEAD('Needles'),{ok:['O','B']}),Object.assign(P_FLETCH('Tufts'),{ok:['F']})],{light:true}),
+  AM('Firearm Shot','💥','firearm',20,[P_SHOT('Balls'),{name:'Charge',role:'structure',qty:1,kind:'fit',ok:['E','L','S'],optional:true,why:'An essence or a reactive substance for the cartridge; plain powder if left empty.'}],{heavy:true}),
+  AM('Ballista Bolts','🏹','siege',5,[P_HEAD('Bolt heads'),Object.assign(P_SHAFT('Shafts'),{qty:2})],{pierce:true})
+);
 const BASES=Object.fromEntries(GEN);
 // the Staff is a weapon and a focus, built outside W_: it gets the Everchanging core too
 Object.values(BASES).forEach(b=>{if(b.dmg&&!b.slots.some(s=>s.kind==='shift'))b.slots.push(...mk([P.shift()]))});
@@ -8390,6 +8431,10 @@ function forgeResult(baseName,partsMap,opt){
     if(struc&&struc.m)adds.push([struc.s.name,struc.m,struc.fit.lv==='wrong'?'nothing: wrong material':struc.fit.lv==='good'?'a stable brew':'an unstable brew (on a 1 on a d6 it spoils when used)']);
     if(cm&&cm.m&&cat)adds.push([cm.s.name,cm.m,'adds at half strength: '+cat.slice(0,70)+(cat.length>70?'…':'')]);
   }
+  if(B.ammo){const A=B.ammo,good=pok&&prim.fit.lv==='good',dv=A.light?10:A.heavy?4:5,dmg=useless||!pok?0:Math.floor(pil/(good?dv:dv*2)),pierce=A.pierce&&pok&&!useless?Math.max(1,Math.floor(pil/(good?8:12))):0;
+    out.ammo={fits:A.fits,qty:A.qty,dmg,pierce};
+    if(pm)adds.push([prim.s.name,pm,useless||!pok?'nothing: wrong material':(dmg?`+${dmg} damage per hit`:'no extra damage yet (Item Level too low)')+(pierce?`, a hit ignores ${pierce} AC`:'')+` · ${A.qty} for ${AMMO_FITS[A.fits]}`]);
+    if(A.note)adds.push(['Shape',null,A.note])}
   const prof=B.potion?'Alchemy':B.focus?'Enchanting':(B.armor||B.shield)&&pm&&matCode(pm)==='F'?'Tailoring':pm&&['W','B','S'].includes(matCode(pm))?'Carving':'Blacksmithing';
   out.prof=prof;
   out.realmSpec=pm&&matCode(pm)==='O'&&/Hell|Heaven|Void/.test(pm.realm)?{Hell:'Infernal Forging',Heaven:'Celestial Metallurgy',Void:'Void Smithing','Inner Void':'Void Smithing'}[pm.realm]:'';
@@ -8418,6 +8463,8 @@ const GEN_SLOT={Head:'Helm',Body:'Cuirass',Hands:'Gauntlets',Feet:'Boots',Should
 const WEAPON_CATS=['Axe','Sword','Dagger','Hammer','Spear','Bow','Staff'];
 function genOf(b){
   if(b._gen!==undefined)return b._gen;
+  // the build re-filed many vault Blueprints (cat0 is where the vault had them): which template one is follows the vault's filing
+  if(b.cat0!=null&&!b._g0){const c=b.cat;b._g0=1;b.cat=b.cat0;try{return genOf(b)}finally{b.cat=c;delete b._g0}}
   let g=null;
   if(b.cat==='Armor')g=GEN_SLOT[b.slot]===undefined?'Cuirass':GEN_SLOT[b.slot];
   else if(b.cat==='Shield')g=/pavise/i.test(b.n)?'Pavise':/tower|scutum|wall|bastion/i.test(b.n)?'Tower Shield':/\btarge\b/i.test(b.n)?'Targe':/buckler|parma/i.test(b.n)?'Buckler':/round shield/i.test(b.n)?'Round Shield':/kite shield/i.test(b.n)?'Kite Shield':/heater/i.test(b.n)?'Heater Shield':'Shield';
@@ -9499,7 +9546,7 @@ async function groqForge(){
 }
 function designFromForge(){
   const r=forgeResult();
-  return {lore:FORGE.lore||'',want:FORGE.want||'',n:FORGE.name||r.name,base:FORGE.base,parts:Object.assign({},FORGE.parts),ac:r.ac!=null?r.ac:null,dmg:r.damage?r.damage+' '+r.dtype:'',atk:r.attack!=null?r.attack:null,vers:r.vers||'',props:r.B.props||'',cat:r.B.cat,slot:r.B.slot||r.B.kind||'',mats:[...new Set(r.parts.filter(p=>p.m&&p.fit.lv!=='wrong').map(p=>p.m.n).concat(r.forms?everResults(r.forms).filter(Boolean).flatMap(x=>x.added.map(m=>m.n)):[]))],pr:r.prof,il:r.il,r:r.rar||'Common',gr:((r.parts.find(p=>p.s.role==='primary')||{}).m||{}).gr||'',prop:[...new Set(r.props.map(p=>p.m.pn).filter(Boolean))].concat(r.forms?[`Everchanging (${r.forms} forms)`]:[]).join(', '),
+  return {lore:FORGE.lore||'',want:FORGE.want||'',n:FORGE.name||r.name,base:FORGE.base,parts:Object.assign({},FORGE.parts),ac:r.ac!=null?r.ac:null,ammo:r.ammo||null,dmg:r.damage?r.damage+' '+r.dtype:'',atk:r.attack!=null?r.attack:null,vers:r.vers||'',props:r.B.props||'',cat:r.B.cat,slot:r.B.slot||r.B.kind||'',mats:[...new Set(r.parts.filter(p=>p.m&&p.fit.lv!=='wrong').map(p=>p.m.n).concat(r.forms?everResults(r.forms).filter(Boolean).flatMap(x=>x.added.map(m=>m.n)):[]))],pr:r.prof,il:r.il,r:r.rar||'Common',gr:((r.parts.find(p=>p.s.role==='primary')||{}).m||{}).gr||'',prop:[...new Set(r.props.map(p=>p.m.pn).filter(Boolean))].concat(r.forms?[`Everchanging (${r.forms} forms)`]:[]).join(', '),
     combos:forgeCombos(r).map(x=>x[2]),forms:r.forms?[{n:FORGE.base,dmg:(r.damage||'')+' '+(r.dtype||''),atk:r.attack,props:r.B.props||''}].concat(everResults(r.forms).filter(x=>x&&!x.missing.length).map(x=>({n:x.e.base,dmg:(x.r.damage||'')+' '+(x.r.dtype||''),atk:x.r.attack,props:x.e.G.props||'',parts:Object.assign({},x.e.own)}))):null,formMax:r.forms||0,lvV:2};
 }
 const vaultBP=n=>{const b=BP_IDX.get(lc(n||''));return b&&!b.design?b:null};
