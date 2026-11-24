@@ -619,5 +619,82 @@ do $$ begin
   end if;
 end $$;
 
+-- swaps between players: one player offers items and coin to another player's character and may ask for some back.
+-- The other player accepts or declines; each player's own device then moves its own half (from_done / to_done).
+-- Both players and the campaign's DM can read a swap. Every change goes through the functions below.
+create table if not exists public.campaign_swaps (
+  id uuid primary key default gen_random_uuid(),
+  campaign_id uuid not null references public.campaigns (id) on delete cascade,
+  from_char text not null check (from_char ~ '^[A-Za-z0-9_-]{1,40}$'),
+  from_user uuid not null references auth.users (id) on delete cascade,
+  to_char text not null check (to_char ~ '^[A-Za-z0-9_-]{1,40}$'),
+  to_user uuid not null references auth.users (id) on delete cascade,
+  give jsonb not null default '{}'::jsonb check (octet_length(give::text) < 4000),
+  want jsonb not null default '{}'::jsonb check (octet_length(want::text) < 4000),
+  note text not null default '' check (char_length(note) <= 500),
+  status text not null default 'offered' check (status in ('offered', 'accepted', 'declined', 'withdrawn')),
+  from_done boolean not null default false,
+  to_done boolean not null default false,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+create index if not exists campaign_swaps_campaign on public.campaign_swaps (campaign_id, created_at desc);
+create index if not exists campaign_swaps_from on public.campaign_swaps (from_user);
+create index if not exists campaign_swaps_to on public.campaign_swaps (to_user);
+alter table public.campaign_swaps enable row level security;
+drop policy if exists "the two players or the dm read" on public.campaign_swaps;
+create policy "the two players or the dm read" on public.campaign_swaps for select to authenticated
+  using (from_user = (select auth.uid()) or to_user = (select auth.uid()) or private.fand_is_dm(campaign_id));
+revoke all on public.campaign_swaps from anon;
+revoke insert, update, delete on public.campaign_swaps from authenticated;
+grant select on public.campaign_swaps to authenticated;
+create or replace function public.fand_offer_swap(p_campaign uuid, p_from text, p_to text, p_give jsonb, p_want jsonb, p_note text) returns uuid
+language plpgsql security definer set search_path = '' as $$
+declare sid uuid; other uuid;
+begin
+  if not exists (select 1 from public.campaign_characters c where c.campaign_id = p_campaign and c.id = p_from and c.owner = (select auth.uid())) then
+    raise exception 'Only your own character, shared with the campaign, can offer a swap.';
+  end if;
+  select c.owner into other from public.campaign_characters c where c.campaign_id = p_campaign and c.id = p_to;
+  if other is null then raise exception 'That character is not in the campaign.'; end if;
+  if other = (select auth.uid()) then raise exception 'Both characters are yours: move things on the Party page instead.'; end if;
+  if (select count(*) from public.campaign_swaps w where w.campaign_id = p_campaign and w.from_user = (select auth.uid()) and w.status = 'offered') >= 20 then
+    raise exception 'You already have 20 offers waiting.';
+  end if;
+  insert into public.campaign_swaps (campaign_id, from_char, from_user, to_char, to_user, give, want, note)
+    values (p_campaign, p_from, (select auth.uid()), p_to, other, coalesce(p_give, '{}'::jsonb), coalesce(p_want, '{}'::jsonb), left(coalesce(p_note, ''), 500))
+    returning id into sid;
+  delete from public.campaign_swaps where campaign_id = p_campaign and status <> 'offered' and from_done and to_done and id in (
+    select id from public.campaign_swaps where campaign_id = p_campaign order by created_at desc offset 300);
+  return sid;
+end $$;
+-- the player offered to accepts or declines; the one who offered can withdraw while it waits
+create or replace function public.fand_answer_swap(p_id uuid, p_status text) returns void
+language plpgsql security definer set search_path = '' as $$
+begin
+  update public.campaign_swaps w set status = p_status, updated_at = now()
+    where w.id = p_id and w.status = 'offered' and (
+      (p_status in ('accepted', 'declined') and w.to_user = (select auth.uid())) or (p_status = 'withdrawn' and w.from_user = (select auth.uid())));
+  if not found then raise exception 'That offer is no longer open, or it is not yours to answer.'; end if;
+end $$;
+-- each player marks their own half of an accepted swap as moved
+create or replace function public.fand_swap_done(p_id uuid) returns void
+language plpgsql security definer set search_path = '' as $$
+begin
+  update public.campaign_swaps w set
+      from_done = w.from_done or w.from_user = (select auth.uid()),
+      to_done = w.to_done or w.to_user = (select auth.uid()), updated_at = now()
+    where w.id = p_id and w.status = 'accepted' and (w.from_user = (select auth.uid()) or w.to_user = (select auth.uid()));
+  if not found then raise exception 'That swap is not yours, or it was not accepted.'; end if;
+end $$;
+revoke execute on function public.fand_offer_swap(uuid, text, text, jsonb, jsonb, text), public.fand_answer_swap(uuid, text), public.fand_swap_done(uuid) from public, anon;
+grant execute on function public.fand_offer_swap(uuid, text, text, jsonb, jsonb, text), public.fand_answer_swap(uuid, text), public.fand_swap_done(uuid) to authenticated;
+do $$ begin
+  if exists (select 1 from pg_publication where pubname = 'supabase_realtime')
+     and not exists (select 1 from pg_publication_tables where pubname = 'supabase_realtime' and tablename = 'campaign_swaps') then
+    alter publication supabase_realtime add table public.campaign_swaps;
+  end if;
+end $$;
+
 -- make the site's API see new tables (the Workshop's `blueprints`, the DM notepad's `dm_notes`, and the rest) right away
 notify pgrst, 'reload schema';

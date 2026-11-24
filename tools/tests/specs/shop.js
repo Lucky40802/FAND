@@ -140,3 +140,35 @@ module.exports.push(
     t.ok(!(await p.isVisible('#tl')), 'not on the player\'s Shop page');
   } },
 );
+module.exports.push(
+  { name: 'DM shops: write a shop, sell from it, edit, copy a market, delete with Undo', run: async t => {
+    const p = await t.open('shop');
+    await p.evaluate(two); await p.evaluate(() => { store.set('myshops', []); setRole('dm'); renderShop(); }); await p.waitForTimeout(150);
+    await p.click('button:has-text("＋ New shop")'); await p.waitForTimeout(150);
+    await p.fill('#ms-name', 'The Gilded Anvil'); await p.fill('#ms-keeper', 'Hesta'); await p.fill('#ms-line', 'No haggling.');
+    await p.fill('#mse [data-ms=n][data-i="0"]', 'Steel'); await p.fill('#mse [data-ms=q][data-i="0"]', '2'); await p.fill('#mse [data-ms=price][data-i="0"]', '10');
+    await p.click('#mse button:has-text("Add a row")'); await p.fill('#mse [data-ms=n][data-i="1"]', 'Lucky Horseshoe'); await p.fill('#mse [data-ms=q][data-i="1"]', '1'); await p.fill('#mse [data-ms=price][data-i="1"]', '7');
+    await p.click('#mse button:has-text("Save shop")'); await p.waitForTimeout(200);
+    const txt = await p.innerText('#content');
+    t.ok(/The Gilded Anvil/.test(txt) && /No haggling/.test(txt) && /Sell to Hesta/.test(txt) && /Lucky Horseshoe/.test(txt), 'the shop opens with its name, keeper and stock');
+    t.eq(await p.evaluate(() => shopStock().rows.map(r => [r.n, r.q, r.price])), [['Steel', 2, 10], ['Lucky Horseshoe', 1, 7]], 'its stock and prices');
+    await p.evaluate(() => { SHOPST.who = 's1'; renderShop(); }); await p.waitForTimeout(100);
+    await p.evaluate(() => shopBuy(0)); await p.waitForTimeout(150);
+    t.eq(await p.evaluate(() => [commonGp(PARTY[0]), shopStock().rows[0].q, PARTY[0].inv.find(z => z[0] === 'Steel')[1]]), [90, 1, 1], 'Ara buys a Steel for 10 gp and the stock goes down');
+    await p.evaluate(() => { SHOPST.adj = 10; renderShop(); }); t.eq(await p.evaluate(() => shopStock().rows[0].price), 11, 'the DM price change applies');
+    await p.evaluate(() => { SHOPST.adj = 0; renderShop(); });
+    await p.click('button:has-text("✎ Edit")'); await p.fill('#mse [data-ms=q][data-i="0"]', '5'); await p.click('#mse button:has-text("Save shop")'); await p.waitForTimeout(150);
+    t.eq(await p.evaluate(() => shopStock().rows[0].q), 5, 'editing restocks it');
+    await p.click('.chips .chip >> nth=0'); await p.waitForTimeout(150);
+    t.ok(!/Gilded Anvil/.test(await p.innerText('.shop .panel h4')), 'a market shop chip goes back to the market');
+    await p.click('button:has-text("Copy this stock")'); await p.waitForTimeout(150);
+    t.ok(await p.evaluate(() => MSE.items.length > 0 && /my copy/.test(MSE.name)), 'copying a market starts a shop from its stock');
+    await p.click('#mse button:has-text("Save shop")'); await p.waitForTimeout(150);
+    t.eq(await p.evaluate(() => myShops().length), 2, 'two shops');
+    await p.click('button:has-text("✎ Edit")'); await p.evaluate(() => { window.confirm = () => true; }); await p.click('#mse button:has-text("Delete shop")'); await p.waitForTimeout(150);
+    t.eq(await p.evaluate(() => myShops().length), 1, 'deleted'); await p.click('#toast button'); await p.waitForTimeout(150);
+    t.eq(await p.evaluate(() => myShops().length), 2, 'Undo brings it back');
+    await p.evaluate(() => { setRole('player'); HC = null; renderShop(); }); await p.waitForTimeout(150);
+    t.ok(!/Gilded Anvil/.test(await p.innerText('#content')), 'players never see the DM\'s shop list');
+  } },
+);
