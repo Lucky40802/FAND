@@ -348,5 +348,6 @@ function a11yName(root){(root||document).querySelectorAll('input:not([type=hidde
     // number buttons say what they do: hit points, and the sheet's rolls
     if(b.dataset.hpd){const n=+b.dataset.hpd;b.setAttribute('aria-label',n<0?`Take ${-n} damage`:`Heal ${n}`);return}
     if(b.dataset.what){b.setAttribute('aria-label',`${b.dataset.what}: roll ${t.replace('−','-')}`);return}
+    const sn=/^([−+-])\s?(\d+)$/.exec(t);if(sn){b.setAttribute('aria-label',(sn[1]==='+'?'Add ':'Subtract ')+sn[2]);return}
     const w=A11Y_SYM[t];if(w)b.setAttribute('aria-label',w)})}
 {let pend=0;new MutationObserver(()=>{if(pend)return;pend=requestAnimationFrame(()=>{pend=0;a11yName(document.body)})}).observe(document.documentElement,{childList:true,subtree:true})}
