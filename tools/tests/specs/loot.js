@@ -89,3 +89,20 @@ module.exports.push(
     t.eq(await p.evaluate(() => [__LT.rows[1].status, lootPool().items]), ['withdrawn', [{ n: 'Rope', q: 1 }]], 'taken back to the pool');
   } },
 );
+module.exports.push(
+  { name: 'quest rewards: a Done quest puts its reward in the loot pool once; due quests show on the calendar and timeline', run: async t => {
+    const p = await t.open('party');
+    const r = await p.evaluate(() => { window.arQueue = () => {}; store.set('lootpool', {}); store.set('questlog', []); setRole('dm');
+      const q = { id: 'q1', kind: 'quest', title: 'Rats in the cellar', data: { status: 'Done', rgp: '50 gp', ritems: '2 × Steel, Healing Potion; 3x Iron' } };
+      const parsed = questItems(q.data.ritems); questPay(q); const first = JSON.parse(JSON.stringify(lootPool())); questPay(q);
+      return { parsed, first, second: lootPool(), paid: !!q.data.paid, log: store.get('questlog').map(x => x.t) }; });
+    t.eq(r.parsed, [{ n: 'Steel', q: 2 }, { n: 'Healing Potion', q: 1 }, { n: 'Iron', q: 3 }], '“2 × Steel, Healing Potion; 3x Iron” reads as three items');
+    t.ok(r.first.gp === 50 && r.first.items.length === 3 && /Rats in the cellar/.test(r.first.from) && r.paid, 'the reward goes to the pool: ' + JSON.stringify(r.first));
+    t.eq(r.second, r.first, 'and never twice');
+    t.ok(/Quest done: Rats in the cellar \(reward: 50 gp, 2 × Steel, Healing Potion, 3 × Iron\)/.test(r.log[0]), 'on the session timeline: ' + r.log[0]);
+    const cal = await p.evaluate(() => { ARC.items = [{ id: 'q2', kind: 'quest', title: 'Find the map', data: { status: 'Open', due: '15' } }]; store.set('clock', { day: 10, min: 480, lights: [] }); calOpen(); return $('cal').innerText; });
+    t.ok(/Day 15.*in 5 days.*Quest due: Find the map/.test(cal.replace(/\n/g, ' ')), 'a due quest is on the calendar');
+    const pl = await p.evaluate(() => { setRole('player'); store.set('lootpool', {}); const q = { kind: 'quest', title: 'X', data: { status: 'Done', rgp: '9' } }; questPay(q); return [lootPool().gp, !!q.data.paid]; });
+    t.eq(pl, [0, false], 'a player marking their own quest Done does not touch the DM\'s pool');
+  } },
+);
