@@ -28,3 +28,17 @@ module.exports = [
     t.ok(await p.evaluate(() => { try { rmGear('cz', 0); } catch (e) { return false; } return !PARTY[0].gear.length; }), 'and it can come off on the Party page too');
   } },
 ];
+module.exports.push({ name: 'export as PDF: a clean summary with stats, gear powers, curses, inventory and coin', run: async t => {
+  const p = await t.open('sheet');
+  await p.evaluate(n => { PARTY.length = 0; PARTY.push({ id: 'x', name: 'Ara <b>', cls: 'Rogue', level: 5, race: 'Elf', hp: 20, hpMax: 33, abil: { dex: 18, wis: 14 }, skillB: { perception: 4, stealth: 7 }, coins: { gp: 42, sp: 3 }, gear: [n], inv: [['Iron', 3], ['Rope', 1]], notes: 'Owes Hesta 10 gp' }); saveParty(); SHEET_ID = 'x'; renderSheet(); window.__printed = 0; }, "Abyssal Miner's Pick");
+  await p.waitForTimeout(150);
+  await p.evaluate(() => { const o = HTMLIFrameElement.prototype; const f = () => { const fr = document.getElementById('pdfFrame'); if (fr) fr.contentWindow.print = () => { window.__printed++ } }; setTimeout(f, 50); sheetPDF(); setTimeout(f, 0); });
+  await p.waitForTimeout(500);
+  const html = await p.evaluate(() => document.getElementById('pdfFrame').contentDocument.body.innerText);
+  t.ok(/Ara <b>/.test(html) && /Elf · Rogue 5/.test(html), 'the name (escaped) and who they are');
+  t.ok(/DEX\s*\+4/i.test(html) && /Passive Perception\s*14/i.test(html) && /Stealth \+7/.test(html), 'abilities, passive Perception and skills');
+  t.ok(/Miner's Pick/.test(html) && /Cacophony/.test(html), 'the gear and its power');
+  t.ok(/Cursed gear/i.test(html) && /Curse:/.test(html), 'the curse');
+  t.ok(/3 × Iron/.test(html) && /42 gp, 3 sp/.test(html) && /Owes Hesta/.test(html), 'inventory, money and notes');
+  t.ok(await p.evaluate(() => getComputedStyle(document.getElementById('pdfFrame')).visibility === 'hidden'), 'the page itself is untouched');
+} });
