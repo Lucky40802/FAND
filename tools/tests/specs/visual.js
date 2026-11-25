@@ -69,3 +69,9 @@ module.exports = [
     t.eq(await pp(), ['12', '12'], 'typing then tapping away (the change that used to error) works');
   } },
 ];
+module.exports.push({ name: 'the realm dot sits in the middle of its badge (it was pushed down by a clashing style)', run: async t => {
+  const p = await t.open('materials');
+  await p.evaluate(() => openItem(MATS.find(m => /^Heaven/.test(m.gr)))); await p.waitForTimeout(300);
+  const d = await p.evaluate(() => { const b = document.querySelector('#modal .b.rlm'), s = b && b.querySelector('.sw'); if (!s) return null; const r1 = b.getBoundingClientRect(), r2 = s.getBoundingClientRect(); return [Math.abs((r1.top + r1.bottom) / 2 - (r2.top + r2.bottom) / 2), getComputedStyle(s).marginTop]; });
+  t.ok(d && d[0] <= 1.5 && d[1] === '0px', 'centred, no extra margin: ' + JSON.stringify(d));
+} });
