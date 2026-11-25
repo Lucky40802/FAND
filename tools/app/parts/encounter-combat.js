@@ -119,17 +119,17 @@ function charRound(c,rn,tAC){const s=charStats(c),M=a=>Math.floor(((+(c.abil||{}
   // each weapon's round: its hits, the class riders on them (each hit against the target's AC), a once-a-turn rider
   // (Sneak Attack, Divine Smite) on one of them, and a Monk's Flurry of Blows; the best weapon's round counts
   const tr=(REALM[rn]||{tier:1}).tier,RD=classRiders(c),sneak=c.cls==='Rogue'||c.cls2==='Rogue'?sneakDice(+c.level||1)*3.5:0,MA=RD.find(r=>r.strike),ms=MA?MA.avg+M('dex'):0;
-  const W=s.gear.filter(b=>gearKind(b)==='weapon').map(b=>({h:dmgAvg(fxDmg(b.design?b.design.dmg:`${b.dc} ${b.dm}`,gearFx(b)))+ab,mel:!wpnRanged(b)}));if(MA)W.push({h:ms,mel:true,fist:true});
+  const W=s.gear.filter(b=>gearKind(b)==='weapon').map(b=>({h:dmgAvg(fxDmg(b.design?b.design.dmg:`${b.dc} ${b.dm}`,gearFx(b)))+ab+(infAcc(c,b)?infDmg(+c.level||1).avg:0),mel:!wpnRanged(b)}));if(MA)W.push({h:ms,mel:true,fist:true});
   let wpn=0,hit=0,used=[];W.filter(w=>w.h>ab).forEach(w=>{const R=RD.filter(r=>!r.strike&&(!r.melee||w.mel)),per=R.filter(r=>r.per).reduce((a,r)=>a+r.avg,0),once=sneak+R.filter(r=>r.once).reduce((a,r)=>a+r.avg,0),h=MA&&w.mel?Math.max(w.h,ms):w.h;
     const v=n*acTaken(h+per,tAC,tr)+(once?acTaken(h+per+once,tAC,tr)-acTaken(h+per,tAC,tr):0)+(MA?2*acTaken(ms+per,tAC,tr):0);if(v>wpn){wpn=v;hit=h;used=R.map(r=>r.n).concat(sneak?['Sneak Attack']:[],MA?['Flurry of Blows']:[])}});
   let sp=0,spn='';const hexSp=RD.filter(r=>r.spell).reduce((a,r)=>a+r.avg,0);
   if(CASTER[c.cls]&&typeof SP!=='undefined'){const FO=focusOf(c);Object.values(c.spells||{}).flat().forEach(nm=>{const x=SP.find(y=>lc(y.n)===lc(nm));if(!x||!spellScales(x)||/heal/i.test(spellDmg(x)))return;
     const v=acTaken(dmgAvg(spellAt(spellDmg(x),spellPow(c,rn,x)))+focusFor(FO,x).dmg+hexSp,tAC,tr);if(v>sp){sp=v;spn=x.n+(hexSp?' + Hex':'')}});const CA=s.castArm;if(CA&&sp){sp*=1-CA.fail/20;spn+=' (in armor: fails on '+CA.fail+' or lower)'}}
   // bonded summons add their hits, each against the target's AC
-  const bd=c.bondOn?(c.bonds||[]).filter(s=>!s.dead).reduce((a,s)=>a+acTaken(bondNow(c,s).dmg,tAC,tr),0):0,nb=c.bondOn?(c.bonds||[]).filter(s=>!s.dead).length:0,plus=bd?` + ${nb} summon${nb>1?'s':''}`:'';
+  const bd=c.bondOn?(c.bonds||[]).filter(s=>!s.dead).reduce((a,s)=>a+acTaken(bondNow(c,s).dmg,tAC,tr),0):0,nb=c.bondOn?(c.bonds||[]).filter(s=>!s.dead).length:0,AN=artNow(c),ad=AN&&!AN.dead?acTaken(AN.dmg,tAC,tr):0,plus=(bd?` + ${nb} summon${nb>1?'s':''}`:'')+(ad?' + '+AN.n:'');
   // Action Surge: once a fight (twice from level 17) the Fighter takes its whole round again
   const su=surgeUses(c);
-  return sp>wpn?{v:sp+bd,how:spn+plus,burst:su*sp,surge:su}:{v:wpn+bd,how:(wpn?n+' × '+Math.round(hit)+(used.length?' + '+used.join(', '):''):'')+plus,burst:su*wpn,surge:su}}
+  return sp>wpn?{v:sp+bd+ad,how:spn+plus,burst:su*sp,surge:su}:{v:wpn+bd+ad,how:(wpn?n+' × '+Math.round(hit)+(used.length?' + '+used.join(', '):''):'')+plus,burst:su*wpn,surge:su}}
 // the AC-aware reading of a fight for the campaign's party: rounds to get through the monsters, rounds until the weakest
 // character drops if focused, and their ratio (pressure) read as a difficulty: under 0.25 Trivial, then Easy (0.5),
 // Medium (0.9), Hard (1.4), Deadly above
@@ -212,13 +212,13 @@ function cbDodge(x){if(x.dodge!=null)return x.dodge;const m=x.mon&&MON_IDX.get(l
 // ── Combat ────────────────────────────────────────────────────
 let CB=null;
 // Player characters' HP lives on the Party page: Combat reads it when it draws and writes damage and healing back
-function cbPullHP(C){let ch=0;(C.list||[]).forEach(x=>{if(x.bond){const c=PARTY.find(p=>p.id===x.bond.pc),s=c&&(c.bonds||[])[x.bond.i];if(s){const N=bondNow(c,s),hp=s.dead?0:N.cur;if(x.hp!==hp||x.max!==N.hp){x.hp=hp;x.max=N.hp;ch=1}}return}if(!x.pc)return;const c=PARTY.find(p=>p.id===x.pc);if(!c)return;const mx=+c.hpMax||x.max,hp=c.hp===''||c.hp==null?mx:Math.max(0,+c.hp||0),t=+c.tempHp||0,D=dsFromSheet(c);if(x.hp!==hp||x.max!==mx||(+x.thp||0)!==t||JSON.stringify(x.ds||{s:0,f:0})!==JSON.stringify(D)){x.hp=hp;x.max=mx;x.thp=t;x.ds=D;ch=1}});return ch}
+function cbPullHP(C){let ch=0;(C.list||[]).forEach(x=>{if(x.art){const c=PARTY.find(p=>p.id===x.art.pc),A=c&&artNow(c);if(A){const hp=A.dead?0:A.cur;if(x.hp!==hp||x.max!==A.hp){x.hp=hp;x.max=A.hp;ch=1}}return}if(x.bond){const c=PARTY.find(p=>p.id===x.bond.pc),s=c&&(c.bonds||[])[x.bond.i];if(s){const N=bondNow(c,s),hp=s.dead?0:N.cur;if(x.hp!==hp||x.max!==N.hp){x.hp=hp;x.max=N.hp;ch=1}}return}if(!x.pc)return;const c=PARTY.find(p=>p.id===x.pc);if(!c)return;const mx=+c.hpMax||x.max,hp=c.hp===''||c.hp==null?mx:Math.max(0,+c.hp||0),t=+c.tempHp||0,D=dsFromSheet(c);if(x.hp!==hp||x.max!==mx||(+x.thp||0)!==t||JSON.stringify(x.ds||{s:0,f:0})!==JSON.stringify(D)){x.hp=hp;x.max=mx;x.thp=t;x.ds=D;ch=1}});return ch}
 // death saves: the tracker counts them (s, f: 0-3); the sheet keeps three tick boxes for each
 // a character's current HP: empty (a new character) means full health, never 0
 const hpNow=c=>c.hp===''||c.hp==null?(+c.hpMax||0):Math.max(0,+c.hp||0);
 const dsFromSheet=c=>{const d=c.ds||{};return {s:[0,1,2].filter(i=>d['s'+i]).length,f:[0,1,2].filter(i=>d['f'+i]).length}};
 const dsToSheet=D=>{const o={};for(let i=0;i<3;i++){if(i<D.s)o['s'+i]=true;if(i<D.f)o['f'+i]=true}return o};
-function cbPushHP(C){let ch=0;(C.list||[]).forEach(x=>{if(x.bond){const c=PARTY.find(p=>p.id===x.bond.pc),s=c&&(c.bonds||[])[x.bond.i];if(s){const hp=Math.max(0,+x.hp||0);if(+s.hp!==hp||s.hp==null){s.hp=hp;ch=1}if(hp<=0&&!s.dead){s.dead=true;ch=1}else if(hp>0&&s.dead){delete s.dead;ch=1}}return}if(!x.pc)return;const c=PARTY.find(p=>p.id===x.pc);if(!c)return;if(+c.hp!==x.hp||c.hp===''){c.hp=x.hp;ch=1}const t=+x.thp||0;if((+c.tempHp||0)!==t){c.tempHp=t||'';ch=1}const D=x.ds||{s:0,f:0};if(JSON.stringify(dsFromSheet(c))!==JSON.stringify({s:D.s||0,f:D.f||0})){c.ds=dsToSheet(D);ch=1}});if(ch)saveParty()}
+function cbPushHP(C){let ch=0;(C.list||[]).forEach(x=>{if(x.art){const c=PARTY.find(p=>p.id===x.art.pc),K=c&&c.construct;if(K){const hp=Math.max(0,+x.hp||0);if(+K.hp!==hp||K.hp==null){K.hp=hp;ch=1}if(hp<=0&&!K.dead){K.dead=true;ch=1}else if(hp>0&&K.dead){delete K.dead;ch=1}}return}if(x.bond){const c=PARTY.find(p=>p.id===x.bond.pc),s=c&&(c.bonds||[])[x.bond.i];if(s){const hp=Math.max(0,+x.hp||0);if(+s.hp!==hp||s.hp==null){s.hp=hp;ch=1}if(hp<=0&&!s.dead){s.dead=true;ch=1}else if(hp>0&&s.dead){delete s.dead;ch=1}}return}if(!x.pc)return;const c=PARTY.find(p=>p.id===x.pc);if(!c)return;if(+c.hp!==x.hp||c.hp===''){c.hp=x.hp;ch=1}const t=+x.thp||0;if((+c.tempHp||0)!==t){c.tempHp=t||'';ch=1}const D=x.ds||{s:0,f:0};if(JSON.stringify(dsFromSheet(c))!==JSON.stringify({s:D.s||0,f:D.f||0})){c.ds=dsToSheet(D);ch=1}});if(ch)saveParty()}
 const saveCB=()=>{store.set('combat',CB);cbPushHP(CB)};
 // ════════════════════════════════════════════════════════════════
 //  Adventure hooks: built from the gods, Runes, realms, monsters, and materials on this site
@@ -401,7 +401,7 @@ function genGear(c,L){if(L<=1)return c;const near=list=>{const ok=list.filter(b=
   const extra=(cat,k)=>{const L2=BPS.filter(b=>(b.cat0||b.cat)===cat&&(+b.lv||1)<=L&&!c.gear.includes(b.n)),out=[];for(let i=0;i<k&&L2.length;i++){const v=near(L2.filter(b=>!out.includes(b.n)));if(!v)break;out.push(v.n)}return out};
   const pots=extra('Potion',Math.min(5,1+Math.floor(L/10))),arts=extra('Artifact',L>=50?3:L>=20?2:L>=5?1:0);
   pots.forEach(n=>invAdd(c,n,1,1,true));arts.forEach(n=>c.gear.push(n));
-  const gold=genGold(L),fv=genFavor(L);c.coins=c.coins||{};c.coins.gp=(+c.coins.gp||0)+gold;if(fv)c.favor=(+c.favor||0)+fv;c.genGear={up,pots,arts,gp:gold,favor:fv};return c}
+  const gold=genGold(L),fv=genFavor(L);c.coins=c.coins||{};c.coins.gp=(+c.coins.gp||0)+gold;if(fv)c.favor=(+c.favor||0)+fv;c.genGear={up,pots,arts,gp:gold,favor:fv};artGen(c);return c}
 // and in the Favor realms (the Void and deeper), a party member's share of a level's Favor
 function genFavor(L){L=Math.max(1,+L||1);const r=REALMS.find(x=>x.tier===Math.max(1,bandOf(L)))||REALMS[0],fb=favorBase(r.tier);return fb?Math.round(fb*47*(1+0.15*Math.min(Math.max(0,L-towerStart(r.n)),20))/4):0}
 // what a generated character has saved by their level: a quarter (one party member's share) of the gold one level of
