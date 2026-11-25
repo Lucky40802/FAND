@@ -1262,7 +1262,7 @@ function sheetInvRm(i){const c=sheetChar();c.inv=(c.inv||[]).filter((_,j)=>j!==i
 // saves and temporary hit points; a short rest restores a Warlock's pact slots
 // one character's rest. The sheet asks which slot comes back on a short rest; the party rest gives back the highest used one.
 function charRest(c,kind,lvl){const L=+c.level||1,pact=c.cls==='Warlock'||c.cls2==='Warlock';resRest(c,kind);if(kind==='long'){const A=attuneOf(c,c.here||'Human');if(A)A.pts=Math.min(2*profBonus(L),(+A.pts||0)+1)}
-  if(kind==='long'){(c.towerCards||[]).forEach(x=>x.used=0);(c.bonds||[]).forEach(s=>{delete s.hp;delete s.dead});if(c.construct){delete c.construct.hp;delete c.construct.dead}if(c.hpMax!=null&&c.hpMax!=='')c.hp=c.hpMax;c.tempHp='';c.slotUsed={};c.ds={};c.hdUsed=Math.max(0,(+c.hdUsed||0)-Math.max(1,Math.floor(L/2)));return {}}
+  if(kind==='long'){(c.towerCards||[]).forEach(x=>x.used=0);(c.bonds||[]).forEach(s=>{delete s.hp;delete s.dead});artRest(c);if(c.hpMax!=null&&c.hpMax!=='')c.hp=c.hpMax;c.tempHp='';c.slotUsed={};c.ds={};c.hdUsed=Math.max(0,(+c.hdUsed||0)-Math.max(1,Math.floor(L/2)));return {}}
   // campaign rule: a short rest gives back one used spell slot (a Warlock's pact slots come back too)
   const su=c.slotUsed||{},lvls=slotLevelsUsed(c);let slot=0;if(lvl==='auto')lvl=lvls[lvls.length-1];
   if(lvls.includes(+lvl)){const k=Object.keys(su[+lvl]).filter(i=>su[+lvl][i]).pop();su[+lvl][k]=false;slot=+lvl}

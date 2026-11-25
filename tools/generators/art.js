@@ -300,7 +300,8 @@ var SYMBOLS = {
   '🗿': 'stone-bust', '💎': 'gems', '🪕': 'banjo', '🎶': 'musical-notes', '🎼': 'musical-notes', '🥁': 'drum', '📯': 'hunting-horn', '🧹': 'broom',
   '🪚': 'hand-saw', '🪣': 'empty-wood-bucket', '🚪': 'door', '🧙': 'wizard-face', '🎨': 'paint-brush', '❄': 'snowflake-1', '☘': 'clover',
   '✝': 'holy-symbol', '🎋': 'bamboo', '🍀': 'clover', '🗺': 'treasure-map', '🏰': 'castle', '🐺': 'wolf-head', '🦇': 'evil-bat', '🕯': 'candle-light',
-  '⛺': 'camping-tent', '⏳': 'hourglass', '🌲': 'pine-tree', '🌊': 'big-wave', '🌋': 'volcano', '🧿': 'third-eye', '🩸': 'drop', '🦷': 'fangs', '🪶': 'feather', '🐚': 'spiral-shell'
+  '⛺': 'camping-tent', '⏳': 'hourglass', '📅': 'calendar', '🗓': 'calendar', '🛒': 'shopping-cart', '⬆': 'upgrade', '🕰': 'cuckoo-clock',
+  '🔺': 'arrowhead', '📍': 'triple-needle', '📨': 'envelope', '➰': 'whip', '🜁': 'magic-swirl', '🌲': 'pine-tree', '🌊': 'big-wave', '🌋': 'volcano', '🧿': 'third-eye', '🩸': 'drop', '🦷': 'fangs', '🪶': 'feather', '🐚': 'spiral-shell'
 };
 // ---- one symbol for each page (menu entries and page headings) and each menu group ----
 var PAGE_SYMBOLS = {

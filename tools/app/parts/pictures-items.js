@@ -29,7 +29,8 @@ function artPickSet(ic){const P=$('artpick'),x=P&&P._x;if(!x)return;if(P._cb){co
   undoToast(ic?'New picture for '+x.n.split(' - ')[0]:'Default picture back for '+x.n.split(' - ')[0],()=>{if(was)ART_PICK[key]=was;else delete ART_PICK[key];store.set('artPick',ART_PICK);redraw()})}
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){const P=$('artpick');if(P&&!P.hidden){artPickClose();e.stopPropagation()}}},true);
 // Symbols: emoji in the text become matching game-icons symbols as the page draws (a watcher on the page catches every
-// render, toast, and popup). Text the browser draws itself (dropdowns, inputs, tooltips, the tab title) keeps the emoji.
+// render, toast, and popup). Text the browser draws itself can't hold a symbol, so there the emoji are left out:
+// dropdown options, tooltips, placeholders and the tab title.
 const SYM_RE=typeof ART!=='undefined'&&ART.sym?new RegExp('('+Object.keys(ART.sym).sort((a,b)=>b.length-a.length).map(e=>e.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')\uFE0F?','gu'):null;
 const SYM_SKIP={SCRIPT:1,STYLE:1,TEXTAREA:1,OPTION:1,SELECT:1,INPUT:1,TITLE:1,CODE:1,PRE:1,svg:1};
 // (its own tag, so no page's "span" or "i" styles reach it)
@@ -46,7 +47,10 @@ function symbolize(root){if(!SYM_RE||!root||root.nodeType!==1||!root.isConnected
     while((m=SYM_RE.exec(s))){if(m.index>last)f.appendChild(document.createTextNode(s.slice(last,m.index)));const t=document.createElement('template');t.innerHTML=symSVG(ART.sym[m[1]],'',m[1]);f.appendChild(t.content);last=m.index+m[0].length}
     if(last<s.length)f.appendChild(document.createTextNode(s.slice(last)));n.parentNode.replaceChild(f,n)})
   // a list's options can't hold a symbol: their emoji are left out rather than shown in colour
-  ;(root.nodeName==='OPTION'?[root]:root.querySelectorAll?root.querySelectorAll('option'):[]).forEach(o=>{SYM_RE.lastIndex=0;if(SYM_RE.test(o.textContent)){SYM_RE.lastIndex=0;o.textContent=o.textContent.replace(SYM_RE,'').replace(/^\s+/,'').replace(/\s{2,}/g,' ')}})}
+  ;(root.nodeName==='OPTION'?[root]:root.querySelectorAll?root.querySelectorAll('option'):[]).forEach(o=>{SYM_RE.lastIndex=0;if(SYM_RE.test(o.textContent)){SYM_RE.lastIndex=0;o.textContent=o.textContent.replace(SYM_RE,'').replace(/^\s+/,'').replace(/\s{2,}/g,' ')}})
+  // nor can tooltips and placeholders (an element's own attributes, and those of everything inside it)
+  ;(root.querySelectorAll?[root,...root.querySelectorAll('[title],[placeholder]')]:[]).forEach(e=>['title','placeholder'].forEach(a=>{const v=e.getAttribute&&e.getAttribute(a);if(v){SYM_RE.lastIndex=0;if(SYM_RE.test(v)){SYM_RE.lastIndex=0;e.setAttribute(a,v.replace(SYM_RE,'').replace(/^\s+/,'').replace(/\s{2,}/g,' '))}}}));
+  if(SYM_RE.test(document.title)){SYM_RE.lastIndex=0;document.title=document.title.replace(SYM_RE,'').replace(/^\s+/,'').replace(/\s{2,}/g,' ')}SYM_RE.lastIndex=0}
 if(SYM_RE&&window.MutationObserver){new MutationObserver(ms=>{const q=new Set();ms.forEach(m=>{if(m.type==='characterData')q.add(m.target.parentNode);else m.addedNodes.forEach(n=>q.add(n.nodeType===3?n.parentNode:n))});q.forEach(symbolize);
   if(typeof TAB==='string'&&typeof VIEWS==='object'&&!VIEWS[TAB]&&$('content'))pageSym()}).observe(document.body,{childList:true,subtree:true,characterData:true});symbolize(document.body)}
 const RAR_ORDER=['Common','Uncommon','Rare','Very Rare','Legendary','Artifact'];
