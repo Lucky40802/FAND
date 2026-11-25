@@ -25,19 +25,19 @@ module.exports = [
   { name: 'swaps: offer, accept, and both halves move, once each', run: async t => {
     const p = await t.open('shop');
     await p.evaluate(fake); await as(p, 'pl1', [ara(), bo()]); await p.waitForTimeout(300);
-    t.ok(await p.isVisible('.sw') && /Bo \(Sam\)/.test(await p.innerText('#sw-to')), 'Ara can offer to Bo');
-    await p.selectOption('#sw-gn', 'Iron'); await p.fill('#sw-gq', '9'); await p.click('.sw button:has-text("Add") >> nth=0'); await p.waitForTimeout(100);
+    t.ok(await p.isVisible('.swp') && /Bo \(Sam\)/.test(await p.innerText('#sw-to')), 'Ara can offer to Bo');
+    await p.selectOption('#sw-gn', 'Iron'); await p.fill('#sw-gq', '9'); await p.click('.swp button:has-text("Add") >> nth=0'); await p.waitForTimeout(100);
     await p.fill('#sw-gg', '10'); await p.click('button:has-text("Send the offer")'); await p.waitForTimeout(200);
     t.ok(/don't have 9 × Iron/.test(await p.innerText('#toast')), 'not more than she has');
-    await p.click('.sw .chip .sw-x'); await p.selectOption('#sw-gn', 'Iron'); await p.fill('#sw-gq', '3'); await p.click('.sw button:has-text("Add") >> nth=0'); await p.waitForTimeout(100);
-    await p.selectOption('#sw-wn', 'Steel'); await p.click('.sw button:has-text("Add") >> nth=1'); await p.waitForTimeout(100);
+    await p.click('.swp .chip .sw-x'); await p.selectOption('#sw-gn', 'Iron'); await p.fill('#sw-gq', '3'); await p.click('.swp button:has-text("Add") >> nth=0'); await p.waitForTimeout(100);
+    await p.selectOption('#sw-wn', 'Steel'); await p.click('.swp button:has-text("Add") >> nth=1'); await p.waitForTimeout(100);
     await p.fill('#sw-gg', '10'); await p.fill('#sw-note', 'For the climb'); await p.click('button:has-text("Send the offer")'); await p.waitForTimeout(250);
     t.eq(await p.evaluate(() => __SW.rows.map(r => [r.from_char, r.to_char, r.give, r.want, r.status])), [['ara', 'bo', { items: [['Iron', 3]], gp: 10 }, { items: [['Steel', 1]], gp: 0 }, 'offered']], 'the offer is sent');
-    t.ok(/Your offers/.test(await p.innerText('.sw')), 'Ara sees it waiting');
+    t.ok(/Your offers/.test(await p.innerText('.swp')), 'Ara sees it waiting');
     // Bo's device
     await as(p, 'pl2', [ara(), bo()]); await p.waitForTimeout(300);
-    t.ok(/Offers to you/.test(await p.innerText('.sw')) && /For the climb/.test(await p.innerText('.sw')), 'Bo sees the offer');
-    await p.click('.sw button:has-text("Accept")'); await p.waitForTimeout(300);
+    t.ok(/Offers to you/.test(await p.innerText('.swp')) && /For the climb/.test(await p.innerText('.swp')), 'Bo sees the offer');
+    await p.click('.swp button:has-text("Accept")'); await p.waitForTimeout(300);
     t.eq(await p.evaluate(() => { const b = PARTY.find(c => c.id === 'bo'); return [b.inv.find(z => z[0] === 'Iron')[1], (b.inv.find(z => z[0] === 'Steel') || [])[1], commonGp(b), __SW.rows[0].status, __SW.rows[0].to_done, __SW.rows[0].from_done]; }), [3, 1, 12, 'accepted', true, false], 'Bo gets the Iron and 10 gp and gives 1 Steel; his half is done');
     t.eq(await p.evaluate(() => PARTY.find(c => c.id === 'ara').inv.find(z => z[0] === 'Iron')[1]), 5, 'Bo\'s device leaves Ara alone (it is hers to move)');
     // Ara's device again: her half moves when she loads
@@ -46,8 +46,8 @@ module.exports = [
     await p.evaluate(() => swSync()); await p.waitForTimeout(150);
     t.eq(await p.evaluate(() => PARTY.find(c => c.id === 'ara').inv.find(z => z[0] === 'Iron')[1]), 2, 'and never twice');
     // decline and withdraw
-    await p.selectOption('#sw-gn', 'Iron'); await p.click('.sw button:has-text("Add") >> nth=0'); await p.click('button:has-text("Send the offer")'); await p.waitForTimeout(250);
-    await p.click('.sw button:has-text("Withdraw")'); await p.waitForTimeout(200);
+    await p.selectOption('#sw-gn', 'Iron'); await p.click('.swp button:has-text("Add") >> nth=0'); await p.click('button:has-text("Send the offer")'); await p.waitForTimeout(250);
+    await p.click('.swp button:has-text("Withdraw")'); await p.waitForTimeout(200);
     t.eq(await p.evaluate(() => __SW.rows[1].status), 'withdrawn', 'Ara can withdraw a waiting offer');
     // the DM sees it in the trade history
     await p.evaluate(() => { CL.user = { id: 'dm1' }; HC = []; setRole('dm'); SW.loaded = false; store.set('tlopen', true); renderShop(); }); await p.waitForTimeout(400);
