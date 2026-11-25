@@ -790,5 +790,51 @@ do $$ begin
   end if;
 end $$;
 
+-- the party stash: one shared pack per campaign. Members read it; anyone moves things in or out of it for their own
+-- character (the DM for anyone) through fand_stash_move, which also keeps the newest 100 moves as a log.
+create table if not exists public.campaign_stash (
+  campaign_id uuid primary key references public.campaigns (id) on delete cascade,
+  items jsonb not null default '{}'::jsonb check (octet_length(items::text) < 20000),
+  log jsonb not null default '[]'::jsonb check (octet_length(log::text) < 40000),
+  updated_at timestamptz not null default now()
+);
+alter table public.campaign_stash enable row level security;
+drop policy if exists "members read" on public.campaign_stash;
+create policy "members read" on public.campaign_stash for select to authenticated using (private.fand_is_member(campaign_id));
+revoke all on public.campaign_stash from anon;
+revoke insert, update, delete on public.campaign_stash from authenticated;
+grant select on public.campaign_stash to authenticated;
+-- p_q > 0 puts that many in, p_q < 0 takes them out (never more than are there); the item '¤gp' is coin in gp
+create or replace function public.fand_stash_move(p_campaign uuid, p_char text, p_n text, p_q numeric) returns jsonb
+language plpgsql security definer set search_path = '' as $$
+declare cur jsonb; have numeric; nm text; n text := left(btrim(coalesce(p_n, '')), 120); left_ numeric;
+begin
+  if n = '' or p_q is null or p_q = 0 or abs(p_q) > 1000000 then raise exception 'Say what to move, and how many.'; end if;
+  select coalesce(c.data->>'name', '') into nm from public.campaign_characters c where c.campaign_id = p_campaign and c.id = p_char
+    and (c.owner = (select auth.uid()) or private.fand_is_dm(p_campaign));
+  if nm is null then raise exception 'Only your own character, shared with the campaign, can use the stash.'; end if;
+  insert into public.campaign_stash (campaign_id) values (p_campaign) on conflict (campaign_id) do nothing;
+  select items into cur from public.campaign_stash where campaign_id = p_campaign for update;
+  have := coalesce((cur->>n)::numeric, 0);
+  if p_q < 0 and have < -p_q then raise exception 'The stash only has % of that.', have; end if;
+  left_ := have + p_q;
+  update public.campaign_stash set
+      items = case when left_ <= 0 then cur - n else jsonb_set(cur, array[n], to_jsonb(left_)) end,
+      log = (select coalesce(jsonb_agg(x), '[]'::jsonb) from (select x from jsonb_array_elements(
+        jsonb_build_array(jsonb_build_object('at', extract(epoch from now()) * 1000, 'who', left(nm, 60), 'char', p_char, 'n', n, 'q', p_q)) || log) x limit 100) t),
+      updated_at = now()
+    where campaign_id = p_campaign
+    returning items into cur;
+  return cur;
+end $$;
+revoke execute on function public.fand_stash_move(uuid, text, text, numeric) from public, anon;
+grant execute on function public.fand_stash_move(uuid, text, text, numeric) to authenticated;
+do $$ begin
+  if exists (select 1 from pg_publication where pubname = 'supabase_realtime')
+     and not exists (select 1 from pg_publication_tables where pubname = 'supabase_realtime' and tablename = 'campaign_stash') then
+    alter publication supabase_realtime add table public.campaign_stash;
+  end if;
+end $$;
+
 -- make the site's API see new tables (the Workshop's `blueprints`, the DM notepad's `dm_notes`, and the rest) right away
 notify pgrst, 'reload schema';

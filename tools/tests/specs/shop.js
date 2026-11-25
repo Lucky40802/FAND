@@ -219,3 +219,24 @@ module.exports.push(
     t.ok(/shop/.test(p.url()) && await p.evaluate(() => myShops().length === 1), 'it opens the same shop, no copy');
   } },
 );
+module.exports.push(
+  { name: 'merchant reputation: trading earns better prices with that shopkeeper; a faction\'s standing counts too', run: async t => {
+    const p = await t.open('shop');
+    await p.evaluate(two); await p.evaluate(() => { PARTY[0].coins = { gp: 5000 }; saveParty(); store.set('myshops', [{ id: 'm1', name: 'Anvil', keeper: 'Hesta', line: '', realm: 'Human', npc: 'n1', items: [{ n: 'Steel', q: 99, price: 100 }] }]);
+      NPCS.length = 0; NPCS.push({ id: 'n1', name: 'Hesta', role: 'Smith', fac: 'god:' + GODS[0].n }); SHOPST.custom = 'm1'; SHOPST.who = 's1'; renderShop(); });
+    await p.waitForTimeout(150);
+    t.ok(/Full price/.test(await p.innerText('.rep-line')) && /a stranger/.test(await p.innerText('.rep-line')), 'a stranger pays full price');
+    const buy = async n => { for (let i = 0; i < n; i++) await p.evaluate(() => shopBuy(0)); await p.waitForTimeout(100); };
+    await buy(1); t.eq(await p.evaluate(() => [commonGp(PARTY[0]), repTier(repGp(PARTY[0]))[1]]), [4900, 'known'], '100 gp spent: now known');
+    t.eq(await p.evaluate(() => shopStock().rows[0].price && repBuy(100, PARTY[0])), 95, 'known: 5% off');
+    await p.waitForTimeout(400); t.ok(/known/.test(await p.innerText('#toast')), 'the shopkeeper says so');
+    await buy(5); t.eq(await p.evaluate(() => [repTier(repGp(PARTY[0]))[1], repPct(PARTY[0])]), ['a regular', 10], 'a regular after 500 gp: 10%');
+    await p.evaluate(() => { PARTY[0].standing = { [NPCS[0].fac]: { s: 2 } }; saveParty(); renderShop(); });
+    t.eq(await p.evaluate(() => repPct(PARTY[0])), 20, 'a friendly standing (+2) with her faction adds 10%');
+    await p.evaluate(() => { PARTY[0].standing = { [NPCS[0].fac]: { s: -2 } }; saveParty(); renderShop(); });
+    t.eq(await p.evaluate(() => repPct(PARTY[0])), 0, 'a hostile one (−2) takes it away');
+    t.eq(await p.evaluate(() => repGp(PARTY[1])), 0, 'Bo has his own standing');
+    const before = await p.evaluate(() => repGp(PARTY[0])); await p.evaluate(() => shopBuy(0)); await p.click('#toast button'); await p.waitForTimeout(150);
+    t.eq(await p.evaluate(() => repGp(PARTY[0])), before, 'Undo takes the standing back too');
+  } },
+);

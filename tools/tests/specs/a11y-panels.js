@@ -8,8 +8,8 @@ const audit = root => {
   const ids = {}; document.querySelectorAll('[id]').forEach(e => { ids[e.id] = (ids[e.id] || 0) + 1 }); Object.entries(ids).filter(([, n]) => n > 1).forEach(([k]) => { if (el.querySelector('#' + CSS.escape(k))) out.push('duplicate id: ' + k) });
   const rgb = s => { const m = /rgba?\(([^)]+)\)/.exec(s); if (!m) return null; const p = m[1].split(',').map(x => +x.trim()); return { r: p[0], g: p[1], b: p[2], a: p[3] == null ? 1 : p[3] } };
   const lum = c => { const f = v => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4) }; return .2126 * f(c.r) + .7152 * f(c.g) + .0722 * f(c.b) };
-  const bg = e => { let stack = []; for (let x = e; x; x = x.parentElement) { const c = rgb(getComputedStyle(x).backgroundColor); if (c && c.a > 0) { stack.push(c); if (c.a >= 1) break } } let base = { r: 255, g: 255, b: 255 }; if (!stack.length || stack[stack.length - 1].a < 1) base = rgb(getComputedStyle(document.body).backgroundColor) || base; for (let i = stack.length - 1; i >= 0; i--) { const c = stack[i]; base = { r: c.r * c.a + base.r * (1 - c.a), g: c.g * c.a + base.g * (1 - c.a), b: c.b * c.a + base.b * (1 - c.a) } } return base };
-  const seen = new Set(); el.querySelectorAll('*').forEach(e => { if (e.offsetParent === null || !e.childNodes.length) return; const own = [...e.childNodes].some(n => n.nodeType === 3 && n.textContent.trim().length > 1); if (!own) return; const cs = getComputedStyle(e); if (+cs.opacity < 1 || e.closest('[disabled],.off,.down')) return; const fg = rgb(cs.color); if (!fg) return; const b = bg(e), l1 = lum(fg), l2 = lum(b), ratio = (Math.max(l1, l2) + .05) / (Math.min(l1, l2) + .05), px = parseFloat(cs.fontSize), large = px >= 24 || (px >= 18.66 && +cs.fontWeight >= 700); if (ratio < (large ? 3 : 4.5)) { const k = cs.color + '|' + e.className; if (!seen.has(k)) { seen.add(k); out.push(`contrast ${ratio.toFixed(2)} on “${e.textContent.trim().slice(0, 30)}” (${e.tagName.toLowerCase()}.${e.className})`) } } });
+  const bg = e => { let stack = []; for (let x = e; x; x = x.parentElement) { if (getComputedStyle(x).backgroundImage !== 'none') return null; const c = rgb(getComputedStyle(x).backgroundColor); if (c && c.a > 0) { stack.push(c); if (c.a >= 1) break } } let base = { r: 255, g: 255, b: 255 }; if (!stack.length || stack[stack.length - 1].a < 1) base = rgb(getComputedStyle(document.body).backgroundColor) || base; for (let i = stack.length - 1; i >= 0; i--) { const c = stack[i]; base = { r: c.r * c.a + base.r * (1 - c.a), g: c.g * c.a + base.g * (1 - c.a), b: c.b * c.a + base.b * (1 - c.a) } } return base };
+  const seen = new Set(); el.querySelectorAll('*').forEach(e => { if (e.offsetParent === null || !e.childNodes.length) return; const own = [...e.childNodes].some(n => n.nodeType === 3 && n.textContent.trim().length > 1); if (!own) return; const cs = getComputedStyle(e); if (+cs.opacity < 1 || e.closest('[disabled],.off,.down,.dsk,.die')) return; /* numbers printed on a drawn die can't be measured here */ const fg = rgb(cs.color); if (!fg) return; if (fg.a < .1) return; const b = bg(e); if (!b) return; const l1 = lum(fg), l2 = lum(b), ratio = (Math.max(l1, l2) + .05) / (Math.min(l1, l2) + .05), px = parseFloat(cs.fontSize), large = px >= 24 || (px >= 18.66 && +cs.fontWeight >= 700); if (ratio < (large ? 3 : 4.5)) { const k = cs.color + '|' + e.className; if (!seen.has(k)) { seen.add(k); out.push(`contrast ${ratio.toFixed(2)} on “${e.textContent.trim().slice(0, 30)}” (${e.tagName.toLowerCase()}.${e.className})`) } } });
   return out;
 };
 const setup = async (p, theme) => p.evaluate(th => { document.documentElement.dataset.theme = th; CL.on = true; CL.ready = Promise.resolve(); CL.user = { id: 'dm1' }; CL.camps = [{ id: 'k1', name: 'Ashfall', dm: 'dm1' }];
@@ -59,3 +59,20 @@ module.exports.push({ name: 'pop-up windows: focus goes in, Tab stays inside, Es
   await p.keyboard.press('Escape'); await p.waitForTimeout(100);
   t.ok(await p.evaluate(() => !$('wsHost').innerHTML && document.activeElement.id === 'opener'), 'Escape closes it and focus returns to the button');
 } });
+
+// the older pages: the same checks on every main page, the header and the bottom bar
+const PAGES = ['index', 'bestiary', 'materials', 'blueprints', 'party', 'sheet', 'combat', 'encounter', 'forge', 'tools', 'settings', 'archive', 'classes', 'dice', 'journal', 'realms', 'gods', 'craft', 'npcs', 'prep'];
+const pagesRun = (theme, phone) => async t => {
+  let p = null; const bad = [];
+  for (const pg of PAGES) {
+    p = await t.open(pg, p); await p.evaluate(th => { document.documentElement.dataset.theme = th; HC = []; setRole('dm'); if (!PARTY.length) { PARTY.push({ id: 'z', name: 'Ara', cls: 'Wizard', level: 3, hp: 10, hpMax: 20, gear: [], inv: [['Iron', 2]] }); saveParty(); } if (typeof renderTab === 'function') renderTab(); }, theme);
+    await p.waitForTimeout(350);
+    await p.waitForTimeout(60); const v = await p.evaluate(audit, '#content'), h = pg === 'index' ? await p.evaluate(audit, phone ? '#bnav' : '.top') : [];
+    if (v.length || h.length) bad.push(pg + ': ' + v.concat(h).slice(0, 10).join('; '));
+  }
+  t.ok(!bad.length, 'every page passes' + (bad.length ? '\n      ' + bad.join('\n      ') : ''));
+};
+module.exports.push(
+  { name: 'accessibility of every main page (light, computer)', run: pagesRun('light', false) },
+  { name: 'accessibility of every main page (dark, phone)', phone: true, run: pagesRun('dark', true) },
+);

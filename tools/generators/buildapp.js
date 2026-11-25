@@ -692,7 +692,16 @@ D.GODS.forEach(function (g) {
 //   app/FAND.html  one self-contained file with every data array inline (works offline, and the other scripts patch it)
 //   site/          one page per section; pages share data/core.js, and only spells.html loads the large spell list
 var SITE_DIR = process.argv[5] || path.join(ROOT, 'site');
-var tpl = fs.readFileSync(TEMPLATE, 'utf8');
+// the template is split into tools/app/parts/ (styles.css and the script in topic files); a line holding only
+// /*@include parts/x*/ or //@include parts/x is replaced by that file, so the stitched page is exactly the one big file
+function expandIncludes(t) {
+  return t.replace(/^[ \t]*(?:\/\*@include (\S+?)\*\/|\/\/@include (\S+))[ \t]*$/gm, function (m, a, b) {
+    var p = path.join(path.dirname(TEMPLATE), a || b);
+    if (!fs.existsSync(p)) throw new Error('template include not found: ' + (a || b));
+    return fs.readFileSync(p, 'utf8').replace(/\n$/, '');
+  });
+}
+var tpl = expandIncludes(fs.readFileSync(TEMPLATE, 'utf8'));
 // The stat block generator (data/statblock.js) also runs in the page, for the stat block creator on the Tools page.
 tpl = tpl.replace('/*__SBGEN__*/', function () { return 'const SBGEN=(function(){var module={exports:{}};' + fs.readFileSync(path.join(__dirname, '..', 'data', 'statblock.js'), 'utf8').replace(/<\/(script)/gi, '<\\/$1') + '\nreturn module.exports})();'; });
 if (tpl.indexOf('<!--__DATA__-->') < 0) throw new Error('template is missing the <!--__DATA__--> marker');
