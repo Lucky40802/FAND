@@ -337,3 +337,16 @@ const REALMS=META.realms.map(r=>Object.assign(r,{color:REALM_COLOR[r.n]||'#888',
 const REALM=Object.fromEntries(REALMS.map(r=>[r.n,r]));
 const realmOf=s=>{const m=/^(.+) \d+$/.exec(String(s||''));return m?m[1]:''};
 const rcol=n=>(REALM[n]||{}).color||'var(--muted)';
+
+// ── names for screen readers: any field without a label gets one from its placeholder (or its setting's name), and any
+// button that shows only a symbol gets a word; runs on whatever is drawn, so every page and window is covered ──
+const A11Y_SYM={'−':'Decrease','-':'Decrease','+':'Increase','×':'Remove','✕':'Remove','✖':'Remove','↩':'Undo','⋯':'More','…':'More','‹':'Previous','›':'Next','←':'Back','→':'Forward','▲':'Up','▼':'Down','★':'Pin','☆':'Pin'};
+function a11yName(root){(root||document).querySelectorAll('input:not([type=hidden]):not([aria-label]):not([aria-labelledby]),select:not([aria-label]):not([aria-labelledby]),textarea:not([aria-label]):not([aria-labelledby])').forEach(e=>{if(e.labels&&e.labels.length&&[...e.labels].some(l=>l.textContent.trim()))return;if(e.title&&e.title.trim())return;
+    const ph=(e.getAttribute('placeholder')||'').trim(),key=e.dataset.s||e.dataset.f||e.dataset.mc||e.id||'',opt=e.tagName==='SELECT'&&e.options[0]&&!e.options[0].value?e.options[0].textContent.trim():'';
+    const name=ph||opt||key.replace(/^.*[.:]/,'').replace(/([a-z])([A-Z])/g,'$1 $2').replace(/[-_]/g,' ').trim();if(name)e.setAttribute('aria-label',name.slice(0,80))});
+  (root||document).querySelectorAll('button:not([aria-label])').forEach(b=>{const t=(b.textContent||'').trim();if(/[A-Za-z]{2}/.test(t)||(b.title&&b.title.trim()))return;
+    // number buttons say what they do: hit points, and the sheet's rolls
+    if(b.dataset.hpd){const n=+b.dataset.hpd;b.setAttribute('aria-label',n<0?`Take ${-n} damage`:`Heal ${n}`);return}
+    if(b.dataset.what){b.setAttribute('aria-label',`${b.dataset.what}: roll ${t.replace('−','-')}`);return}
+    const w=A11Y_SYM[t];if(w)b.setAttribute('aria-label',w)})}
+{let pend=0;new MutationObserver(()=>{if(pend)return;pend=requestAnimationFrame(()=>{pend=0;a11yName(document.body)})}).observe(document.documentElement,{childList:true,subtree:true})}

@@ -337,6 +337,19 @@ const REALMS=META.realms.map(r=>Object.assign(r,{color:REALM_COLOR[r.n]||'#888',
 const REALM=Object.fromEntries(REALMS.map(r=>[r.n,r]));
 const realmOf=s=>{const m=/^(.+) \d+$/.exec(String(s||''));return m?m[1]:''};
 const rcol=n=>(REALM[n]||{}).color||'var(--muted)';
+
+// ── names for screen readers: any field without a label gets one from its placeholder (or its setting's name), and any
+// button that shows only a symbol gets a word; runs on whatever is drawn, so every page and window is covered ──
+const A11Y_SYM={'−':'Decrease','-':'Decrease','+':'Increase','×':'Remove','✕':'Remove','✖':'Remove','↩':'Undo','⋯':'More','…':'More','‹':'Previous','›':'Next','←':'Back','→':'Forward','▲':'Up','▼':'Down','★':'Pin','☆':'Pin'};
+function a11yName(root){(root||document).querySelectorAll('input:not([type=hidden]):not([aria-label]):not([aria-labelledby]),select:not([aria-label]):not([aria-labelledby]),textarea:not([aria-label]):not([aria-labelledby])').forEach(e=>{if(e.labels&&e.labels.length&&[...e.labels].some(l=>l.textContent.trim()))return;if(e.title&&e.title.trim())return;
+    const ph=(e.getAttribute('placeholder')||'').trim(),key=e.dataset.s||e.dataset.f||e.dataset.mc||e.id||'',opt=e.tagName==='SELECT'&&e.options[0]&&!e.options[0].value?e.options[0].textContent.trim():'';
+    const name=ph||opt||key.replace(/^.*[.:]/,'').replace(/([a-z])([A-Z])/g,'$1 $2').replace(/[-_]/g,' ').trim();if(name)e.setAttribute('aria-label',name.slice(0,80))});
+  (root||document).querySelectorAll('button:not([aria-label])').forEach(b=>{const t=(b.textContent||'').trim();if(/[A-Za-z]{2}/.test(t)||(b.title&&b.title.trim()))return;
+    // number buttons say what they do: hit points, and the sheet's rolls
+    if(b.dataset.hpd){const n=+b.dataset.hpd;b.setAttribute('aria-label',n<0?`Take ${-n} damage`:`Heal ${n}`);return}
+    if(b.dataset.what){b.setAttribute('aria-label',`${b.dataset.what}: roll ${t.replace('−','-')}`);return}
+    const w=A11Y_SYM[t];if(w)b.setAttribute('aria-label',w)})}
+{let pend=0;new MutationObserver(()=>{if(pend)return;pend=requestAnimationFrame(()=>{pend=0;a11yName(document.body)})}).observe(document.documentElement,{childList:true,subtree:true})}
 // ── Pictures for monsters, gods, demons, and patrons: illustrations from game-icons.net (CC BY 3.0), matched by generators/art.js ──
 const ART_TINT={red:'#e8553f',blue:'#4f93ea',green:'#4cbb6c',black:'#9d90b4',white:'#e4ecf3',gold:'#ecc04f',silver:'#c9d2dc',bronze:'#cf9152',brass:'#dcb85e',copper:'#d27c4e',amethyst:'#b084e3',crystal:'#a6e8f4',emerald:'#43c985',sapphire:'#4a78e4',topaz:'#eda844',moonstone:'#cfd9f5',deep:'#8c69c0',shadow:'#8a80a6'};
 // the Human realm's colour is grey, so its creatures take a colour from their kind instead
@@ -2820,6 +2833,12 @@ function schoolWhy(c,n){const a=schoolsAllowed(c),cl=typeof c==='string'?c:c.cls
 const classSchoolText=k=>ANY_ONE_SCHOOL.has(k)?'any one school, chosen at the start, and never a second':(CLASS_SCHOOLS[k]||[]).join(', ');
 // Website changes (newest first): what changed on the site, shown on Home ("Latest changes") and in full on About.
 const SITE_CHANGES=[
+  ['2026-11-25','A party stash','🎒 Party stash (the Party page\'s ⋯ menu, or search "stash") is one pack the whole party shares: anyone puts things in or takes them out for their own character, coin too, and every move is logged with who made it. In a campaign it is shared between everyone\'s devices (needs the latest database setup, tools/cloud/schema.sql); without one, it lives on this device.','party'],
+  ['2026-11-25','Quest rewards','A quest in the Archive can now carry a reward (coin and items, like “2 × Steel, Healing Potion”) and a due day. When the DM marks it Done, the reward goes into the loot pool, ready to hand out, and only once. Open quests with a due day show on the calendar, and finished ones on the session timeline.','archive'],
+  ['2026-11-25','Shopkeepers remember you','Trading with the same shopkeeper earns a character better prices there: known after 100 gp (5%), a regular after 500 gp (10%), a valued customer after 2,000 gp (15%), off buying and extra when selling. The Shop shows where each character stands. For an NPC\'s shop, the character\'s standing with that NPC\'s faction counts too, 5% a step, so a hostile faction charges more. Undo takes the standing back with the trade.','shop'],
+  ['2026-11-25','This week','Home has a This week box with what is waiting for your characters: loot to claim, swap offers, counter-offers from your DM, requests waiting on others, downtime in progress, the next two weeks of the calendar, and unread notices, each with a button to go to it.','home'],
+  ['2026-11-25','Export a character as a PDF','On the character sheet, ⋯ More → 📄 Export as PDF makes a clean one-page summary: abilities, hit points, Armor Class, Dodge, skills, every piece of equipped gear with its powers, any curses, the whole inventory, money and notes. Choose “Save as PDF” as the printer to keep it.','sheet'],
+  ['2026-11-25','Easier for screen readers everywhere','Every box and button on every page now has a name a screen reader can say: fields that only had a grey hint are named from it, symbol buttons (−, +, ×) say what they do, the hit point buttons say “Take 5 damage” or “Heal 1”, and the sheet\'s roll buttons name the roll. The Honored standing badge has more contrast in the light theme.','home'],
   ['2026-11-25','Realm dots back in place','The coloured realm dot on badges (Heaven 7, Hell 3 and the rest) had slipped below the text since the last update, because a new panel\'s style clashed with it. It sits in the middle of its badge again.','home'],
   ['2026-11-25','Haggling','When a player asks for a trade, the DM can now Counter with their own price and a reply. The player sees the counter-offer and agrees or turns it down; once they agree, the request goes back to the DM marked "Agreed to your price", with that price filled in, and Complete moves the item and the coin. Needs the latest database setup (tools/cloud/schema.sql).','shop'],
   ['2026-11-25','An inbox','A 🔔 bell in the header keeps the notices that used to vanish after a few seconds: answers to trade requests and counter-offers, swap offers and answers, handouts from your DM, loot to claim or given to you, combat starting, finished downtime and the day\'s events. The number shows what you haven\'t read; tap one to go to it (a handout opens straight away). Mark all read, or Clear (with Undo). Trade answers also now reach the player reliably: before, the "your DM agreed" notice could fail to appear.','home'],
@@ -5911,7 +5930,7 @@ const STAND=[[-2,'Hostile','They work against you','Agents, bounties, closed doo
   [2,'Trusted','You are one of theirs','Shelter, better prices, real quests, an introduction where it counts','acc2'],
   [3,'Honored','Your name carries weight','A great favour once in a while; they will act on your word','gold']];
 const standStep=n=>STAND.find(x=>x[0]===n)||STAND[2];
-const standPill=n=>{const S=standStep(n);return `<span class="b" style="color:var(--${S[4]});background:color-mix(in srgb,var(--${S[4]}) 14%,transparent);border-color:color-mix(in srgb,var(--${S[4]}) 35%,transparent)" title="${esc(S[2]+'. '+S[3]+'.')}">${esc(S[1])}</span>`};
+const standPill=n=>{const S=standStep(n);return `<span class="b" style="color:var(--${S[4]==='gold'?'gold2':S[4]});background:color-mix(in srgb,var(--${S[4]}) 14%,transparent);border-color:color-mix(in srgb,var(--${S[4]}) 35%,transparent)" title="${esc(S[2]+'. '+S[3]+'.')}">${esc(S[1])}</span>`};
 const charGods=c=>[c.god,...(c.extra||[]).map(x=>x.god)].filter(Boolean);
 // every faction the DM can pick: the gods, the Magic Towers, each realm's smiths, and the DM's own
 function standCatalog(){const L=[];

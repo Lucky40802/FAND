@@ -1315,7 +1315,7 @@ const STAND=[[-2,'Hostile','They work against you','Agents, bounties, closed doo
   [2,'Trusted','You are one of theirs','Shelter, better prices, real quests, an introduction where it counts','acc2'],
   [3,'Honored','Your name carries weight','A great favour once in a while; they will act on your word','gold']];
 const standStep=n=>STAND.find(x=>x[0]===n)||STAND[2];
-const standPill=n=>{const S=standStep(n);return `<span class="b" style="color:var(--${S[4]});background:color-mix(in srgb,var(--${S[4]}) 14%,transparent);border-color:color-mix(in srgb,var(--${S[4]}) 35%,transparent)" title="${esc(S[2]+'. '+S[3]+'.')}">${esc(S[1])}</span>`};
+const standPill=n=>{const S=standStep(n);return `<span class="b" style="color:var(--${S[4]==='gold'?'gold2':S[4]});background:color-mix(in srgb,var(--${S[4]}) 14%,transparent);border-color:color-mix(in srgb,var(--${S[4]}) 35%,transparent)" title="${esc(S[2]+'. '+S[3]+'.')}">${esc(S[1])}</span>`};
 const charGods=c=>[c.god,...(c.extra||[]).map(x=>x.god)].filter(Boolean);
 // every faction the DM can pick: the gods, the Magic Towers, each realm's smiths, and the DM's own
 function standCatalog(){const L=[];
