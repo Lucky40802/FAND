@@ -1516,7 +1516,7 @@ function smeltHTML(){const A=MATS.filter(m=>m.alloy&&Array.isArray(m.recipe)),M=
 function smelt(n){const m=findMat(n),c=PARTY.find(x=>x.id===SMELT.who);if(!m||!c)return;const M=invIndex();if(m.recipe.some(x=>invHas(M,x)<1)){toast('Missing a metal');return}
   m.recipe.forEach(x=>invTake(M,x,1,c));invAdd(c,m.n,1,true,true);saveParty();forgeSound('metal',1);setTimeout(()=>forgeSound('metal',2),180);toast(`Smelted 1 ${m.n} into ${c.name||'their'} pack`);renderForge()}
 // the Forge page's own sections: combos found, the master smiths, and the commission board
-function forgeExtrasHTML(){const full=dmUnlocked();return (full?smeltHTML():'')+`<section class="sec"><div class="sec-h"><h3>✦ Material combos</h3><p>Two powers in one item, two properties, two traits, or one of each, can unlock something neither has alone (a property counts only at full Potency, so not from an extra part or a poor fit; a trait counts from any part it fits). Found ${COMBOS_FOUND.length} of ${FCOMBOS.length}.</p></div>
+function forgeExtrasHTML(){const full=dmUnlocked();return artiForgeHTML()+(full?smeltHTML():'')+`<section class="sec"><div class="sec-h"><h3>✦ Material combos</h3><p>Two powers in one item, two properties, two traits, or one of each, can unlock something neither has alone (a property counts only at full Potency, so not from an extra part or a poor fit; a trait counts from any part it fits). Found ${COMBOS_FOUND.length} of ${FCOMBOS.length}.</p></div>
     <div class="mlist">${FCOMBOS.filter(x=>COMBOS_FOUND.includes(x[2])).map(([a,b,n,t])=>`<div style="padding:6px 10px;border:1px solid var(--gold);border-radius:8px"><b>✦ ${esc(n)}</b> <small>${esc(a)} + ${esc(b)}</small><div style="font-size:.82rem">${esc(t)}</div></div>`).join('')}${FCOMBOS.length>COMBOS_FOUND.length?`<div style="padding:6px 10px;border:1px dashed var(--line);border-radius:8px;color:var(--muted)"><b>??? + ???</b> <small>${FCOMBOS.length-COMBOS_FOUND.filter(n=>FCOMBOS.some(x=>x[2]===n)).length} combos still hidden. Try two properties or traits together and forge.</small></div>`:''}</div></section>
   <section class="sec"${full?'':' hidden'}><div class="sec-h"><h3>⚒ Master smiths</h3><p>Every realm has smiths who take commissions: an apprentice for simple work, a journeyman, an expert, and the realm's famous master, each able to work that realm's materials and forges. Bring them the materials and the coin (or, for a master, a task done in their name). A hired smith never ruins your materials or turns out a Flawed piece; the better the smith, the finer the work tends to be.${forgeNums()?' <small>(Numbers: a smith rolls like any forger, half their level, with advantage at or above the item\'s level. Fee: half the materials\' cost + 100 × (tier + step ÷ 10) + tier × 10, where the step is the level within the realm.)</small>':''}</p></div>
     <div class="tablewrap"><table class="t"><thead><tr><th>Realm</th><th>Master</th><th class="num">Level</th><th>Forge grade</th><th class="num">Fee</th><th>Or a task</th></tr></thead><tbody>${REALMS.filter(z=>SMITHS[z.n]).map(z=>{const S=smithOf(z.n),M=SMITHS[z.n];return `<tr><td>${esc(z.n)}</td><td><b>${esc(M[0])}</b><br><small style="color:var(--muted)">${esc(M[1])}</small></td><td class="num">${S.lv}</td><td>${ROMAN[S.g-1]}</td><td class="num">${fmt(S.base)} gp + half the materials</td><td>${esc(M[3])}</td></tr>`}).join('')}</tbody></table></div></section>
@@ -1845,3 +1845,101 @@ function tourResume(){let t=null;try{t=JSON.parse(sessionStorage.getItem('fand.t
 function tourDone(id){const d=toursDone();if(!d.includes(id)){d.push(id);store.set('toursDone',d)}if(TOURS[id])toast('✓ Tutorial finished: '+TOURS[id].t)}
 document.addEventListener('keydown',e=>{if(GSTEP<0)return;if(e.key==='Escape'){closeGuide();e.stopPropagation()}else if(e.key==='ArrowRight'&&GSTEP<GT.length-1){GSTEP++;guideDraw()}else if(e.key==='ArrowLeft'&&GSTEP>0){GSTEP--;guideDraw()}},true);
 window.addEventListener('resize',()=>{if(GSTEP>=0)guideDraw()});
+
+// ===================== The Artificer's Forge =====================
+// The Artificer's Forge (website rule, 2026-11-25): an Artificer works its own magic into gear and builds a construct.
+// Infusions: from level 2 it infuses items it owns, one infusion an item, at most 2 at once (3 at level 6, 4 at 10, 5 at
+// 14, 6 at 18, then one more every 20 levels past 20). A weapon infusion's +1 (+2 from level 10) adds to Accuracy and
+// damage; past level 10 its damage bonus becomes that many d4 times the level-band multiplier, like Rage. Armor and
+// shield infusions add +1 AC (+2 from level 10).
+// The construct: one at a time, built from three materials in the Artificer's pack (a frame, a core and an armament) and
+// used up when it is built. Like a bonded summon it is a share of the typical monster of the Artificer's realm band:
+// a Steel Defender (from level 3) has 75% of its hit points, its AC + 2 and its hit; an Eldritch Cannon (level 3) has a
+// quarter of the hit points and twice the hit; a Homunculus (level 2) 15% and half. Each part counts by its realm against
+// the Artificer's band (a part from the band's own realm or deeper counts fully); the construct gets half its share plus
+// half that score, so shallow materials still make one, at half strength. It acts on the Artificer's turn, counts in the
+// Party check, joins the combat tracker with its Artificer, and if it falls it is rebuilt at the next long rest.
+const isArti=c=>!!c&&(c.cls==='Artificer'||c.cls2==='Artificer');
+const INF_DEFS=[
+  {n:'Enhanced Weapon',lv:2,fits:'weapon',wpn:1,t:'Accuracy and damage bonus.'},
+  {n:'Repeating Shot',lv:2,fits:'ammo',wpn:1,noAmmo:1,t:'Accuracy and damage bonus, and it makes its own ammunition: shooting it spends none.'},
+  {n:'Returning Weapon',lv:2,fits:'thrown',wpn:1,t:'Accuracy and damage bonus, and it flies back to the hand after a throw.'},
+  {n:'Radiant Weapon',lv:6,fits:'weapon',wpn:1,t:'Accuracy and damage bonus; it sheds bright light 30 ft. on command, and 4 times a long rest, when its wielder is hit, a reaction can blind the attacker until the end of its next turn (Constitution save against the Artificer\'s spell save DC).'},
+  {n:'Enhanced Defense',lv:2,fits:'armor',ac:1,t:'AC bonus.'},
+  {n:'Repulsion Shield',lv:6,fits:'shield',ac:1,t:'AC bonus; 4 times a long rest, when the wearer is hit in melee, a reaction pushes the attacker 15 ft. away.'},
+  {n:'Resistant Armor',lv:6,fits:'armor',t:'Resistance to one damage type, chosen when it is infused.'},
+  {n:'Enhanced Arcane Focus',lv:2,fits:'focus',t:'+1 to spell Accuracy (+2 from level 10), and spells cast through it ignore half cover.'},
+  {n:'Mind Sharpener',lv:2,fits:'armor',t:'4 times a long rest, when the wearer fails a Constitution save to keep concentrating, a reaction makes it a success.'},
+  {n:'Spell-Refueling Ring',lv:6,fits:'ring',t:'Once a day, as an action, the wearer regains one spell slot of 3rd level or lower.'}];
+const infCap=L=>L<2?0:L<6?2:L<10?3:L<14?4:L<18?5:6+Math.floor(Math.max(0,L-20)/20);
+const infBase=L=>L>=10?2:1;
+function infDmg(L){const b=infBase(L),m=diceMult(bandOf(L));return m>1?{dice:b*m,d:4,txt:b*m+'d4',avg:b*m*2.5}:{flat:b,txt:'+'+b,avg:b}}
+function infFits(f,b){if(!b)return false;const k=gearKind(b),base=b.design?b.design.base:genOf(b);
+  if(b.ammo)return false;return f==='ring'?k==='worn'&&!(base&&BASES[base]&&BASES[base].focus):f==='weapon'?k==='weapon':f==='ammo'?k==='weapon'&&wpnRanged(b)&&!!ammoKind(b):f==='thrown'?k==='weapon'&&/Thrown/i.test(wpnProps(b)):
+    f==='armor'?ARMOR_CATS.includes(b.cat)&&b.cat!=='Shield'||(k==='armor'&&b.cat!=='Shield'):f==='shield'?b.cat==='Shield':f==='focus'?!!(base&&BASES[base]&&BASES[base].focus):false}
+// the infusions on a character's gear that it still carries (an infusion on an item it no longer has does nothing)
+function infOn(c){if(!isArti(c))return [];const L=+c.level||1,G=new Set((c.gear||[]).map(lc));return (c.infuse||[]).map(x=>({x,d:INF_DEFS.find(d=>d.n===x.n)})).filter(o=>o.d&&o.d.lv<=L&&G.has(lc(o.x.item||''))).slice(0,infCap(L))}
+const infFor=(c,b)=>b?infOn(c).find(o=>lc(o.x.item)===lc(b.n))||null:null;
+const infAcc=(c,b)=>{const o=infFor(c,b);return o&&o.d.wpn?infBase(+c.level||1):0};
+const infNoAmmo=(c,b)=>{const o=infFor(c,b);return !!(o&&o.d.noAmmo)};
+// AC from infused armor and shields that are worn (act: what charStats counts as worn and carried)
+function infAC(c,act){const names=new Set((act||[]).map(b=>lc(b.n)));return infOn(c).filter(o=>o.d.ac&&names.has(lc(o.x.item))).length*infBase(+c.level||1)}
+function infLine(c,b){const o=infFor(c,b);if(!o)return '';const L=+c.level||1;if(!o.d.wpn)return `<br><small style="color:var(--muted)">✦ ${esc(o.d.n)}</small>`;const D=infDmg(L);
+  return `<br><small style="color:var(--muted)" title="${esc(o.d.t)}">✦ ${esc(o.d.n)}: +${infBase(L)} Accuracy (included), damage ${D.flat!=null?'+'+D.flat:`<button class="sh-roll" type="button" data-roll="${D.txt}" data-what="${esc(o.d.n)}">+${D.txt}</button>`}${o.d.noAmmo?', makes its own ammunition':''}</small>`}
+// the construct
+const ART_KINDS={'Steel Defender':{lv:3,hp:.75,acB:2,hit:1,t:'A loyal construct of plates and gears. As a reaction it gives disadvantage to an attack against a creature within 5 ft. of it.'},
+  'Eldritch Cannon':{lv:3,hp:.25,acB:0,hit:2,t:'A small magical cannon on legs. Each turn it blasts a cone of fire, fires a force bolt, or shields allies with temporary hit points.'},
+  'Homunculus':{lv:2,hp:.15,acB:0,hit:.5,t:'A tiny flying servant. It can deliver the Artificer\'s touch spells from up to 120 ft. away.'}};
+const ART_PARTS=[['frame','Frame',['O','W','B','S'],'Metal, wood, bone or stone: its body'],['core','Core',['G','E','K'],'A gem, an essence or a mechanism: what makes it move'],['arm','Armament',['O','B','G','K'],'Metal, bone, a gem or a mechanism: what it fights with']];
+function artNow(c){const K=c&&c.construct,D=K&&ART_KINDS[K.kind];if(!D)return null;const L=+c.level||1,R=bondRef(L),band=bandOf(L);
+  const P=ART_PARTS.map(([k])=>findMat((K.parts||{})[k]||'')).filter(Boolean),q=P.length?P.reduce((a,m)=>a+Math.min(1,((REALM[m.realm]||{tier:1}).tier)/band),0)/ART_PARTS.length:0,f=.5+.5*q;
+  const hp=Math.max(1,Math.round(R.hp*D.hp*f));
+  return {L,D,kind:K.kind,n:K.n||K.kind,q,f,hp,cur:K.hp==null||K.hp===''?hp:Math.max(0,Math.min(hp,+K.hp||0)),ac:Math.max(0,R.ac+D.acB),acc:profBonus(L)+2,dmg:Math.max(1,Math.round(R.h*D.hit*f)),parts:P,dead:!!K.dead}}
+const artParts=(c,codes)=>(c.inv||[]).map(([n,q])=>({m:findMat(n),q:+q||0})).filter(x=>x.m&&x.q>0&&codes.includes(matCode(x.m))).sort((a,b)=>((REALM[b.m.realm]||{}).tier||1)-((REALM[a.m.realm]||{}).tier||1)||a.m.n.localeCompare(b.m.n));
+let ARTF=store.get('artForge',{});
+const artWho=()=>{const A=PARTY.filter(isArti);return A.find(c=>c.id===ARTF.who)||A[0]||null};
+function artSet(k,v){ARTF[k]=v;store.set('artForge',ARTF);artRedraw()}
+function artRedraw(){const el=$('art-forge');if(el)el.outerHTML=artiForgeHTML();if(TAB==='sheet')renderSheet()}
+function artInfSet(i,k,v){const c=artWho();if(!c)return;const I=c.infuse=c.infuse||[];if(k==='rm'){I.splice(i,1)}else if(i>=I.length){if(!v)return;I.push({n:v,item:''})}else{I[i][k]=v;if(k==='n')I[i].item=''}saveParty();artRedraw()}
+const artKind=c=>ART_KINDS[ARTF.kind]&&ARTF.kind||((+c.level||1)<3?'Homunculus':/Battle Smith/i.test(c.sub||'')?'Steel Defender':'Eldritch Cannon');
+function artBuild(){const c=artWho();if(!c)return;const kind=artKind(c),D=ART_KINDS[kind],L=+c.level||1;if(!D||L<D.lv){toast('Pick a construct the Artificer can build');return}
+  const pick={};for(const [k,lab,codes] of ART_PARTS){const n=ARTF['p_'+k];if(!n||!artParts(c,codes).some(x=>x.m.n===n)){toast('Choose a '+lab.toLowerCase()+' from '+(c.name||'the Artificer')+'’s pack');return}pick[k]=n}
+  if(c.construct&&!confirm('Build a new '+kind+'? '+(c.construct.n||c.construct.kind)+' is taken apart and its materials are lost.'))return;
+  Object.values(pick).forEach(n=>{const r=(c.inv||[]).find(z=>lc(z[0])===lc(n));if(r){r[1]=(+r[1]||0)-1;if(r[1]<=0)c.inv=c.inv.filter(z=>z!==r)}});
+  c.construct={kind,n:(ARTF.name||'').trim().slice(0,40)||kind,parts:pick};['p_frame','p_core','p_arm','name'].forEach(k=>delete ARTF[k]);store.set('artForge',ARTF);saveParty();
+  const N=artNow(c);toast(`${c.name||'The Artificer'} builds ${N.n}: ${N.hp} HP, AC ${N.ac}, hit ${N.dmg}`);artRedraw()}
+function artCon(k,v){const c=artWho()||sheetChar(),K=c&&c.construct;if(!K)return;if(k==='dead'){if(v){K.dead=true;K.hp=0}else{delete K.dead;delete K.hp}}else if(k==='hp')K.hp=Math.max(0,Math.round(+v||0));else if(k==='n')K.n=String(v||'').slice(0,40);saveParty();artRedraw()}
+function artStatsHTML(N){return `<b>${esc(N.n)}</b>${N.n!==N.kind?` <small style="color:var(--muted)">${esc(N.kind)}</small>`:''}${N.dead?' <span class="b red">fallen until a long rest</span>':''}<div class="bond-stats">Level ${N.L} · HP ${N.cur} / ${N.hp} · AC ${N.ac} · Accuracy +${N.acc} · Hit: ${fmt(N.dmg)} damage · materials ${Math.round(N.q*100)}% (${Math.round(N.f*100)}% strength)</div><div class="note" style="margin:2px 0 0">${esc(N.D.t)} Made of ${N.parts.map(m=>esc(m.n)+' <small>('+esc(m.realm)+')</small>').join(', ')||'nothing'}.</div>`}
+function artiForgeHTML(){const A=PARTY.filter(isArti);
+  const head=`<div class="sec-h"><h3>🔧 The Artificer's Forge</h3><p>Infusions an Artificer works into its own gear, and the construct it builds from the materials in its pack.</p></div>`;
+  if(!A.length)return `<section class="sec" id="art-forge">${head}<div class="note">No Artificer in the party yet. Make one on the Party page or with the character builder, and its forge opens here.</div></section>`;
+  const c=artWho(),L=+c.level||1,cap=infCap(L),I=c.infuse||[],on=infOn(c),gear=(c.gear||[]).map(findBP).filter(Boolean),D=infDmg(L);
+  const who=A.length>1?`<label class="note" style="margin:0">Artificer <select class="sel" onchange="artSet('who',this.value)">${A.map(x=>`<option value="${esc(x.id)}"${x===c?' selected':''}>${esc(x.name||'Unnamed')} (level ${+x.level||1})</option>`).join('')}</select></label>`:`<div class="note" style="margin:0"><b>${esc(c.name||'Unnamed')}</b>, level ${L} Artificer</div>`;
+  const used=new Set(I.map(x=>lc(x.item||''))),avail=INF_DEFS.filter(d=>d.lv<=L);
+  const row=(x,i)=>{const d=INF_DEFS.find(y=>y.n===x.n),fit=gear.filter(b=>d&&infFits(d.fits,b)&&(lc(b.n)===lc(x.item||'')||!used.has(lc(b.n)))),live=on.some(o=>o.x===x);
+    return `<div class="sh-feat" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><select class="sel" aria-label="Infusion" onchange="artInfSet(${i},'n',this.value)">${avail.map(y=>`<option${y.n===x.n?' selected':''}>${esc(y.n)}</option>`).join('')}</select>
+      <select class="sel" aria-label="Item to infuse" onchange="artInfSet(${i},'item',this.value)"><option value="">${fit.length?'Choose an item…':'No item it fits in the gear'}</option>${fit.map(b=>`<option${lc(b.n)===lc(x.item||'')?' selected':''}>${esc(b.n)}</option>`).join('')}</select>
+      ${live?'<span class="b green">active</span>':'<span class="b ghost">not active</span>'}<button class="btn" type="button" style="padding:1px 8px;font-size:.78rem" onclick="artInfSet(${i},'rm')" title="End this infusion">✕</button>
+      <div class="note" style="margin:0;flex-basis:100%">${esc(d?d.wpn?`+${infBase(L)} Accuracy, damage ${D.txt}. `+d.t.replace(/^Accuracy and damage bonus[.,;]?\s*(and )?/,''):d.ac?`+${infBase(L)} AC. `+d.t.replace(/^AC bonus[.;]?\s*/,''):d.t:'')}</div></div>`};
+  const inf=L<2?`<div class="note">Infusions open at level 2.</div>`:`<div class="note" style="margin:0 0 6px">${on.length} of ${cap} infusions active at level ${L}. One infusion an item, in gear ${esc(c.name||'the Artificer')} carries; an item that leaves the gear loses it. Weapon infusions add +${infBase(L)} to Accuracy and ${D.flat!=null?'+'+D.flat:D.txt} to damage${D.flat!=null?'':` (+${infBase(L)} becomes ${infBase(L)}d4 × ${diceMult(bandOf(L))} past level 10, like Rage)`}; armor and shield infusions +${infBase(L)} AC.</div>
+    ${I.map(row).join('')}${I.length<cap?`<select class="sel" aria-label="Add an infusion" onchange="artInfSet(${I.length},'n',this.value)"><option value="">＋ Add an infusion (${I.length}/${cap})…</option>${avail.map(y=>`<option>${esc(y.n)}</option>`).join('')}</select>`:''}`;
+  const N=artNow(c),kinds=Object.entries(ART_KINDS),kind=artKind(c),K=ART_KINDS[kind];
+  const R=bondRef(L),band=bandOf(L),bandRealm=(REALMS.find(r=>r.tier===band)||{}).n||'';
+  const parts=ART_PARTS.map(([k,lab,codes,why])=>{const P=artParts(c,codes),cur=ARTF['p_'+k];return `<label class="note" style="margin:0;display:flex;flex-direction:column;gap:3px">${lab} <small>${esc(why)}</small><select class="sel" onchange="ARTF['p_${k}']=this.value;store.set('artForge',ARTF);artRedraw()"><option value="">${P.length?'Choose…':'Nothing in the pack'}</option>${P.map(x=>`<option value="${esc(x.m.n)}"${x.m.n===cur?' selected':''}>${esc(x.m.n)} · ${esc(x.m.realm)}${x.q>1?' ×'+x.q:''}</option>`).join('')}</select></label>`}).join('');
+  const pv=(()=>{const pick=ART_PARTS.map(([k])=>findMat(ARTF['p_'+k]||'')).filter(Boolean),q=pick.reduce((a,m)=>a+Math.min(1,((REALM[m.realm]||{tier:1}).tier)/band),0)/ART_PARTS.length,f=.5+.5*q;return `HP ${fmt(Math.round(R.hp*K.hp*f))} · AC ${R.ac+K.acB} · hit ${fmt(Math.round(R.h*K.hit*f))} (${Math.round(f*100)}% strength)`})();
+  const build=L<2?`<div class="note">Constructs open at level 2 (a Homunculus) and 3 (a Steel Defender or an Eldritch Cannon).</div>`:`${N?`<div class="sh-feat bond"${N.dead?' style="opacity:.6"':''}>${artStatsHTML(N)}<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px"><button class="btn" type="button" style="padding:1px 8px;font-size:.78rem" onclick="artCon('dead',${N.dead?'false':'true'})">${N.dead?'Back now':'Mark fallen'}</button></div></div>`:''}
+    <div class="panel" style="margin-top:8px;display:grid;gap:8px"><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:end"><label class="note" style="margin:0;display:flex;flex-direction:column;gap:3px">${N?'Build a new one':'Build'}<select class="sel" onchange="artSet('kind',this.value)">${kinds.map(([k,d])=>`<option${k===kind?' selected':''}${L<d.lv?' disabled':''}>${esc(k)}${L<d.lv?' (level '+d.lv+')':''}</option>`).join('')}</select></label><label class="note" style="margin:0;display:flex;flex-direction:column;gap:3px">Name<input class="sel" maxlength="40" placeholder="${esc(kind)}" value="${esc(ARTF.name||'')}" onchange="ARTF.name=this.value;store.set('artForge',ARTF)"></label></div>
+      <div class="note" style="margin:0">${esc(K.t)} Parts from the ${esc(bandRealm)} Realm or deeper count fully at level ${L}; shallower ones count by their realm (half strength at worst). The three materials are used up.</div>
+      <div style="display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">${parts}</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button class="btn primary" type="button" onclick="artBuild()"${L<K.lv?' disabled':''}>🔧 Build the ${esc(kind)}</button><small class="note" style="margin:0">With these parts: ${pv}</small></div></div>`;
+  return `<section class="sec" id="art-forge">${head}<div class="panel" style="display:grid;gap:12px">${who}<div><h4 style="margin:0 0 6px">Infusions</h4>${inf}</div><div><h4 style="margin:0 0 6px">Construct</h4>${build}</div></div></section>`}
+// on the Artificer's sheet: what is infused and the construct, with a way to the forge
+function artiSheetHTML(c){const L=+c.level||1,on=infOn(c),N=artNow(c);
+  return `${on.length?`<div class="note" style="margin:0 0 4px">Infused (${on.length}/${infCap(L)}): ${on.map(o=>`<b>${esc(o.d.n)}</b> in ${esc(o.x.item)}`).join(', ')}.</div>`:`<div class="note" style="margin:0 0 4px">${L<2?'Infusions open at level 2.':'No infusions yet.'}</div>`}
+    ${N?`<div class="sh-feat bond"${N.dead?' style="opacity:.6"':''}>${artStatsHTML(N)}<div class="sh-noprint" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;align-items:center">HP <input type="number" aria-label="Construct's current HP" min="0" max="${N.hp}" value="${N.cur}" style="width:70px" onchange="ARTF.who='${esc(c.id)}';artCon('hp',this.value)"><button class="btn" type="button" style="padding:1px 8px;font-size:.78rem" onclick="ARTF.who='${esc(c.id)}';artCon('dead',${N.dead?'false':'true'})">${N.dead?'Back now':'Mark fallen'}</button><button class="sh-roll" type="button" data-roll="${d20x(N.acc)}" data-what="${esc(N.n)} attack">${sgn(N.acc)}</button></div></div>`:''}
+    <button class="btn sh-noprint" type="button" style="margin-top:6px" onclick="ARTF.who='${esc(c.id)}';store.set('artForge',ARTF);go('forge');setTimeout(()=>{const e=$('art-forge');if(e)e.scrollIntoView({block:'start'})},60)">🔧 Open the Artificer's Forge</button>`}
+// the character builder's Artificer comes with its infusions in place and a construct built from its realm band's materials
+function artGen(c){if(!isArti(c))return;const L=+c.level||1,band=bandOf(L),rn=(REALMS.find(r=>r.tier===band)||REALMS[0]).n,gear=(c.gear||[]).map(findBP).filter(Boolean),I=[],used=new Set();
+  ['Enhanced Weapon','Enhanced Defense','Repeating Shot','Enhanced Arcane Focus','Radiant Weapon','Repulsion Shield','Returning Weapon','Mind Sharpener','Resistant Armor'].forEach(n=>{const d=INF_DEFS.find(x=>x.n===n);if(I.length>=infCap(L)||!d||d.lv>L)return;const b=gear.find(b=>infFits(d.fits,b)&&!used.has(lc(b.n)));if(b){I.push({n,item:b.n});used.add(lc(b.n))}});
+  c.infuse=I;const kind=L>=3?(/Battle Smith/i.test(c.sub||'')?'Steel Defender':'Eldritch Cannon'):L>=2?'Homunculus':'';if(!kind)return;
+  const pick={};ART_PARTS.forEach(([k,,codes])=>{const m=MATS.find(x=>x.realm===rn&&!x.gen&&codes.includes(matCode(x)));if(m)pick[k]=m.n});c.construct={kind,n:kind,parts:pick}}

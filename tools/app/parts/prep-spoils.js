@@ -605,7 +605,10 @@ function cbAddMon(){const v=$('cb-add').value.trim(),m=MON_IDX.get(lc(v)),k=Math
 function cbAddParty(){const V=PV();if(!V.length){toast(PARTY.length?'No characters in '+campViewName()+': pick another campaign on the Party page':'No characters yet: add them on the Party page');return}if(campViewName())toast('Adding '+campViewName()+'\u2019s characters');V.forEach(c=>{if(!CB.list.some(x=>x.pc===c.id))CB.list.push({id:uid(),name:c.name||'PC',pc:c.id,init:0,dex:0,hp:hpNow(c),max:+c.hpMax||0,thp:+c.tempHp||0,ac:charStats(c).ac,dodge:charStats(c).dodge,cond:[]});cbAddBonds(c)});const cur=CB.list[CB.turn];CB.list=cbOrder(CB.list);CB.turn=Math.max(0,CB.list.indexOf(cur));saveCB();renderCombat()}
 // a character's bonded summons join with them: they act right after their summoner, and their HP stays in step with the
 // sheet (a summon dropped to 0 is marked fallen until the next long rest)
-function cbAddBonds(c){if(!c.bondOn)return 0;const by=CB.list.find(x=>x.pc===c.id);if(!by)return 0;let n=0;(c.bonds||[]).forEach((s,i)=>{if(s.dead||CB.list.some(x=>x.bond&&x.bond.pc===c.id&&x.bond.i===i))return;const N=bondNow(c,s);
+function cbAddBonds(c){const by=CB.list.find(x=>x.pc===c.id);if(!by)return 0;let n=0;
+  // an Artificer's construct joins with it, bonded summons or not
+  const A=artNow(c);if(A&&!A.dead&&!CB.list.some(x=>x.art&&x.art.pc===c.id)){CB.list.push({id:uid(),name:`${A.n} (${c.name||'PC'}'s)`,init:by.init,dex:0,hp:A.cur,max:A.hp,ac:A.ac,dodge:profBonus(A.L),cond:[],sum:{by:by.id,base:'construct',left:0,own:false},art:{pc:c.id},atk:`Accuracy +${A.acc}, hit ${A.dmg}`});n++}
+  if(!c.bondOn)return n;(c.bonds||[]).forEach((s,i)=>{if(s.dead||CB.list.some(x=>x.bond&&x.bond.pc===c.id&&x.bond.i===i))return;const N=bondNow(c,s);
   CB.list.push({id:uid(),name:`${s.n||'Summon '+(i+1)} (${c.name||'PC'}'s)`,init:by.init,dex:0,hp:N.cur,max:N.hp,ac:N.ac,dodge:profBonus(N.L),cond:[],sum:{by:by.id,base:'bonded',left:0,own:false},bond:{pc:c.id,i},atk:`Accuracy +${N.acc}, hit ${N.dmg}`});n++});return n}
 function cbAddCustom(){const n=prompt('Name?');if(!n)return;const hp=+prompt('Max HP?','10')||10,ac=+prompt('AC?','0')||0;CB.list.push({id:uid(),name:n,init:0,dex:0,hp,max:hp,ac,dodge:0,cond:[]});saveCB();renderCombat()}
 // Summons (website addition): a creature called into the fight by a combatant. It fights on the summoner's side, acts
