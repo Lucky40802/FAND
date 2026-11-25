@@ -2356,7 +2356,19 @@ function savedOpen(id){const x=store.get('savedq',[]).find(z=>z.id===id);if(x)go
 function savedDrop(id){const L=store.get('savedq',[]),x=L.find(z=>z.id===id);store.set('savedq',L.filter(z=>z.id!==id));renderHome();if(x)undoToast('Removed '+x.name,()=>{store.set('savedq',L);renderHome()})}
 function savedHomeHTML(){const L=store.get('savedq',[]);if(!L.length)return '';
   return `<section class="sec"><div class="sec-h"><h3>Saved searches</h3><p>${L.length} saved · open a list page, search or filter it, then ☆ Save search</p></div><div class="sq-grid">${L.map(x=>`<div class="sq-card"><button class="sq-open" type="button" onclick="savedOpen('${x.id}')">${pgSym(x.tab,'statsym')}<span><b>${esc(x.name)}</b><small>${esc(((TABS.find(t=>t[0]===x.tab)||[])[1]||x.tab).replace(/<[^>]+>/g,''))}</small></span></button><button class="sq-x" type="button" aria-label="Remove ${esc(x.name)}" title="Remove" onclick="savedDrop('${x.id}')">✕</button></div>`).join('')}</div></section>`}
-function renderHome(){
+// ── This week (Home): what is waiting for this person's characters, gathered in one place ──
+function weekHTML(){const me=typeof CL!=='undefined'&&CL.user&&CL.user.id,mine=PARTY.filter(c=>clMine(c)),ids=new Set(mine.map(c=>c.id)),rows=[],add=(ic,t,act,lbl,hot)=>rows.push({ic,t,act,lbl,hot});
+  if(!mine.length)return '';
+  const loot=(LT.list||[]).filter(r=>r.status==='open'&&mine.some(c=>c.camp===r.campaign_id)&&!(r.claims||[]).some(x=>ids.has(x.char)));if(loot.length)add('💰',`${loot.length} loot item${loot.length>1?'s':''} to claim: ${loot.slice(0,3).map(r=>r.n).join(', ')}${loot.length>3?'…':''}`,"go('shop')",'Claim',1);
+  (SW.list||[]).filter(r=>r.status==='offered'&&r.to_user===me).forEach(r=>add('⇄',`${swName(r,'from')} offers ${swName(r,'to')} ${swList(r.give)} for ${swList(r.want)}`,"go('shop')",'Answer',1));
+  (TR.list||[]).filter(r=>r.status==='countered'&&r.requester===me).forEach(r=>add('🪙',`Your DM offers ${gp(+r.price)} each to ${r.kind} ${r.qty>1?r.qty+' × ':''}${r.item}`,"go('shop')",'Answer',1));
+  const wait=(TR.list||[]).filter(r=>['open','agreed'].includes(r.status)&&r.requester===me).length+(SW.list||[]).filter(r=>r.status==='offered'&&r.from_user===me).length;if(wait)add('⏳',`${wait} request${wait>1?'s':''} or offer${wait>1?'s':''} waiting on others`,"go('shop')",'See');
+  const d=calDay();calDT().filter(x=>!x.done&&ids.has(x.cid)).forEach(x=>add('📅',`${x.who}: ${x.label}, ${Math.max(0,x.end-d)} day${x.end-d===1?'':'s'} to go (ends day ${x.end})`,'calOpen()','Calendar'));
+  calEvents().concat(questsDue()).filter(e=>e.day>=d&&e.day<=d+14).sort((a,b)=>a.day-b.day).slice(0,4).forEach(e=>add(e.quest?'📜':'🗓',`Day ${e.day}${e.day===d?' (today)':''}: ${e.t}`,'calOpen()','Calendar'));
+  const un=store.get('inbox',[]).filter(x=>!x.read).length;if(un)add('🔔',`${un} unread in your inbox`,'inboxToggle(true)','Open');
+  return `<section class="sec wk"><div class="sec-h"><h3>This week</h3><p>${rows.length?'What is waiting for '+esc(mine.length===1?mine[0].name||'your character':'your characters'):'Nothing waiting'}</p></div>
+    ${rows.length?`<div class="wk-list">${rows.map(x=>`<div class="wk-row${x.hot?' hot':''}"><span class="wk-ic" aria-hidden="true">${x.ic}</span><span class="wk-t">${esc(x.t)}</span><button class="btn${x.hot?' primary':''}" type="button" onclick="${x.act}">${esc(x.lbl)}</button></div>`).join('')}</div>`:`<div class="note">No loot to claim, no offers, nothing coming up. Downtime, trades and calendar events show up here.</div>`}</section>`}
+function renderHome(){weekLoad();
   const pins=pinnedItems();
   const homebrew=MONSTERS.filter(m=>m.hb).length;
   const fingers=GODS.reduce((a,g)=>a+(g.hand||[]).length,0);
@@ -2371,6 +2383,7 @@ function renderHome(){
       <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="randomItem(BPS.concat(MATS,MONSTERS,GODS))">🎲 Show me something random</button></div>
     </section>`],
     ['role','Your character or table',()=>homeRoleHTML()],
+    ['week','This week',()=>weekHTML()],
     ['handouts','Handouts',()=>liveHomeHTML()+hoHomeHTML()],
     ['stats','Counts',()=>`<section class="sec"><div class="stats">${stats.map(([t,v,l])=>`<button class="stat" data-go="${t}" title="Open ${esc((TABS.find(x=>x[0]===t)||[])[1]||t)}">${pgSym(t,'statsym')}<span class="v">${fmt(v)}</span><span class="l">${l}</span></button>`).join('')}</div></section>`],
     ['recent','Recently viewed',()=>(()=>{const rec=recentItems().slice(0,10);return rec.length?`<section class="sec"><div class="sec-h"><h3>Recently viewed</h3><p>on this device · <a href="#" onclick="store.set('recent',[]);renderHome();return false">clear</a></p></div><div class="chips">${rec.map(x=>refChip(x,esc(x._t==='god'?godKey(x):x.n),{bp:'Blueprint',mat:'Material',mon:'Monster',god:'God',rune:'Rune',spell:'Spell',sub:'Subclass',realm:'Realm',demon:'Demon',patron:'Patron',note:'Note'}[x._t]||'')).join('')}</div></section>`:''})()],
@@ -7245,6 +7258,7 @@ async function shopLocked(){await hcAuto();if(TAB!=='shop')return;if(HC)return r
 function shopAt(){const S=shopState();S.at=(S.at||[]).filter(id=>PARTY.some(c=>c.id===id&&clCanEdit(c)));return S.at.map(id=>PARTY.find(c=>c.id===id))}
 function shopAtAdd(id){const S=shopState();if(!id)return;S.at=S.at||[];if(!S.at.includes(id))S.at.push(id);S.who=id;shopSave();renderShop()}
 function shopAtDrop(id){const S=shopState();S.at=(S.at||[]).filter(x=>x!==id);if(S.who===id)S.who=S.at[0]||'';shopSave();renderShop()}
+function weekLoad(){if(typeof CL==='undefined'||!CL.user)return;const L=[];if(!TR.loaded)L.push(trLoad());if(!SW.loaded)L.push(swLoad());if(!LT.loaded)L.push(ltLoad());if(L.length)Promise.all(L.map(p=>p.catch(()=>{}))).then(()=>{if(TAB==='home')renderHome()})}
 function renderShop(){if(!HC)return shopLocked();if(!TR.loaded)trLoad().catch(()=>{});if(!SW.loaded)swLoad().catch(()=>{});if(!LT.loaded)ltLoad().catch(()=>{});const S=shopState(),at=shopAt(),pool=at.length?at:PARTY.filter(x=>clCanEdit(x)),c=pool.find(x=>x.id===S.who)||pool[0]||null;if(c&&S.who!==c.id)S.who=c.id;const my=S.custom&&myShop(S.custom);if(S.custom&&!my)S.custom='';const rn=S.realm,C=shopCoin(rn),K=my?{shop:my.name||'Unnamed shop',line:my.line||'',name:my.keeper||'the shopkeeper'}:shopKeeper(rn,S.kind),st=shopStock(),dm=role()!=='player';
   const on='background:var(--goldbg);border-color:var(--gold)',kinds=SHOP_KINDS.map(([k,l])=>`<button class="chip${k===S.kind&&!my?' on':''}" style="${k===S.kind&&!my?on:''}" onclick="SHOPST.kind='${k}';SHOPST.custom='';shopSave();renderShop()">${esc(l)}</button>`).join('')
     +(dm?`<span class="ms-sep" aria-hidden="true"></span>${myShops().map(x=>`<button class="chip ms-chip${my&&my.id===x.id?' on':''}" style="${my&&my.id===x.id?on:''}" onclick="SHOPST.custom='${x.id}';${x.realm&&REALM[x.realm]&&REALM[x.realm].base?`SHOPST.realm='${esc(x.realm)}';`:''}shopSave();renderShop()" title="Your own shop">★ ${esc(x.name||'Unnamed shop')}</button>`).join('')}<button class="chip" onclick="myShopEdit()">＋ New shop</button>${my?`<button class="chip" onclick="myShopEdit('${my.id}')">✎ Edit ${esc(my.name||'shop')}</button>`:`<button class="chip" onclick="myShopFromMarket()" title="Start a shop of your own from what this market has now">⧉ Copy this stock</button>`}`:'');
