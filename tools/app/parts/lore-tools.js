@@ -1051,7 +1051,7 @@ function charStats(c){
   const fxs=act.map(gearFx),bestAC={},bestSp={};fxs.forEach((f,i)=>(f.parts||[]).forEach(q=>{if(q.ac&&(!bestAC[q.n]||q.ac>bestAC[q.n].v))bestAC[q.n]={v:q.ac,i};if(q.speed&&(!bestSp[q.n]||q.speed>bestSp[q.n].v))bestSp[q.n]={v:q.speed,i}}));
   const perAC=fxs.map(()=>0);Object.values(bestAC).forEach(x=>perAC[x.i]+=x.v);
   const fxAC=perAC.reduce((a,v,i)=>a+Math.min(v,fxs[i].acCap||1),0),fxACcap=perAC.some((v,i)=>v>(fxs[i].acCap||1)),fxSpeedRaw=Object.values(bestSp).reduce((a,x)=>a+x.v,0),fxSpeed=Math.min(fxSpeedRaw,+c.speed||30),fxSpeedCap=fxSpeedRaw>fxSpeed;
-  const ac=Math.max(0,armorAC+otherAC+(+c.acBonus||0)+(ct?ct.ac:0)+conAC+styleAC+unAC+maAC+fxAC);
+  const infA=infAC(c,act),ac=Math.max(0,armorAC+otherAC+(+c.acBonus||0)+(ct?ct.ac:0)+conAC+styleAC+unAC+maAC+fxAC+infA);
   const traits=[];act.forEach(b=>(b.mats||[]).forEach(n=>{const m=findMat(n);if(m&&m.tr&&trWorks(m.tr,gearKind(b))&&!traits.some(t=>t.m===m))traits.push({m,b})}));
   const inv=(c.inv||[]).map(([n,q])=>({m:findMat(n),n,q:+q||0}));
   const invGp=inv.reduce((a,x)=>a+(x.m&&x.m.price||0)*x.q,0);
