@@ -1272,3 +1272,6 @@ body{font-size:calc(15px * var(--ts))}
    and pale greys stay readable */
 .rcx{color:color-mix(in srgb,var(--rc) 82%,#fff)}
 :root[data-theme="light"] .rcx{color:color-mix(in srgb,var(--rc) 48%,#1a1408)}
+.d3-card{display:flex;gap:14px;align-items:center;border:1px solid var(--gold);border-radius:14px;padding:14px 16px;margin:4px 0 14px;background:var(--goldbg);color:inherit;text-decoration:none}.d3-card:hover{box-shadow:0 0 0 1px var(--gold) inset}.d3-card small{display:block;color:var(--text2);margin-top:3px}.d3-card>span:nth-child(2){flex:1;min-width:0}.d3-ic{font-size:2rem}
+.d3{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:16px}.d3[hidden]{display:none}.d3-win{width:min(900px,100%);height:min(640px,100%);display:flex;flex-direction:column;background:var(--surf);border:1px solid var(--gold);border-radius:14px;overflow:hidden}.d3-h{display:flex;gap:8px;align-items:center;padding:8px 10px;border-bottom:1px solid var(--line);flex-wrap:wrap}.d3-h b{font-family:var(--serif)}.d3-res{flex:1;min-width:0;font-weight:700;color:var(--gold2)}.d3-win iframe{flex:1;width:100%;border:0;background:var(--bg)}
+@media (max-width:600px){.d3{padding:0}.d3-win{height:100%;border-radius:0}.d3-card{flex-wrap:wrap}}

@@ -15,7 +15,8 @@ const scan=()=>p.evaluate(()=>{const RX=/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u
   const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);while(w.nextNode()){const n=w.currentNode,par=n.parentElement;if(!par||par.closest('script,style,textarea'))continue;const ch=[...n.data].filter(c=>RX.test(c)&&!TX.includes(c));if(ch.length)out.push(ch.join('')+' in "'+n.data.trim().slice(0,40)+'"')}
   document.querySelectorAll('[title],[placeholder]').forEach(e=>['title','placeholder'].forEach(a=>{const v=e.getAttribute(a)||'',ch=[...v].filter(c=>RX.test(c)&&!TX.includes(c));if(ch.length)out.push(ch.join('')+' in '+a+' "'+v.slice(0,40)+'"')}));
   const t=[...document.title].filter(c=>RX.test(c)&&!TX.includes(c));if(t.length)out.push(t.join('')+' in the tab title');return out});
-const pages=fs.readdirSync(root).filter(f=>f.endsWith('.html')&&f!=='404.html');let found=[];
+// dice-table.html is a finished page of its own (tools/app/dice-table/), kept as delivered: its buttons use emoji by design
+const pages=fs.readdirSync(root).filter(f=>f.endsWith('.html')&&f!=='404.html'&&f!=='dice-table.html');let found=[];
 for(const pg of pages){await p.goto('file://'+path.resolve(root,pg));await p.waitForTimeout(1200);await p.evaluate(()=>{try{HC=HC||[]}catch(e){}try{if(typeof render==='function')render()}catch(e){}});await p.waitForTimeout(400);(await scan()).forEach(x=>found.push(pg+': '+x))}
 ok(!found.length,'no emoji on any of '+pages.length+' pages, with the DM\'s views on '+found.slice(0,8).join(' | '));
 // a sheet, the combat tracker, an item's window, the menus
