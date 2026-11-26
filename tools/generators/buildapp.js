@@ -856,6 +856,11 @@ var HIDDEN_LOCK = require(path.join(__dirname, 'hidden-lock.js'));
 })();
 // Class changes past level 20 (data/stages.js)
 try { D.STAGES = require(path.join(__dirname, '..', 'data', 'stages.js')); } catch (e) { if (e.code !== 'MODULE_NOT_FOUND') throw e; D.STAGES = {}; }
+// more features at each change's 7th and 14th levels (data/stages-more.js), merged into the 10-level steps by level
+(function () { var M; try { M = require(path.join(__dirname, '..', 'data', 'stages-more.js')); } catch (e) { if (e.code !== 'MODULE_NOT_FOUND') throw e; return; }
+  Object.keys(M).forEach(function (cls) { var S = D.STAGES[cls]; if (!S) return; M[cls].forEach(function (f) { var st = S.find(function (x) { return x.stage === Math.ceil(f[0] / 10); }); if (!st) return;
+    if (!st.features.some(function (g) { return g[1] === f[1]; })) { st.features.push(f.slice()); st.features.sort(function (a, b) { return a[0] - b[0]; }); } }); });
+})();
 // Class changes every 20 levels (campaign owner's rule): stages II-V at 21, 41, 61, 81, named "<Class> II" and so on.
 // The written ladder (data/stages.js) has a change every 10 levels; each 20-level stage takes the two written changes that
 // fall inside it (II = the changes at 21 and 31, III = 41 and 51, IV = 61 and 71, V = 81 and 91) with their features at
