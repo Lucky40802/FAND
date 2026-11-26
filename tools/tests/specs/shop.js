@@ -229,7 +229,7 @@ module.exports.push(
     const buy = async n => { for (let i = 0; i < n; i++) await p.evaluate(() => shopBuy(0)); await p.waitForTimeout(100); };
     await buy(1); t.eq(await p.evaluate(() => [commonGp(PARTY[0]), repTier(repGp(PARTY[0]))[1]]), [4900, 'known'], '100 gp spent: now known');
     t.eq(await p.evaluate(() => shopStock().rows[0].price && repBuy(100, PARTY[0])), 95, 'known: 5% off');
-    await p.waitForTimeout(400); t.ok(/known/.test(await p.innerText('#toast')), 'the shopkeeper says so');
+    t.ok(/known/.test(await p.innerText('#toast')) && await p.isVisible('#toast button'), 'the shopkeeper says so, in the purchase\'s own notice (Undo stays)');
     await buy(5); t.eq(await p.evaluate(() => [repTier(repGp(PARTY[0]))[1], repPct(PARTY[0])]), ['a regular', 10], 'a regular after 500 gp: 10%');
     await p.evaluate(() => { PARTY[0].standing = { [NPCS[0].fac]: { s: 2 } }; saveParty(); renderShop(); });
     t.eq(await p.evaluate(() => repPct(PARTY[0])), 20, 'a friendly standing (+2) with her faction adds 10%');
