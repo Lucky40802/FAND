@@ -154,7 +154,8 @@ function classRiders(c){const L=+c.level||1,m=diceMult(bandOf(L)),has=k=>c.cls==
   if(has('Warlock'))R.push({n:'Hex',per:1,spell:1,dice:m,d:6,how:'on each hit against the hexed creature, spells included'});
   if(has('Monk'))R.push({n:'Martial Arts',strike:1,dice:maBase(L)*m,d:maDie(L),how:'per unarmed strike'+(maBase(L)*m>1?' ('+maBase(L)+'d'+maDie(L)+' × '+m+')':'')+'; Flurry of Blows adds two strikes a turn'});
   return R.map(r=>Object.assign(r,{avg:r.flat!=null?r.flat:r.dice*(r.d+1)/2,txt:r.flat!=null?'+'+r.flat:r.dice+'d'+r.d}))}
-const surgeUses=c=>(c.cls==='Fighter'||c.cls2==='Fighter')?((+c.level||1)>=17?2:(+c.level||1)>=2?1:0):0;
+// Action Surge: one use from level 2, two at 17, three at 47 and four at 87 (the class changes' Action Surge features)
+const surgeUses=c=>{if(c.cls!=='Fighter'&&c.cls2!=='Fighter')return 0;const L=+c.level||1;return L>=87?4:L>=47?3:L>=17?2:L>=2?1:0};
 const wpnProps=b=>b.design?b.design.props||'':(genOf(b)&&BASES[genOf(b)]&&BASES[genOf(b)].props)||'',wpnRanged=b=>/Ammunition|ranged/i.test(wpnProps(b))||['Bow'].includes(b.cat);
 // Spell power (owner-approved fix, 2026-11-03): a spell's dice are multiplied by the realm it is bound to OR by the caster's
 // 10-level band (by DICE_MULT: ×1 at levels 1–10, ×2 at 11–20, ×6 at 21–30, … ×40 at 91–100), whichever is higher. With the realm alone, Human-realm
