@@ -1216,12 +1216,14 @@ site['manifest.webmanifest'] = JSON.stringify({
 var mapFiles = (function () { var d = path.join(__dirname, '..', 'data', 'maps'); return fs.existsSync(d) ? fs.readdirSync(d).filter(function (f) { return /\.(jpe?g|png|webp)$/i.test(f); }).map(function (f) { return 'img/maps/' + f; }) : []; })();
 var PRECACHE = PAGE_FILES.concat([APP_URL], // (data/hidden-lock.js is left out: only a DM needs it, and the worker keeps it after their first unlock)
   ['data/core.js', 'data/art.js', 'data/vault.js', 'data/spells.js', 'data/vault-details.js'].map(function (f) { return f + '?v=' + DATA_V; }),
-  ['vendor/anthropic.js', 'vendor/qrcode.js', 'manifest.webmanifest', 'img/icons/icon-180.png', 'img/icons/icon-192.png', 'img/icons/icon-512.png'], SUPA ? ['vendor/supabase.js'] : [], mapFiles);
+  ['vendor/anthropic.js', 'vendor/qrcode.js', 'dice-table.html', 'manifest.webmanifest', 'img/icons/icon-180.png', 'img/icons/icon-192.png', 'img/icons/icon-512.png'], SUPA ? ['vendor/supabase.js'] : [], mapFiles);
 // the offline copy's name changes whenever any file changes (pages too), so a phone never keeps an old page offline
 site['sitemap.xml'] = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + PAGES.filter(function (pg) { return pg !== 'hidden'; }).map(function (pg) {
   return '  <url><loc>' + SITE_URL + (pg === 'home' ? '' : pg + '.html') + '</loc><lastmod>' + META.built + '</lastmod><changefreq>weekly</changefreq><priority>' + (pg === 'home' ? '1.0' : /bestiary|materials|blueprints|gods|spells|classes|rules/.test(pg) ? '0.8' : '0.6') + '</priority></url>';
-}).join('\n') + '\n</urlset>\n';
+}).join('\n') + '\n  <url><loc>' + SITE_URL + 'dice-table.html</loc><lastmod>' + META.built + '</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>\n</urlset>\n';
 site['robots.txt'] = 'User-agent: *\nAllow: /\nSitemap: ' + SITE_URL + 'sitemap.xml\n';
+// the physics Dice Table: a finished page of its own (tools/app/dice-table.html, see tools/app/dice-table/), copied in as is
+site['dice-table.html'] = fs.readFileSync(path.join(__dirname, '..', 'app', 'dice-table.html'), 'utf8');
 var SITE_V = require('crypto').createHash('sha1').update(Object.keys(site).filter(function (k) { return k !== 'sw.js'; }).sort().map(function (k) { return k + site[k]; }).join('')).digest('hex').slice(0, 8);
 site['sw.js'] = [
   '// FAND offline worker, written by tools/generators/buildapp.js. Build ' + DATA_V + '.',

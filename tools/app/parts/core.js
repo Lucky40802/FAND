@@ -170,8 +170,39 @@ function rollMulti(e){const src=String(e||'').replace(/−/g,'-').replace(/\s+/g
   if(!r.length)return null;
   if(tot){const lo=sd.reduce((a,x)=>a+(x>0?1:x),0),hi=sd.reduce((a,x)=>a+(x>0?x:-1),0),want=Math.max(lo,Math.min(hi,(+g.value||0)-mod));let left=want-lo;r=sd.map(x=>{if(x>0){const k=Math.min(x-1,left);left-=k;return 1+k}const k=Math.min(-x-1,left);left-=k;return x+k})}
   if($('dr-rig-state'))rigState();return {e:src.replace(/([+\-])/g,' $1 ').trim(),r,mod,t:r.reduce((a,b)=>a+b,0)+mod,sides:first,sd:sd.map(Math.abs)}}
-function rollShow(e,label){const R=rollMulti(e);if(R&&label)R.e=label+' · '+R.e;if(!R){if(String(e||'').trim())toast('Not a roll: try 2d6+3');return}const log=store.get('dicelog',[]);log.unshift({e:R.e,t:R.t,r:R.r,mod:R.mod});store.set('dicelog',log.slice(0,50));
+function rollShow(e,label,plain){if(!plain&&d3On()&&!rigActive()){const P=d3Pool(e);if(P)return d3Roll(e,label,P)}const R=rollMulti(e);if(R&&label)R.e=label+' · '+R.e;if(!R){if(String(e||'').trim())toast('Not a roll: try 2d6+3');return}const log=store.get('dicelog',[]);log.unshift({e:R.e,t:R.t,r:R.r,mod:R.mod});store.set('dicelog',log.slice(0,50));
   const sides=R.sides||+(/d(\d+)/i.exec(R.e)||[])[1]||20;if(store.get('diceanim',true))diceOverlay(Object.assign(R,{again:()=>rollShow(e,label)}),sides);else toast(`🎲 ${R.e}: ${R.t}  (${R.r.join(' + ')}${R.mod?(R.mod>0?' + ':' − ')+Math.abs(R.mod):''})`);if($('dl-log'))diceLog()}
+// ── the 3D Dice Table (dice-table.html, a page of its own): with "Roll with the 3D Dice Table" on, rolls anywhere on the
+// site are thrown on it, embedded, through its postMessage API (tools/app/dice-table/EMBED_API.md); the result goes into
+// the site's dice history like any other roll. A DM rig, or dice the table doesn't have, use the usual roller. ──
+const D3_SIDES=[2,4,6,8,10,12,20,100];
+var D3={ready:false,queue:[],wait:{},n:0};
+const d3On=()=>!!SITE&&store.get('dice3d',false);
+const rigActive=()=>{const g=store.get('dicerig',null);return !!(g&&g.mode)};
+// "2d6+1d8+3" → {pool:'2d6,d8', flat:3}; null when the table can't throw it (a d3, a subtracted die, too many dice)
+function d3Pool(e){const s=String(e||'').replace(/−/g,'-').replace(/\s+/g,'').toLowerCase();if(!s)return null;const parts=s.match(/[+-]?[^+-]+/g)||[];let pool=[],flat=0,count=0;
+  for(const p of parts){const neg=p[0]==='-',q=p.replace(/^[+-]/,''),m=/^(\d*)d(\d+)$/.exec(q);
+    if(m){const n=+m[1]||1,sd=+m[2];if(neg||!D3_SIDES.includes(sd)||n<1)return null;count+=n;pool.push((n>1?n:'')+'d'+sd)}else if(/^\d+$/.test(q))flat+=(neg?-1:1)*+q;else return null}
+  return pool.length&&count<=20?{pool:pool.join(','),flat}:null}
+function d3Box(){let w=$('d3');if(w)return w;w=document.createElement('div');w.id='d3';w.className='d3';w.hidden=true;w.setAttribute('role','dialog');w.setAttribute('aria-modal','true');w.setAttribute('aria-label','3D Dice Table');
+  w.innerHTML=`<div class="d3-win"><div class="d3-h"><b id="d3-what">3D Dice Table</b><span id="d3-res" class="d3-res" aria-live="polite"></span><a class="btn" href="dice-table.html" title="The full Dice Table, with every setting">Full table ↗</a><button class="btn" type="button" id="d3-x">Close</button></div>
+    <iframe id="d3-f" title="3D Dice Table" src="dice-table.html#embed=1" allow="autoplay"></iframe></div>`;document.body.appendChild(w);
+  w.addEventListener('click',e=>{if(e.target===w)d3Close()});$('d3-x').onclick=d3Close;w.addEventListener('keydown',e=>{if(e.key==='Escape'){e.stopPropagation();d3Close()}});return w}
+function d3Close(){const w=$('d3');if(w)w.hidden=true;if(D3.back&&document.contains(D3.back))try{D3.back.focus()}catch(e){}}
+window.addEventListener('message',e=>{const d=e.data;if(!d||d.source!=='fand-dice'||e.origin!==location.origin)return;
+  if(d.type==='fand-dice:ready'){D3.ready=true;D3.queue.splice(0).forEach(m=>$('d3-f').contentWindow.postMessage(m,location.origin));return}
+  if(d.type==='fand-dice:result'){const job=d.id&&D3.wait[d.id];if(d.id)delete D3.wait[d.id];d3Result(d,job)}
+  if(d.type==='fand-dice:error'&&d.id&&D3.wait[d.id]){const job=D3.wait[d.id];delete D3.wait[d.id];toast('The 3D table could not roll that: '+(d.error||'')+'. Rolled the usual way instead.');d3Close();rollShow(job.e,job.label,true)}});
+function d3Roll(e,label,P){const w=d3Box();D3.back=document.activeElement;w.hidden=false;const id='r'+(++D3.n);D3.wait[id]={e,label};
+  $('d3-what').textContent=(label?label+' · ':'')+String(e).replace(/\s+/g,'');$('d3-res').textContent='Rolling…';
+  const msg={type:'fand-dice:roll',id,pool:P.pool,flat:P.flat,instant:!store.get('diceanim',true)};if(D3.ready)$('d3-f').contentWindow.postMessage(msg,location.origin);else D3.queue.push(msg);
+  setTimeout(()=>{const x=$('d3-x');if(x&&!w.hidden)x.focus()},50)}
+// a result from the table (asked for, or thrown by hand on it) goes into the site's dice history
+function d3Result(d,job){const r=[];(d.dice||[]).forEach(g=>(g.items||[]).forEach(it=>{const v=Array.isArray(it.values)?it.values[it.kept||0]:it.value;if(v!=null)r.push(+v)}));
+  const expr=(job&&job.label?job.label+' · ':'')+(job?String(job.e).replace(/\s+/g,''):(d.expr||'3D table'));const R={e:expr,t:+d.total||0,r,mod:+d.modifier||0};
+  const log=store.get('dicelog',[]);log.unshift(R);store.set('dicelog',log.slice(0,50));if($('dl-log'))diceLog();
+  const res=$('d3-res');if(res)res.textContent=`${R.t}${d.breakdown?'  ('+d.breakdown+')':''}${d.crit==='success'?' · critical!':d.crit==='failure'?' · critical failure':''}`;
+  if(!job)return;toast(`🎲 ${R.e}: ${R.t}`)}
 function diceify(root){if(!root)return;const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement.closest('input,textarea,select,button,a,.dice,script,style')?NodeFilter.FILTER_REJECT:(DICE_RX.lastIndex=0,DICE_RX.test(n.nodeValue))?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP});const ns=[];while(w.nextNode())ns.push(w.currentNode);
   ns.forEach(n=>{const f=document.createDocumentFragment();let last=0;const t=n.nodeValue;DICE_RX.lastIndex=0;let m;while((m=DICE_RX.exec(t))){f.append(t.slice(last,m.index));const sp=document.createElement('span');sp.className='dice';sp.textContent=m[0];sp.title='Click to roll';f.append(sp);last=m.index+m[0].length}f.append(t.slice(last));n.replaceWith(f)})}
 document.addEventListener('click',e=>{const d=e.target.closest('.dice');if(d){e.preventDefault();e.stopPropagation();rollShow(d.textContent)}},true);
@@ -189,7 +220,7 @@ function toast(msg){const t=$('toast');t.textContent=msg;t.classList.remove('act
 // back the same way the site saves them, so the account and the campaign get the undone version too.
 var UNDO={steps:[],redo:[],busy:false,max:40};
 // things that are about how the page looks or where you are, not your data: never part of an undo
-var UNDO_SKIP=new Set(['inbox','npcf','tradelog','tlview','dmpad','dmpadui','livecamp','recentq','theme','wakelock','tooltab','viewmode','charwiz','jedit','clsfocus','placefocus','diceanim','recent','spells','hc','hclv','jq','magic','rmap','dpool','hcpat','hcpin','hcqm','hcguard','hclog','anthropicKey','groqKey','groqModel','campview','role','partygone','journalgone','askmass','onboard','tour','diceskin','homeorder','homehide','sbtab','sess','standOpen','dmOpen','homelayout','toursDone','guided','genopts','dicesound','forgeSound','dicelog','scavpop','sbt','cmp','trialtrack','fightPaceOn','groqforge']);
+var UNDO_SKIP=new Set(['dice3d','inbox','npcf','tradelog','tlview','dmpad','dmpadui','livecamp','recentq','theme','wakelock','tooltab','viewmode','charwiz','jedit','clsfocus','placefocus','diceanim','recent','spells','hc','hclv','jq','magic','rmap','dpool','hcpat','hcpin','hcqm','hcguard','hclog','anthropicKey','groqKey','groqModel','campview','role','partygone','journalgone','askmass','onboard','tour','diceskin','homeorder','homehide','sbtab','sess','standOpen','dmOpen','homelayout','toursDone','guided','genopts','dicesound','forgeSound','dicelog','scavpop','sbt','cmp','trialtrack','fightPaceOn','groqforge']);
 const UNDO_NAMES={party:'the party',combat:'the combat tracker',journal:'the journal',enc:'the encounter',npcs:'the NPCs',designs:'your designs',pins:'your pins',fights:'the fight reports',rules:'the table rules',prep:'the session prep',stand:'faction standing',hooks:'the hooks',dice:'the dice'};
 function undoLoad(){try{const o=JSON.parse(sessionStorage.getItem('fand.__undo')||'null');if(o&&Array.isArray(o.steps)){UNDO.steps=o.steps;UNDO.redo=o.redo||[]}}catch(e){}}
 function undoSave(){for(let i=0;i<40;i++){try{sessionStorage.setItem('fand.__undo',JSON.stringify({steps:UNDO.steps,redo:UNDO.redo}));return}catch(e){if(UNDO.redo.length)UNDO.redo.shift();else if(UNDO.steps.length>1)UNDO.steps.shift();else{try{sessionStorage.removeItem('fand.__undo')}catch(x){}return}}}}
