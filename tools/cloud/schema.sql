@@ -836,5 +836,48 @@ do $$ begin
   end if;
 end $$;
 
+-- table rolls: members share their dice rolls with the campaign, live. A secret roll (the DM's) is seen only by the DM
+-- and whoever rolled it. Members read; rolls are added through fand_share_roll, which keeps the newest 300.
+create table if not exists public.campaign_rolls (
+  id uuid primary key default gen_random_uuid(),
+  campaign_id uuid not null references public.campaigns (id) on delete cascade,
+  user_id uuid not null default auth.uid() references auth.users (id) on delete cascade,
+  who text not null default '' check (char_length(who) <= 60),
+  expr text not null check (char_length(expr) between 1 and 120),
+  total numeric not null,
+  detail text not null default '' check (char_length(detail) <= 300),
+  secret boolean not null default false,
+  created_at timestamptz not null default now()
+);
+create index if not exists campaign_rolls_campaign on public.campaign_rolls (campaign_id, created_at desc);
+alter table public.campaign_rolls enable row level security;
+drop policy if exists "members read" on public.campaign_rolls;
+create policy "members read" on public.campaign_rolls for select to authenticated
+  using (private.fand_is_member(campaign_id) and (not secret or user_id = (select auth.uid()) or private.fand_is_dm(campaign_id)));
+revoke all on public.campaign_rolls from anon;
+revoke insert, update, delete on public.campaign_rolls from authenticated;
+grant select on public.campaign_rolls to authenticated;
+create or replace function public.fand_share_roll(p_campaign uuid, p_who text, p_expr text, p_total numeric, p_detail text, p_secret boolean) returns uuid
+language plpgsql security definer set search_path = '' as $$
+declare rid uuid;
+begin
+  if not private.fand_is_member(p_campaign) then raise exception 'Join the campaign to share rolls with it.'; end if;
+  insert into public.campaign_rolls (campaign_id, user_id, who, expr, total, detail, secret)
+    values (p_campaign, (select auth.uid()), left(coalesce(p_who, ''), 60), left(coalesce(nullif(btrim(p_expr), ''), 'a roll'), 120),
+      greatest(-1000000, least(coalesce(p_total, 0), 1000000)), left(coalesce(p_detail, ''), 300), coalesce(p_secret, false))
+    returning id into rid;
+  delete from public.campaign_rolls where campaign_id = p_campaign and id in (
+    select id from public.campaign_rolls where campaign_id = p_campaign order by created_at desc offset 300);
+  return rid;
+end $$;
+revoke execute on function public.fand_share_roll(uuid, text, text, numeric, text, boolean) from public, anon;
+grant execute on function public.fand_share_roll(uuid, text, text, numeric, text, boolean) to authenticated;
+do $$ begin
+  if exists (select 1 from pg_publication where pubname = 'supabase_realtime')
+     and not exists (select 1 from pg_publication_tables where pubname = 'supabase_realtime' and tablename = 'campaign_rolls') then
+    alter publication supabase_realtime add table public.campaign_rolls;
+  end if;
+end $$;
+
 -- make the site's API see new tables (the Workshop's `blueprints`, the DM notepad's `dm_notes`, and the rest) right away
 notify pgrst, 'reload schema';
