@@ -170,7 +170,7 @@ function rollMulti(e){const src=String(e||'').replace(/−/g,'-').replace(/\s+/g
   if(!r.length)return null;
   if(tot){const lo=sd.reduce((a,x)=>a+(x>0?1:x),0),hi=sd.reduce((a,x)=>a+(x>0?x:-1),0),want=Math.max(lo,Math.min(hi,(+g.value||0)-mod));let left=want-lo;r=sd.map(x=>{if(x>0){const k=Math.min(x-1,left);left-=k;return 1+k}const k=Math.min(-x-1,left);left-=k;return x+k})}
   if($('dr-rig-state'))rigState();return {e:src.replace(/([+\-])/g,' $1 ').trim(),r,mod,t:r.reduce((a,b)=>a+b,0)+mod,sides:first,sd:sd.map(Math.abs)}}
-function rollShow(e,label,plain){if(!plain&&d3On()&&!rigActive()){const P=d3Pool(e);if(P)return d3Roll(e,label,P)}const R=rollMulti(e);if(R&&label)R.e=label+' · '+R.e;if(!R){if(String(e||'').trim())toast('Not a roll: try 2d6+3');return}const log=store.get('dicelog',[]);log.unshift({e:R.e,t:R.t,r:R.r,mod:R.mod});store.set('dicelog',log.slice(0,50));
+function rollShow(e,label,plain){if(!plain&&d3On()&&!rigActive()){const P=d3Pool(e);if(P)return d3Roll(e,label,P)}const R=rollMulti(e);if(R&&label)R.e=label+' · '+R.e;if(!R){if(String(e||'').trim())toast('Not a roll: try 2d6+3');return}const log=store.get('dicelog',[]);log.unshift({e:R.e,t:R.t,r:R.r,mod:R.mod});store.set('dicelog',log.slice(0,50));rsShare(R).catch(()=>{});
   const sides=R.sides||+(/d(\d+)/i.exec(R.e)||[])[1]||20;if(store.get('diceanim',true))diceOverlay(Object.assign(R,{again:()=>rollShow(e,label)}),sides);else toast(`🎲 ${R.e}: ${R.t}  (${R.r.join(' + ')}${R.mod?(R.mod>0?' + ':' − ')+Math.abs(R.mod):''})`);if($('dl-log'))diceLog()}
 // ── the 3D Dice Table (dice-table.html, a page of its own): with "Roll with the 3D Dice Table" on, rolls anywhere on the
 // site are thrown on it, embedded, through its postMessage API (tools/app/dice-table/EMBED_API.md); the result goes into
@@ -190,19 +190,42 @@ function d3Box(){let w=$('d3');if(w)return w;w=document.createElement('div');w.i
   w.addEventListener('click',e=>{if(e.target===w)d3Close()});$('d3-x').onclick=d3Close;w.addEventListener('keydown',e=>{if(e.key==='Escape'){e.stopPropagation();d3Close()}});return w}
 function d3Close(){const w=$('d3');if(w)w.hidden=true;if(D3.back&&document.contains(D3.back))try{D3.back.focus()}catch(e){}}
 window.addEventListener('message',e=>{const d=e.data;if(!d||d.source!=='fand-dice'||e.origin!==location.origin)return;
-  if(d.type==='fand-dice:ready'){D3.ready=true;D3.queue.splice(0).forEach(m=>$('d3-f').contentWindow.postMessage(m,location.origin));return}
+  if(d.type==='fand-dice:ready'){const f=$('d3-f');if(f&&e.source===f.contentWindow){D3.ready=true;D3.queue.splice(0).forEach(m=>f.contentWindow.postMessage(m,location.origin))}return}
   if(d.type==='fand-dice:result'){const job=d.id&&D3.wait[d.id];if(d.id)delete D3.wait[d.id];d3Result(d,job)}
   if(d.type==='fand-dice:error'&&d.id&&D3.wait[d.id]){const job=D3.wait[d.id];delete D3.wait[d.id];toast('The 3D table could not roll that: '+(d.error||'')+'. Rolled the usual way instead.');d3Close();rollShow(job.e,job.label,true)}});
 function d3Roll(e,label,P){const w=d3Box();D3.back=document.activeElement;w.hidden=false;const id='r'+(++D3.n);D3.wait[id]={e,label};
   $('d3-what').textContent=(label?label+' · ':'')+String(e).replace(/\s+/g,'');$('d3-res').textContent='Rolling…';
-  const msg={type:'fand-dice:roll',id,pool:P.pool,flat:P.flat,instant:!store.get('diceanim',true)};if(D3.ready)$('d3-f').contentWindow.postMessage(msg,location.origin);else D3.queue.push(msg);
+  const msg=Object.assign({type:'fand-dice:roll',id,pool:P.pool,instant:!store.get('diceanim',true)},label&&P.flat?{flat:0,mods:[{n:String(label).slice(0,40),v:P.flat}]}:{flat:P.flat});if(D3.ready)$('d3-f').contentWindow.postMessage(msg,location.origin);else D3.queue.push(msg);
   setTimeout(()=>{const x=$('d3-x');if(x&&!w.hidden)x.focus()},50)}
 // a result from the table (asked for, or thrown by hand on it) goes into the site's dice history
 function d3Result(d,job){const r=[];(d.dice||[]).forEach(g=>(g.items||[]).forEach(it=>{const v=Array.isArray(it.values)?it.values[it.kept||0]:it.value;if(v!=null)r.push(+v)}));
   const expr=(job&&job.label?job.label+' · ':'')+(job?String(job.e).replace(/\s+/g,''):(d.expr||'3D table'));const R={e:expr,t:+d.total||0,r,mod:+d.modifier||0};
-  const log=store.get('dicelog',[]);log.unshift(R);store.set('dicelog',log.slice(0,50));if($('dl-log'))diceLog();
+  const log=store.get('dicelog',[]);log.unshift(R);store.set('dicelog',log.slice(0,50));if($('dl-log'))diceLog();rsShare(R).catch(()=>{});
   const res=$('d3-res');if(res)res.textContent=`${R.t}${d.breakdown?'  ('+d.breakdown+')':''}${d.crit==='success'?' · critical!':d.crit==='failure'?' · critical failure':''}`;
   if(!job)return;toast(`🎲 ${R.e}: ${R.t}`)}
+// ── table rolls (campaign_rolls): share every roll with a campaign, live; the DM can roll in secret (only the DM and the
+// roller see it). The Dice page shows the campaign's recent rolls as they happen. ──
+var RS={list:[],chan:null,camp:'',err:''};
+const rsCamp=()=>{const id=store.get('rollshare','');return typeof CL!=='undefined'&&CL.user&&(CL.camps||[]).some(k=>k.id===id)?id:''};
+function rsWho(camp){if(TAB==='sheet'&&typeof sheetChar==='function'){const c=sheetChar();if(c&&c.name&&!SHEET_BLANK)return c.name}
+  const mine=PARTY.filter(c=>c.camp===camp&&clMine(c));if(mine.length===1&&mine[0].name)return mine[0].name;
+  const m=CL.user&&CL.user.user_metadata;return (m&&(m.name||m.full_name))||'Someone'}
+async function rsShare(R){const camp=rsCamp();if(!camp||!R)return;const secret=!!store.get('rollsecret',false)&&clIsDM(camp);
+  const detail=(R.r||[]).join(' + ')+(R.mod?(R.mod>0?' + ':' − ')+Math.abs(R.mod):'');
+  const {data,error}=await CL.sb.rpc('fand_share_roll',{p_campaign:camp,p_who:rsWho(camp),p_expr:String(R.e).slice(0,120),p_total:+R.t||0,p_detail:detail.slice(0,300),p_secret:secret});
+  if(error){if(dbMissing(error,'fand_share_roll')){RS.err='missing';toast('Sharing rolls needs the latest database setup: run tools/cloud/schema.sql again in Supabase')}return}
+  if(data&&!RS.list.some(x=>x.id===data)){RS.list.unshift({id:data,campaign_id:camp,user_id:CL.user.id,who:rsWho(camp),expr:R.e,total:R.t,detail,secret,created_at:new Date().toISOString()});rsDraw()}}
+async function rsLoad(){const camp=rsCamp();if(RS.chan){CL.sb.removeChannel(RS.chan);RS.chan=null}RS.camp=camp;RS.list=[];if(!camp){rsDraw();return}
+  const {data,error}=await CL.sb.from('campaign_rolls').select('id,campaign_id,user_id,who,expr,total,detail,secret,created_at').in('campaign_id',[camp]).order('created_at');
+  if(error){RS.err=dbMissing(error,'campaign_rolls')?'missing':clMsg(error);rsDraw();return}RS.err='';RS.list=(data||[]).sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at))).slice(0,40);
+  RS.chan=CL.sb.channel('fand-rolls').on('postgres_changes',{event:'INSERT',schema:'public',table:'campaign_rolls',filter:'campaign_id=eq.'+camp},p=>{const r=p.new||{};if(!r.id||RS.list.some(x=>x.id===r.id))return;RS.list.unshift(r);RS.list=RS.list.slice(0,40);rsDraw();
+    if(r.user_id!==(CL.user&&CL.user.id)&&TAB!=='dice')toast(`🎲 ${r.who||'Someone'}${r.secret?' (secret)':''}: ${r.expr} → ${r.total}`)}).subscribe();rsDraw()}
+function rsHTML(){if(typeof CL==='undefined'||!CL.user||!(CL.camps||[]).length)return `<div class="note">Sign in and join a campaign to share rolls with your table.</div>`;const camp=rsCamp(),dm=camp&&clIsDM(camp);
+  const ago=t=>{const m=Math.round((Date.now()-Date.parse(t))/60000);return m<1?'just now':m<60?m+' min ago':m<1440?Math.round(m/60)+' h ago':new Date(t).toLocaleDateString([], {month:'short',day:'numeric'})};
+  return `<div class="rs-bar"><label>Share my rolls with<select class="sel" id="rs-camp"><option value="">Nobody (rolls stay on this device)</option>${CL.camps.map(k=>`<option value="${esc(k.id)}"${k.id===camp?' selected':''}>${esc(k.name)}</option>`).join('')}</select></label>
+    ${dm?`<label class="rs-secret"><input type="checkbox" id="rs-secret" ${store.get('rollsecret',false)?'checked':''}> Roll in secret (only you see it)</label>`:''}</div>
+    ${RS.err==='missing'?'<div class="note">Sharing rolls needs the latest database setup: ask the site owner to run tools/cloud/schema.sql again in Supabase.</div>':camp?`<div class="rs-list" aria-live="polite">${RS.list.length?RS.list.map(r=>`<div class="rs-row"><b class="rs-t${r.user_id===(CL.user&&CL.user.id)?' rs-mine':''}">${esc(String(+r.total))}</b><span class="rs-w"><b>${esc(r.who||'Someone')}</b>${r.secret?' <span class="b red">secret</span>':''} · ${esc(r.expr)}${r.detail?` <small>(${esc(r.detail)})</small>`:''}</span><small class="rs-at">${esc(ago(r.created_at))}</small></div>`).join(''):'<div class="note">No rolls yet. Rolls anyone at the table shares show up here as they happen.</div>'}</div>`:''}`}
+function rsDraw(){const el=$('rs-box');if(!el)return;el.innerHTML=rsHTML();if($('rs-camp'))$('rs-camp').onchange=e=>{store.set('rollshare',e.target.value);rsLoad().catch(()=>{})};if($('rs-secret'))$('rs-secret').onchange=e=>store.set('rollsecret',e.target.checked)}
 function diceify(root){if(!root)return;const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement.closest('input,textarea,select,button,a,.dice,script,style')?NodeFilter.FILTER_REJECT:(DICE_RX.lastIndex=0,DICE_RX.test(n.nodeValue))?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP});const ns=[];while(w.nextNode())ns.push(w.currentNode);
   ns.forEach(n=>{const f=document.createDocumentFragment();let last=0;const t=n.nodeValue;DICE_RX.lastIndex=0;let m;while((m=DICE_RX.exec(t))){f.append(t.slice(last,m.index));const sp=document.createElement('span');sp.className='dice';sp.textContent=m[0];sp.title='Click to roll';f.append(sp);last=m.index+m[0].length}f.append(t.slice(last));n.replaceWith(f)})}
 document.addEventListener('click',e=>{const d=e.target.closest('.dice');if(d){e.preventDefault();e.stopPropagation();rollShow(d.textContent)}},true);
@@ -220,7 +243,7 @@ function toast(msg){const t=$('toast');t.textContent=msg;t.classList.remove('act
 // back the same way the site saves them, so the account and the campaign get the undone version too.
 var UNDO={steps:[],redo:[],busy:false,max:40};
 // things that are about how the page looks or where you are, not your data: never part of an undo
-var UNDO_SKIP=new Set(['dice3d','inbox','npcf','tradelog','tlview','dmpad','dmpadui','livecamp','recentq','theme','wakelock','tooltab','viewmode','charwiz','jedit','clsfocus','placefocus','diceanim','recent','spells','hc','hclv','jq','magic','rmap','dpool','hcpat','hcpin','hcqm','hcguard','hclog','anthropicKey','groqKey','groqModel','campview','role','partygone','journalgone','askmass','onboard','tour','diceskin','homeorder','homehide','sbtab','sess','standOpen','dmOpen','homelayout','toursDone','guided','genopts','dicesound','forgeSound','dicelog','scavpop','sbt','cmp','trialtrack','fightPaceOn','groqforge']);
+var UNDO_SKIP=new Set(['rollshare','rollsecret','dice3d','inbox','npcf','tradelog','tlview','dmpad','dmpadui','livecamp','recentq','theme','wakelock','tooltab','viewmode','charwiz','jedit','clsfocus','placefocus','diceanim','recent','spells','hc','hclv','jq','magic','rmap','dpool','hcpat','hcpin','hcqm','hcguard','hclog','anthropicKey','groqKey','groqModel','campview','role','partygone','journalgone','askmass','onboard','tour','diceskin','homeorder','homehide','sbtab','sess','standOpen','dmOpen','homelayout','toursDone','guided','genopts','dicesound','forgeSound','dicelog','scavpop','sbt','cmp','trialtrack','fightPaceOn','groqforge']);
 const UNDO_NAMES={party:'the party',combat:'the combat tracker',journal:'the journal',enc:'the encounter',npcs:'the NPCs',designs:'your designs',pins:'your pins',fights:'the fight reports',rules:'the table rules',prep:'the session prep',stand:'faction standing',hooks:'the hooks',dice:'the dice'};
 function undoLoad(){try{const o=JSON.parse(sessionStorage.getItem('fand.__undo')||'null');if(o&&Array.isArray(o.steps)){UNDO.steps=o.steps;UNDO.redo=o.redo||[]}}catch(e){}}
 function undoSave(){for(let i=0;i<40;i++){try{sessionStorage.setItem('fand.__undo',JSON.stringify({steps:UNDO.steps,redo:UNDO.redo}));return}catch(e){if(UNDO.redo.length)UNDO.redo.shift();else if(UNDO.steps.length>1)UNDO.steps.shift();else{try{sessionStorage.removeItem('fand.__undo')}catch(x){}return}}}}

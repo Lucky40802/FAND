@@ -518,7 +518,7 @@ function diceSaved(){const L=store.get('dicesaved',[]);$('ds-list').innerHTML=L.
 function renderDice(){
   $('content').innerHTML=`<div class="page">
     <div class="sec-h pg-h" style="margin-top:4px"><h3 style="font-size:1.5rem">Dice</h3><p>Roll anything at the table. Your history and saved rolls stay on this device.</p></div>
-    ${SITE?`<a class="d3-card" href="dice-table.html"><span class="d3-ic" aria-hidden="true">🎲</span><span><b>The 3D Dice Table</b><small>Real physics: scoop the dice up and throw them, every die from a coin to a true d100, advantage, modifiers and a target number, surfaces, maps and weather, your own dice colours, a roll log, replays, GIFs of streaks, and the Dice Dungeon.</small></span><span class="btn primary">Open it</span></a>`:''}
+    ${SITE?`<section class="d3-inline"><div class="d3i-h"><b>The 3D Dice Table</b><span class="note" style="margin:0">Scoop the dice up and throw them. Rolls here go into your history${typeof CL!=='undefined'&&CL.user?' and, if you share them, to your table':''}.</span><a class="btn" href="dice-table.html" title="Every setting: surfaces, maps, weather, dice colours, replays, the Dice Dungeon">Full size ↗</a></div><iframe id="d3i-f" title="3D Dice Table" src="dice-table.html#embed=1&pool=d20" loading="lazy"></iframe></section><section class="panel rs-panel"><h4>Table rolls</h4><div id="rs-box"></div></section>`:''}
     <div class="tools">
       <div class="tool" id="t-dice"><h3>Quick roll</h3><div class="sub">Type any roll, like 2d6+3, d20, or a mix like 2d6+1d8+3. Dice written anywhere on the site can be clicked to roll too.</div>
         <div class="form" style="grid-template-columns:2fr 1fr"><label>Roll<input id="dr-e" value="1d20" placeholder="2d6+3"></label><label style="align-self:end"><button class="btn primary" id="dr-go" type="button" style="width:100%">🎲 Roll</button></label></div>
@@ -544,6 +544,7 @@ function renderDice(){
   diceLog();rigState();dicePool();diceSaved();hcAuto().then(()=>{if(HC&&$('dr-rig-box'))$('dr-rig-box').hidden=false});
   $('dr-go').onclick=()=>rollShow($('dr-e').value);$('dr-e').onkeydown=e=>{if(e.key==='Enter')rollShow($('dr-e').value)};
   $('ds-add').onclick=()=>{const n=$('ds-n').value.trim(),e=$('ds-e').value.trim();if(!e)return;if(!rollMulti(e)){toast('Not a roll: try 1d8+4 or 2d6+1d4');return}const L=store.get('dicesaved',[]);L.push({n:n||e,e});store.set('dicesaved',L);$('ds-n').value=$('ds-e').value='';diceSaved()};
+  if($('rs-box')){if(typeof CL!=='undefined'&&CL.user&&(RS.camp!==rsCamp()||(rsCamp()&&!RS.chan)))rsLoad().catch(()=>{});else rsDraw()}
 }
 // The Tools page shows one tool at a time, picked from a row of tabs; the last one used is remembered
 function toolTabs(){const box=document.querySelector('.tools');if(!box)return;const bk=$('t-backup');if(bk)box.append(bk);
